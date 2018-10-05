@@ -1,0 +1,16 @@
+
+service: siori-backend
+runtime: go
+env: standard
+api_version: go1.9
+
+handlers:
+- url: /.*
+  script: _go_app
+
+nobuild_files:
+- vendor/
+
+skip_files:
+- vendor/
+- field/
