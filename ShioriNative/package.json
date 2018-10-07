@@ -3,10 +3,11 @@
   "main": "node_modules/expo/AppEntry.js",
   "private": true,
   "scripts": {
-    "start": "expo start",
+    "start": "sed -i -e 's/STORY_BOOK_ENABLED=1/STORY_BOOK_ENABLED=0/' .env && expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "eject": "expo eject",
+    "storybook:dev": "sed -i -e 's/STORY_BOOK_ENABLED=0/STORY_BOOK_ENABLED=1/' .env && expo start",
     "storybook": "storybook start -p 7007"
   },
   "dependencies": {
@@ -18,13 +19,14 @@
     "react-navigation": "^2.17.0"
   },
   "devDependencies": {
-    "@storybook/react-native": "^3.4.11",
     "@storybook/addon-actions": "^3.4.11",
     "@storybook/addon-links": "^3.4.11",
     "@storybook/addons": "^3.4.11",
+    "@storybook/react-native": "^3.4.11",
     "babel-core": "^6.26.3",
     "babel-runtime": "^6.26.0",
+    "prop-types": "^15.6.2",
     "react-dom": "16.3.1",
-    "prop-types": "^15.6.2"
+    "react-native-dotenv": "^0.2.0"
   }
 }

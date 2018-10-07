@@ -5,7 +5,7 @@ import {
   createBottomTabNavigator,
   createStackNavigator
 } from "react-navigation";
-import Home from "./src/components/pages/Home/Page";
+import Home from "./components/pages/Home/Page";
 
 class SettingsScreen extends React.Component {
   static navigationOptions = {
