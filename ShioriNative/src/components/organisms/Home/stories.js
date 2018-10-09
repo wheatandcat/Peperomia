@@ -1,7 +1,7 @@
 import React from "react";
 import { storiesOf } from "@storybook/react-native";
 import { View } from "react-native-ui-lib";
-import Page from "./Page";
+import Cards from "./Cards";
 
 const props = [
   {
@@ -21,8 +21,8 @@ const props = [
   }
 ];
 
-storiesOf("pages", module).add("Home", () => (
+storiesOf("organisms/Home", module).add("Cards", () => (
   <View style={{ paddingTop: 60 }}>
-    <Page data={props} loading={false} />
+    <Cards data={props} loading={false} />
   </View>
 ));

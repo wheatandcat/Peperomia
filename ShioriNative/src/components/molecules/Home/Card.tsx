@@ -3,7 +3,8 @@ import { View, Card, Text } from "react-native-ui-lib";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-interface Props {
+export interface Props {
+  id: string;
   title: string;
   about: string;
 }

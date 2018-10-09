@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import { Text, View } from "react-native";
-import { createStackNavigator } from "react-navigation";
+import { View } from "react-native";
+import Cards, { Props as CardsProps } from "../../organisms/Home/Cards";
 
-class HomeScreen extends Component {
+export interface Props extends CardsProps {}
+
+export default class extends Component<Props> {
   static navigationOptions = {
     title: "プラン一覧"
   };
@@ -10,12 +12,8 @@ class HomeScreen extends Component {
   render() {
     return (
       <View>
-        <Text>Home!</Text>
+        <Cards data={this.props.data} loading={this.props.loading} />
       </View>
     );
   }
 }
-
-export default createStackNavigator({
-  Home: HomeScreen
-});
