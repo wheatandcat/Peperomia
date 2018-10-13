@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Card, Text } from "react-native-ui-lib";
 import { Col, Row, Grid } from "react-native-easy-grid";
-import Ionicons from "react-native-vector-icons/FontAwesome";
+import Ionicons from "react-native-vector-icons/MaterialCommunityIcons";
 
 export interface Props {
   id: string;
@@ -10,41 +10,54 @@ export interface Props {
 }
 
 export default (props: Props) => (
-  <View style={{ padding: 5 }}>
-    <View
-      style={{
-        borderWidth: 0.5,
-        borderColor: "#777777",
-        borderRadius: 0,
-        height: 100
-      }}
-      centerV
-      centerH
-    >
-      <Grid>
-        <Col size={10}>
-          <Text text40 dark10 numberOfLines={1}>
-            ①
-          </Text>
-        </Col>
-        <Col size={75}>
-          <View centerV centerH>
-            <Text text40 dark10 numberOfLines={1}>
-              {props.title}
-            </Text>
-          </View>
-        </Col>
-        <Col size={10}>
-          <Grid>
-            <Row>
-              <Ionicons name="map-marker" size={30} />
-            </Row>
-            <Row>
-              <Ionicons name="map-marker" size={30} />
-            </Row>
-          </Grid>
-        </Col>
-      </Grid>
-    </View>
+  <View
+    style={{
+      margin: 5,
+      padding: 20,
+      borderWidth: 0.5,
+      borderColor: "#777777",
+      borderRadius: 0,
+      height: 120
+    }}
+    centerV
+    centerH
+  >
+    <Grid>
+      <Col
+        size={10}
+        style={{
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+      >
+        <Text text40 dark10 numberOfLines={1}>
+          池袋駅
+        </Text>
+      </Col>
+      <Col
+        size={1}
+        style={{
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+      >
+        <Row
+          style={{
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+        >
+          <Ionicons name="note-outline" size={25} color="#000000" />
+        </Row>
+        <Row
+          style={{
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+        >
+          <Ionicons name="map-marker" size={25} color="#000000" />
+        </Row>
+      </Col>
+    </Grid>
   </View>
 );
