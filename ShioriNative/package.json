@@ -9,7 +9,8 @@
     "eject": "expo eject",
     "storybook:dev": "sed -i -e 's/STORY_BOOK_ENABLED=0/STORY_BOOK_ENABLED=1/' .env && expo start",
     "prestorybook": "rnstl",
-    "storybook": "storybook start -p 7007"
+    "storybook": "storybook start -p 7007",
+    "test": "jest ./src/***/*.test.ts"
   },
   "dependencies": {
     "@types/react": "^16.4.15",
@@ -22,6 +23,7 @@
     "react-native-typescript-transformer": "^1.2.10",
     "react-native-ui-lib": "^3.3.248",
     "react-navigation": "^2.17.0",
+    "styled-components": "^3.4.10",
     "tslib": "^1.9.3",
     "typescript": "^3.1.1"
   },
@@ -30,14 +32,17 @@
     "@storybook/addon-links": "^3.4.11",
     "@storybook/addons": "^3.4.11",
     "@storybook/react-native": "^3.4.11",
+    "@types/jest": "^23.3.5",
     "@types/react-native-vector-icons": "^4.6.4",
     "@types/react-navigation": "^2.0.24",
     "babel-core": "^6.26.3",
     "babel-runtime": "^6.26.0",
+    "jest": "^23.6.0",
     "prop-types": "^15.6.2",
     "react-dom": "16.3.1",
     "react-native-dotenv": "^0.2.0",
-    "react-native-storybook-loader": "^1.8.0"
+    "react-native-storybook-loader": "^1.8.0",
+    "ts-jest": "^23.10.4"
   },
   "config": {
     "react-native-storybook-loader": {
@@ -47,5 +52,18 @@
       "pattern": "**/stories.js",
       "outputFile": "./storybook/storyLoader.js"
     }
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(tsx?|jsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json",
+      "jsx"
+    ]
   }
 }

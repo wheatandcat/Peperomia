@@ -1,63 +1,102 @@
-import React from "react";
-import { View, Card, Text } from "react-native-ui-lib";
-import { Col, Row, Grid } from "react-native-easy-grid";
-import Ionicons from "react-native-vector-icons/MaterialCommunityIcons";
+import React, { Fragment } from "react";
+import { Image } from "react-native";
+import { View, Text } from "react-native-ui-lib";
+import styled from "styled-components/native";
+import {
+  KIND_PARK,
+  KIND_TRAIN,
+  KIND_SHIP,
+  KIND_DEFAULT
+} from "../../../lib/getKind";
+
+const park = require(`../../../img/park.png`);
+const train = require(`../../../img/train.png`);
+const ship = require(`../../../img/ship.png`);
+
+const KINDS: any = {
+  [KIND_PARK]: {
+    image: "park",
+    backgroundColor: "#77D353"
+  },
+  [KIND_TRAIN]: {
+    image: "train",
+    backgroundColor: "#F3B042"
+  },
+  [KIND_SHIP]: {
+    image: "ship",
+    backgroundColor: "#00A6FF"
+  },
+  [KIND_DEFAULT]: {
+    image: null,
+    backgroundColor: "#969FAA"
+  }
+};
 
 export interface Props {
   id: string;
+  kind: string;
   title: string;
-  afterMoveTime: string;
+  moveMinutes: number | null;
+  end: boolean;
 }
 
-export default (props: Props) => (
-  <View
-    style={{
-      margin: 5,
-      padding: 20,
-      borderWidth: 0.5,
-      borderColor: "#777777",
-      borderRadius: 0,
-      height: 120
-    }}
-    centerV
-    centerH
-  >
-    <Grid>
-      <Col
-        size={10}
-        style={{
-          justifyContent: "center",
-          alignItems: "center"
-        }}
-      >
-        <Text text40 dark10 numberOfLines={1}>
-          池袋駅
-        </Text>
-      </Col>
-      <Col
-        size={1}
-        style={{
-          justifyContent: "center",
-          alignItems: "center"
-        }}
-      >
-        <Row
-          style={{
-            justifyContent: "center",
-            alignItems: "center"
-          }}
-        >
-          <Ionicons name="note-outline" size={25} color="#000000" />
-        </Row>
-        <Row
-          style={{
-            justifyContent: "center",
-            alignItems: "center"
-          }}
-        >
-          <Ionicons name="map-marker" size={25} color="#000000" />
-        </Row>
-      </Col>
-    </Grid>
-  </View>
-);
+export default (props: Props) => {
+  const config = KINDS[props.kind];
+
+  const getImg = (kind: string) => {
+    if (kind === KIND_PARK) {
+      return park;
+    } else if (kind === KIND_TRAIN) {
+      return train;
+    } else if (kind === KIND_SHIP) {
+      return ship;
+    }
+
+    return null;
+  };
+
+  const img = getImg(props.kind);
+
+  return (
+    <Fragment>
+      <Content style={{ backgroundColor: config.backgroundColor }}>
+        <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
+          <View style={{ flex: 1, padding: 15 }}>
+            <Title numberOfLines={1}>{props.title}</Title>
+          </View>
+
+          <View style={{ position: "absolute", right: 80 }}>
+            {img ? <Image source={img} style={{ opacity: 0.5 }} /> : null}
+          </View>
+        </View>
+      </Content>
+      {(() => {
+        if (props.end) {
+          return null;
+        }
+
+        return (
+          <View style={{ padding: 15 }}>
+            <Text text25 numberOfLines={1} style={{ fontWeight: "600" }}>
+              {props.moveMinutes ? `${props.moveMinutes}分` : "-"}
+            </Text>
+          </View>
+        );
+      })()}
+    </Fragment>
+  );
+};
+
+const Content = styled.View`
+  padding-horizontal: 0;
+  padding-vertical: 0;
+  border-radius: 0;
+  height: 100;
+  justify-content: flex-end;
+`;
+
+const Title = styled.Text`
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14;
+`;

@@ -5,14 +5,16 @@ import Cards, { Props as CardsProps } from "../../organisms/Home/Cards";
 export interface Props extends CardsProps {}
 
 export default class extends Component<Props> {
-  static navigationOptions = {
-    title: "プラン一覧"
-  };
-
   render() {
+    console.log(this.props);
+
     return (
       <View>
-        <Cards data={this.props.data} loading={this.props.loading} />
+        <Cards
+          data={this.props.data}
+          loading={this.props.loading}
+          onSchedule={this.props.onSchedule}
+        />
       </View>
     );
   }

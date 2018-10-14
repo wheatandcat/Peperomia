@@ -1,9 +1,9 @@
 import React from "react";
 import { storiesOf } from "@storybook/react-native";
 import { View } from "react-native-ui-lib";
-import Page from "./Page";
+import Cards from "./Cards";
 
-const data = [
+const props = [
   {
     id: "1",
     title: "新宿駅",
@@ -26,8 +26,8 @@ const data = [
   }
 ];
 
-storiesOf("pages", module).add("Schedule", () => (
+storiesOf("organisms/Schedule", module).add("Cards", () => (
   <View style={{ paddingTop: 60 }}>
-    <Page data={data} />
+    <Cards data={props} />
   </View>
 ));

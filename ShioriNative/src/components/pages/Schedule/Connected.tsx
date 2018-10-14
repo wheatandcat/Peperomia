@@ -1,7 +1,5 @@
-import React from "react";
-import { storiesOf } from "@storybook/react-native";
-import { View } from "react-native-ui-lib";
-import Page from "./Page";
+import React, { Component } from "react";
+import Page, { Props as PageProps } from "./Page";
 
 const data = [
   {
@@ -26,8 +24,12 @@ const data = [
   }
 ];
 
-storiesOf("pages", module).add("Schedule", () => (
-  <View style={{ paddingTop: 60 }}>
-    <Page data={data} />
-  </View>
-));
+interface Props extends PageProps {}
+
+export default class extends Component<Props> {
+  static navigationOptions = { title: "葛西臨海公園" };
+
+  render() {
+    return <Page data={data} />;
+  }
+}

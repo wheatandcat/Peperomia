@@ -1,17 +1,13 @@
 import React, { Component } from "react";
 import { View, Text } from "react-native";
+import Cards, { Props as CardsProps } from "../../organisms/Schedule/Cards";
 
-export interface Props {}
-
+export interface Props extends CardsProps {}
 export default class extends Component<Props> {
-  static navigationOptions = {
-    title: "スケジュール"
-  };
-
   render() {
     return (
-      <View>
-        <Text>test</Text>
+      <View style={{ backgroundColor: "#ffffff" }}>
+        <Cards data={this.props.data} />
       </View>
     );
   }

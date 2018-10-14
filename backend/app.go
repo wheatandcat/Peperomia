@@ -10,7 +10,6 @@ import (
 )
 
 func main() {
-
 	schema, err := graphql.NewSchema(graphql.SchemaConfig{
 		Query:    field.Query,
 		Mutation: field.Mutation,

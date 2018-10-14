@@ -3,10 +3,14 @@ import { View, Card, Text } from "react-native-ui-lib";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-export interface Props {
+export interface ItemProps {
   id: string;
   title: string;
   about: string;
+}
+
+export interface Props extends ItemProps {
+  onPress: () => void;
 }
 
 export default (props: Props) => (
@@ -23,7 +27,7 @@ export default (props: Props) => (
       containerStyle={{
         borderRadius: 0
       }}
-      onPress={() => {}}
+      onPress={props.onPress}
     >
       <Card.Image
         width={80}

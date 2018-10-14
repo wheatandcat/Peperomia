@@ -7,3 +7,9 @@ const AppContainer = () =>
   Boolean(Number(STORY_BOOK_ENABLED)) ? <StoryBookUI /> : <App />;
 
 export default AppContainer;
+
+console.disableYellowBox = true;
+console.ignoredYellowBox = [
+  "Remote debugger",
+  "Possible Unhandled Promise Rejection (id: 0)"
+];
