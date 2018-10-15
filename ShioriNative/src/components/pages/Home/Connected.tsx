@@ -4,8 +4,8 @@ import {
   NavigationScreenProp,
   NavigationRoute
 } from "react-navigation";
-import { Button, Text, View } from "react-native";
 import Schedule from "../Schedule/Connected";
+import ScheduleDetail from "../ScheduleDetail/Connected";
 import Page, { Props as PageProps } from "./Page";
 
 const data = [
@@ -44,7 +44,7 @@ class HomeScreen extends Component<Props> {
   }
 }
 
-export default createStackNavigator({
+const MainCardNavigator = createStackNavigator({
   Home: {
     screen: HomeScreen
   },
@@ -52,3 +52,19 @@ export default createStackNavigator({
     screen: Schedule
   }
 });
+
+export default createStackNavigator(
+  {
+    MainCardNavigator: {
+      screen: MainCardNavigator
+    },
+    ScheduleDetail: {
+      screen: ScheduleDetail
+    }
+  },
+  {
+    initialRouteName: "MainCardNavigator",
+    mode: "modal",
+    headerMode: "none"
+  }
+);

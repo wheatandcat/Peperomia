@@ -50,47 +50,48 @@ const TabNavigator = createBottomTabNavigator(
     }
   },
   {
-    navigationOptions: ({ navigation }) => ({
-      tabBarIcon: ({ horizontal, tintColor }) => {
-        const { routeName } = navigation.state;
-        let iconName;
-        if (routeName === "マイプラン") {
-          return (
-            <FontAwesomeIcons
-              name="calendar-o"
-              size={horizontal ? 20 : 25}
-              color={tintColor}
-            />
-          );
-        } else if (routeName === "設定") {
-          return (
-            <MaterialCommunityIcons
-              name="settings"
-              size={horizontal ? 20 : 25}
-              color={tintColor}
-            />
-          );
-        } else if (routeName === "検索") {
-          return (
-            <FontAwesomeIcons
-              name="search"
-              size={horizontal ? 20 : 25}
-              color={tintColor}
-            />
-          );
-        }
+    initialRouteName: "マイプラン",
+    navigationOptions: ({ navigation }) => {
+      return {
+        activeTintColor: "#23527c",
+        inactiveTintColor: "gray",
+        tabBarVisible: navigation.state.index !== 1,
+        tabBarIcon: ({ horizontal, tintColor }) => {
+          const { routeName } = navigation.state;
+          if (routeName === "マイプラン") {
+            return (
+              <FontAwesomeIcons
+                name="calendar-o"
+                size={horizontal ? 20 : 25}
+                color={tintColor}
+              />
+            );
+          } else if (routeName === "設定") {
+            return (
+              <MaterialCommunityIcons
+                name="settings"
+                size={horizontal ? 20 : 25}
+                color={tintColor}
+              />
+            );
+          } else if (routeName === "検索") {
+            return (
+              <FontAwesomeIcons
+                name="search"
+                size={horizontal ? 20 : 25}
+                color={tintColor}
+              />
+            );
+          }
 
-        return null;
-      }
-    }),
-    tabBarOptions: {
-      activeTintColor: "#23527c",
-      inactiveTintColor: "gray"
+          return null;
+        }
+      };
     }
   }
 );
 
-TabNavigator.navigationOptions = ({ navigation }) => {
+TabNavigator.navigationOptions = () => {
   return { header: null };
 };
 

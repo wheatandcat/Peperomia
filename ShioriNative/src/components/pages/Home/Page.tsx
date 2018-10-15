@@ -6,8 +6,6 @@ export interface Props extends CardsProps {}
 
 export default class extends Component<Props> {
   render() {
-    console.log(this.props);
-
     return (
       <View>
         <Cards

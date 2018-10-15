@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, FlatList } from "react-native";
+import { FlatList } from "react-native";
 import getKind from "../../../lib/getKind";
 import Card from "../../molecules/Schedule/Card";
 
@@ -11,6 +11,7 @@ interface ItemProps {
 
 export interface Props {
   data: ItemProps[];
+  onScheduleDetail: () => void;
 }
 
 export default class extends Component<Props> {
@@ -20,6 +21,7 @@ export default class extends Component<Props> {
         {...item}
         kind={getKind(item.title)}
         end={index + 1 === this.props.data.length}
+        onPress={this.props.onScheduleDetail}
       />
     );
   }

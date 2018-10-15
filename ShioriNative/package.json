@@ -32,6 +32,7 @@
     "@storybook/addon-links": "^3.4.11",
     "@storybook/addons": "^3.4.11",
     "@storybook/react-native": "^3.4.11",
+    "@types/expo": "^27.0.13",
     "@types/jest": "^23.3.5",
     "@types/react-native-vector-icons": "^4.6.4",
     "@types/react-navigation": "^2.0.24",

@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Image } from "react-native";
+import { Image, TouchableOpacity } from "react-native";
 import { View, Text } from "react-native-ui-lib";
 import styled from "styled-components/native";
 import {
@@ -32,12 +32,16 @@ const KINDS: any = {
   }
 };
 
-export interface Props {
+export interface ItemProps {
   id: string;
   kind: string;
   title: string;
   moveMinutes: number | null;
   end: boolean;
+}
+
+export interface Props extends ItemProps {
+  onPress: () => void;
 }
 
 export default (props: Props) => {
@@ -59,17 +63,19 @@ export default (props: Props) => {
 
   return (
     <Fragment>
-      <Content style={{ backgroundColor: config.backgroundColor }}>
-        <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
-          <View style={{ flex: 1, padding: 15 }}>
-            <Title numberOfLines={1}>{props.title}</Title>
-          </View>
+      <TouchableOpacity onPress={props.onPress}>
+        <Content style={{ backgroundColor: config.backgroundColor }}>
+          <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
+            <View style={{ flex: 1, padding: 15 }}>
+              <Title numberOfLines={1}>{props.title}</Title>
+            </View>
 
-          <View style={{ position: "absolute", right: 80 }}>
-            {img ? <Image source={img} style={{ opacity: 0.5 }} /> : null}
+            <View style={{ position: "absolute", right: 80 }}>
+              {img ? <Image source={img} style={{ opacity: 0.5 }} /> : null}
+            </View>
           </View>
-        </View>
-      </Content>
+        </Content>
+      </TouchableOpacity>
       {(() => {
         if (props.end) {
           return null;
@@ -77,7 +83,7 @@ export default (props: Props) => {
 
         return (
           <View style={{ padding: 15 }}>
-            <Text text25 numberOfLines={1} style={{ fontWeight: "600" }}>
+            <Text text25 style={{ fontWeight: "600" }}>
               {props.moveMinutes ? `${props.moveMinutes}分` : "-"}
             </Text>
           </View>

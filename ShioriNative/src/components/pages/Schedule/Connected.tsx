@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import Page, { Props as PageProps } from "./Page";
 
 const data = [
@@ -24,12 +25,18 @@ const data = [
   }
 ];
 
-interface Props extends PageProps {}
+interface Props extends PageProps {
+  navigation: NavigationScreenProp<NavigationRoute>;
+}
 
 export default class extends Component<Props> {
   static navigationOptions = { title: "葛西臨海公園" };
 
+  onScheduleDetail = () => {
+    this.props.navigation.navigate("ScheduleDetail"), { mode: "modal" };
+  };
+
   render() {
-    return <Page data={data} />;
+    return <Page data={data} onScheduleDetail={this.onScheduleDetail} />;
   }
 }
