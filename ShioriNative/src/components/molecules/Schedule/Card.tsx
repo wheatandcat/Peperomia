@@ -6,12 +6,14 @@ import {
   KIND_PARK,
   KIND_TRAIN,
   KIND_SHIP,
+  KIND_FISHING,
   KIND_DEFAULT
 } from "../../../lib/getKind";
 
 const park = require(`../../../img/park.png`);
 const train = require(`../../../img/train.png`);
 const ship = require(`../../../img/ship.png`);
+const fishing = require(`../../../img/fishing.png`);
 
 const KINDS: any = {
   [KIND_PARK]: {
@@ -24,6 +26,10 @@ const KINDS: any = {
   },
   [KIND_SHIP]: {
     image: "ship",
+    backgroundColor: "#00A6FF"
+  },
+  [KIND_FISHING]: {
+    image: "fishing",
     backgroundColor: "#00A6FF"
   },
   [KIND_DEFAULT]: {
@@ -54,6 +60,8 @@ export default (props: Props) => {
       return train;
     } else if (kind === KIND_SHIP) {
       return ship;
+    } else if (kind === KIND_FISHING) {
+      return fishing;
     }
 
     return null;

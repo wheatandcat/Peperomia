@@ -1,7 +1,8 @@
 import React from "react";
-import { View, Card, Text } from "react-native-ui-lib";
+import { View, Card } from "react-native-ui-lib";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { Text } from "../../atoms";
 
 export interface ItemProps {
   id: string;
@@ -10,7 +11,7 @@ export interface ItemProps {
 }
 
 export interface Props extends ItemProps {
-  onPress: () => void;
+  onPress: (id: string) => void;
 }
 
 export default (props: Props) => (
@@ -27,8 +28,9 @@ export default (props: Props) => (
       containerStyle={{
         borderRadius: 0
       }}
-      onPress={props.onPress}
+      onPress={() => props.onPress(props.id)}
     >
+      {console.log(props.id)}
       <Card.Image
         width={80}
         height={80}
@@ -37,7 +39,7 @@ export default (props: Props) => (
       />
       <Card.Section body style={{ padding: 10 }}>
         <Grid>
-          <Row size={90}>
+          <Row size={70}>
             <Col size={75}>
               <Text text40 dark10 numberOfLines={1}>
                 {props.title}
@@ -47,8 +49,8 @@ export default (props: Props) => (
               <Ionicons name="ios-arrow-forward" size={30} color="#c2c2c2" />
             </Col>
           </Row>
-          <Row size={25}>
-            <Text text80 dark50 numberOfLines={1}>
+          <Row size={30}>
+            <Text text90 dark50 numberOfLines={1}>
               {props.about}
             </Text>
           </Row>

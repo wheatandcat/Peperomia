@@ -5,7 +5,7 @@ import Card, { ItemProps as CardProps } from "../../molecules/Home/Card";
 export interface Props {
   data: CardProps[];
   loading: boolean;
-  onSchedule: () => void;
+  onSchedule: (id: string) => void;
 }
 
 export default class extends Component<Props> {

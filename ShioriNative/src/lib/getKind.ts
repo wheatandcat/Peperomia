@@ -3,6 +3,7 @@ const config = require(`./config`);
 export const KIND_PARK = "park";
 export const KIND_TRAIN = "train";
 export const KIND_SHIP = "ship";
+export const KIND_FISHING = "fishing";
 export const KIND_DEFAULT = "default";
 
 export default (keyword: string) => {
