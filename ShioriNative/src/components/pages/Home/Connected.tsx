@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {
   createStackNavigator,
-  StackActions,
   NavigationScreenProp,
   NavigationRoute
 } from "react-navigation";
