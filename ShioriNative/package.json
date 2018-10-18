@@ -13,6 +13,7 @@
     "test": "jest ./src/***/*.test.ts"
   },
   "dependencies": {
+    "@expo/react-native-action-sheet": "^1.1.2",
     "@types/react": "^16.4.15",
     "@types/react-native": "^0.57.2",
     "expo": "^30.0.1",

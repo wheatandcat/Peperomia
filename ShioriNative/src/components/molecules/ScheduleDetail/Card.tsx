@@ -34,12 +34,21 @@ const KINDS: any = {
   }
 };
 
+export interface ItemProps {
+  id: string;
+  kind: string;
+  title: string;
+  memo: string;
+  onDismiss: () => void;
+}
+
 export interface Props {
   id: string;
   kind: string;
   title: string;
   memo: string;
   onDismiss: () => void;
+  onOpenActionSheet: () => void;
 }
 
 export default (props: Props) => {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { Text, View } from "react-native";
 import FontAwesomeIcons from "react-native-vector-icons/FontAwesome";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -6,6 +6,7 @@ import {
   createBottomTabNavigator,
   createStackNavigator
 } from "react-navigation";
+import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import Home from "./components/pages/Home/Connected";
 
 class SettingsScreen extends React.Component {
@@ -95,6 +96,16 @@ TabNavigator.navigationOptions = () => {
   return { header: null };
 };
 
-export default createStackNavigator({
+const Navigator = createStackNavigator({
   TabNavigator
 });
+
+export default class extends Component {
+  render() {
+    return (
+      <ActionSheetProvider>
+        <Navigator />
+      </ActionSheetProvider>
+    );
+  }
+}

@@ -1,5 +1,17 @@
-import { getStorybookUI, configure } from "@storybook/react-native";
+import React from "react";
+import { ActionSheetProvider } from "@expo/react-native-action-sheet";
+import {
+  getStorybookUI,
+  configure,
+  addDecorator
+} from "@storybook/react-native";
 import { loadStories } from "./storyLoader";
+
+export const provider = story => (
+  <ActionSheetProvider>{story()}</ActionSheetProvider>
+);
+
+addDecorator(provider);
 
 configure(() => {
   loadStories();
