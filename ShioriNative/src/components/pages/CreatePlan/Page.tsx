@@ -29,19 +29,36 @@ export default class extends Component<Props> {
     let { image } = this.state;
 
     return (
-      <View
-        style={{
-          paddingTop: 100,
-          alignItems: "center",
-          height: "100%",
-          width: "100%"
-        }}
-      >
-        <Input placeholder="タイトル" containerStyle={{ width: "85%" }} />
+      <View>
+        <View
+          style={{
+            paddingTop: 100,
+            alignItems: "center",
+            height: "100%",
+            width: "100%",
+            backgroundColor: "#eeeeee"
+          }}
+        >
+          <Input placeholder="タイトル" containerStyle={{ width: "85%" }} />
 
-        <Grid style={{ height: 100, padding: 20, paddingTop: 60 }}>
-          <Col style={{ padding: 10 }}>
-            <TouchableOpacity onPress={this._pickImage}>
+          <Grid style={{ height: 100, padding: 20, paddingTop: 60 }}>
+            <Col style={{ padding: 10 }}>
+              <TouchableOpacity onPress={this._pickImage}>
+                <View
+                  style={{
+                    padding: 10,
+                    height: 120,
+                    borderWidth: 1,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    backgroundColor: "#ffffff"
+                  }}
+                >
+                  <Ionicons name="ios-camera" size={80} />
+                </View>
+              </TouchableOpacity>
+            </Col>
+            <Col style={{ padding: 10 }}>
               <View
                 style={{
                   padding: 10,
@@ -52,25 +69,11 @@ export default class extends Component<Props> {
                   backgroundColor: "#ffffff"
                 }}
               >
-                <Ionicons name="ios-camera" size={80} />
+                <Text>まだアップロードされていません</Text>
               </View>
-            </TouchableOpacity>
-          </Col>
-          <Col style={{ padding: 10 }}>
-            <View
-              style={{
-                padding: 10,
-                height: 120,
-                borderWidth: 1,
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: "#ffffff"
-              }}
-            >
-              <Text>まだアップロードされていません</Text>
-            </View>
-          </Col>
-        </Grid>
+            </Col>
+          </Grid>
+        </View>
       </View>
     );
   }

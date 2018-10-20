@@ -3,7 +3,9 @@ import { View, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Cards, { Props as CardsProps } from "../../organisms/Home/Cards";
 
-export interface Props extends CardsProps {}
+export interface Props extends CardsProps {
+  onCreate: () => void;
+}
 
 export default class extends Component<Props> {
   render() {
@@ -26,7 +28,7 @@ export default class extends Component<Props> {
             bottom: 30
           }}
         >
-          <TouchableOpacity>
+          <TouchableOpacity onPress={this.props.onCreate}>
             <Ionicons name="ios-add-circle" size={80} color="#4DB6AC" />
           </TouchableOpacity>
         </View>

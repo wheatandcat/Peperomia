@@ -30,7 +30,6 @@ export default (props: Props) => (
       }}
       onPress={() => props.onPress(props.id)}
     >
-      {console.log(props.id)}
       <Card.Image
         width={80}
         height={80}

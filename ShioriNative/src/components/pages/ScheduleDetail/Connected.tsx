@@ -19,6 +19,8 @@ export default class extends Component<Props> {
   };
 
   render() {
-    return <Page {...data} onDismiss={this.onDismiss} />;
+    return (
+      <Page {...data} onDismiss={this.onDismiss} onOpenActionSheet={() => {}} />
+    );
   }
 }

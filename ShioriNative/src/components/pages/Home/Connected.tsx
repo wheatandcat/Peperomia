@@ -6,6 +6,8 @@ import {
 } from "react-navigation";
 import Schedule from "../Schedule/Connected";
 import ScheduleDetail from "../ScheduleDetail/Connected";
+import CreatePlan from "../CreatePlan/Connected";
+import CreateSchedule from "../CreateSchedule/Connected";
 import Page, { Props as PageProps } from "./Page";
 
 const data = [
@@ -39,8 +41,19 @@ class HomeScreen extends Component<Props> {
     this.props.navigation.navigate("Schedule", { scheduleId: id });
   };
 
+  onCreate = () => {
+    this.props.navigation.navigate("CreatePlan");
+  };
+
   render() {
-    return <Page data={data} loading={false} onSchedule={this.onSchedule} />;
+    return (
+      <Page
+        data={data}
+        loading={false}
+        onSchedule={this.onSchedule}
+        onCreate={this.onCreate}
+      />
+    );
   }
 }
 
@@ -53,6 +66,15 @@ const MainCardNavigator = createStackNavigator({
   }
 });
 
+const CreateNavigator = createStackNavigator({
+  CreatePlan: {
+    screen: CreatePlan
+  },
+  CreateSchedule: {
+    screen: CreateSchedule
+  }
+});
+
 export default createStackNavigator(
   {
     MainCardNavigator: {
@@ -60,6 +82,9 @@ export default createStackNavigator(
     },
     ScheduleDetail: {
       screen: ScheduleDetail
+    },
+    CreateNavigator: {
+      screen: CreateNavigator
     }
   },
   {
