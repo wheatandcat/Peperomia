@@ -22,14 +22,25 @@ export default class extends Component<Props> {
               navigation.navigate("CreateSchedule");
             }}
           >
-            <Text style={{ fontSize: 16, fontWeight: "600" }}>完了</Text>
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: "600"
+              }}
+            >
+              完了
+            </Text>
           </TouchableOpacity>
         </View>
       )
     };
   };
 
+  onCreateScheduleDetail = () => {
+    this.props.navigation.navigate("CreateScheduleDetail");
+  };
+
   render() {
-    return <Page />;
+    return <Page onCreateScheduleDetail={this.onCreateScheduleDetail} />;
   }
 }

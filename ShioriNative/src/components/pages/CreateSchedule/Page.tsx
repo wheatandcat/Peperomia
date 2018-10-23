@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-export interface Props {}
+export interface Props {
+  onCreateScheduleDetail: () => void;
+}
 
 export default class extends Component<Props> {
   render() {
@@ -58,7 +60,7 @@ export default class extends Component<Props> {
             bottom: 30
           }}
         >
-          <TouchableOpacity>
+          <TouchableOpacity onPress={this.props.onCreateScheduleDetail}>
             <Ionicons name="ios-add-circle" size={80} color="#4DB6AC" />
           </TouchableOpacity>
         </View>

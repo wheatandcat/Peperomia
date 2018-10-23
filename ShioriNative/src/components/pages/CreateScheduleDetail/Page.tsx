@@ -14,29 +14,83 @@ import Header from "../../molecules/ScheduleHeader/Header";
 import { Text } from "../../atoms";
 
 export interface Props {
+  title: string;
   memo: string;
+  time: number;
+  onDismiss: () => void;
 }
+
+const times = [
+  {
+    value: 0,
+    label: "0分"
+  },
+  {
+    value: 10,
+    label: " 10分"
+  },
+  {
+    value: 30,
+    label: " 30分"
+  },
+  {
+    value: 60,
+    label: " 60分"
+  },
+  {
+    value: null,
+    label: "手動で更新"
+  },
+  {
+    value: null,
+    label: "キャンセル"
+  }
+];
+
+const cancelButtonIndex = times.length - 1;
+const manualButtonIndex = times.length - 2;
 
 class App extends Component<Props & ActionSheetProps> {
   state = {
-    text: ""
+    title: this.props.title,
+    memo: this.props.memo,
+    time: this.props.time
   };
   onOpenActionSheet = () => {
-    let options = ["0分", "10分", "30分", "60分", "手動で設定", "キャンセル"];
-    let cancelButtonIndex = options.length - 1;
+    const options = times.map(val => val.label);
+
+    let destructiveButtonIndex = times.findIndex(
+      val => this.state.time === val.value
+    );
+    if (destructiveButtonIndex === null) {
+      destructiveButtonIndex = manualButtonIndex;
+    }
+
     this.props.showActionSheetWithOptions(
       {
         options,
-        cancelButtonIndex
+        cancelButtonIndex,
+        destructiveButtonIndex
       },
       buttonIndex => {
         // Do something here depending on the button index selected
+        if (buttonIndex == cancelButtonIndex) {
+          return;
+        }
+
+        if (buttonIndex == manualButtonIndex) {
+          return;
+        }
+
+        this.setState({ time: times[buttonIndex].value });
       }
     );
   };
   render() {
     return (
-      <View style={{ backgroundColor: "#ffffff" }}>
+      <View
+        style={{ backgroundColor: "#ffffff", height: "100%", width: "100%" }}
+      >
         <Header
           kind="train"
           right={
@@ -44,7 +98,7 @@ class App extends Component<Props & ActionSheetProps> {
               保存
             </Text>
           }
-          onClose={() => {}}
+          onClose={this.props.onDismiss}
         >
           <TextInput
             placeholder="タイトルを入力"
@@ -55,6 +109,7 @@ class App extends Component<Props & ActionSheetProps> {
               color: "#ffffff",
               paddingLeft: 1
             }}
+            onChangeText={title => this.setState({ title })}
           />
         </Header>
         <View style={{ padding: 20 }}>
@@ -65,22 +120,26 @@ class App extends Component<Props & ActionSheetProps> {
                 alignItems: "center",
                 borderBottomWidth: 0.5,
                 borderColor: "#5A6978",
-                width: 100,
+                width: 80,
                 height: 30
               }}
             >
-              <Ionicons name="md-time" color="#5A6978" size={24} />
-              <Text
+              <Ionicons
+                name="md-time"
+                color="#5A6978"
+                size={24}
+                style={{ paddingTop: 3 }}
+              />
+              <TextPlan
                 style={{
                   fontSize: 16,
                   fontWeight: "500",
                   color: "#00A6FF",
-                  paddingHorizontal: 15,
-                  paddingTop: 3
+                  paddingHorizontal: 15
                 }}
               >
-                未設定
-              </Text>
+                {this.state.time}分
+              </TextPlan>
             </View>
           </TouchableOpacity>
           <View style={{ paddingTop: 30 }}>
@@ -96,18 +155,14 @@ class App extends Component<Props & ActionSheetProps> {
                   borderBottomWidth: 0.5,
                   borderColor: "#5A6978"
                 }}
-                onChangeText={text => {
-                  this.setState({ text });
+                onChangeText={memo => {
+                  this.setState({ memo });
                 }}
               >
                 <TextPlan
-                  style={{
-                    fontSize: 16,
-                    lineHeight: 24,
-                    fontWeight: "400"
-                  }}
+                  style={{ fontSize: 16, lineHeight: 24, fontWeight: "400" }}
                 >
-                  {this.state.text}
+                  {this.state.memo}
                 </TextPlan>
               </TextInput>
             </View>

@@ -8,6 +8,7 @@ import Schedule from "../Schedule/Connected";
 import ScheduleDetail from "../ScheduleDetail/Connected";
 import CreatePlan from "../CreatePlan/Connected";
 import CreateSchedule from "../CreateSchedule/Connected";
+import CreateScheduleDetail from "../CreateScheduleDetail/Connected";
 import Page, { Props as PageProps } from "./Page";
 
 const data = [
@@ -85,6 +86,9 @@ export default createStackNavigator(
     },
     CreateNavigator: {
       screen: CreateNavigator
+    },
+    CreateScheduleDetail: {
+      screen: CreateScheduleDetail
     }
   },
   {
