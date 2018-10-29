@@ -5,7 +5,9 @@ import { Col, Grid } from "react-native-easy-grid";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { ImagePicker } from "expo";
 
-export interface Props {}
+export interface Props {
+  onInput: (name: string, value: any) => void;
+}
 
 export default class extends Component<Props> {
   state = {
@@ -37,7 +39,11 @@ export default class extends Component<Props> {
             backgroundColor: "#eeeeee"
           }}
         >
-          <Input placeholder="タイトル" containerStyle={{ width: "85%" }} />
+          <Input
+            placeholder="タイトル"
+            containerStyle={{ width: "85%" }}
+            onChangeText={text => this.props.onInput("title", text)}
+          />
 
           <Grid style={{ height: 100, padding: 20, paddingTop: 60 }}>
             <Col style={{ padding: 10 }}>
