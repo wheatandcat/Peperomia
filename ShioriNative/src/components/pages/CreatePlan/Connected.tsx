@@ -62,13 +62,18 @@ export default class extends Component<Props, State> {
 
   state = { input: { title: "", image: null } };
 
-  componentDidMount() {
+  async componentDidMount() {
     this.props.navigation.setParams({ save: this.onSave });
-
-    db.transaction((tx: any) => {
+    await db.transaction((tx: SQLite.Transaction) => {
       tx.executeSql(
         "create table if not exists items (id integer primary key not null, title string,image string);"
       );
+      tx.executeSql(
+        "insert into items (title, image) values ('葛西臨海公園', '')"
+      );
+      tx.executeSql(`select * from items;`, [], (_, bbb) => {
+        console.log(bbb.rows._array);
+      });
     });
   }
 
