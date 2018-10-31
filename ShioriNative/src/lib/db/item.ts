@@ -1,13 +1,24 @@
+import { SQLite } from "expo";
+
 export interface Item {
   id: number;
   title: string;
   image: string;
 }
 
-export interface ItemDetail {
-  id: number;
-  title: string;
-  memo: string;
-  kind: string;
-  moveMinutes: number;
-}
+export const create = async (tx: SQLite.Transaction) => {
+  return tx.executeSql(
+    "create table if not exists items (id integer primary key not null, title string,image string);"
+  );
+};
+
+export const insert = async (tx: SQLite.Transaction, item: Item) => {
+  return tx.executeSql("insert into items (title, image) values (?, ?)", [
+    item.title,
+    item.image
+  ]);
+};
+
+export const select = async (tx: SQLite.Transaction) => {
+  return tx.executeSql("select * from items");
+};
