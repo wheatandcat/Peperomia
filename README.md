@@ -3,3 +3,9 @@
 ## expo
 
 https://expo.io/@wheatandcat/ShioriNative
+
+## storybook publish
+
+```
+expo-cli publish --config storybook/app.json
+```

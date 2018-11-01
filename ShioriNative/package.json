@@ -7,10 +7,10 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "eject": "expo eject",
-    "storybook:dev": "sed -i -e 's/STORY_BOOK_ENABLED=0/STORY_BOOK_ENABLED=1/' .env && expo start",
+    "test": "jest ./src/***/*.test.ts",
+    "storybook": "sed -i -e 's/STORY_BOOK_ENABLED=0/STORY_BOOK_ENABLED=1/' .env && expo start",
     "prestorybook": "rnstl",
-    "storybook": "storybook start -p 7007",
-    "test": "jest ./src/***/*.test.ts"
+    "storybook-server": "storybook start"
   },
   "dependencies": {
     "@expo/react-native-action-sheet": "^1.1.2",
@@ -29,10 +29,12 @@
     "typescript": "^3.1.5"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^3.4.11",
-    "@storybook/addon-links": "^3.4.11",
-    "@storybook/addons": "^3.4.11",
-    "@storybook/react-native": "^3.4.11",
+    "@storybook/addon-actions": "^4.0.2",
+    "@storybook/addon-links": "^4.0.2",
+    "@storybook/addon-ondevice-knobs": "^4.0.2",
+    "@storybook/addon-ondevice-notes": "^4.0.2",
+    "@storybook/addons": "^4.0.2",
+    "@storybook/react-native": "^4.0.2",
     "@types/expo": "^27.0.13",
     "@types/jest": "^23.3.9",
     "@types/react-native-vector-icons": "^4.6.4",
