@@ -7,9 +7,11 @@ import {
   createStackNavigator
 } from "react-navigation";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
+import { Provider as PaperProvider } from "react-native-paper";
 import Home from "./components/pages/Home/Connected";
+import Setting from "./components/pages/Setting/Connected";
 
-class SettingsScreen extends React.Component {
+class SearchScreen extends React.Component {
   static navigationOptions = {
     title: "Setting"
   };
@@ -30,12 +32,8 @@ class SettingsScreen extends React.Component {
   }
 }
 
-const SettingsStack = createStackNavigator({
-  Settings: SettingsScreen
-});
-
 const Search = createStackNavigator({
-  Search: SettingsScreen
+  Search: SearchScreen
 });
 
 const TabNavigator = createBottomTabNavigator(
@@ -47,7 +45,7 @@ const TabNavigator = createBottomTabNavigator(
       screen: Search
     },
     設定: {
-      screen: SettingsStack
+      screen: Setting
     }
   },
   {
@@ -103,9 +101,11 @@ const Navigator = createStackNavigator({
 export default class extends Component {
   render() {
     return (
-      <ActionSheetProvider>
-        <Navigator />
-      </ActionSheetProvider>
+      <PaperProvider>
+        <ActionSheetProvider>
+          <Navigator />
+        </ActionSheetProvider>
+      </PaperProvider>
     );
   }
 }

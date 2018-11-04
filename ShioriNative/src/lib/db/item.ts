@@ -1,7 +1,7 @@
 import { SQLite } from "expo";
 
 export interface Item {
-  id: number;
+  id?: number;
   title: string;
   image: string;
 }

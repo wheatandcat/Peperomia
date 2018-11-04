@@ -1,7 +1,7 @@
 import { SQLite } from "expo";
 
 export interface ItemDetail {
-  id: number;
+  id?: number;
   itemId: number;
   title: string;
   memo: string;
@@ -29,7 +29,7 @@ export const insert = async (
   itemDetail: ItemDetail
 ) => {
   return tx.executeSql(
-    "insert into item_details (itemId, title, memo, kind, moveMinutes, priority) values (?, ?)",
+    "insert into item_details (itemId, title, memo, kind, moveMinutes, priority) values (?, ?, ?, ?, ?)",
     [
       String(itemDetail.itemId),
       itemDetail.title,
