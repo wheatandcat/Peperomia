@@ -1,9 +1,12 @@
+import { SQLite } from "expo";
 import React, { Component } from "react";
 import {
   createStackNavigator,
   NavigationScreenProp,
   NavigationRoute
 } from "react-navigation";
+import { db } from "../../../lib/db";
+import { select as selectItems } from "../../../lib/db/item";
 import Schedule from "../Schedule/Connected";
 import ScheduleDetail from "../ScheduleDetail/Connected";
 import CreatePlan from "../CreatePlan/Connected";
@@ -37,6 +40,12 @@ class HomeScreen extends Component<Props> {
   static navigationOptions = {
     title: "マイプラン"
   };
+
+  componentDidMount() {
+    db.transaction((tx: SQLite.Transaction) => {
+      selectItems(tx);
+    });
+  }
 
   onSchedule = (id: string) => {
     this.props.navigation.navigate("Schedule", { scheduleId: id });

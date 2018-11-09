@@ -19,6 +19,9 @@ export const insert = async (tx: SQLite.Transaction, item: Item) => {
   ]);
 };
 
-export const select = async (tx: SQLite.Transaction) => {
-  return tx.executeSql("select * from items");
+export const select = (tx: SQLite.Transaction) => {
+  tx.executeSql(`select * from items;`, [], props => {
+    console.log("-------");
+    console.log(props);
+  });
 };
