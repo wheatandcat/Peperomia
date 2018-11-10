@@ -7,17 +7,15 @@ import {
   ItemDetail
 } from "./itemDetail";
 
-export const resetSql = async (tx: SQLite.Transaction) => {
-  await createItem(tx);
-  await createItemDetail(tx);
-  await tx.executeSql("delete * from items");
-  await tx.executeSql("delete * from item_details");
+export const resetSql = (tx: SQLite.Transaction) => {
+  createItem(tx);
+  createItemDetail(tx);
 
-  const item: Item = {
-    title: "葛西臨海公園",
-    image: ""
-  };
-  await insertItem(tx, item);
+  tx.executeSql("delete from items");
+  tx.executeSql("delete from item_details");
+
+  const item: Item = { title: "葛西臨海公園", image: "" };
+  insertItem(tx, item);
 
   const itemDetail1: ItemDetail = {
     itemId: 1,
@@ -27,7 +25,7 @@ export const resetSql = async (tx: SQLite.Transaction) => {
     moveMinutes: 30,
     priority: 1
   };
-  await insertItemDetail(tx, itemDetail1);
+  insertItemDetail(tx, itemDetail1);
 
   const itemDetail2: ItemDetail = {
     itemId: 1,
@@ -38,7 +36,7 @@ export const resetSql = async (tx: SQLite.Transaction) => {
     priority: 2
   };
 
-  await insertItemDetail(tx, itemDetail2);
+  insertItemDetail(tx, itemDetail2);
 
   const itemDetail3: ItemDetail = {
     itemId: 1,
@@ -49,7 +47,7 @@ export const resetSql = async (tx: SQLite.Transaction) => {
     priority: 3
   };
 
-  await insertItemDetail(tx, itemDetail3);
+  insertItemDetail(tx, itemDetail3);
 
   const itemDetail4: ItemDetail = {
     itemId: 1,
@@ -60,7 +58,7 @@ export const resetSql = async (tx: SQLite.Transaction) => {
     priority: 4
   };
 
-  await insertItemDetail(tx, itemDetail4);
+  insertItemDetail(tx, itemDetail4);
 
   console.log("resetSql OK");
 };

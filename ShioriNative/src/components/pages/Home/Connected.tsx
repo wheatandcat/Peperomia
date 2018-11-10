@@ -6,7 +6,11 @@ import {
   NavigationRoute
 } from "react-navigation";
 import { db } from "../../../lib/db";
-import { select as selectItems } from "../../../lib/db/item";
+import { select as selectItems, Item } from "../../../lib/db/item";
+import {
+  selectByItemId as selectItemDetailByItemId,
+  ItemDetail
+} from "../../../lib/db/itemDetail";
 import Schedule from "../Schedule/Connected";
 import ScheduleDetail from "../ScheduleDetail/Connected";
 import CreatePlan from "../CreatePlan/Connected";
@@ -36,16 +40,53 @@ interface Props extends PageProps {
   navigation: NavigationScreenProp<NavigationRoute>;
 }
 
-class HomeScreen extends Component<Props> {
+interface ItemType {
+  title: string;
+  image: string;
+  about: string;
+}
+
+interface State {
+  items: ItemType[];
+}
+
+class HomeScreen extends Component<Props, State> {
   static navigationOptions = {
     title: "マイプラン"
   };
 
+  state = {
+    items: []
+  };
+
   componentDidMount() {
     db.transaction((tx: SQLite.Transaction) => {
-      selectItems(tx);
+      selectItems(tx, this.setItems);
     });
   }
+
+  setItems = (data: any, error: any) => {
+    if (error) {
+      return;
+    }
+    console.log(data);
+
+    data.map((val: Item) => {
+      db.transaction((tx: SQLite.Transaction) => {
+        console.log(val);
+        selectItemDetailByItemId(tx, String(val.id), this.setItemsDetail);
+      });
+    });
+  };
+
+  setItemsDetail = (data: any, error: any) => {
+    if (error || !data || data.length === 0) {
+      return;
+    }
+
+    const names = data.map((val: ItemDetail) => val.title);
+    const itemId = data[0].itemId;
+  };
 
   onSchedule = (id: string) => {
     this.props.navigation.navigate("Schedule", { scheduleId: id });

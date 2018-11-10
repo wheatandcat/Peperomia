@@ -1,6 +1,9 @@
+import { SQLite } from "expo";
 import React, { Component } from "react";
 import { View, FlatList, RefreshControl } from "react-native";
 import Card, { ItemProps as CardProps } from "../../molecules/Home/Card";
+
+const db = SQLite.openDatabase("db.db");
 
 export interface Props {
   data: CardProps[];

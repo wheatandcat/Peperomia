@@ -1,4 +1,5 @@
 import { SQLite } from "expo";
+import { success, error } from "./";
 
 export interface Item {
   id?: number;
@@ -6,22 +7,39 @@ export interface Item {
   image: string;
 }
 
-export const create = async (tx: SQLite.Transaction) => {
+export const create = async (
+  tx: SQLite.Transaction,
+  callback?: (data: any, error: any) => void
+) => {
   return tx.executeSql(
-    "create table if not exists items (id integer primary key not null, title string,image string);"
+    "create table if not exists items (id integer primary key not null, title string,image string);",
+    [],
+    (_, props) => success(props.rows._array, callback),
+    (_, err) => error(err, callback)
   );
 };
 
-export const insert = async (tx: SQLite.Transaction, item: Item) => {
-  return tx.executeSql("insert into items (title, image) values (?, ?)", [
-    item.title,
-    item.image
-  ]);
+export const insert = async (
+  tx: SQLite.Transaction,
+  item: Item,
+  callback?: (data: any, error: any) => void
+) => {
+  return tx.executeSql(
+    "insert into items (title, image) values (?, ?)",
+    [item.title, item.image],
+    (_, props) => success(props.rows._array, callback),
+    (_, err) => error(err, callback)
+  );
 };
 
-export const select = (tx: SQLite.Transaction) => {
-  tx.executeSql(`select * from items;`, [], props => {
-    console.log("-------");
-    console.log(props);
-  });
+export const select = async (
+  tx: SQLite.Transaction,
+  callback?: (data: any, error: any) => void
+) => {
+  tx.executeSql(
+    `select * from items;`,
+    [],
+    (_, props) => success(props.rows._array, callback),
+    (_, err) => error(err, callback)
+  );
 };

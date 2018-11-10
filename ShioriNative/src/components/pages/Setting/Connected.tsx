@@ -5,7 +5,7 @@ import Page from "./Page";
 import { db } from "../../../lib/db";
 import { resetSql } from "../../../lib/db/debug";
 import { select as selectItems } from "../../../lib/db/item";
-
+import { select as selectItemDetailds } from "../../../lib/db/itemDetail";
 interface Props {}
 
 class Connected extends Component<Props> {
@@ -19,7 +19,8 @@ class Connected extends Component<Props> {
 
   onData = () => {
     db.transaction((tx: SQLite.Transaction) => {
-      selectItems(tx);
+      selectItems(tx, console.log);
+      selectItemDetailds(tx, console.log);
     });
   };
 

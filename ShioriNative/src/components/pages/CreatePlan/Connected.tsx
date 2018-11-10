@@ -3,9 +3,8 @@ import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import { Text, TouchableOpacity, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { db } from "../../../lib/db";
 import Page, { Props as PageProps } from "./Page";
-
-const db = SQLite.openDatabase("db.db");
 
 interface Props extends PageProps {
   navigation: NavigationScreenProp<NavigationRoute>;
