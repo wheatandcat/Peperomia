@@ -40,14 +40,14 @@ interface Props extends PageProps {
   navigation: NavigationScreenProp<NavigationRoute>;
 }
 
-interface ItemType {
-  title: string;
-  image: string;
+interface ItemAbout {
+  itemId: number;
   about: string;
 }
 
 interface State {
-  items: ItemType[];
+  items: Item[];
+  about: ItemAbout[];
 }
 
 class HomeScreen extends Component<Props, State> {
@@ -56,7 +56,8 @@ class HomeScreen extends Component<Props, State> {
   };
 
   state = {
-    items: []
+    items: [],
+    about: []
   };
 
   componentDidMount() {
@@ -69,11 +70,12 @@ class HomeScreen extends Component<Props, State> {
     if (error) {
       return;
     }
-    console.log(data);
+    this.setState({
+      items: data
+    });
 
     data.map((val: Item) => {
       db.transaction((tx: SQLite.Transaction) => {
-        console.log(val);
         selectItemDetailByItemId(tx, String(val.id), this.setItemsDetail);
       });
     });
@@ -84,8 +86,19 @@ class HomeScreen extends Component<Props, State> {
       return;
     }
 
-    const names = data.map((val: ItemDetail) => val.title);
+    const names = data.map((val: ItemDetail) => val.title).join("→");
     const itemId = data[0].itemId;
+    const about = [
+      ...this.state.about,
+      {
+        itemId: itemId,
+        about: names
+      }
+    ];
+
+    this.setState({
+      about
+    });
   };
 
   onSchedule = (id: string) => {
@@ -97,9 +110,17 @@ class HomeScreen extends Component<Props, State> {
   };
 
   render() {
+    const items: any = this.state.items.map((item: Item) => {
+      const about: any = this.state.about.find(
+        (val: ItemAbout) => val.itemId === item.id
+      );
+
+      return { ...item, id: String(item.id), about: about ? about.about : "" };
+    });
+
     return (
       <Page
-        data={data}
+        data={items}
         loading={false}
         onSchedule={this.onSchedule}
         onCreate={this.onCreate}

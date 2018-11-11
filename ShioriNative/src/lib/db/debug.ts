@@ -1,5 +1,11 @@
 import { SQLite } from "expo";
-import { KIND_PARK, KIND_TRAIN, KIND_SHIP, KIND_DEFAULT } from "../getKind";
+import {
+  KIND_PARK,
+  KIND_TRAIN,
+  KIND_SHIP,
+  KIND_DEFAULT,
+  KIND_FISHING
+} from "../getKind";
 import { create as createItem, insert as insertItem, Item } from "./item";
 import {
   create as createItemDetail,
@@ -14,8 +20,8 @@ export const resetSql = (tx: SQLite.Transaction) => {
   tx.executeSql("delete from items");
   tx.executeSql("delete from item_details");
 
-  const item: Item = { title: "葛西臨海公園", image: "" };
-  insertItem(tx, item);
+  const item1: Item = { title: "葛西臨海公園", image: "" };
+  insertItem(tx, item1);
 
   const itemDetail1: ItemDetail = {
     itemId: 1,
@@ -60,5 +66,26 @@ export const resetSql = (tx: SQLite.Transaction) => {
 
   insertItemDetail(tx, itemDetail4);
 
-  console.log("resetSql OK");
+  const item2: Item = { title: "市ヶ谷フィッシュセンター", image: "" };
+  insertItem(tx, item2);
+
+  const itemDetail5: ItemDetail = {
+    itemId: 2,
+    title: "市ヶ谷駅",
+    memo: "",
+    kind: KIND_TRAIN,
+    moveMinutes: 0,
+    priority: 1
+  };
+  insertItemDetail(tx, itemDetail5);
+
+  const itemDetail6: ItemDetail = {
+    itemId: 2,
+    title: "市ヶ谷フィッシュセンター",
+    memo: "",
+    kind: KIND_FISHING,
+    moveMinutes: 120,
+    priority: 1
+  };
+  insertItemDetail(tx, itemDetail6);
 };

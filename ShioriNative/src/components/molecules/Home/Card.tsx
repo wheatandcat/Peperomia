@@ -7,6 +7,7 @@ import { Text } from "../../atoms";
 export interface ItemProps {
   id: string;
   title: string;
+  image: string;
   about: string;
 }
 
