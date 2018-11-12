@@ -21,7 +21,7 @@ export default class extends Component<Props> {
           refreshControl={<RefreshControl refreshing={this.props.loading} />}
           refreshing={this.props.loading}
           data={this.props.data}
-          keyExtractor={item => item.id}
+          keyExtractor={item => String(item.id)}
           renderItem={this.renderItem.bind(this)}
           contentContainerStyle={{ paddingBottom: 300 }}
         />

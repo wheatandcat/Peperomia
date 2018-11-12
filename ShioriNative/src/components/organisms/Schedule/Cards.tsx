@@ -3,7 +3,7 @@ import { FlatList } from "react-native";
 import getKind from "../../../lib/getKind";
 import Card from "../../molecules/Schedule/Card";
 
-interface ItemProps {
+export interface ItemProps {
   id: string;
   title: string;
   moveMinutes: number | null;
@@ -30,7 +30,7 @@ export default class extends Component<Props> {
     return (
       <FlatList
         data={this.props.data}
-        keyExtractor={item => item.id}
+        keyExtractor={item => String(item.id)}
         renderItem={this.renderItem.bind(this)}
         contentContainerStyle={{ paddingBottom: 50 }}
       />

@@ -18,24 +18,6 @@ import CreateSchedule from "../CreateSchedule/Connected";
 import CreateScheduleDetail from "../CreateScheduleDetail/Connected";
 import Page, { Props as PageProps } from "./Page";
 
-const data = [
-  {
-    id: "1",
-    title: "葛西臨海公園",
-    about: "新宿駅→葛西臨海公園→葛西臨海水上バス→浅草寺二天門前"
-  },
-  {
-    id: "2",
-    title: "市ヶ谷釣り堀",
-    about: "市ヶ谷駅"
-  },
-  {
-    id: "3",
-    title: "横浜",
-    about: "桜木町駅→山下公園→クルージング"
-  }
-];
-
 interface Props extends PageProps {
   navigation: NavigationScreenProp<NavigationRoute>;
 }

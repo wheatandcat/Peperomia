@@ -1,5 +1,9 @@
+import { SQLite } from "expo";
 import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
+import { db } from "../../../lib/db";
+import { selectByItemId } from "../../../lib/db/itemDetail";
+import { ItemProps } from "../../organisms/Schedule/Cards";
 import Page, { Props as PageProps } from "./Page";
 
 const list = [
@@ -59,21 +63,39 @@ interface Props extends PageProps {
   navigation: NavigationScreenProp<NavigationRoute>;
 }
 
-export default class extends Component<Props> {
+interface State {
+  items: ItemProps[];
+}
+
+export default class extends Component<Props, State> {
   static navigationOptions = { title: "葛西臨海公園" };
+
+  state = { items: [] };
+
+  componentDidMount() {
+    const scheduleId = this.props.navigation.getParam("scheduleId", "1");
+    db.transaction((tx: SQLite.Transaction) => {
+      selectByItemId(tx, scheduleId, this.setItems);
+    });
+  }
+
+  setItems = (data: any, error: any) => {
+    if (error) {
+      return;
+    }
+
+    this.setState({
+      items: data
+    });
+  };
 
   onScheduleDetail = () => {
     this.props.navigation.navigate("ScheduleDetail"), { mode: "modal" };
   };
 
   render() {
-    const scheduleId = this.props.navigation.getParam("scheduleId", "1");
-
-    const data = list.find(item => item.id === scheduleId);
-    if (!data) {
-      return null;
-    }
-
-    return <Page data={data.data} onScheduleDetail={this.onScheduleDetail} />;
+    return (
+      <Page data={this.state.items} onScheduleDetail={this.onScheduleDetail} />
+    );
   }
 }
