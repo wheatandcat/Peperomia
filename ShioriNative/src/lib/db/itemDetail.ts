@@ -75,3 +75,16 @@ export const selectByItemId = async (
     (_, err) => error(err, callback)
   );
 };
+
+export const select1st = async (
+  tx: SQLite.Transaction,
+  id: string,
+  callback?: (data: any, error: any) => void
+) => {
+  return tx.executeSql(
+    "select * from item_details where id = ? limit 1",
+    [id],
+    (_, props) => success(props.rows._array[0], callback),
+    (_, err) => error(err, callback)
+  );
+};

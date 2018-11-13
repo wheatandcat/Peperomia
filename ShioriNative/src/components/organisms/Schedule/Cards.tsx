@@ -11,7 +11,7 @@ export interface ItemProps {
 
 export interface Props {
   data: ItemProps[];
-  onScheduleDetail: () => void;
+  onScheduleDetail: (id: string) => void;
 }
 
 export default class extends Component<Props> {
@@ -21,7 +21,7 @@ export default class extends Component<Props> {
         {...item}
         kind={getKind(item.title)}
         end={index + 1 === this.props.data.length}
-        onPress={this.props.onScheduleDetail}
+        onPress={() => this.props.onScheduleDetail(item.id)}
       />
     );
   }
