@@ -1,17 +1,9 @@
 import { SQLite } from "expo";
 import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
-import { KIND_TRAIN } from "../../../lib/getKind";
 import { db } from "../../../lib/db";
 import { select1st } from "../../../lib/db/itemDetail";
 import Page, { Props as PageProps } from "./Page";
-
-const data = {
-  id: "1",
-  kind: KIND_TRAIN,
-  title: "新宿駅",
-  memo: "■行く場所メモ\n・砂浜\n・観覧車\n・水族園"
-};
 
 interface State {
   item: {

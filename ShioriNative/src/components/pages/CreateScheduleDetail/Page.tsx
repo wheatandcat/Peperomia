@@ -3,7 +3,8 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Text as TextPlan
+  Text as TextPlan,
+  SafeAreaView
 } from "react-native";
 import {
   ActionSheetProps,
@@ -88,87 +89,91 @@ class App extends Component<Props & ActionSheetProps> {
   };
   render() {
     return (
-      <View
-        style={{ backgroundColor: "#ffffff", height: "100%", width: "100%" }}
-      >
-        <Header
-          kind="train"
-          right={
-            <Text style={{ fontSize: 18, fontWeight: "500", color: "#ffffff" }}>
-              保存
-            </Text>
-          }
-          onClose={this.props.onDismiss}
+      <SafeAreaView style={{ flex: 1 }}>
+        <View
+          style={{ backgroundColor: "#ffffff", height: "100%", width: "100%" }}
         >
-          <TextInput
-            placeholder="タイトルを入力"
-            placeholderTextColor="#ffffff"
-            style={{
-              fontSize: 20,
-              fontWeight: "600",
-              color: "#ffffff",
-              paddingLeft: 1
-            }}
-            onChangeText={title => this.setState({ title })}
-          />
-        </Header>
-        <View style={{ padding: 20 }}>
-          <TouchableOpacity onPress={this.onOpenActionSheet}>
-            <View
+          <Header
+            kind="train"
+            right={
+              <Text
+                style={{ fontSize: 18, fontWeight: "500", color: "#ffffff" }}
+              >
+                保存
+              </Text>
+            }
+            onClose={this.props.onDismiss}
+          >
+            <TextInput
+              placeholder="タイトルを入力"
+              placeholderTextColor="#ffffff"
               style={{
-                flexDirection: "row",
-                alignItems: "center",
-                borderBottomWidth: 0.5,
-                borderColor: "#5A6978",
-                width: 80,
-                height: 30
+                fontSize: 20,
+                fontWeight: "600",
+                color: "#ffffff",
+                paddingLeft: 1
               }}
-            >
-              <Ionicons
-                name="md-time"
-                color="#5A6978"
-                size={24}
-                style={{ paddingTop: 3 }}
-              />
-              <TextPlan
+              onChangeText={title => this.setState({ title })}
+            />
+          </Header>
+          <View style={{ padding: 20 }}>
+            <TouchableOpacity onPress={this.onOpenActionSheet}>
+              <View
                 style={{
-                  fontSize: 16,
-                  fontWeight: "500",
-                  color: "#00A6FF",
-                  paddingHorizontal: 15
-                }}
-              >
-                {this.state.time}分
-              </TextPlan>
-            </View>
-          </TouchableOpacity>
-          <View style={{ paddingTop: 30 }}>
-            <MaterialIcons name="edit" color="#00A6FF" size={25} />
-            <View style={{ paddingTop: 5 }}>
-              <TextInput
-                placeholder="メモを書く"
-                multiline
-                style={{
-                  fontSize: 16,
-                  lineHeight: 24,
-                  fontWeight: "400",
+                  flexDirection: "row",
+                  alignItems: "center",
                   borderBottomWidth: 0.5,
-                  borderColor: "#5A6978"
-                }}
-                onChangeText={memo => {
-                  this.setState({ memo });
+                  borderColor: "#5A6978",
+                  width: 80,
+                  height: 30
                 }}
               >
+                <Ionicons
+                  name="md-time"
+                  color="#5A6978"
+                  size={24}
+                  style={{ paddingTop: 3 }}
+                />
                 <TextPlan
-                  style={{ fontSize: 16, lineHeight: 24, fontWeight: "400" }}
+                  style={{
+                    fontSize: 16,
+                    fontWeight: "500",
+                    color: "#00A6FF",
+                    paddingHorizontal: 15
+                  }}
                 >
-                  {this.state.memo}
+                  {this.state.time}分
                 </TextPlan>
-              </TextInput>
+              </View>
+            </TouchableOpacity>
+            <View style={{ paddingTop: 30 }}>
+              <MaterialIcons name="edit" color="#00A6FF" size={25} />
+              <View style={{ paddingTop: 5 }}>
+                <TextInput
+                  placeholder="メモを書く"
+                  multiline
+                  style={{
+                    fontSize: 16,
+                    lineHeight: 24,
+                    fontWeight: "400",
+                    borderBottomWidth: 0.5,
+                    borderColor: "#5A6978"
+                  }}
+                  onChangeText={memo => {
+                    this.setState({ memo });
+                  }}
+                >
+                  <TextPlan
+                    style={{ fontSize: 16, lineHeight: 24, fontWeight: "400" }}
+                  >
+                    {this.state.memo}
+                  </TextPlan>
+                </TextInput>
+              </View>
             </View>
           </View>
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 }

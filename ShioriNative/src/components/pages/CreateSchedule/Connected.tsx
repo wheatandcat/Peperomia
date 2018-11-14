@@ -22,19 +22,17 @@ export default class extends Component<Props> {
               navigation.navigate("CreateSchedule");
             }}
           >
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: "600"
-              }}
-            >
-              完了
-            </Text>
+            <Text style={{ fontSize: 16, fontWeight: "600" }}>完了</Text>
           </TouchableOpacity>
         </View>
       )
     };
   };
+
+  componentDidMount() {
+    const itemId = this.props.navigation.getParam("itemId", "1");
+    console.log(itemId);
+  }
 
   onCreateScheduleDetail = () => {
     this.props.navigation.navigate("CreateScheduleDetail");

@@ -22,12 +22,12 @@ export const create = async (
 export const insert = async (
   tx: SQLite.Transaction,
   item: Item,
-  callback?: (data: any, error: any) => void
+  callback?: (insertId: number, error: any) => void
 ) => {
   return tx.executeSql(
     "insert into items (title, image) values (?, ?)",
     [item.title, item.image],
-    (_, props) => success(props.rows._array, callback),
+    (_, props) => success(props.insertId, callback),
     (_, err) => error(err, callback)
   );
 };

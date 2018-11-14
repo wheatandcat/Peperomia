@@ -4,6 +4,7 @@ import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import { Text, TouchableOpacity, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { db } from "../../../lib/db";
+import { insert as insertItem, Item } from "../../../lib/db/item";
 import Page, { Props as PageProps } from "./Page";
 
 interface Props extends PageProps {
@@ -62,17 +63,8 @@ export default class extends Component<Props, State> {
   state = { input: { title: "", image: null } };
 
   async componentDidMount() {
-    this.props.navigation.setParams({ save: this.onSave });
-    await db.transaction((tx: SQLite.Transaction) => {
-      tx.executeSql(
-        "create table if not exists items (id integer primary key not null, title string,image string);"
-      );
-      tx.executeSql(
-        "insert into items (title, image) values ('葛西臨海公園', '')"
-      );
-      tx.executeSql(`select * from items;`, [], (_, bbb) => {
-        console.log(bbb.rows._array);
-      });
+    this.props.navigation.setParams({
+      save: this.onSave
     });
   }
 
@@ -83,13 +75,22 @@ export default class extends Component<Props, State> {
         [name]: value
       }
     });
-
-    console.log(name);
   };
 
   onSave = async () => {
-    console.log(this.state);
-    this.props.navigation.navigate("CreateSchedule");
+    db.transaction((tx: SQLite.Transaction) => {
+      const item: Item = { title: this.state.input.title, image: "" };
+
+      insertItem(tx, item, this.save);
+    });
+  };
+
+  save = (insertId: number, error: any) => {
+    if (error) {
+      return;
+    }
+
+    this.props.navigation.navigate("CreateSchedule", { itemId: insertId });
   };
 
   render() {
