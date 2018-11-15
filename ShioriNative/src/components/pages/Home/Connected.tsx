@@ -83,8 +83,8 @@ class HomeScreen extends Component<Props, State> {
     });
   };
 
-  onSchedule = (id: string) => {
-    this.props.navigation.navigate("Schedule", { scheduleId: id });
+  onSchedule = (id: string, title: string) => {
+    this.props.navigation.navigate("Schedule", { itemId: id, title });
   };
 
   onCreate = () => {

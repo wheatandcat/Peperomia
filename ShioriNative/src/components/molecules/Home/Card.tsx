@@ -12,7 +12,7 @@ export interface ItemProps {
 }
 
 export interface Props extends ItemProps {
-  onPress: (id: string) => void;
+  onPress: (id: string, title: string) => void;
 }
 
 export default (props: Props) => (
@@ -29,7 +29,7 @@ export default (props: Props) => (
       containerStyle={{
         borderRadius: 0
       }}
-      onPress={() => props.onPress(props.id)}
+      onPress={() => props.onPress(props.id, props.title)}
     >
       <Card.Image
         width={80}

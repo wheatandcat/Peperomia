@@ -90,7 +90,10 @@ export default class extends Component<Props, State> {
       return;
     }
 
-    this.props.navigation.navigate("CreateSchedule", { itemId: insertId });
+    this.props.navigation.navigate("CreateSchedule", {
+      itemId: insertId,
+      title: this.state.input.title
+    });
   };
 
   render() {
