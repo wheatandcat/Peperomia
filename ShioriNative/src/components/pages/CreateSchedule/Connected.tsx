@@ -81,17 +81,19 @@ export default class extends Component<Props, State> {
       return;
     }
 
-    console.log(data);
-
     this.setState({ items: data });
   };
 
   onCreateScheduleDetail = () => {
-    this.props.navigation.navigate("CreateScheduleDetail");
+    const itemId = this.props.navigation.getParam("itemId", "1");
+    this.props.navigation.navigate("CreateScheduleDetail", { itemId });
   };
 
   onScheduleDetail = (id: string) => {
-    this.props.navigation.navigate("ScheduleDetail", { scheduleDetailId: id });
+    this.props.navigation.navigate("ScheduleDetail", {
+      scheduleDetailId: id,
+      priority: this.state.items.length + 1
+    });
   };
 
   render() {

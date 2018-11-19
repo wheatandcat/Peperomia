@@ -11,7 +11,20 @@ export default class extends Component<Props> {
     this.props.navigation.goBack();
   };
 
+  onSave = (title: string, memo: string, time: number) => {
+    const itemId = this.props.navigation.getParam("itemId", "1");
+    const priority = this.props.navigation.getParam("priority", "1");
+  };
+
   render() {
-    return <Page title="" memo="" time={0} onDismiss={this.onDismiss} />;
+    return (
+      <Page
+        title=""
+        memo=""
+        time={0}
+        onDismiss={this.onDismiss}
+        onSave={this.onSave}
+      />
+    );
   }
 }

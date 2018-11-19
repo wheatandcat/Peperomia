@@ -19,9 +19,21 @@ export interface Props {
   memo: string;
   time: number;
   onDismiss: () => void;
+  onSave: (title: string, memo: string, time: number) => void;
 }
 
-const times = [
+export interface State {
+  title: string;
+  memo: string;
+  time: number;
+}
+
+interface Item {
+  value: number | null;
+  label: string;
+}
+
+const times: Item[] = [
   {
     value: 0,
     label: "0分"
@@ -51,7 +63,7 @@ const times = [
 const cancelButtonIndex = times.length - 1;
 const manualButtonIndex = times.length - 2;
 
-class App extends Component<Props & ActionSheetProps> {
+class App extends Component<Props & ActionSheetProps, State> {
   state = {
     title: this.props.title,
     memo: this.props.memo,
@@ -83,7 +95,9 @@ class App extends Component<Props & ActionSheetProps> {
           return;
         }
 
-        this.setState({ time: times[buttonIndex].value });
+        const value = times[buttonIndex].value || 0;
+
+        this.setState({ time: value });
       }
     );
   };
@@ -96,11 +110,25 @@ class App extends Component<Props & ActionSheetProps> {
           <Header
             kind="train"
             right={
-              <Text
-                style={{ fontSize: 18, fontWeight: "500", color: "#ffffff" }}
+              <TouchableOpacity
+                onPress={() =>
+                  this.props.onSave(
+                    this.state.title,
+                    this.state.memo,
+                    this.state.time
+                  )
+                }
               >
-                保存
-              </Text>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    fontWeight: "500",
+                    color: "#ffffff"
+                  }}
+                >
+                  保存
+                </Text>
+              </TouchableOpacity>
             }
             onClose={this.props.onDismiss}
           >
@@ -164,7 +192,11 @@ class App extends Component<Props & ActionSheetProps> {
                   }}
                 >
                   <TextPlan
-                    style={{ fontSize: 16, lineHeight: 24, fontWeight: "400" }}
+                    style={{
+                      fontSize: 16,
+                      lineHeight: 24,
+                      fontWeight: "400"
+                    }}
                   >
                     {this.state.memo}
                   </TextPlan>
