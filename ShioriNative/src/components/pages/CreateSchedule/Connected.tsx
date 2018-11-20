@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import { Text, TouchableOpacity, View } from "react-native";
 import { db } from "../../../lib/db";
+import { select1st } from "../../../lib/db/item";
 import { selectByItemId } from "../../../lib/db/itemDetail";
 import { ItemProps } from "../../organisms/Schedule/Cards";
 import Page, { Props as PageProps } from "./Page";
@@ -13,6 +14,7 @@ interface Props extends PageProps {
 
 interface State {
   items: ItemProps[];
+  refresh: string;
 }
 
 export default class extends Component<Props, State> {
@@ -32,7 +34,14 @@ export default class extends Component<Props, State> {
               navigation.navigate("CreateSchedule");
             }}
           >
-            <Text style={{ fontSize: 16, fontWeight: "600" }}>完了</Text>
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: "600"
+              }}
+            >
+              完了
+            </Text>
           </TouchableOpacity>
         </View>
       )
@@ -51,7 +60,13 @@ export default class extends Component<Props, State> {
                 });
               }}
             >
-              <Text style={{ fontSize: 16, fontWeight: "600", color: "red" }}>
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: "600",
+                  color: "red"
+                }}
+              >
                 キャンセル
               </Text>
             </TouchableOpacity>
@@ -63,18 +78,45 @@ export default class extends Component<Props, State> {
     return result;
   };
 
-  state = { items: [] };
+  state = { items: [], refresh: "0" };
 
   componentDidMount() {
+    console.log("componentDidMount");
+
     const itemId = this.props.navigation.getParam("itemId", "1");
-    const mode = this.props.navigation.getParam("mode", "create");
-    const title = this.props.navigation.getParam("title", "");
-    this.props.navigation.setParams({ title, itemId, mode });
 
     db.transaction((tx: SQLite.Transaction) => {
+      select1st(tx, itemId, this.setParams);
       selectByItemId(tx, itemId, this.setItems);
     });
   }
+
+  componentDidUpdate() {
+    const refresh = this.props.navigation.getParam("refresh", "0");
+
+    if (refresh !== this.state.refresh) {
+      const itemId = this.props.navigation.getParam("itemId", "1");
+      db.transaction((tx: SQLite.Transaction) => {
+        selectByItemId(tx, itemId, this.setItems);
+      });
+      this.setState({ refresh });
+    }
+  }
+
+  setParams = (data: any, error: any) => {
+    if (error) {
+      return;
+    }
+
+    const itemId = this.props.navigation.getParam("itemId", "1");
+    const mode = this.props.navigation.getParam("mode", "create");
+
+    this.props.navigation.setParams({
+      title: data.title,
+      itemId,
+      mode
+    });
+  };
 
   setItems = (data: any, error: any) => {
     if (error) {

@@ -1,11 +1,4 @@
 import { SQLite } from "expo";
-import {
-  KIND_PARK,
-  KIND_TRAIN,
-  KIND_SHIP,
-  KIND_DEFAULT,
-  KIND_FISHING
-} from "../getKind";
 import { create as createItem, insert as insertItem, Item } from "./item";
 import {
   create as createItemDetail,
@@ -27,7 +20,6 @@ export const resetSql = (tx: SQLite.Transaction) => {
     itemId: 1,
     title: "新宿駅",
     memo: "",
-    kind: KIND_TRAIN,
     moveMinutes: 30,
     priority: 1
   };
@@ -37,7 +29,6 @@ export const resetSql = (tx: SQLite.Transaction) => {
     itemId: 1,
     title: "葛西臨海公園",
     memo: "■行く場所\n・砂浜\n・水族園",
-    kind: KIND_PARK,
     moveMinutes: 0,
     priority: 2
   };
@@ -48,7 +39,6 @@ export const resetSql = (tx: SQLite.Transaction) => {
     itemId: 1,
     title: "葛西臨海公園水上バス",
     memo: "",
-    kind: KIND_SHIP,
     moveMinutes: 0,
     priority: 3
   };
@@ -59,7 +49,6 @@ export const resetSql = (tx: SQLite.Transaction) => {
     itemId: 1,
     title: "浅草寺二天門前",
     memo: "",
-    kind: KIND_DEFAULT,
     moveMinutes: 0,
     priority: 4
   };
@@ -73,7 +62,6 @@ export const resetSql = (tx: SQLite.Transaction) => {
     itemId: 2,
     title: "市ヶ谷駅",
     memo: "",
-    kind: KIND_TRAIN,
     moveMinutes: 0,
     priority: 1
   };
@@ -83,7 +71,6 @@ export const resetSql = (tx: SQLite.Transaction) => {
     itemId: 2,
     title: "市ヶ谷フィッシュセンター",
     memo: "",
-    kind: KIND_FISHING,
     moveMinutes: 120,
     priority: 1
   };

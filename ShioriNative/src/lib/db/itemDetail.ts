@@ -6,7 +6,6 @@ export interface ItemDetail {
   itemId: number;
   title: string;
   memo: string;
-  kind: string;
   moveMinutes: number;
   priority: number;
 }
@@ -21,7 +20,6 @@ export const create = async (
       "itemId integer," +
       "title string," +
       "memo string," +
-      "kind string," +
       "moveMinutes integer," +
       "priority integer" +
       ");",
@@ -42,7 +40,6 @@ export const insert = async (
       String(itemDetail.itemId),
       itemDetail.title,
       itemDetail.memo,
-      itemDetail.kind,
       String(itemDetail.moveMinutes),
       String(itemDetail.priority)
     ],
