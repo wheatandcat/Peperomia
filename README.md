@@ -9,3 +9,9 @@ https://expo.io/@wheatandcat/ShioriNative
 ```
 expo-cli publish --config storybook/app.json
 ```
+
+## test
+
+```
+npm run test
+```
