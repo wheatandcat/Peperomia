@@ -16,6 +16,7 @@ import ScheduleDetail from "../ScheduleDetail/Connected";
 import CreatePlan from "../CreatePlan/Connected";
 import CreateSchedule from "../CreateSchedule/Connected";
 import CreateScheduleDetail from "../CreateScheduleDetail/Connected";
+import EditScheduleDetail from "../EditScheduleDetail/Connected";
 import Page, { Props as PageProps } from "./Page";
 
 interface Props extends PageProps {
@@ -142,6 +143,9 @@ export default createStackNavigator(
     },
     CreateScheduleDetail: {
       screen: CreateScheduleDetail
+    },
+    EditScheduleDetail: {
+      screen: EditScheduleDetail
     }
   },
   {

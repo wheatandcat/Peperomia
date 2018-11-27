@@ -19,14 +19,7 @@ interface Props extends PageProps {
 }
 
 export default class extends Component<Props, State> {
-  state = {
-    item: {
-      id: "",
-      kind: "",
-      title: "",
-      memo: ""
-    }
-  };
+  state = { item: { id: "", kind: "", title: "", memo: "" } };
 
   componentDidMount() {
     const scheduleDetailId = this.props.navigation.getParam(
@@ -43,13 +36,22 @@ export default class extends Component<Props, State> {
       return;
     }
 
-    this.setState({
-      item: data
-    });
+    this.setState({ item: data });
   };
 
   onDismiss = () => {
     this.props.navigation.goBack();
+  };
+
+  onCreateScheduleDetail = () => {
+    const scheduleDetailId = this.props.navigation.getParam(
+      "scheduleDetailId",
+      "1"
+    );
+
+    this.props.navigation.navigate("EditScheduleDetail", {
+      scheduleDetailId
+    });
   };
 
   render() {
@@ -60,7 +62,7 @@ export default class extends Component<Props, State> {
       <Page
         {...this.state.item}
         onDismiss={this.onDismiss}
-        onOpenActionSheet={() => {}}
+        onCreateScheduleDetail={this.onCreateScheduleDetail}
       />
     );
   }

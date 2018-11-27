@@ -1,13 +1,14 @@
 import React, { Fragment } from "react";
+import { TouchableOpacity } from "react-native";
 import { View } from "react-native-ui-lib";
 import styled from "styled-components/native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Text } from "../../atoms";
 import Header from "../ScheduleHeader/Header";
+import getKind from "../../../lib/getKind";
 
 export interface ItemProps {
   id: string;
-  kind: string;
   title: string;
   memo: string;
   onDismiss: () => void;
@@ -15,7 +16,6 @@ export interface ItemProps {
 
 export interface Props {
   id: string;
-  kind: string;
   title: string;
   memo: string;
   onDismiss: () => void;
@@ -26,14 +26,16 @@ export default (props: Props) => {
   return (
     <Fragment>
       <Header
-        kind={props.kind}
+        kind={getKind(props.title)}
         right={
-          <MaterialCommunityIcons
-            name="dots-horizontal"
-            size={30}
-            color="#ffffff"
-            style={{ marginRight: 0, marginLeft: "auto" }}
-          />
+          <TouchableOpacity onPress={props.onOpenActionSheet}>
+            <MaterialCommunityIcons
+              name="dots-horizontal"
+              size={30}
+              color="#ffffff"
+              style={{ marginRight: 0, marginLeft: "auto" }}
+            />
+          </TouchableOpacity>
         }
         onClose={props.onDismiss}
       >
