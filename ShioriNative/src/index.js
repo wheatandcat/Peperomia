@@ -3,6 +3,7 @@ import { Text, View } from "react-native";
 import FontAwesomeIcons from "react-native-vector-icons/FontAwesome";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import {
+  createAppContainer,
   createBottomTabNavigator,
   createStackNavigator
 } from "react-navigation";
@@ -98,12 +99,14 @@ const Navigator = createStackNavigator({
   TabNavigator
 });
 
-export default class extends Component {
+const AppContainer = createAppContainer(Navigator);
+
+export default class App extends Component {
   render() {
     return (
       <PaperProvider>
         <ActionSheetProvider>
-          <Navigator />
+          <AppContainer />
         </ActionSheetProvider>
       </PaperProvider>
     );
