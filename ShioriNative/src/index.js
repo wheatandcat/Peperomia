@@ -39,54 +39,46 @@ const Search = createStackNavigator({
 
 const TabNavigator = createBottomTabNavigator(
   {
-    マイプラン: {
-      screen: Home
-    },
-    検索: {
-      screen: Search
-    },
-    設定: {
-      screen: Setting
-    }
+    マイプラン: Home,
+    検索: Search,
+    設定: Setting
   },
   {
-    initialRouteName: "マイプラン",
-    navigationOptions: ({ navigation }) => {
-      return {
-        activeTintColor: "#23527c",
-        inactiveTintColor: "gray",
-        tabBarVisible: navigation.state.index !== 1,
-        tabBarIcon: ({ horizontal, tintColor }) => {
-          const { routeName } = navigation.state;
-          if (routeName === "マイプラン") {
-            return (
-              <FontAwesomeIcons
-                name="calendar-o"
-                size={horizontal ? 20 : 25}
-                color={tintColor}
-              />
-            );
-          } else if (routeName === "設定") {
-            return (
-              <MaterialCommunityIcons
-                name="settings"
-                size={horizontal ? 20 : 25}
-                color={tintColor}
-              />
-            );
-          } else if (routeName === "検索") {
-            return (
-              <FontAwesomeIcons
-                name="search"
-                size={horizontal ? 20 : 25}
-                color={tintColor}
-              />
-            );
-          }
-
-          return null;
+    defaultNavigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, horizontal, tintColor }) => {
+        const { routeName } = navigation.state;
+        if (routeName === "マイプラン") {
+          return (
+            <FontAwesomeIcons
+              name="calendar-o"
+              size={horizontal ? 20 : 25}
+              color={tintColor}
+            />
+          );
+        } else if (routeName === "設定") {
+          return (
+            <MaterialCommunityIcons
+              name="settings"
+              size={horizontal ? 20 : 25}
+              color={tintColor}
+            />
+          );
+        } else if (routeName === "検索") {
+          return (
+            <FontAwesomeIcons
+              name="search"
+              size={horizontal ? 20 : 25}
+              color={tintColor}
+            />
+          );
         }
-      };
+
+        return null;
+      }
+    }),
+    tabBarOptions: {
+      activeTintColor: "#23527c",
+      inactiveTintColor: "gray"
     }
   }
 );
