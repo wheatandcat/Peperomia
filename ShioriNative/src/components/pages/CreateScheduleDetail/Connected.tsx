@@ -7,13 +7,28 @@ import {
   insert as insertItemDetail,
   ItemDetail
 } from "../../../lib/db/itemDetail";
-import Page from "./Page";
+import Page from "../../templates/CreateScheduleDetail/Page";
+
+export interface State {
+  title: string;
+  memo: string;
+  moveMinutes: number;
+}
 
 interface Props {
+  title: string;
+  memo: string;
+  moveMinutes: number;
   navigation: NavigationScreenProp<NavigationRoute>;
 }
 
-export default class extends Component<Props> {
+export default class extends Component<Props, State> {
+  state = {
+    title: this.props.title || "",
+    memo: this.props.memo || "",
+    moveMinutes: this.props.moveMinutes || 0
+  };
+
   onDismiss = () => {
     this.props.navigation.goBack();
   };

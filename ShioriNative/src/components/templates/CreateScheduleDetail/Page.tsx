@@ -121,7 +121,11 @@ class App extends Component<Props & ActionSheetProps, State> {
                 }
               >
                 <Text
-                  style={{ fontSize: 18, fontWeight: "500", color: "#ffffff" }}
+                  style={{
+                    fontSize: 18,
+                    fontWeight: "500",
+                    color: "#ffffff"
+                  }}
                 >
                   保存
                 </Text>
@@ -139,6 +143,7 @@ class App extends Component<Props & ActionSheetProps, State> {
                 paddingLeft: 1
               }}
               onChangeText={title => this.setState({ title })}
+              defaultValue={this.props.title}
             />
           </Header>
           <View style={{ padding: 20 }}>
@@ -189,7 +194,11 @@ class App extends Component<Props & ActionSheetProps, State> {
                   }}
                 >
                   <TextPlan
-                    style={{ fontSize: 16, lineHeight: 24, fontWeight: "400" }}
+                    style={{
+                      fontSize: 16,
+                      lineHeight: 24,
+                      fontWeight: "400"
+                    }}
                   >
                     {this.state.memo}
                   </TextPlan>

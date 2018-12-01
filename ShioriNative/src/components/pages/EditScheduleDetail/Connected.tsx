@@ -4,52 +4,62 @@ import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import uuidv1 from "uuid/v1";
 import { db } from "../../../lib/db";
 import {
-  insert as insertItemDetail,
+  update as updateItemDetail,
   ItemDetail
 } from "../../../lib/db/itemDetail";
-import Page from "./Page";
+import Page from "../../templates/CreateScheduleDetail/Page";
 
-interface Props {
-  navigation: NavigationScreenProp<NavigationRoute>;
+export interface State {
+  title: string;
+  memo: string;
+  moveMinutes: number;
 }
 
-export default class extends Component<Props> {
+interface Props {
+  id: number;
+  title: string;
+  memo: string;
+  moveMinutes: number;
+  navigation: NavigationScreenProp<NavigationRoute>;
+  onShow: () => void;
+}
+
+export default class extends Component<Props, State> {
+  state = {
+    title: this.props.title || "",
+    memo: this.props.memo || "",
+    moveMinutes: this.props.moveMinutes || 0
+  };
+
   onDismiss = () => {
-    this.props.navigation.goBack();
+    this.props.onShow();
   };
 
   onSave = (title: string, memo: string, time: number) => {
-    const itemId = this.props.navigation.getParam("itemId", "1");
-    const priority = this.props.navigation.getParam("priority", "1");
-
     db.transaction((tx: SQLite.Transaction) => {
       const itemDetail: ItemDetail = {
-        itemId,
+        id: this.props.id,
         title,
         memo,
         moveMinutes: time,
-        priority: Number(priority)
+        priority: 0,
+        itemId: 0
       };
 
-      insertItemDetail(tx, itemDetail, this.save);
+      updateItemDetail(tx, itemDetail, this.save);
     });
   };
 
   save = () => {
-    const itemId = this.props.navigation.getParam("itemId", "1");
-
-    this.props.navigation.navigate("CreateSchedule", {
-      itemId,
-      refresh: uuidv1()
-    });
+    this.props.onShow();
   };
 
   render() {
     return (
       <Page
-        title=""
-        memo=""
-        time={0}
+        title={this.state.title}
+        memo={this.state.memo}
+        time={this.state.moveMinutes}
         onDismiss={this.onDismiss}
         onSave={this.onSave}
       />

@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import { db } from "../../../lib/db";
 import { select1st } from "../../../lib/db/itemDetail";
-import Page, { Props as PageProps } from "./Page";
+import Page from "./Page";
 
 interface State {
   item: {
@@ -11,15 +11,17 @@ interface State {
     kind: string;
     title: string;
     memo: string;
+    moveMinutes: number;
   };
 }
 
-interface Props extends PageProps {
+interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
+  onEdit: (title: string, memo: string, moveMinutes: number) => void;
 }
 
 export default class extends Component<Props, State> {
-  state = { item: { id: "", kind: "", title: "", memo: "" } };
+  state = { item: { id: "", kind: "", title: "", memo: "", moveMinutes: 0 } };
 
   componentDidMount() {
     const scheduleDetailId = this.props.navigation.getParam(
@@ -44,14 +46,10 @@ export default class extends Component<Props, State> {
   };
 
   onCreateScheduleDetail = () => {
-    const scheduleDetailId = this.props.navigation.getParam(
-      "scheduleDetailId",
-      "1"
-    );
+    console.log(this);
 
-    this.props.navigation.navigate("EditScheduleDetail", {
-      scheduleDetailId
-    });
+    const { title, memo, moveMinutes } = this.state.item;
+    this.props.onEdit(title, memo, moveMinutes);
   };
 
   render() {
@@ -62,7 +60,7 @@ export default class extends Component<Props, State> {
       <Page
         {...this.state.item}
         onDismiss={this.onDismiss}
-        onCreateScheduleDetail={this.onCreateScheduleDetail}
+        onCreateScheduleDetail={this.onCreateScheduleDetail.bind(this)}
       />
     );
   }

@@ -35,13 +35,31 @@ export const insert = async (
   callback?: (data: any, error: any) => void
 ) => {
   return tx.executeSql(
-    "insert into item_details (itemId, title, memo, kind, moveMinutes, priority) values (?, ?, ?, ?, ?, ?)",
+    "insert into item_details (itemId, title, memo, moveMinutes, priority) values (?, ?, ?, ?, ?)",
     [
       String(itemDetail.itemId),
       itemDetail.title,
       itemDetail.memo,
       String(itemDetail.moveMinutes),
       String(itemDetail.priority)
+    ],
+    (_, props) => success(props.rows._array, callback),
+    (_, err) => error(err, callback)
+  );
+};
+
+export const update = async (
+  tx: SQLite.Transaction,
+  itemDetail: ItemDetail,
+  callback?: (data: any, error: any) => void
+) => {
+  return tx.executeSql(
+    "update item_details title = ?, memo = ?, moveMinutes = ? where id = ?",
+    [
+      itemDetail.title,
+      itemDetail.memo,
+      String(itemDetail.moveMinutes),
+      String(itemDetail.id)
     ],
     (_, props) => success(props.rows._array, callback),
     (_, err) => error(err, callback)
