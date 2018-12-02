@@ -9,7 +9,5 @@ storiesOf("molecules/Home", module).add("Card", () => (
       title="葛西臨海公園"
       about="水上バスで浅草から移動→そのまま海へ行って"
     />
-    <Card title="横浜" about="水上バスで浅草から移動→そのまま海へ行って" />
-    <Card title="横須賀" about="水上バスで浅草から移動→そのまま海へ行って" />
   </View>
 ));
