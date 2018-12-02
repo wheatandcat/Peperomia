@@ -6,84 +6,25 @@ import { db } from "../../../lib/db";
 import { select1st } from "../../../lib/db/item";
 import { selectByItemId } from "../../../lib/db/itemDetail";
 import { ItemProps } from "../../organisms/Schedule/Cards";
-import Page, { Props as PageProps } from "../../templates/CreateSchedule/Page";
+import Page from "../../templates/CreateSchedule/Page";
 
-interface Props extends PageProps {
+interface Props {
+  title: string;
+  items: ItemProps[];
   navigation: NavigationScreenProp<NavigationRoute>;
+  onShow: () => void;
 }
 
-interface State {
+export interface State {
   items: ItemProps[];
   refresh: string;
 }
 
 export default class extends Component<Props, State> {
-  static navigationOptions = ({
-    navigation
-  }: {
-    navigation: NavigationScreenProp<NavigationRoute>;
-  }) => {
-    const { params = {} } = navigation.state;
-
-    let result: any = {
-      title: params.title,
-      headerRight: (
-        <View style={{ right: 10 }}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("CreateSchedule");
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: "600"
-              }}
-            >
-              完了
-            </Text>
-          </TouchableOpacity>
-        </View>
-      )
-    };
-
-    if (params.mode === "edit") {
-      result = {
-        ...result,
-        headerLeft: (
-          <View style={{ paddingLeft: 5 }}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("Schedule", {
-                  itemId: params.itemId,
-                  title: params.title
-                });
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 16,
-                  fontWeight: "600",
-                  color: "red"
-                }}
-              >
-                キャンセル
-              </Text>
-            </TouchableOpacity>
-          </View>
-        )
-      };
-    }
-
-    return result;
-  };
-
-  state = { items: [], refresh: "0" };
+  state = { items: this.props.items || [], refresh: "0" };
 
   componentDidMount() {
-    console.log("componentDidMount");
-
-    const itemId = this.props.navigation.getParam("itemId", "1");
+    const itemId = this.props.navigation.getParam("scheduleId", "1");
 
     db.transaction((tx: SQLite.Transaction) => {
       select1st(tx, itemId, this.setParams);
@@ -95,9 +36,9 @@ export default class extends Component<Props, State> {
     const refresh = this.props.navigation.getParam("refresh", "0");
 
     if (refresh !== this.state.refresh) {
-      const itemId = this.props.navigation.getParam("itemId", "1");
+      const scheduleId = this.props.navigation.getParam("scheduleId", "1");
       db.transaction((tx: SQLite.Transaction) => {
-        selectByItemId(tx, itemId, this.setItems);
+        selectByItemId(tx, scheduleId, this.setItems);
       });
       this.setState({ refresh });
     }

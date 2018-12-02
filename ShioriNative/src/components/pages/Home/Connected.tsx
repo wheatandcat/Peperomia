@@ -11,7 +11,7 @@ import {
   selectByItemId as selectItemDetailByItemId,
   ItemDetail
 } from "../../../lib/db/itemDetail";
-import Schedule from "../Schedule/Connected";
+import Schedule from "../Schedule/Switch";
 import ScheduleDetail from "../ScheduleDetail/Switch";
 import CreatePlan from "../CreatePlan/Connected";
 import CreateSchedule from "../CreateSchedule/Connected";
