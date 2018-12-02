@@ -54,7 +54,7 @@ export const update = async (
   callback?: (data: any, error: any) => void
 ) => {
   return tx.executeSql(
-    "update item_details title = ?, memo = ?, moveMinutes = ? where id = ?",
+    "update item_details set title = ?, memo = ?, moveMinutes = ? where id = ?",
     [
       itemDetail.title,
       itemDetail.memo,

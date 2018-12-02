@@ -1,7 +1,6 @@
 import { SQLite } from "expo";
 import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
-import uuidv1 from "uuid/v1";
 import { db } from "../../../lib/db";
 import {
   update as updateItemDetail,
@@ -21,7 +20,7 @@ interface Props {
   memo: string;
   moveMinutes: number;
   navigation: NavigationScreenProp<NavigationRoute>;
-  onShow: () => void;
+  onShow: (reload: boolean) => void;
 }
 
 export default class extends Component<Props, State> {
@@ -32,7 +31,7 @@ export default class extends Component<Props, State> {
   };
 
   onDismiss = () => {
-    this.props.onShow();
+    this.props.onShow(false);
   };
 
   onSave = (title: string, memo: string, time: number) => {
@@ -51,7 +50,7 @@ export default class extends Component<Props, State> {
   };
 
   save = () => {
-    this.props.onShow();
+    this.props.onShow(true);
   };
 
   render() {

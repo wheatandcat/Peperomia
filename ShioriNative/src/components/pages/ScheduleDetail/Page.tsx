@@ -10,6 +10,7 @@ export interface Props {
   id: string;
   title: string;
   memo: string;
+  moveMinutes: number;
   onDismiss: () => void;
   onCreateScheduleDetail: () => void;
 }

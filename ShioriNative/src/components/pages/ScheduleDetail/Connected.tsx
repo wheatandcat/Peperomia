@@ -46,8 +46,6 @@ export default class extends Component<Props, State> {
   };
 
   onCreateScheduleDetail = () => {
-    console.log(this);
-
     const { title, memo, moveMinutes } = this.state.item;
     this.props.onEdit(title, memo, moveMinutes);
   };

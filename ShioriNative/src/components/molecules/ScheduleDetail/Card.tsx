@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { TouchableOpacity } from "react-native";
-import { View } from "react-native-ui-lib";
+import { View, Text as TextLib } from "react-native-ui-lib";
 import styled from "styled-components/native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Text } from "../../atoms";
@@ -11,14 +11,11 @@ export interface ItemProps {
   id: string;
   title: string;
   memo: string;
+  moveMinutes: number;
   onDismiss: () => void;
 }
 
-export interface Props {
-  id: string;
-  title: string;
-  memo: string;
-  onDismiss: () => void;
+export interface Props extends ItemProps {
   onOpenActionSheet: () => void;
 }
 
@@ -42,9 +39,31 @@ export default (props: Props) => {
         <Title numberOfLines={1}>{props.title}</Title>
       </Header>
 
-      <View style={{ padding: 15 }}>
-        <Text style={{ fontSize: 15, lineHeight: 18 }}>{props.memo}</Text>
-      </View>
+      {(() => {
+        if (props.moveMinutes === 0) {
+          return null;
+        }
+
+        return (
+          <View style={{ padding: 15 }}>
+            <TextLib text25 style={{ fontWeight: "600", color: "blue" }}>
+              次の移動時間: {`${props.moveMinutes}分`}
+            </TextLib>
+          </View>
+        );
+      })()}
+
+      {(() => {
+        if (props.memo === "") {
+          return null;
+        }
+
+        return (
+          <View style={{ padding: 15 }}>
+            <Text style={{ fontSize: 15, lineHeight: 18 }}>{props.memo}</Text>
+          </View>
+        );
+      })()}
     </Fragment>
   );
 };
