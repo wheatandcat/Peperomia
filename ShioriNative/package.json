@@ -3,12 +3,14 @@
   "main": "node_modules/expo/AppEntry.js",
   "private": true,
   "scripts": {
-    "start": "sed -i -e 's/STORY_BOOK_ENABLED=1/STORY_BOOK_ENABLED=0/' .env && expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "app:copy": "cp -r App.app.tsx App.tsx",
+    "storybook:copy": "cp -r App.storybook.tsx App.tsx",
+    "start": "npm run app:copy && expo start",
+    "android": "npm run app:copy && expo start --android",
+    "ios": "npm run app:copy && expo start --ios",
     "eject": "expo eject",
     "test": "jest ./src/***/*.test.ts",
-    "storybook": "sed -i -e 's/STORY_BOOK_ENABLED=0/STORY_BOOK_ENABLED=1/' .env && expo start",
+    "storybook": "npm run storybook:copy && expo start",
     "prestorybook": "rnstl",
     "storybook-server": "storybook start"
   },
