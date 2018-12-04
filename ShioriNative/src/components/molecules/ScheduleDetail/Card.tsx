@@ -1,9 +1,12 @@
 import React, { Fragment } from "react";
 import { TouchableOpacity } from "react-native";
-import { View, Text as TextLib } from "react-native-ui-lib";
+import { View, Text as TextPlan } from "react-native-ui-lib";
 import styled from "styled-components/native";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { Text } from "../../atoms";
+import {
+  Ionicons,
+  MaterialCommunityIcons,
+  MaterialIcons
+} from "@expo/vector-icons";
 import Header from "../ScheduleHeader/Header";
 import getKind from "../../../lib/getKind";
 
@@ -45,10 +48,32 @@ export default (props: Props) => {
         }
 
         return (
-          <View style={{ padding: 15 }}>
-            <TextLib text25 style={{ fontWeight: "600", color: "blue" }}>
-              次の移動時間: {`${props.moveMinutes}分`}
-            </TextLib>
+          <View style={{ padding: 20 }}>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                width: 80,
+                height: 30
+              }}
+            >
+              <Ionicons
+                name="md-time"
+                color="#5A6978"
+                size={24}
+                style={{ paddingTop: 3 }}
+              />
+              <TextPlan
+                style={{
+                  fontSize: 16,
+                  fontWeight: "500",
+                  color: "#00A6FF",
+                  paddingHorizontal: 15
+                }}
+              >
+                {`${props.moveMinutes}分`}
+              </TextPlan>
+            </View>
           </View>
         );
       })()}
@@ -59,8 +84,19 @@ export default (props: Props) => {
         }
 
         return (
-          <View style={{ padding: 15 }}>
-            <Text style={{ fontSize: 15, lineHeight: 18 }}>{props.memo}</Text>
+          <View style={{ padding: 20, paddingTop: 8 }}>
+            <MaterialIcons name="edit" color="#00A6FF" size={25} />
+            <View style={{ paddingTop: 10 }}>
+              <TextPlan
+                style={{
+                  fontSize: 16,
+                  lineHeight: 24,
+                  fontWeight: "400"
+                }}
+              >
+                {props.memo}
+              </TextPlan>
+            </View>
           </View>
         );
       })()}

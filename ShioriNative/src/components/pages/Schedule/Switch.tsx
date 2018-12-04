@@ -23,11 +23,15 @@ export default class extends Component<Props, State> {
       title: params.title,
       headerRight: (
         <View style={{ right: 10 }}>
-          {params.mode === "show" ? (
-            <TouchableOpacity onPress={() => params.onEdit()}>
+          {params.mode === "edit" ? (
+            <TouchableOpacity onPress={() => params.onShow()}>
+              <Text style={{ fontSize: 16, fontWeight: "600" }}>戻る</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={() => params.onEdit(params.items)}>
               <Text style={{ fontSize: 16, fontWeight: "600" }}>編集</Text>
             </TouchableOpacity>
-          ) : null}
+          )}
         </View>
       )
     };
@@ -41,24 +45,31 @@ export default class extends Component<Props, State> {
   };
 
   componentDidMount() {
-    this.props.navigation.setParams({ onEdit: this.onEdit, mode: "show" });
+    this.props.navigation.setParams({
+      onEdit: this.onEdit,
+      onShow: this.onShow,
+      mode: "show"
+    });
   }
 
-  onEdit = (): void => {
+  onEdit = (items: ItemProps[]): void => {
     const scheduleId = this.props.navigation.getParam("scheduleId", "1");
 
     this.setState({
       scheduleId,
+      items,
       mode: "edit"
     });
 
-    this.props.navigation.setParams({ onEdit: this.onEdit, mode: "edit" });
+    this.props.navigation.setParams({ mode: "edit" });
   };
 
   onShow = (): void => {
     this.setState({
       mode: "show"
     });
+
+    this.props.navigation.setParams({ mode: "show" });
   };
 
   render() {
