@@ -1,6 +1,6 @@
-import React, { Fragment } from "react";
-import { Image, TouchableOpacity } from "react-native";
-import { View, Text } from "react-native-ui-lib";
+import React from "react";
+import { Image } from "react-native";
+import { View } from "react-native-ui-lib";
 import styled from "styled-components/native";
 import {
   KIND_PARK,
@@ -42,13 +42,9 @@ export interface ItemProps {
   id: string;
   kind: string;
   title: string;
-  moveMinutes: number | null;
-  end: boolean;
 }
 
-export interface Props extends ItemProps {
-  onPress: () => void;
-}
+export interface Props extends ItemProps {}
 
 export default (props: Props) => {
   const config = KINDS[props.kind];
@@ -70,34 +66,17 @@ export default (props: Props) => {
   const img = getImg(props.kind);
 
   return (
-    <Fragment>
-      <TouchableOpacity onPress={props.onPress}>
-        <Content style={{ backgroundColor: config.backgroundColor }}>
-          <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
-            <View style={{ flex: 1, padding: 15 }}>
-              <Title numberOfLines={1}>{props.title}</Title>
-            </View>
+    <Content style={{ backgroundColor: config.backgroundColor }}>
+      <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
+        <View style={{ flex: 1, padding: 15 }}>
+          <Title numberOfLines={1}>{props.title}</Title>
+        </View>
 
-            <View style={{ position: "absolute", right: 80 }}>
-              {img ? <Image source={img} style={{ opacity: 0.5 }} /> : null}
-            </View>
-          </View>
-        </Content>
-      </TouchableOpacity>
-      {(() => {
-        if (props.end) {
-          return null;
-        }
-
-        return (
-          <View style={{ padding: 15 }}>
-            <Text text25 style={{ fontWeight: "600" }}>
-              {props.moveMinutes ? `${props.moveMinutes}分` : "-"}
-            </Text>
-          </View>
-        );
-      })()}
-    </Fragment>
+        <View style={{ position: "absolute", right: 80 }}>
+          {img ? <Image source={img} style={{ opacity: 0.5 }} /> : null}
+        </View>
+      </View>
+    </Content>
   );
 };
 

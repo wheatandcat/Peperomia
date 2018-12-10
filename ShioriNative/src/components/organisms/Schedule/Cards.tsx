@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { FlatList } from "react-native";
 import getKind from "../../../lib/getKind";
-import Card from "../../molecules/Schedule/Card";
+import Card from "../../molecules/Schedule/TouchableCard";
 
 export interface ItemProps {
   id: string;
