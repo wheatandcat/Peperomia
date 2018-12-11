@@ -1,7 +1,6 @@
 import React from "react";
 import { storiesOf } from "@storybook/react-native";
 import { View } from "react-native-ui-lib";
-import { KIND_TRAIN, KIND_PARK } from "../../../lib/getKind";
 import Page from "./Page";
 
 storiesOf("templates", module)
@@ -16,15 +15,19 @@ storiesOf("templates", module)
         data={[
           {
             id: "1",
-            kind: KIND_TRAIN,
             title: "新宿駅",
             moveMinutes: 30,
             end: false
           },
           {
             id: "2",
-            kind: KIND_PARK,
             title: "葛西臨海公園",
+            moveMinutes: 30,
+            end: false
+          },
+          {
+            id: "3",
+            title: "西臨海公園 水上バス",
             moveMinutes: 30,
             end: false
           }

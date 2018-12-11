@@ -1,7 +1,6 @@
 import { SQLite } from "expo";
 import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
-import { Text, TouchableOpacity, View } from "react-native";
 import { db } from "../../../lib/db";
 import { select1st } from "../../../lib/db/item";
 import { selectByItemId } from "../../../lib/db/itemDetail";
