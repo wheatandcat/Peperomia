@@ -22,15 +22,6 @@ export interface State {
 export default class extends Component<Props, State> {
   state = { items: this.props.items || [], refresh: "0" };
 
-  componentDidMount() {
-    const itemId = this.props.navigation.getParam("scheduleId", "1");
-
-    db.transaction((tx: SQLite.Transaction) => {
-      select1st(tx, itemId, this.setParams);
-      selectByItemId(tx, itemId, this.setItems);
-    });
-  }
-
   componentDidUpdate() {
     const refresh = this.props.navigation.getParam("refresh", "0");
 
@@ -79,6 +70,8 @@ export default class extends Component<Props, State> {
   };
 
   render() {
+    console.log(this.state.items);
+
     return (
       <Page
         data={this.state.items}

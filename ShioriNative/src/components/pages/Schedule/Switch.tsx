@@ -11,6 +11,7 @@ interface State {
   scheduleId: number;
   title: string;
   items: ItemProps[];
+  saveItems: ItemProps[];
   mode: string;
 }
 
@@ -107,9 +108,7 @@ export default class extends Component<Props, State> {
 
             if (params.mode === "sort") {
               return (
-                <TouchableOpacity
-                  onPress={() => params.onSave(params.saveItems)}
-                >
+                <TouchableOpacity onPress={() => params.onSave()}>
                   >
                   <Text
                     style={{
@@ -135,13 +134,14 @@ export default class extends Component<Props, State> {
     };
   };
 
-  state = { scheduleId: 0, title: "", items: [], mode: "show" };
+  state = { scheduleId: 0, title: "", items: [], saveItems: [], mode: "show" };
 
   componentDidMount() {
     this.props.navigation.setParams({
       onEdit: this.onEdit,
       onShow: this.onShow,
       onSort: this.onSort,
+      onSave: this.onSave,
       mode: "show"
     });
   }
@@ -176,8 +176,14 @@ export default class extends Component<Props, State> {
     });
   };
 
+  onSave = () => {
+    this.setState({ items: this.state.saveItems });
+    this.onEdit(this.state.saveItems);
+  };
+
   onChangeItems = (data: ItemProps[]): void => {
     console.log(data);
+    this.setState({ saveItems: data });
   };
 
   render() {
