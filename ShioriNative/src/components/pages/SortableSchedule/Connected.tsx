@@ -9,10 +9,15 @@ interface Props {
 
 export interface State {
   items: ItemProps[];
+  ready: boolean;
 }
 
 export default class extends Component<Props, State> {
-  state = { items: this.props.items || [] };
+  state = { items: this.props.items, ready: true };
+
+  componentDidMount() {
+    this.setState({ ready: false });
+  }
 
   render() {
     return <Page data={this.state.items} onChange={this.props.onChangeItems} />;

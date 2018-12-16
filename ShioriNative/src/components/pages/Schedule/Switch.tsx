@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import { Text, TouchableOpacity, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  ActionSheetProps,
+  connectActionSheet
+} from "@expo/react-native-action-sheet";
 import { ItemProps } from "../../organisms/Schedule/Cards";
 import EditSchedule from "../EditSchedule/Connected";
 import SortableSchedule from "../SortableSchedule/Connected";
@@ -19,7 +23,7 @@ interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
 }
 
-export default class extends Component<Props, State> {
+class Switch extends Component<Props & ActionSheetProps, State> {
   static navigationOptions = ({ navigation }: { navigation: any }) => {
     const { params = {} } = navigation.state;
     return {
@@ -34,7 +38,11 @@ export default class extends Component<Props, State> {
                   style={{ left: 5 }}
                 >
                   <Text
-                    style={{ fontSize: 16, fontWeight: "600", color: "red" }}
+                    style={{
+                      fontSize: 16,
+                      fontWeight: "600",
+                      color: "red"
+                    }}
                   >
                     キャンセル
                   </Text>
@@ -50,11 +58,7 @@ export default class extends Component<Props, State> {
                 >
                   >
                   <Text
-                    style={{
-                      fontSize: 16,
-                      fontWeight: "600",
-                      color: "red"
-                    }}
+                    style={{ fontSize: 16, fontWeight: "600", color: "red" }}
                   >
                     キャンセル
                   </Text>
@@ -124,7 +128,9 @@ export default class extends Component<Props, State> {
             }
 
             return (
-              <TouchableOpacity onPress={() => params.onEdit(params.items)}>
+              <TouchableOpacity
+                onPress={() => params.onOpenActionSheet(params.items)}
+              >
                 <Text style={{ fontSize: 16, fontWeight: "600" }}>編集</Text>
               </TouchableOpacity>
             );
@@ -137,14 +143,31 @@ export default class extends Component<Props, State> {
   state = { scheduleId: 0, title: "", items: [], saveItems: [], mode: "show" };
 
   componentDidMount() {
+    console.log(this.props);
+
     this.props.navigation.setParams({
       onEdit: this.onEdit,
       onShow: this.onShow,
       onSort: this.onSort,
       onSave: this.onSave,
+      onOpenActionSheet: this.onOpenActionSheet,
       mode: "show"
     });
   }
+
+  onOpenActionSheet = () => {
+    console.log(this.props);
+    this.props.showActionSheetWithOptions(
+      {
+        options: ["編集", "並び替え", "キャンセル"],
+        cancelButtonIndex: 2
+      },
+      buttonIndex => {
+        if (buttonIndex === 0) {
+        }
+      }
+    );
+  };
 
   onEdit = (items: ItemProps[]): void => {
     const scheduleId = this.props.navigation.getParam("scheduleId", "1");
@@ -177,7 +200,9 @@ export default class extends Component<Props, State> {
   };
 
   onSave = () => {
-    this.setState({ items: this.state.saveItems });
+    this.setState({
+      items: this.state.saveItems
+    });
     this.onEdit(this.state.saveItems);
   };
 
@@ -187,6 +212,8 @@ export default class extends Component<Props, State> {
   };
 
   render() {
+    console.log(this.state.items);
+
     if (this.state.mode === "edit") {
       return (
         <EditSchedule
@@ -210,3 +237,5 @@ export default class extends Component<Props, State> {
     return <Schedule navigation={this.props.navigation} />;
   }
 }
+
+export default connectActionSheet(Switch);
