@@ -39,9 +39,24 @@ const Search = createStackNavigator({
 
 const TabNavigator = createBottomTabNavigator(
   {
-    マイプラン: Home,
-    検索: Search,
-    設定: Setting
+    マイプラン: {
+      screen: Home,
+      navigationOptions: {
+        tabBarTestID: "MyPlan"
+      }
+    },
+    検索: {
+      screen: Search,
+      navigationOptions: {
+        tabBarTestID: "Search"
+      }
+    },
+    設定: {
+      screen: Setting,
+      navigationOptions: {
+        tabBarTestID: "Setting"
+      }
+    }
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({

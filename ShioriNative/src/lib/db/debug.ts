@@ -6,12 +6,16 @@ import {
   ItemDetail
 } from "./itemDetail";
 
-export const resetSql = (tx: SQLite.Transaction) => {
+export const deleteSql = (tx: SQLite.Transaction) => {
   createItem(tx);
   createItemDetail(tx);
 
   tx.executeSql("delete from items");
   tx.executeSql("delete from item_details");
+};
+
+export const resetSql = (tx: SQLite.Transaction) => {
+  deleteSql(tx);
 
   const item1: Item = { title: "葛西臨海公園", image: "" };
   insertItem(tx, item1);

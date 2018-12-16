@@ -3,3 +3,5 @@ node_modules/**/*
 npm-debug.*
 .env-e
 storyLoader.js
+bin
+screenshots/*.png

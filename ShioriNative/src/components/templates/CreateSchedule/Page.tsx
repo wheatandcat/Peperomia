@@ -64,7 +64,10 @@ export default class extends Component<Props> {
               bottom: 30
             }}
           >
-            <TouchableOpacity onPress={this.props.onCreateScheduleDetail}>
+            <TouchableOpacity
+              onPress={this.props.onCreateScheduleDetail}
+              testID="addScheduleDetail"
+            >
               <Ionicons name="ios-add-circle" size={80} color="#4DB6AC" />
             </TouchableOpacity>
           </View>
@@ -99,7 +102,10 @@ export default class extends Component<Props> {
               bottom: 30
             }}
           >
-            <TouchableOpacity onPress={this.props.onCreateScheduleDetail}>
+            <TouchableOpacity
+              onPress={this.props.onCreateScheduleDetail}
+              testID="addScheduleDetail"
+            >
               <Ionicons name="ios-add-circle" size={80} color="#4DB6AC" />
             </TouchableOpacity>
           </View>

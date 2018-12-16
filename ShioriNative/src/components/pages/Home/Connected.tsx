@@ -5,7 +5,7 @@ import {
   NavigationScreenProp,
   NavigationRoute
 } from "react-navigation";
-import { db } from "../../../lib/db";
+import { db, init } from "../../../lib/db";
 import { select as selectItems, Item } from "../../../lib/db/item";
 import {
   selectByItemId as selectItemDetailByItemId,
@@ -44,6 +44,7 @@ class HomeScreen extends Component<Props, State> {
 
   componentDidMount() {
     db.transaction((tx: SQLite.Transaction) => {
+      init(tx);
       selectItems(tx, this.setItems);
     });
   }

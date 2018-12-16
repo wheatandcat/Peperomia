@@ -119,13 +119,10 @@ class App extends Component<Props & ActionSheetProps, State> {
                     this.state.time
                   )
                 }
+                testID="saveScheduleDetail"
               >
                 <Text
-                  style={{
-                    fontSize: 18,
-                    fontWeight: "500",
-                    color: "#ffffff"
-                  }}
+                  style={{ fontSize: 18, fontWeight: "500", color: "#ffffff" }}
                 >
                   保存
                 </Text>
@@ -144,6 +141,7 @@ class App extends Component<Props & ActionSheetProps, State> {
               }}
               onChangeText={title => this.setState({ title })}
               defaultValue={this.props.title}
+              testID="inputTextScheduleDetailTitle"
             />
           </Header>
           <View style={{ padding: 20 }}>
@@ -192,13 +190,10 @@ class App extends Component<Props & ActionSheetProps, State> {
                   onChangeText={memo => {
                     this.setState({ memo });
                   }}
+                  testID="inputTextScheduleDetailMemo"
                 >
                   <TextPlan
-                    style={{
-                      fontSize: 16,
-                      lineHeight: 24,
-                      fontWeight: "400"
-                    }}
+                    style={{ fontSize: 16, lineHeight: 24, fontWeight: "400" }}
                   >
                     {this.state.memo}
                   </TextPlan>

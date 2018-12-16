@@ -2,7 +2,6 @@ import { SQLite } from "expo";
 import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import { db } from "../../../lib/db";
-import { select1st } from "../../../lib/db/item";
 import { selectByItemId } from "../../../lib/db/itemDetail";
 import { ItemProps } from "../../organisms/Schedule/Cards";
 import Page from "../../templates/CreateSchedule/Page";
@@ -70,8 +69,6 @@ export default class extends Component<Props, State> {
   };
 
   render() {
-    console.log(this.state.items);
-
     return (
       <Page
         data={this.state.items}

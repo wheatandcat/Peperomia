@@ -95,19 +95,7 @@ class Switch extends Component<Props & ActionSheetProps, State> {
         <View style={{ right: 10 }}>
           {(() => {
             if (params.mode === "edit") {
-              return (
-                <TouchableOpacity onPress={() => params.onSort()}>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontWeight: "600",
-                      color: "#00bfff"
-                    }}
-                  >
-                    並び替え
-                  </Text>
-                </TouchableOpacity>
-              );
+              return null;
             }
 
             if (params.mode === "sort") {
@@ -143,8 +131,6 @@ class Switch extends Component<Props & ActionSheetProps, State> {
   state = { scheduleId: 0, title: "", items: [], saveItems: [], mode: "show" };
 
   componentDidMount() {
-    console.log(this.props);
-
     this.props.navigation.setParams({
       onEdit: this.onEdit,
       onShow: this.onShow,
@@ -155,8 +141,7 @@ class Switch extends Component<Props & ActionSheetProps, State> {
     });
   }
 
-  onOpenActionSheet = () => {
-    console.log(this.props);
+  onOpenActionSheet = (items: ItemProps[]) => {
     this.props.showActionSheetWithOptions(
       {
         options: ["編集", "並び替え", "キャンセル"],
@@ -164,6 +149,11 @@ class Switch extends Component<Props & ActionSheetProps, State> {
       },
       buttonIndex => {
         if (buttonIndex === 0) {
+          console.log(this.state);
+
+          this.onEdit(items);
+        } else if (buttonIndex === 1) {
+          this.onSort();
         }
       }
     );
@@ -207,13 +197,10 @@ class Switch extends Component<Props & ActionSheetProps, State> {
   };
 
   onChangeItems = (data: ItemProps[]): void => {
-    console.log(data);
     this.setState({ saveItems: data });
   };
 
   render() {
-    console.log(this.state.items);
-
     if (this.state.mode === "edit") {
       return (
         <EditSchedule

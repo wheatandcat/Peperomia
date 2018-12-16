@@ -12,7 +12,8 @@
     "test": "jest ./src/***/*.test.ts",
     "storybook": "npm run storybook:copy && expo start",
     "prestorybook": "rnstl",
-    "storybook-server": "storybook start"
+    "storybook-server": "storybook start",
+    "e2e": "rimraf ./screenshots && detox test --configuration ios.sim && open ./screenshots"
   },
   "dependencies": {
     "@expo/react-native-action-sheet": "^1.1.2",
@@ -49,11 +50,16 @@
     "@types/react-navigation": "^2.13.5",
     "babel-core": "^6.26.3",
     "babel-runtime": "^6.26.0",
+    "detox": "^9.1.2",
+    "detox-expo-helpers": "^0.6.0",
+    "expo-detox-hook": "^1.0.10",
     "jest": "^23.6.0",
+    "mocha": "^5.2.0",
     "prop-types": "^15.6.2",
     "react-dom": "16.3.1",
     "react-native-dotenv": "^0.2.0",
     "react-native-storybook-loader": "^1.8.0",
+    "rimraf": "^2.6.2",
     "ts-jest": "^23.10.4"
   },
   "config": {
@@ -77,5 +83,14 @@
       "json",
       "jsx"
     ]
+  },
+  "detox": {
+    "configurations": {
+      "ios.sim": {
+        "binaryPath": "bin/Exponent.app",
+        "type": "ios.simulator",
+        "name": "iPhone 7"
+      }
+    }
   }
 }

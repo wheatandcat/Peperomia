@@ -33,15 +33,9 @@ export default class extends Component<Props, State> {
             onPress={() => {
               navigation.navigate("CreateSchedule");
             }}
+            testID="saveSchedule"
           >
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: "600"
-              }}
-            >
-              完了
-            </Text>
+            <Text style={{ fontSize: 16, fontWeight: "600" }}>完了</Text>
           </TouchableOpacity>
         </View>
       )
@@ -81,8 +75,6 @@ export default class extends Component<Props, State> {
   state = { items: [], refresh: "0" };
 
   componentDidMount() {
-    console.log("componentDidMount");
-
     const itemId = this.props.navigation.getParam("itemId", "1");
 
     db.transaction((tx: SQLite.Transaction) => {

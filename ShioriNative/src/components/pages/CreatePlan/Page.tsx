@@ -43,6 +43,7 @@ export default class extends Component<Props> {
             placeholder="タイトル"
             containerStyle={{ width: "85%" }}
             onChangeText={text => this.props.onInput("title", text)}
+            testID="inputTextTitle"
           />
 
           <Grid style={{ height: 100, padding: 20, paddingTop: 60 }}>

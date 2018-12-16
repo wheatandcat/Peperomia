@@ -45,15 +45,9 @@ export default class extends Component<Props, State> {
             onPress={() => {
               params.save();
             }}
+            testID="completion"
           >
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: "600"
-              }}
-            >
-              完了
-            </Text>
+            <Text style={{ fontSize: 16, fontWeight: "600" }}>完了</Text>
           </TouchableOpacity>
         </View>
       )
