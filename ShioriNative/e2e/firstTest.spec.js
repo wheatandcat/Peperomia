@@ -10,11 +10,10 @@ describe("Example", () => {
     takeScreenshot();
   });
 
-  it("初期表示", async () => {
-    await expect(element(by.label("プランの登録はありません"))).toBeVisible();
-  });
-
   it("スケジュール追加", async () => {
+    await expect(element(by.label("プランの登録はありません"))).toBeVisible();
+    takeScreenshot();
+
     await element(by.id("addSchedule")).tap();
     await element(by.id("inputTextTitle")).tap();
     await element(by.id("inputTextTitle")).replaceText("葛西臨海公園");
@@ -59,5 +58,7 @@ describe("Example", () => {
     takeScreenshot();
 
     await element(by.id("saveSchedule")).tap();
+
+    takeScreenshot();
   });
 });

@@ -3,24 +3,40 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { Input } from "react-native-elements";
 import { Col, Grid } from "react-native-easy-grid";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { ImagePicker } from "expo";
+import { ImagePicker, ImageManipulator, Permissions } from "expo";
 
 export interface Props {
   onInput: (name: string, value: any) => void;
 }
 
+interface State {
+  onInput: (name: string, value: any) => void;
+}
+
 export default class extends Component<Props> {
-  state = {
-    image: null
-  };
+  state = { image: null };
+
+  async componentDidMount() {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    this.setState({
+      hasCameraPermission: status === "granted"
+    });
+  }
 
   _pickImage = async () => {
+    await Promise.all([
+      Permissions.askAsync(Permissions.CAMERA),
+      Permissions.askAsync(Permissions.CAMERA_ROLL)
+    ]);
+
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [4, 3]
     });
 
     if (!result.cancelled) {
+      console.log(result.uri);
+
       this.setState({ image: result.uri });
     }
   };
