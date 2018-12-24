@@ -2,6 +2,7 @@ import React from "react";
 import { Image } from "react-native";
 import { View } from "react-native-ui-lib";
 import styled from "styled-components/native";
+import { ItemDetail } from "../../../lib/db/itemDetail";
 import {
   KIND_PARK,
   KIND_TRAIN,
@@ -38,13 +39,9 @@ const KINDS: any = {
   }
 };
 
-export interface ItemProps {
-  id: string;
+export interface Props extends ItemDetail {
   kind: string;
-  title: string;
 }
-
-export interface Props extends ItemProps {}
 
 export default (props: Props) => {
   const config = KINDS[props.kind];

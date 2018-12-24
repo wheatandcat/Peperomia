@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { SQLite } from "expo";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import { Text, TouchableOpacity, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -6,16 +7,20 @@ import {
   ActionSheetProps,
   connectActionSheet
 } from "@expo/react-native-action-sheet";
-import { ItemProps } from "../../organisms/Schedule/Cards";
 import EditSchedule from "../EditSchedule/Connected";
 import SortableSchedule from "../SortableSchedule/Connected";
+import { db } from "../../../lib/db";
+import {
+  update as updateItemDetail,
+  ItemDetail
+} from "../../../lib/db/itemDetail";
 import Schedule from "./Connected";
 
 interface State {
   scheduleId: number;
   title: string;
-  items: ItemProps[];
-  saveItems: ItemProps[];
+  items: ItemDetail[];
+  saveItems: ItemDetail[];
   mode: string;
 }
 
@@ -141,7 +146,7 @@ class Switch extends Component<Props & ActionSheetProps, State> {
     });
   }
 
-  onOpenActionSheet = (items: ItemProps[]) => {
+  onOpenActionSheet = (items: ItemDetail[]) => {
     this.props.showActionSheetWithOptions(
       {
         options: ["編集", "並び替え", "キャンセル"],
@@ -149,17 +154,15 @@ class Switch extends Component<Props & ActionSheetProps, State> {
       },
       buttonIndex => {
         if (buttonIndex === 0) {
-          console.log(this.state);
-
           this.onEdit(items);
         } else if (buttonIndex === 1) {
-          this.onSort();
+          this.onSort(items);
         }
       }
     );
   };
 
-  onEdit = (items: ItemProps[]): void => {
+  onEdit = (items: ItemDetail[]): void => {
     const scheduleId = this.props.navigation.getParam("scheduleId", "1");
 
     this.setState({
@@ -181,8 +184,8 @@ class Switch extends Component<Props & ActionSheetProps, State> {
     });
   };
 
-  onSort = (): void => {
-    this.setState({ mode: "sort" });
+  onSort = (items: ItemDetail[]): void => {
+    this.setState({ mode: "sort", items });
 
     this.props.navigation.setParams({
       mode: "sort"
@@ -196,8 +199,23 @@ class Switch extends Component<Props & ActionSheetProps, State> {
     this.onEdit(this.state.saveItems);
   };
 
-  onChangeItems = (data: ItemProps[]): void => {
+  onChangeItems = (data: ItemDetail[]): void => {
+    console.log(data);
+
+    db.transaction((tx: SQLite.Transaction) => {
+      data.forEach(async (item, index) => {
+        item.priority = index + 1;
+        console.log(item);
+
+        await updateItemDetail(tx, item, this.save);
+      });
+    });
+
     this.setState({ saveItems: data });
+  };
+
+  save = (ans: any) => {
+    console.log(ans);
   };
 
   render() {

@@ -1,14 +1,14 @@
 import React, { Component } from "react";
-import { ItemProps } from "../../organisms/Schedule/Cards";
+import { ItemDetail } from "../../../lib/db/itemDetail";
 import Page from "../../templates/SortableSchedule/Page";
 
 interface Props {
-  items: ItemProps[];
-  onChangeItems: (data: ItemProps[]) => void;
+  items: ItemDetail[];
+  onChangeItems: (data: ItemDetail[]) => void;
 }
 
 export interface State {
-  items: ItemProps[];
+  items: ItemDetail[];
   ready: boolean;
 }
 
@@ -16,6 +16,8 @@ export default class extends Component<Props, State> {
   state = { items: this.props.items, ready: true };
 
   componentDidMount() {
+    console.log(this.state.items);
+
     this.setState({ ready: false });
   }
 

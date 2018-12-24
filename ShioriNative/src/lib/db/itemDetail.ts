@@ -54,11 +54,12 @@ export const update = async (
   callback?: (data: any, error: any) => void
 ) => {
   return tx.executeSql(
-    "update item_details set title = ?, memo = ?, moveMinutes = ? where id = ?",
+    "update item_details set title = ?, memo = ?, moveMinutes = ?, priority = ? where id = ?",
     [
       itemDetail.title,
       itemDetail.memo,
       String(itemDetail.moveMinutes),
+      String(itemDetail.priority),
       String(itemDetail.id)
     ],
     (_, props) => success(props.rows._array, callback),
@@ -71,7 +72,7 @@ export const select = async (
   callback?: (data: any, error: any) => void
 ) => {
   return tx.executeSql(
-    "select * from item_details",
+    "select * from item_details order by priority",
     [],
     (_, props) => success(props.rows._array, callback),
     (_, err) => error(err, callback)
@@ -84,7 +85,7 @@ export const selectByItemId = async (
   callback?: (data: any, error: any) => void
 ) => {
   return tx.executeSql(
-    "select * from item_details where itemId = ?",
+    "select * from item_details where itemId = ? order by priority",
     [id],
     (_, props) => success(props.rows._array, callback),
     (_, err) => error(err, callback)

@@ -1,32 +1,27 @@
 import React, { Component } from "react";
 import SortableList from "react-native-sortable-list";
+import { ItemDetail } from "../../../lib/db/itemDetail";
 import getKind from "../../../lib/getKind";
 import Card from "../../molecules/Schedule/Card";
 import Row from "./Row";
 
 type DataKey = string | number;
 
-export interface ItemProps {
-  id: string;
-  title: string;
-  moveMinutes: number | null;
-}
-
 export interface Props {
-  data: ItemProps[];
+  data: ItemDetail[];
   onChange: (data: any) => void;
 }
 
 export interface RowProps {
-  data: ItemProps;
+  data: ItemDetail;
   active: boolean;
 }
 
 export default class extends Component<Props> {
-  renderItem({ data, active }: { data: ItemProps; active: boolean }) {
+  renderItem({ data, active }: { data: ItemDetail; active: boolean }) {
     return (
       <Row active={active}>
-        <Card id={data.id} title={data.title} kind={getKind(data.title)} />
+        <Card {...data} kind={getKind(data.title)} />
       </Row>
     );
   }
@@ -40,7 +35,10 @@ export default class extends Component<Props> {
   };
 
   render() {
-    const obj = this.props.data.reduce((o, c) => ({ ...o, [c.id]: c }), {});
+    const obj = this.props.data.reduce(
+      (o, c) => ({ ...o, [String(c.id)]: c }),
+      {}
+    );
 
     return (
       <SortableList
