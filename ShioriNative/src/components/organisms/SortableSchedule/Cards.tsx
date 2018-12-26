@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import SortableList from "react-native-sortable-list";
-import { ItemDetail } from "../../../lib/db/itemDetail";
+import { SortableItemDetail } from "../../pages/SortableSchedule/Connected";
 import getKind from "../../../lib/getKind";
 import Card from "../../molecules/Schedule/Card";
 import Row from "./Row";
@@ -8,17 +8,12 @@ import Row from "./Row";
 type DataKey = string | number;
 
 export interface Props {
-  data: ItemDetail[];
+  data: SortableItemDetail[];
   onChange: (data: any) => void;
 }
 
-export interface RowProps {
-  data: ItemDetail;
-  active: boolean;
-}
-
 export default class extends Component<Props> {
-  renderItem({ data, active }: { data: ItemDetail; active: boolean }) {
+  renderItem({ data, active }: { data: SortableItemDetail; active: boolean }) {
     return (
       <Row active={active}>
         <Card {...data} kind={getKind(data.title)} />
@@ -31,7 +26,9 @@ export default class extends Component<Props> {
       return this.props.data.find(item => Number(item.id) === Number(id));
     });
 
-    this.props.onChange(data);
+    const result = data.map(item => ({ ...item, id: item && item.tmpId }));
+
+    this.props.onChange(result);
   };
 
   render() {

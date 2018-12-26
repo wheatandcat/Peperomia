@@ -2,8 +2,12 @@ import React, { Component } from "react";
 import { ItemDetail } from "../../../lib/db/itemDetail";
 import Page from "../../templates/SortableSchedule/Page";
 
+export interface SortableItemDetail extends ItemDetail {
+  tmpId?: number;
+}
+
 interface Props {
-  items: ItemDetail[];
+  items: SortableItemDetail[];
   onChangeItems: (data: ItemDetail[]) => void;
 }
 
@@ -16,9 +20,15 @@ export default class extends Component<Props, State> {
   state = { items: this.props.items, ready: true };
 
   componentDidMount() {
-    console.log(this.state.items);
+    const items = this.state.items.map(item => ({
+      ...item,
+      tmpId: item.id,
+      id: item.priority
+    }));
 
-    this.setState({ ready: false });
+    console.log(items);
+
+    this.setState({ ready: false, items });
   }
 
   render() {

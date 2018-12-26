@@ -200,8 +200,6 @@ class Switch extends Component<Props & ActionSheetProps, State> {
   };
 
   onChangeItems = (data: ItemDetail[]): void => {
-    console.log(data);
-
     db.transaction((tx: SQLite.Transaction) => {
       data.forEach(async (item, index) => {
         item.priority = index + 1;
