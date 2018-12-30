@@ -88,9 +88,7 @@ class Switch extends Component<Props & ActionSheetProps, State> {
                     color: "#00bfff",
                     marginTop: 3
                   }}
-                >
-                  マイプラン
-                </Text>
+                />
               </TouchableOpacity>
             );
           })()}
@@ -149,12 +147,18 @@ class Switch extends Component<Props & ActionSheetProps, State> {
   onOpenActionSheet = (items: ItemDetail[]) => {
     this.props.showActionSheetWithOptions(
       {
-        options: ["編集", "並び替え", "キャンセル"],
-        cancelButtonIndex: 2
+        options: ["追加する", "並び替え", "プランを削除", "キャンセル"],
+        destructiveButtonIndex: 2,
+        cancelButtonIndex: 3
       },
       buttonIndex => {
         if (buttonIndex === 0) {
-          this.onEdit(items);
+          const itemId = this.props.navigation.getParam("scheduleId", "1");
+          this.props.navigation.navigate("CreateScheduleDetail", {
+            itemId,
+            priority: items.length + 1
+          });
+          //this.onEdit(items);
         } else if (buttonIndex === 1) {
           this.onSort(items);
         }

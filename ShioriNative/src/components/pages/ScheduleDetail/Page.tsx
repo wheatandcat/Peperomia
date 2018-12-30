@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, Alert } from "react-native";
 import {
   ActionSheetProps,
   connectActionSheet
@@ -19,16 +19,36 @@ class Page extends Component<Props & ActionSheetProps> {
   onOpenActionSheet = () => {
     this.props.showActionSheetWithOptions(
       {
-        options: ["編集", "キャンセル"],
-        cancelButtonIndex: 1
+        options: ["編集", "削除", "キャンセル"],
+        destructiveButtonIndex: 1,
+        cancelButtonIndex: 2
       },
       buttonIndex => {
         if (buttonIndex === 0) {
           this.props.onCreateScheduleDetail();
         }
+        if (buttonIndex === 1) {
+          Alert.alert(
+            "削除しますか？",
+            "",
+            [
+              {
+                text: "キャンセル",
+                onPress: () => {},
+                style: "cancel"
+              },
+              {
+                text: "削除する",
+                onPress: () => console.log("OK Pressed")
+              }
+            ],
+            { cancelable: false }
+          );
+        }
       }
     );
   };
+
   render() {
     return (
       <SafeAreaView style={{ flex: 1 }}>
