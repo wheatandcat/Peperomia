@@ -30,6 +30,7 @@ interface ItemAbout {
 interface State {
   items: Item[];
   about: ItemAbout[];
+  refresh: string;
 }
 
 class HomeScreen extends Component<Props, State> {
@@ -39,12 +40,26 @@ class HomeScreen extends Component<Props, State> {
 
   state = {
     items: [],
-    about: []
+    about: [],
+    refresh: ""
   };
 
   componentDidMount() {
     db.transaction((tx: SQLite.Transaction) => {
       init(tx);
+      selectItems(tx, this.setItems);
+    });
+  }
+
+  componentDidUpdate() {
+    const refresh = this.props.navigation.getParam("refresh", "");
+
+    if (this.state.refresh === refresh) {
+      return;
+    }
+
+    this.setState({ refresh: refresh });
+    db.transaction((tx: SQLite.Transaction) => {
       selectItems(tx, this.setItems);
     });
   }

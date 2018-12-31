@@ -30,13 +30,14 @@ export default class extends Component<Props, State> {
     const refresh = this.props.navigation.getParam("refresh", "");
     const itemId = this.props.navigation.getParam("itemId", "1");
 
-    if (this.state.refresh !== refresh) {
-      this.setState({ refresh: refresh });
-
-      db.transaction((tx: SQLite.Transaction) => {
-        selectByItemId(tx, itemId, this.setItems);
-      });
+    if (this.state.refresh === refresh) {
+      return;
     }
+
+    this.setState({ refresh: refresh });
+    db.transaction((tx: SQLite.Transaction) => {
+      selectByItemId(tx, itemId, this.setItems);
+    });
   }
 
   setItems = (data: any, error: any) => {

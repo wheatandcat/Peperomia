@@ -1,20 +1,23 @@
 import React, { Component } from "react";
 import { SQLite } from "expo";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
-import { Text, TouchableOpacity, View, Share } from "react-native";
+import { Text, TouchableOpacity, View, Share, Alert } from "react-native";
 import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
 import {
   ActionSheetProps,
   connectActionSheet
 } from "@expo/react-native-action-sheet";
+import uuidv1 from "uuid/v1";
 import { Button } from "react-native-elements";
 import EditSchedule from "../EditSchedule/Connected";
 import SortableSchedule from "../SortableSchedule/Connected";
 import { db } from "../../../lib/db";
 import {
   update as updateItemDetail,
-  ItemDetail
+  ItemDetail,
+  deleteByItemId as deleteItemDetailByItemId
 } from "../../../lib/db/itemDetail";
+import { delete1st } from "../../../lib/db/item";
 import Schedule from "./Connected";
 
 interface State {
@@ -185,9 +188,49 @@ class Switch extends Component<Props & ActionSheetProps, State> {
           //this.onEdit(items);
         } else if (buttonIndex === 1) {
           this.onSort(items);
+        } else if (buttonIndex === 2) {
+          Alert.alert(
+            "削除しますか？",
+            "",
+            [
+              {
+                text: "キャンセル",
+                onPress: () => {},
+                style: "cancel"
+              },
+              {
+                text: "削除する",
+                onPress: () => {
+                  this.onDelete();
+                }
+              }
+            ],
+            { cancelable: false }
+          );
         }
       }
     );
+  };
+
+  onDelete = () => {
+    const itemId = this.props.navigation.getParam("scheduleId", "1");
+
+    db.transaction((tx: SQLite.Transaction) => {
+      delete1st(tx, itemId, (data: any, error: any) => {
+        if (error) {
+          return;
+        }
+        deleteItemDetailByItemId(tx, itemId, this.onDeleteRefresh);
+      });
+    });
+  };
+
+  onDeleteRefresh = (data: any, error: any) => {
+    if (error) {
+      return;
+    }
+
+    this.props.navigation.navigate("Home", { refresh: uuidv1() });
   };
 
   onEdit = (items: ItemDetail[]): void => {
