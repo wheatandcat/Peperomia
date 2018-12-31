@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { SQLite } from "expo";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
-import { Text, TouchableOpacity, View } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Text, TouchableOpacity, View, Share } from "react-native";
+import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
 import {
   ActionSheetProps,
   connectActionSheet
 } from "@expo/react-native-action-sheet";
+import { Button } from "react-native-elements";
 import EditSchedule from "../EditSchedule/Connected";
 import SortableSchedule from "../SortableSchedule/Connected";
 import { db } from "../../../lib/db";
@@ -72,24 +73,18 @@ class Switch extends Component<Props & ActionSheetProps, State> {
             }
 
             return (
-              <TouchableOpacity
-                onPress={() => navigation.goBack()}
-                style={{ flex: 1, flexDirection: "row", marginTop: 10 }}
-              >
-                <MaterialCommunityIcons
-                  name="chevron-left"
-                  size={22}
-                  color="#00bfff"
-                />
-                <Text
-                  style={{
-                    fontSize: 16,
-                    fontWeight: "600",
-                    color: "#00bfff",
-                    marginTop: 3
-                  }}
-                />
-              </TouchableOpacity>
+              <View>
+                <TouchableOpacity
+                  onPress={() => navigation.goBack()}
+                  style={{ flex: 1, flexDirection: "row", marginTop: 10 }}
+                >
+                  <MaterialCommunityIcons
+                    name="chevron-left"
+                    size={30}
+                    color="#00bfff"
+                  />
+                </TouchableOpacity>
+              </View>
             );
           })()}
         </View>
@@ -119,11 +114,39 @@ class Switch extends Component<Props & ActionSheetProps, State> {
             }
 
             return (
-              <TouchableOpacity
-                onPress={() => params.onOpenActionSheet(params.items)}
-              >
-                <Text style={{ fontSize: 16, fontWeight: "600" }}>編集</Text>
-              </TouchableOpacity>
+              <View style={{ flex: 1, flexDirection: "row" }}>
+                <Button
+                  title=""
+                  icon={
+                    <Entypo
+                      name="share-alternative"
+                      size={16}
+                      color="#FFFFFF"
+                    />
+                  }
+                  buttonStyle={{
+                    backgroundColor: "#4DB6AC",
+                    width: 28,
+                    height: 28,
+                    borderColor: "transparent",
+                    borderWidth: 0,
+                    borderRadius: 10
+                  }}
+                  style={{ marginRight: 15 }}
+                  onPress={() => params.onShare()}
+                />
+
+                <TouchableOpacity
+                  onPress={() => params.onOpenActionSheet(params.items)}
+                >
+                  <MaterialCommunityIcons
+                    name="dots-vertical"
+                    size={26}
+                    color="#00bfff"
+                    style={{ marginRight: 0, marginLeft: "auto" }}
+                  />
+                </TouchableOpacity>
+              </View>
             );
           })()}
         </View>
@@ -139,6 +162,7 @@ class Switch extends Component<Props & ActionSheetProps, State> {
       onShow: this.onShow,
       onSort: this.onSort,
       onSave: this.onSave,
+      onShare: this.onShare,
       onOpenActionSheet: this.onOpenActionSheet,
       mode: "show"
     });
@@ -218,6 +242,27 @@ class Switch extends Component<Props & ActionSheetProps, State> {
 
   save = (ans: any) => {
     console.log(ans);
+  };
+
+  onShare = async () => {
+    try {
+      const result: any = await Share.share({
+        message:
+          "React Native | A framework for building native apps using React"
+      });
+
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
   };
 
   render() {

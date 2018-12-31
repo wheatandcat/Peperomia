@@ -4,14 +4,12 @@ import {
   ActionSheetProps,
   connectActionSheet
 } from "@expo/react-native-action-sheet";
+import { ItemDetail } from "../../../lib/db/itemDetail";
 import Card from "../../molecules/ScheduleDetail/Card";
 
-export interface Props {
-  id: string;
-  title: string;
-  memo: string;
-  moveMinutes: number;
+export interface Props extends ItemDetail {
   onDismiss: () => void;
+  onDelete: () => void;
   onCreateScheduleDetail: () => void;
 }
 
@@ -39,7 +37,9 @@ class Page extends Component<Props & ActionSheetProps> {
               },
               {
                 text: "削除する",
-                onPress: () => console.log("OK Pressed")
+                onPress: () => {
+                  this.props.onDelete();
+                }
               }
             ],
             { cancelable: false }

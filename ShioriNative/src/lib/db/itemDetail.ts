@@ -105,6 +105,17 @@ export const select1st = async (
   );
 };
 
+export const sortItemDetail = (
+  tx: SQLite.Transaction,
+  itemDetails: ItemDetail[],
+  callback: (data: any, error: any) => void
+) => {
+  itemDetails.forEach((item: ItemDetail, index: number) => {
+    item.priority = index + 1;
+    update(tx, item, callback);
+  });
+};
+
 export const delete1st = async (
   tx: SQLite.Transaction,
   id: string,

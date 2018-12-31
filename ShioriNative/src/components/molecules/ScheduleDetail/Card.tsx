@@ -9,12 +9,9 @@ import {
 } from "@expo/vector-icons";
 import Header from "../ScheduleHeader/Header";
 import getKind from "../../../lib/getKind";
+import { ItemDetail } from "../../../lib/db/itemDetail";
 
-export interface ItemProps {
-  id: string;
-  title: string;
-  memo: string;
-  moveMinutes: number;
+export interface ItemProps extends ItemDetail {
   onDismiss: () => void;
 }
 
@@ -30,8 +27,8 @@ export default (props: Props) => {
         right={
           <TouchableOpacity onPress={props.onOpenActionSheet}>
             <MaterialCommunityIcons
-              name="dots-horizontal"
-              size={30}
+              name="dots-vertical"
+              size={26}
               color="#ffffff"
               style={{ marginRight: 0, marginLeft: "auto" }}
             />
@@ -88,11 +85,7 @@ export default (props: Props) => {
             <MaterialIcons name="edit" color="#00A6FF" size={25} />
             <View style={{ paddingTop: 10 }}>
               <TextPlan
-                style={{
-                  fontSize: 16,
-                  lineHeight: 24,
-                  fontWeight: "400"
-                }}
+                style={{ fontSize: 16, lineHeight: 24, fontWeight: "400" }}
               >
                 {props.memo}
               </TextPlan>

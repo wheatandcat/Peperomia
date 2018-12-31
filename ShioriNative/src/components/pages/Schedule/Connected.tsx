@@ -12,10 +12,11 @@ interface Props {
 
 interface State {
   items: ItemProps[];
+  refresh: string;
 }
 
 export default class extends Component<Props, State> {
-  state = { items: [] };
+  state = { items: [], refresh: "" };
 
   componentDidMount() {
     const itemId = this.props.navigation.getParam("itemId", "1");
@@ -25,15 +26,28 @@ export default class extends Component<Props, State> {
     });
   }
 
+  componentDidUpdate() {
+    const refresh = this.props.navigation.getParam("refresh", "");
+    const itemId = this.props.navigation.getParam("itemId", "1");
+
+    if (this.state.refresh !== refresh) {
+      this.setState({ refresh: refresh });
+
+      db.transaction((tx: SQLite.Transaction) => {
+        selectByItemId(tx, itemId, this.setItems);
+      });
+    }
+  }
+
   setItems = (data: any, error: any) => {
     if (error) {
       return;
     }
 
-    this.props.navigation.setParams({ items: data });
-    this.setState({
+    this.props.navigation.setParams({
       items: data
     });
+    this.setState({ items: data });
   };
 
   onScheduleDetail = (id: string) => {
