@@ -7,6 +7,9 @@ import {
 } from "./itemDetail";
 
 export const deleteSql = (tx: SQLite.Transaction) => {
+  tx.executeSql("drop table items");
+  tx.executeSql("drop table item_details");
+
   createItem(tx);
   createItemDetail(tx);
 
@@ -76,7 +79,7 @@ export const resetSql = (tx: SQLite.Transaction) => {
     title: "市ヶ谷フィッシュセンター",
     memo: "",
     moveMinutes: 120,
-    priority: 1
+    priority: 2
   };
   insertItemDetail(tx, itemDetail6);
 };

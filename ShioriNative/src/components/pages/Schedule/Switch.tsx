@@ -21,7 +21,7 @@ import { delete1st } from "../../../lib/db/item";
 import Schedule from "./Connected";
 
 interface State {
-  scheduleId: number;
+  itemId: number;
   title: string;
   items: ItemDetail[];
   saveItems: ItemDetail[];
@@ -62,12 +62,16 @@ class Switch extends Component<Props & ActionSheetProps, State> {
             if (params.mode === "sort") {
               return (
                 <TouchableOpacity
-                  onPress={() => params.onEdit(params.items)}
+                  onPress={() => params.onShow()}
                   style={{ left: 5 }}
                 >
                   >
                   <Text
-                    style={{ fontSize: 16, fontWeight: "600", color: "red" }}
+                    style={{
+                      fontSize: 16,
+                      fontWeight: "600",
+                      color: "red"
+                    }}
                   >
                     キャンセル
                   </Text>
@@ -76,18 +80,16 @@ class Switch extends Component<Props & ActionSheetProps, State> {
             }
 
             return (
-              <View>
-                <TouchableOpacity
-                  onPress={() => navigation.goBack()}
-                  style={{ flex: 1, flexDirection: "row", marginTop: 10 }}
-                >
-                  <MaterialCommunityIcons
-                    name="chevron-left"
-                    size={30}
-                    color="#00bfff"
-                  />
-                </TouchableOpacity>
-              </View>
+              <TouchableOpacity
+                onPress={() => navigation.goBack()}
+                style={{ flex: 1, flexDirection: "row", marginTop: 10 }}
+              >
+                <MaterialCommunityIcons
+                  name="chevron-left"
+                  size={30}
+                  color="#00bfff"
+                />
+              </TouchableOpacity>
             );
           })()}
         </View>
@@ -157,7 +159,7 @@ class Switch extends Component<Props & ActionSheetProps, State> {
     };
   };
 
-  state = { scheduleId: 0, title: "", items: [], saveItems: [], mode: "show" };
+  state = { itemId: 0, title: "", items: [], saveItems: [], mode: "show" };
 
   componentDidMount() {
     this.props.navigation.setParams({
@@ -180,7 +182,7 @@ class Switch extends Component<Props & ActionSheetProps, State> {
       },
       buttonIndex => {
         if (buttonIndex === 0) {
-          const itemId = this.props.navigation.getParam("scheduleId", "1");
+          const itemId = this.props.navigation.getParam("itemId", "1");
           this.props.navigation.navigate("CreateScheduleDetail", {
             itemId,
             priority: items.length + 1
@@ -213,7 +215,7 @@ class Switch extends Component<Props & ActionSheetProps, State> {
   };
 
   onDelete = () => {
-    const itemId = this.props.navigation.getParam("scheduleId", "1");
+    const itemId = this.props.navigation.getParam("itemId", "1");
 
     db.transaction((tx: SQLite.Transaction) => {
       delete1st(tx, itemId, (data: any, error: any) => {
@@ -234,13 +236,9 @@ class Switch extends Component<Props & ActionSheetProps, State> {
   };
 
   onEdit = (items: ItemDetail[]): void => {
-    const scheduleId = this.props.navigation.getParam("scheduleId", "1");
+    const itemId = this.props.navigation.getParam("itemId", "1");
 
-    this.setState({
-      scheduleId,
-      items,
-      mode: "edit"
-    });
+    this.setState({ itemId, items, mode: "edit" });
 
     this.props.navigation.setParams({
       mode: "edit"

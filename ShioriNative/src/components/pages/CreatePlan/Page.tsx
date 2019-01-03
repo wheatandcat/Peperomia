@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { Input } from "react-native-elements";
 import { Col, Grid } from "react-native-easy-grid";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { ImagePicker, ImageManipulator, Permissions } from "expo";
+import { ImagePicker, Permissions } from "expo";
 
 export interface Props {
   onInput: (name: string, value: any) => void;

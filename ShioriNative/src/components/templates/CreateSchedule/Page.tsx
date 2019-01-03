@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import EditButton from "../../atoms/EditButton";
 import Cards, { Props as CardsProps } from "../../organisms/Schedule/Cards";
 
 export interface Props extends CardsProps {
@@ -64,12 +65,10 @@ export default class extends Component<Props> {
               bottom: 30
             }}
           >
-            <TouchableOpacity
+            <EditButton
               onPress={this.props.onCreateScheduleDetail}
               testID="addScheduleDetail"
-            >
-              <Ionicons name="ios-add-circle" size={80} color="#4DB6AC" />
-            </TouchableOpacity>
+            />
           </View>
         </View>
       );
@@ -102,12 +101,10 @@ export default class extends Component<Props> {
               bottom: 30
             }}
           >
-            <TouchableOpacity
+            <EditButton
               onPress={this.props.onCreateScheduleDetail}
               testID="addScheduleDetail"
-            >
-              <Ionicons name="ios-add-circle" size={80} color="#4DB6AC" />
-            </TouchableOpacity>
+            />
           </View>
         </View>
       </View>

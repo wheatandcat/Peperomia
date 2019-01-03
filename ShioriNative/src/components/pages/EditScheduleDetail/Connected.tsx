@@ -49,9 +49,7 @@ export default class extends Component<Props, State> {
     });
   };
 
-  save = (ans: any) => {
-    console.log(ans);
-
+  save = () => {
     this.props.onShow(true);
   };
 

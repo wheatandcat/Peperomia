@@ -26,8 +26,6 @@ export default class extends Component<Props, State> {
       id: item.priority
     }));
 
-    console.log(items);
-
     this.setState({ ready: false, items });
   }
 

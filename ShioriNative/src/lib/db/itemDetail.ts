@@ -21,7 +21,8 @@ export const create = async (
       "title string," +
       "memo string," +
       "moveMinutes integer," +
-      "priority integer" +
+      "priority integer," +
+      "unique(itemId, priority)" +
       ");",
     [],
     (_, props) => success(props.rows._array, callback),
