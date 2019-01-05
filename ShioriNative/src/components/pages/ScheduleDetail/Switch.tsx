@@ -15,6 +15,8 @@ interface Props {
 }
 
 export default class extends Component<Props, State> {
+  static navigationOptions = { header: null };
+
   state = {
     title: "",
     memo: "",
@@ -39,9 +41,7 @@ export default class extends Component<Props, State> {
   };
 
   onShow = (): void => {
-    this.setState({
-      mode: "show"
-    });
+    this.setState({ mode: "show" });
   };
 
   render() {

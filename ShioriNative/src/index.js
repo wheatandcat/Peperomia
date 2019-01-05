@@ -11,6 +11,10 @@ import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { Provider as PaperProvider } from "react-native-paper";
 import Home from "./components/pages/Home/Connected";
 import Setting from "./components/pages/Setting/Connected";
+import CreatePlan from "./components/pages/CreatePlan/Connected";
+import CreateSchedule from "./components/pages/CreateSchedule/Connected";
+import ScheduleDetail from "./components/pages/ScheduleDetail/Switch";
+import CreateScheduleDetail from "./components/pages/CreateScheduleDetail/Connected";
 
 class SearchScreen extends React.Component {
   static navigationOptions = {
@@ -98,13 +102,38 @@ const TabNavigator = createBottomTabNavigator(
   }
 );
 
-TabNavigator.navigationOptions = () => {
+TabNavigator.navigationOptions = props => {
   return { header: null };
 };
 
-const Navigator = createStackNavigator({
-  TabNavigator
+const CreateNavigator = createStackNavigator({
+  CreatePlan: {
+    screen: CreatePlan
+  },
+  CreateSchedule: {
+    screen: CreateSchedule
+  }
 });
+
+const Navigator = createStackNavigator(
+  {
+    TabNavigator,
+    CreateNavigator: {
+      screen: CreateNavigator
+    },
+    ScheduleDetail: {
+      screen: ScheduleDetail
+    },
+    CreateScheduleDetail: {
+      screen: CreateScheduleDetail
+    }
+  },
+  {
+    initialRouteName: "TabNavigator",
+    mode: "modal",
+    headerMode: "none"
+  }
+);
 
 const AppContainer = createAppContainer(Navigator);
 

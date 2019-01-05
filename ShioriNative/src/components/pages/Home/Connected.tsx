@@ -12,10 +12,6 @@ import {
   ItemDetail
 } from "../../../lib/db/itemDetail";
 import Schedule from "../Schedule/Switch";
-import ScheduleDetail from "../ScheduleDetail/Switch";
-import CreatePlan from "../CreatePlan/Connected";
-import CreateSchedule from "../CreateSchedule/Connected";
-import CreateScheduleDetail from "../CreateScheduleDetail/Connected";
 import Page, { Props as PageProps } from "./Page";
 
 interface Props extends PageProps {
@@ -136,28 +132,10 @@ const MainCardNavigator = createStackNavigator({
   }
 });
 
-const CreateNavigator = createStackNavigator({
-  CreatePlan: {
-    screen: CreatePlan
-  },
-  CreateSchedule: {
-    screen: CreateSchedule
-  }
-});
-
 export default createStackNavigator(
   {
     MainCardNavigator: {
       screen: MainCardNavigator
-    },
-    ScheduleDetail: {
-      screen: ScheduleDetail
-    },
-    CreateNavigator: {
-      screen: CreateNavigator
-    },
-    CreateScheduleDetail: {
-      screen: CreateScheduleDetail
     }
   },
   {
