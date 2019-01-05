@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "ShioriNative",
+    "name": "Peperomia",
     "description": "This project is really great.",
-    "slug": "shiorinative",
+    "slug": "peperomia",
     "privacy": "public",
     "sdkVersion": "30.0.0",
     "packagerOpts": {

@@ -1,4 +1,4 @@
-# ShioriNative
+# Peperomia
 
 ## e2e
 

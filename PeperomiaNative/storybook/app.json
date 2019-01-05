@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "ShioriNativeStorybook",
+    "name": "PeperomiaStorybook",
     "description": "This project is really great.",
-    "slug": "shiorinativestorybook",
+    "slug": "peperomiastorybook",
     "privacy": "public",
     "sdkVersion": "30.0.0",
     "packagerOpts": {
