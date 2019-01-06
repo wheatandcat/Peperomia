@@ -2,7 +2,7 @@
 
 ## expo
 
-https://expo.io/@wheatandcat/ShioriNative
+https://expo.io/@wheatandcat/peperomia
 
 ## storybook publish
 

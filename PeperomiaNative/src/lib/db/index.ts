@@ -1,6 +1,7 @@
 import { SQLite } from "expo";
 import { create as createItem } from "./item";
 import { create as createItemDetail } from "./itemDetail";
+import { create as createUser } from "./user";
 
 export const db = SQLite.openDatabase("db.db");
 
@@ -28,4 +29,5 @@ export const error = (
 export const init = (tx: SQLite.Transaction) => {
   createItem(tx);
   createItemDetail(tx);
+  createUser(tx);
 };

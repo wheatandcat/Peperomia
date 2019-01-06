@@ -21,8 +21,14 @@ const props = [
   }
 ];
 
-storiesOf("pages", module).add("Home", () => (
-  <View style={{ paddingTop: 60 }}>
-    <Page data={props} loading={false} />
-  </View>
-));
+storiesOf("pages/Home", module)
+  .add("Home", () => (
+    <View style={{ paddingTop: 60 }}>
+      <Page data={props} loading={false} />
+    </View>
+  ))
+  .add("1st View", () => (
+    <View style={{ paddingTop: 60 }}>
+      <Page data={props} loading={false} />
+    </View>
+  ));

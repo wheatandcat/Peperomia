@@ -7,6 +7,7 @@ import {
 } from "react-navigation";
 import { db, init } from "../../../lib/db";
 import { select as selectItems, Item } from "../../../lib/db/item";
+import { select1st as selectUser1st } from "../../../lib/db/user";
 import {
   selectByItemId as selectItemDetailByItemId,
   ItemDetail
@@ -44,6 +45,7 @@ class HomeScreen extends Component<Props, State> {
     db.transaction((tx: SQLite.Transaction) => {
       init(tx);
       selectItems(tx, this.setItems);
+      selectUser1st(tx, this.setUser);
     });
   }
 
@@ -59,6 +61,16 @@ class HomeScreen extends Component<Props, State> {
       selectItems(tx, this.setItems);
     });
   }
+
+  setUser = (data: any, error: any) => {
+    if (error) {
+      return;
+    }
+
+    if (!data) {
+      console.log("INIT");
+    }
+  };
 
   setItems = (data: any, error: any) => {
     if (error) {
