@@ -5,6 +5,7 @@ import {
   insert as insertItemDetail,
   ItemDetail
 } from "./itemDetail";
+import { create as createUser } from "./user";
 
 export const deleteSql = (tx: SQLite.Transaction) => {
   tx.executeSql("drop table items");
@@ -12,9 +13,12 @@ export const deleteSql = (tx: SQLite.Transaction) => {
 
   createItem(tx);
   createItemDetail(tx);
+};
 
-  tx.executeSql("delete from items");
-  tx.executeSql("delete from item_details");
+export const deleteUserSql = (tx: SQLite.Transaction) => {
+  tx.executeSql("drop table users");
+
+  createUser(tx);
 };
 
 export const resetSql = (tx: SQLite.Transaction) => {

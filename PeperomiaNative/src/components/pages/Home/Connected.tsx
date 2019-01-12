@@ -1,13 +1,18 @@
-import { SQLite } from "expo";
+import { SQLite, Constants } from "expo";
 import React, { Component } from "react";
 import {
   createStackNavigator,
   NavigationScreenProp,
   NavigationRoute
 } from "react-navigation";
+import uuidv1 from "uuid/v1";
 import { db, init } from "../../../lib/db";
 import { select as selectItems, Item } from "../../../lib/db/item";
-import { select1st as selectUser1st } from "../../../lib/db/user";
+import {
+  select1st as selectUser1st,
+  insert as insertUser,
+  User
+} from "../../../lib/db/user";
 import {
   selectByItemId as selectItemDetailByItemId,
   ItemDetail
@@ -28,6 +33,7 @@ interface State {
   items: Item[];
   about: ItemAbout[];
   refresh: string;
+  guide: boolean;
 }
 
 class HomeScreen extends Component<Props, State> {
@@ -38,14 +44,15 @@ class HomeScreen extends Component<Props, State> {
   state = {
     items: [],
     about: [],
-    refresh: ""
+    refresh: "",
+    guide: false
   };
 
   componentDidMount() {
     db.transaction((tx: SQLite.Transaction) => {
       init(tx);
       selectItems(tx, this.setItems);
-      selectUser1st(tx, this.setUser);
+      selectUser1st(tx, this.checkUser);
     });
   }
 
@@ -62,14 +69,36 @@ class HomeScreen extends Component<Props, State> {
     });
   }
 
-  setUser = (data: any, error: any) => {
+  checkUser = (data: any, error: any) => {
     if (error) {
       return;
     }
 
     if (!data) {
-      console.log("INIT");
+      const uuid = Constants.installationId + uuidv1();
+      const user: User = {
+        uuid
+      };
+      db.transaction((tx: SQLite.Transaction) => {
+        insertUser(tx, user, this.setUser);
+      });
     }
+  };
+
+  setUser = (data: any, error: any) => {
+    if (error) {
+      return;
+    }
+
+    this.setState({
+      guide: true
+    });
+  };
+
+  onGuideFinish = () => {
+    this.setState({
+      guide: false
+    });
   };
 
   setItems = (data: any, error: any) => {
@@ -128,8 +157,10 @@ class HomeScreen extends Component<Props, State> {
       <Page
         data={items}
         loading={false}
+        guide={this.state.guide}
         onSchedule={this.onSchedule}
         onCreate={this.onCreate}
+        onGuideFinish={this.onGuideFinish}
       />
     );
   }

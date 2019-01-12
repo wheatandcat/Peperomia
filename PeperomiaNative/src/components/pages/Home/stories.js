@@ -27,8 +27,13 @@ storiesOf("pages/Home", module)
       <Page data={props} loading={false} />
     </View>
   ))
-  .add("1st View", () => (
+  .add("Guide", () => (
     <View style={{ paddingTop: 60 }}>
-      <Page data={props} loading={false} />
+      <Page data={[]} guide loading={false} />
+    </View>
+  ))
+  .add("not item", () => (
+    <View style={{ paddingTop: 60 }}>
+      <Page data={[]} loading={false} />
     </View>
   ));

@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { createStackNavigator } from "react-navigation";
 import Page from "./Page";
 import { db } from "../../../lib/db";
-import { deleteSql, resetSql } from "../../../lib/db/debug";
+import { deleteSql, resetSql, deleteUserSql } from "../../../lib/db/debug";
 import { select as selectItems } from "../../../lib/db/item";
 import { select as selectItemDetailds } from "../../../lib/db/itemDetail";
 interface Props {}
@@ -30,12 +30,19 @@ class Connected extends Component<Props> {
     });
   };
 
+  onDeleteUser = () => {
+    db.transaction((tx: SQLite.Transaction) => {
+      deleteUserSql(tx);
+    });
+  };
+
   render() {
     return (
       <Page
         onResetSQL={this.onResetSQL}
         onData={this.onData}
         onDeleteSQL={this.onDeleteSQL}
+        onDeleteUser={this.onDeleteUser}
       />
     );
   }

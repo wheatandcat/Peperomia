@@ -6,6 +6,7 @@ export interface Props {
   onResetSQL: () => void;
   onDeleteSQL: () => void;
   onData: () => void;
+  onDeleteUser: () => void;
 }
 
 export default class extends Component<Props> {
@@ -17,12 +18,14 @@ export default class extends Component<Props> {
           デバッグ機能
         </Title>
         <List.Item
-          title="sqllite 初期データ投入"
+          title="初期データ投入"
           testID="restSqlDebug"
           onPress={this.props.onResetSQL}
         />
         <Divider />
-        <List.Item title="sqllite 全て削除" onPress={this.props.onDeleteSQL} />
+        <List.Item title="ユーザー初期化" onPress={this.props.onDeleteUser} />
+        <Divider />
+        <List.Item title="アイテムを削除" onPress={this.props.onDeleteSQL} />
         <Divider />
         <List.Item title="sqllite DB" onPress={this.props.onData} />
         <Divider />

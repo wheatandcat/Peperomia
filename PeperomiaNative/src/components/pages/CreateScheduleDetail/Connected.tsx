@@ -1,4 +1,4 @@
-import { SQLite } from "expo";
+import { SQLite, Constants } from "expo";
 import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import uuidv1 from "uuid/v1";
