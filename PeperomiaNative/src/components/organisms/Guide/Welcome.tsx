@@ -1,18 +1,21 @@
 import React from "react";
+import { Image } from "react-native";
 import { View, Button, Text } from "react-native-ui-lib";
+
+const guide = require(`../../../img/guide.png`);
 
 export interface Props {
   onNext: () => void;
 }
 
 export default (props: Props) => (
-  <View>
+  <View style={{ width: 290 }}>
     <View
       style={{
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
         padding: 25,
-        height: "75%",
+        height: 280,
         backgroundColor: "#5BC062"
       }}
     >
@@ -26,6 +29,16 @@ export default (props: Props) => (
           </Text>
         </View>
       </View>
+      <Image
+        source={guide}
+        style={{
+          right: 80,
+          bottom: 0,
+          position: "absolute",
+          width: 125,
+          height: 150
+        }}
+      />
     </View>
     <View
       style={{

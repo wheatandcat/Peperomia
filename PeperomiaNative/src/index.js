@@ -49,7 +49,7 @@ const TabNavigator = createBottomTabNavigator(
         tabBarTestID: "MyPlan"
       }
     },
-    検索: {
+    追加: {
       screen: Search,
       navigationOptions: {
         tabBarTestID: "Search"
@@ -82,10 +82,10 @@ const TabNavigator = createBottomTabNavigator(
               color={tintColor}
             />
           );
-        } else if (routeName === "検索") {
+        } else if (routeName === "追加") {
           return (
             <FontAwesomeIcons
-              name="search"
+              name="edit"
               size={horizontal ? 20 : 25}
               color={tintColor}
             />
