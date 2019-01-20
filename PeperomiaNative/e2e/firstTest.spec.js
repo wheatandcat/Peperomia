@@ -11,6 +11,10 @@ describe("Example", () => {
   });
 
   it("スケジュール追加", async () => {
+    takeScreenshot();
+    await element(by.id("guidWelcomeNext")).tap();
+    await element(by.id("guidShareNext")).tap();
+
     await expect(element(by.label("プランの登録はありません"))).toBeVisible();
     takeScreenshot();
 

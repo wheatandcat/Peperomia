@@ -16,14 +16,14 @@ interface State {
 export default class extends Component<Props> {
   state = { image: null };
 
-  async componentDidMount() {
+  async componentDidMount() {}
+
+  _pickImage = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({
       hasCameraPermission: status === "granted"
     });
-  }
 
-  _pickImage = async () => {
     await Promise.all([
       Permissions.askAsync(Permissions.CAMERA),
       Permissions.askAsync(Permissions.CAMERA_ROLL)

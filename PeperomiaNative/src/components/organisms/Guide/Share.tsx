@@ -47,6 +47,7 @@ export default (props: Props) => (
         label="はじめる"
         backgroundColor="#5BC062"
         onPress={props.onNext}
+        testID="guidShareNext"
       />
     </View>
   </View>
