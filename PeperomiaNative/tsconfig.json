@@ -5,11 +5,7 @@
     "sourceMap": true,
     "experimentalDecorators": true,
     "jsx": "react-native",
-    "lib": [
-      "dom",
-      "es2015",
-      "es2016"
-    ],
+    "lib": ["dom", "es2015", "es2016"],
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",

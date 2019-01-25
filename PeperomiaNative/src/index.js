@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Text, View } from "react-native";
 import FontAwesomeIcons from "react-native-vector-icons/FontAwesome";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import {
@@ -16,43 +15,12 @@ import CreateSchedule from "./components/pages/CreateSchedule/Connected";
 import ScheduleDetail from "./components/pages/ScheduleDetail/Switch";
 import CreateScheduleDetail from "./components/pages/CreateScheduleDetail/Connected";
 
-class SearchScreen extends React.Component {
-  static navigationOptions = {
-    title: "Setting"
-  };
-
-  render() {
-    return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "#ffffff"
-        }}
-      >
-        <Text>template!</Text>
-      </View>
-    );
-  }
-}
-
-const Search = createStackNavigator({
-  Search: SearchScreen
-});
-
 const TabNavigator = createBottomTabNavigator(
   {
     マイプラン: {
       screen: Home,
       navigationOptions: {
         tabBarTestID: "MyPlan"
-      }
-    },
-    追加: {
-      screen: Search,
-      navigationOptions: {
-        tabBarTestID: "Search"
       }
     },
     設定: {
@@ -78,14 +46,6 @@ const TabNavigator = createBottomTabNavigator(
           return (
             <MaterialCommunityIcons
               name="settings"
-              size={horizontal ? 20 : 25}
-              color={tintColor}
-            />
-          );
-        } else if (routeName === "追加") {
-          return (
-            <FontAwesomeIcons
-              name="edit"
               size={horizontal ? 20 : 25}
               color={tintColor}
             />
