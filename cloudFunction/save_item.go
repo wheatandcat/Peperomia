@@ -16,7 +16,7 @@ type Item struct {
 // HelloGet is an HTTP Cloud Function.
 func SaveItem(w http.ResponseWriter, r *http.Request) {
 	ctx := context.Background()
-	opt := option.WithCredentialsFile("path/to/serviceAccountKey.json")
+	opt := option.WithCredentialsFile("serviceAccountKey.json")
 	app, err := firebase.NewApp(ctx, nil, opt)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
