@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { SQLite } from "expo";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
-import { Text, TouchableOpacity, View, Share, Alert } from "react-native";
+import { TouchableOpacity, View, Share, Alert } from "react-native";
 import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
 import {
   ActionSheetProps,
@@ -18,6 +18,8 @@ import {
   deleteByItemId as deleteItemDetailByItemId
 } from "../../../lib/db/itemDetail";
 import { delete1st } from "../../../lib/db/item";
+import getShareText from "../../../lib/getShareText";
+import { LeftText, RightText } from "../../atoms/Header";
 import Schedule from "./Connected";
 
 interface State {
@@ -42,40 +44,13 @@ class Switch extends Component<Props & ActionSheetProps, State> {
           {(() => {
             if (params.mode === "edit") {
               return (
-                <TouchableOpacity
-                  onPress={() => params.onShow()}
-                  style={{ left: 5 }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontWeight: "600",
-                      color: "red"
-                    }}
-                  >
-                    キャンセル
-                  </Text>
-                </TouchableOpacity>
+                <LeftText label="キャンセル" cancel onPress={params.onShow} />
               );
             }
 
             if (params.mode === "sort") {
               return (
-                <TouchableOpacity
-                  onPress={() => params.onShow()}
-                  style={{ left: 5 }}
-                >
-                  >
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontWeight: "600",
-                      color: "red"
-                    }}
-                  >
-                    キャンセル
-                  </Text>
-                </TouchableOpacity>
+                <LeftText label="キャンセル" cancel onPress={params.onShow} />
               );
             }
 
@@ -102,20 +77,7 @@ class Switch extends Component<Props & ActionSheetProps, State> {
             }
 
             if (params.mode === "sort") {
-              return (
-                <TouchableOpacity onPress={() => params.onSave()}>
-                  >
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontWeight: "600",
-                      color: "#00bfff"
-                    }}
-                  >
-                    保存
-                  </Text>
-                </TouchableOpacity>
-              );
+              return <RightText label="保存" onPress={params.onSave} />;
             }
 
             return (
@@ -138,7 +100,7 @@ class Switch extends Component<Props & ActionSheetProps, State> {
                     borderRadius: 10
                   }}
                   style={{ marginRight: 15 }}
-                  onPress={() => params.onShare()}
+                  onPress={() => params.onShare(params.title, params.items)}
                 />
 
                 <TouchableOpacity
@@ -272,8 +234,6 @@ class Switch extends Component<Props & ActionSheetProps, State> {
     db.transaction((tx: SQLite.Transaction) => {
       data.forEach(async (item, index) => {
         item.priority = index + 1;
-        console.log(item);
-
         await updateItemDetail(tx, item, this.save);
       });
     });
@@ -285,11 +245,13 @@ class Switch extends Component<Props & ActionSheetProps, State> {
     console.log(ans);
   };
 
-  onShare = async () => {
+  onShare = async (title: string, items: ItemDetail[]) => {
+    console.log(items);
+
     try {
       const result: any = await Share.share({
-        message:
-          "React Native | A framework for building native apps using React"
+        title,
+        message: getShareText(items)
       });
 
       if (result.action === Share.sharedAction) {

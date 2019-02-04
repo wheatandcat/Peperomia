@@ -5,9 +5,17 @@ import getKind, {
   KIND_DEFAULT
 } from "./getKind";
 
-test("getKind", () => {
-  expect(getKind("葛西臨海公園")).toEqual(KIND_PARK);
-  expect(getKind("葛西臨海公園 水上バス")).toEqual(KIND_SHIP);
-  expect(getKind("新宿駅")).toEqual(KIND_TRAIN);
-  expect(getKind("浅草")).toEqual(KIND_DEFAULT);
+describe("getKind", () => {
+  test("kind=KIND_PARK", () => {
+    expect(getKind("葛西臨海公園")).toEqual(KIND_PARK);
+  });
+  test("kind=KIND_SHIP", () => {
+    expect(getKind("葛西臨海公園 水上バス")).toEqual(KIND_SHIP);
+  });
+  test("kind=KIND_TRAIN", () => {
+    expect(getKind("新宿駅")).toEqual(KIND_TRAIN);
+  });
+  test("kind=KIND_DEFAULT", () => {
+    expect(getKind("浅草")).toEqual(KIND_DEFAULT);
+  });
 });
