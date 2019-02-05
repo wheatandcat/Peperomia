@@ -1,43 +1,9 @@
 import React from "react";
-import { Image } from "react-native";
 import { View } from "react-native-ui-lib";
 import styled from "styled-components/native";
 import { ItemDetail } from "../../../lib/db/itemDetail";
-import {
-  KIND_PARK,
-  KIND_TRAIN,
-  KIND_SHIP,
-  KIND_FISHING,
-  KIND_DEFAULT
-} from "../../../lib/getKind";
-
-const park = require(`../../../img/park.png`);
-const train = require(`../../../img/train.png`);
-const ship = require(`../../../img/ship.png`);
-const fishing = require(`../../../img/fishing.png`);
-
-const KINDS: any = {
-  [KIND_PARK]: {
-    image: "park",
-    backgroundColor: "#77D353"
-  },
-  [KIND_TRAIN]: {
-    image: "train",
-    backgroundColor: "#F3B042"
-  },
-  [KIND_SHIP]: {
-    image: "ship",
-    backgroundColor: "#00A6FF"
-  },
-  [KIND_FISHING]: {
-    image: "fishing",
-    backgroundColor: "#00A6FF"
-  },
-  [KIND_DEFAULT]: {
-    image: null,
-    backgroundColor: "#969FAA"
-  }
-};
+import { KINDS } from "../../../lib/getKind";
+import { IconImage } from "../../atoms";
 
 export interface Props extends ItemDetail {
   kind: string;
@@ -45,22 +11,6 @@ export interface Props extends ItemDetail {
 
 export default (props: Props) => {
   const config = KINDS[props.kind];
-
-  const getImg = (kind: string) => {
-    if (kind === KIND_PARK) {
-      return park;
-    } else if (kind === KIND_TRAIN) {
-      return train;
-    } else if (kind === KIND_SHIP) {
-      return ship;
-    } else if (kind === KIND_FISHING) {
-      return fishing;
-    }
-
-    return null;
-  };
-
-  const img = getImg(props.kind);
 
   return (
     <Content style={{ backgroundColor: config.backgroundColor }}>
@@ -70,7 +20,7 @@ export default (props: Props) => {
         </View>
 
         <View style={{ position: "absolute", right: 80 }}>
-          {img ? <Image source={img} style={{ opacity: 0.5 }} /> : null}
+          <IconImage kind={props.kind} size={100} />
         </View>
       </View>
     </Content>

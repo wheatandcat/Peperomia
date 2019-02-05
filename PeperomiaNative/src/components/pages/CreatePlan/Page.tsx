@@ -1,16 +1,14 @@
 import React, { Component } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
-import { Input } from "react-native-elements";
-import { Col, Grid } from "react-native-easy-grid";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import { View, TouchableOpacity } from "react-native";
+import { Input, Button } from "react-native-elements";
 import { ImagePicker, Permissions } from "expo";
+import Color from "color";
+import getKind, { KINDS } from "../../../lib/getKind";
+import { IconImage } from "../../atoms";
 
 export interface Props {
   onInput: (name: string, value: any) => void;
-}
-
-interface State {
-  onInput: (name: string, value: any) => void;
+  title: string;
 }
 
 export default class extends Component<Props> {
@@ -35,24 +33,29 @@ export default class extends Component<Props> {
     });
 
     if (!result.cancelled) {
-      console.log(result.uri);
-
       this.setState({ image: result.uri });
     }
   };
 
   render() {
     let { image } = this.state;
+    const kind = getKind(this.props.title);
+    const config = KINDS[kind];
 
     return (
-      <View>
+      <View
+        style={{
+          backgroundColor: Color(config.backgroundColor)
+            .alpha(0.2)
+            .toString()
+        }}
+      >
         <View
           style={{
             paddingTop: 100,
             alignItems: "center",
             height: "100%",
-            width: "100%",
-            backgroundColor: "#eeeeee"
+            width: "100%"
           }}
         >
           <Input
@@ -62,38 +65,23 @@ export default class extends Component<Props> {
             testID="inputTextTitle"
           />
 
-          <Grid style={{ height: 100, padding: 20, paddingTop: 60 }}>
-            <Col style={{ padding: 10 }}>
-              <TouchableOpacity onPress={this._pickImage}>
-                <View
-                  style={{
-                    padding: 10,
-                    height: 120,
-                    borderWidth: 1,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    backgroundColor: "#ffffff"
-                  }}
-                >
-                  <Ionicons name="ios-camera" size={80} />
-                </View>
-              </TouchableOpacity>
-            </Col>
-            <Col style={{ padding: 10 }}>
+          <View style={{ paddingTop: 70 }}>
+            <TouchableOpacity>
               <View
                 style={{
                   padding: 10,
-                  height: 120,
+                  width: 180,
+                  height: 180,
                   borderWidth: 1,
                   justifyContent: "center",
                   alignItems: "center",
                   backgroundColor: "#ffffff"
                 }}
               >
-                <Text>まだアップロードされていません</Text>
+                <IconImage kind={kind} size={100} opacity={1.0} defaultIcon />
               </View>
-            </Col>
-          </Grid>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     );

@@ -6,7 +6,34 @@ export const KIND_SHIP = "ship";
 export const KIND_FISHING = "fishing";
 export const KIND_DEFAULT = "default";
 
+export const KINDS: any = {
+  [KIND_PARK]: {
+    image: "park",
+    backgroundColor: "#77D353"
+  },
+  [KIND_TRAIN]: {
+    image: "train",
+    backgroundColor: "#F3B042"
+  },
+  [KIND_SHIP]: {
+    image: "ship",
+    backgroundColor: "#00A6FF"
+  },
+  [KIND_FISHING]: {
+    image: "fishing",
+    backgroundColor: "#00A6FF"
+  },
+  [KIND_DEFAULT]: {
+    image: null,
+    backgroundColor: "#969FAA"
+  }
+};
+
 export default (keyword: string) => {
+  if (!keyword) {
+    return KIND_DEFAULT;
+  }
+
   const keys = Object.keys(config);
 
   let result = keys.map(key => {
