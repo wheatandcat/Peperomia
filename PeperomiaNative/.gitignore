@@ -1,7 +1,9 @@
 node_modules/**/*
 .expo/*
 npm-debug.*
-.env-e
-storyLoader.js
+*.jks
+*.p12
+*.key
+*.mobileprovision
 bin
-screenshots/*.png
+screenshot

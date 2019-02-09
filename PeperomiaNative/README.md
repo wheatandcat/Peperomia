@@ -3,9 +3,9 @@
 ## e2e
 
 ```
-npm start
+yarn start
 ```
 
 ```
-npm run e2e
+yarn e2e
 ```

@@ -1,10 +1,9 @@
 {
   "expo": {
-    "name": "Peperomia",
-    "description": "This project is really great.",
-    "slug": "peperomia",
+    "name": "home",
+    "slug": "PeperomiaNative",
     "privacy": "public",
-    "sdkVersion": "30.0.0",
+    "sdkVersion": "32.0.0",
     "packagerOpts": {
       "sourceExts": [
         "ts",
