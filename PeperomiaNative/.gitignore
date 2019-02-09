@@ -6,4 +6,4 @@ npm-debug.*
 *.key
 *.mobileprovision
 bin
-screenshot
+screenshots
