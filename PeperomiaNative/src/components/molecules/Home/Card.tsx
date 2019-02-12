@@ -37,7 +37,7 @@ export default (props: Props) => (
         imageSource={require("../../../img/world.png")}
         style={{ padding: 5 }}
       />
-      <Card.Section body style={{ padding: 10 }}>
+      <View padding-10 flex>
         <Grid>
           <Row size={70}>
             <Col size={75}>
@@ -55,7 +55,7 @@ export default (props: Props) => (
             </Text>
           </Row>
         </Grid>
-      </Card.Section>
+      </View>
     </Card>
   </View>
 );

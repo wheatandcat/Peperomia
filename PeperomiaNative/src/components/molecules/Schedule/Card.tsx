@@ -15,12 +15,11 @@ export default (props: Props) => {
   return (
     <Content style={{ backgroundColor: config.backgroundColor }}>
       <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
+        <View style={{ position: "absolute", right: 30 }}>
+          <IconImage kind={props.kind} size={100} />
+        </View>
         <View style={{ flex: 1, padding: 15 }}>
           <Title numberOfLines={1}>{props.title}</Title>
-        </View>
-
-        <View style={{ position: "absolute", right: 80 }}>
-          <IconImage kind={props.kind} size={100} />
         </View>
       </View>
     </Content>
@@ -38,5 +37,5 @@ const Content = styled.View`
 const Title = styled.Text`
   color: #ffffff;
   font-weight: 600;
-  font-size: 14;
+  font-size: 20;
 `;

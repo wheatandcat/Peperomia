@@ -83,14 +83,16 @@ class Switch extends Component<Props & ActionSheetProps, State> {
             return (
               <View style={{ flex: 1, flexDirection: "row" }}>
                 <Button
-                  title=""
                   icon={
                     <Entypo
                       name="share-alternative"
-                      size={16}
+                      size={13}
                       color="#FFFFFF"
                     />
                   }
+                  iconContainerStyle={{
+                    padding: 0
+                  }}
                   buttonStyle={{
                     backgroundColor: "#4DB6AC",
                     width: 28,
@@ -99,7 +101,6 @@ class Switch extends Component<Props & ActionSheetProps, State> {
                     borderWidth: 0,
                     borderRadius: 10
                   }}
-                  style={{ marginRight: 15 }}
                   onPress={() => params.onShare(params.title, params.items)}
                 />
 

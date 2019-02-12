@@ -1,7 +1,11 @@
 import React, { Component } from "react";
-import { View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity, Image } from "react-native";
 import { Input, Button } from "react-native-elements";
 import { ImagePicker, Permissions } from "expo";
+import {
+  ActionSheetProps,
+  connectActionSheet
+} from "@expo/react-native-action-sheet";
 import { Entypo } from "@expo/vector-icons";
 import Color from "color";
 import getKind, { KINDS } from "../../../lib/getKind";
@@ -9,14 +13,35 @@ import { IconImage } from "../../atoms";
 
 export interface Props {
   onInput: (name: string, value: any) => void;
-  onSave: () => void,
+  onSave: () => void;
+  onIcons: () => void;
   title: string;
 }
 
-export default class extends Component<Props> {
+class Page extends Component<Props & ActionSheetProps> {
   state = { image: null };
 
-  async componentDidMount() { }
+  onOpenActionSheet = () => {
+    this.props.showActionSheetWithOptions(
+      {
+        options: [
+          "アイコンを変更する",
+          "写真を撮影する",
+          "フォトライブラリー",
+          "キャンセル"
+        ],
+        cancelButtonIndex: 3
+      },
+      buttonIndex => {
+        if (buttonIndex === 0) {
+          this.props.onIcons();
+        }
+        if (buttonIndex === 2) {
+          this._pickImage();
+        }
+      }
+    );
+  };
 
   _pickImage = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
@@ -69,10 +94,9 @@ export default class extends Component<Props> {
           />
 
           <View style={{ paddingTop: 70 }}>
-
             <View
               style={{
-                padding: 10,
+                padding: image ? 0 : 10,
                 width: 180,
                 height: 180,
                 borderWidth: 1,
@@ -81,19 +105,32 @@ export default class extends Component<Props> {
                 backgroundColor: "#ffffff"
               }}
             >
+              {image ? (
+                <Image
+                  style={{ width: 180, height: 180 }}
+                  source={{ uri: image }}
+                />
+              ) : (
+                <IconImage kind={kind} size={100} opacity={1.0} defaultIcon />
+              )}
 
-              <IconImage kind={kind} size={100} opacity={1.0} defaultIcon />
-              <TouchableOpacity style={{
-                position: "absolute",
-                left: 4,
-                top: 2,
-              }}>
-                <Entypo name="image" size={25} style={{
-                  color: "#555555"
-                }} />
+              <TouchableOpacity
+                style={{
+                  position: "absolute",
+                  left: 4,
+                  top: 2
+                }}
+                onPress={this.onOpenActionSheet}
+              >
+                <Entypo
+                  name="image"
+                  size={25}
+                  style={{
+                    color: "#555555"
+                  }}
+                />
               </TouchableOpacity>
             </View>
-
           </View>
           <View style={{ paddingTop: 70 }}>
             <Button
@@ -105,11 +142,13 @@ export default class extends Component<Props> {
                 height: 50,
                 backgroundColor: "#77D353",
                 borderRadius: 15
-              }} />
+              }}
+            />
           </View>
         </View>
-
       </View>
     );
   }
 }
+
+export default connectActionSheet(Page);

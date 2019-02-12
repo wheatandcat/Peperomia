@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { View, Text, ScrollView } from "react-native";
-import { Input, ListItem, Button } from "react-native-elements";
+import { View, ScrollView } from "react-native";
+import { Input, ListItem, Button, Divider } from "react-native-elements";
 import { MaterialIcons } from "@expo/vector-icons";
 import { KINDS } from "../../../lib/getKind";
 import { IconImage } from "../../atoms";
@@ -18,19 +18,27 @@ export default class extends Component<Props> {
 
     return (
       <View style={{ backgroundColor: "#ffffff" }}>
-        <View style={{ paddingHorizontal: 10, height: "7%" }}>
+        <View
+          style={{
+            paddingHorizontal: 10,
+            height: "7%",
+            backgroundColor: "#eeeeee"
+          }}
+        >
           <Input
             placeholder="検索"
             leftIcon={{ type: "MaterialIcons", name: "search", color: "#888" }}
             inputContainerStyle={{
-              backgroundColor: "#eeeeee"
+              backgroundColor: "#cccccc",
+              borderBottomWidth: 0,
+              borderRadius: 10
             }}
             leftIconContainerStyle={{
               marginRight: 20
             }}
           />
         </View>
-
+        <Divider />
         <ScrollView style={{ width: "100%", height: "80%", paddingLeft: 15 }}>
           {items.map((item: any, i: number) => (
             <ListItem

@@ -38,7 +38,7 @@ export default class extends Component<Props, State> {
             <MaterialCommunityIcons name="close" size={25} />
           </TouchableOpacity>
         </View>
-      ),
+      )
     };
   };
 
@@ -78,7 +78,18 @@ export default class extends Component<Props, State> {
     });
   };
 
+  onIcons = () => {
+    this.props.navigation.navigate("Icons");
+  };
+
   render() {
-    return <Page onInput={this.onInput} onSave={this.onSave} title={this.state.input.title} />;
+    return (
+      <Page
+        onInput={this.onInput}
+        onSave={this.onSave}
+        onIcons={this.onIcons}
+        title={this.state.input.title}
+      />
+    );
   }
 }
