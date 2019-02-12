@@ -39,13 +39,6 @@ export default class extends Component<Props, State> {
           </TouchableOpacity>
         </View>
       ),
-      headerRight: (
-        <View style={{ right: 10 }}>
-          <TouchableOpacity onPress={params.save} testID="completion">
-            <Text style={{ fontSize: 16, fontWeight: "600" }}>完了</Text>
-          </TouchableOpacity>
-        </View>
-      )
     };
   };
 
@@ -86,6 +79,6 @@ export default class extends Component<Props, State> {
   };
 
   render() {
-    return <Page onInput={this.onInput} title={this.state.input.title} />;
+    return <Page onInput={this.onInput} onSave={this.onSave} title={this.state.input.title} />;
   }
 }

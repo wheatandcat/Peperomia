@@ -8984,7 +8984,7 @@ react-native-easy-grid@^0.2.0:
   dependencies:
     lodash "^4.11.1"
 
-react-native-elements@^1.0.0-beta6:
+react-native-elements@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-native-elements/-/react-native-elements-1.0.0.tgz#95bc194f61ec4658d8dbd977524f8c4fd3ada136"
   dependencies:
