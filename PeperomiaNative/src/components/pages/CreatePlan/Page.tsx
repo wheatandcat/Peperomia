@@ -6,7 +6,7 @@ import {
   ActionSheetProps,
   connectActionSheet
 } from "@expo/react-native-action-sheet";
-import { Entypo } from "@expo/vector-icons";
+import { Entypo, MaterialIcons } from "@expo/vector-icons";
 import Color from "color";
 import getKind, { KINDS } from "../../../lib/getKind";
 import { IconImage } from "../../atoms";
@@ -92,46 +92,46 @@ class Page extends Component<Props & ActionSheetProps> {
             testID="inputTextTitle"
             label={this.props.title === "" ? "タイトル" : ""}
           />
-
-          <View style={{ paddingTop: 70 }}>
-            <View
-              style={{
-                padding: image ? 0 : 10,
-                width: 180,
-                height: 180,
-                borderWidth: 1,
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: "#ffffff"
-              }}
-            >
-              {image ? (
-                <Image
-                  style={{ width: 180, height: 180 }}
-                  source={{ uri: image }}
-                />
-              ) : (
-                <IconImage kind={kind} size={100} opacity={1.0} defaultIcon />
-              )}
-
-              <TouchableOpacity
+          <TouchableOpacity onPress={this.onOpenActionSheet}>
+            <View style={{ paddingTop: 70 }}>
+              <View
                 style={{
-                  position: "absolute",
-                  left: 4,
-                  top: 2
+                  padding: image ? 0 : 10,
+                  width: 180,
+                  height: 180,
+                  borderWidth: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor: "#ffffff"
                 }}
-                onPress={this.onOpenActionSheet}
               >
-                <Entypo
-                  name="image"
-                  size={25}
+                {image ? (
+                  <Image
+                    style={{ width: 180, height: 180 }}
+                    source={{ uri: image }}
+                  />
+                ) : (
+                  <IconImage kind={kind} size={100} opacity={1.0} defaultIcon />
+                )}
+
+                <View
                   style={{
-                    color: "#555555"
+                    position: "absolute",
+                    left: 4,
+                    top: 2
                   }}
-                />
-              </TouchableOpacity>
+                >
+                  <Entypo
+                    name="image"
+                    size={25}
+                    style={{
+                      color: "#555555"
+                    }}
+                  />
+                </View>
+              </View>
             </View>
-          </View>
+          </TouchableOpacity>
           <View style={{ paddingTop: 70 }}>
             <Button
               title="作成する"
@@ -143,6 +143,24 @@ class Page extends Component<Props & ActionSheetProps> {
                 backgroundColor: "#77D353",
                 borderRadius: 15
               }}
+            />
+          </View>
+          <View style={{ paddingTop: 50 }}>
+            <Button
+              title="アイコンを変更する"
+              type="clear"
+              titleStyle={{
+                color: "#888",
+                fontSize: 12,
+                fontWeight: "600"
+              }}
+              buttonStyle={{
+                borderBottomWidth: 1,
+                borderBottomColor: "#888",
+                padding: 0,
+                paddingHorizontal: 5
+              }}
+              onPress={this.onOpenActionSheet}
             />
           </View>
         </View>

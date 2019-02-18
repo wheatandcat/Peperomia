@@ -9,12 +9,31 @@ export interface Props {
   kind: string;
 }
 
-export default class extends Component<Props> {
+export interface State {
+  search: string;
+}
+
+export default class extends Component<Props, State> {
+  state = {
+    search: ""
+  };
+
   render() {
-    const items = Object.entries(KINDS).map(([key, value]) => ({
-      kind: key,
-      ...value
-    }));
+    const items = Object.entries(KINDS)
+      .map(([key, value]) => ({
+        kind: key,
+        ...value
+      }))
+      .filter((item: any) => {
+        if (this.state.search === "") {
+          return true;
+        }
+
+        return (
+          item.name.includes(this.state.search) ||
+          item.kind.includes(this.state.search)
+        );
+      });
 
     return (
       <View style={{ backgroundColor: "#ffffff" }}>
@@ -36,6 +55,7 @@ export default class extends Component<Props> {
             leftIconContainerStyle={{
               marginRight: 20
             }}
+            onChangeText={text => this.setState({ search: text })}
           />
         </View>
         <Divider />
