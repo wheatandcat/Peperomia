@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import { TouchableOpacity, View } from "react-native";
+import { ImagePicker, Permissions } from "expo";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Page, { Props as PageProps } from "./Page";
 
@@ -36,7 +37,36 @@ export default class extends Component<Props, State> {
     };
   };
 
+  onPhoto = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    this.setState({
+      hasCameraPermission: status === "granted"
+    });
+
+    await Promise.all([
+      Permissions.askAsync(Permissions.CAMERA),
+      Permissions.askAsync(Permissions.CAMERA_ROLL)
+    ]);
+
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [4, 3]
+    });
+
+    if (!result.cancelled) {
+      this.props.navigation.navigate("CreatePlan", {
+        image: result.uri
+      });
+    }
+  };
+
+  onCamera = () => {
+    this.props.navigation.navigate("Camera");
+  };
+
   render() {
-    return <Page kind="" />;
+    const kind = this.props.navigation.getParam("kind", null);
+
+    return <Page kind={kind} onPhoto={this.onPhoto} onCamera={this.onCamera} />;
   }
 }

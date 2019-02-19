@@ -2,20 +2,43 @@ import React, { Component } from "react";
 import { View, ScrollView } from "react-native";
 import { Input, ListItem, Button, Divider } from "react-native-elements";
 import { MaterialIcons } from "@expo/vector-icons";
+import {
+  ActionSheetProps,
+  connectActionSheet
+} from "@expo/react-native-action-sheet";
 import { KINDS } from "../../../lib/getKind";
 import { IconImage } from "../../atoms";
 
 export interface Props {
   kind: string;
+  onPhoto: () => void;
+  onCamera: () => void;
 }
 
 export interface State {
   search: string;
 }
 
-export default class extends Component<Props, State> {
+class Page extends Component<Props & ActionSheetProps, State> {
   state = {
     search: ""
+  };
+
+  onOpenActionSheet = () => {
+    this.props.showActionSheetWithOptions(
+      {
+        options: ["写真を撮影する", "フォトライブラリー", "キャンセル"],
+        cancelButtonIndex: 2
+      },
+      buttonIndex => {
+        if (buttonIndex === 0) {
+          this.props.onCamera();
+        }
+        if (buttonIndex === 1) {
+          this.props.onPhoto();
+        }
+      }
+    );
   };
 
   render() {
@@ -105,9 +128,12 @@ export default class extends Component<Props, State> {
               fontSize: 12,
               fontWeight: "600"
             }}
+            onPress={this.onOpenActionSheet}
           />
         </View>
       </View>
     );
   }
 }
+
+export default connectActionSheet(Page);

@@ -57,6 +57,7 @@
     "expo-detox-hook": "^1.0.10",
     "jest": "^24.1.0",
     "mocha": "^5.2.0",
+    "prettier": "1.16.4",
     "prop-types": "^15.6.2",
     "react-dom": "16.3.1",
     "react-native-dotenv": "^0.2.0",

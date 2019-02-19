@@ -6,20 +6,23 @@ import {
   ActionSheetProps,
   connectActionSheet
 } from "@expo/react-native-action-sheet";
-import { Entypo, MaterialIcons } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 import Color from "color";
 import getKind, { KINDS } from "../../../lib/getKind";
 import { IconImage } from "../../atoms";
 
 export interface Props {
+  title: string;
+  image: string;
   onInput: (name: string, value: any) => void;
+  onImage: (image: string) => void;
   onSave: () => void;
   onIcons: () => void;
-  title: string;
+  onCamera: () => void;
 }
 
 class Page extends Component<Props & ActionSheetProps> {
-  state = { image: null };
+  state = { image: this.props.image };
 
   onOpenActionSheet = () => {
     this.props.showActionSheetWithOptions(
@@ -35,6 +38,9 @@ class Page extends Component<Props & ActionSheetProps> {
       buttonIndex => {
         if (buttonIndex === 0) {
           this.props.onIcons();
+        }
+        if (buttonIndex === 1) {
+          this.props.onCamera();
         }
         if (buttonIndex === 2) {
           this._pickImage();
@@ -60,12 +66,12 @@ class Page extends Component<Props & ActionSheetProps> {
     });
 
     if (!result.cancelled) {
-      this.setState({ image: result.uri });
+      this.props.onImage(result.uri);
     }
   };
 
   render() {
-    let { image } = this.state;
+    let { image } = this.props;
     const kind = getKind(this.props.title);
     const config = KINDS[kind];
 

@@ -15,6 +15,7 @@ import CreateSchedule from "./components/pages/CreateSchedule/Connected";
 import ScheduleDetail from "./components/pages/ScheduleDetail/Switch";
 import CreateScheduleDetail from "./components/pages/CreateScheduleDetail/Connected";
 import Icons from "./components/pages/Icons/Connected";
+import Camera from "./components/pages/Camera/Connected";
 
 const TabNavigator = createBottomTabNavigator(
   {
@@ -68,6 +69,9 @@ const IconsNavigator = createStackNavigator(
   {
     Icons: {
       screen: Icons
+    },
+    Camera: {
+      screen: Camera
     }
   },
   {
