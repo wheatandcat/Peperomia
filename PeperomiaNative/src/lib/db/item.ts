@@ -4,6 +4,7 @@ import { success, error } from "./";
 export interface Item {
   id?: number;
   title: string;
+  kind: string;
   image: string;
 }
 
@@ -12,7 +13,12 @@ export const create = async (
   callback?: (data: any, error: any) => void
 ) => {
   return tx.executeSql(
-    "create table if not exists items (id integer primary key not null, title string,image string);",
+    "create table if not exists items (" +
+      "id integer primary key not null," +
+      "title string," +
+      "kind string," +
+      "image string" +
+      ");",
     [],
     (_, props) => success(props.rows._array, callback),
     (_, err) => error(err, callback)
@@ -25,8 +31,8 @@ export const insert = async (
   callback?: (insertId: number, error: any) => void
 ) => {
   return tx.executeSql(
-    "insert into items (title, image) values (?, ?)",
-    [item.title, item.image],
+    "insert into items (title, kind,image) values (?,?, ?)",
+    [item.title, item.kind, item.image],
     (_, props) => success(props.insertId, callback),
     (_, err) => error(err, callback)
   );

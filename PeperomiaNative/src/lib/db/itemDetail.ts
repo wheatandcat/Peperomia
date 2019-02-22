@@ -5,6 +5,7 @@ export interface ItemDetail {
   id?: number;
   itemId: number;
   title: string;
+  kind: string;
   memo: string;
   moveMinutes: number;
   priority: number;
@@ -19,6 +20,7 @@ export const create = async (
       "id integer primary key not null," +
       "itemId integer," +
       "title string," +
+      "kind string," +
       "memo string," +
       "moveMinutes integer," +
       "priority integer," +
@@ -36,10 +38,11 @@ export const insert = async (
   callback?: (data: any, error: any) => void
 ) => {
   return tx.executeSql(
-    "insert into item_details (itemId, title, memo, moveMinutes, priority) values (?, ?, ?, ?, ?)",
+    "insert into item_details (itemId, title, kind, memo, moveMinutes, priority) values (?, ?, ?, ?, ?, ?)",
     [
       String(itemDetail.itemId),
       itemDetail.title,
+      itemDetail.kind,
       itemDetail.memo,
       String(itemDetail.moveMinutes),
       String(itemDetail.priority)
@@ -55,10 +58,11 @@ export const update = async (
   callback?: (data: any, error: any) => void
 ) => {
   return tx.executeSql(
-    "update item_details set title = ?, memo = ?, moveMinutes = ?, priority = ? where id = ?",
+    "update item_details set title = ?, kind = ?, memo = ?, moveMinutes = ?, priority = ? where id = ?",
     [
       itemDetail.title,
       itemDetail.memo,
+      itemDetail.kind,
       String(itemDetail.moveMinutes),
       String(itemDetail.priority),
       String(itemDetail.id)

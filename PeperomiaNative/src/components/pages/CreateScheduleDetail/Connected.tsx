@@ -1,4 +1,4 @@
-import { SQLite, Constants } from "expo";
+import { SQLite } from "expo";
 import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import uuidv1 from "uuid/v1";
@@ -7,6 +7,7 @@ import {
   insert as insertItemDetail,
   ItemDetail
 } from "../../../lib/db/itemDetail";
+import getKind from "../../../lib/getKind";
 import Page from "../../templates/CreateScheduleDetail/Page";
 
 export interface State {
@@ -41,6 +42,7 @@ export default class extends Component<Props, State> {
       const itemDetail: ItemDetail = {
         itemId,
         title,
+        kind: getKind(title),
         memo,
         moveMinutes: time,
         priority: Number(priority)

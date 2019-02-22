@@ -1,4 +1,4 @@
-import { SQLite } from "expo";
+import { SQLite, ImageManipulator } from "expo";
 import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import { TouchableOpacity, View } from "react-native";
@@ -43,19 +43,12 @@ export default class extends Component<Props, State> {
 
   state = { input: { title: "" }, image: "" };
 
-  async componentDidMount() {
+  async componentDidUpdate() {
     const image = this.props.navigation.getParam("image", "");
-    console.log(image);
+    if (!image) {
+      return;
+    }
 
-    this.props.navigation.setParams({
-      save: this.onSave
-    });
-  }
-
-  async componentDidUpdate(_: Props, prevState: State) {
-    const image = this.props.navigation.getParam("image", "");
-    console.log("componentDidUpdate");
-    console.log(image);
     if (image !== this.state.image) {
       this.setState({
         image
@@ -79,8 +72,23 @@ export default class extends Component<Props, State> {
   };
 
   onSave = async () => {
+    let image = "";
+    if (this.state.image) {
+      const manipResult = await ImageManipulator.manipulateAsync(
+        this.state.image,
+        [{ rotate: 0 }, { flip: { vertical: true } }],
+        { format: "png" }
+      );
+
+      image = manipResult.base64 || "";
+    }
+
     db.transaction((tx: SQLite.Transaction) => {
-      const item: Item = { title: this.state.input.title, image: "" };
+      const item: Item = {
+        title: this.state.input.title,
+        kind: getKind(this.state.input.title),
+        image
+      };
 
       insertItem(tx, item, this.save);
     });

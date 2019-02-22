@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "home",
+    "name": "Peperomia",
     "slug": "PeperomiaNative",
     "privacy": "public",
     "sdkVersion": "32.0.0",
@@ -32,6 +32,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.wheatandcat.peperomia"
-    }
+    },
+    "description": ""
   }
 }

@@ -26,13 +26,6 @@ export default class extends Component<Props, State> {
 
   async takePicture() {
     const pictureData = await this.camera.takePictureAsync();
-    /*
-    const manipResult = await ImageManipulator.manipulateAsync(
-      pictureData.uri,
-      [{ rotate: 0 }, { flip: { vertical: true } }],
-      { format: "png" }
-    );
-    */
 
     this.props.onPicture(pictureData.uri);
   }
