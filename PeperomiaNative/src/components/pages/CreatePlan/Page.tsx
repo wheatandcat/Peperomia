@@ -92,11 +92,11 @@ class Page extends Component<Props & ActionSheetProps> {
           }}
         >
           <Input
-            placeholder="タイトル"
+            placeholder={this.props.title === "" ? "タイトル" : ""}
             containerStyle={{ width: "85%" }}
             onChangeText={text => this.props.onInput("title", text)}
             testID="inputTextTitle"
-            label={this.props.title === "" ? "タイトル" : ""}
+            label={this.props.title !== "" ? "タイトル" : ""}
           />
           <TouchableOpacity onPress={this.onOpenActionSheet}>
             <View style={{ paddingTop: 70 }}>

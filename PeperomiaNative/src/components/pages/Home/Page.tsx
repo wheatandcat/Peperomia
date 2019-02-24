@@ -39,6 +39,7 @@ export default (props: Props) => (
         </View>
       )}
     </View>
+    {/*
     <View
       style={{
         flex: 1,
@@ -51,5 +52,6 @@ export default (props: Props) => (
     >
       <EditButton onPress={props.onCreate} testID="addSchedule" />
     </View>
+    */}
   </View>
 );

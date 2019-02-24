@@ -5,6 +5,8 @@ import {
   NavigationScreenProp,
   NavigationRoute
 } from "react-navigation";
+import { TouchableOpacity, View } from "react-native";
+import { Feather } from "@expo/vector-icons";
 import uuidv1 from "uuid/v1";
 import { db, init } from "../../../lib/db";
 import { select as selectItems, Item } from "../../../lib/db/item";
@@ -37,8 +39,25 @@ interface State {
 }
 
 class HomeScreen extends Component<Props, State> {
-  static navigationOptions = {
-    title: "マイプラン"
+  static navigationOptions = ({
+    navigation
+  }: {
+    navigation: NavigationScreenProp<NavigationRoute>;
+  }) => {
+    return {
+      title: "マイプラン",
+      headerRight: (
+        <View style={{ right: 12 }}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("CreatePlan");
+            }}
+          >
+            <Feather name="plus" size={28} />
+          </TouchableOpacity>
+        </View>
+      )
+    };
   };
 
   state = {

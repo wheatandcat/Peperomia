@@ -4,6 +4,7 @@ import styled from "styled-components/native";
 import Color from "color";
 import { ItemDetail } from "../../../lib/db/itemDetail";
 import { KINDS } from "../../../lib/getKind";
+import s from "../../../config/style";
 import { IconImage } from "../../atoms";
 
 export interface Props extends ItemDetail {
@@ -12,16 +13,17 @@ export interface Props extends ItemDetail {
 
 export default (props: Props) => {
   const config = KINDS[props.kind];
+  const ss = s.schedule;
 
   return (
     <Content
       style={{
-        borderWidth: 0.5,
+        borderWidth: ss.borderWidth,
         borderColor: Color(config.backgroundColor)
-          .alpha(0.5)
+          .alpha(ss.backgroundColorAlpha)
           .toString(),
         backgroundColor: Color(config.backgroundColor)
-          .alpha(0.5)
+          .alpha(ss.borderColorAlpha)
           .toString()
       }}
     >
