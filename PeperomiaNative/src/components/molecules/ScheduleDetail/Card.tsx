@@ -29,7 +29,7 @@ export default (props: Props) => {
             <MaterialCommunityIcons
               name="dots-vertical"
               size={26}
-              color="#ffffff"
+              color="#555"
               style={{ marginRight: 0, marginLeft: "auto" }}
             />
           </TouchableOpacity>
@@ -98,7 +98,7 @@ export default (props: Props) => {
 };
 
 const Title = styled.Text`
-  color: #ffffff;
+  color: #555;
   font-weight: 600;
   font-size: 20;
 `;

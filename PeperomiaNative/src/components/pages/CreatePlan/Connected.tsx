@@ -77,7 +77,7 @@ export default class extends Component<Props, State> {
       const manipResult = await ImageManipulator.manipulateAsync(
         this.state.image,
         [{ rotate: 0 }, { flip: { vertical: true } }],
-        { format: "png" }
+        { format: "png", base64: true }
       );
 
       image = manipResult.base64 || "";

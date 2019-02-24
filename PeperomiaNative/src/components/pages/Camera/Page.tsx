@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Text, View, TouchableOpacity } from "react-native";
-import { Camera, Permissions, Svg, ImageManipulator } from "expo";
+import { Camera, Permissions, Svg } from "expo";
 
 export interface Props {
   onPicture: (image: string) => void;
@@ -25,6 +25,9 @@ export default class extends Component<Props, State> {
   }
 
   async takePicture() {
+    if (!this.camera) {
+      return;
+    }
     const pictureData = await this.camera.takePictureAsync();
 
     this.props.onPicture(pictureData.uri);
@@ -40,6 +43,7 @@ export default class extends Component<Props, State> {
         </View>
       );
     }
+
     return (
       <View
         style={{
@@ -68,7 +72,7 @@ export default class extends Component<Props, State> {
             padding: 30
           }}
         >
-          <TouchableOpacity onPress={this.takePicture}>
+          <TouchableOpacity onPress={this.takePicture.bind(this)}>
             <Svg height={60} width={60}>
               <Svg.Circle
                 cx={30}

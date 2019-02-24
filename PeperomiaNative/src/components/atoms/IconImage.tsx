@@ -18,6 +18,7 @@ export interface Props {
   kind: string;
   size: number;
   opacity?: number;
+  image?: string;
   defaultIcon?: boolean;
 }
 
@@ -40,25 +41,51 @@ const getImg = (kind: string, defaultIcon?: boolean) => {
 };
 
 export default (props: Props) => {
-  const img = getImg(props.kind, props.defaultIcon);
-
-  return (
-    <View
-      style={{
-        width: props.size,
-        height: props.size
-      }}
-    >
-      {img ? (
+  if (props.image) {
+    return (
+      <Frame size={props.size}>
         <Image
-          source={img}
+          source={{
+            uri: `data:image/png;base64,${props.image}`
+          }}
           style={{
             opacity: props.opacity || 0.5,
             width: "100%",
             height: "100%"
           }}
         />
-      ) : null}
-    </View>
+      </Frame>
+    );
+  }
+
+  const img = getImg(props.kind, props.defaultIcon);
+
+  return (
+    <Frame size={props.size}>
+      <Image
+        source={img}
+        style={{
+          opacity: props.opacity || 0.5,
+          width: "100%",
+          height: "100%"
+        }}
+      />
+    </Frame>
   );
 };
+
+export interface Frame {
+  children: any;
+  size: number;
+}
+
+const Frame = (props: Frame) => (
+  <View
+    style={{
+      width: props.size,
+      height: props.size
+    }}
+  >
+    {props.children}
+  </View>
+);

@@ -1,12 +1,14 @@
 import React from "react";
-import { View, Card } from "react-native-ui-lib";
+import { View, Card, Text } from "react-native-ui-lib";
 import { Col, Row, Grid } from "react-native-easy-grid";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import { Text } from "../../atoms";
+import Color from "color";
+import { KINDS } from "../../../lib/getKind";
+import { IconImage } from "../../atoms";
 
 export interface ItemProps {
   id: string;
   title: string;
+  kind: string;
   image: string;
   about: string;
 }
@@ -15,47 +17,63 @@ export interface Props extends ItemProps {
   onPress: (id: string, title: string) => void;
 }
 
-export default (props: Props) => (
-  <View style={{ padding: 5 }}>
-    <Card
-      row
-      height={80}
+export default (props: Props) => {
+  const config = KINDS[props.kind];
+
+  return (
+    <View
       style={{
-        borderWidth: 0.5,
-        borderColor: "#777777",
-        justifyContent: "center",
-        alignItems: "center"
+        padding: 3
       }}
-      containerStyle={{
-        borderRadius: 0
-      }}
-      onPress={() => props.onPress(props.id, props.title)}
     >
-      <Card.Image
-        width={80}
+      <Card
+        row
         height={80}
-        imageSource={require("../../../img/world.png")}
-        style={{ padding: 5 }}
-      />
-      <View padding-10 flex>
-        <Grid>
-          <Row size={70}>
-            <Col size={75}>
-              <Text text40 dark10 numberOfLines={1}>
-                {props.title}
+        style={{
+          borderRadius: 5,
+          borderWidth: 0.5,
+          borderColor: Color(config.backgroundColor)
+            .alpha(0.5)
+            .toString(),
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: Color(config.backgroundColor)
+            .alpha(0.2)
+            .toString()
+        }}
+        containerStyle={{
+          borderRadius: 0
+        }}
+        onPress={() => props.onPress(props.id, props.title)}
+      >
+        <View style={{ padding: 10 }}>
+          <IconImage
+            kind={props.kind}
+            image={props.image}
+            opacity={0.9}
+            size={60}
+          />
+        </View>
+        <View padding-10 flex>
+          <Grid>
+            <Row size={75}>
+              <Col size={75} style={{ paddingTop: 5 }}>
+                <Text
+                  numberOfLines={1}
+                  style={{ fontWeight: "500", fontSize: 24, color: "#555" }}
+                >
+                  {props.title}
+                </Text>
+              </Col>
+            </Row>
+            <Row size={25} style={{ paddingLeft: 2 }}>
+              <Text numberOfLines={1} style={{ fontSize: 10, color: "#555" }}>
+                {props.about}
               </Text>
-            </Col>
-            <Col size={10}>
-              <Ionicons name="ios-arrow-forward" size={30} color="#c2c2c2" />
-            </Col>
-          </Row>
-          <Row size={30}>
-            <Text text90 dark50 numberOfLines={1}>
-              {props.about}
-            </Text>
-          </Row>
-        </Grid>
-      </View>
-    </Card>
-  </View>
-);
+            </Row>
+          </Grid>
+        </View>
+      </Card>
+    </View>
+  );
+};

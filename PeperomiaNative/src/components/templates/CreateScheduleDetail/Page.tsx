@@ -121,22 +121,22 @@ class App extends Component<Props & ActionSheetProps, State> {
                 }
                 testID="saveScheduleDetail"
               >
-                <Text
-                  style={{ fontSize: 18, fontWeight: "500", color: "#ffffff" }}
+                <TextPlan
+                  style={{ fontSize: 18, fontWeight: "500", color: "#555" }}
                 >
                   保存
-                </Text>
+                </TextPlan>
               </TouchableOpacity>
             }
             onClose={this.props.onDismiss}
           >
             <TextInput
               placeholder="タイトルを入力"
-              placeholderTextColor="#ffffff"
+              placeholderTextColor="#555"
               style={{
                 fontSize: 20,
                 fontWeight: "600",
-                color: "#ffffff",
+                color: "#555",
                 paddingLeft: 1
               }}
               onChangeText={title => this.setState({ title })}

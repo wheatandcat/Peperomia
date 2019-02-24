@@ -1,37 +1,11 @@
 import React from "react";
-import { Image, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { View } from "react-native-ui-lib";
 import styled from "styled-components/native";
+import Color from "color";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import {
-  KIND_PARK,
-  KIND_TRAIN,
-  KIND_SHIP,
-  KIND_DEFAULT
-} from "../../../lib/getKind";
-
-const park = require(`../../../img/park.png`);
-const train = require(`../../../img/train.png`);
-const ship = require(`../../../img/ship.png`);
-
-const KINDS: any = {
-  [KIND_PARK]: {
-    image: "park",
-    backgroundColor: "#77D353"
-  },
-  [KIND_TRAIN]: {
-    image: "train",
-    backgroundColor: "#F3B042"
-  },
-  [KIND_SHIP]: {
-    image: "ship",
-    backgroundColor: "#00A6FF"
-  },
-  [KIND_DEFAULT]: {
-    image: null,
-    backgroundColor: "#969FAA"
-  }
-};
+import { KINDS } from "../../../lib/getKind";
+import { IconImage } from "../../atoms";
 
 export interface Props {
   kind: string;
@@ -43,25 +17,21 @@ export interface Props {
 export default (props: Props) => {
   const config = KINDS[props.kind];
 
-  const getImg = (kind: string) => {
-    if (kind === KIND_PARK) {
-      return park;
-    } else if (kind === KIND_TRAIN) {
-      return train;
-    } else if (kind === KIND_SHIP) {
-      return ship;
-    }
-
-    return null;
-  };
-
-  const img = getImg(props.kind);
-
   return (
-    <View style={{ backgroundColor: config.backgroundColor }}>
+    <View
+      style={{
+        borderWidth: 0.5,
+        borderColor: Color(config.backgroundColor)
+          .alpha(0.5)
+          .toString(),
+        backgroundColor: Color(config.backgroundColor)
+          .alpha(0.5)
+          .toString()
+      }}
+    >
       <View style={{ padding: 15, flexDirection: "row" }}>
         <TouchableOpacity onPress={props.onClose}>
-          <MaterialCommunityIcons name="close" size={30} color="#ffffff" />
+          <MaterialCommunityIcons name="close" size={30} color="#555" />
         </TouchableOpacity>
         <View style={{ marginRight: 0, marginLeft: "auto" }}>
           {props.right}
@@ -74,8 +44,8 @@ export default (props: Props) => {
             {props.children}
           </View>
 
-          <View style={{ position: "absolute", right: 80 }}>
-            {img ? <Image source={img} style={{ opacity: 0.5 }} /> : null}
+          <View style={{ position: "absolute", right: 30 }}>
+            <IconImage kind={props.kind} size={80} opacity={0.9} />
           </View>
         </View>
       </Content>
@@ -87,6 +57,6 @@ const Content = styled.View`
   padding-horizontal: 0;
   padding-vertical: 0;
   border-radius: 0;
-  height: 100;
+  height: 80;
   justify-content: flex-end;
 `;

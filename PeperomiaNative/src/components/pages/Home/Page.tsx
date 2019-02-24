@@ -11,12 +11,16 @@ export interface Props extends CardsProps {
 }
 
 export default (props: Props) => (
-  <View>
+  <View
+    style={{
+      backgroundColor: "#fff"
+    }}
+  >
     <Dialog visible={props.guide} width="80%" height="50%" centerH centerV>
       <Guide onFinish={props.onGuideFinish} />
     </Dialog>
 
-    <View style={{ height: "100%" }}>
+    <View style={{ height: "100%", paddingTop: 3 }}>
       {props.data.length > 0 ? (
         <Cards
           data={props.data}
