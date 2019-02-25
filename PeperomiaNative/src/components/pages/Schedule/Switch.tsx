@@ -160,7 +160,6 @@ class Switch extends Component<Props & ActionSheetProps, State> {
             [
               {
                 text: "キャンセル",
-                onPress: () => {},
                 style: "cancel"
               },
               {

@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Dialog, Text } from "react-native-ui-lib";
 import Cards, { Props as CardsProps } from "../../organisms/Home/Cards";
-import EditButton from "../../atoms/EditButton";
 import Guide from "../../organisms/Guide/Connected";
 
 export interface Props extends CardsProps {
@@ -10,7 +9,11 @@ export interface Props extends CardsProps {
   onGuideFinish: () => void;
 }
 
-export default (props: Props) => (
+interface ItemProps extends Props {
+  onDelete: (id: string) => void;
+}
+
+export default (props: ItemProps) => (
   <View
     style={{
       backgroundColor: "#fff"
@@ -26,6 +29,7 @@ export default (props: Props) => (
           data={props.data}
           loading={props.loading}
           onSchedule={props.onSchedule}
+          onDelete={props.onDelete}
         />
       ) : (
         <View
@@ -39,19 +43,5 @@ export default (props: Props) => (
         </View>
       )}
     </View>
-    {/*
-    <View
-      style={{
-        flex: 1,
-        right: 0,
-        position: "absolute",
-        alignItems: "flex-end",
-        paddingRight: 15,
-        bottom: 20
-      }}
-    >
-      <EditButton onPress={props.onCreate} testID="addSchedule" />
-    </View>
-    */}
   </View>
 );

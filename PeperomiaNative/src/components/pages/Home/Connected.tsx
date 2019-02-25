@@ -15,9 +15,11 @@ import {
   insert as insertUser,
   User
 } from "../../../lib/db/user";
+import { delete1st } from "../../../lib/db/item";
 import {
   selectByItemId as selectItemDetailByItemId,
-  ItemDetail
+  ItemDetail,
+  deleteByItemId as deleteItemDetailByItemId
 } from "../../../lib/db/itemDetail";
 import Schedule from "../Schedule/Switch";
 import Page, { Props as PageProps } from "./Page";
@@ -104,7 +106,7 @@ class HomeScreen extends Component<Props, State> {
     }
   };
 
-  setUser = (data: any, error: any) => {
+  setUser = (_: any, error: any) => {
     if (error) {
       return;
     }
@@ -163,6 +165,21 @@ class HomeScreen extends Component<Props, State> {
     this.props.navigation.navigate("CreatePlan");
   };
 
+  onDelete = (scheduleId: string) => {
+    db.transaction((tx: SQLite.Transaction) => {
+      delete1st(tx, scheduleId, (data: any, error: any) => {
+        if (error) {
+          return;
+        }
+        deleteItemDetailByItemId(tx, scheduleId, this.onRefresh);
+      });
+    });
+  };
+
+  onRefresh = () => {
+    this.setState({ refresh: uuidv1() });
+  };
+
   render() {
     const items: any = this.state.items.map((item: Item) => {
       const about: any = this.state.about.find(
@@ -180,6 +197,7 @@ class HomeScreen extends Component<Props, State> {
         onSchedule={this.onSchedule}
         onCreate={this.onCreate}
         onGuideFinish={this.onGuideFinish}
+        onDelete={this.onDelete}
       />
     );
   }
