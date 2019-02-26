@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { View } from "react-native";
 import { List, Divider, Title } from "react-native-paper";
+import { ListItem } from "react-native-elements";
 
 export interface Props {
   onResetSQL: () => void;
@@ -12,7 +13,24 @@ export interface Props {
 export default class extends Component<Props> {
   render() {
     return (
-      <View style={{ backgroundColor: "#ffffff" }}>
+      <View style={{ backgroundColor: "#efefef" }}>
+        <View style={{ height: 50 }} />
+        <ListItem
+          title="お知らせ"
+          rightIcon={{ name: "chevron-right", color: "#888" }}
+        />
+        <View style={{ height: 20 }} />
+        <ListItem
+          title="お問い合わせ"
+          rightIcon={{ name: "chevron-right", color: "#888" }}
+          bottomDivider
+        />
+        <ListItem
+          title="アプリについて"
+          rightIcon={{ name: "chevron-right", color: "#888" }}
+          bottomDivider
+        />
+        <View style={{ marginBottom: 50 }} />
         <Title
           style={{
             backgroundColor: "#efefef",
@@ -34,7 +52,6 @@ export default class extends Component<Props> {
         <Divider />
         <List.Item title="sqllite DB" onPress={this.props.onData} />
         <Divider />
-        <List.Item title="First Item" />
       </View>
     );
   }
