@@ -13,8 +13,13 @@ export default class extends Component<Props> {
   render() {
     return (
       <View style={{ backgroundColor: "#ffffff" }}>
-        <Title style={{ backgroundColor: "#efefef", paddingTop: 15 }}>
-          {" "}
+        <Title
+          style={{
+            backgroundColor: "#efefef",
+            paddingTop: 15,
+            paddingLeft: 10
+          }}
+        >
           デバッグ機能
         </Title>
         <List.Item
