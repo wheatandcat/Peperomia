@@ -8,6 +8,9 @@ import Page from "./Page";
 
 interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
+  onAdd: () => void;
+  onSort: () => void;
+  onDelete: () => void;
 }
 
 interface State {
@@ -57,7 +60,13 @@ export default class extends Component<Props, State> {
 
   render() {
     return (
-      <Page data={this.state.items} onScheduleDetail={this.onScheduleDetail} />
+      <Page
+        data={this.state.items}
+        onScheduleDetail={this.onScheduleDetail}
+        onAdd={this.props.onAdd}
+        onSort={this.props.onSort}
+        onDelete={this.props.onDelete}
+      />
     );
   }
 }

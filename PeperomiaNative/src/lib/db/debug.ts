@@ -62,7 +62,7 @@ export const resetSql = (tx: SQLite.Transaction) => {
   const itemDetail4: ItemDetail = {
     itemId: 1,
     title: "浅草寺二天門前",
-    kind: "",
+    kind: "default",
     memo: "",
     moveMinutes: 0,
     priority: 4

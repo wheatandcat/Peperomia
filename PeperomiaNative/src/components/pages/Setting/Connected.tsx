@@ -2,6 +2,7 @@ import { SQLite } from "expo";
 import React, { Component } from "react";
 import { createStackNavigator } from "react-navigation";
 import Page from "./Page";
+import { save } from "../../../lib/firebase";
 import { db } from "../../../lib/db";
 import { deleteSql, resetSql, deleteUserSql } from "../../../lib/db/debug";
 import { select as selectItems } from "../../../lib/db/item";

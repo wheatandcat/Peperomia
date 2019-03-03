@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import SortableList from "react-native-sortable-list";
 import { SortableItemDetail } from "../../pages/SortableSchedule/Connected";
-import getKind from "../../../lib/getKind";
 import Card from "../../molecules/Schedule/Card";
 import Row from "./Row";
 
@@ -16,7 +15,7 @@ export default class extends Component<Props> {
   renderItem({ data, active }: { data: SortableItemDetail; active: boolean }) {
     return (
       <Row active={active}>
-        <Card {...data} kind={getKind(data.title)} />
+        <Card {...data} kind={data.kind} />
       </Row>
     );
   }

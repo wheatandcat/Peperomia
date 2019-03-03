@@ -1,14 +1,12 @@
 import React, { Component } from "react";
 import { SQLite } from "expo";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
-import { TouchableOpacity, View, Share, Alert } from "react-native";
-import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
+import { View, Share, Alert } from "react-native";
 import {
   ActionSheetProps,
   connectActionSheet
 } from "@expo/react-native-action-sheet";
 import uuidv1 from "uuid/v1";
-import { Button } from "react-native-elements";
 import EditSchedule from "../EditSchedule/Connected";
 import SortableSchedule from "../SortableSchedule/Connected";
 import { db } from "../../../lib/db";
@@ -19,8 +17,9 @@ import {
 } from "../../../lib/db/itemDetail";
 import { delete1st } from "../../../lib/db/item";
 import getShareText from "../../../lib/getShareText";
-import { LeftText, RightText } from "../../atoms/Header";
 import Schedule from "./Connected";
+import HeaderLeft from "./HeaderLeft";
+import HeaderRight from "./HeaderRight";
 
 interface State {
   itemId: number;
@@ -41,82 +40,23 @@ class Switch extends Component<Props & ActionSheetProps, State> {
       title: params.title,
       headerLeft: (
         <View style={{ left: 5 }}>
-          {(() => {
-            if (params.mode === "edit") {
-              return (
-                <LeftText label="キャンセル" cancel onPress={params.onShow} />
-              );
-            }
-
-            if (params.mode === "sort") {
-              return (
-                <LeftText label="キャンセル" cancel onPress={params.onShow} />
-              );
-            }
-
-            return (
-              <TouchableOpacity
-                onPress={() => navigation.goBack()}
-                style={{ flex: 1, flexDirection: "row", marginTop: 10 }}
-              >
-                <MaterialCommunityIcons
-                  name="chevron-left"
-                  size={30}
-                  color="#00bfff"
-                />
-              </TouchableOpacity>
-            );
-          })()}
+          <HeaderLeft
+            mode={params.mode}
+            onShow={params.onShow}
+            navigation={navigation}
+          />
         </View>
       ),
       headerRight: (
         <View style={{ right: 10 }}>
-          {(() => {
-            if (params.mode === "edit") {
-              return null;
+          <HeaderRight
+            mode={params.mode}
+            onSave={params.onSave}
+            onShare={() =>
+              params.onShare(params.itemId, params.title, params.items)
             }
-
-            if (params.mode === "sort") {
-              return <RightText label="保存" onPress={params.onSave} />;
-            }
-
-            return (
-              <View style={{ flex: 1, flexDirection: "row" }}>
-                <Button
-                  icon={
-                    <Entypo
-                      name="share-alternative"
-                      size={13}
-                      color="#FFFFFF"
-                    />
-                  }
-                  iconContainerStyle={{
-                    padding: 0
-                  }}
-                  buttonStyle={{
-                    backgroundColor: "#4DB6AC",
-                    width: 28,
-                    height: 28,
-                    borderColor: "transparent",
-                    borderWidth: 0,
-                    borderRadius: 10
-                  }}
-                  onPress={() => params.onShare(params.title, params.items)}
-                />
-
-                <TouchableOpacity
-                  onPress={() => params.onOpenActionSheet(params.items)}
-                >
-                  <MaterialCommunityIcons
-                    name="dots-vertical"
-                    size={26}
-                    color="#00bfff"
-                    style={{ marginRight: 0, marginLeft: "auto" }}
-                  />
-                </TouchableOpacity>
-              </View>
-            );
-          })()}
+            onOpenActionSheet={() => params.onOpenActionSheet(params.items)}
+          />
         </View>
       )
     };
@@ -126,6 +66,7 @@ class Switch extends Component<Props & ActionSheetProps, State> {
 
   componentDidMount() {
     this.props.navigation.setParams({
+      onAdd: this.onAdd,
       onEdit: this.onEdit,
       onShow: this.onShow,
       onSort: this.onSort,
@@ -145,12 +86,7 @@ class Switch extends Component<Props & ActionSheetProps, State> {
       },
       buttonIndex => {
         if (buttonIndex === 0) {
-          const itemId = this.props.navigation.getParam("itemId", "1");
-          this.props.navigation.navigate("CreateScheduleDetail", {
-            itemId,
-            priority: items.length + 1
-          });
-          //this.onEdit(items);
+          this.onAdd(items);
         } else if (buttonIndex === 1) {
           this.onSort(items);
         } else if (buttonIndex === 2) {
@@ -176,6 +112,14 @@ class Switch extends Component<Props & ActionSheetProps, State> {
     );
   };
 
+  onAdd = (items: ItemDetail[]) => {
+    const itemId = this.props.navigation.getParam("itemId", "1");
+    this.props.navigation.navigate("CreateScheduleDetail", {
+      itemId,
+      priority: items.length + 1
+    });
+  };
+
   onDelete = () => {
     const itemId = this.props.navigation.getParam("itemId", "1");
 
@@ -189,7 +133,7 @@ class Switch extends Component<Props & ActionSheetProps, State> {
     });
   };
 
-  onDeleteRefresh = (data: any, error: any) => {
+  onDeleteRefresh = (_: any, error: any) => {
     if (error) {
       return;
     }
@@ -241,13 +185,9 @@ class Switch extends Component<Props & ActionSheetProps, State> {
     this.setState({ saveItems: data });
   };
 
-  save = (ans: any) => {
-    console.log(ans);
-  };
+  save = (_: any) => {};
 
-  onShare = async (title: string, items: ItemDetail[]) => {
-    console.log(items);
-
+  onShare = async (itemId: string, title: string, items: ItemDetail[]) => {
     try {
       const result: any = await Share.share({
         title,
@@ -289,7 +229,14 @@ class Switch extends Component<Props & ActionSheetProps, State> {
       );
     }
 
-    return <Schedule navigation={this.props.navigation} />;
+    return (
+      <Schedule
+        navigation={this.props.navigation}
+        onAdd={() => this.onAdd(this.state.items)}
+        onSort={() => this.onSort(this.state.items)}
+        onDelete={() => this.onDelete()}
+      />
+    );
   }
 }
 

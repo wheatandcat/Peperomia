@@ -9,7 +9,6 @@ interface Props {
 
 export default (props: Props) => (
   <TouchableOpacity onPress={props.onPress} testID={props.testID}>
-    >
     <Text
       style={{
         fontSize: 16,

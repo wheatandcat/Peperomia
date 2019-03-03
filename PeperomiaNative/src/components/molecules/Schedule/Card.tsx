@@ -12,8 +12,11 @@ export interface Props extends ItemDetail {
 }
 
 export default (props: Props) => {
+  console.log(props.kind);
+
   const config = KINDS[props.kind];
   const ss = s.schedule;
+  console.log(props);
 
   return (
     <Content
