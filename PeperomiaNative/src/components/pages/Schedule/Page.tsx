@@ -12,7 +12,7 @@ export interface Props extends CardsProps {
 export default class extends Component<Props> {
   onDelete = () => {
     Alert.alert(
-      "削除しますか？",
+      "本当に削除しますか？",
       "",
       [
         {
@@ -49,7 +49,7 @@ export default class extends Component<Props> {
           <ActionButton
             onAdd={this.props.onAdd}
             onSort={this.props.onSort}
-            onDelete={this.props.onDelete}
+            onDelete={this.onDelete}
           />
         </View>
       </View>
