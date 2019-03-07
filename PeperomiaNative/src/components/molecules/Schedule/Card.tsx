@@ -12,11 +12,13 @@ export interface Props extends ItemDetail {
 }
 
 export default (props: Props) => {
-  console.log(props.kind);
-
   const config = KINDS[props.kind];
   const ss = s.schedule;
-  console.log(props);
+
+  if (!config) {
+    console.log("error");
+    return null;
+  }
 
   return (
     <Content
@@ -34,7 +36,7 @@ export default (props: Props) => {
         <View style={{ position: "absolute", right: 30 }}>
           <IconImage kind={props.kind} size={80} opacity={0.9} />
         </View>
-        <View style={{ flex: 1, padding: 10, paddingBottom: 25 }}>
+        <View style={{ flex: 1, padding: 20, paddingBottom: 25 }}>
           <Title numberOfLines={1}>{props.title}</Title>
         </View>
       </View>

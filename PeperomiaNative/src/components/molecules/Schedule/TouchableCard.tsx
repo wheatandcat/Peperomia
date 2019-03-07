@@ -2,12 +2,9 @@ import React, { Fragment } from "react";
 import { TouchableOpacity } from "react-native";
 import { View, Text } from "react-native-ui-lib";
 import Card from "./Card";
+import { ItemDetail } from "../../../lib/db/itemDetail";
 
-export interface ItemProps {
-  id: string;
-  kind: string;
-  title: string;
-  moveMinutes: number | null;
+export interface ItemProps extends ItemDetail {
   end: boolean;
 }
 

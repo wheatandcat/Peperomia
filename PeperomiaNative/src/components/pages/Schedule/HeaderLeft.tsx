@@ -16,7 +16,7 @@ export default (props: Props) => {
   }
 
   if (props.mode === "sort") {
-    return <LeftText label="キャンセル" cancel onPress={props.onShow} />;
+    return null;
   }
 
   return (

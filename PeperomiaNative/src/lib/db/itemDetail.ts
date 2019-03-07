@@ -23,8 +23,7 @@ export const create = async (
       "kind string," +
       "memo string," +
       "moveMinutes integer," +
-      "priority integer," +
-      "unique(itemId, priority)" +
+      "priority integer" +
       ");",
     [],
     (_, props) => success(props.rows._array, callback),
@@ -61,8 +60,8 @@ export const update = async (
     "update item_details set title = ?, kind = ?, memo = ?, moveMinutes = ?, priority = ? where id = ?",
     [
       itemDetail.title,
-      itemDetail.memo,
       itemDetail.kind,
+      itemDetail.memo,
       String(itemDetail.moveMinutes),
       String(itemDetail.priority),
       String(itemDetail.id)

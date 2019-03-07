@@ -1,7 +1,7 @@
 import React from "react";
-import { TouchableOpacity, View } from "react-native";
+import { View } from "react-native";
 import { Button } from "react-native-elements";
-import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 import { RightText } from "../../atoms/Header";
 
 interface Props {
@@ -17,11 +17,11 @@ export default (props: Props) => {
   }
 
   if (props.mode === "sort") {
-    return <RightText label="保存" onPress={props.onSave} />;
+    return <RightText label="完了" onPress={props.onSave} />;
   }
 
   return (
-    <View style={{ flex: 1, flexDirection: "row" }}>
+    <View style={{ flex: 1, flexDirection: "row", paddingTop: 2 }}>
       <Button
         icon={<Entypo name="share-alternative" size={13} color="#FFFFFF" />}
         iconContainerStyle={{
@@ -33,19 +33,11 @@ export default (props: Props) => {
           height: 28,
           borderColor: "transparent",
           borderWidth: 0,
-          borderRadius: 10
+          borderRadius: 10,
+          marginRight: 10
         }}
-        onPress={props.onShare}
+        onPress={props.onOpenActionSheet}
       />
-
-      <TouchableOpacity onPress={props.onOpenActionSheet}>
-        <MaterialCommunityIcons
-          name="dots-vertical"
-          size={26}
-          color="#00bfff"
-          style={{ marginRight: 0, marginLeft: "auto" }}
-        />
-      </TouchableOpacity>
     </View>
   );
 };

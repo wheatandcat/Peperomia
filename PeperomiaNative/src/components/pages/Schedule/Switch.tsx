@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { SQLite } from "expo";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
-import { View, Share, Alert } from "react-native";
+import { View, Share } from "react-native";
 import {
   ActionSheetProps,
   connectActionSheet
@@ -15,13 +15,15 @@ import {
   ItemDetail,
   deleteByItemId as deleteItemDetailByItemId
 } from "../../../lib/db/itemDetail";
-import { delete1st } from "../../../lib/db/item";
+import { save as saveFirestore } from "../../../lib/firebase";
+import { select1st, delete1st, Item } from "../../../lib/db/item";
 import getShareText from "../../../lib/getShareText";
 import Schedule from "./Connected";
 import HeaderLeft from "./HeaderLeft";
 import HeaderRight from "./HeaderRight";
 
 interface State {
+  item: Item;
   itemId: number;
   title: string;
   items: ItemDetail[];
@@ -55,16 +57,40 @@ class Switch extends Component<Props & ActionSheetProps, State> {
             onShare={() =>
               params.onShare(params.itemId, params.title, params.items)
             }
-            onOpenActionSheet={() => params.onOpenActionSheet(params.items)}
+            onOpenActionSheet={() =>
+              params.onOpenActionSheet(
+                params.itemId,
+                params.title,
+                params.items
+              )
+            }
           />
         </View>
       )
     };
   };
 
-  state = { itemId: 0, title: "", items: [], saveItems: [], mode: "show" };
+  state = {
+    item: {
+      id: 0,
+      title: "",
+      kind: "",
+      image: ""
+    },
+    itemId: 0,
+    title: "",
+    items: [],
+    saveItems: [],
+    mode: "show"
+  };
 
   componentDidMount() {
+    const itemId = this.props.navigation.getParam("itemId", "1");
+
+    db.transaction((tx: SQLite.Transaction) => {
+      select1st(tx, itemId, this.setItem);
+    });
+
     this.props.navigation.setParams({
       onAdd: this.onAdd,
       onEdit: this.onEdit,
@@ -77,39 +103,40 @@ class Switch extends Component<Props & ActionSheetProps, State> {
     });
   }
 
-  onOpenActionSheet = (items: ItemDetail[]) => {
+  setItem = (data: any, error: any) => {
+    if (error) {
+      return;
+    }
+
+    this.setState({
+      item: data
+    });
+  };
+
+  onOpenActionSheet = (itemId: string, title: string, items: ItemDetail[]) => {
     this.props.showActionSheetWithOptions(
       {
-        options: ["追加する", "並び替え", "プランを削除", "キャンセル"],
-        destructiveButtonIndex: 2,
-        cancelButtonIndex: 3
+        options: ["リンクを取得する", "その他", "キャンセル"],
+
+        cancelButtonIndex: 2
       },
       buttonIndex => {
         if (buttonIndex === 0) {
-          this.onAdd(items);
+          this.onCrateShareLink(items);
         } else if (buttonIndex === 1) {
-          this.onSort(items);
-        } else if (buttonIndex === 2) {
-          Alert.alert(
-            "削除しますか？",
-            "",
-            [
-              {
-                text: "キャンセル",
-                style: "cancel"
-              },
-              {
-                text: "削除する",
-                onPress: () => {
-                  this.onDelete();
-                }
-              }
-            ],
-            { cancelable: false }
-          );
+          this.onShare(itemId, title, items);
         }
       }
     );
+  };
+
+  onCrateShareLink = async (items: ItemDetail[]) => {
+    if (!this.state.item.id) {
+      return;
+    }
+    console.log(items);
+    const linkID = await saveFirestore(this.state.item, items);
+    console.log(linkID);
   };
 
   onAdd = (items: ItemDetail[]) => {
@@ -171,10 +198,12 @@ class Switch extends Component<Props & ActionSheetProps, State> {
     this.setState({
       items: this.state.saveItems
     });
-    this.onEdit(this.state.saveItems);
+    this.onShow();
   };
 
   onChangeItems = (data: ItemDetail[]): void => {
+    console.log(data);
+
     db.transaction((tx: SQLite.Transaction) => {
       data.forEach(async (item, index) => {
         item.priority = index + 1;
@@ -189,9 +218,11 @@ class Switch extends Component<Props & ActionSheetProps, State> {
 
   onShare = async (itemId: string, title: string, items: ItemDetail[]) => {
     try {
+      const message = getShareText(items);
+
       const result: any = await Share.share({
         title,
-        message: getShareText(items)
+        message
       });
 
       if (result.action === Share.sharedAction) {
@@ -232,8 +263,8 @@ class Switch extends Component<Props & ActionSheetProps, State> {
     return (
       <Schedule
         navigation={this.props.navigation}
-        onAdd={() => this.onAdd(this.state.items)}
-        onSort={() => this.onSort(this.state.items)}
+        onAdd={this.onAdd}
+        onSort={this.onSort}
         onDelete={() => this.onDelete()}
       />
     );

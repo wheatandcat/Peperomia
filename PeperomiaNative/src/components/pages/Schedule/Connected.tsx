@@ -2,19 +2,18 @@ import { SQLite } from "expo";
 import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import { db } from "../../../lib/db";
-import { selectByItemId } from "../../../lib/db/itemDetail";
-import { ItemProps } from "../../organisms/Schedule/Cards";
+import { selectByItemId, ItemDetail } from "../../../lib/db/itemDetail";
 import Page from "./Page";
 
 interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
-  onAdd: () => void;
-  onSort: () => void;
+  onAdd: (items: ItemDetail[]) => void;
+  onSort: (items: ItemDetail[]) => void;
   onDelete: () => void;
 }
 
 interface State {
-  items: ItemProps[];
+  items: ItemDetail[];
   refresh: string;
 }
 
@@ -63,8 +62,8 @@ export default class extends Component<Props, State> {
       <Page
         data={this.state.items}
         onScheduleDetail={this.onScheduleDetail}
-        onAdd={this.props.onAdd}
-        onSort={this.props.onSort}
+        onAdd={() => this.props.onAdd(this.state.items)}
+        onSort={() => this.props.onSort(this.state.items)}
         onDelete={this.props.onDelete}
       />
     );
