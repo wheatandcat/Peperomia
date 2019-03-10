@@ -9,9 +9,9 @@ interface Props {
 export default (props: Props) => {
   return (
     <>
-      {props.itemDetails.map(itemDetail => (
+      {props.itemDetails.map((itemDetail, index) => (
         <span key={itemDetail.id}>
-          <Card {...itemDetail} />
+          <Card {...itemDetail} last={props.itemDetails.length - 1 === index} />
         </span>
       ))}
     </>
