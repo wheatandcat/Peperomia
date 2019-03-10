@@ -7,11 +7,11 @@ import {
   KIND_FISHING
 } from "../../lib/getKind";
 
-const park = require(`../../img/park.png`);
-const train = require(`../../img/train.png`);
-const ship = require(`../../img/ship.png`);
-const fishing = require(`../../img/fishing.png`);
-const world = require(`../../img/world.png`);
+const park = require(`../../img/park@2x.png`);
+const train = require(`../../img/train@2x.png`);
+const ship = require(`../../img/ship@2x.png`);
+const fishing = require(`../../img/fishing@2x.png`);
+const world = require(`../../img/world@2x.png`);
 
 export interface Props {
   kind: string;

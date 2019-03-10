@@ -1,40 +1,58 @@
 import React from "react";
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Typography from "@material-ui/core/Typography";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Divider from "@material-ui/core/Divider";
 import { KIND_PARK } from "../../../lib/getKind";
+import { ItemDetail } from "../../../lib/item";
+import Cards from "../../organisms/Schedule/Cards";
+
+interface Props {
+  itemDetails: ItemDetail[];
+}
 
 const data = [
   {
-    id: "1",
+    id: 1,
+    itemId: 1,
     title: "新宿駅",
     kind: KIND_PARK,
-    moveMinutes: 30
+    memo: "",
+    moveMinutes: 30,
+    priority: 1
   },
   {
-    id: "2",
+    id: 2,
+    itemId: 1,
     title: "葛西臨海公園",
     kind: KIND_PARK,
-    moveMinutes: null
+    memo: "■行く場所メモ\n・砂浜\n・観覧車\n・水族園",
+    moveMinutes: null,
+    priority: 2
   },
   {
-    id: "3",
+    id: 3,
+    itemId: 1,
     title: "葛西臨海公園 水上バス",
     kind: KIND_PARK,
-    moveMinutes: 120
+    memo: "",
+    moveMinutes: 120,
+    priority: 3
   },
   {
-    id: "4",
+    id: 4,
+    itemId: 1,
     title: "浅草寺二天門前",
     kind: KIND_PARK,
-    moveMinutes: null
+    memo: "",
+    moveMinutes: null,
+    priority: 4
   }
 ];
 
 export default () => {
+  const props: Props = {
+    itemDetails: data
+  };
+
   return (
     <>
       <Typography
@@ -45,23 +63,7 @@ export default () => {
         葛西臨海公園
       </Typography>
       <Divider />
-      <div>
-        {data.map(item => (
-          <span key={item.id}>
-            <ExpansionPanel style={{ backgroundColor: "#eee" }}>
-              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>{item.title}</Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <Typography>■メモ</Typography>
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
-            <div style={{ padding: 5, paddingLeft: 25, fontSize: "11px" }}>
-              {item.moveMinutes ? item.moveMinutes + "分" : "-"}
-            </div>
-          </span>
-        ))}
-      </div>
+      <Cards {...props} />
     </>
   );
 };
