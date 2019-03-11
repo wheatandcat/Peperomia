@@ -1,7 +1,12 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
-import { KIND_PARK } from "../../../lib/getKind";
+import {
+  KIND_PARK,
+  KIND_TRAIN,
+  KIND_SHIP,
+  KIND_DEFAULT
+} from "../../../lib/getKind";
 import { ItemDetail } from "../../../lib/item";
 import Cards from "../../organisms/Schedule/Cards";
 
@@ -14,7 +19,7 @@ const data = [
     id: 1,
     itemId: 1,
     title: "新宿駅",
-    kind: KIND_PARK,
+    kind: KIND_TRAIN,
     memo: "",
     moveMinutes: 30,
     priority: 1
@@ -32,7 +37,7 @@ const data = [
     id: 3,
     itemId: 1,
     title: "葛西臨海公園 水上バス",
-    kind: KIND_PARK,
+    kind: KIND_SHIP,
     memo: "",
     moveMinutes: 120,
     priority: 3
@@ -41,7 +46,7 @@ const data = [
     id: 4,
     itemId: 1,
     title: "浅草寺二天門前",
-    kind: KIND_PARK,
+    kind: KIND_DEFAULT,
     memo: "",
     moveMinutes: null,
     priority: 4

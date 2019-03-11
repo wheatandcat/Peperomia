@@ -4,6 +4,7 @@ import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Typography from "@material-ui/core/Typography";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { ItemDetail } from "../../../lib/item";
 import IconImage from "../../atoms/IconImage";
 import { KINDS } from "../../../lib/getKind";
@@ -22,6 +23,13 @@ export default (props: Props) => {
     return null;
   }
 
+  let panelProps = {};
+
+  if (props.memo === "") {
+    panelProps = {
+      expanded: false
+    };
+  }
   return (
     <>
       <ExpansionPanel
@@ -35,17 +43,26 @@ export default (props: Props) => {
             .alpha(ss.borderColorAlpha)
             .toString()
         }}
+        {...panelProps}
       >
-        <ExpansionPanelSummary>
+        <ExpansionPanelSummary
+          expandIcon={
+            props.memo !== "" ? (
+              <ExpandMoreIcon style={{ color: "#999" }} />
+            ) : null
+          }
+        >
           <Typography>{props.title}</Typography>
-          <div style={{ position: "absolute", top: 0, right: 0, opacity: 0.5 }}>
-            <IconImage kind={props.kind} size={50} />
+          <div
+            style={{ position: "absolute", top: 2, right: 20, opacity: 0.5 }}
+          >
+            <IconImage kind={props.kind} size={45} />
           </div>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
           <Typography>
-            {props.memo.split("\n").map(m => (
-              <span>
+            {props.memo.split("\n").map((m, index) => (
+              <span key={index}>
                 {m}
                 <br />
               </span>
