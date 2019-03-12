@@ -8,13 +8,13 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 export interface Plan extends Item {
-  itemDetail: ItemDetail;
+  itemDetails: ItemDetail[];
 }
 
-export const getPlan = async () => {
+export const getPlan = async (id: number): Promise<Plan> => {
   const snapShot = await db
     .collection("plans")
-    .where("id", "==", 1)
+    .where("id", "==", id)
     .get();
 
   // docsをmapする
@@ -22,8 +22,7 @@ export const getPlan = async () => {
     return doc.data();
   });
 
-  const result = data ? data[0] : null;
-  console.log(result);
+  const result: any = data ? data[0] : null;
 
   return result;
 };
