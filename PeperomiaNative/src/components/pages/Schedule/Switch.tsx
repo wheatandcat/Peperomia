@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { SQLite } from "expo";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
-import { View, Share } from "react-native";
+import { View, Share, AsyncStorage } from "react-native";
 import {
   ActionSheetProps,
   connectActionSheet
@@ -134,8 +134,14 @@ class Switch extends Component<Props & ActionSheetProps, State> {
     if (!this.state.item.id) {
       return;
     }
+
+    const userID = await AsyncStorage.getItem("userID");
+    if (userID === null) {
+      return;
+    }
+
     console.log(items);
-    const linkID = await saveFirestore(this.state.item, items);
+    const linkID = await saveFirestore(userID, this.state.item, items);
     console.log(linkID);
   };
 

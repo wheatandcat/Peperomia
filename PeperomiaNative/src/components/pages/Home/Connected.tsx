@@ -5,7 +5,7 @@ import {
   NavigationScreenProp,
   NavigationRoute
 } from "react-navigation";
-import { TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View, AsyncStorage } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import uuidv1 from "uuid/v1";
 import { db, init } from "../../../lib/db";
@@ -103,6 +103,10 @@ class HomeScreen extends Component<Props, State> {
       db.transaction((tx: SQLite.Transaction) => {
         insertUser(tx, user, this.setUser);
       });
+
+      AsyncStorage.setItem("userID", user.uuid);
+    } else {
+      AsyncStorage.setItem("userID", data.uuid);
     }
   };
 

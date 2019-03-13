@@ -27,14 +27,14 @@ export default class extends Component<Props, State> {
   };
 
   async componentDidMount() {
-    const result = await getPlan(Number(this.props.match.params.id));
+    const result = await getPlan(this.props.match.params.id);
     if (!result) {
       return;
     }
 
     this.setState({
       loading: false,
-      item: result,
+      item: result.item,
       itemDetails: result.itemDetails
     });
   }

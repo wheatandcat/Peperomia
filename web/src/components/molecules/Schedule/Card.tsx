@@ -19,7 +19,6 @@ export default (props: Props) => {
   const ss = s.schedule;
 
   if (!config) {
-    console.log("error");
     return null;
   }
 

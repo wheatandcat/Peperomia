@@ -1,24 +1,50 @@
 import * as firebase from "firebase";
 import "firebase/firestore";
-import uuidv1 from "uuid/v1";
 import { firebaseConfig } from "../config/firebase";
 import { Item } from "./db/item";
 import { ItemDetail } from "./db/itemDetail";
-
-console.log(firebaseConfig);
 
 firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
 
-export const save = async (item: Item, itemDetails: ItemDetail[]) => {
-  const uuid = uuidv1();
+export const save = async (
+  userID: string,
+  item: Item,
+  itemDetails: ItemDetail[]
+) => {
+  const uuid = userID + item.id;
+
   try {
-    await db.collection("plans").add({
-      uuid,
-      ...item,
+    const planDocRef = db.collection("plans").doc(uuid);
+
+    planDocRef.set({
+      userID: userID,
+      share: false,
+      item: item,
       itemDetails: itemDetails,
       createDate: new Date()
+    });
+
+    return uuid;
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+};
+
+export const updateShare = async (
+  userID: string,
+  item: Item,
+  share: boolean
+) => {
+  const uuid = userID + item.id;
+
+  try {
+    const planDocRef = db.collection("plans").doc(uuid);
+
+    planDocRef.update({
+      share
     });
 
     return uuid;
