@@ -5,7 +5,7 @@ import {
   NavigationScreenProp,
   NavigationRoute
 } from "react-navigation";
-import { TouchableOpacity, View, AsyncStorage } from "react-native";
+import { TouchableOpacity, View, AsyncStorage, Image } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import uuidv1 from "uuid/v1";
 import { db, init } from "../../../lib/db";
@@ -40,6 +40,17 @@ interface State {
   guide: boolean;
 }
 
+class LogoTitle extends Component {
+  render() {
+    return (
+      <Image
+        source={require("../../../img/logo.png")}
+        style={{ height: 85 / 2.5, width: 274 / 2.5 }}
+      />
+    );
+  }
+}
+
 class HomeScreen extends Component<Props, State> {
   static navigationOptions = ({
     navigation
@@ -47,7 +58,7 @@ class HomeScreen extends Component<Props, State> {
     navigation: NavigationScreenProp<NavigationRoute>;
   }) => {
     return {
-      title: "マイプラン",
+      headerTitle: <LogoTitle />,
       headerRight: (
         <View style={{ right: 12 }}>
           <TouchableOpacity
