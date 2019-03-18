@@ -34,5 +34,15 @@
       "bundleIdentifier": "com.wheatandcat.peperomia"
     },
     "description": ""
+  },
+  "hooks": {
+    "postPublish": [{
+      "file": "sentry-expo/upload-sourcemaps",
+      "config": {
+        "organization": "freelance-km",
+        "project": "peperomia",
+        "authToken": "db8bc6b4e7f74feda3a0cf6fbc3b7db262f68f68723f43b89c0b2d3a1687379a"
+      }
+    }]
   }
 }

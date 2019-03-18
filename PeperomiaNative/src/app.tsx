@@ -6,6 +6,7 @@ import {
   createBottomTabNavigator,
   createStackNavigator
 } from "react-navigation";
+import Sentry from "sentry-expo";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { Provider as PaperProvider } from "react-native-paper";
 import Home from "./components/pages/Home/Connected";
@@ -16,6 +17,12 @@ import ScheduleDetail from "./components/pages/ScheduleDetail/Switch";
 import CreateScheduleDetail from "./components/pages/CreateScheduleDetail/Connected";
 import Icons from "./components/pages/Icons/Connected";
 import Camera from "./components/pages/Camera/Connected";
+
+Sentry.enableInExpoDevelopment = true;
+
+Sentry.config(
+  "https://e42fb8ebeb314dddaf752ba42f7b98c9@sentry.io/1417884"
+).install();
 
 const TabNavigator = createBottomTabNavigator(
   {

@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { SQLite } from "expo";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
-import { View, Share, AsyncStorage } from "react-native";
+import { View, Share, AsyncStorage, Dimensions, Clipboard } from "react-native";
 import {
   ActionSheetProps,
   connectActionSheet
 } from "@expo/react-native-action-sheet";
+import Toast from "react-native-root-toast";
 import uuidv1 from "uuid/v1";
 import EditSchedule from "../EditSchedule/Connected";
 import SortableSchedule from "../SortableSchedule/Connected";
@@ -140,9 +141,28 @@ class Switch extends Component<Props & ActionSheetProps, State> {
       return;
     }
 
-    console.log(items);
     const linkID = await saveFirestore(userID, this.state.item, items);
     console.log(linkID);
+
+    const shareHost = "https://peperomia-196da.firebaseapp.com";
+
+    Clipboard.setString(`${shareHost}/${linkID}`);
+
+    const { height } = Dimensions.get("window");
+
+    let toast = Toast.show("リンクがコピーされました！", {
+      duration: Toast.durations.LONG,
+      position: height - 150,
+      shadow: true,
+      animation: true,
+      hideOnPress: true,
+      delay: 0
+    });
+
+    // You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
+    setTimeout(function() {
+      Toast.hide(toast);
+    }, 3000);
   };
 
   onAdd = (items: ItemDetail[]) => {
