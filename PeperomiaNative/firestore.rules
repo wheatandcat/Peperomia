@@ -1,0 +1,7 @@
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /plans/{plan} {
+      allow read, write: if true
+    }
+  }
+}
