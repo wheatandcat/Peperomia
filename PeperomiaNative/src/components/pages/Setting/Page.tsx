@@ -13,10 +13,8 @@ export interface Props {
 
 export default class extends Component<Props> {
   render() {
-    console.log(Constants);
-
     return (
-      <View style={{ backgroundColor: "#efefef" }}>
+      <View style={{ backgroundColor: "#efefef", height: "100%" }}>
         <ScrollView>
           <View style={{ height: 50 }} />
           <ListItem

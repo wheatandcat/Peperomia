@@ -37,6 +37,12 @@ export default class extends Component<Props, State> {
     };
   };
 
+  onSelectIcon = (kind: string) => {
+    this.props.navigation.navigate("CreatePlan", {
+      kind: kind
+    });
+  };
+
   onPhoto = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({
@@ -67,6 +73,13 @@ export default class extends Component<Props, State> {
   render() {
     const kind = this.props.navigation.getParam("kind", null);
 
-    return <Page kind={kind} onPhoto={this.onPhoto} onCamera={this.onCamera} />;
+    return (
+      <Page
+        kind={kind}
+        onSelectIcon={this.onSelectIcon}
+        onPhoto={this.onPhoto}
+        onCamera={this.onCamera}
+      />
+    );
   }
 }

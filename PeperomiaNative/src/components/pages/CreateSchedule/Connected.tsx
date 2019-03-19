@@ -31,7 +31,7 @@ export default class extends Component<Props, State> {
         <View style={{ right: 10 }}>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate("CreateSchedule");
+              navigation.navigate("Home", { refresh: true });
             }}
             testID="saveSchedule"
           >

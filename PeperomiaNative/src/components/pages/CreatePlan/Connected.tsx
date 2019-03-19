@@ -17,6 +17,7 @@ interface State {
     title: string;
   };
   image: string;
+  kind: string;
 }
 
 export default class extends Component<Props, State> {
@@ -41,17 +42,21 @@ export default class extends Component<Props, State> {
     };
   };
 
-  state = { input: { title: "" }, image: "" };
+  state = { input: { title: "" }, image: "", kind: "" };
 
   async componentDidUpdate() {
     const image = this.props.navigation.getParam("image", "");
-    if (!image) {
-      return;
-    }
-
-    if (image !== this.state.image) {
+    if (image && image !== this.state.image) {
       this.setState({
         image
+      });
+    }
+
+    const kind = this.props.navigation.getParam("kind", "");
+
+    if (kind && kind !== this.state.kind) {
+      this.setState({
+        kind
       });
     }
   }
@@ -86,7 +91,7 @@ export default class extends Component<Props, State> {
     db.transaction((tx: SQLite.Transaction) => {
       const item: Item = {
         title: this.state.input.title,
-        kind: getKind(this.state.input.title),
+        kind: this.state.kind || getKind(this.state.input.title),
         image
       };
 
@@ -120,6 +125,7 @@ export default class extends Component<Props, State> {
       <Page
         title={this.state.input.title}
         image={this.state.image}
+        kind={this.state.kind}
         onInput={this.onInput}
         onImage={this.onImage}
         onSave={this.onSave}

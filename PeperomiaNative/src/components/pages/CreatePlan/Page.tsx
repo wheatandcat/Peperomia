@@ -14,6 +14,7 @@ import { IconImage } from "../../atoms";
 export interface Props {
   title: string;
   image: string;
+  kind: string;
   onInput: (name: string, value: any) => void;
   onImage: (image: string) => void;
   onSave: () => void;
@@ -72,7 +73,7 @@ class Page extends Component<Props & ActionSheetProps> {
 
   render() {
     let { image } = this.props;
-    const kind = getKind(this.props.title);
+    const kind = this.props.kind || getKind(this.props.title);
     const config = KINDS[kind];
 
     return (

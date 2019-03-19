@@ -17,14 +17,16 @@ export const save = async (
 
   try {
     const planDocRef = db.collection("plans").doc(uuid);
-
-    planDocRef.set({
+    const saveItem = {
       userID: userID,
       share: false,
       item: item,
       itemDetails: itemDetails,
       createDate: new Date()
-    });
+    };
+    console.log(saveItem);
+
+    await planDocRef.set(saveItem);
 
     return uuid;
   } catch (e) {
@@ -43,7 +45,7 @@ export const updateShare = async (
   try {
     const planDocRef = db.collection("plans").doc(uuid);
 
-    planDocRef.update({
+    await planDocRef.update({
       share
     });
 

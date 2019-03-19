@@ -8,3 +8,4 @@ npm-debug.*
 bin
 screenshots
 src/config/firebase.ts
+firestore-debug.log

@@ -11,6 +11,7 @@ import { IconImage } from "../../atoms";
 
 export interface Props {
   kind: string;
+  onSelectIcon: (kind: string) => void;
   onPhoto: () => void;
   onCamera: () => void;
 }
@@ -87,6 +88,7 @@ class Page extends Component<Props & ActionSheetProps, State> {
             <ListItem
               key={i}
               title={item.name}
+              onPress={() => this.props.onSelectIcon(item.kind)}
               leftIcon={
                 <IconImage
                   kind={item.kind}

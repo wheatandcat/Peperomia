@@ -1,7 +1,14 @@
 import React, { Component } from "react";
 import { SQLite } from "expo";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
-import { View, Share, AsyncStorage, Dimensions, Clipboard } from "react-native";
+import {
+  View,
+  Share,
+  AsyncStorage,
+  Dimensions,
+  Clipboard,
+  Alert
+} from "react-native";
 import {
   ActionSheetProps,
   connectActionSheet
@@ -142,7 +149,10 @@ class Switch extends Component<Props & ActionSheetProps, State> {
     }
 
     const linkID = await saveFirestore(userID, this.state.item, items);
-    console.log(linkID);
+    if (!linkID) {
+      Alert.alert("保存に失敗しました");
+      return;
+    }
 
     const shareHost = "https://peperomia-196da.firebaseapp.com";
 
