@@ -15,7 +15,8 @@ service cloud.firestore {
                      && request.resource.data.item.kind is string
                      && request.resource.data.item.kind.size() <= 256
                      && request.resource.data.item.title is string
-                     && request.resource.data.item.title.size() <= 256;
+                     && request.resource.data.item.title.size() <= 256
+                     && request.resource.data.itemDetails is list;
     }
   }
 }

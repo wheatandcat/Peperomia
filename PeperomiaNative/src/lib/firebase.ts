@@ -24,7 +24,6 @@ export const save = async (
       itemDetails: itemDetails,
       createDate: new Date()
     };
-    console.log(saveItem);
 
     await planDocRef.set(saveItem);
 
