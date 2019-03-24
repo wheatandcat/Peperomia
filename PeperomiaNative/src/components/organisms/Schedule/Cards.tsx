@@ -1,13 +1,10 @@
 import React, { Component } from "react";
 import { FlatList } from "react-native";
 import getKind from "../../../lib/getKind";
+import { ItemDetail } from "../../../lib/db/itemDetail";
 import Card from "../../molecules/Schedule/TouchableCard";
 
-export interface ItemProps {
-  id: string;
-  title: string;
-  moveMinutes: number | null;
-}
+export interface ItemProps extends ItemDetail {}
 
 export interface Props {
   data: ItemProps[];
@@ -21,7 +18,7 @@ export default class extends Component<Props> {
         {...item}
         kind={getKind(item.title)}
         end={index + 1 === this.props.data.length}
-        onPress={() => this.props.onScheduleDetail(item.id)}
+        onPress={() => this.props.onScheduleDetail(String(item.id))}
       />
     );
   }

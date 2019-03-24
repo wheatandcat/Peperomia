@@ -34,7 +34,7 @@ export default (props: Props) => {
     >
       <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
         <View style={{ position: "absolute", right: 30 }}>
-          <IconImage kind={props.kind} size={80} opacity={0.9} />
+          <IconImage {...config} size={80} opacity={0.9} />
         </View>
         <View style={{ flex: 1, padding: 20, paddingBottom: 25 }}>
           <Title numberOfLines={1}>{props.title}</Title>

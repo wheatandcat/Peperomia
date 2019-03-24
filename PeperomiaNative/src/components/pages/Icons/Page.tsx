@@ -90,12 +90,7 @@ class Page extends Component<Props & ActionSheetProps, State> {
               title={item.name}
               onPress={() => this.props.onSelectIcon(item.kind)}
               leftIcon={
-                <IconImage
-                  kind={item.kind}
-                  size={20}
-                  opacity={1.0}
-                  defaultIcon
-                />
+                <IconImage {...item} size={20} opacity={1.0} defaultIcon />
               }
               rightIcon={
                 <View>

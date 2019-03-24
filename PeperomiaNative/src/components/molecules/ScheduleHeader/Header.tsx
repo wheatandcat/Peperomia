@@ -45,7 +45,7 @@ export default (props: Props) => {
           </View>
 
           <View style={{ position: "absolute", right: 30 }}>
-            <IconImage kind={props.kind} size={80} opacity={0.9} />
+            <IconImage {...config} size={80} opacity={0.9} />
           </View>
         </View>
       </Content>

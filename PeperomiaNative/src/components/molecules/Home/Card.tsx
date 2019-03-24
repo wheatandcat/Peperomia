@@ -47,12 +47,7 @@ export default (props: Props) => {
         onPress={() => props.onPress(props.id, props.title)}
       >
         <View style={{ padding: 10 }}>
-          <IconImage
-            kind={props.kind}
-            image={props.image}
-            opacity={0.9}
-            size={60}
-          />
+          <IconImage {...config} opacity={0.9} size={60} />
         </View>
         <View padding-10 flex>
           <Grid>
