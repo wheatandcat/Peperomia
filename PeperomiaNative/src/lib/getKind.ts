@@ -36,52 +36,52 @@ const color = {
 
 export const KINDS: any = {
   [KIND_FISHING]: {
-    src: fileUrl("0001", "775aafee-f9f4-4590-acd1-35b9afa36a46"),
+    src: fileUrl("0001", "c2e5e991-3fd8-4b19-b7c8-d0a8a4969c0f"),
     name: "釣り",
     backgroundColor: color.category1
   },
   [KIND_LUNCH]: {
-    src: fileUrl("0002", "9b7d8fdf-b640-4519-af1d-3657c025deab"),
+    src: fileUrl("0002", "22dd5c4c-e900-4c65-a309-1295d29bc983"),
     name: "ランチ",
     backgroundColor: color.category2
   },
   [KIND_AMUSEMENT_PARK]: {
-    src: fileUrl("0003", "7f7da0ec-625e-448b-8bf0-877c4a13fb3e"),
+    src: fileUrl("0003", "0b1ee231-3579-4b5a-8b85-849affb9e99d"),
     name: "遊園地",
     backgroundColor: color.category3
   },
   [KIND_PARK]: {
-    src: fileUrl("0004", "3b163ef4-8ee4-47a5-b316-e786c5b9e3d3"),
+    src: fileUrl("0004", "22b78553-dca2-46b8-849e-5ad64d8d67bf"),
     name: "公園",
     backgroundColor: color.category3
   },
   [KIND_ART_MUSEUM]: {
-    src: fileUrl("0005", "3e75ebc9-3c9a-451b-9419-3e3aed034ec0"),
+    src: fileUrl("0005", "10d0b783-e724-4a9a-9843-e560463d26ff"),
     name: "美術展",
     backgroundColor: color.category3
   },
   [KIND_HOTEL]: {
-    src: fileUrl("0006", "c0b3df18-de7d-4188-b513-51158953202e"),
+    src: fileUrl("0006", "787af466-7a6e-4715-adab-af49a236e21a"),
     name: "ホテル",
     backgroundColor: color.category2
   },
   [KIND_HOME]: {
-    src: fileUrl("0007", "e5f96cff-10ce-4578-a37b-f07d066f808b"),
+    src: fileUrl("0007", "6f4a216b-2658-4fc6-bdfb-db362ed96019"),
     name: "家",
     backgroundColor: color.category2
   },
   [KIND_AQUARIUM]: {
-    src: fileUrl("0008", "b61fc8f7-bded-4127-aa4d-3e2bd6d07aa1"),
+    src: fileUrl("0008", "8681dc84-ad52-4c52-a8a9-8dc7ef33ec4a"),
     name: "水族館",
     backgroundColor: color.category1
   },
   [KIND_DEFAULT]: {
-    src: fileUrl("0009", "1ce7b4c8-6854-44c6-a46d-02f4e2c38913"),
+    src: fileUrl("0009", "96d2a212-3dc8-46d7-9b75-8e6df25445a0"),
     name: "地球",
     backgroundColor: color.category4
   },
   [KIND_CASTLE]: {
-    src: fileUrl("0010", "9d50233b-5a8a-49d8-954e-87efa4debc21"),
+    src: fileUrl("0010", "3e4b9a38-685f-4219-a9f2-817fe9b26ce2"),
     name: "城",
     backgroundColor: color.category2
   },
@@ -91,17 +91,17 @@ export const KINDS: any = {
     backgroundColor: color.category2
   },
   [KIND_COFFEE]: {
-    src: fileUrl("0012", "4adeffff-5b9f-4333-a675-6b53f641c212"),
+    src: fileUrl("0012", "a48b12a1-4519-4e3c-a00d-af84f58c73e0"),
     name: "カフェ、喫茶店",
     backgroundColor: color.category2
   },
   [KIND_SHOP]: {
-    src: fileUrl("0013", "ce20190f-5b48-4eea-8de4-d659ea7b046b"),
+    src: fileUrl("0013", "9ef522f4-3ec7-4b36-9626-f57a7ef56d8b"),
     name: "ショッピング",
     backgroundColor: color.category2
   },
   [KIND_TRAIN]: {
-    src: fileUrl("0014", "cf41f413-2715-43b2-9277-0e4dd58b57db"),
+    src: fileUrl("0014", "cad16021-a062-4e93-85bf-9c4be19bcf7a"),
     name: "電車",
     backgroundColor: color.category2
   },
@@ -111,17 +111,17 @@ export const KINDS: any = {
     backgroundColor: color.category3
   },
   [KIND_BEACH]: {
-    src: fileUrl("0016", "8e1fcffe-389a-4456-bdcd-0d95117a3f3c"),
+    src: fileUrl("0016", "5a597dcd-dac7-4f49-a35e-6f8d978a7a4c"),
     name: "ビーチ",
     backgroundColor: color.category1
   },
   [KIND_CHERRY_BLOSSOM]: {
-    src: fileUrl("0017", "5c513b84-ccec-45ee-810f-a7af93b345fc"),
+    src: fileUrl("0017", "1cd0dc64-4d0c-4d63-ac6e-c01d2014b2fa"),
     name: "花見",
     backgroundColor: color.category5
   },
   [KIND_SHIP]: {
-    src: fileUrl("0018", "8010aa6f-6db4-4d1b-bbd5-037e9d0e6473"),
+    src: fileUrl("0018", "0f52edae-d5bc-4f90-85ac-3d468e82d599"),
     name: "船、水上バス",
     backgroundColor: color.category1
   }

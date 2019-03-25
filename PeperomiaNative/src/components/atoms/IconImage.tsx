@@ -38,8 +38,8 @@ export interface Frame {
 const Frame = (props: Frame) => (
   <View
     style={{
-      width: props.size * 1.1,
-      height: props.size * 1.1
+      width: props.size,
+      height: props.size
     }}
   >
     {props.children}
