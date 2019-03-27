@@ -42,7 +42,7 @@ export default (props: Props) => {
             padding: "5px"
           }}
         >
-          <IconImage kind={props.item.kind} size={25} />
+          <IconImage {...config} size={25} />
         </div>
         <div style={{ paddingTop: "10px" }}>
           <Typography

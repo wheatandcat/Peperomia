@@ -155,6 +155,7 @@ class Switch extends Component<Props & ActionSheetProps, State> {
     }
 
     const shareHost = "https://peperomia-196da.firebaseapp.com";
+    console.log(`${shareHost}/${linkID}`);
 
     Clipboard.setString(`${shareHost}/${linkID}`);
 

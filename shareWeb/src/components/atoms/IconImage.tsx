@@ -7,13 +7,8 @@ import {
   KIND_FISHING
 } from "../../lib/getKind";
 
-const park = require(`../../img/park@2x.png`);
-const train = require(`../../img/train@2x.png`);
-const ship = require(`../../img/ship@2x.png`);
-const fishing = require(`../../img/fishing@2x.png`);
-const world = require(`../../img/world@2x.png`);
-
 export interface Props {
+  src: string;
   kind: string;
   size: number;
   opacity?: number;
@@ -21,48 +16,13 @@ export interface Props {
   defaultIcon?: boolean;
 }
 
-const getImg = (kind: string, defaultIcon?: boolean) => {
-  if (kind === KIND_PARK) {
-    return park;
-  } else if (kind === KIND_TRAIN) {
-    return train;
-  } else if (kind === KIND_SHIP) {
-    return ship;
-  } else if (kind === KIND_FISHING) {
-    return fishing;
-  }
-
-  if (defaultIcon) {
-    return world;
-  }
-
-  return null;
-};
-
 export default (props: Props) => {
-  if (props.image) {
-    return (
-      <Frame size={props.size}>
-        <Image
-          source={{
-            uri: `data:image/png;base64,${props.image}`
-          }}
-          style={{
-            opacity: props.opacity || 0.5,
-            width: "100%",
-            height: "100%"
-          }}
-        />
-      </Frame>
-    );
-  }
-
-  const img = getImg(props.kind, props.defaultIcon);
-
   return (
     <Frame size={props.size}>
       <Image
-        source={img}
+        source={{
+          uri: props.src
+        }}
         style={{
           opacity: props.opacity || 0.5,
           width: "100%",

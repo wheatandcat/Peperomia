@@ -55,7 +55,7 @@ export default (props: Props) => {
           <div
             style={{ position: "absolute", top: 2, right: 20, opacity: 0.5 }}
           >
-            <IconImage kind={props.kind} size={45} />
+            <IconImage {...config} size={45} />
           </div>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
