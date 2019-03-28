@@ -19,7 +19,7 @@ export const save = async (
     const planDocRef = db.collection("plans").doc(uuid);
     const saveItem = {
       userID: userID,
-      share: false,
+      share: true,
       item: item,
       itemDetails: itemDetails,
       createDate: new Date()
@@ -34,23 +34,33 @@ export const save = async (
   }
 };
 
-export const updateShare = async (
-  userID: string,
-  item: Item,
-  share: boolean
-) => {
-  const uuid = userID + item.id;
-
+export const updateShare = async (doc: string, share: boolean) => {
   try {
-    const planDocRef = db.collection("plans").doc(uuid);
+    const planDocRef = db.collection("plans").doc(doc);
 
     await planDocRef.update({
       share
     });
 
-    return uuid;
+    return true;
   } catch (e) {
     console.log(e);
     return false;
   }
+};
+
+export const isShare = async (doc: string): Promise<Boolean> => {
+  const documentSnapshot = await db
+    .collection("plans")
+    .doc(doc)
+    .get();
+
+  const result: any = documentSnapshot.data();
+  console.log(result);
+
+  if (!result) {
+    return false;
+  }
+
+  return result.share;
 };

@@ -12,8 +12,6 @@ export interface Props {
 }
 
 export default (props: Props) => {
-  console.log(props);
-
   return (
     <Frame size={props.size}>
       <Image

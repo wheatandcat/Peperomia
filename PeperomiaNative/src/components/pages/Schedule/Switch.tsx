@@ -23,7 +23,11 @@ import {
   ItemDetail,
   deleteByItemId as deleteItemDetailByItemId
 } from "../../../lib/db/itemDetail";
-import { save as saveFirestore } from "../../../lib/firebase";
+import {
+  save as saveFirestore,
+  isShare,
+  updateShare
+} from "../../../lib/firebase";
 import { select1st, delete1st, Item } from "../../../lib/db/item";
 import getShareText from "../../../lib/getShareText";
 import Schedule from "./Connected";
@@ -92,7 +96,7 @@ class Switch extends Component<Props & ActionSheetProps, State> {
     mode: "show"
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     const itemId = this.props.navigation.getParam("itemId", "1");
 
     db.transaction((tx: SQLite.Transaction) => {
@@ -121,16 +125,65 @@ class Switch extends Component<Props & ActionSheetProps, State> {
     });
   };
 
-  onOpenActionSheet = (itemId: string, title: string, items: ItemDetail[]) => {
+  onOpenActionSheet = async (
+    itemId: string,
+    title: string,
+    items: ItemDetail[]
+  ) => {
+    const userID = await AsyncStorage.getItem("userID");
+    if (userID) {
+      const uuid = userID + itemId;
+      const share = await isShare(uuid);
+      if (share) {
+        this.props.showActionSheetWithOptions(
+          {
+            options: [
+              "リンクを取得する",
+              "リンクを非公開にする",
+              "その他",
+              "キャンセル"
+            ],
+            destructiveButtonIndex: 1,
+            cancelButtonIndex: 3
+          },
+          buttonIndex => {
+            if (buttonIndex === 0) {
+              this.onCrateShareLink(items);
+            } else if (buttonIndex === 1) {
+              this.onCloseShareLink(uuid);
+            } else if (buttonIndex === 2) {
+              this.onShare(itemId, title, items);
+            }
+          }
+        );
+        return;
+      }
+    }
+
     this.props.showActionSheetWithOptions(
       {
         options: ["リンクを取得する", "その他", "キャンセル"],
-
         cancelButtonIndex: 2
       },
       buttonIndex => {
         if (buttonIndex === 0) {
-          this.onCrateShareLink(items);
+          Alert.alert(
+            "この予定がWebで公開されます",
+            "あとで非公開に変更することも可能です",
+            [
+              {
+                text: "キャンセル",
+                style: "cancel"
+              },
+              {
+                text: "公開する",
+                onPress: () => {
+                  this.onCrateShareLink(items);
+                }
+              }
+            ],
+            { cancelable: false }
+          );
         } else if (buttonIndex === 1) {
           this.onShare(itemId, title, items);
         }
@@ -174,6 +227,28 @@ class Switch extends Component<Props & ActionSheetProps, State> {
     setTimeout(function() {
       Toast.hide(toast);
     }, 3000);
+  };
+
+  onCloseShareLink = async (doc: string) => {
+    const result = await updateShare(doc, false);
+    if (result) {
+      const { height } = Dimensions.get("window");
+
+      let toast = Toast.show("リンクを非公開にしました", {
+        duration: Toast.durations.LONG,
+        //textColor: "red",
+        position: height - 150,
+        shadow: true,
+        animation: true,
+        hideOnPress: true,
+        delay: 0
+      });
+
+      // You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
+      setTimeout(function() {
+        Toast.hide(toast);
+      }, 3000);
+    }
   };
 
   onAdd = (items: ItemDetail[]) => {
@@ -239,8 +314,6 @@ class Switch extends Component<Props & ActionSheetProps, State> {
   };
 
   onChangeItems = (data: ItemDetail[]): void => {
-    console.log(data);
-
     db.transaction((tx: SQLite.Transaction) => {
       data.forEach(async (item, index) => {
         item.priority = index + 1;
