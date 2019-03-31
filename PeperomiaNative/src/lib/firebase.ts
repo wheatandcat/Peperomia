@@ -39,7 +39,8 @@ export const updateShare = async (doc: string, share: boolean) => {
     const planDocRef = db.collection("plans").doc(doc);
 
     await planDocRef.update({
-      share
+      share,
+      createDate: new Date()
     });
 
     return true;

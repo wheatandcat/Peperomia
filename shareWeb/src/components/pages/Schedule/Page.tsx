@@ -1,6 +1,8 @@
 import React from "react";
 import Color from "color";
 import Typography from "@material-ui/core/Typography";
+import Snackbar from "@material-ui/core/Snackbar";
+import LinearProgress from "@material-ui/core/LinearProgress";
 import Divider from "@material-ui/core/Divider";
 import { Item, ItemDetail } from "../../../lib/item";
 import IconImage from "../../atoms/IconImage";
@@ -11,6 +13,7 @@ import s from "../../../config/style";
 interface Props {
   item: Item;
   itemDetails: ItemDetail[];
+  updating: boolean;
 }
 
 export default (props: Props) => {
@@ -22,7 +25,24 @@ export default (props: Props) => {
   }
 
   return (
-    <div>
+    <div style={{ height: "100vh" }}>
+      <Snackbar
+        open={props.updating}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center"
+        }}
+        ContentProps={{
+          "aria-describedby": "snackbar-fab-message-id"
+        }}
+        message={
+          <div style={{ width: "320px" }}>
+            <div id="snackbar-fab-message-id">更新中・・・</div>
+            <LinearProgress />
+          </div>
+        }
+      />
+
       <div
         style={{
           display: "flex",
@@ -62,13 +82,32 @@ export default (props: Props) => {
       <Divider />
       <div
         style={{
-          height: "100%",
-          marginBottom: "100px",
+          height: "80%",
           overflow: "scroll",
           paddingTop: "1rem"
         }}
       >
         <Cards {...props} />
+        <div
+          style={{
+            position: "absolute",
+            bottom: 0,
+            width: "100%",
+            height: "40px",
+            backgroundColor: "#232F3E"
+          }}
+        >
+          <div
+            style={{
+              color: "#fff",
+              position: "absolute",
+              bottom: 5,
+              right: 10
+            }}
+          >
+            ペペロミア
+          </div>
+        </div>
       </div>
     </div>
   );

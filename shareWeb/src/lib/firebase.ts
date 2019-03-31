@@ -10,11 +10,13 @@ const db = firebase.firestore();
 export interface Plan {
   item: Item;
   itemDetails: ItemDetail[];
+  share: boolean;
+  createDate: {
+    seconds: number;
+  };
 }
 
 export const getPlan = async (doc: string): Promise<Plan> => {
-  console.log("getPlan");
-
   const documentSnapshot = await db
     .collection("plans")
     .doc(doc)
@@ -24,4 +26,17 @@ export const getPlan = async (doc: string): Promise<Plan> => {
   console.log(result);
 
   return result;
+};
+
+export const onSnapshot = async (
+  doc: string,
+  callback: (data: Plan) => void
+) => {
+  db.collection("plans")
+    .doc(doc)
+    .onSnapshot(function(doc) {
+      const data: any = doc.data();
+
+      callback(data);
+    });
 };
