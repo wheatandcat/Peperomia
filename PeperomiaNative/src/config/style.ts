@@ -29,8 +29,8 @@ const config: Config = {
   },
   schedule: {
     borderWidth: 0.5,
-    borderColorAlpha: 0.5,
-    backgroundColorAlpha: 0.5
+    borderColorAlpha: 0.2,
+    backgroundColorAlpha: 0.2
   }
 };
 

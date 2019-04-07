@@ -9,6 +9,8 @@ export interface Props {
   onDeleteSQL: () => void;
   onData: () => void;
   onDeleteUser: () => void;
+  onTos: () => void;
+  onPolicy: () => void;
 }
 
 export default class extends Component<Props> {
@@ -20,19 +22,29 @@ export default class extends Component<Props> {
           <ListItem
             title="お知らせ"
             rightIcon={{ name: "chevron-right", color: "#888" }}
+            bottomDivider
           />
-          <View style={{ height: 20 }} />
           <ListItem
             title="お問い合わせ"
             rightIcon={{ name: "chevron-right", color: "#888" }}
-            bottomDivider
           />
+          <View style={{ height: 20 }} />
+          <ListItem
+            title="利用規約"
+            rightIcon={{ name: "chevron-right", color: "#888" }}
+            bottomDivider
+            onPress={this.props.onTos}
+          />
+          <ListItem
+            title="プライバシーポリシー"
+            rightIcon={{ name: "chevron-right", color: "#888" }}
+            onPress={this.props.onPolicy}
+          />
+          <View style={{ height: 20 }} />
           <ListItem
             title="バージョン情報"
             rightTitle={<Text style={{ color: "#555" }}>1.0.0 </Text>}
-            bottomDivider
           />
-
           {!Constants.isDevice && (
             <>
               <View style={{ marginBottom: 50 }} />

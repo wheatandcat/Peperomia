@@ -118,7 +118,7 @@ class Page extends Component<Props & ActionSheetProps> {
                     source={{ uri: image }}
                   />
                 ) : (
-                  <IconImage kind={kind} size={100} opacity={1.0} defaultIcon />
+                  <IconImage {...config} size={100} opacity={1.0} defaultIcon />
                 )}
 
                 <View

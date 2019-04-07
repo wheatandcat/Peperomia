@@ -27,11 +27,15 @@ const fileUrl = (file: string, token: string) => {
 };
 
 const color = {
-  category1: "#00A6FF", // 釣り、
-  category2: "#F3B042", // 駅、
+  category1: "#00A6FF", // 海系
+  category2: "#F3B042", // 駅、移動
   category3: "#77D353", // 公園
   category4: "#969FAA", // default
-  category5: "#ffc0cb" // 花見
+  category5: "#ffc0cb", // 花見
+  category6: "#dc143c", //　芸術、映画
+  category7: "#ffff00", // 動物園
+  category8: "#add8e6", // カフェ,
+  category9: "#adff2f" // ショッピング
 };
 
 export const KINDS: any = {
@@ -58,7 +62,7 @@ export const KINDS: any = {
   [KIND_ART_MUSEUM]: {
     src: fileUrl("0005", "10d0b783-e724-4a9a-9843-e560463d26ff"),
     name: "美術展",
-    backgroundColor: color.category3
+    backgroundColor: color.category6
   },
   [KIND_HOTEL]: {
     src: fileUrl("0006", "787af466-7a6e-4715-adab-af49a236e21a"),
@@ -88,17 +92,17 @@ export const KINDS: any = {
   [KIND_ZOO]: {
     src: fileUrl("0011", "6d2fc15a-cb38-4269-bbbf-e50cb511cfbc"),
     name: "動物園",
-    backgroundColor: color.category2
+    backgroundColor: color.category7
   },
   [KIND_COFFEE]: {
     src: fileUrl("0012", "a48b12a1-4519-4e3c-a00d-af84f58c73e0"),
     name: "カフェ、喫茶店",
-    backgroundColor: color.category2
+    backgroundColor: color.category8
   },
   [KIND_SHOP]: {
     src: fileUrl("0013", "9ef522f4-3ec7-4b36-9626-f57a7ef56d8b"),
     name: "ショッピング",
-    backgroundColor: color.category2
+    backgroundColor: color.category9
   },
   [KIND_TRAIN]: {
     src: fileUrl("0014", "cad16021-a062-4e93-85bf-9c4be19bcf7a"),
@@ -108,7 +112,7 @@ export const KINDS: any = {
   [KIND_MOVIE]: {
     src: fileUrl("0015", "679e26af-80f9-4f01-9bc9-1782b4404250"),
     name: "映画館",
-    backgroundColor: color.category3
+    backgroundColor: color.category6
   },
   [KIND_BEACH]: {
     src: fileUrl("0016", "5a597dcd-dac7-4f49-a35e-6f8d978a7a4c"),

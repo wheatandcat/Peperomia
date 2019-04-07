@@ -4,7 +4,7 @@ import { View } from "react-native-ui-lib";
 
 export interface Props {
   src: string;
-  kind: string;
+  name: string;
   size: number;
   opacity?: number;
   image?: string;
@@ -12,6 +12,10 @@ export interface Props {
 }
 
 export default (props: Props) => {
+  if (!props.defaultIcon && props.name === "地球") {
+    return null;
+  }
+
   return (
     <Frame size={props.size}>
       <Image

@@ -5,6 +5,7 @@ import styled from "styled-components/native";
 import Color from "color";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { KINDS } from "../../../lib/getKind";
+import s from "../../../config/style";
 import { IconImage } from "../../atoms";
 
 export interface Props {
@@ -16,16 +17,17 @@ export interface Props {
 
 export default (props: Props) => {
   const config = KINDS[props.kind];
+  const ss = s.schedule;
 
   return (
     <View
       style={{
-        borderWidth: 0.5,
+        borderWidth: ss.borderWidth,
         borderColor: Color(config.backgroundColor)
-          .alpha(0.5)
+          .alpha(ss.backgroundColorAlpha)
           .toString(),
         backgroundColor: Color(config.backgroundColor)
-          .alpha(0.5)
+          .alpha(ss.borderColorAlpha)
           .toString()
       }}
     >

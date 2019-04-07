@@ -1,12 +1,21 @@
 import { SQLite } from "expo";
 import React, { Component } from "react";
-import { createStackNavigator } from "react-navigation";
+import {
+  createStackNavigator,
+  NavigationScreenProp,
+  NavigationRoute
+} from "react-navigation";
 import Page from "./Page";
 import { db } from "../../../lib/db";
 import { deleteSql, resetSql, deleteUserSql } from "../../../lib/db/debug";
 import { select as selectItems } from "../../../lib/db/item";
 import { select as selectItemDetailds } from "../../../lib/db/itemDetail";
-interface Props {}
+import Tos from "../Tos/Page";
+import Policy from "../Policy/Page";
+
+interface Props {
+  navigation: NavigationScreenProp<NavigationRoute>;
+}
 
 class Connected extends Component<Props> {
   static navigationOptions = { title: "設定" };
@@ -36,6 +45,14 @@ class Connected extends Component<Props> {
     });
   };
 
+  onTos = () => {
+    this.props.navigation.navigate("Tos");
+  };
+
+  onPolicy = () => {
+    this.props.navigation.navigate("Policy");
+  };
+
   render() {
     return (
       <Page
@@ -43,11 +60,15 @@ class Connected extends Component<Props> {
         onData={this.onData}
         onDeleteSQL={this.onDeleteSQL}
         onDeleteUser={this.onDeleteUser}
+        onTos={this.onTos}
+        onPolicy={this.onPolicy}
       />
     );
   }
 }
 
 export default createStackNavigator({
-  Setting: Connected
+  Setting: Connected,
+  Tos: Tos,
+  Policy: Policy
 });
