@@ -12,6 +12,7 @@ import { select as selectItems } from "../../../lib/db/item";
 import { select as selectItemDetailds } from "../../../lib/db/itemDetail";
 import Tos from "../Tos/Page";
 import Policy from "../Policy/Page";
+import Feedback from "../Feedback/Connected";
 
 interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
@@ -53,6 +54,10 @@ class Connected extends Component<Props> {
     this.props.navigation.navigate("Policy");
   };
 
+  onFeedback = () => {
+    this.props.navigation.navigate("Feedback");
+  };
+
   render() {
     return (
       <Page
@@ -62,6 +67,7 @@ class Connected extends Component<Props> {
         onDeleteUser={this.onDeleteUser}
         onTos={this.onTos}
         onPolicy={this.onPolicy}
+        onFeedback={this.onFeedback}
       />
     );
   }
@@ -70,5 +76,6 @@ class Connected extends Component<Props> {
 export default createStackNavigator({
   Setting: Connected,
   Tos: Tos,
-  Policy: Policy
+  Policy: Policy,
+  Feedback: Feedback
 });

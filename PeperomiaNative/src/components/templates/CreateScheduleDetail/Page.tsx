@@ -12,7 +12,6 @@ import {
 } from "@expo/react-native-action-sheet";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import Header from "../../molecules/ScheduleHeader/Header";
-import { Text } from "../../atoms";
 import getKind from "../../../lib/getKind";
 
 export interface Props {

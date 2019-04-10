@@ -11,6 +11,7 @@ export interface Props {
   onDeleteUser: () => void;
   onTos: () => void;
   onPolicy: () => void;
+  onFeedback: () => void;
 }
 
 export default class extends Component<Props> {
@@ -20,13 +21,9 @@ export default class extends Component<Props> {
         <ScrollView>
           <View style={{ height: 50 }} />
           <ListItem
-            title="お知らせ"
-            rightIcon={{ name: "chevron-right", color: "#888" }}
-            bottomDivider
-          />
-          <ListItem
             title="お問い合わせ"
             rightIcon={{ name: "chevron-right", color: "#888" }}
+            onPress={this.props.onFeedback}
           />
           <View style={{ height: 20 }} />
           <ListItem
