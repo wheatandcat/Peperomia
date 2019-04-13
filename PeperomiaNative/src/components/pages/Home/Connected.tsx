@@ -22,6 +22,7 @@ import {
   deleteByItemId as deleteItemDetailByItemId
 } from "../../../lib/db/itemDetail";
 import Schedule from "../Schedule/Switch";
+import EditPlan from "../EditPlan/Connected";
 import Page, { Props as PageProps } from "./Page";
 
 interface Props extends PageProps {
@@ -224,6 +225,9 @@ const MainCardNavigator = createStackNavigator({
   },
   Schedule: {
     screen: Schedule
+  },
+  EditPlan: {
+    screen: EditPlan
   }
 });
 

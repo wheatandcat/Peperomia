@@ -11,6 +11,8 @@ import { IconImage } from "../../atoms";
 
 export interface Props {
   kind: string;
+  defaultIcon: boolean;
+  photo: boolean;
   onSelectIcon: (kind: string) => void;
   onPhoto: () => void;
   onCamera: () => void;
@@ -88,10 +90,19 @@ class Page extends Component<Props & ActionSheetProps, State> {
           {items.map((item: any, i: number) => (
             <ListItem
               key={i}
-              title={item.name}
+              title={
+                !this.props.defaultIcon && item.name === "地球"
+                  ? "アイコンなし"
+                  : item.name
+              }
               onPress={() => this.props.onSelectIcon(item.kind)}
               leftIcon={
-                <IconImage {...item} size={20} opacity={1.0} defaultIcon />
+                <IconImage
+                  {...item}
+                  size={20}
+                  opacity={1.0}
+                  defaultIcon={this.props.defaultIcon}
+                />
               }
               rightIcon={
                 <View>
@@ -116,18 +127,20 @@ class Page extends Component<Props & ActionSheetProps, State> {
             alignItems: "flex-end"
           }}
         >
-          <Button
-            title="写真から選択"
-            type="clear"
-            icon={<MaterialIcons name="chevron-right" size={25} />}
-            iconRight
-            titleStyle={{
-              color: "#F95F62",
-              fontSize: 12,
-              fontWeight: "600"
-            }}
-            onPress={this.onOpenActionSheet}
-          />
+          {this.props.photo && (
+            <Button
+              title="写真から選択"
+              type="clear"
+              icon={<MaterialIcons name="chevron-right" size={25} />}
+              iconRight
+              titleStyle={{
+                color: "#F95F62",
+                fontSize: 12,
+                fontWeight: "600"
+              }}
+              onPress={this.onOpenActionSheet}
+            />
+          )}
         </View>
       </View>
     );

@@ -4,7 +4,7 @@ import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import { TouchableOpacity, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { db } from "../../../lib/db";
-import { insert as insertItem, Item } from "../../../lib/db/item";
+import { update as updateItem, Item } from "../../../lib/db/item";
 import getKind from "../../../lib/getKind";
 import Page, { Props as PageProps } from "../../templates/CreatePlan/Page";
 
@@ -27,12 +27,12 @@ export default class extends Component<Props, State> {
     navigation: NavigationScreenProp<NavigationRoute>;
   }) => {
     return {
-      title: "プラン作成",
+      title: "タイトル編集",
       headerLeft: (
         <View style={{ left: 10 }}>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate("Home");
+              navigation.goBack();
             }}
           >
             <MaterialCommunityIcons name="close" size={25} />
@@ -44,6 +44,17 @@ export default class extends Component<Props, State> {
 
   state = { input: { title: "" }, image: "", kind: "" };
 
+  componentDidMount() {
+    const image = this.props.navigation.getParam("image", "");
+    const title = this.props.navigation.getParam("title", "");
+    const kind = this.props.navigation.getParam("kind", "");
+    this.setState({
+      input: { title },
+      image,
+      kind
+    });
+  }
+
   async componentDidUpdate() {
     const image = this.props.navigation.getParam("image", "");
     if (image && image !== this.state.image) {
@@ -53,7 +64,6 @@ export default class extends Component<Props, State> {
     }
 
     const kind = this.props.navigation.getParam("kind", "");
-
     if (kind && kind !== this.state.kind) {
       this.setState({
         kind
@@ -89,23 +99,28 @@ export default class extends Component<Props, State> {
     }
 
     db.transaction((tx: SQLite.Transaction) => {
+      const id = this.props.navigation.getParam("id", 0);
+
       const item: Item = {
+        id,
         title: this.state.input.title,
         kind: this.state.kind || getKind(this.state.input.title),
         image
       };
 
-      insertItem(tx, item, this.save);
+      updateItem(tx, item, this.save);
     });
   };
 
-  save = (insertId: number, error: any) => {
+  save = async (_: any, error: any) => {
     if (error) {
       return;
     }
 
-    this.props.navigation.navigate("CreateSchedule", {
-      itemId: insertId,
+    const id = this.props.navigation.getParam("id", 0);
+
+    this.props.navigation.navigate("Schedule", {
+      itemId: id,
       title: this.state.input.title
     });
   };
@@ -114,12 +129,12 @@ export default class extends Component<Props, State> {
     this.props.navigation.navigate("Icons", {
       kind: getKind(this.state.input.title),
       onSelectIcon: (kind: string) => {
-        this.props.navigation.navigate("CreatePlan", {
+        this.props.navigation.navigate("EditPlan", {
           kind: kind
         });
       },
       onDismiss: () => {
-        this.props.navigation.navigate("CreatePlan");
+        this.props.navigation.navigate("EditPlan");
       },
       photo: true
     });
@@ -128,12 +143,12 @@ export default class extends Component<Props, State> {
   onCamera = () => {
     this.props.navigation.navigate("Camera", {
       onPicture: (image?: string) => {
-        this.props.navigation.navigate("CreatePlan", {
+        this.props.navigation.navigate("EditPlan", {
           image
         });
       },
       onDismiss: () => {
-        this.props.navigation.navigate("CreatePlan");
+        this.props.navigation.navigate("EditPlan");
       }
     });
   };
@@ -141,7 +156,7 @@ export default class extends Component<Props, State> {
   render() {
     return (
       <Page
-        mode="new"
+        mode="edit"
         title={this.state.input.title}
         image={this.state.image}
         kind={this.state.kind}

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import ScheduleDetail from "./Connected";
 import EditScheduleDetail, {
-  State as EditScheduleDetailState
+  Item as EditScheduleDetailState
 } from "../EditScheduleDetail/Connected";
 
 interface State extends EditScheduleDetailState {
@@ -20,12 +20,18 @@ export default class extends Component<Props, State> {
   state = {
     title: "",
     memo: "",
+    kind: "",
     moveMinutes: 0,
     scheduleDetailId: 0,
     mode: "show"
   };
 
-  onEdit = (title: string, memo: string, moveMinutes: number): void => {
+  onEdit = (
+    title: string,
+    kind: string,
+    memo: string,
+    moveMinutes: number
+  ): void => {
     const scheduleDetailId = this.props.navigation.getParam(
       "scheduleDetailId",
       "1"
@@ -33,6 +39,7 @@ export default class extends Component<Props, State> {
 
     this.setState({
       title,
+      kind,
       memo,
       moveMinutes,
       scheduleDetailId,
@@ -50,6 +57,7 @@ export default class extends Component<Props, State> {
         <EditScheduleDetail
           id={this.state.scheduleDetailId}
           title={this.state.title}
+          kind={this.state.kind}
           memo={this.state.memo}
           moveMinutes={this.state.moveMinutes}
           navigation={this.props.navigation}

@@ -79,11 +79,6 @@ export const KINDS: any = {
     name: "水族館",
     backgroundColor: color.category1
   },
-  [KIND_DEFAULT]: {
-    src: fileUrl("0009", "96d2a212-3dc8-46d7-9b75-8e6df25445a0"),
-    name: "地球",
-    backgroundColor: color.category4
-  },
   [KIND_CASTLE]: {
     src: fileUrl("0010", "3e4b9a38-685f-4219-a9f2-817fe9b26ce2"),
     name: "城",
@@ -128,6 +123,11 @@ export const KINDS: any = {
     src: fileUrl("0018", "0f52edae-d5bc-4f90-85ac-3d468e82d599"),
     name: "船、水上バス",
     backgroundColor: color.category1
+  },
+  [KIND_DEFAULT]: {
+    src: fileUrl("0009", "96d2a212-3dc8-46d7-9b75-8e6df25445a0"),
+    name: "地球",
+    backgroundColor: color.category4
   }
 };
 

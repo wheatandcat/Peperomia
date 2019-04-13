@@ -23,9 +23,7 @@ export default class extends Component<Props, State> {
   componentDidMount() {
     const itemId = this.props.navigation.getParam("itemId", "1");
 
-    db.transaction((tx: SQLite.Transaction) => {
-      selectByItemId(tx, itemId, this.setItems);
-    });
+    this.getData(itemId);
   }
 
   componentDidUpdate() {
@@ -37,10 +35,14 @@ export default class extends Component<Props, State> {
     }
 
     this.setState({ refresh: refresh });
+    this.getData(itemId);
+  }
+
+  getData = (itemId: string) => {
     db.transaction((tx: SQLite.Transaction) => {
       selectByItemId(tx, itemId, this.setItems);
     });
-  }
+  };
 
   setItems = (data: any, error: any) => {
     if (error) {
@@ -54,7 +56,12 @@ export default class extends Component<Props, State> {
   };
 
   onScheduleDetail = (id: string) => {
-    this.props.navigation.navigate("ScheduleDetail", { scheduleDetailId: id });
+    const itemId = this.props.navigation.getParam("itemId", "1");
+
+    this.props.navigation.navigate("ScheduleDetail", {
+      scheduleDetailId: id,
+      refreshData: () => this.getData(itemId)
+    });
   };
 
   render() {

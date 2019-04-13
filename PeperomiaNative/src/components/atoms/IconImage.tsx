@@ -13,7 +13,7 @@ export interface Props {
 
 export default (props: Props) => {
   if (!props.defaultIcon && props.name === "地球") {
-    return null;
+    return <Frame size={props.size} />;
   }
 
   return (
@@ -33,7 +33,7 @@ export default (props: Props) => {
 };
 
 export interface Frame {
-  children: any;
+  children?: any;
   size: number;
 }
 

@@ -15,6 +15,7 @@ import {
 } from "@expo/react-native-action-sheet";
 import Toast from "react-native-root-toast";
 import uuidv1 from "uuid/v1";
+import { Button } from "react-native-elements";
 import EditSchedule from "../EditSchedule/Connected";
 import SortableSchedule from "../SortableSchedule/Connected";
 import { db } from "../../../lib/db";
@@ -51,7 +52,10 @@ class Switch extends Component<Props & ActionSheetProps, State> {
   static navigationOptions = ({ navigation }: { navigation: any }) => {
     const { params = {} } = navigation.state;
     return {
-      title: params.title,
+      headerTitle: (
+        <Button type="clear" title={params.title} onPress={params.onEditPlan} />
+      ),
+
       headerLeft: (
         <View style={{ left: 5 }}>
           <HeaderLeft
@@ -110,6 +114,7 @@ class Switch extends Component<Props & ActionSheetProps, State> {
       onSort: this.onSort,
       onSave: this.onSave,
       onShare: this.onShare,
+      onEditPlan: this.onEditPlan,
       onOpenActionSheet: this.onOpenActionSheet,
       mode: "show"
     });
@@ -347,6 +352,15 @@ class Switch extends Component<Props & ActionSheetProps, State> {
     } catch (error) {
       alert(error.message);
     }
+  };
+
+  onEditPlan = () => {
+    this.props.navigation.navigate("EditPlan", {
+      id: this.state.item.id,
+      title: this.state.item.title,
+      kind: this.state.item.kind,
+      image: this.state.item.image
+    });
   };
 
   render() {

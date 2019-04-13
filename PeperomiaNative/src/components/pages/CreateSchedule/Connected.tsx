@@ -24,7 +24,6 @@ export default class extends Component<Props, State> {
     navigation: NavigationScreenProp<NavigationRoute>;
   }) => {
     const { params = {} } = navigation.state;
-
     let result: any = {
       title: params.title,
       headerRight: (

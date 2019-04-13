@@ -38,6 +38,19 @@ export const insert = async (
   );
 };
 
+export const update = async (
+  tx: SQLite.Transaction,
+  item: Item,
+  callback?: (data: any, error: any) => void
+) => {
+  return tx.executeSql(
+    "update items set title = ?, kind = ?, image = ? where id = ?",
+    [item.title, item.kind, item.image, String(item.id)],
+    (_, props) => success(props.rows._array, callback),
+    (_, err) => error(err, callback)
+  );
+};
+
 export const select = async (
   tx: SQLite.Transaction,
   callback?: (data: any, error: any) => void

@@ -6,17 +6,24 @@ import {
   update as updateItemDetail,
   ItemDetail
 } from "../../../lib/db/itemDetail";
+import getKind from "../../../lib/getKind";
 import Page from "../../templates/CreateScheduleDetail/Page";
 
-export interface State {
+export interface Item {
   title: string;
+  kind: string;
   memo: string;
   moveMinutes: number;
+}
+
+interface State extends Item {
+  iconSelected: boolean;
 }
 
 interface Props {
   id: number;
   title: string;
+  kind: string;
   memo: string;
   moveMinutes: number;
   navigation: NavigationScreenProp<NavigationRoute>;
@@ -27,19 +34,34 @@ export default class extends Component<Props, State> {
   state = {
     title: this.props.title || "",
     memo: this.props.memo || "",
-    moveMinutes: this.props.moveMinutes || 0
+    moveMinutes: this.props.moveMinutes || 0,
+    kind: this.props.kind,
+    iconSelected: false
   };
+
+  componentDidUpdate() {
+    const kind = this.props.navigation.getParam("kind", "");
+
+    if (!kind) {
+      return;
+    }
+
+    if (this.state.kind !== kind) {
+      this.setState({ kind, iconSelected: true });
+    }
+  }
 
   onDismiss = () => {
     this.props.onShow(false);
   };
 
-  onSave = (title: string, memo: string, time: number) => {
+  onSave = (title: string, kind: string, memo: string, time: number) => {
     db.transaction((tx: SQLite.Transaction) => {
       const itemDetail: ItemDetail = {
         id: this.props.id,
         title,
         memo,
+        kind,
         moveMinutes: time,
         priority: 0,
         itemId: 0
@@ -49,18 +71,39 @@ export default class extends Component<Props, State> {
     });
   };
 
-  save = () => {
+  save = async () => {
+    const refreshData = this.props.navigation.getParam("refreshData", () => {});
+    await refreshData();
     this.props.onShow(true);
+  };
+
+  onIcons = (title: string) => {
+    this.props.navigation.navigate("Icons", {
+      kind: getKind(title),
+      defaultIcon: false,
+      onSelectIcon: (kind: string) => {
+        this.props.navigation.navigate("ScheduleDetail", {
+          kind: kind
+        });
+      },
+      onDismiss: () => {
+        this.props.navigation.navigate("ScheduleDetail");
+      },
+      photo: false
+    });
   };
 
   render() {
     return (
       <Page
         title={this.state.title}
+        kind={this.state.kind}
         memo={this.state.memo}
         time={this.state.moveMinutes}
+        iconSelected={this.state.iconSelected}
         onDismiss={this.onDismiss}
         onSave={this.onSave}
+        onIcons={this.onIcons}
       />
     );
   }

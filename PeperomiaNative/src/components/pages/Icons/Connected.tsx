@@ -17,6 +17,8 @@ export default class extends Component<Props, State> {
   }: {
     navigation: NavigationScreenProp<NavigationRoute>;
   }) => {
+    const { params = {} } = navigation.state;
+
     return {
       title: "アイコン",
       headerStyle: {
@@ -25,11 +27,7 @@ export default class extends Component<Props, State> {
       },
       headerLeft: (
         <View style={{ left: 10 }}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("CreatePlan");
-            }}
-          >
+          <TouchableOpacity onPress={params.onDismiss}>
             <MaterialCommunityIcons name="close" size={25} />
           </TouchableOpacity>
         </View>
@@ -37,10 +35,21 @@ export default class extends Component<Props, State> {
     };
   };
 
-  onSelectIcon = (kind: string) => {
-    this.props.navigation.navigate("CreatePlan", {
-      kind: kind
+  componentDidMount() {
+    const onDismiss = this.props.navigation.getParam("onDismiss", () => {});
+
+    this.props.navigation.setParams({
+      onDismiss: onDismiss
     });
+  }
+
+  onSelectIcon = (kind: string) => {
+    const onSelectIcon = this.props.navigation.getParam(
+      "onSelectIcon",
+      () => {}
+    );
+
+    onSelectIcon(kind);
   };
 
   onPhoto = async () => {
@@ -60,22 +69,27 @@ export default class extends Component<Props, State> {
     });
 
     if (!result.cancelled) {
-      this.props.navigation.navigate("CreatePlan", {
-        image: result.uri
-      });
+      const onPicture = this.props.navigation.getParam("onPicture", () => {});
+      onPicture(result.uri);
     }
   };
 
   onCamera = () => {
-    this.props.navigation.navigate("Camera");
+    const onDismiss = this.props.navigation.getParam("onDismiss", () => {});
+    const onPicture = this.props.navigation.getParam("onPicture", () => {});
+    this.props.navigation.navigate("Camera", { onDismiss, onPicture });
   };
 
   render() {
     const kind = this.props.navigation.getParam("kind", null);
+    const defaultIcon = this.props.navigation.getParam("defaultIcon", false);
+    const photo = this.props.navigation.getParam("photo", false);
 
     return (
       <Page
         kind={kind}
+        defaultIcon={defaultIcon}
+        photo={photo}
         onSelectIcon={this.onSelectIcon}
         onPhoto={this.onPhoto}
         onCamera={this.onCamera}

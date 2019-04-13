@@ -14,15 +14,13 @@ export default class extends Component<Props> {
   }: {
     navigation: NavigationScreenProp<NavigationRoute>;
   }) => {
+    const { params = {} } = navigation.state;
+
     return {
       title: "アイコン写真を取る",
       headerLeft: (
         <View style={{ left: 10 }}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("CreatePlan");
-            }}
-          >
+          <TouchableOpacity onPress={params.onDismiss}>
             <MaterialCommunityIcons name="close" size={25} />
           </TouchableOpacity>
         </View>
@@ -30,10 +28,18 @@ export default class extends Component<Props> {
     };
   };
 
-  onPicture = (image?: string) => {
-    this.props.navigation.navigate("CreatePlan", {
-      image
+  componentDidMount() {
+    const onDismiss = this.props.navigation.getParam("onDismiss", () => {});
+
+    this.props.navigation.setParams({
+      onDismiss: onDismiss
     });
+  }
+
+  onPicture = (image?: string) => {
+    const onPicture = this.props.navigation.getParam("onPicture", () => {});
+
+    onPicture(image);
   };
 
   render() {

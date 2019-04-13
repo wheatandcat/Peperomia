@@ -23,7 +23,7 @@ export default (props: Props) => {
   return (
     <Fragment>
       <Header
-        kind={getKind(props.title)}
+        kind={props.kind}
         right={
           <TouchableOpacity onPress={props.onOpenActionSheet}>
             <MaterialCommunityIcons

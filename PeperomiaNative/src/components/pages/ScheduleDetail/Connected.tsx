@@ -20,12 +20,17 @@ interface State {
 
 interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
-  onEdit: (title: string, memo: string, moveMinutes: number) => void;
+  onEdit: (
+    title: string,
+    kind: string,
+    memo: string,
+    moveMinutes: number
+  ) => void;
 }
 
 export default class extends Component<Props, State> {
   state = {
-    item: { id: 0, title: "", image: "" },
+    item: { id: 0, title: "", image: "", kind: "" },
     itemDetail: {
       id: 0,
       itemId: 0,
@@ -66,28 +71,24 @@ export default class extends Component<Props, State> {
   };
 
   onCreateScheduleDetail = () => {
-    const { title, memo, moveMinutes } = this.state.itemDetail;
-    this.props.onEdit(title, memo, moveMinutes);
+    const { title, kind, memo, moveMinutes } = this.state.itemDetail;
+    this.props.onEdit(title, kind, memo, moveMinutes);
   };
 
   onDelete = () => {
     db.transaction((tx: SQLite.Transaction) => {
-      delete1st(
-        tx,
-        String(this.state.itemDetail.id),
-        (data: any, error: any) => {
-          if (error) {
-            return;
-          }
-          selectByItemId(
-            tx,
-            String(this.state.itemDetail.itemId),
-            (itemDetails: any, error: any) => {
-              sortItemDetail(tx, itemDetails, this.onPushSchedule);
-            }
-          );
+      delete1st(tx, String(this.state.itemDetail.id), (_, error: any) => {
+        if (error) {
+          return;
         }
-      );
+        selectByItemId(
+          tx,
+          String(this.state.itemDetail.itemId),
+          (itemDetails: any, _) => {
+            sortItemDetail(tx, itemDetails, this.onPushSchedule);
+          }
+        );
+      });
     });
   };
 

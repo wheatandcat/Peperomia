@@ -4,26 +4,32 @@ import {
   TextInput,
   TouchableOpacity,
   Text as TextPlan,
-  SafeAreaView
+  SafeAreaView,
+  Alert
 } from "react-native";
 import {
   ActionSheetProps,
   connectActionSheet
 } from "@expo/react-native-action-sheet";
+import { Button } from "react-native-elements";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import Header from "../../molecules/ScheduleHeader/Header";
 import getKind from "../../../lib/getKind";
 
 export interface Props {
   title: string;
+  kind: string;
   memo: string;
   time: number;
+  iconSelected: boolean;
   onDismiss: () => void;
-  onSave: (title: string, memo: string, time: number) => void;
+  onIcons: (title: string) => void;
+  onSave: (title: string, kind: string, memo: string, time: number) => void;
 }
 
 export interface State {
   title: string;
+  kind: string;
   memo: string;
   time: number;
 }
@@ -66,9 +72,11 @@ const manualButtonIndex = times.length - 2;
 class App extends Component<Props & ActionSheetProps, State> {
   state = {
     title: this.props.title,
+    kind: this.props.kind,
     memo: this.props.memo,
     time: this.props.time
   };
+
   onOpenActionSheet = () => {
     const options = times.map(val => val.label);
 
@@ -101,6 +109,44 @@ class App extends Component<Props & ActionSheetProps, State> {
       }
     );
   };
+
+  onChangeTitle = (title: string) => {
+    if (this.props.iconSelected) {
+      this.setState({ title });
+    } else {
+      this.setState({ title, kind: getKind(title) });
+    }
+  };
+
+  onDismiss = (title: string, kind: string, memo: string, time: number) => {
+    if (
+      this.props.title !== title ||
+      this.props.kind !== kind ||
+      this.props.memo !== memo ||
+      this.props.time !== time
+    ) {
+      Alert.alert(
+        "保存されていない変更があります",
+        "戻りますか？",
+        [
+          {
+            text: "キャンセル",
+            style: "cancel"
+          },
+          {
+            text: "戻る",
+            onPress: () => {
+              this.props.onDismiss();
+            }
+          }
+        ],
+        { cancelable: false }
+      );
+    } else {
+      this.props.onDismiss();
+    }
+  };
+
   render() {
     return (
       <SafeAreaView style={{ flex: 1 }}>
@@ -108,12 +154,13 @@ class App extends Component<Props & ActionSheetProps, State> {
           style={{ backgroundColor: "#ffffff", height: "100%", width: "100%" }}
         >
           <Header
-            kind={getKind(this.state.title)}
+            kind={this.props.iconSelected ? this.props.kind : this.state.kind}
             right={
               <TouchableOpacity
                 onPress={() =>
                   this.props.onSave(
                     this.state.title,
+                    this.props.iconSelected ? this.props.kind : this.state.kind,
                     this.state.memo,
                     this.state.time
                   )
@@ -127,7 +174,14 @@ class App extends Component<Props & ActionSheetProps, State> {
                 </TextPlan>
               </TouchableOpacity>
             }
-            onClose={this.props.onDismiss}
+            onClose={() =>
+              this.onDismiss(
+                this.state.title,
+                this.state.kind,
+                this.state.memo,
+                this.state.time
+              )
+            }
           >
             <TextInput
               placeholder="タイトルを入力"
@@ -138,7 +192,9 @@ class App extends Component<Props & ActionSheetProps, State> {
                 color: "#555",
                 paddingLeft: 1
               }}
-              onChangeText={title => this.setState({ title })}
+              onChangeText={title =>
+                this.setState({ title, kind: getKind(title) })
+              }
               defaultValue={this.props.title}
               testID="inputTextScheduleDetailTitle"
             />
@@ -197,6 +253,27 @@ class App extends Component<Props & ActionSheetProps, State> {
                     {this.state.memo}
                   </TextPlan>
                 </TextInput>
+              </View>
+              <View style={{ paddingTop: 80, width: 112 }}>
+                <Button
+                  title="アイコンを変更する"
+                  type="clear"
+                  titleStyle={{
+                    color: "#a888",
+                    fontSize: 12,
+                    fontWeight: "600",
+                    padding: 0
+                  }}
+                  buttonStyle={{
+                    borderBottomWidth: 1,
+                    borderBottomColor: "#888",
+                    padding: 0
+                  }}
+                  containerStyle={{
+                    padding: 0
+                  }}
+                  onPress={() => this.props.onIcons(this.state.title)}
+                />
               </View>
             </View>
           </View>

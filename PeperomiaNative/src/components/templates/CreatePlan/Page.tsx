@@ -12,6 +12,7 @@ import getKind, { KINDS } from "../../../lib/getKind";
 import { IconImage } from "../../atoms";
 
 export interface Props {
+  mode: string;
   title: string;
   image: string;
   kind: string;
@@ -98,6 +99,7 @@ class Page extends Component<Props & ActionSheetProps> {
             onChangeText={text => this.props.onInput("title", text)}
             testID="inputTextTitle"
             label={this.props.title !== "" ? "タイトル" : ""}
+            defaultValue={this.props.title}
           />
           <TouchableOpacity onPress={this.onOpenActionSheet}>
             <View style={{ paddingTop: 70 }}>
@@ -141,7 +143,7 @@ class Page extends Component<Props & ActionSheetProps> {
           </TouchableOpacity>
           <View style={{ paddingTop: 70 }}>
             <Button
-              title="作成する"
+              title={this.props.mode === "new" ? "作成する" : "変更する"}
               testID="completion"
               onPress={this.props.onSave}
               buttonStyle={{
