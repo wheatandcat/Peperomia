@@ -9,12 +9,15 @@ import {
 import Sentry from "sentry-expo";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { Provider as PaperProvider } from "react-native-paper";
+import ItemsProvider from "./containers/Items";
 import Home from "./components/pages/Home/Connected";
 import Setting from "./components/pages/Setting/Connected";
 import CreatePlan from "./components/pages/CreatePlan/Connected";
 import CreateSchedule from "./components/pages/CreateSchedule/Connected";
 import ScheduleDetail from "./components/pages/ScheduleDetail/Switch";
+import AddScheduleDetail from "./components/pages/AddScheduleDetail/Connected";
 import CreateScheduleDetail from "./components/pages/CreateScheduleDetail/Connected";
+
 import Icons from "./components/pages/Icons/Connected";
 import Camera from "./components/pages/Camera/Connected";
 
@@ -109,6 +112,9 @@ const Navigator = createStackNavigator(
     },
     IconsNavigator: {
       screen: IconsNavigator
+    },
+    AddScheduleDetail: {
+      screen: AddScheduleDetail
     }
   },
   {
@@ -125,7 +131,9 @@ export default class App extends Component {
     return (
       <PaperProvider>
         <ActionSheetProvider>
-          <AppContainer />
+          <ItemsProvider>
+            <AppContainer />
+          </ItemsProvider>
         </ActionSheetProvider>
       </PaperProvider>
     );

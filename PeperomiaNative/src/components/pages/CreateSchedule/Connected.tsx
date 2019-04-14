@@ -2,6 +2,7 @@ import { SQLite } from "expo";
 import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import { Text, TouchableOpacity, View } from "react-native";
+import uuidv1 from "uuid/v1";
 import { db } from "../../../lib/db";
 import { select1st } from "../../../lib/db/item";
 import { selectByItemId } from "../../../lib/db/itemDetail";
@@ -119,7 +120,16 @@ export default class extends Component<Props, State> {
 
   onCreateScheduleDetail = () => {
     const itemId = this.props.navigation.getParam("itemId", "1");
-    this.props.navigation.navigate("CreateScheduleDetail", { itemId });
+
+    this.props.navigation.navigate("CreateScheduleDetail", {
+      itemId,
+      onSave: () => {
+        this.props.navigation.navigate("CreateSchedule", {
+          itemId: itemId,
+          refresh: uuidv1()
+        });
+      }
+    });
   };
 
   onScheduleDetail = (id: string) => {

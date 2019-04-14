@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
+import { Consumer as ItemsConsumer } from "../../../containers/Items";
 import ScheduleDetail from "./Connected";
 import EditScheduleDetail, {
   Item as EditScheduleDetailState
@@ -14,7 +15,23 @@ interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
 }
 
-export default class extends Component<Props, State> {
+interface PlanProps extends Props {
+  refreshData: () => void;
+}
+
+export default class extends Component<Props> {
+  render() {
+    return (
+      <ItemsConsumer>
+        {({ refreshData }: any) => (
+          <Plan {...this.props} refreshData={refreshData} />
+        )}
+      </ItemsConsumer>
+    );
+  }
+}
+
+class Plan extends Component<PlanProps, State> {
   static navigationOptions = { header: null };
 
   state = {
@@ -67,7 +84,11 @@ export default class extends Component<Props, State> {
     }
 
     return (
-      <ScheduleDetail navigation={this.props.navigation} onEdit={this.onEdit} />
+      <ScheduleDetail
+        navigation={this.props.navigation}
+        refreshData={this.props.refreshData}
+        onEdit={this.onEdit}
+      />
     );
   }
 }

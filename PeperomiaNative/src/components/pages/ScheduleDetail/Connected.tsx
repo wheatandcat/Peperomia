@@ -26,6 +26,7 @@ interface Props {
     memo: string,
     moveMinutes: number
   ) => void;
+  refreshData: () => void;
 }
 
 export default class extends Component<Props, State> {
@@ -97,6 +98,7 @@ export default class extends Component<Props, State> {
       return;
     }
 
+    this.props.refreshData();
     this.props.navigation.navigate("Schedule", {
       itemId: this.state.itemDetail.itemId,
       title: this.state.item.title,

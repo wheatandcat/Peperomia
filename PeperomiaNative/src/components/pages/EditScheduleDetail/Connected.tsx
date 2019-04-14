@@ -7,6 +7,7 @@ import {
   ItemDetail
 } from "../../../lib/db/itemDetail";
 import getKind from "../../../lib/getKind";
+import { Consumer as ItemsConsumer } from "../../../containers/Items";
 import Page from "../../templates/CreateScheduleDetail/Page";
 
 export interface Item {
@@ -30,7 +31,23 @@ interface Props {
   onShow: (reload: boolean) => void;
 }
 
-export default class extends Component<Props, State> {
+interface PlanProps extends Props {
+  refreshData: () => void;
+}
+
+export default class extends Component<Props> {
+  render() {
+    return (
+      <ItemsConsumer>
+        {({ refreshData }: any) => (
+          <Plan {...this.props} refreshData={refreshData} />
+        )}
+      </ItemsConsumer>
+    );
+  }
+}
+
+class Plan extends Component<PlanProps, State> {
   state = {
     title: this.props.title || "",
     memo: this.props.memo || "",
@@ -74,6 +91,8 @@ export default class extends Component<Props, State> {
   save = async () => {
     const refreshData = this.props.navigation.getParam("refreshData", () => {});
     await refreshData();
+
+    await this.props.refreshData();
     this.props.onShow(true);
   };
 

@@ -8,35 +8,43 @@ import {
 import { TouchableOpacity, View, AsyncStorage, Image } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import uuidv1 from "uuid/v1";
-import { db, init } from "../../../lib/db";
-import { select as selectItems, Item } from "../../../lib/db/item";
+import { db } from "../../../lib/db";
+import { Item } from "../../../lib/db/item";
 import {
   select1st as selectUser1st,
   insert as insertUser,
   User
 } from "../../../lib/db/user";
 import { delete1st } from "../../../lib/db/item";
-import {
-  selectByItemId as selectItemDetailByItemId,
-  ItemDetail,
-  deleteByItemId as deleteItemDetailByItemId
-} from "../../../lib/db/itemDetail";
+import { deleteByItemId as deleteItemDetailByItemId } from "../../../lib/db/itemDetail";
+import { Consumer as ItemsConsumer } from "../../../containers/Items";
 import Schedule from "../Schedule/Switch";
 import EditPlan from "../EditPlan/Connected";
-import Page, { Props as PageProps } from "./Page";
-
-interface Props extends PageProps {
-  navigation: NavigationScreenProp<NavigationRoute>;
-}
+import Page from "./Page";
 
 interface ItemAbout {
   itemId: number;
   about: string;
 }
 
+interface Props {
+  navigation: NavigationScreenProp<NavigationRoute>;
+}
+
 interface State {
+  refresh: string;
+}
+
+interface PlanProps {
   items: Item[];
   about: ItemAbout[];
+  refreshData: () => void;
+  refresh: string;
+  onSchedule: (id: string, title: string) => void;
+  onCreate: () => void;
+}
+
+interface PlanState {
   refresh: string;
   guide: boolean;
 }
@@ -75,31 +83,56 @@ class HomeScreen extends Component<Props, State> {
   };
 
   state = {
-    items: [],
-    about: [],
+    refresh: ""
+  };
+
+  onSchedule = (id: string, title: string) => {
+    this.props.navigation.navigate("Schedule", { itemId: id, title });
+  };
+
+  onCreate = () => {
+    this.props.navigation.navigate("CreatePlan");
+  };
+
+  render() {
+    const refresh = this.props.navigation.getParam("refresh", "");
+
+    return (
+      <ItemsConsumer>
+        {({ items, about, refreshData }: any) => (
+          <HomeScreenPlan
+            items={items}
+            about={about}
+            refresh={refresh}
+            refreshData={refreshData}
+            onSchedule={this.onSchedule}
+            onCreate={this.onCreate}
+          />
+        )}
+      </ItemsConsumer>
+    );
+  }
+}
+
+class HomeScreenPlan extends Component<PlanProps, PlanState> {
+  state = {
     refresh: "",
     guide: false
   };
 
   componentDidMount() {
     db.transaction((tx: SQLite.Transaction) => {
-      init(tx);
-      selectItems(tx, this.setItems);
       selectUser1st(tx, this.checkUser);
     });
   }
 
   componentDidUpdate() {
-    const refresh = this.props.navigation.getParam("refresh", "");
-
-    if (this.state.refresh === refresh) {
+    if (this.state.refresh === this.props.refresh) {
       return;
     }
 
-    this.setState({ refresh: refresh });
-    db.transaction((tx: SQLite.Transaction) => {
-      selectItems(tx, this.setItems);
-    });
+    this.setState({ refresh: this.props.refresh });
+    this.props.refreshData();
   }
 
   checkUser = (data: any, error: any) => {
@@ -138,49 +171,6 @@ class HomeScreen extends Component<Props, State> {
     });
   };
 
-  setItems = (data: any, error: any) => {
-    if (error) {
-      return;
-    }
-    this.setState({
-      items: data
-    });
-
-    data.map((val: Item) => {
-      db.transaction((tx: SQLite.Transaction) => {
-        selectItemDetailByItemId(tx, String(val.id), this.setItemsDetail);
-      });
-    });
-  };
-
-  setItemsDetail = (data: any, error: any) => {
-    if (error || !data || data.length === 0) {
-      return;
-    }
-
-    const names = data.map((val: ItemDetail) => val.title).join("→");
-    const itemId = data[0].itemId;
-    const about = [
-      ...this.state.about,
-      {
-        itemId: itemId,
-        about: names
-      }
-    ];
-
-    this.setState({
-      about
-    });
-  };
-
-  onSchedule = (id: string, title: string) => {
-    this.props.navigation.navigate("Schedule", { itemId: id, title });
-  };
-
-  onCreate = () => {
-    this.props.navigation.navigate("CreatePlan");
-  };
-
   onDelete = (scheduleId: string) => {
     db.transaction((tx: SQLite.Transaction) => {
       delete1st(tx, scheduleId, (data: any, error: any) => {
@@ -197,8 +187,8 @@ class HomeScreen extends Component<Props, State> {
   };
 
   render() {
-    const items: any = this.state.items.map((item: Item) => {
-      const about: any = this.state.about.find(
+    const items: any = this.props.items.map((item: Item) => {
+      const about: any = this.props.about.find(
         (val: ItemAbout) => val.itemId === item.id
       );
 
@@ -210,8 +200,8 @@ class HomeScreen extends Component<Props, State> {
         data={items}
         loading={false}
         guide={this.state.guide}
-        onSchedule={this.onSchedule}
-        onCreate={this.onCreate}
+        onSchedule={this.props.onSchedule}
+        onCreate={this.props.onCreate}
         onGuideFinish={this.onGuideFinish}
         onDelete={this.onDelete}
       />

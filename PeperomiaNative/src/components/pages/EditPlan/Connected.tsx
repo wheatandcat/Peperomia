@@ -3,24 +3,31 @@ import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import { TouchableOpacity, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Consumer as ItemsConsumer } from "../../../containers/Items";
 import { db } from "../../../lib/db";
 import { update as updateItem, Item } from "../../../lib/db/item";
 import getKind from "../../../lib/getKind";
-import Page, { Props as PageProps } from "../../templates/CreatePlan/Page";
+import Page from "../../templates/CreatePlan/Page";
 
-interface Props extends PageProps {
+interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
 }
 
-interface State {
+interface PlanProps {
   input: {
     title: string;
   };
   image: string;
   kind: string;
+  refreshData: () => void;
+  onInput: (name: string, value: any) => void;
+  onImage: (image: string) => void;
+  onSave: () => void;
+  onIcons: () => void;
+  onCamera: () => void;
 }
 
-export default class extends Component<Props, State> {
+export default class extends Component<Props> {
   static navigationOptions = ({
     navigation
   }: {
@@ -155,16 +162,43 @@ export default class extends Component<Props, State> {
 
   render() {
     return (
+      <ItemsConsumer>
+        {({ refreshData }: any) => (
+          <Plan
+            input={this.state.input}
+            image={this.state.image}
+            kind={this.state.kind}
+            refreshData={refreshData}
+            onInput={this.onInput}
+            onImage={this.onImage}
+            onSave={this.onSave}
+            onIcons={this.onIcons}
+            onCamera={this.onCamera}
+          />
+        )}
+      </ItemsConsumer>
+    );
+  }
+}
+
+class Plan extends Component<PlanProps> {
+  onSave = async () => {
+    await this.props.onSave();
+    this.props.refreshData();
+  };
+
+  render() {
+    return (
       <Page
         mode="edit"
-        title={this.state.input.title}
-        image={this.state.image}
-        kind={this.state.kind}
-        onInput={this.onInput}
-        onImage={this.onImage}
+        title={this.props.input.title}
+        image={this.props.image}
+        kind={this.props.kind}
+        onInput={this.props.onInput}
+        onImage={this.props.onImage}
         onSave={this.onSave}
-        onIcons={this.onIcons}
-        onCamera={this.onCamera}
+        onIcons={this.props.onIcons}
+        onCamera={this.props.onCamera}
       />
     );
   }

@@ -4,7 +4,7 @@ import { View } from "react-native-ui-lib";
 import styled from "styled-components/native";
 import Color from "color";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { KINDS } from "../../../lib/getKind";
+import { KINDS, KIND_DEFAULT } from "../../../lib/getKind";
 import s from "../../../config/style";
 import { IconImage } from "../../atoms";
 
@@ -16,7 +16,8 @@ export interface Props {
 }
 
 export default (props: Props) => {
-  const config = KINDS[props.kind];
+  const kind = props.kind || KIND_DEFAULT;
+  const config = KINDS[kind];
   const ss = s.schedule;
 
   return (

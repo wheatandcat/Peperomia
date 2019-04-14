@@ -31,6 +31,7 @@ import {
 } from "../../../lib/firebase";
 import { select1st, delete1st, Item } from "../../../lib/db/item";
 import getShareText from "../../../lib/getShareText";
+import { Consumer as ItemsConsumer } from "../../../containers/Items";
 import Schedule from "./Connected";
 import HeaderLeft from "./HeaderLeft";
 import HeaderRight from "./HeaderRight";
@@ -46,6 +47,19 @@ interface State {
 
 interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
+}
+
+interface PlanProps extends Props {
+  refreshData: () => void;
+  item: Item;
+  itemId: number;
+  title: string;
+  items: ItemDetail[];
+  saveItems: ItemDetail[];
+  mode: string;
+  onShow: () => void;
+  onAdd: (items: ItemDetail[]) => void;
+  onSort: (items: ItemDetail[]) => void;
 }
 
 class Switch extends Component<Props & ActionSheetProps, State> {
@@ -258,31 +272,16 @@ class Switch extends Component<Props & ActionSheetProps, State> {
 
   onAdd = (items: ItemDetail[]) => {
     const itemId = this.props.navigation.getParam("itemId", "1");
-    this.props.navigation.navigate("CreateScheduleDetail", {
+    this.props.navigation.navigate("AddScheduleDetail", {
       itemId,
-      priority: items.length + 1
+      priority: items.length + 1,
+      onSave: () => {
+        this.props.navigation.navigate("Schedule", {
+          itemId: itemId,
+          refresh: uuidv1()
+        });
+      }
     });
-  };
-
-  onDelete = () => {
-    const itemId = this.props.navigation.getParam("itemId", "1");
-
-    db.transaction((tx: SQLite.Transaction) => {
-      delete1st(tx, itemId, (data: any, error: any) => {
-        if (error) {
-          return;
-        }
-        deleteItemDetailByItemId(tx, itemId, this.onDeleteRefresh);
-      });
-    });
-  };
-
-  onDeleteRefresh = (_: any, error: any) => {
-    if (error) {
-      return;
-    }
-
-    this.props.navigation.navigate("Home", { refresh: uuidv1() });
   };
 
   onEdit = (items: ItemDetail[]): void => {
@@ -318,19 +317,6 @@ class Switch extends Component<Props & ActionSheetProps, State> {
     this.onShow();
   };
 
-  onChangeItems = (data: ItemDetail[]): void => {
-    db.transaction((tx: SQLite.Transaction) => {
-      data.forEach(async (item, index) => {
-        item.priority = index + 1;
-        await updateItemDetail(tx, item, this.save);
-      });
-    });
-
-    this.setState({ saveItems: data });
-  };
-
-  save = (_: any) => {};
-
   onShare = async (itemId: string, title: string, items: ItemDetail[]) => {
     try {
       const message = getShareText(items);
@@ -364,21 +350,77 @@ class Switch extends Component<Props & ActionSheetProps, State> {
   };
 
   render() {
-    if (this.state.mode === "edit") {
+    return (
+      <ItemsConsumer>
+        {({ refreshData }: any) => (
+          <Plan
+            {...this.props}
+            {...this.state}
+            refreshData={refreshData}
+            onShow={this.onShow}
+            onAdd={this.onAdd}
+            onSort={this.onSort}
+          />
+        )}
+      </ItemsConsumer>
+    );
+  }
+}
+
+class Plan extends Component<PlanProps & ActionSheetProps> {
+  onDelete = () => {
+    const itemId = this.props.navigation.getParam("itemId", "1");
+
+    db.transaction((tx: SQLite.Transaction) => {
+      delete1st(tx, itemId, (_: any, error: any) => {
+        if (error) {
+          return;
+        }
+        deleteItemDetailByItemId(tx, itemId, this.onDeleteRefresh);
+      });
+    });
+  };
+
+  onDeleteRefresh = (_: any, error: any) => {
+    if (error) {
+      return;
+    }
+
+    this.props.refreshData();
+    this.props.navigation.navigate("Home", { refresh: uuidv1() });
+  };
+
+  onChangeItems = (data: ItemDetail[]): void => {
+    db.transaction((tx: SQLite.Transaction) => {
+      data.forEach(async (item, index) => {
+        item.priority = index + 1;
+        await updateItemDetail(tx, item, this.save);
+      });
+    });
+
+    this.setState({ saveItems: data });
+  };
+
+  save = (_: any) => {
+    this.props.refreshData();
+  };
+
+  render() {
+    if (this.props.mode === "edit") {
       return (
         <EditSchedule
-          title={this.state.title}
-          items={this.state.items}
+          title={this.props.title}
+          items={this.props.items}
           navigation={this.props.navigation}
-          onShow={this.onShow}
+          onShow={this.props.onShow}
         />
       );
     }
 
-    if (this.state.mode === "sort") {
+    if (this.props.mode === "sort") {
       return (
         <SortableSchedule
-          items={this.state.items}
+          items={this.props.items}
           onChangeItems={this.onChangeItems}
         />
       );
@@ -387,8 +429,8 @@ class Switch extends Component<Props & ActionSheetProps, State> {
     return (
       <Schedule
         navigation={this.props.navigation}
-        onAdd={this.onAdd}
-        onSort={this.onSort}
+        onAdd={this.props.onAdd}
+        onSort={this.props.onSort}
         onDelete={() => this.onDelete()}
       />
     );

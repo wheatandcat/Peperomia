@@ -89,7 +89,7 @@ class Plan extends Component<PlanProps, State> {
   save = () => {
     const itemId = this.props.navigation.getParam("itemId", "1");
 
-    this.props.navigation.navigate("CreateSchedule", {
+    this.props.navigation.navigate("Schedule", {
       itemId,
       refresh: uuidv1()
     });
@@ -101,18 +101,22 @@ class Plan extends Component<PlanProps, State> {
     this.props.navigation.navigate("Icons", {
       kind: getKind(title),
       onSelectIcon: (kind: string) => {
-        this.props.navigation.navigate("CreateScheduleDetail", {
+        this.props.navigation.navigate("AddScheduleDetail", {
           kind: kind
         });
       },
       onDismiss: () => {
-        this.props.navigation.navigate("CreateScheduleDetail");
+        this.props.navigation.navigate("AddScheduleDetail");
       },
       photo: false
     });
   };
 
   render() {
+    const itemId = this.props.navigation.getParam("itemId", "1");
+
+    console.log(itemId);
+
     return (
       <Page
         title={this.state.title}
