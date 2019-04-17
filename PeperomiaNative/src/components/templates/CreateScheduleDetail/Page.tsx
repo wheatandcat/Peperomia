@@ -11,7 +11,7 @@ import {
   ActionSheetProps,
   connectActionSheet
 } from "@expo/react-native-action-sheet";
-import { Button } from "react-native-elements";
+import { Button, Overlay } from "react-native-elements";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import Header from "../../molecules/ScheduleHeader/Header";
 import getKind from "../../../lib/getKind";
@@ -32,6 +32,8 @@ export interface State {
   kind: string;
   memo: string;
   time: number;
+  manualTime: boolean;
+  manualTimeValue: number;
 }
 
 interface Item {
@@ -74,7 +76,9 @@ class App extends Component<Props & ActionSheetProps, State> {
     title: this.props.title,
     kind: this.props.kind,
     memo: this.props.memo,
-    time: this.props.time
+    time: this.props.time,
+    manualTimeValue: 0,
+    manualTime: false
   };
 
   onOpenActionSheet = () => {
@@ -100,6 +104,7 @@ class App extends Component<Props & ActionSheetProps, State> {
         }
 
         if (buttonIndex == manualButtonIndex) {
+          this.setState({ manualTime: true });
           return;
         }
 
@@ -147,18 +152,119 @@ class App extends Component<Props & ActionSheetProps, State> {
     }
   };
 
+  onSave = (title: string, kind: string, memo: string, time: number) => {
+    if (title == "") {
+      Alert.alert("タイトルが入力されていません");
+    } else {
+      this.props.onSave(title, kind, memo, time);
+    }
+  };
+
+  onSetManualTime = () => {
+    this.setState({
+      time: this.state.manualTimeValue,
+      manualTime: false
+    });
+  };
+
+  onCloseManualTime = () => {
+    this.setState({
+      manualTime: false
+    });
+  };
+
   render() {
     return (
       <SafeAreaView style={{ flex: 1 }}>
+        <Overlay
+          isVisible={this.state.manualTime}
+          height={200}
+          overlayStyle={{ padding: 5 }}
+        >
+          <View
+            style={{
+              height: "100%",
+              width: "100%",
+              backgroundColor: "#fff"
+            }}
+          >
+            <View
+              style={{
+                alignItems: "center",
+                paddingVertical: 10
+              }}
+            >
+              <TextPlan>時間を指定して下さい</TextPlan>
+            </View>
+            <View
+              style={{
+                alignItems: "center",
+                paddingTop: 30
+              }}
+            >
+              <View style={{ flexDirection: "row" }}>
+                <TextInput
+                  keyboardType="numeric"
+                  style={{
+                    width: 50,
+                    paddingRight: 10,
+                    textAlign: "right",
+                    fontSize: 24,
+                    borderBottomWidth: 1
+                  }}
+                  defaultValue=""
+                  onChangeText={value =>
+                    this.setState({ manualTimeValue: Number(value) })
+                  }
+                  returnKeyType="done"
+                  maxLength={3}
+                />
+                <View>
+                  <TextPlan
+                    style={{ paddingTop: 6, paddingLeft: 5, fontSize: 18 }}
+                  >
+                    分
+                  </TextPlan>
+                </View>
+              </View>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                width: "auto",
+                paddingTop: 50
+              }}
+            >
+              <Button
+                title="設定する"
+                onPress={this.onSetManualTime}
+                containerStyle={{ width: 130, paddingRight: 8 }}
+              />
+              <Button
+                title="キャンセル"
+                type="outline"
+                onPress={this.onCloseManualTime}
+                containerStyle={{ width: 130, paddingLeft: 8 }}
+                buttonStyle={{ borderColor: "red" }}
+                titleStyle={{ color: "red" }}
+              />
+            </View>
+          </View>
+        </Overlay>
         <View
-          style={{ backgroundColor: "#ffffff", height: "100%", width: "100%" }}
+          style={{
+            backgroundColor: "#ffffff",
+            height: "100%",
+            width: "100%"
+          }}
         >
           <Header
             kind={this.props.iconSelected ? this.props.kind : this.state.kind}
             right={
               <TouchableOpacity
                 onPress={() =>
-                  this.props.onSave(
+                  this.onSave(
                     this.state.title,
                     this.props.iconSelected ? this.props.kind : this.state.kind,
                     this.state.memo,
@@ -168,7 +274,7 @@ class App extends Component<Props & ActionSheetProps, State> {
                 testID="saveScheduleDetail"
               >
                 <TextPlan
-                  style={{ fontSize: 18, fontWeight: "500", color: "#555" }}
+                  style={{ fontSize: 20, fontWeight: "500", color: "#555" }}
                 >
                   保存
                 </TextPlan>
@@ -197,6 +303,7 @@ class App extends Component<Props & ActionSheetProps, State> {
               }
               defaultValue={this.props.title}
               testID="inputTextScheduleDetailTitle"
+              returnKeyType="done"
             />
           </Header>
           <View style={{ padding: 20 }}>
@@ -248,7 +355,11 @@ class App extends Component<Props & ActionSheetProps, State> {
                   testID="inputTextScheduleDetailMemo"
                 >
                   <TextPlan
-                    style={{ fontSize: 16, lineHeight: 24, fontWeight: "400" }}
+                    style={{
+                      fontSize: 16,
+                      lineHeight: 24,
+                      fontWeight: "400"
+                    }}
                   >
                     {this.state.memo}
                   </TextPlan>

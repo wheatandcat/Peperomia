@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { View, Text } from "react-native";
 import EditButton from "../../atoms/EditButton";
 import Cards, { Props as CardsProps } from "../../organisms/Schedule/Cards";
 

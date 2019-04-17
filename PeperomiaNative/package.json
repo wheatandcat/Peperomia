@@ -30,6 +30,7 @@
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
     "react-native-action-button": "^2.8.5",
+    "react-native-app-intro-slider": "^2.0.1",
     "react-native-easy-grid": "^0.2.0",
     "react-native-elements": "^1.0.0",
     "react-native-paper": "^2.1.3",

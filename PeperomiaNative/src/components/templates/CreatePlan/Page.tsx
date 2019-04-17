@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, TouchableOpacity, Image } from "react-native";
+import { View, TouchableOpacity, Image, Alert } from "react-native";
 import { Input, Button } from "react-native-elements";
 import { ImagePicker, Permissions } from "expo";
 import {
@@ -72,6 +72,14 @@ class Page extends Component<Props & ActionSheetProps> {
     }
   };
 
+  onSave = () => {
+    if (this.props.title == "") {
+      Alert.alert("タイトルが入力されていません");
+    } else {
+      this.props.onSave();
+    }
+  };
+
   render() {
     let { image } = this.props;
     const kind = this.props.kind || getKind(this.props.title);
@@ -100,6 +108,7 @@ class Page extends Component<Props & ActionSheetProps> {
             testID="inputTextTitle"
             label={this.props.title !== "" ? "タイトル" : ""}
             defaultValue={this.props.title}
+            returnKeyType="done"
           />
           <TouchableOpacity onPress={this.onOpenActionSheet}>
             <View style={{ paddingTop: 70 }}>
@@ -145,7 +154,7 @@ class Page extends Component<Props & ActionSheetProps> {
             <Button
               title={this.props.mode === "new" ? "作成する" : "変更する"}
               testID="completion"
-              onPress={this.props.onSave}
+              onPress={this.onSave}
               buttonStyle={{
                 width: 300,
                 height: 50,
