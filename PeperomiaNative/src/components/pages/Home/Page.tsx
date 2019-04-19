@@ -1,12 +1,9 @@
 import React from "react";
-import { View, Dialog, Text } from "react-native-ui-lib";
+import { View, Text } from "react-native-ui-lib";
 import Cards, { Props as CardsProps } from "../../organisms/Home/Cards";
-import Guide from "../../organisms/Guide/Connected";
 
 export interface Props extends CardsProps {
-  guide: boolean;
   onCreate: () => void;
-  onGuideFinish: () => void;
 }
 
 interface ItemProps extends Props {
@@ -19,10 +16,6 @@ export default (props: ItemProps) => (
       backgroundColor: "#fff"
     }}
   >
-    <Dialog visible={props.guide} width="80%" height="50%" centerH centerV>
-      <Guide onFinish={props.onGuideFinish} />
-    </Dialog>
-
     <View style={{ height: "100%", paddingTop: 3 }}>
       {props.data.length > 0 ? (
         <Cards

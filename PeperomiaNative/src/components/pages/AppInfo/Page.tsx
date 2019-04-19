@@ -1,7 +1,11 @@
-import React from "react";
+import React, { Component } from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import AppIntroSlider from "react-native-app-intro-slider";
+
+interface Props {
+  onDone: () => void;
+}
 
 const styles = StyleSheet.create({
   buttonCircle: {
@@ -18,13 +22,15 @@ const styles = StyleSheet.create({
   }
 });
 
-const slides = [
+const slides: any = [
   {
     key: "step1",
     title: "予定を管理",
     text: "ペペロミアは予定管理アプリです\n簡単な操作で予定を作成",
     image: require("../../../img/intro_home.png"),
     imageWidth: 250,
+    titleColor: "#fff",
+    textColor: "#eee",
     backgroundColor: "#59b2ab"
   },
   {
@@ -34,6 +40,8 @@ const slides = [
       "タイトルをつけると自動でアイコンを設定\n見やすい予定表を作成しよう！",
     image: require("../../../img/intro_plan2.png"),
     imageWidth: 250,
+    titleColor: "#fff",
+    textColor: "#eee",
     backgroundColor: "#ffa500"
   },
   {
@@ -42,11 +50,23 @@ const slides = [
     text: "作成した予定は\nブラウザから誰にでも共有可能",
     image: require("../../../img/intro_share.png"),
     imageWidth: 300,
+    titleColor: "#fff",
+    textColor: "#eee",
+    backgroundColor: "#ACBC10"
+  },
+  {
+    key: "step4",
+    title: "ようこそ！！",
+    text: "ペペロミアを使って予定を作っていこう！",
+    image: require("../../../img/intro_welcome.png"),
+    imageWidth: 200,
+    titleColor: "#fff",
+    textColor: "#eee",
     backgroundColor: "#59b2ab"
   }
 ];
 
-export default class App extends React.Component {
+export default class extends Component<Props> {
   _renderNextButton = () => {
     return (
       <View style={styles.buttonCircle}>
@@ -61,6 +81,7 @@ export default class App extends React.Component {
       </View>
     );
   };
+
   _renderDoneButton = () => {
     return (
       <View style={styles.buttonCircle}>
@@ -76,12 +97,12 @@ export default class App extends React.Component {
     );
   };
 
-  _renderItem = props => (
+  _renderItem = (props: any) => (
     <View
       style={{
         backgroundColor: props.backgroundColor,
         height: "100%",
-        paddingTop: 50
+        paddingTop: 150
       }}
     >
       <View
@@ -110,7 +131,7 @@ export default class App extends React.Component {
           style={{
             fontSize: 25,
             fontWeight: "600",
-            color: "#fff"
+            color: props.titleColor
           }}
         >
           {props.title}
@@ -128,7 +149,7 @@ export default class App extends React.Component {
           <Text
             style={{
               fontSize: 16,
-              color: "#eee",
+              color: props.textColor,
               paddingBottom: 5
             }}
             key={val}
@@ -140,10 +161,15 @@ export default class App extends React.Component {
     </View>
   );
 
+  _onDone = () => {
+    this.props.onDone();
+  };
+
   render() {
     return (
       <AppIntroSlider
         slides={slides}
+        onDone={this._onDone}
         renderItem={this._renderItem}
         renderDoneButton={this._renderDoneButton}
         renderNextButton={this._renderNextButton}

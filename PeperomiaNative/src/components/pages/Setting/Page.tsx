@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, ScrollView, Text } from "react-native";
+import { View, ScrollView, Text, AsyncStorage } from "react-native";
 import { List, Divider, Title } from "react-native-paper";
 import { ListItem } from "react-native-elements";
 import { Constants } from "expo";
@@ -73,7 +73,13 @@ export default class extends Component<Props> {
               <Divider />
               <List.Item title="sqllite DB" onPress={this.props.onData} />
               <Divider />
-
+              <List.Item
+                title="最初のプラン作成キャッシュの削除"
+                onPress={() => {
+                  AsyncStorage.removeItem("FIRST_CRAEATE_ITEM");
+                }}
+              />
+              <Divider />
               <Divider />
             </>
           )}

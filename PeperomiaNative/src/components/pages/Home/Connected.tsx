@@ -1,23 +1,19 @@
-import { SQLite, Constants } from "expo";
+import { SQLite } from "expo";
 import React, { Component } from "react";
 import {
   createStackNavigator,
   NavigationScreenProp,
   NavigationRoute
 } from "react-navigation";
-import { TouchableOpacity, View, AsyncStorage, Image } from "react-native";
+import { TouchableOpacity, View, Image, AsyncStorage } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import uuidv1 from "uuid/v1";
 import { db } from "../../../lib/db";
 import { Item } from "../../../lib/db/item";
-import {
-  select1st as selectUser1st,
-  insert as insertUser,
-  User
-} from "../../../lib/db/user";
 import { delete1st } from "../../../lib/db/item";
 import { deleteByItemId as deleteItemDetailByItemId } from "../../../lib/db/itemDetail";
 import { Consumer as ItemsConsumer } from "../../../containers/Items";
+import Hint from "../../atoms/Hint/Hint";
 import Schedule from "../Schedule/Switch";
 import EditPlan from "../EditPlan/Connected";
 import Page from "./Page";
@@ -46,15 +42,15 @@ interface PlanProps {
 
 interface PlanState {
   refresh: string;
-  guide: boolean;
 }
 
 class LogoTitle extends Component {
   render() {
     return (
       <Image
-        source={require("../../../img/logo.png")}
-        style={{ height: 85 / 2.5, width: 274 / 2.5 }}
+        source={require("../../../img/title_logo.png")}
+        style={{ height: 35 }}
+        resizeMode="contain"
       />
     );
   }
@@ -66,17 +62,17 @@ class HomeScreen extends Component<Props, State> {
   }: {
     navigation: NavigationScreenProp<NavigationRoute>;
   }) => {
+    const { params = {} } = navigation.state;
+
     return {
       headerTitle: <LogoTitle />,
       headerRight: (
         <View style={{ right: 12 }}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("CreatePlan");
-            }}
-          >
-            <Feather name="plus" size={28} />
-          </TouchableOpacity>
+          <Hint>
+            <TouchableOpacity onPress={params.onPushCreatePlan}>
+              <Feather name="plus" size={28} />
+            </TouchableOpacity>
+          </Hint>
         </View>
       )
     };
@@ -85,6 +81,15 @@ class HomeScreen extends Component<Props, State> {
   state = {
     refresh: ""
   };
+
+  async componentDidMount() {
+    this.props.navigation.setParams({
+      onPushCreatePlan: async () => {
+        await AsyncStorage.setItem("FIRST_CRAEATE_ITEM", "true");
+        this.props.navigation.navigate("CreatePlan");
+      }
+    });
+  }
 
   onSchedule = (id: string, title: string) => {
     this.props.navigation.navigate("Schedule", { itemId: id, title });
@@ -116,15 +121,8 @@ class HomeScreen extends Component<Props, State> {
 
 class HomeScreenPlan extends Component<PlanProps, PlanState> {
   state = {
-    refresh: "",
-    guide: false
+    refresh: ""
   };
-
-  componentDidMount() {
-    db.transaction((tx: SQLite.Transaction) => {
-      selectUser1st(tx, this.checkUser);
-    });
-  }
 
   componentDidUpdate() {
     if (this.state.refresh === this.props.refresh) {
@@ -134,42 +132,6 @@ class HomeScreenPlan extends Component<PlanProps, PlanState> {
     this.setState({ refresh: this.props.refresh });
     this.props.refreshData();
   }
-
-  checkUser = (data: any, error: any) => {
-    if (error) {
-      return;
-    }
-
-    if (!data) {
-      const uuid = Constants.installationId + uuidv1();
-      const user: User = {
-        uuid
-      };
-      db.transaction((tx: SQLite.Transaction) => {
-        insertUser(tx, user, this.setUser);
-      });
-
-      AsyncStorage.setItem("userID", user.uuid);
-    } else {
-      AsyncStorage.setItem("userID", data.uuid);
-    }
-  };
-
-  setUser = (_: any, error: any) => {
-    if (error) {
-      return;
-    }
-
-    this.setState({
-      guide: true
-    });
-  };
-
-  onGuideFinish = () => {
-    this.setState({
-      guide: false
-    });
-  };
 
   onDelete = (scheduleId: string) => {
     db.transaction((tx: SQLite.Transaction) => {
@@ -199,10 +161,8 @@ class HomeScreenPlan extends Component<PlanProps, PlanState> {
       <Page
         data={items}
         loading={false}
-        guide={this.state.guide}
         onSchedule={this.props.onSchedule}
         onCreate={this.props.onCreate}
-        onGuideFinish={this.onGuideFinish}
         onDelete={this.onDelete}
       />
     );

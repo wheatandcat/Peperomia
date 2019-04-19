@@ -5,6 +5,7 @@ import {
   NavigationScreenProp,
   NavigationRoute
 } from "react-navigation";
+import { AsyncStorage } from "react-native";
 import Page from "./Page";
 import { db } from "../../../lib/db";
 import { deleteSql, resetSql, deleteUserSql } from "../../../lib/db/debug";
@@ -44,6 +45,8 @@ class Connected extends Component<Props> {
     db.transaction((tx: SQLite.Transaction) => {
       deleteUserSql(tx);
     });
+
+    AsyncStorage.removeItem("FIRST_CRAEATE_ITEM");
   };
 
   onTos = () => {

@@ -1,6 +1,6 @@
 import { SQLite } from "expo";
 import React, { createContext, Component } from "react";
-import { db, init } from "../lib/db";
+import { db } from "../lib/db";
 import { select as selectItems, Item } from "../lib/db/item";
 import {
   selectByItemId as selectItemDetailByItemId,
@@ -49,7 +49,6 @@ export default class extends Component<Props, State> {
 
     data.map((val: Item) => {
       db.transaction((tx: SQLite.Transaction) => {
-        init(tx);
         selectItemDetailByItemId(tx, String(val.id), this.setItemsDetail);
       });
     });
