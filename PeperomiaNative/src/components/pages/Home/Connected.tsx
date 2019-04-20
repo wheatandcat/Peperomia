@@ -68,10 +68,8 @@ class HomeScreen extends Component<Props, State> {
       headerTitle: <LogoTitle />,
       headerRight: (
         <View style={{ right: 12 }}>
-          <Hint>
-            <TouchableOpacity onPress={params.onPushCreatePlan}>
-              <Feather name="plus" size={28} />
-            </TouchableOpacity>
+          <Hint onPress={params.onPushCreatePlan}>
+            <Feather name="plus" size={28} />
           </Hint>
         </View>
       )

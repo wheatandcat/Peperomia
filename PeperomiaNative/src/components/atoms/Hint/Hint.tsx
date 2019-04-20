@@ -1,9 +1,11 @@
 import React, { Component } from "react";
-import { View, AsyncStorage } from "react-native";
+import { View, TouchableOpacity, AsyncStorage } from "react-native";
 import Mask from "./Mask";
 import BottomRight from "./BottomRight";
 
-interface Props {}
+interface Props {
+  onPress: () => void;
+}
 
 interface State {
   visible: boolean;
@@ -30,9 +32,22 @@ export default class extends Component<Props, State> {
     AsyncStorage.setItem("FIRST_CRAEATE_ITEM", "true");
   };
 
+  onPushPress = () => {
+    this.setState({
+      visible: false
+    });
+
+    AsyncStorage.setItem("FIRST_CRAEATE_ITEM", "true");
+    this.props.onPress();
+  };
+
   render() {
     if (!this.state.visible) {
-      return this.props.children;
+      return (
+        <TouchableOpacity onPress={this.props.onPress}>
+          {this.props.children}
+        </TouchableOpacity>
+      );
     }
 
     return (
@@ -48,7 +63,9 @@ export default class extends Component<Props, State> {
               padding: 2
             }}
           >
-            {this.props.children}
+            <TouchableOpacity onPress={this.onPushPress}>
+              {this.props.children}
+            </TouchableOpacity>
           </View>
         </>
       </Mask>
