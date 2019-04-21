@@ -1,4 +1,5 @@
 import React from "react";
+import { Platform } from "react-native";
 import ActionButton from "react-native-action-button";
 import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
 
@@ -7,6 +8,8 @@ interface Props {
   onSort: () => void;
   onDelete: () => void;
 }
+
+const right = Platform.OS === "ios" ? 50 : 100;
 
 export default (props: Props) => (
   <ActionButton buttonColor="#33CC33" hideShadow>
@@ -17,7 +20,7 @@ export default (props: Props) => (
         paddingTop: 1
       }}
       textContainerStyle={{
-        right: 50,
+        right: right,
         borderColor: "#777"
       }}
       hideLabelShadow
@@ -32,7 +35,7 @@ export default (props: Props) => (
         paddingTop: 1
       }}
       textContainerStyle={{
-        right: 50,
+        right: right,
         borderColor: "#777"
       }}
       hideLabelShadow
@@ -47,7 +50,7 @@ export default (props: Props) => (
         paddingTop: 1
       }}
       textContainerStyle={{
-        right: 50,
+        right: right,
         borderColor: "#777"
       }}
       hideLabelShadow

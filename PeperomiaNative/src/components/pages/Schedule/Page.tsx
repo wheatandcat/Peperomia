@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Alert } from "react-native";
+import { View, Alert, Platform } from "react-native";
 import Cards, { Props as CardsProps } from "../../organisms/Schedule/Cards";
 import ActionButton from "../../molecules/Schedule/ActionButton";
 
@@ -43,7 +43,7 @@ export default class extends Component<Props> {
             height: 60,
             position: "absolute",
             bottom: 50,
-            right: 40
+            right: Platform.OS === "ios" ? 40 : 0
           }}
         >
           <ActionButton

@@ -3,6 +3,7 @@ import { storiesOf } from "@storybook/react-native";
 import { View } from "react-native-ui-lib";
 import { KIND_TRAIN } from "../../../lib/getKind";
 import Card from "./Card";
+import ActionButton from "./ActionButton";
 
 const props = {
   id: "1",
@@ -12,8 +13,15 @@ const props = {
   end: false
 };
 
-storiesOf("molecules/Schedule", module).add("Card", () => (
-  <View style={{ paddingTop: 60 }}>
-    <Card {...props} />
-  </View>
-));
+storiesOf("molecules/Schedule", module)
+  .add("Card", () => (
+    <View style={{ paddingTop: 60 }}>
+      <Card {...props} />
+    </View>
+  ))
+  .add("ActionButton", () => (
+    <View style={{ paddingTop: 300 }}>
+      <ActionButton/>
+    </View>
+  ));
+

@@ -51,24 +51,12 @@ export default class extends Component<Props, State> {
     }
 
     return (
-      <Mask visible={this.state.visible} onPress={this.onPress}>
-        <>
-          <BottomRight />
-          <View
-            style={{
-              position: "absolute",
-              right: 15,
-              top: 60,
-              backgroundColor: "#fff",
-              padding: 2
-            }}
-          >
-            <TouchableOpacity onPress={this.onPushPress}>
-              {this.props.children}
-            </TouchableOpacity>
-          </View>
-        </>
-      </Mask>
+      <>
+        <BottomRight />
+        <TouchableOpacity onPress={this.onPushPress}>
+          {this.props.children}
+        </TouchableOpacity>
+      </>
     );
   }
 }

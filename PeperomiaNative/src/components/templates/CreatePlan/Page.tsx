@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { View, TouchableOpacity, Image, Alert } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  Image,
+  Alert,
+  ScrollView,
+  Dimensions
+} from "react-native";
 import { Input, Button } from "react-native-elements";
 import { ImagePicker, Permissions } from "expo";
 import {
@@ -10,6 +17,8 @@ import { Entypo } from "@expo/vector-icons";
 import Color from "color";
 import getKind, { KINDS } from "../../../lib/getKind";
 import { IconImage } from "../../atoms";
+
+const deviceHeight = Dimensions.get("window").height;
 
 export interface Props {
   mode: string;
@@ -86,103 +95,115 @@ class Page extends Component<Props & ActionSheetProps> {
     const config = KINDS[kind];
 
     return (
-      <View
+      <ScrollView
         style={{
-          backgroundColor: Color(config.backgroundColor)
-            .alpha(0.2)
-            .toString()
+          paddingBottom: 50
         }}
       >
         <View
           style={{
-            paddingTop: 100,
-            alignItems: "center",
-            height: "100%",
-            width: "100%"
+            backgroundColor: Color(config.backgroundColor)
+              .alpha(0.2)
+              .toString(),
+            height: deviceHeight
           }}
         >
-          <Input
-            placeholder={this.props.title === "" ? "タイトル" : ""}
-            containerStyle={{ width: "85%" }}
-            onChangeText={text => this.props.onInput("title", text)}
-            testID="inputTextTitle"
-            label={this.props.title !== "" ? "タイトル" : ""}
-            defaultValue={this.props.title}
-            returnKeyType="done"
-          />
-          <TouchableOpacity onPress={this.onOpenActionSheet}>
-            <View style={{ paddingTop: 70 }}>
-              <View
-                style={{
-                  padding: image ? 0 : 10,
-                  width: 180,
-                  height: 180,
-                  borderWidth: 1,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  backgroundColor: "#ffffff"
-                }}
-              >
-                {image ? (
-                  <Image
-                    style={{ width: 180, height: 180 }}
-                    source={{ uri: image }}
-                  />
-                ) : (
-                  <IconImage {...config} size={100} opacity={1.0} defaultIcon />
-                )}
-
+          <View
+            style={{
+              paddingTop: 100,
+              alignItems: "center",
+              height: "100%",
+              width: "100%"
+            }}
+          >
+            <Input
+              placeholder={this.props.title === "" ? "タイトル" : ""}
+              containerStyle={{ width: "85%" }}
+              onChangeText={text => this.props.onInput("title", text)}
+              testID="inputTextTitle"
+              label={this.props.title !== "" ? "タイトル" : ""}
+              defaultValue={this.props.title}
+              returnKeyType="done"
+            />
+            <TouchableOpacity onPress={this.onOpenActionSheet}>
+              <View style={{ paddingTop: 70 }}>
                 <View
                   style={{
-                    position: "absolute",
-                    left: 4,
-                    top: 2
+                    padding: image ? 0 : 10,
+                    width: 180,
+                    height: 180,
+                    borderWidth: 1,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    backgroundColor: "#ffffff"
                   }}
                 >
-                  <Entypo
-                    name="image"
-                    size={25}
+                  {image ? (
+                    <Image
+                      style={{ width: 180, height: 180 }}
+                      source={{ uri: image }}
+                    />
+                  ) : (
+                    <IconImage
+                      {...config}
+                      size={100}
+                      opacity={1.0}
+                      defaultIcon
+                    />
+                  )}
+
+                  <View
                     style={{
-                      color: "#555555"
+                      position: "absolute",
+                      left: 4,
+                      top: 2
                     }}
-                  />
+                  >
+                    <Entypo
+                      name="image"
+                      size={25}
+                      style={{
+                        color: "#555555"
+                      }}
+                    />
+                  </View>
                 </View>
               </View>
+            </TouchableOpacity>
+            <View style={{ paddingTop: 70 }}>
+              <Button
+                title={this.props.mode === "new" ? "作成する" : "変更する"}
+                testID="completion"
+                onPress={this.onSave}
+                buttonStyle={{
+                  width: 300,
+                  height: 50,
+                  backgroundColor: "#77D353",
+                  borderRadius: 15
+                }}
+              />
             </View>
-          </TouchableOpacity>
-          <View style={{ paddingTop: 70 }}>
-            <Button
-              title={this.props.mode === "new" ? "作成する" : "変更する"}
-              testID="completion"
-              onPress={this.onSave}
-              buttonStyle={{
-                width: 300,
-                height: 50,
-                backgroundColor: "#77D353",
-                borderRadius: 15
-              }}
-            />
-          </View>
-          <View style={{ paddingTop: 50 }}>
-            <Button
-              title="アイコンを変更する"
-              type="clear"
-              titleStyle={{
-                color: "#888",
-                fontSize: 12,
-                fontWeight: "600"
-              }}
-              buttonStyle={{
-                borderBottomWidth: 1,
-                borderBottomColor: "#888",
-                padding: 0,
-                paddingHorizontal: 5
-              }}
-              onPress={this.onOpenActionSheet}
-            />
+            <View style={{ paddingTop: 50 }}>
+              <Button
+                title="アイコンを変更する"
+                type="clear"
+                titleStyle={{
+                  color: "#888",
+                  fontSize: 12,
+                  fontWeight: "600"
+                }}
+                buttonStyle={{
+                  borderBottomWidth: 1,
+                  borderBottomColor: "#888",
+                  padding: 0,
+                  paddingHorizontal: 5
+                }}
+                onPress={this.onOpenActionSheet}
+              />
+            </View>
           </View>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }

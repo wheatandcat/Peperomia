@@ -9,11 +9,11 @@ export default class extends Component<Props> {
       <View
         style={{
           position: "absolute",
-          right: 15,
-          top: 100
+          right: 10,
+          top: 50
         }}
       >
-        <View style={{ paddingLeft: 285 }}>
+        <View style={{ right: -300 }}>
           <View
             style={{
               width: 0,
@@ -25,14 +25,15 @@ export default class extends Component<Props> {
               transform: [{ rotate: "180deg" }],
               borderRightColor: "transparent",
               borderTopColor: "#fff",
-              right: 15
+              borderBottomColor: "#fff",
+              right: 10
             }}
           />
         </View>
         <View
           style={{
-            width: 310,
-            height: 50,
+            width: 330,
+            height: 60,
             backgroundColor: "#fff",
             borderWidth: 0,
             padding: 15

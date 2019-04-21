@@ -5,7 +5,7 @@ import {
   NavigationScreenProp,
   NavigationRoute
 } from "react-navigation";
-import { TouchableOpacity, View, Image, AsyncStorage } from "react-native";
+import { Dimensions, View, Image, AsyncStorage } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import uuidv1 from "uuid/v1";
 import { db } from "../../../lib/db";
@@ -18,6 +18,9 @@ import Schedule from "../Schedule/Switch";
 import EditPlan from "../EditPlan/Connected";
 import Page from "./Page";
 
+const deviceHeight = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
+
 interface ItemAbout {
   itemId: number;
   about: string;
@@ -29,6 +32,7 @@ interface Props {
 
 interface State {
   refresh: string;
+  mask: boolean;
 }
 
 interface PlanProps {
@@ -77,15 +81,26 @@ class HomeScreen extends Component<Props, State> {
   };
 
   state = {
-    refresh: ""
+    refresh: "",
+    mask: false
   };
 
   async componentDidMount() {
     this.props.navigation.setParams({
       onPushCreatePlan: async () => {
+        this.setState({
+          mask: false
+        });
+
         await AsyncStorage.setItem("FIRST_CRAEATE_ITEM", "true");
         this.props.navigation.navigate("CreatePlan");
       }
+    });
+
+    const mask = await AsyncStorage.getItem("FIRST_CRAEATE_ITEM");
+
+    this.setState({
+      mask: !Boolean(mask)
     });
   }
 
@@ -100,17 +115,31 @@ class HomeScreen extends Component<Props, State> {
   render() {
     const refresh = this.props.navigation.getParam("refresh", "");
 
+    console.log(this.state.mask);
+
     return (
       <ItemsConsumer>
         {({ items, about, refreshData }: any) => (
-          <HomeScreenPlan
-            items={items}
-            about={about}
-            refresh={refresh}
-            refreshData={refreshData}
-            onSchedule={this.onSchedule}
-            onCreate={this.onCreate}
-          />
+          <>
+            <HomeScreenPlan
+              items={items}
+              about={about}
+              refresh={refresh}
+              refreshData={refreshData}
+              onSchedule={this.onSchedule}
+              onCreate={this.onCreate}
+            />
+            {this.state.mask && (
+              <View
+                style={{
+                  position: "absolute",
+                  width: deviceWidth,
+                  height: deviceHeight,
+                  backgroundColor: "rgba(0,0,0,0.8)"
+                }}
+              />
+            )}
+          </>
         )}
       </ItemsConsumer>
     );

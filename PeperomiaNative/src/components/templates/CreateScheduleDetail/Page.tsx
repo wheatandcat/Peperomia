@@ -5,7 +5,11 @@ import {
   TouchableOpacity,
   Text as TextPlan,
   SafeAreaView,
-  Alert
+  Alert,
+  Platform,
+  Keyboard,
+  ScrollView,
+  InputAccessoryView
 } from "react-native";
 import {
   ActionSheetProps,
@@ -174,11 +178,13 @@ class App extends Component<Props & ActionSheetProps, State> {
   };
 
   render() {
+    const inputAccessoryViewID = "uniqueID";
+
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <Overlay
           isVisible={this.state.manualTime}
-          height={200}
+          height={Platform.OS === "ios" ? 200 : 225}
           overlayStyle={{ padding: 5 }}
         >
           <View
@@ -306,88 +312,104 @@ class App extends Component<Props & ActionSheetProps, State> {
               returnKeyType="done"
             />
           </Header>
-          <View style={{ padding: 20 }}>
-            <TouchableOpacity onPress={this.onOpenActionSheet}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  borderBottomWidth: 0.5,
-                  borderColor: "#5A6978",
-                  width: 80,
-                  height: 30
-                }}
-              >
-                <Ionicons
-                  name="md-time"
-                  color="#5A6978"
-                  size={24}
-                  style={{ paddingTop: 3 }}
-                />
-                <TextPlan
+
+          <ScrollView>
+            <View style={{ padding: 20 }}>
+              <TouchableOpacity onPress={this.onOpenActionSheet}>
+                <View
                   style={{
-                    fontSize: 16,
-                    fontWeight: "500",
-                    color: "#00A6FF",
-                    paddingHorizontal: 15
-                  }}
-                >
-                  {this.state.time}分
-                </TextPlan>
-              </View>
-            </TouchableOpacity>
-            <View style={{ paddingTop: 30 }}>
-              <MaterialIcons name="edit" color="#00A6FF" size={25} />
-              <View style={{ paddingTop: 5 }}>
-                <TextInput
-                  placeholder="メモを書く"
-                  multiline
-                  style={{
-                    fontSize: 16,
-                    lineHeight: 24,
-                    fontWeight: "400",
+                    flexDirection: "row",
+                    alignItems: "center",
                     borderBottomWidth: 0.5,
-                    borderColor: "#5A6978"
+                    borderColor: "#5A6978",
+                    width: 80,
+                    height: 30
                   }}
-                  onChangeText={memo => {
-                    this.setState({ memo });
-                  }}
-                  testID="inputTextScheduleDetailMemo"
                 >
+                  <Ionicons
+                    name="md-time"
+                    color="#5A6978"
+                    size={24}
+                    style={{ paddingTop: 3 }}
+                  />
                   <TextPlan
                     style={{
                       fontSize: 16,
-                      lineHeight: 24,
-                      fontWeight: "400"
+                      fontWeight: "500",
+                      color: "#00A6FF",
+                      paddingHorizontal: 15
                     }}
                   >
-                    {this.state.memo}
+                    {this.state.time}分
                   </TextPlan>
-                </TextInput>
-              </View>
-              <View style={{ paddingTop: 80, width: 112 }}>
-                <Button
-                  title="アイコンを変更する"
-                  type="clear"
-                  titleStyle={{
-                    color: "#a888",
-                    fontSize: 12,
-                    fontWeight: "600",
-                    padding: 0
-                  }}
-                  buttonStyle={{
-                    borderBottomWidth: 1,
-                    borderBottomColor: "#888",
-                    padding: 0
-                  }}
-                  containerStyle={{
-                    padding: 0
-                  }}
-                  onPress={() => this.props.onIcons(this.state.title)}
-                />
+                </View>
+              </TouchableOpacity>
+              <View style={{ paddingTop: 30 }}>
+                <MaterialIcons name="edit" color="#00A6FF" size={25} />
+                <View style={{ paddingTop: 5 }}>
+                  <TextInput
+                    placeholder="メモを書く"
+                    multiline
+                    style={{
+                      fontSize: 16,
+                      lineHeight: 24,
+                      fontWeight: "400",
+                      borderBottomWidth: 0.5,
+                      borderColor: "#5A6978"
+                    }}
+                    onChangeText={memo => {
+                      this.setState({ memo });
+                    }}
+                    testID="inputTextScheduleDetailMemo"
+                    inputAccessoryViewID={inputAccessoryViewID}
+                  >
+                    <TextPlan
+                      style={{
+                        fontSize: 16,
+                        lineHeight: 24,
+                        fontWeight: "400"
+                      }}
+                    >
+                      {this.state.memo}
+                    </TextPlan>
+                  </TextInput>
+                </View>
+                <View style={{ paddingTop: 80, width: 112 }}>
+                  <Button
+                    title="アイコンを変更する"
+                    type="clear"
+                    titleStyle={{
+                      color: "#a888",
+                      fontSize: 12,
+                      fontWeight: "600",
+                      padding: 0
+                    }}
+                    buttonStyle={{
+                      borderBottomWidth: 1,
+                      borderBottomColor: "#888",
+                      padding: 0
+                    }}
+                    containerStyle={{
+                      padding: 0
+                    }}
+                    onPress={() => this.props.onIcons(this.state.title)}
+                  />
+                </View>
               </View>
             </View>
-          </View>
+          </ScrollView>
+
+          {Platform.OS === "ios" && (
+            <InputAccessoryView nativeID={inputAccessoryViewID}>
+              <View style={{ alignItems: "flex-end" }}>
+                <Button
+                  buttonStyle={{ width: 80, right: 0, borderRadius: 0 }}
+                  onPress={() => Keyboard.dismiss()}
+                  title="閉じる"
+                />
+              </View>
+            </InputAccessoryView>
+          )}
         </View>
       </SafeAreaView>
     );

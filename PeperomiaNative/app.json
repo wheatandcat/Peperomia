@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Peperomia",
-    "slug": "PeperomiaNative",
+    "name": "ペペロミア",
+    "slug": "peperomia",
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "packagerOpts": {
@@ -33,7 +33,8 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.wheatandcat.peperomia"
     },
-    "description": ""
+    "description": "ペペロミアは予定管理アプリです、",
+    "githubUrl": "https://github.com/wheatandcat/Peperomia"
   },
   "hooks": {
     "postPublish": [

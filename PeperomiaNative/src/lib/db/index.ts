@@ -27,6 +27,10 @@ export const error = (
 };
 
 export const init = (tx: SQLite.Transaction) => {
+  //tx.executeSql("drop table items");
+  //tx.executeSql("drop table item_details");
+  //tx.executeSql("drop table users");
+
   createItem(tx);
   createItemDetail(tx);
   createUser(tx);

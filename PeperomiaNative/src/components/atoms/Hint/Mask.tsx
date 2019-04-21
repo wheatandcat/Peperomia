@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Dimensions, TouchableWithoutFeedback } from "react-native";
+import { View, Dimensions, TouchableOpacity } from "react-native";
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
@@ -12,20 +12,21 @@ interface Props {
 export default class extends Component<Props> {
   render() {
     return (
-      <TouchableWithoutFeedback onPress={this.props.onPress}>
+      <TouchableOpacity onPress={this.props.onPress}>
         <View
           style={{
             position: "absolute",
             top: -80,
             right: -12,
-            width: deviceWidth + 5,
-            height: deviceHeight + 100,
-            backgroundColor: "rgba(0,0,0,0.8)"
+            width: deviceWidth,
+            height: deviceHeight,
+            backgroundColor: "#ff0",
+            zIndex: 50
           }}
         >
           {this.props.children}
         </View>
-      </TouchableWithoutFeedback>
+      </TouchableOpacity>
     );
   }
 }
