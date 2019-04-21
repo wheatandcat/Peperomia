@@ -43,7 +43,7 @@ export default class extends Component<Props> {
             height: 60,
             position: "absolute",
             bottom: 50,
-            right: Platform.OS === "ios" ? 40 : 0
+            right: 40
           }}
         >
           <ActionButton
