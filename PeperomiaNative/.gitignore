@@ -9,3 +9,4 @@ bin
 screenshots
 src/config/firebase.ts
 firestore-debug.log
+ios/ipa
