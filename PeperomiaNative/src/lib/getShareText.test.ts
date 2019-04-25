@@ -10,6 +10,7 @@ describe("getShareText", () => {
   const getItem = (title: string, moveMinutes?: number) => ({
     itemId: 1,
     title,
+    kind: "park",
     moveMinutes: moveMinutes || 0,
     priority: 1,
     memo: ""
