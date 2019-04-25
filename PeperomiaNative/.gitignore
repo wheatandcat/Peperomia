@@ -12,3 +12,4 @@ firestore-debug.log
 ios/ipa
 android/fastlane/client_id.json
 android/apk
+report.xml

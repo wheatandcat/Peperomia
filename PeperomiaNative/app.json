@@ -23,7 +23,12 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.wheatandcat.peperomia"
+      "buildNumber": "2",
+      "bundleIdentifier": "com.wheatandcat.peperomia",
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "予定作成のために使用します。",
+        "NSCameraUsageDescription": "予定作成のためにカメラを使用します。"
+      }
     },
     "android": {
       "package": "com.wheatandcat.peperomia"
