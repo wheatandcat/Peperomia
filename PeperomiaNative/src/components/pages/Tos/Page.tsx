@@ -7,7 +7,7 @@ export default class extends Component<Props> {
     return (
       <WebView
         source={{
-          uri: "https://frosty-panini-8d266e.netlify.com/tos"
+          uri: "https://peperomia.app/tos"
         }}
       />
     );
