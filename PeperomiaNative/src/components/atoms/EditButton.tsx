@@ -4,7 +4,6 @@ import { Button } from "react-native-elements";
 
 export interface Props {
   onPress: () => void;
-  testID: string;
 }
 
 export default class extends Component<Props> {
@@ -22,7 +21,7 @@ export default class extends Component<Props> {
           borderRadius: 45
         }}
         onPress={this.props.onPress}
-        testID={this.props.testID}
+        testID="addScheduleDetail"
       />
     );
   }

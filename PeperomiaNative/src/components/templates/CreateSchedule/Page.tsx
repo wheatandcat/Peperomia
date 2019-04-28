@@ -64,10 +64,7 @@ export default class extends Component<Props> {
               bottom: 30
             }}
           >
-            <EditButton
-              onPress={this.props.onCreateScheduleDetail}
-              testID="addScheduleDetail"
-            />
+            <EditButton onPress={this.props.onCreateScheduleDetail} />
           </View>
         </View>
       );
@@ -100,10 +97,7 @@ export default class extends Component<Props> {
               bottom: 30
             }}
           >
-            <EditButton
-              onPress={this.props.onCreateScheduleDetail}
-              testID="addScheduleDetail"
-            />
+            <EditButton onPress={this.props.onCreateScheduleDetail} />
           </View>
         </View>
       </View>

@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { View, TouchableOpacity, AsyncStorage } from "react-native";
-import Mask from "./Mask";
+import { TouchableOpacity, AsyncStorage } from "react-native";
 import BottomRight from "./BottomRight";
 
 interface Props {
   onPress: () => void;
+  testID: string;
 }
 
 interface State {
@@ -44,7 +44,10 @@ export default class extends Component<Props, State> {
   render() {
     if (!this.state.visible) {
       return (
-        <TouchableOpacity onPress={this.props.onPress}>
+        <TouchableOpacity
+          onPress={this.props.onPress}
+          testID={this.props.testID}
+        >
           {this.props.children}
         </TouchableOpacity>
       );
@@ -53,7 +56,7 @@ export default class extends Component<Props, State> {
     return (
       <>
         <BottomRight />
-        <TouchableOpacity onPress={this.onPushPress}>
+        <TouchableOpacity onPress={this.onPushPress} testID={this.props.testID}>
           {this.props.children}
         </TouchableOpacity>
       </>

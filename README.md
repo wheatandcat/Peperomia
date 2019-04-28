@@ -13,3 +13,11 @@
 
 https://expo.io/@wheatandcat/peperomia
 
+
+# リンク
+
+## Webサイト
+https://peperomia.app
+
+## 制作ブログ
+http://wheatandcat.hatenablog.com/

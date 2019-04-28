@@ -1,31 +1,37 @@
 const { reloadApp } = require("detox-expo-helpers");
 const { takeScreenshot } = require("./helpers");
 
-describe("Example", () => {
+describe("e2eテスト", () => {
   beforeEach(async () => {
     await reloadApp();
   });
 
-  afterEach(async () => {
+  it("アプリ紹介", async () => {
     takeScreenshot();
-  });
+  })
 
-  it("スケジュール追加", async () => {
-    takeScreenshot();
-    await element(by.id("guidWelcomeNext")).tap();
-    await element(by.id("guidShareNext")).tap();
-
+  it("プランを追加", async () => {
     await expect(element(by.label("プランの登録はありません"))).toBeVisible();
     takeScreenshot();
 
     await element(by.id("addSchedule")).tap();
     await element(by.id("inputTextTitle")).tap();
     await element(by.id("inputTextTitle")).replaceText("葛西臨海公園");
+    //takeScreenshot();
+    await expect(element(by.id("completion"))).toBeVisible();
     await element(by.id("completion")).tap();
-    takeScreenshot();
+    await element(by.id("completion")).tap();
+
+
+    await waitFor(element(by.label("まずは、予定を追加しよう"))).toBeNotVisible().withTimeout(2000);
+    await expect(element(by.label("まずは、予定を追加しよう"))).toBeVisible();
+
+  
+    await expect(element(by.id("addScheduleDetail"))).toBeVisible();
 
     await element(by.id("addScheduleDetail")).tap();
     takeScreenshot();
+
     await element(by.id("inputTextScheduleDetailTitle")).tap();
     await element(by.id("inputTextScheduleDetailTitle")).replaceText("新宿駅");
     await element(by.id("inputTextScheduleDetailMemo")).tap();

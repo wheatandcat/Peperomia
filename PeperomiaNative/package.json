@@ -13,8 +13,7 @@
     "storybook": "npm run storybook:copy && expo start",
     "prestorybook": "rnstl",
     "storybook-server": "storybook start",
-    "e2e": "rimraf ./screenshots && detox test --configuration ios.sim && open ./screenshots",
-    "e2e:build": "detox build --configuration ios.sim.release"
+    "e2e": "rimraf ./screenshots && detox test --configuration ios.sim && open ./screenshots"
   },
   "dependencies": {
     "@expo/react-native-action-sheet": "^1.1.2",
@@ -101,12 +100,6 @@
     "configurations": {
       "ios.sim": {
         "binaryPath": "bin/Exponent.app",
-        "type": "ios.simulator",
-        "name": "iPhone 7"
-      },
-      "ios.sim.release": {
-        "binaryPath": "bin/Exponent.app",
-        "build": "",
         "type": "ios.simulator",
         "name": "iPhone 7"
       }

@@ -72,7 +72,7 @@ class HomeScreen extends Component<Props, State> {
       headerTitle: <LogoTitle />,
       headerRight: (
         <View style={{ right: 12 }}>
-          <Hint onPress={params.onPushCreatePlan}>
+          <Hint onPress={params.onPushCreatePlan} testID="addSchedule">
             <Feather name="plus" size={28} />
           </Hint>
         </View>
@@ -114,8 +114,6 @@ class HomeScreen extends Component<Props, State> {
 
   render() {
     const refresh = this.props.navigation.getParam("refresh", "");
-
-    console.log(this.state.mask);
 
     return (
       <ItemsConsumer>
