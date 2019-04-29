@@ -178,7 +178,7 @@ class App extends Component<Props & ActionSheetProps, State> {
   };
 
   render() {
-    const inputAccessoryViewID = "uniqueID";
+    const inputAccessoryViewID = "detailID";
 
     return (
       <SafeAreaView style={{ flex: 1 }}>

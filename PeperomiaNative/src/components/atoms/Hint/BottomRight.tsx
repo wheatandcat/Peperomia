@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { View, Text } from "react-native";
+import { whenIPhoneSE } from "../../../lib/responsive";
 
 interface Props {}
 
@@ -13,7 +14,7 @@ export default class extends Component<Props> {
           top: 50
         }}
       >
-        <View style={{ right: -300 }}>
+        <View style={{ right: whenIPhoneSE(-250, -300) }}>
           <View
             style={{
               width: 0,
@@ -32,14 +33,16 @@ export default class extends Component<Props> {
         </View>
         <View
           style={{
-            width: 330,
-            height: 60,
+            width: whenIPhoneSE(280, 330),
+            height: whenIPhoneSE(40, 60),
             backgroundColor: "#fff",
             borderWidth: 0,
-            padding: 15
+            padding: whenIPhoneSE(12, 15)
           }}
         >
-          <Text>「+」ボタンをタッチして予定を作成しよう！</Text>
+          <Text style={{ fontSize: whenIPhoneSE(12, 14) }}>
+            「+」ボタンをタッチして予定を作成しよう！
+          </Text>
         </View>
       </View>
     );

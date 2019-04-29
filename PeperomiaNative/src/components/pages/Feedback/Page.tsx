@@ -4,7 +4,10 @@ import {
   Text,
   TextInput,
   KeyboardAvoidingView,
-  Image
+  Image,
+  Platform,
+  InputAccessoryView,
+  Keyboard
 } from "react-native";
 import { Button, Overlay } from "react-native-elements";
 
@@ -25,6 +28,8 @@ export default class extends Component<Props, State> {
   };
 
   render() {
+    const inputAccessoryViewID = "feedbackID";
+
     return (
       <>
         <Overlay isVisible={this.props.isOpen} height={280}>
@@ -101,6 +106,7 @@ export default class extends Component<Props, State> {
                     });
                   }}
                   testID="inputTextFeedbackMemo"
+                  inputAccessoryViewID={inputAccessoryViewID}
                   autoFocus
                 >
                   <Text
@@ -127,6 +133,18 @@ export default class extends Component<Props, State> {
               />
             </View>
           </KeyboardAvoidingView>
+
+          {Platform.OS === "ios" && (
+            <InputAccessoryView nativeID={inputAccessoryViewID}>
+              <View style={{ alignItems: "flex-end" }}>
+                <Button
+                  buttonStyle={{ width: 80, right: 0, borderRadius: 0 }}
+                  onPress={() => Keyboard.dismiss()}
+                  title="閉じる"
+                />
+              </View>
+            </InputAccessoryView>
+          )}
         </View>
       </>
     );

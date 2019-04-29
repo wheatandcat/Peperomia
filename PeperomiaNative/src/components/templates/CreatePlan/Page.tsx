@@ -16,6 +16,7 @@ import {
 import { Entypo } from "@expo/vector-icons";
 import Color from "color";
 import getKind, { KINDS } from "../../../lib/getKind";
+import { whenIPhoneSE } from "../../../lib/responsive";
 import { IconImage } from "../../atoms";
 
 const deviceHeight = Dimensions.get("window").height;
@@ -94,6 +95,8 @@ class Page extends Component<Props & ActionSheetProps> {
     const kind = this.props.kind || getKind(this.props.title);
     const config = KINDS[kind];
 
+    const imageSize = whenIPhoneSE(120, 180);
+
     return (
       <ScrollView
         style={{
@@ -110,7 +113,7 @@ class Page extends Component<Props & ActionSheetProps> {
         >
           <View
             style={{
-              paddingTop: 100,
+              paddingTop: whenIPhoneSE(30, 100),
               alignItems: "center",
               height: "100%",
               width: "100%"
@@ -126,12 +129,12 @@ class Page extends Component<Props & ActionSheetProps> {
               returnKeyType="done"
             />
             <TouchableOpacity onPress={this.onOpenActionSheet}>
-              <View style={{ paddingTop: 70 }}>
+              <View style={{ paddingTop: whenIPhoneSE(40, 70) }}>
                 <View
                   style={{
                     padding: image ? 0 : 10,
-                    width: 180,
-                    height: 180,
+                    width: imageSize,
+                    height: imageSize,
                     borderWidth: 1,
                     justifyContent: "center",
                     alignItems: "center",
@@ -140,13 +143,13 @@ class Page extends Component<Props & ActionSheetProps> {
                 >
                   {image ? (
                     <Image
-                      style={{ width: 180, height: 180 }}
+                      style={{ width: imageSize, height: imageSize }}
                       source={{ uri: image }}
                     />
                   ) : (
                     <IconImage
                       {...config}
-                      size={100}
+                      size={whenIPhoneSE(60, 100)}
                       opacity={1.0}
                       defaultIcon
                     />

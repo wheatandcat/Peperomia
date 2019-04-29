@@ -57,13 +57,18 @@ const TabNavigator = createBottomTabNavigator(
         const { routeName } = navigation.state;
         if (routeName === "マイプラン") {
           return (
-            <FontAwesomeIcons name="calendar-o" size={horizontal ? 20 : 25} />
+            <FontAwesomeIcons
+              name="calendar-o"
+              size={25}
+              color={focused ? "#4DB6AC" : "#ccc"}
+            />
           );
         } else if (routeName === "設定") {
           return (
             <MaterialCommunityIcons
               name="settings"
-              size={horizontal ? 20 : 25}
+              size={25}
+              color={focused ? "#4DB6AC" : "#ccc"}
             />
           );
         }
@@ -72,7 +77,7 @@ const TabNavigator = createBottomTabNavigator(
       }
     }),
     tabBarOptions: {
-      activeTintColor: "#23527c",
+      activeTintColor: "#4DB6AC",
       inactiveTintColor: "gray"
     }
   }

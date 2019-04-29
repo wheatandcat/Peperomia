@@ -7,6 +7,7 @@ import {
   connectActionSheet
 } from "@expo/react-native-action-sheet";
 import { KINDS } from "../../../lib/getKind";
+import { whenIPhoneSE } from "../../../lib/responsive";
 import { IconImage } from "../../atoms";
 
 export interface Props {
@@ -76,7 +77,8 @@ class Page extends Component<Props & ActionSheetProps, State> {
             inputContainerStyle={{
               backgroundColor: "#cccccc",
               borderBottomWidth: 0,
-              borderRadius: 10
+              borderRadius: 10,
+              height: whenIPhoneSE(30, 45)
             }}
             leftIconContainerStyle={{
               marginRight: 20

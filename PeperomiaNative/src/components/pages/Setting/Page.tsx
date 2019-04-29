@@ -3,6 +3,7 @@ import { View, ScrollView, Text, AsyncStorage } from "react-native";
 import { List, Divider, Title } from "react-native-paper";
 import { ListItem } from "react-native-elements";
 import { Constants } from "expo";
+import app from "../../../../app.json";
 
 export interface Props {
   onResetSQL: () => void;
@@ -40,7 +41,9 @@ export default class extends Component<Props> {
           <View style={{ height: 20 }} />
           <ListItem
             title="バージョン情報"
-            rightTitle={<Text style={{ color: "#555" }}>1.0.0 </Text>}
+            rightTitle={
+              <Text style={{ color: "#555" }}>{app.expo.version} </Text>
+            }
           />
           {!Constants.isDevice && (
             <>

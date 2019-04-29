@@ -65,7 +65,7 @@
     "mocha": "^5.2.0",
     "prettier": "1.16.4",
     "prop-types": "^15.6.2",
-    "react-dom": "16.3.1",
+    "react-dom": ">=16.3.3",
     "react-native-dotenv": "^0.2.0",
     "react-native-storybook-loader": "^1.8.0",
     "rimraf": "^2.6.2",

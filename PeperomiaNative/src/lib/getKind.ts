@@ -18,6 +18,11 @@ export const KIND_MOVIE = "movie";
 export const KIND_BEACH = "beach";
 export const KIND_CHERRY_BLOSSOM = "cherry_blossom";
 export const KIND_SHIP = "ship";
+export const KIND_HOT_SPRINGS = "hot_springs";
+export const KIND_FIREWORKS = "fireworks";
+export const KIND_MOUNTAIN = "mountain";
+export const KIND_CAR = "car";
+export const KIND_BAND = "band";
 
 const host =
   "https://firebasestorage.googleapis.com/v0/b/peperomia-196da.appspot.com/";
@@ -32,7 +37,7 @@ const color = {
   category3: "#77D353", // 公園
   category4: "#969FAA", // default
   category5: "#ffc0cb", // 花見
-  category6: "#dc143c", //　芸術、映画
+  category6: "#dc143c", // 芸術、映画
   category7: "#ffff00", // 動物園
   category8: "#add8e6", // カフェ,
   category9: "#adff2f" // ショッピング
@@ -123,6 +128,32 @@ export const KINDS: any = {
     src: fileUrl("0018", "0f52edae-d5bc-4f90-85ac-3d468e82d599"),
     name: "船、水上バス",
     backgroundColor: color.category1
+  },
+
+  [KIND_HOT_SPRINGS]: {
+    src: fileUrl("0019", "bd26facf-2798-410c-bc38-1fd394f57fa7"),
+    name: "温泉",
+    backgroundColor: color.category7
+  },
+  [KIND_FIREWORKS]: {
+    src: fileUrl("0020", "6574b834-48e3-47d1-ac92-93370bbbc225"),
+    name: "花火",
+    backgroundColor: color.category7
+  },
+  [KIND_MOUNTAIN]: {
+    src: fileUrl("0021", "9252888a-6da2-435a-82a9-bf12620322b3"),
+    name: "山",
+    backgroundColor: color.category1
+  },
+  [KIND_CAR]: {
+    src: fileUrl("0022", "3b4f7d6c-dc23-4ab0-9a3a-9b0ad0ff1817"),
+    name: "車",
+    backgroundColor: color.category2
+  },
+  [KIND_BAND]: {
+    src: fileUrl("0023", "751ac960-a73b-4c51-825b-47a3d218faed"),
+    name: "バンド",
+    backgroundColor: color.category7
   },
   [KIND_DEFAULT]: {
     src: fileUrl("0009", "96d2a212-3dc8-46d7-9b75-8e6df25445a0"),

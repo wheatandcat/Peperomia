@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import AppIntroSlider from "react-native-app-intro-slider";
+import { whenIPhoneSE } from "../../../lib/responsive";
 
 interface Props {
   onDone: () => void;
@@ -102,7 +103,7 @@ export default class extends Component<Props> {
       style={{
         backgroundColor: props.backgroundColor,
         height: "100%",
-        paddingTop: 150
+        paddingTop: whenIPhoneSE(30, 150)
       }}
     >
       <View

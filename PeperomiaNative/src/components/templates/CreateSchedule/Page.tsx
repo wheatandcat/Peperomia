@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { View, Text } from "react-native";
+import { whenIPhoneSE } from "../../../lib/responsive";
 import EditButton from "../../atoms/EditButton";
 import Cards, { Props as CardsProps } from "../../organisms/Schedule/Cards";
 
@@ -20,7 +21,7 @@ export default class extends Component<Props> {
           <View
             style={{
               position: "absolute",
-              bottom: 80,
+              bottom: whenIPhoneSE(50, 80),
               width: "100%",
               padding: 45
             }}
@@ -29,12 +30,14 @@ export default class extends Component<Props> {
               style={{
                 alignItems: "center",
                 backgroundColor: "#8492A6",
-                paddingHorizontal: 40,
-                paddingVertical: 30,
+                paddingHorizontal: whenIPhoneSE(10, 40),
+                paddingVertical: whenIPhoneSE(15, 30),
                 borderRadius: 20
               }}
             >
-              <Text style={{ color: "#ffffff", fontSize: 18 }}>
+              <Text
+                style={{ color: "#ffffff", fontSize: whenIPhoneSE(14, 18) }}
+              >
                 まずは、予定を追加しよう
               </Text>
             </View>
@@ -42,7 +45,7 @@ export default class extends Component<Props> {
               style={{
                 width: 0,
                 height: 0,
-                marginLeft: 230,
+                marginLeft: whenIPhoneSE(180, 230),
                 backgroundColor: "transparent",
                 borderStyle: "solid",
                 borderLeftWidth: 20,
