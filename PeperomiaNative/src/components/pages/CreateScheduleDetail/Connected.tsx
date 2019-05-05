@@ -5,6 +5,7 @@ import uuidv1 from "uuid/v1";
 import { db } from "../../../lib/db";
 import {
   insert as insertItemDetail,
+  countByItemId,
   ItemDetail
 } from "../../../lib/db/itemDetail";
 import getKind from "../../../lib/getKind";
@@ -17,6 +18,7 @@ export interface State {
   memo: string;
   moveMinutes: number;
   iconSelected: boolean;
+  priority: number;
 }
 
 interface Props {
@@ -49,8 +51,17 @@ class Plan extends Component<PlanProps, State> {
     kind: this.props.kind || "",
     memo: this.props.memo || "",
     moveMinutes: this.props.moveMinutes || 0,
-    iconSelected: false
+    iconSelected: false,
+    priority: 1
   };
+
+  componentDidMount() {
+    const itemId = this.props.navigation.getParam("itemId", "1");
+
+    db.transaction((tx: SQLite.Transaction) => {
+      countByItemId(tx, itemId, this.getCount);
+    });
+  }
 
   componentDidUpdate() {
     const kind = this.props.navigation.getParam("kind", "");
@@ -64,13 +75,22 @@ class Plan extends Component<PlanProps, State> {
     }
   }
 
+  getCount = (data: any, error: any) => {
+    if (error) {
+      return;
+    }
+
+    this.setState({
+      priority: data + 1
+    });
+  };
+
   onDismiss = () => {
     this.props.navigation.goBack();
   };
 
   onSave = (title: string, kind: string, memo: string, time: number) => {
     const itemId = this.props.navigation.getParam("itemId", "1");
-    const priority = this.props.navigation.getParam("priority", "1");
 
     db.transaction((tx: SQLite.Transaction) => {
       const itemDetail: ItemDetail = {
@@ -79,7 +99,7 @@ class Plan extends Component<PlanProps, State> {
         kind,
         memo,
         moveMinutes: time,
-        priority: Number(priority)
+        priority: this.state.priority
       };
 
       insertItemDetail(tx, itemDetail, this.save);

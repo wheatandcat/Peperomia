@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Alert, Platform } from "react-native";
+import { View, Alert } from "react-native";
 import Cards, { Props as CardsProps } from "../../organisms/Schedule/Cards";
 import ActionButton from "../../molecules/Schedule/ActionButton";
 

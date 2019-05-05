@@ -2,7 +2,11 @@ import { SQLite } from "expo";
 import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import { db } from "../../../lib/db";
-import { selectByItemId, ItemDetail } from "../../../lib/db/itemDetail";
+import {
+  selectByItemId,
+  ItemDetail,
+  update as updateItemDetail
+} from "../../../lib/db/itemDetail";
 import Page from "./Page";
 
 interface Props {
@@ -49,11 +53,36 @@ export default class extends Component<Props, State> {
       return;
     }
 
-    this.props.navigation.setParams({
-      items: data
+    const prioritys = data.map((item: ItemDetail) => item.priority);
+    const uniquePrioritys = prioritys.filter(
+      (x: number, i: number, self: number[]) => self.indexOf(x) === i
+    );
+
+    // priorityが重複していない
+    if (prioritys.length === uniquePrioritys.length) {
+      this.props.navigation.setParams({
+        items: data
+      });
+      this.setState({ items: data });
+    }
+
+    // priorityが重複している場合はid順でpriorityをupdateする
+    const items: ItemDetail[] = data.map((item: ItemDetail, index: number) => ({
+      ...item,
+      priority: index + 1
+    }));
+
+    db.transaction((tx: SQLite.Transaction) => {
+      items.forEach(async (item, index) => {
+        item.priority = index + 1;
+        await updateItemDetail(tx, item, this.save);
+      });
     });
-    this.setState({ items: data });
+
+    this.setState({ items: items });
   };
+
+  save = (_: any) => {};
 
   onScheduleDetail = (id: string) => {
     const itemId = this.props.navigation.getParam("itemId", "1");

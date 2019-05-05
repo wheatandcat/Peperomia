@@ -127,6 +127,7 @@ class Page extends Component<Props & ActionSheetProps> {
               label={this.props.title !== "" ? "タイトル" : ""}
               defaultValue={this.props.title}
               returnKeyType="done"
+              autoFocus
             />
             <TouchableOpacity onPress={this.onOpenActionSheet}>
               <View style={{ paddingTop: whenIPhoneSE(40, 70) }}>

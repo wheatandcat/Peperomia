@@ -310,6 +310,7 @@ class App extends Component<Props & ActionSheetProps, State> {
               defaultValue={this.props.title}
               testID="inputTextScheduleDetailTitle"
               returnKeyType="done"
+              autoFocus
             />
           </Header>
 

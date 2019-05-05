@@ -49,6 +49,8 @@ class Connected extends Component<Props> {
     AsyncStorage.removeItem("FIRST_CRAEATE_ITEM");
   };
 
+  onShowSQL = () => {};
+
   onTos = () => {
     this.props.navigation.navigate("Tos");
   };
@@ -68,6 +70,7 @@ class Connected extends Component<Props> {
         onData={this.onData}
         onDeleteSQL={this.onDeleteSQL}
         onDeleteUser={this.onDeleteUser}
+        onShowSQL={this.onShowSQL}
         onTos={this.onTos}
         onPolicy={this.onPolicy}
         onFeedback={this.onFeedback}

@@ -1,11 +1,15 @@
 import { SQLite } from "expo";
 import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View, Alert } from "react-native";
 import uuidv1 from "uuid/v1";
 import { db } from "../../../lib/db";
 import { select1st } from "../../../lib/db/item";
-import { selectByItemId } from "../../../lib/db/itemDetail";
+import {
+  selectByItemId,
+  ItemDetail,
+  update as updateItemDetail
+} from "../../../lib/db/itemDetail";
 import { ItemProps } from "../../organisms/Schedule/Cards";
 import Page, { Props as PageProps } from "../../templates/CreateSchedule/Page";
 
@@ -29,12 +33,7 @@ export default class extends Component<Props, State> {
       title: params.title,
       headerRight: (
         <View style={{ right: 10 }}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("Home", { refresh: true });
-            }}
-            testID="saveSchedule"
-          >
+          <TouchableOpacity onPress={params.onFinish} testID="saveSchedule">
             <Text style={{ fontSize: 16, fontWeight: "600" }}>完了</Text>
           </TouchableOpacity>
         </View>
@@ -91,6 +90,7 @@ export default class extends Component<Props, State> {
       db.transaction((tx: SQLite.Transaction) => {
         selectByItemId(tx, itemId, this.setItems);
       });
+
       this.setState({ refresh });
     }
   }
@@ -106,7 +106,8 @@ export default class extends Component<Props, State> {
     this.props.navigation.setParams({
       title: data.title,
       itemId,
-      mode
+      mode,
+      onFinish: this.onFinish
     });
   };
 
@@ -115,8 +116,36 @@ export default class extends Component<Props, State> {
       return;
     }
 
-    this.setState({ items: data });
+    const prioritys = data.map((item: ItemDetail) => item.priority);
+    const uniquePrioritys = prioritys.filter(
+      (x: number, i: number, self: number[]) => self.indexOf(x) === i
+    );
+
+    // priorityが重複していない
+    if (prioritys.length === uniquePrioritys.length) {
+      this.props.navigation.setParams({
+        items: data
+      });
+      this.setState({ items: data });
+    }
+
+    // priorityが重複している場合はid順でpriorityをupdateする
+    const items: ItemDetail[] = data.map((item: ItemDetail, index: number) => ({
+      ...item,
+      priority: index + 1
+    }));
+
+    db.transaction((tx: SQLite.Transaction) => {
+      items.forEach(async (item, index) => {
+        item.priority = index + 1;
+        await updateItemDetail(tx, item, this.save);
+      });
+    });
+
+    this.setState({ items: items });
   };
+
+  save = (_: any) => {};
 
   onCreateScheduleDetail = () => {
     const itemId = this.props.navigation.getParam("itemId", "1");
@@ -137,6 +166,30 @@ export default class extends Component<Props, State> {
       scheduleDetailId: id,
       priority: this.state.items.length + 1
     });
+  };
+
+  onFinish = () => {
+    if (this.state.items.length === 0) {
+      Alert.alert(
+        "まだ予定の設定がありません",
+        "本当に完了しますか？",
+        [
+          {
+            text: "キャンセル",
+            style: "cancel"
+          },
+          {
+            text: "完了する",
+            onPress: () => {
+              this.props.navigation.navigate("Home", { refresh: true });
+            }
+          }
+        ],
+        { cancelable: false }
+      );
+    } else {
+      this.props.navigation.navigate("Home", { refresh: true });
+    }
   };
 
   render() {

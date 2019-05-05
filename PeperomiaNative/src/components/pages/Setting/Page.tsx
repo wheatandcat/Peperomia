@@ -8,6 +8,7 @@ import app from "../../../../app.json";
 export interface Props {
   onResetSQL: () => void;
   onDeleteSQL: () => void;
+  onShowSQL: () => void;
   onData: () => void;
   onDeleteUser: () => void;
   onTos: () => void;
@@ -74,7 +75,7 @@ export default class extends Component<Props> {
                 onPress={this.props.onDeleteSQL}
               />
               <Divider />
-              <List.Item title="sqllite DB" onPress={this.props.onData} />
+              <List.Item title="DBのデータを表示" onPress={this.props.onData} />
               <Divider />
               <List.Item
                 title="最初のプラン作成キャッシュの削除"

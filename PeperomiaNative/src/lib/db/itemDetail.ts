@@ -76,7 +76,7 @@ export const select = async (
   callback?: (data: any, error: any) => void
 ) => {
   return tx.executeSql(
-    "select * from item_details order by priority",
+    "select * from item_details order by priority, id",
     [],
     (_, props) => success(props.rows._array, callback),
     (_, err) => error(err, callback)
@@ -118,6 +118,19 @@ export const sortItemDetail = (
     item.priority = index + 1;
     update(tx, item, callback);
   });
+};
+
+export const countByItemId = async (
+  tx: SQLite.Transaction,
+  id: string,
+  callback?: (data: any, error: any) => void
+) => {
+  return tx.executeSql(
+    "select count(id) as count from item_details where itemId = ?",
+    [id],
+    (_, props) => success(props.rows._array[0].count, callback),
+    (_, err) => error(err, callback)
+  );
 };
 
 export const delete1st = async (
