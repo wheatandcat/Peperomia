@@ -18,11 +18,11 @@ env:
 jobs:
   include:
     - stage: test
-#      env:
-#        - YARN_CACHE_FOLDER="/home/travis/yarn_cache"
-#      cache:
-#        directories:
-#          - $HOME/yarn_cache
+      env:
+        - YARN_CACHE_FOLDER="/home/travis/yarn_cache"
+      cache:
+        directories:
+          - $HOME/yarn_cache
       before_install:
         - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $YARN_VERSION
         - export PATH="$HOME/.yarn/bin:$PATH"
@@ -31,19 +31,19 @@ jobs:
       script:
         - yarn
         - yarn test
-    - stage: deploy
+#    - stage: deploy
 #      env:
 #        - YARN_CACHE_FOLDER="/home/travis/yarn_cache"
 #      cache:
 #        directories:
 #          - $HOME/yarn_cache
-      before_install:
-        - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $YARN_VERSION
-        - export PATH="$HOME/.yarn/bin:$PATH"
-      before_script:
-        - cd PeperomiaNative
-      script:
-        - yarn
-        - yarn global add expo-cli
-        - expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD
-        - expo publish --non-interactive
+#      before_install:
+#        - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $YARN_VERSION
+#        - export PATH="$HOME/.yarn/bin:$PATH"
+#      before_script:
+#        - cd PeperomiaNative
+#      script:
+#        - yarn
+#        - yarn global add expo-cli
+#        - expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD
+#        - expo publish --non-interactive
