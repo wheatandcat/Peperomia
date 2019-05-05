@@ -31,5 +31,5 @@ yarn e2e
 ## storybook publish
 
 ```
-expo-cli publish --config storybook/app.json
+expo publish --config storybook/app.json
 ```

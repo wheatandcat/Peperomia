@@ -45,5 +45,5 @@ jobs:
       script:
         - yarn
         - yarn global add expo-cli
-        - expo-cli login -u $EXPO_USERNAME -p $EXPO_PASSWORD
-        - expo-cli publish --non-interactive
+        - expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD
+        - expo publish --non-interactive
