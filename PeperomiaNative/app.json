@@ -9,7 +9,7 @@
       "transformer": "node_modules/react-native-typescript-transformer/index.js"
     },
     "platforms": ["ios", "android"],
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -23,7 +23,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "buildNumber": "3",
+      "buildNumber": "4",
       "bundleIdentifier": "com.wheatandcat.peperomia",
       "infoPlist": {
         "NSPhotoLibraryUsageDescription": "予定作成のために使用します。",
@@ -33,7 +33,7 @@
     },
     "android": {
       "package": "com.wheatandcat.peperomia",
-      "versionCode": 2
+      "versionCode": 4
     },
     "description": "ペペロミアは予定管理アプリです、",
     "githubUrl": "https://github.com/wheatandcat/Peperomia"

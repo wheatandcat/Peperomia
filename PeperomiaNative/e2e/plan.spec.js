@@ -71,4 +71,49 @@ describe("e2eテスト", () => {
 
     takeScreenshot();
   });
+
+  it("タイトルの更新", async () => {
+    await expect(element(by.label("葛西臨海公園"))).toBeVisible();
+    await element(by.id("scheduleItemId_1")).tap();
+
+    takeScreenshot();
+    await element(by.id("updateTitle")).tap();
+
+    await element(by.id("inputTextTitle")).tap();
+    await element(by.id("inputTextTitle")).replaceText("上野公園");
+    await element(by.id("completion")).tap();
+    await element(by.id("completion")).tap();
+
+  });
+
+  it("予定の詳細を更新", async () => {
+    await element(by.id("scheduleItemId_1")).tap();
+    await element(by.id("scheduleItemDetailId_1")).tap();
+    await element(by.id("scheduleDetailMenu")).tap();
+
+    await element(by.text("編集")).tap();
+
+    takeScreenshot();
+
+    await element(by.id("inputTextScheduleDetailTitle")).tap();
+    await element(by.id("inputTextScheduleDetailTitle")).replaceText("上野駅");
+    await element(by.id("inputTextScheduleDetailMemo")).tap();
+    await element(by.id("inputTextScheduleDetailMemo")).replaceText(
+      "パンダの前に集合"
+    );
+    takeScreenshot();
+    await element(by.id("saveScheduleDetail")).tap();
+  });
+
+  it("予定の詳細を削除", async () => {
+    await element(by.id("scheduleItemId_1")).tap();
+    await element(by.id("scheduleItemDetailId_3")).tap();
+    await element(by.id("scheduleDetailMenu")).tap();
+
+    await element(by.text("削除")).tap();
+    await element(by.text("削除する")).tap();
+
+    takeScreenshot();
+  });
+
 });

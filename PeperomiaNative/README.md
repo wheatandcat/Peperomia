@@ -24,7 +24,15 @@ expo build:android
 ## e2e
 
 ```
+yarn start
 yarn e2e
+```
+
+## storybook 
+
+```
+yarn storybook 
+yarn storybook-server
 ```
 
 

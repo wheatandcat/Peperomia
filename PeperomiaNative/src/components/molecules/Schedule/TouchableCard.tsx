@@ -15,7 +15,10 @@ export interface Props extends ItemProps {
 export default (props: Props) => {
   return (
     <Fragment>
-      <TouchableOpacity onPress={props.onPress}>
+      <TouchableOpacity
+        onPress={props.onPress}
+        testID={`scheduleItemDetailId_${props.id}`}
+      >
         <Card {...props} />
       </TouchableOpacity>
       {(() => {

@@ -12,7 +12,7 @@ interface Props {
 const right = Platform.OS === "ios" ? 50 : 100;
 
 export default (props: Props) => (
-  <ActionButton buttonColor="#33CC33" hideShadow>
+  <ActionButton buttonColor="#33CC33" hideShadow testID="scheduleMenu">
     <ActionButton.Item
       buttonColor="#0099FF"
       title="予定を追加"
@@ -25,6 +25,8 @@ export default (props: Props) => (
       }}
       hideLabelShadow
       onPress={props.onAdd}
+      testID="scheduleMenuAdd"
+      accessible
     >
       <MaterialIcons name="add" size={30} color="#fff" />
     </ActionButton.Item>

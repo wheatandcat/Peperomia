@@ -67,7 +67,12 @@ class Switch extends Component<Props & ActionSheetProps, State> {
     const { params = {} } = navigation.state;
     return {
       headerTitle: (
-        <Button type="clear" title={params.title} onPress={params.onEditPlan} />
+        <Button
+          type="clear"
+          title={params.title}
+          onPress={params.onEditPlan}
+          testID="updateTitle"
+        />
       ),
 
       headerLeft: (

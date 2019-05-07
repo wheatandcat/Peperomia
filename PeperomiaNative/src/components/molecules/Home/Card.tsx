@@ -15,6 +15,7 @@ export interface ItemProps {
 
 export interface Props extends ItemProps {
   onPress: (id: string, title: string) => void;
+  testID: string;
 }
 
 export default (props: Props) => {
@@ -45,6 +46,7 @@ export default (props: Props) => {
           borderRadius: 0
         }}
         onPress={() => props.onPress(props.id, props.title)}
+        testID={props.testID}
       >
         <View style={{ padding: 10 }}>
           <IconImage {...config} opacity={0.9} size={60} />

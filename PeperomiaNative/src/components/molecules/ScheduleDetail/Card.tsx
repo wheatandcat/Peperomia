@@ -8,7 +8,6 @@ import {
   MaterialIcons
 } from "@expo/vector-icons";
 import Header from "../ScheduleHeader/Header";
-import getKind from "../../../lib/getKind";
 import { ItemDetail } from "../../../lib/db/itemDetail";
 
 export interface ItemProps extends ItemDetail {
@@ -25,7 +24,10 @@ export default (props: Props) => {
       <Header
         kind={props.kind}
         right={
-          <TouchableOpacity onPress={props.onOpenActionSheet}>
+          <TouchableOpacity
+            onPress={props.onOpenActionSheet}
+            testID={`scheduleDetailMenu`}
+          >
             <MaterialCommunityIcons
               name="dots-vertical"
               size={26}

@@ -50,7 +50,11 @@ export default class extends Component<Props> {
 
     return (
       <Swipeout right={swipeoutBtns} backgroundColor="#fff">
-        <Card {...item} onPress={this.props.onSchedule} />
+        <Card
+          {...item}
+          onPress={this.props.onSchedule}
+          testID={`scheduleItemId_${item.id}`}
+        />
       </Swipeout>
     );
   }
