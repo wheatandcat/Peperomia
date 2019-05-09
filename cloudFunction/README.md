@@ -1,14 +1,9 @@
-## deploy
+# デプロイ
+
+
+## お問い合わせ
 
 ```
-gcloud functions deploy SaveItem --runtime go111 --trigger-http
-```
-
-```
-gcloud functions deploy GetItem --runtime go111 --trigger-http
-```
-
-```
-functions deploy SendFeedback --runtime go111 --trigger-http --env-vars-file .env.yaml
+gcloud functions deploy SendFeedback --runtime go111 --trigger-http
 ```
 
