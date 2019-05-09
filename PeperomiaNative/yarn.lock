@@ -2789,6 +2789,12 @@ babel-plugin-dotenv@0.1.1:
   dependencies:
     dotenv "^2.0.0"
 
+babel-plugin-inline-dotenv@^1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/babel-plugin-inline-dotenv/-/babel-plugin-inline-dotenv-1.3.3.tgz#3e24cb330d8a46adb0e6ab96655bd55756d9d06d"
+  dependencies:
+    dotenv "^8.0.0"
+
 babel-plugin-istanbul@^5.1.0:
   version "5.1.3"
   resolved "https://registry.yarnpkg.com/babel-plugin-istanbul/-/babel-plugin-istanbul-5.1.3.tgz#202d20ffc96a821c68a3964412de75b9bdeb48c7"
@@ -4805,6 +4811,10 @@ dotenv@^2.0.0:
 dotenv@^6.0.0, dotenv@^6.2.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-6.2.0.tgz#941c0410535d942c8becf28d3f357dbd9d476064"
+
+dotenv@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.0.0.tgz#ed310c165b4e8a97bb745b0a9d99c31bda566440"
 
 dtrace-provider@~0.8:
   version "0.8.7"

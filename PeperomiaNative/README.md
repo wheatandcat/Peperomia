@@ -1,5 +1,33 @@
 # Peperomia
 
+
+# 初期設定
+
+## Firebaseのアカウントを持っている場合
+①. 「.env.template」の下記の値に自身のFirebaseの情報を追記
+
+```
+FIRE_BASE_API_KEY=""
+FIRE_BASE_AUTH_DOMAIN=""
+FIRE_BASE_DATABASE_URL=""
+FIRE_BASE_PROJECT_ID=""
+FIRE_BASE_STORAGE_BUCKET=""
+FIRE_BASE_MESSAGING_SENDER_ID=""
+```
+
+②.「.env.template」を「.env」にリネーム
+③.「yarn start」で起動させる
+
+## Firebaseのアカウントを持っていない場合
+①. 「.env.template」を「.env」にリネーム
+②. 「src/lib/firebase.ts」の下記をコメントアウト
+
+```
+// firebase.initializeApp(firebaseConfig);
+// const db = firebase.firestore();
+```
+③.「yarn start」で起動させる
+
 # start
 
 ```
@@ -33,11 +61,4 @@ yarn e2e
 ```
 yarn storybook 
 yarn storybook-server
-```
-
-
-## storybook publish
-
-```
-expo publish --config storybook/app.json
 ```

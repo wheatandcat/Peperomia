@@ -32,9 +32,9 @@ import {
 
 Sentry.enableInExpoDevelopment = true;
 
-Sentry.config(
-  "https://e42fb8ebeb314dddaf752ba42f7b98c9@sentry.io/1417884"
-).install();
+if (process.env.SENTRY_URL) {
+  Sentry.config(String(process.env.SENTRY_URL)).install();
+}
 
 const TabNavigator = createBottomTabNavigator(
   {

@@ -5,7 +5,6 @@ import { Item } from "./db/item";
 import { ItemDetail } from "./db/itemDetail";
 
 firebase.initializeApp(firebaseConfig);
-
 const db = firebase.firestore();
 
 export const save = async (
