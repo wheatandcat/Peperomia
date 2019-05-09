@@ -18,5 +18,4 @@
 
 [Unreleased]: https://github.com/wheatandcat/Peperomia/compare/v1.0.2...HEAD
 [v1.0.2]: https://github.com/wheatandcat/Peperomia/compare/v1.0.1...v1.0.2
-[v1.0.1]: https://github.com/wheatandcat/Peperomia/compare/push...v1.0.1
-[push]: https://github.com/wheatandcat/Peperomia/compare/v1.0.0...push
+[v1.0.1]: https://github.com/wheatandcat/Peperomia/compare/v1.0.0...v1.0.1
