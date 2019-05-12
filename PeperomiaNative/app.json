@@ -5,16 +5,10 @@
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "packagerOpts": {
-      "sourceExts": [
-        "ts",
-        "tsx"
-      ],
+      "sourceExts": ["ts", "tsx"],
       "transformer": "node_modules/react-native-typescript-transformer/index.js"
     },
-    "platforms": [
-      "ios",
-      "android"
-    ],
+    "platforms": ["ios", "android"],
     "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -26,9 +20,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "buildNumber": "4",
@@ -43,7 +35,7 @@
       "package": "com.wheatandcat.peperomia",
       "versionCode": 4
     },
-    "description": "ペペロミアは予定管理アプリです、",
+    "description": "ペペロミアは予定管理アプリです。",
     "githubUrl": "https://github.com/wheatandcat/Peperomia"
   },
   "hooks": {

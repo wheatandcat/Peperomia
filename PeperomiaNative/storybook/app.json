@@ -1,16 +1,15 @@
 {
   "expo": {
-    "name": "PeperomiaStorybook",
-    "description": "This project is really great.",
+    "name": "ペペロミア Storybook",
     "slug": "peperomiastorybook",
     "privacy": "public",
-    "sdkVersion": "30.0.0",
+    "sdkVersion": "32.0.0",
     "packagerOpts": {
       "sourceExts": ["ts", "tsx"],
       "transformer": "node_modules/react-native-typescript-transformer/index.js"
     },
     "platforms": ["ios", "android"],
-    "version": "1.0.0",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -24,6 +23,20 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "description": "ペペロミアのStoryook",
+    "githubUrl": "https://github.com/wheatandcat/Peperomia"
+  },
+  "hooks": {
+    "postPublish": [
+      {
+        "file": "sentry-expo/upload-sourcemaps",
+        "config": {
+          "organization": "freelance-km",
+          "project": "peperomia",
+          "authToken": "db8bc6b4e7f74feda3a0cf6fbc3b7db262f68f68723f43b89c0b2d3a1687379a"
+        }
+      }
+    ]
   }
 }

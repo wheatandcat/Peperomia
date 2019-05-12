@@ -62,3 +62,11 @@ yarn e2e
 yarn storybook 
 yarn storybook-server
 ```
+
+
+## storybook deploy 
+
+```
+yarn storybook:copy
+expo-cli publish --config storybook/app.json
+```
