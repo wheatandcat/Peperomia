@@ -1,6 +1,6 @@
-# web
+# 共有web画面
 
-https://peperomia-196da.firebaseapp.com
+https://peperomia.info
 
 ## デプロイ
 ```

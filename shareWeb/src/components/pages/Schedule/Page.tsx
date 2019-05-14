@@ -105,7 +105,14 @@ export default (props: Props) => {
               right: 10
             }}
           >
-            ペペロミア
+            <a
+              href="https://peperomia.app/"
+              rel="noreferrer"
+              target="_blank"
+              style={{ color: "#fff", textDecoration: "none" }}
+            >
+              ペペロミア
+            </a>
           </div>
         </div>
       </div>

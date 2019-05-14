@@ -1,11 +1,5 @@
 import React from "react";
 import { Image, View } from "react-native";
-import {
-  KIND_PARK,
-  KIND_TRAIN,
-  KIND_SHIP,
-  KIND_FISHING
-} from "../../lib/getKind";
 
 export interface Props {
   src: string;

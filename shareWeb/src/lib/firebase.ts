@@ -23,7 +23,6 @@ export const getPlan = async (doc: string): Promise<Plan> => {
     .get();
 
   const result: any = documentSnapshot.data();
-  console.log(result);
 
   return result;
 };
