@@ -1,7 +1,7 @@
 # Peperomia
 
 
-# 初期設定
+# ローカルでの実行手順
 
 ## Firebaseのアカウントを持っている場合
 ①. 「.env.template」の下記の値に自身のFirebaseの情報を追記
