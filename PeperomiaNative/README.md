@@ -34,6 +34,20 @@ FIRE_BASE_MESSAGING_SENDER_ID=""
 yarn start
 ```
 
+## android
+
+```
+avdmanager create avd -n Nexus -k "system-images;android-28;google_apis;x86" -b x86 -c 100M -d 7 -f --device 'Nexus 5X'
+emulator -avd Nexus
+```
+
+```
+avdmanager create avd -n Pixel -k "system-images;android-28;google_apis;x86" -b x86 -c 100M -d 7 -f --device 'Pixel XL'
+emulator -avd Pixel
+```
+
+
+
 # build
 
 ## ios
@@ -43,6 +57,7 @@ expo build:ios
 ```
 
 ## android
+
 
 ```
 expo build:android

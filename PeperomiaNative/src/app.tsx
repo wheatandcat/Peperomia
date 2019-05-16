@@ -8,7 +8,7 @@ import {
   createBottomTabNavigator,
   createStackNavigator
 } from "react-navigation";
-import { AsyncStorage } from "react-native";
+import { AsyncStorage, StatusBar } from "react-native";
 import Sentry from "sentry-expo";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { Provider as PaperProvider } from "react-native-paper";
@@ -35,6 +35,9 @@ Sentry.enableInExpoDevelopment = true;
 if (process.env.SENTRY_URL) {
   Sentry.config(String(process.env.SENTRY_URL)).install();
 }
+
+StatusBar.setBarStyle("dark-content", true);
+StatusBar.setBackgroundColor("#008080", true);
 
 const TabNavigator = createBottomTabNavigator(
   {
