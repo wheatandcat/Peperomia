@@ -4,8 +4,11 @@ import {
   ActionSheetProps,
   connectActionSheet
 } from "@expo/react-native-action-sheet";
+import Color from "color";
 import GlobalStyles from "../../../GlobalStyles";
 import { ItemDetail } from "../../../lib/db/itemDetail";
+import { KINDS, KIND_DEFAULT } from "../../../lib/getKind";
+import s from "../../../config/style";
 import Card from "../../molecules/ScheduleDetail/Card";
 
 export interface Props extends ItemDetail {
@@ -51,10 +54,22 @@ class Page extends Component<Props & ActionSheetProps> {
   };
 
   render() {
+    const kind = this.props.kind || KIND_DEFAULT;
+    const config = KINDS[kind];
+    const ss = s.schedule;
+    const bc = Color(config.backgroundColor)
+      .alpha(ss.borderColorAlpha)
+      .toString();
+
     return (
-      <SafeAreaView style={GlobalStyles.droidSafeArea}>
-        <Card {...this.props} onOpenActionSheet={this.onOpenActionSheet} />
-      </SafeAreaView>
+      <>
+        <SafeAreaView
+          style={[GlobalStyles.droidSafeArea, { flex: 0, backgroundColor: bc }]}
+        />
+        <SafeAreaView style={{ flex: 1 }}>
+          <Card {...this.props} onOpenActionSheet={this.onOpenActionSheet} />
+        </SafeAreaView>
+      </>
     );
   }
 }

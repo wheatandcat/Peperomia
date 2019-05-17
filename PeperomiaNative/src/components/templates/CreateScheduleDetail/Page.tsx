@@ -16,10 +16,13 @@ import {
   connectActionSheet
 } from "@expo/react-native-action-sheet";
 import { Button, Overlay } from "react-native-elements";
+import Color from "color";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import GlobalStyles from "../../../GlobalStyles";
-import getKind from "../../../lib/getKind";
+import getKind, { KINDS, KIND_DEFAULT } from "../../../lib/getKind";
+import s from "../../../config/style";
 import Header from "../../molecules/ScheduleHeader/Header";
+import Card from "../../molecules/ScheduleDetail/Card";
 
 export interface Props {
   title: string;
@@ -180,240 +183,275 @@ class App extends Component<Props & ActionSheetProps, State> {
 
   render() {
     const inputAccessoryViewID = "detailID";
+    const kind = this.state.kind || KIND_DEFAULT;
+    const config = KINDS[kind];
+    const ss = s.schedule;
+    const bc = Color(config.backgroundColor)
+      .alpha(ss.borderColorAlpha)
+      .toString();
 
     return (
-      <SafeAreaView style={GlobalStyles.droidSafeArea}>
-        <Overlay
-          isVisible={this.state.manualTime}
-          height={Platform.OS === "ios" ? 200 : 225}
-          overlayStyle={{ padding: 5 }}
-        >
-          <View
-            style={{
-              height: "100%",
-              width: "100%",
-              backgroundColor: "#fff"
-            }}
+      <>
+        <SafeAreaView
+          style={[GlobalStyles.droidSafeArea, { flex: 0, backgroundColor: bc }]}
+        />
+        <SafeAreaView style={{ flex: 1 }}>
+          <Overlay
+            isVisible={this.state.manualTime}
+            height={Platform.OS === "ios" ? 220 : 245}
+            width="90%"
+            overlayStyle={{ paddingHorizontal: 20, paddingTop: 30 }}
           >
             <View
               style={{
-                alignItems: "center",
-                paddingVertical: 10
+                height: "100%",
+                width: "100%",
+                backgroundColor: "#fff"
               }}
             >
-              <TextPlan>時間を指定して下さい</TextPlan>
-            </View>
-            <View
-              style={{
-                alignItems: "center",
-                paddingTop: 30
-              }}
-            >
-              <View style={{ flexDirection: "row" }}>
-                <TextInput
-                  keyboardType="numeric"
+              <View>
+                <TextPlan
                   style={{
-                    width: 50,
-                    paddingRight: 10,
-                    textAlign: "right",
-                    fontSize: 24,
-                    borderBottomWidth: 1
+                    fontSize: 20,
+                    fontWeight: "600",
+                    textAlign: "center"
                   }}
-                  defaultValue=""
-                  onChangeText={value =>
-                    this.setState({ manualTimeValue: Number(value) })
-                  }
-                  returnKeyType="done"
-                  maxLength={3}
-                />
-                <View>
-                  <TextPlan
-                    style={{ paddingTop: 6, paddingLeft: 5, fontSize: 18 }}
-                  >
-                    分
-                  </TextPlan>
+                >
+                  時間を入力して下さい
+                </TextPlan>
+              </View>
+
+              <View
+                style={{
+                  paddingTop: 30
+                }}
+              >
+                <View
+                  style={{ flexDirection: "row", justifyContent: "center" }}
+                >
+                  <TextInput
+                    keyboardType="numeric"
+                    style={{
+                      width: 90,
+                      paddingRight: 10,
+                      textAlign: "right",
+                      fontSize: 24,
+                      borderBottomWidth: 1
+                    }}
+                    defaultValue=""
+                    onChangeText={value =>
+                      this.setState({ manualTimeValue: Number(value) })
+                    }
+                    returnKeyType="done"
+                    maxLength={4}
+                    autoFocus
+                  />
+
+                  <View style={{ paddingTop: 5 }}>
+                    <TextPlan
+                      style={{ paddingTop: 9, paddingLeft: 5, fontSize: 18 }}
+                    >
+                      分
+                    </TextPlan>
+                  </View>
                 </View>
               </View>
-            </View>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                width: "auto",
-                paddingTop: 50
-              }}
-            >
-              <Button
-                title="設定する"
-                onPress={this.onSetManualTime}
-                containerStyle={{ width: 130, paddingRight: 8 }}
-              />
-              <Button
-                title="キャンセル"
-                type="outline"
-                onPress={this.onCloseManualTime}
-                containerStyle={{ width: 130, paddingLeft: 8 }}
-                buttonStyle={{ borderColor: "red" }}
-                titleStyle={{ color: "red" }}
-              />
-            </View>
-          </View>
-        </Overlay>
-        <View
-          style={{
-            backgroundColor: "#ffffff",
-            height: "100%",
-            width: "100%"
-          }}
-        >
-          <Header
-            kind={this.props.iconSelected ? this.props.kind : this.state.kind}
-            right={
-              <TouchableOpacity
-                onPress={() =>
-                  this.onSave(
-                    this.state.title,
-                    this.props.iconSelected ? this.props.kind : this.state.kind,
-                    this.state.memo,
-                    this.state.time
-                  )
-                }
-                testID="saveScheduleDetail"
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  width: "auto",
+                  paddingTop: 50
+                }}
               >
-                <TextPlan
-                  style={{ fontSize: 20, fontWeight: "500", color: "#555" }}
-                >
-                  保存
-                </TextPlan>
-              </TouchableOpacity>
-            }
-            onClose={() =>
-              this.onDismiss(
-                this.state.title,
-                this.state.kind,
-                this.state.memo,
-                this.state.time
-              )
-            }
-          >
-            <TextInput
-              placeholder="タイトルを入力"
-              placeholderTextColor="#555"
-              style={{
-                fontSize: 20,
-                fontWeight: "600",
-                color: "#555",
-                paddingLeft: 1
-              }}
-              onChangeText={title =>
-                this.setState({ title, kind: getKind(title) })
-              }
-              defaultValue={this.props.title}
-              testID="inputTextScheduleDetailTitle"
-              returnKeyType="done"
-              autoFocus
-            />
-          </Header>
-
-          <ScrollView>
-            <View style={{ padding: 20 }}>
-              <TouchableOpacity onPress={this.onOpenActionSheet}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    borderBottomWidth: 0.5,
-                    borderColor: "#5A6978",
-                    width: 80,
-                    height: 30
+                <Button
+                  title="設定する"
+                  type="outline"
+                  onPress={this.onSetManualTime}
+                  containerStyle={{
+                    paddingRight: 8,
+                    width: 120
                   }}
+                  buttonStyle={{
+                    borderWidth: 2,
+                    borderColor: "#85B5AC"
+                  }}
+                  titleStyle={{
+                    color: "#85B5AC",
+                    fontWeight: "600"
+                  }}
+                />
+                <Button
+                  title="キャンセル"
+                  type="clear"
+                  onPress={this.onCloseManualTime}
+                  containerStyle={{ paddingLeft: 8 }}
+                  titleStyle={{
+                    color: "#85B5AC",
+                    fontWeight: "600"
+                  }}
+                />
+              </View>
+            </View>
+          </Overlay>
+          <View
+            style={{
+              backgroundColor: "#ffffff",
+              height: "100%",
+              width: "100%"
+            }}
+          >
+            <Header
+              kind={this.props.iconSelected ? this.props.kind : this.state.kind}
+              right={
+                <TouchableOpacity
+                  onPress={() =>
+                    this.onSave(
+                      this.state.title,
+                      this.props.iconSelected
+                        ? this.props.kind
+                        : this.state.kind,
+                      this.state.memo,
+                      this.state.time
+                    )
+                  }
+                  testID="saveScheduleDetail"
                 >
-                  <Ionicons
-                    name="md-time"
-                    color="#5A6978"
-                    size={24}
-                    style={{ paddingTop: 3 }}
-                  />
                   <TextPlan
-                    style={{
-                      fontSize: 16,
-                      fontWeight: "500",
-                      color: "#00A6FF",
-                      paddingHorizontal: 15
-                    }}
+                    style={{ fontSize: 20, fontWeight: "500", color: "#555" }}
                   >
-                    {this.state.time}分
+                    保存
                   </TextPlan>
-                </View>
-              </TouchableOpacity>
-              <View style={{ paddingTop: 30 }}>
-                <MaterialIcons name="edit" color="#00A6FF" size={25} />
-                <View style={{ paddingTop: 5 }}>
-                  <TextInput
-                    placeholder="メモを書く"
-                    multiline
+                </TouchableOpacity>
+              }
+              onClose={() =>
+                this.onDismiss(
+                  this.state.title,
+                  this.state.kind,
+                  this.state.memo,
+                  this.state.time
+                )
+              }
+            >
+              <TextInput
+                placeholder="タイトルを入力"
+                placeholderTextColor="#555"
+                style={{
+                  fontSize: 20,
+                  fontWeight: "600",
+                  color: "#555",
+                  paddingLeft: 1
+                }}
+                onChangeText={title =>
+                  this.setState({ title, kind: getKind(title) })
+                }
+                defaultValue={this.props.title}
+                testID="inputTextScheduleDetailTitle"
+                returnKeyType="done"
+                autoFocus
+              />
+            </Header>
+
+            <ScrollView>
+              <View style={{ padding: 20 }}>
+                <TouchableOpacity onPress={this.onOpenActionSheet}>
+                  <View
                     style={{
-                      fontSize: 16,
-                      lineHeight: 24,
-                      fontWeight: "400",
+                      flexDirection: "row",
+                      alignItems: "center",
                       borderBottomWidth: 0.5,
-                      borderColor: "#5A6978"
+                      borderColor: "#5A6978",
+                      width: 80,
+                      height: 30
                     }}
-                    onChangeText={memo => {
-                      this.setState({ memo });
-                    }}
-                    testID="inputTextScheduleDetailMemo"
-                    inputAccessoryViewID={inputAccessoryViewID}
                   >
+                    <Ionicons
+                      name="md-time"
+                      color="#5A6978"
+                      size={24}
+                      style={{ paddingTop: 3 }}
+                    />
                     <TextPlan
                       style={{
                         fontSize: 16,
-                        lineHeight: 24,
-                        fontWeight: "400"
+                        fontWeight: "500",
+                        color: "#00A6FF",
+                        paddingHorizontal: 15
                       }}
                     >
-                      {this.state.memo}
+                      {this.state.time}分
                     </TextPlan>
-                  </TextInput>
+                  </View>
+                </TouchableOpacity>
+                <View style={{ paddingTop: 30 }}>
+                  <MaterialIcons name="edit" color="#00A6FF" size={25} />
+                  <View style={{ paddingTop: 5 }}>
+                    <TextInput
+                      placeholder="メモを書く"
+                      multiline
+                      style={{
+                        fontSize: 16,
+                        lineHeight: 24,
+                        fontWeight: "400",
+                        borderBottomWidth: 0.5,
+                        borderColor: "#5A6978"
+                      }}
+                      onChangeText={memo => {
+                        this.setState({ memo });
+                      }}
+                      testID="inputTextScheduleDetailMemo"
+                      inputAccessoryViewID={inputAccessoryViewID}
+                    >
+                      <TextPlan
+                        style={{
+                          fontSize: 16,
+                          lineHeight: 24,
+                          fontWeight: "400"
+                        }}
+                      >
+                        {this.state.memo}
+                      </TextPlan>
+                    </TextInput>
+                  </View>
+                  <View style={{ paddingTop: 80, width: 112 }}>
+                    <Button
+                      title="アイコンを変更する"
+                      type="clear"
+                      titleStyle={{
+                        color: "#a888",
+                        fontSize: 12,
+                        fontWeight: "600",
+                        padding: 0
+                      }}
+                      buttonStyle={{
+                        borderBottomWidth: 1,
+                        borderBottomColor: "#888",
+                        padding: 0
+                      }}
+                      containerStyle={{
+                        padding: 0
+                      }}
+                      onPress={() => this.props.onIcons(this.state.title)}
+                    />
+                  </View>
                 </View>
-                <View style={{ paddingTop: 80, width: 112 }}>
+              </View>
+            </ScrollView>
+
+            {Platform.OS === "ios" && (
+              <InputAccessoryView nativeID={inputAccessoryViewID}>
+                <View style={{ alignItems: "flex-end" }}>
                   <Button
-                    title="アイコンを変更する"
-                    type="clear"
-                    titleStyle={{
-                      color: "#a888",
-                      fontSize: 12,
-                      fontWeight: "600",
-                      padding: 0
-                    }}
-                    buttonStyle={{
-                      borderBottomWidth: 1,
-                      borderBottomColor: "#888",
-                      padding: 0
-                    }}
-                    containerStyle={{
-                      padding: 0
-                    }}
-                    onPress={() => this.props.onIcons(this.state.title)}
+                    buttonStyle={{ width: 80, right: 0, borderRadius: 0 }}
+                    onPress={() => Keyboard.dismiss()}
+                    title="閉じる"
                   />
                 </View>
-              </View>
-            </View>
-          </ScrollView>
-
-          {Platform.OS === "ios" && (
-            <InputAccessoryView nativeID={inputAccessoryViewID}>
-              <View style={{ alignItems: "flex-end" }}>
-                <Button
-                  buttonStyle={{ width: 80, right: 0, borderRadius: 0 }}
-                  onPress={() => Keyboard.dismiss()}
-                  title="閉じる"
-                />
-              </View>
-            </InputAccessoryView>
-          )}
-        </View>
-      </SafeAreaView>
+              </InputAccessoryView>
+            )}
+          </View>
+        </SafeAreaView>
+      </>
     );
   }
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableOpacity, StatusBar } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { View } from "react-native-ui-lib";
 import styled from "styled-components/native";
 import Color from "color";
@@ -33,7 +33,6 @@ export default (props: Props) => {
           .toString()
       }}
     >
-      <StatusBar backgroundColor={bc} barStyle="light-content" />
       <View style={{ padding: 15, flexDirection: "row" }}>
         <TouchableOpacity onPress={props.onClose}>
           <MaterialCommunityIcons name="close" size={30} color="#555" />
