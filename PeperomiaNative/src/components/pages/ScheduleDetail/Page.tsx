@@ -4,6 +4,7 @@ import {
   ActionSheetProps,
   connectActionSheet
 } from "@expo/react-native-action-sheet";
+import GlobalStyles from "../../../GlobalStyles";
 import { ItemDetail } from "../../../lib/db/itemDetail";
 import Card from "../../molecules/ScheduleDetail/Card";
 
@@ -51,7 +52,7 @@ class Page extends Component<Props & ActionSheetProps> {
 
   render() {
     return (
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView style={GlobalStyles.droidSafeArea}>
         <Card {...this.props} onOpenActionSheet={this.onOpenActionSheet} />
       </SafeAreaView>
     );

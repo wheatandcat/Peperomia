@@ -37,7 +37,7 @@ if (process.env.SENTRY_URL) {
 }
 
 StatusBar.setBarStyle("dark-content", true);
-StatusBar.setBackgroundColor("#008080", true);
+StatusBar.setBackgroundColor("#ffffff", true);
 
 const TabNavigator = createBottomTabNavigator(
   {
