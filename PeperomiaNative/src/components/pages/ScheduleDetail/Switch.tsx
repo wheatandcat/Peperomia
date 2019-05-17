@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import { Consumer as ItemsConsumer } from "../../../containers/Items";
+import { ItemDetailParam } from "../../../lib/db/itemDetail";
 import ScheduleDetail from "./Connected";
-import EditScheduleDetail, {
-  Item as EditScheduleDetailState
-} from "../EditScheduleDetail/Connected";
+import EditScheduleDetail from "../EditScheduleDetail/Connected";
 
-interface State extends EditScheduleDetailState {
+interface State extends ItemDetailParam {
   scheduleDetailId: number;
   mode: string;
 }
@@ -39,6 +38,7 @@ class Plan extends Component<PlanProps, State> {
     memo: "",
     kind: "",
     moveMinutes: 0,
+    priority: 0,
     scheduleDetailId: 0,
     mode: "show"
   };
@@ -47,7 +47,8 @@ class Plan extends Component<PlanProps, State> {
     title: string,
     kind: string,
     memo: string,
-    moveMinutes: number
+    moveMinutes: number,
+    priority: number
   ): void => {
     const scheduleDetailId = this.props.navigation.getParam(
       "scheduleDetailId",
@@ -59,6 +60,7 @@ class Plan extends Component<PlanProps, State> {
       kind,
       memo,
       moveMinutes,
+      priority,
       scheduleDetailId,
       mode: "edit"
     });
@@ -77,6 +79,7 @@ class Plan extends Component<PlanProps, State> {
           kind={this.state.kind}
           memo={this.state.memo}
           moveMinutes={this.state.moveMinutes}
+          priority={this.state.priority}
           navigation={this.props.navigation}
           onShow={this.onShow}
         />

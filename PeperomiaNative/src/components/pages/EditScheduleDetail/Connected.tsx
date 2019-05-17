@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import { db } from "../../../lib/db";
 import {
+  ItemDetailParam,
   update as updateItemDetail,
   ItemDetail
 } from "../../../lib/db/itemDetail";
@@ -10,23 +11,12 @@ import getKind from "../../../lib/getKind";
 import { Consumer as ItemsConsumer } from "../../../containers/Items";
 import Page from "../../templates/CreateScheduleDetail/Page";
 
-export interface Item {
-  title: string;
-  kind: string;
-  memo: string;
-  moveMinutes: number;
-}
-
-interface State extends Item {
+interface State extends ItemDetailParam {
   iconSelected: boolean;
 }
 
-interface Props {
+interface Props extends ItemDetailParam {
   id: number;
-  title: string;
-  kind: string;
-  memo: string;
-  moveMinutes: number;
   navigation: NavigationScreenProp<NavigationRoute>;
   onShow: (reload: boolean) => void;
 }
@@ -53,6 +43,7 @@ class Plan extends Component<PlanProps, State> {
     memo: this.props.memo || "",
     moveMinutes: this.props.moveMinutes || 0,
     kind: this.props.kind,
+    priority: this.props.priority,
     iconSelected: false
   };
 
@@ -80,7 +71,7 @@ class Plan extends Component<PlanProps, State> {
         memo,
         kind,
         moveMinutes: time,
-        priority: 0,
+        priority: this.props.priority,
         itemId: 0
       };
 
