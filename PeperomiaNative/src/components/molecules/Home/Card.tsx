@@ -30,8 +30,9 @@ export default (props: Props) => {
       <Card
         row
         height={80}
-        style={{
-          borderRadius: 5,
+        borderRadius={5}
+        enableShadow={false}
+        containerStyle={{
           borderWidth: 0.5,
           borderColor: Color(config.backgroundColor)
             .alpha(0.5)
@@ -41,9 +42,6 @@ export default (props: Props) => {
           backgroundColor: Color(config.backgroundColor)
             .alpha(0.2)
             .toString()
-        }}
-        containerStyle={{
-          borderRadius: 0
         }}
         onPress={() => props.onPress(props.id, props.title)}
         testID={props.testID}

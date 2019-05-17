@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { SafeAreaView, Alert } from "react-native";
+import { SafeAreaView, Alert, StatusBar } from "react-native";
 import {
   ActionSheetProps,
   connectActionSheet
 } from "@expo/react-native-action-sheet";
+import GlobalStyles from "../../../GlobalStyles";
 import { ItemDetail } from "../../../lib/db/itemDetail";
 import Card from "../../molecules/ScheduleDetail/Card";
 
@@ -12,6 +13,9 @@ export interface Props extends ItemDetail {
   onDelete: () => void;
   onCreateScheduleDetail: () => void;
 }
+
+StatusBar.setBarStyle("light-content", true);
+StatusBar.setBackgroundColor("#FF0000", true);
 
 class Page extends Component<Props & ActionSheetProps> {
   onOpenActionSheet = () => {
@@ -51,7 +55,7 @@ class Page extends Component<Props & ActionSheetProps> {
 
   render() {
     return (
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView style={GlobalStyles.droidSafeArea}>
         <Card {...this.props} onOpenActionSheet={this.onOpenActionSheet} />
       </SafeAreaView>
     );

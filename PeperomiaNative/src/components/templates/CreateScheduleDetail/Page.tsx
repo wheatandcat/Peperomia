@@ -17,8 +17,9 @@ import {
 } from "@expo/react-native-action-sheet";
 import { Button, Overlay } from "react-native-elements";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import Header from "../../molecules/ScheduleHeader/Header";
+import GlobalStyles from "../../../GlobalStyles";
 import getKind from "../../../lib/getKind";
+import Header from "../../molecules/ScheduleHeader/Header";
 
 export interface Props {
   title: string;
@@ -181,7 +182,7 @@ class App extends Component<Props & ActionSheetProps, State> {
     const inputAccessoryViewID = "detailID";
 
     return (
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView style={GlobalStyles.droidSafeArea}>
         <Overlay
           isVisible={this.state.manualTime}
           height={Platform.OS === "ios" ? 200 : 225}
