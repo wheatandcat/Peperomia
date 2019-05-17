@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { SafeAreaView, Alert, StatusBar } from "react-native";
+import { SafeAreaView, Alert } from "react-native";
 import {
   ActionSheetProps,
   connectActionSheet
@@ -13,9 +13,6 @@ export interface Props extends ItemDetail {
   onDelete: () => void;
   onCreateScheduleDetail: () => void;
 }
-
-StatusBar.setBarStyle("light-content", true);
-StatusBar.setBackgroundColor("#FF0000", true);
 
 class Page extends Component<Props & ActionSheetProps> {
   onOpenActionSheet = () => {
