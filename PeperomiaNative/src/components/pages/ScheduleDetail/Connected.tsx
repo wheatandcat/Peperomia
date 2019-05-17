@@ -55,8 +55,6 @@ export default class extends Component<Props, State> {
           return;
         }
 
-        console.log(data);
-
         this.setState({ itemDetail: data });
         selectItem1st(tx, String(this.state.itemDetail.itemId), this.setItem);
       });
