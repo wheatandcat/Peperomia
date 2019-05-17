@@ -24,7 +24,8 @@ interface Props {
     title: string,
     kind: string,
     memo: string,
-    moveMinutes: number
+    moveMinutes: number,
+    priority: number
   ) => void;
   refreshData: () => void;
 }
@@ -53,6 +54,9 @@ export default class extends Component<Props, State> {
         if (error) {
           return;
         }
+
+        console.log(data);
+
         this.setState({ itemDetail: data });
         selectItem1st(tx, String(this.state.itemDetail.itemId), this.setItem);
       });
@@ -72,8 +76,8 @@ export default class extends Component<Props, State> {
   };
 
   onCreateScheduleDetail = () => {
-    const { title, kind, memo, moveMinutes } = this.state.itemDetail;
-    this.props.onEdit(title, kind, memo, moveMinutes);
+    const { title, kind, memo, moveMinutes, priority } = this.state.itemDetail;
+    this.props.onEdit(title, kind, memo, moveMinutes, priority);
   };
 
   onDelete = () => {

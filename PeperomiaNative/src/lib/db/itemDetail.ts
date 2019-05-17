@@ -1,14 +1,17 @@
 import { SQLite } from "expo";
 import { success, error } from "./";
 
-export interface ItemDetail {
-  id?: number;
-  itemId: number;
+export interface ItemDetailParam {
   title: string;
   kind: string;
   memo: string;
   moveMinutes: number;
   priority: number;
+}
+
+export interface ItemDetail extends ItemDetailParam {
+  id?: number;
+  itemId: number;
 }
 
 export const create = async (
