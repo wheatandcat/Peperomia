@@ -31,7 +31,7 @@ https://itunes.apple.com/us/app/%E3%83%9A%E3%83%9A%E3%83%AD%E3%83%9F%E3%82%A2/id
 https://play.google.com/store/apps/details?id=com.wheatandcat.peperomia
 
 
-# タグ追加 & CHANGELOG更新
+## タグ追加 & CHANGELOG更新
 
 ```
 git tag -a v1.x.x -m 'タグのコメント'
