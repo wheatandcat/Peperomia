@@ -22,7 +22,6 @@ import GlobalStyles from "../../../GlobalStyles";
 import getKind, { KINDS, KIND_DEFAULT } from "../../../lib/getKind";
 import s from "../../../config/style";
 import Header from "../../molecules/ScheduleHeader/Header";
-import Card from "../../molecules/ScheduleDetail/Card";
 
 export interface Props {
   title: string;

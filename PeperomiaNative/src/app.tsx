@@ -56,7 +56,7 @@ const TabNavigator = createBottomTabNavigator(
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
-      tabBarIcon: ({ focused, horizontal, tintColor }) => {
+      tabBarIcon: ({ focused }) => {
         const { routeName } = navigation.state;
         if (routeName === "マイプラン") {
           return (
@@ -86,7 +86,7 @@ const TabNavigator = createBottomTabNavigator(
   }
 );
 
-TabNavigator.navigationOptions = (props: any) => {
+TabNavigator.navigationOptions = () => {
   return {
     header: null
   };
