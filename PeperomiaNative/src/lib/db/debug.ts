@@ -8,21 +8,14 @@ import {
 import { create as createUser } from "./user";
 import {
   KIND_FISHING,
-  KIND_LUNCH,
-  KIND_AMUSEMENT_PARK,
   KIND_PARK,
   KIND_ART_MUSEUM,
-  KIND_HOTEL,
-  KIND_HOME,
-  KIND_AQUARIUM,
   KIND_DEFAULT,
-  KIND_CASTLE,
   KIND_ZOO,
   KIND_COFFEE,
   KIND_SHOP,
   KIND_TRAIN,
   KIND_MOVIE,
-  KIND_BEACH,
   KIND_CHERRY_BLOSSOM,
   KIND_SHIP
 } from "../getKind";
