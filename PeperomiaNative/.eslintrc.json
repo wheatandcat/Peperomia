@@ -24,8 +24,8 @@
       }
     ]
   },
-  "extends": ["plugin:react/recommended"],
-  "plugins": ["@typescript-eslint", "react", "react-native"],
+  "extends": ["plugin:react/recommended", "prettier"],
+  "plugins": ["@typescript-eslint", "react", "react-native", "prettier"],
   "parser": "@typescript-eslint/parser",
   "env": {
     "es6": true,
@@ -38,8 +38,10 @@
         "argsIgnorePattern": "_"
       }
     ],
+    "max-lines": ["error", 1000],
     "react/display-name": "off",
-    "react-native/no-unused-styles": "error"
+    "react-native/no-unused-styles": "error",
+    "prettier/prettier": "error"
   },
   "parserOptions": {
     "sourceType": "module",
