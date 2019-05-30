@@ -13,6 +13,7 @@ export interface Props {
   onDeleteUser: () => void;
   onTos: () => void;
   onPolicy: () => void;
+  onSignIn: () => void;
   onFeedback: () => void;
 }
 
@@ -39,6 +40,7 @@ export default class extends Component<Props> {
             rightIcon={{ name: "chevron-right", color: "#888" }}
             onPress={this.props.onPolicy}
           />
+
           <View style={{ height: 20 }} />
           <ListItem
             title="バージョン情報"
@@ -46,6 +48,14 @@ export default class extends Component<Props> {
               <Text style={{ color: "#555" }}>{app.expo.version} </Text>
             }
           />
+
+          <View style={{ height: 20 }} />
+          <ListItem
+            title="ユーザー登録 / ログイン"
+            rightIcon={{ name: "chevron-right", color: "#888" }}
+            onPress={this.props.onSignIn}
+          />
+
           {!Constants.isDevice && (
             <>
               <View style={{ marginBottom: 50 }} />

@@ -14,3 +14,5 @@ android/fastlane/client_id.json
 android/apk
 report.xml
 .env
+yarn-error.log
+google-services.json

@@ -31,6 +31,20 @@ jobs:
       script:
         - yarn
         - yarn test
+    - stage: lint
+      env:
+        - YARN_CACHE_FOLDER="/home/travis/yarn_cache"
+      cache:
+        directories:
+          - $HOME/yarn_cache
+      before_install:
+        - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $YARN_VERSION
+        - export PATH="$HOME/.yarn/bin:$PATH"
+      before_script:
+        - cd PeperomiaNative
+      script:
+        - yarn
+        - yarn eslint
 #    - stage: deploy
 #      env:
 #        - YARN_CACHE_FOLDER="/home/travis/yarn_cache"

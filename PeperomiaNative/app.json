@@ -29,10 +29,16 @@
         "NSPhotoLibraryUsageDescription": "予定作成のために使用します。",
         "NSCameraUsageDescription": "予定作成のためにカメラを使用します。",
         "CFBundleDevelopmentRegion": "ja_JP"
+      },
+      "config": {
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.736378275377-aodrot57cmgjdt9brgns6slv5f3f2bib"
+        }
       }
     },
     "android": {
       "package": "com.wheatandcat.peperomia",
+      "googleServicesFile": "./android/google-services.json",
       "versionCode": 5
     },
     "description": "ペペロミアは予定管理アプリです。",

@@ -1,4 +1,5 @@
-import { SQLite } from "expo";
+import { SQLite, Google } from "expo";
+import * as firebase from "firebase";
 import React, { Component } from "react";
 import {
   createStackNavigator,
@@ -7,6 +8,7 @@ import {
 } from "react-navigation";
 import { AsyncStorage } from "react-native";
 import Page from "./Page";
+import { firebaseConfig } from "../../../config/firebase";
 import { db } from "../../../lib/db";
 import { deleteSql, resetSql, deleteUserSql } from "../../../lib/db/debug";
 import { select as selectItems } from "../../../lib/db/item";
@@ -14,6 +16,7 @@ import { select as selectItemDetailds } from "../../../lib/db/itemDetail";
 import Tos from "../Tos/Page";
 import Policy from "../Policy/Page";
 import Feedback from "../Feedback/Connected";
+import SignIn from "../SignIn/Connected";
 
 interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
@@ -63,6 +66,10 @@ class Connected extends Component<Props> {
     this.props.navigation.navigate("Feedback");
   };
 
+  onSignIn = () => {
+    this.props.navigation.navigate("SignIn");
+  };
+
   render() {
     return (
       <Page
@@ -74,6 +81,7 @@ class Connected extends Component<Props> {
         onTos={this.onTos}
         onPolicy={this.onPolicy}
         onFeedback={this.onFeedback}
+        onSignIn={this.onSignIn}
       />
     );
   }
@@ -83,5 +91,6 @@ export default createStackNavigator({
   Setting: Connected,
   Tos: Tos,
   Policy: Policy,
-  Feedback: Feedback
+  Feedback: Feedback,
+  SignIn: SignIn
 });
