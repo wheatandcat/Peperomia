@@ -6,6 +6,8 @@ import { Constants } from "expo";
 import app from "../../../../app.json";
 
 export interface Props {
+  login: boolean;
+  loading: boolean;
   onResetSQL: () => void;
   onDeleteSQL: () => void;
   onShowSQL: () => void;
@@ -14,6 +16,7 @@ export interface Props {
   onTos: () => void;
   onPolicy: () => void;
   onSignIn: () => void;
+  onLogout: () => void;
   onFeedback: () => void;
 }
 
@@ -50,11 +53,26 @@ export default class extends Component<Props> {
           />
 
           <View style={{ height: 20 }} />
-          <ListItem
-            title="ユーザー登録 / ログイン"
-            rightIcon={{ name: "chevron-right", color: "#888" }}
-            onPress={this.props.onSignIn}
-          />
+
+          {(() => {
+            if (!this.props.loading) {
+              return <ListItem title=" " />;
+            }
+
+            if (this.props.login) {
+              return (
+                <ListItem title="ログアウト" onPress={this.props.onLogout} />
+              );
+            }
+
+            return (
+              <ListItem
+                title="ユーザー登録 / ログイン"
+                rightIcon={{ name: "chevron-right", color: "#888" }}
+                onPress={this.props.onSignIn}
+              />
+            );
+          })()}
 
           {!Constants.isDevice && (
             <>

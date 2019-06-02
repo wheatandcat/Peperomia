@@ -13,6 +13,7 @@ import Sentry from "sentry-expo";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { Provider as PaperProvider } from "react-native-paper";
 import ItemsProvider from "./containers/Items";
+import AuthProvider from "./containers/Auth";
 import Home from "./components/pages/Home/Connected";
 import Setting from "./components/pages/Setting/Connected";
 import CreatePlan from "./components/pages/CreatePlan/Connected";
@@ -24,6 +25,7 @@ import Icons from "./components/pages/Icons/Connected";
 import Camera from "./components/pages/Camera/Connected";
 import AppInfo from "./components/pages/AppInfo/Page";
 import { db, init } from "./lib/db";
+import "./lib/firebase";
 import {
   select1st as selectUser1st,
   insert as insertUser,
@@ -215,9 +217,11 @@ export default class App extends Component<Props, State> {
     return (
       <PaperProvider>
         <ActionSheetProvider>
-          <ItemsProvider>
-            <AppContainer />
-          </ItemsProvider>
+          <AuthProvider>
+            <ItemsProvider>
+              <AppContainer />
+            </ItemsProvider>
+          </AuthProvider>
         </ActionSheetProvider>
       </PaperProvider>
     );
