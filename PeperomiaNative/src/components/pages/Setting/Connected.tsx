@@ -5,22 +5,59 @@ import {
   NavigationScreenProp,
   NavigationRoute
 } from "react-navigation";
-import { AsyncStorage } from "react-native";
-import Page from "./Page";
+import { AsyncStorage, Alert } from "react-native";
 import { db } from "../../../lib/db";
 import { deleteSql, resetSql, deleteUserSql } from "../../../lib/db/debug";
 import { select as selectItems } from "../../../lib/db/item";
 import { select as selectItemDetailds } from "../../../lib/db/itemDetail";
+import { Consumer as AuthConsumer } from "../../../containers/Auth";
 import Tos from "../Tos/Page";
 import Policy from "../Policy/Page";
 import Feedback from "../Feedback/Connected";
+import SignIn from "../SignIn/Connected";
+import Page from "./Page";
 
 interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
 }
 
-class Connected extends Component<Props> {
+class Container extends Component<Props> {
+  render() {
+    return (
+      <AuthConsumer>
+        {({ loggedIn, logout }: any) => (
+          <Connected {...this.props} loggedIn={loggedIn} logout={logout} />
+        )}
+      </AuthConsumer>
+    );
+  }
+}
+
+interface ConnectedProps {
+  navigation: NavigationScreenProp<NavigationRoute>;
+  loggedIn: () => void;
+  logout: () => void;
+}
+
+interface State {
+  login: boolean;
+}
+
+class Connected extends Component<ConnectedProps> {
   static navigationOptions = { title: "設定" };
+
+  state = {
+    loading: false,
+    login: false
+  };
+
+  async componentDidMount() {
+    const loggedIn = await this.props.loggedIn();
+    this.setState({
+      login: loggedIn,
+      loading: true
+    });
+  }
 
   onDeleteSQL = () => {
     db.transaction((tx: SQLite.Transaction) => {
@@ -63,9 +100,44 @@ class Connected extends Component<Props> {
     this.props.navigation.navigate("Feedback");
   };
 
+  onSignIn = () => {
+    this.props.navigation.navigate("SignIn", {
+      onLogin: () => {
+        this.setState({
+          login: true
+        });
+      }
+    });
+  };
+
+  onLogout = () => {
+    Alert.alert(
+      "ログアウトしますか",
+      "",
+      [
+        {
+          text: "キャンセル",
+          style: "cancel"
+        },
+        {
+          text: "ログアウト",
+          onPress: async () => {
+            await this.props.logout();
+            this.setState({
+              login: false
+            });
+          }
+        }
+      ],
+      { cancelable: false }
+    );
+  };
+
   render() {
     return (
       <Page
+        loading={this.state.loading}
+        login={this.state.login}
         onResetSQL={this.onResetSQL}
         onData={this.onData}
         onDeleteSQL={this.onDeleteSQL}
@@ -74,14 +146,17 @@ class Connected extends Component<Props> {
         onTos={this.onTos}
         onPolicy={this.onPolicy}
         onFeedback={this.onFeedback}
+        onSignIn={this.onSignIn}
+        onLogout={this.onLogout}
       />
     );
   }
 }
 
 export default createStackNavigator({
-  Setting: Connected,
+  Setting: Container,
   Tos: Tos,
   Policy: Policy,
-  Feedback: Feedback
+  Feedback: Feedback,
+  SignIn: SignIn
 });
