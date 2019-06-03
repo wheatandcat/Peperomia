@@ -14,6 +14,7 @@ import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { Provider as PaperProvider } from "react-native-paper";
 import ItemsProvider from "./containers/Items";
 import AuthProvider from "./containers/Auth";
+import FetchProvider from "./containers/Fetch";
 import Home from "./components/pages/Home/Connected";
 import Setting from "./components/pages/Setting/Connected";
 import CreatePlan from "./components/pages/CreatePlan/Connected";
@@ -218,9 +219,11 @@ export default class App extends Component<Props, State> {
       <PaperProvider>
         <ActionSheetProvider>
           <AuthProvider>
-            <ItemsProvider>
-              <AppContainer />
-            </ItemsProvider>
+            <FetchProvider>
+              <ItemsProvider>
+                <AppContainer />
+              </ItemsProvider>
+            </FetchProvider>
           </AuthProvider>
         </ActionSheetProvider>
       </PaperProvider>

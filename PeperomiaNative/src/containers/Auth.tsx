@@ -1,5 +1,4 @@
 import { Google } from "expo";
-
 import { AsyncStorage } from "react-native";
 import React, { createContext, Component } from "react";
 import * as firebase from "firebase";
@@ -20,8 +19,6 @@ export default class extends Component<Props, State> {
 
   async componentDidMount() {
     const loggedIn = await this.loggedIn();
-
-    console.log(loggedIn);
 
     if (loggedIn && !this.state.email) {
       const email = await AsyncStorage.getItem("email");
@@ -52,29 +49,25 @@ export default class extends Component<Props, State> {
 
       await firebase.auth().signInAndRetrieveDataWithCredential(credential);
 
-      this.setSession(true);
+      await this.setSession(true);
     }
   };
 
   loggedIn = async () => {
     const idToken = await this.getIdToken();
-    console.log(idToken);
 
     return Boolean(idToken);
   };
 
   logout = async () => {
-    console.log("logout");
-
     await firebase.auth().signOut();
-    await AsyncStorage.removeItem("email");
+
     await AsyncStorage.removeItem("id_token");
     await AsyncStorage.removeItem("expiration");
+    await AsyncStorage.removeItem("email");
   };
 
   setSession = async (refresh = false) => {
-    console.log("setSession");
-
     const user = firebase.auth().currentUser;
     if (!user) {
       return;
@@ -100,7 +93,7 @@ export default class extends Component<Props, State> {
   getIdToken = async () => {
     const idToken = await AsyncStorage.getItem("id_token");
     if (!idToken) {
-      return false;
+      return null;
     }
 
     const expiration = await AsyncStorage.getItem("expiration");
