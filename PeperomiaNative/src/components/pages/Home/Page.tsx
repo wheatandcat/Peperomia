@@ -20,7 +20,7 @@ export default (props: ItemProps) => (
       {props.data.length > 0 ? (
         <Cards
           data={props.data}
-          loading={props.loading}
+          loading={false}
           onSchedule={props.onSchedule}
           onDelete={props.onDelete}
         />
@@ -32,7 +32,7 @@ export default (props: ItemProps) => (
             alignItems: "center"
           }}
         >
-          <Text>プランの登録はありません</Text>
+          {!props.loading && <Text>プランの登録はありません</Text>}
         </View>
       )}
     </View>

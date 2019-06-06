@@ -3,25 +3,15 @@ package middleware
 import (
 	"context"
 	"net/http"
-	"os"
 	"strings"
 
-	firebase "firebase.google.com/go"
 	"github.com/gin-gonic/gin"
-	"golang.org/x/oauth2/google"
-	"google.golang.org/api/option"
+	repository "github.com/wheatandcat/Peperomia/backend/repository"
 )
 
 func FirebaseAuthMiddleWare(gc *gin.Context) {
 	ctx := context.Background()
-	creds, err := google.CredentialsFromJSON(ctx, []byte(os.Getenv("FIREBASE_SERVICE_ACCOUNT_JSON")))
-	if err != nil {
-		gc.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
-		return
-	}
-
-	opt := option.WithCredentials(creds)
-	app, err := firebase.NewApp(context.Background(), nil, opt)
+	app, err := repository.FirebaseApp(ctx)
 	if err != nil {
 		gc.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
@@ -34,11 +24,13 @@ func FirebaseAuthMiddleWare(gc *gin.Context) {
 	}
 
 	idToken := strings.Replace(gc.GetHeader("Authorization"), "Bearer ", "", 1)
-	_, err = auth.VerifyIDToken(context.Background(), idToken)
+	token, err := auth.VerifyIDToken(context.Background(), idToken)
 	if err != nil {
 		gc.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
+	//log.Printf("uid: %v\n", token.UID)
+	gc.Set("firebaseUID", token.UID)
 
 	gc.Next()
 }

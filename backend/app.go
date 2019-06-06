@@ -34,8 +34,11 @@ func main() {
 
 	r.Use(middleware.FirebaseAuthMiddleWare)
 
-	h := handler.NewHandler()
+	h, err := handler.NewHandler()
+	if err != nil {
+		panic(err)
+	}
 
-	r.POST("/SaveUser", h.SaveUser)
+	r.POST("/CreateUser", h.CreateUser)
 	r.Run()
 }
