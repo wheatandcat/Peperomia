@@ -1,12 +1,14 @@
 package main
 
 import (
+	"context"
 	"net/http"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/wheatandcat/Peperomia/backend/handler"
 	"github.com/wheatandcat/Peperomia/backend/middleware"
+	"github.com/wheatandcat/Peperomia/backend/repository"
 )
 
 func main() {
@@ -32,9 +34,17 @@ func main() {
 		MaxAge:           86400,
 	}))
 
-	r.Use(middleware.FirebaseAuthMiddleWare)
+	ctx := context.Background()
+	f, err := repository.FirebaseApp(ctx)
+	if err != nil {
+		panic(err)
+	}
 
-	h, err := handler.NewHandler()
+	m := middleware.NewMiddleware(f)
+
+	r.Use(m.FirebaseAuthMiddleWare)
+
+	h, err := handler.NewHandler(ctx, f)
 	if err != nil {
 		panic(err)
 	}

@@ -5,16 +5,12 @@ import (
 	"os"
 
 	firebase "firebase.google.com/go"
-	"golang.org/x/oauth2/google"
 	"google.golang.org/api/option"
 )
 
 func FirebaseApp(ctx context.Context) (*firebase.App, error) {
-	creds, err := google.CredentialsFromJSON(ctx, []byte(os.Getenv("FIREBASE_SERVICE_ACCOUNT_JSON")))
-	if err != nil {
-		return nil, err
-	}
+	opt := option.WithCredentialsFile("serviceAccount.json")
+	config := &firebase.Config{ProjectID: os.Getenv("FIREBASE_PROJECT_ID")}
 
-	opt := option.WithCredentials(creds)
-	return firebase.NewApp(context.Background(), nil, opt)
+	return firebase.NewApp(ctx, config, opt)
 }

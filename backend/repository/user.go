@@ -5,6 +5,8 @@ import (
 	"time"
 
 	"cloud.google.com/go/firestore"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
 )
 
 // UserRepository is repository for user
@@ -45,7 +47,11 @@ func (re *UserRepository) FindByUID(ctx context.Context, f *firestore.Client, ui
 // ExistsByUID ユーザーIDが存在するか判定
 func (re *UserRepository) ExistsByUID(ctx context.Context, f *firestore.Client, uid string) (bool, error) {
 	dsnap, err := f.Collection("users").Doc(uid).Get(ctx)
+
 	if err != nil {
+		if grpc.Code(err) == codes.NotFound {
+			return false, nil
+		}
 		return false, err
 	}
 

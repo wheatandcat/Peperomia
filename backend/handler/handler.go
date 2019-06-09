@@ -6,32 +6,33 @@ import (
 	"net/http"
 
 	"cloud.google.com/go/firestore"
+	firebase "firebase.google.com/go"
 	"github.com/gin-gonic/gin"
 	"github.com/wheatandcat/Peperomia/backend/domain"
-	repository "github.com/wheatandcat/Peperomia/backend/repository"
 )
 
 type Handler struct {
+	FirebaseApp     *firebase.App
 	FirestoreClient *firestore.Client
 }
 
 type ErrorResponse struct {
-	StatusCode int    `json:"_"`
+	StatusCode int    `json:"-"`
 	ErrorCode  string `json:"code"`
 	Message    string `json:"message"`
 	Error      error  `json:"-"`
 }
 
-func NewHandler() (*Handler, error) {
-	ctx := context.Background()
-
-	f, err := repository.FirestoreClient(ctx)
+func NewHandler(ctx context.Context, f *firebase.App) (*Handler, error) {
+	fc, err := f.Firestore(ctx)
 	if err != nil {
-		return nil, err
+		h := &Handler{}
+		return h, nil
 	}
 
 	return &Handler{
-		FirestoreClient: f,
+		FirebaseApp:     f,
+		FirestoreClient: fc,
 	}, nil
 }
 

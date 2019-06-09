@@ -1,17 +1,5 @@
 runtime: go111
 
 env_variables:
-  FIREBASE_SERVICE_ACCOUNT_JSON: |
-    {
-      "type": "",
-      "project_id": "",
-      "private_key_id": "",
-      "private_key": "",
-      "client_email": "",
-      "client_id": "",
-      "auth_uri": "",
-      "token_uri": "",
-      "auth_provider_x509_cert_url": "",
-      "client_x509_cert_url": ""
-    }
+  FIREBASE_PROJECT_ID: **************
     
