@@ -36,6 +36,7 @@ func main() {
 
 	ctx := context.Background()
 	f, err := repository.FirebaseApp(ctx)
+
 	if err != nil {
 		panic(err)
 	}
