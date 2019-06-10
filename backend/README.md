@@ -3,19 +3,25 @@
 ## 準備
 
 ```
-go mod download
+$ go mod download
+```
+
+or
+
+```
+$ go mod tidy
 ```
 
 
 ## ローカル実行
 
 ```
-dev_appserver.py app.yaml
+$ dev_appserver.py app.yaml
 ```
 
 
 ## デプロイ
 
 ```
-gcloud app deploy
+$ gcloud app deploy
 ```

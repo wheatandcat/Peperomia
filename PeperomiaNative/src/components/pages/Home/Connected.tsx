@@ -36,6 +36,7 @@ interface State {
 }
 
 interface PlanProps {
+  loading: boolean;
   items: Item[];
   about: ItemAbout[];
   refreshData: () => void;
@@ -117,9 +118,10 @@ class HomeScreen extends Component<Props, State> {
 
     return (
       <ItemsConsumer>
-        {({ items, about, refreshData }: any) => (
+        {({ items, about, refreshData, itemsLoading }: any) => (
           <>
             <HomeScreenPlan
+              loading={itemsLoading}
               items={items}
               about={about}
               refresh={refresh}
@@ -185,7 +187,7 @@ class HomeScreenPlan extends Component<PlanProps, PlanState> {
     return (
       <Page
         data={items}
-        loading={false}
+        loading={this.props.loading}
         onSchedule={this.props.onSchedule}
         onCreate={this.props.onCreate}
         onDelete={this.onDelete}

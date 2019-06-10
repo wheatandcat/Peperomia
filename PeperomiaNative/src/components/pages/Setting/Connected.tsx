@@ -47,7 +47,7 @@ class Connected extends Component<ConnectedProps> {
   static navigationOptions = { title: "設定" };
 
   state = {
-    loading: false,
+    loading: true,
     login: false
   };
 
@@ -55,7 +55,7 @@ class Connected extends Component<ConnectedProps> {
     const loggedIn = await this.props.loggedIn();
     this.setState({
       login: loggedIn,
-      loading: true
+      loading: false
     });
   }
 
@@ -104,7 +104,8 @@ class Connected extends Component<ConnectedProps> {
     this.props.navigation.navigate("SignIn", {
       onLogin: () => {
         this.setState({
-          login: true
+          login: true,
+          loading: false
         });
       }
     });

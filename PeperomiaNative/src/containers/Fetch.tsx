@@ -35,6 +35,8 @@ class Connected extends Component<ConnectedProps> {
       }
     };
 
+    console.log(`Bearer ${idToken}`);
+
     const response = await fetch(`${apiHost}/${url}`, init);
 
     return response;

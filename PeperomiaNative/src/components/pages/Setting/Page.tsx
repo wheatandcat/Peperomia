@@ -55,13 +55,17 @@ export default class extends Component<Props> {
           <View style={{ height: 20 }} />
 
           {(() => {
-            if (!this.props.loading) {
-              return <ListItem title=" " />;
+            if (this.props.loading) {
+              return <View style={{ height: 45, backgroundColor: "#fff" }} />;
             }
 
             if (this.props.login) {
               return (
-                <ListItem title="ログアウト" onPress={this.props.onLogout} />
+                <ListItem
+                  title="ログアウト"
+                  titleStyle={{ color: "#dc143c" }}
+                  onPress={this.props.onLogout}
+                />
               );
             }
 

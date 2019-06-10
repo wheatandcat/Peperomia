@@ -18,12 +18,14 @@ interface ItemAbout {
 interface Props {}
 
 interface State {
+  loading: boolean;
   items: Item[];
   about: ItemAbout[];
 }
 
 export default class extends Component<Props, State> {
   state = {
+    loading: true,
     items: [],
     about: []
   };
@@ -70,7 +72,8 @@ export default class extends Component<Props, State> {
     ];
 
     this.setState({
-      about
+      about,
+      loading: false
     });
   };
 
@@ -80,7 +83,8 @@ export default class extends Component<Props, State> {
         value={{
           items: this.state.items,
           about: this.state.about,
-          refreshData: this.getData
+          refreshData: this.getData,
+          itemsLoading: this.state.loading
         }}
       >
         {this.props.children}
