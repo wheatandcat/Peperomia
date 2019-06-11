@@ -1,0 +1,138 @@
+openapi: 3.0.0
+
+servers:
+  - url: http://localhost:8080
+    description: Local server
+
+info:
+  version: 1.0.0
+  title: ペペロミア API
+  description: https://github.com/wheatandcat/Peperomia/tools//swagger.yaml
+
+security:
+  - bearerAuth: []   
+
+paths:
+  /CreateUser:
+    post:
+      tags:
+        - 実装済み
+      description: |
+        - ユーザーを作成する
+      responses:
+        '201':
+          description: |
+            - 作成した
+        '200':
+          description: |
+            - 既に作成済だった
+
+
+  /SyncItems:
+    post:
+      tags:
+        - 未実装
+      requestBody:
+        $ref: '#/components/requestBodies/SyncItemsRequest'
+
+      responses:
+        '200':
+          description: |
+            - 同期成功
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  requestBodies:
+    SyncItemsRequest:
+        description: アイテム同期のRequest
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Item'
+
+                itemsDetails:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/ItemDetail'
+  schemas:
+    Item:
+      type: object
+      description: スケジュールアイテム
+      properties:
+        id:
+          type: integer
+          format: int32
+          pattern: "1"
+          example: 1
+          description: ID
+          required:
+            - id
+        titie:
+          type: string
+          pattern: string
+          example: 葛西臨海公園
+          description: タイトル
+        kind:
+          type: string
+          example: fishing
+          description: アイコンの種類
+        image:
+          type: string
+          example: ""
+          description: 画像のBase64エンコード
+        imagePath:
+          type: string
+          example: ""
+          description: 画像のパス
+    ItemDetail:
+      type: object
+      description: スケジュールアイテム詳細
+      properties:
+        id:
+          type: integer
+          format: int32
+          pattern: "1"
+          example: 1
+          description: ID
+        itemId:
+          type: integer
+          format: int32
+          pattern: "1"
+          example: 1
+          description: ID
+        titie:
+          type: string
+          pattern: string
+          example: 葛西臨海公園
+          description: タイトル
+        kind:
+          type: string
+          example: fishing
+          description: アイコンの種類
+        memo:
+          type: string
+          example: ""
+          description: メモ内容
+        moveMinutes:
+          type: integer
+          pattern: "1"
+          example: 30
+          description: 移動時間（分）
+        priority:
+          type: integer
+          pattern: "1"
+          example: 1
+          description: 表示順
+
+
+
+
