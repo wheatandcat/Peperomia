@@ -2,7 +2,6 @@ package handler
 
 import (
 	"context"
-	"log"
 	"net/http"
 	"time"
 
@@ -22,8 +21,6 @@ func (h *Handler) CreateUser(gc *gin.Context) {
 
 	exists, err := ur.ExistsByUID(ctx, h.FirestoreClient, uid)
 	if err != nil {
-		log.Print(err)
-
 		NewErrorResponse(err).Render(gc)
 		return
 	}

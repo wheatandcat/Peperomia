@@ -1,2 +1,3 @@
 vendor
 serviceAccount.json
+.env
