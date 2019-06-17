@@ -70,3 +70,38 @@ func (re *ItemRepository) CreateItemDetail(ctx context.Context, f *firestore.Cli
 
 	return err
 }
+
+// FindByUID ユーザーIDから取得する
+func (re *ItemRepository) FindByUID(ctx context.Context, f *firestore.Client, uid string) ([]ItemRecord, error) {
+	var items []ItemRecord
+	matchItem := f.Collection("items").Where("uid", "==", uid).Documents(ctx)
+	docs, err := matchItem.GetAll()
+	if err != nil {
+		return items, err
+	}
+
+	for _, doc := range docs {
+		var item ItemRecord
+		doc.DataTo(&item)
+		items = append(items, item)
+	}
+
+	return items, nil
+}
+
+// DeleteByUID ユーザーIDから削除する
+func (re *ItemRepository) DeleteByUID(ctx context.Context, f *firestore.Client, uid string) error {
+	matchItem := f.Collection("items").Where("uid", "==", uid).Documents(ctx)
+	docs, err := matchItem.GetAll()
+	if err != nil {
+		return err
+	}
+
+	for _, doc := range docs {
+		if _, err := doc.Ref.Delete(ctx); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}

@@ -10,8 +10,8 @@ import (
 
 // SyncItemsRequest is SyncItemsRequest request
 type SyncItemsRequest struct {
-	Items        []repository.ItemRecord       `json:"items" binding:"required"`
-	ItemsDetails []repository.ItemDetailRecord `json:"itemsDetails" binding:"required"`
+	Items       []repository.ItemRecord       `json:"items" binding:"required"`
+	ItemDetails []repository.ItemDetailRecord `json:"itemDetails" binding:"required"`
 }
 
 // SyncItems アイテムを同期させる
@@ -30,6 +30,13 @@ func (h *Handler) SyncItems(gc *gin.Context) {
 	}
 	ir := repository.NewItemRepository()
 
+	// 先にデータ削除
+	if err := ir.DeleteByUID(ctx, h.FirestoreClient, uid); err != nil {
+		NewErrorResponse(err).Render(gc)
+		return
+	}
+
+	// データ同期
 	for _, item := range req.Items {
 		item.UID = uid
 		if err := ir.Create(ctx, h.FirestoreClient, item); err != nil {
@@ -38,7 +45,7 @@ func (h *Handler) SyncItems(gc *gin.Context) {
 		}
 	}
 
-	for _, itemDetail := range req.ItemsDetails {
+	for _, itemDetail := range req.ItemDetails {
 		itemDetail.UID = uid
 		if err := ir.CreateItemDetail(ctx, h.FirestoreClient, itemDetail); err != nil {
 			NewErrorResponse(err).Render(gc)

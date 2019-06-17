@@ -59,7 +59,7 @@ components:
                   items:
                     $ref: '#/components/schemas/Item'
 
-                itemsDetails:
+                itemDetails:
                   type: array
                   items:
                     $ref: '#/components/schemas/ItemDetail'

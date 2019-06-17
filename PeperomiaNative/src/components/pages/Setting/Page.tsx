@@ -18,6 +18,7 @@ export interface Props {
   onSignIn: () => void;
   onLogout: () => void;
   onFeedback: () => void;
+  onMyPage: () => void;
 }
 
 export default class extends Component<Props> {
@@ -61,11 +62,19 @@ export default class extends Component<Props> {
 
             if (this.props.login) {
               return (
-                <ListItem
-                  title="ログアウト"
-                  titleStyle={{ color: "#dc143c" }}
-                  onPress={this.props.onLogout}
-                />
+                <>
+                  <ListItem
+                    title="マイページ"
+                    onPress={this.props.onMyPage}
+                    rightIcon={{ name: "chevron-right", color: "#888" }}
+                    bottomDivider
+                  />
+                  <ListItem
+                    title="ログアウト"
+                    titleStyle={{ color: "#dc143c" }}
+                    onPress={this.props.onLogout}
+                  />
+                </>
               );
             }
 

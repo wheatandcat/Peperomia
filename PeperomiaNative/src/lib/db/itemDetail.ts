@@ -79,7 +79,7 @@ export const select = async (
   callback?: (data: any, error: any) => void
 ) => {
   return tx.executeSql(
-    "select * from item_details order by priority, id",
+    "select * from item_details",
     [],
     (_, props) => success(props.rows._array, callback),
     (_, err) => error(err, callback)

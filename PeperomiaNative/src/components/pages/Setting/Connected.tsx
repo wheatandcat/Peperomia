@@ -11,10 +11,12 @@ import { deleteSql, resetSql, deleteUserSql } from "../../../lib/db/debug";
 import { select as selectItems } from "../../../lib/db/item";
 import { select as selectItemDetailds } from "../../../lib/db/itemDetail";
 import { Consumer as AuthConsumer } from "../../../containers/Auth";
+import { Consumer as FetchConsumer } from "../../../containers/Fetch";
 import Tos from "../Tos/Page";
 import Policy from "../Policy/Page";
 import Feedback from "../Feedback/Connected";
 import SignIn from "../SignIn/Connected";
+import MyPage from "../MyPage/Connected";
 import Page from "./Page";
 
 interface Props {
@@ -22,11 +24,22 @@ interface Props {
 }
 
 class Container extends Component<Props> {
+  static navigationOptions = { title: "設定" };
+
   render() {
     return (
       <AuthConsumer>
         {({ loggedIn, logout }: any) => (
-          <Connected {...this.props} loggedIn={loggedIn} logout={logout} />
+          <FetchConsumer>
+            {({ post }: any) => (
+              <Connected
+                {...this.props}
+                loggedIn={loggedIn}
+                logout={logout}
+                post={post}
+              />
+            )}
+          </FetchConsumer>
         )}
       </AuthConsumer>
     );
@@ -35,15 +48,17 @@ class Container extends Component<Props> {
 
 interface ConnectedProps {
   navigation: NavigationScreenProp<NavigationRoute>;
-  loggedIn: () => void;
+  loggedIn: () => boolean;
   logout: () => void;
+  post: (url: string, param: any) => Promise<Response>;
 }
 
 interface State {
   login: boolean;
+  loading: boolean;
 }
 
-class Connected extends Component<ConnectedProps> {
+class Connected extends Component<ConnectedProps, State> {
   static navigationOptions = { title: "設定" };
 
   state = {
@@ -53,6 +68,7 @@ class Connected extends Component<ConnectedProps> {
 
   async componentDidMount() {
     const loggedIn = await this.props.loggedIn();
+
     this.setState({
       login: loggedIn,
       loading: false
@@ -111,6 +127,10 @@ class Connected extends Component<ConnectedProps> {
     });
   };
 
+  onMyPage = () => {
+    this.props.navigation.navigate("MyPage");
+  };
+
   onLogout = () => {
     Alert.alert(
       "ログアウトしますか",
@@ -149,6 +169,7 @@ class Connected extends Component<ConnectedProps> {
         onFeedback={this.onFeedback}
         onSignIn={this.onSignIn}
         onLogout={this.onLogout}
+        onMyPage={this.onMyPage}
       />
     );
   }
@@ -159,5 +180,6 @@ export default createStackNavigator({
   Tos: Tos,
   Policy: Policy,
   Feedback: Feedback,
-  SignIn: SignIn
+  SignIn: SignIn,
+  MyPage: MyPage
 });
