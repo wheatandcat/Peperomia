@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { View, ScrollView, Text, AsyncStorage } from "react-native";
+import {
+  View,
+  ScrollView,
+  Text,
+  AsyncStorage,
+  ActivityIndicator
+} from "react-native";
 import { List, Divider, Title } from "react-native-paper";
 import { ListItem } from "react-native-elements";
 import { Constants } from "expo";
@@ -18,6 +24,7 @@ export interface Props {
   onSignIn: () => void;
   onLogout: () => void;
   onFeedback: () => void;
+  onMyPage: () => void;
 }
 
 export default class extends Component<Props> {
@@ -56,16 +63,35 @@ export default class extends Component<Props> {
 
           {(() => {
             if (this.props.loading) {
-              return <View style={{ height: 45, backgroundColor: "#fff" }} />;
+              return (
+                <View
+                  style={{
+                    height: 60,
+                    backgroundColor: "#fff",
+                    justifyContent: "center",
+                    alignItems: "center"
+                  }}
+                >
+                  <ActivityIndicator size="large" color="#aaa" />
+                </View>
+              );
             }
 
             if (this.props.login) {
               return (
-                <ListItem
-                  title="ログアウト"
-                  titleStyle={{ color: "#dc143c" }}
-                  onPress={this.props.onLogout}
-                />
+                <>
+                  <ListItem
+                    title="マイページ"
+                    onPress={this.props.onMyPage}
+                    rightIcon={{ name: "chevron-right", color: "#888" }}
+                    bottomDivider
+                  />
+                  <ListItem
+                    title="ログアウト"
+                    titleStyle={{ color: "#dc143c" }}
+                    onPress={this.props.onLogout}
+                  />
+                </>
               );
             }
 

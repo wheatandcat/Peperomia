@@ -25,7 +25,7 @@ func NewUserRepository() *UserRepository {
 	return &UserRepository{}
 }
 
-// Create ユーザー作成する
+// Create ユーザーを作成する
 func (re *UserRepository) Create(ctx context.Context, f *firestore.Client, u UserRecord) error {
 	_, err := f.Collection("users").Doc(u.UID).Set(ctx, u)
 

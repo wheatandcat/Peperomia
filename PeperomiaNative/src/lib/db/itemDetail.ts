@@ -79,7 +79,7 @@ export const select = async (
   callback?: (data: any, error: any) => void
 ) => {
   return tx.executeSql(
-    "select * from item_details order by priority, id",
+    "select * from item_details",
     [],
     (_, props) => success(props.rows._array, callback),
     (_, err) => error(err, callback)
@@ -159,5 +159,57 @@ export const deleteByItemId = async (
     [id],
     (_, props) => success(props.rows._array[0], callback),
     (_, err) => error(err, callback)
+  );
+};
+
+export const deleteAll = async (
+  tx: SQLite.Transaction,
+  callback?: (data: any, error: any) => void
+) => {
+  tx.executeSql(
+    `delete from item_details;`,
+    [],
+    (_, props) => success(props.rows._array[0], callback),
+    (_, err) => error(err, callback)
+  );
+};
+
+export const bulkInsert = async (
+  tx: SQLite.Transaction,
+  itemDetails: ItemDetail[],
+  callback?: (insertId: number, error: any) => void
+) => {
+  const param = itemDetails
+    .map(itemDetail => {
+      return [
+        String(itemDetail.id),
+        String(itemDetail.itemId),
+        itemDetail.title,
+        itemDetail.kind,
+        itemDetail.memo,
+        String(itemDetail.moveMinutes),
+        String(itemDetail.priority)
+      ];
+    })
+    .reduce((pre, current) => {
+      pre.push(...current);
+      return pre;
+    }, []);
+
+  const q = itemDetails
+    .map(() => {
+      return `(?, ?, ?, ?, ?, ?, ?)`;
+    })
+    .join(",");
+
+  const query = `insert into item_details (id, itemId, title, kind, memo, moveMinutes, priority) values ${q};`;
+
+  return tx.executeSql(
+    query,
+    param,
+    (_, props) => success(props, callback),
+    (_, err) => {
+      error(err, callback);
+    }
   );
 };

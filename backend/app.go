@@ -51,5 +51,7 @@ func main() {
 	}
 
 	r.POST("/CreateUser", h.CreateUser)
+	r.POST("/SyncItems", h.SyncItems)
+
 	r.Run()
 }

@@ -1817,6 +1817,13 @@
   version "6.5.1"
   resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.5.1.tgz#a38f69c62528d56ba7bd1f91335a8004988d72f7"
 
+"@types/react-native-loading-spinner-overlay@^0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@types/react-native-loading-spinner-overlay/-/react-native-loading-spinner-overlay-0.5.1.tgz#4dcbe9cc71763ea2b7e89533402734a70d6def59"
+  dependencies:
+    "@types/react" "*"
+    "@types/react-native" "*"
+
 "@types/react-native-sortable-list@0.0.7":
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/@types/react-native-sortable-list/-/react-native-sortable-list-0.0.7.tgz#08966daf13a20e7d8e8129a791babb59b0bb6fde"
@@ -10202,6 +10209,12 @@ react-native-gesture-handler@~1.0.14:
 react-native-interactable@1.0.0-alpha.1:
   version "1.0.0-alpha.1"
   resolved "https://registry.yarnpkg.com/react-native-interactable/-/react-native-interactable-1.0.0-alpha.1.tgz#6459bcc29b392a9671e644d03f1728f3bf3051b5"
+
+react-native-loading-spinner-overlay@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-loading-spinner-overlay/-/react-native-loading-spinner-overlay-1.0.1.tgz#07f85a072b6f7d05b8749668cd626df4cc330347"
+  dependencies:
+    prop-types "^15.6.2"
 
 react-native-maps@*:
   version "0.24.2"

@@ -28,7 +28,7 @@ import {
   save as saveFirestore,
   isShare,
   updateShare
-} from "../../../lib/firebase";
+} from "../../../lib/firestore/plan";
 import { select1st, delete1st, Item } from "../../../lib/db/item";
 import getShareText from "../../../lib/getShareText";
 import { Consumer as ItemsConsumer } from "../../../containers/Items";

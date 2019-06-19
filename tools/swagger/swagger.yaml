@@ -59,7 +59,7 @@ components:
                   items:
                     $ref: '#/components/schemas/Item'
 
-                itemsDetails:
+                itemDetails:
                   type: array
                   items:
                     $ref: '#/components/schemas/ItemDetail'
@@ -76,7 +76,7 @@ components:
           description: ID
           required:
             - id
-        titie:
+        title:
           type: string
           pattern: string
           example: 葛西臨海公園
@@ -109,7 +109,7 @@ components:
           pattern: "1"
           example: 1
           description: ID
-        titie:
+        title:
           type: string
           pattern: string
           example: 葛西臨海公園

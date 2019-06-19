@@ -1,4 +1,5 @@
 import React, { createContext, Component } from "react";
+import { Constants } from "expo";
 import { Consumer as AuthConsumer } from "./Auth";
 
 const Context = createContext({});
@@ -22,6 +23,10 @@ interface ConnectedProps {
   getIdToken: () => void;
 }
 
+export interface FetchValue {
+  post: (url: string, param: any) => Promise<Response>;
+}
+
 class Connected extends Component<ConnectedProps> {
   post = async (url: string, param: any): Promise<Response> => {
     const idToken = await this.props.getIdToken();
@@ -35,9 +40,20 @@ class Connected extends Component<ConnectedProps> {
       }
     };
 
-    console.log(`Bearer ${idToken}`);
+    if (!Constants.isDevice) {
+      console.info(init);
+    }
+
+    console.info(`Bearer ${idToken}`);
 
     const response = await fetch(`${apiHost}/${url}`, init);
+
+    if (!Constants.isDevice) {
+      if (!response.ok) {
+        const result = await response.json();
+        console.info(result);
+      }
+    }
 
     return response;
   };
