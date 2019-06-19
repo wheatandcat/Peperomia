@@ -9,16 +9,27 @@ const { Provider } = Context;
 interface Props {}
 
 interface State {
+  uid: string;
   email: string;
 }
 
 export default class extends Component<Props, State> {
   state = {
-    email: ""
+    email: "",
+    uid: ""
   };
 
   async componentDidMount() {
     const loggedIn = await this.loggedIn();
+
+    if (loggedIn && !this.state.uid) {
+      const uid = await AsyncStorage.getItem("uid");
+      if (uid) {
+        this.setState({
+          uid
+        });
+      }
+    }
 
     if (loggedIn && !this.state.email) {
       const email = await AsyncStorage.getItem("email");
@@ -75,8 +86,10 @@ export default class extends Component<Props, State> {
 
     if (user.email) {
       await AsyncStorage.setItem("email", user.email);
+      await AsyncStorage.setItem("uid", user.uid);
       this.setState({
-        email: user.email
+        email: user.email,
+        uid: user.uid
       });
     }
 
@@ -112,7 +125,8 @@ export default class extends Component<Props, State> {
           getIdToken: this.getIdToken,
           loggedIn: this.loggedIn,
           logout: this.logout,
-          email: this.state.email
+          email: this.state.email,
+          uid: this.state.uid
         }}
       >
         {this.props.children}

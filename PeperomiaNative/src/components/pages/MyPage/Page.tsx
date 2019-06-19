@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import { View, ScrollView, Text } from "react-native";
 import { ListItem } from "react-native-elements";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export interface Props {
   loading: boolean;
+  LoadingText: string;
   email: string;
   onBackup: () => void;
   onRestore: () => void;
@@ -13,6 +15,11 @@ export default class extends Component<Props> {
   render() {
     return (
       <View style={{ backgroundColor: "#efefef", height: "100%" }}>
+        <Spinner
+          visible={this.props.loading}
+          textContent={this.props.LoadingText}
+          textStyle={{ color: "#fff" }}
+        />
         <ScrollView>
           <View
             style={{
@@ -41,13 +48,13 @@ export default class extends Component<Props> {
             </View>
           </View>
           <ListItem
-            title="データをバックアップをする"
+            title="バックアップを作成する"
             titleStyle={{ color: "#4169e1" }}
             onPress={this.props.onBackup}
             bottomDivider
           />
           <ListItem
-            title="データをバックアップから復元する"
+            title="バックアップから復元する"
             titleStyle={{ color: "#4169e1" }}
             onPress={this.props.onRestore}
           />

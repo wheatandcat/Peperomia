@@ -29,9 +29,14 @@ func (h *Handler) SyncItems(gc *gin.Context) {
 		return
 	}
 	ir := repository.NewItemRepository()
+	idr := repository.NewItemDetailRepository()
 
-	// 先にデータ削除
+	// データ削除
 	if err := ir.DeleteByUID(ctx, h.FirestoreClient, uid); err != nil {
+		NewErrorResponse(err).Render(gc)
+		return
+	}
+	if err := idr.DeleteByUID(ctx, h.FirestoreClient, uid); err != nil {
 		NewErrorResponse(err).Render(gc)
 		return
 	}
@@ -47,7 +52,7 @@ func (h *Handler) SyncItems(gc *gin.Context) {
 
 	for _, itemDetail := range req.ItemDetails {
 		itemDetail.UID = uid
-		if err := ir.CreateItemDetail(ctx, h.FirestoreClient, itemDetail); err != nil {
+		if err := idr.CreateItemDetail(ctx, h.FirestoreClient, itemDetail); err != nil {
 			NewErrorResponse(err).Render(gc)
 			return
 		}
