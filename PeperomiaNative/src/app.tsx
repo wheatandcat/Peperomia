@@ -1,4 +1,5 @@
-import { SQLite, Constants } from "expo";
+import Constants from 'expo-constants';
+import { SQLite } from 'expo-sqlite';
 import React, { Component } from "react";
 import uuidv1 from "uuid/v1";
 import FontAwesomeIcons from "react-native-vector-icons/FontAwesome";

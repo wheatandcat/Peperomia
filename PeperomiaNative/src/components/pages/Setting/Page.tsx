@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { List, Divider, Title } from "react-native-paper";
 import { ListItem } from "react-native-elements";
-import { Constants } from "expo";
+import Constants from 'expo-constants';
 import app from "../../../../app.json";
 
 export interface Props {

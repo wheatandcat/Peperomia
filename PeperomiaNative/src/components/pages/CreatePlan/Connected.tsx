@@ -1,4 +1,5 @@
-import { SQLite, ImageManipulator } from "expo";
+import * as ImageManipulator from 'expo-image-manipulator';
+import { SQLite } from 'expo-sqlite';
 import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import { TouchableOpacity, View } from "react-native";
