@@ -1,4 +1,4 @@
-import { SQLite } from "expo";
+import { SQLite } from "expo-sqlite";
 import { db } from "./db";
 import {
   select as selectItems,

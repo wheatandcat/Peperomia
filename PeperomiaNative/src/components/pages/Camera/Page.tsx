@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Text, View, TouchableOpacity } from "react-native";
-import { Camera, Permissions, Svg } from "expo";
+import * as Svg from "react-native-svg";
+import * as Permissions from "expo-permissions";
+import { Camera } from "expo-camera";
 
 export interface Props {
   onPicture: (image: string) => void;

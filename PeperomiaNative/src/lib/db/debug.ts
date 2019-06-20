@@ -1,4 +1,4 @@
-import { SQLite } from "expo";
+import { SQLite } from "expo-sqlite";
 import { create as createItem, insert as insertItem, Item } from "./item";
 import {
   create as createItemDetail,

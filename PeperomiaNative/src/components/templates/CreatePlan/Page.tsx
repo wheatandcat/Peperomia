@@ -8,7 +8,8 @@ import {
   Dimensions
 } from "react-native";
 import { Input, Button } from "react-native-elements";
-import { ImagePicker, Permissions } from "expo";
+import * as Permissions from "expo-permissions";
+import * as ImagePicker from "expo-image-picker";
 import {
   ActionSheetProps,
   connectActionSheet
