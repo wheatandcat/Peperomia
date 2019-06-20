@@ -13,3 +13,4 @@ mkdir -p $APP_PATH
 
 # unzip tar.gz into APP_PATH
 tar -C $APP_PATH -xzf $TMP_PATH
+

@@ -5,17 +5,21 @@
   "scripts": {
     "app:copy": "cp -r App.app.tsx App.tsx",
     "storybook:copy": "cp -r App.storybook.tsx App.tsx",
-    "start": "npm run app:copy && expo start -c",
+    "start": "npm run app:copy && npm run development:config && expo start -c",
     "android": "npm run app:copy && expo start --android",
     "ios": "npm run app:copy && expo start --ios",
     "eject": "expo eject",
     "test": "jest ./src/***/*.test.ts",
-    "storybook": "npm run storybook:copy && expo start",
+    "storybook": "npm run storybook:copy && npm run development:config && expo start",
     "prestorybook": "rnstl",
     "storybook-server": "storybook start",
     "e2e": "rimraf ./screenshots && detox test --configuration ios.sim && open ./screenshots",
     "eslint": "eslint -c ./.eslintrc.json 'src/**/*.{ts,tsx}'",
-    "eslint:fix": "eslint --fix -c ./.eslintrc.json 'src/**/*.{ts,tsx}'"
+    "eslint:fix": "eslint --fix -c ./.eslintrc.json 'src/**/*.{ts,tsx}'",
+    "development:config": "sh ./setupDevelopment.sh",
+    "release:config": "sh ./setupRelease.sh",
+    "build:ios": "npm run release:config && expo build:ios",
+    "build:android": "npm run release:config && expo build:android"
   },
   "dependencies": {
     "@expo/react-native-action-sheet": "^1.1.2",

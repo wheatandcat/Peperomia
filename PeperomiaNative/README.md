@@ -3,6 +3,15 @@
 
 # ローカルでの実行手順
 
+初期設定
+
+```
+cp -r app.json.template app.json
+cp -r .env.template .env
+cd android
+cp -r google-services.json.template google-services.json
+```
+
 ## Firebaseのアカウントを持っている場合
 ①. 「.env.template」の下記の値に自身のFirebaseの情報を追記
 
@@ -53,14 +62,14 @@ emulator -avd Pixel
 ## ios
 
 ```
-expo build:ios
+nom run build:ios
 ```
 
 ## android
 
 
 ```
-expo build:android
+nom run build:android
 ```
 
 
