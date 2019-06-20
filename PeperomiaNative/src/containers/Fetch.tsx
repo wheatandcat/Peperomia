@@ -1,5 +1,5 @@
 import React, { createContext, Component } from "react";
-import Constants from 'expo-constants';
+import Constants from "expo-constants";
 import { Consumer as AuthConsumer } from "./Auth";
 
 const Context = createContext({});

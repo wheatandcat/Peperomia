@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import { TouchableOpacity, View } from "react-native";
-import * as Permissions from 'expo-permissions';
-import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from "expo-permissions";
+import * as ImagePicker from "expo-image-picker";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Page, { Props as PageProps } from "./Page";
 

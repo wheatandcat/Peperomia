@@ -1,4 +1,4 @@
-import { SQLite } from 'expo-sqlite';
+import { SQLite } from "expo-sqlite";
 import React, { createContext, Component } from "react";
 import { db } from "../lib/db";
 import { select as selectItems, Item } from "../lib/db/item";

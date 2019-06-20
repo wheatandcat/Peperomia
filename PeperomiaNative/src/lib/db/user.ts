@@ -1,4 +1,4 @@
-import { SQLite } from 'expo-sqlite';
+import { SQLite } from "expo-sqlite";
 import { success, error } from "./";
 
 export interface User {
