@@ -2,6 +2,13 @@
 ## [Peperomia]
 
 
+<a name="v1.0.4"></a>
+## [v1.0.4] - 2019-06-20
+- ログイン追加 [#12](https://github.com/wheatandcat/Peperomia/issues/12) [#9](https://github.com/wheatandcat/Peperomia/issues/16)
+- バックアップ機能作成 [#22](https://github.com/wheatandcat/Peperomia/issues/13)
+- typescript-eslintの追加 [#11](https://github.com/wheatandcat/Peperomia/issues/10)
+
+
 <a name="v1.0.3"></a>
 ## [v1.0.3] - 2019-05-19
 ### Pull Requests
@@ -25,8 +32,10 @@
 ## v1.0.0 - 2019-04-28
 - ios/android リリース
 
-[Unreleased]: https://github.com/wheatandcat/Peperomia/compare/v1.0.3...HEAD
+[Unreleased]: https://github.com/wheatandcat/Peperomia/compare/v1.0.4...HEAD
+[v1.0.4]: https://github.com/wheatandcat/Peperomia/compare/v1.0.3...v1.0.4
 [v1.0.3]: https://github.com/wheatandcat/Peperomia/compare/v1.0.2...v1.0.3
 [v1.0.2]: https://github.com/wheatandcat/Peperomia/compare/v1.0.1...v1.0.2
 [v1.0.1]: https://github.com/wheatandcat/Peperomia/compare/push...v1.0.1
-[push]: https://github.com/wheatandcat/Peperomia/compare/v1.0.0...push
+
+
