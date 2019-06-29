@@ -1,0 +1,46 @@
+import React from "react";
+import { View, Text } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import theme from "../../../config/theme";
+
+export interface Props {
+  text: string;
+  width: number;
+  icon: string;
+}
+
+export default (props: Props) => (
+  <View
+    style={{
+      flexDirection: "row",
+      alignItems: "center",
+      borderWidth: 1,
+      borderColor: theme.color.lightGray,
+      backgroundColor: "#F2F2F2",
+      width: props.width,
+      paddingHorizontal: 3,
+      paddingTop: 2,
+      paddingBottom: 0,
+      borderRadius: 10
+    }}
+  >
+    <MaterialCommunityIcons
+      name={props.icon}
+      color={theme.color.lightGreen}
+      size={24}
+      style={{
+        paddingRight: 2,
+        paddingLeft: 1
+      }}
+    />
+    <Text
+      style={{
+        fontSize: 14,
+        fontWeight: "500",
+        color: theme.color.gray
+      }}
+    >
+      {props.text}
+    </Text>
+  </View>
+);

@@ -1,24 +1,27 @@
 import React, { Component } from "react";
 import {
   View,
-  TouchableOpacity,
-  Image,
   Alert,
+  TextInput,
   ScrollView,
-  Dimensions
+  Dimensions,
+  StyleSheet
 } from "react-native";
-import { Input, Button } from "react-native-elements";
+import { Divider } from "react-native-elements";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import {
   ActionSheetProps,
   connectActionSheet
 } from "@expo/react-native-action-sheet";
-import { Entypo } from "@expo/vector-icons";
 import Color from "color";
 import getKind, { KINDS } from "../../../lib/getKind";
 import { whenIPhoneSE } from "../../../lib/responsive";
-import { IconImage } from "../../atoms";
+import theme from "../../../config/theme";
+import s from "../../../config/style";
+import Suggest, { Item as SuggestItem } from "../../organisms/Suggest/List";
+import IconImage from "../../organisms/CreatePlan/IconImage";
+import Body from "../../organisms/CreatePlan/Body";
 
 const deviceHeight = Dimensions.get("window").height;
 
@@ -27,6 +30,7 @@ export interface Props {
   title: string;
   image: string;
   kind: string;
+  suggestList: SuggestItem[];
   onInput: (name: string, value: any) => void;
   onImage: (image: string) => void;
   onSave: () => void;
@@ -34,8 +38,14 @@ export interface Props {
   onCamera: () => void;
 }
 
+export interface State {
+  image: string;
+  titleFocusCount: number;
+  suggest: boolean;
+}
+
 class Page extends Component<Props & ActionSheetProps> {
-  state = { image: this.props.image };
+  state = { image: this.props.image, titleFocusCount: 0, suggest: false };
 
   onOpenActionSheet = () => {
     this.props.showActionSheetWithOptions(
@@ -91,10 +101,32 @@ class Page extends Component<Props & ActionSheetProps> {
     }
   };
 
+  onSuggestTitle = () => {
+    const titleFocusCount = this.state.titleFocusCount + 1;
+    this.setState({
+      titleFocusCount
+    });
+
+    if (titleFocusCount > 1) {
+      this.setState({
+        suggest: true
+      });
+    }
+  };
+
+  onSuggest = (_: string, name: string) => {
+    this.props.onInput("title", name);
+
+    this.setState({
+      suggest: false
+    });
+  };
+
   render() {
     let { image } = this.props;
     const kind = this.props.kind || getKind(this.props.title);
     const config = KINDS[kind];
+    const ss = s.schedule;
 
     const imageSize = whenIPhoneSE(120, 180);
 
@@ -106,106 +138,54 @@ class Page extends Component<Props & ActionSheetProps> {
       >
         <View
           style={{
-            backgroundColor: Color(config.backgroundColor)
-              .alpha(0.2)
-              .toString(),
+            backgroundColor: "#F2F2F",
             height: deviceHeight
           }}
         >
           <View
             style={{
-              paddingTop: whenIPhoneSE(30, 100),
-              alignItems: "center",
-              height: "100%",
+              paddingTop: whenIPhoneSE(20, 30),
+              backgroundColor: Color(config.backgroundColor)
+                .alpha(ss.backgroundColorAlpha)
+                .toString(),
               width: "100%"
             }}
           >
-            <Input
+            <TextInput
               placeholder={this.props.title === "" ? "タイトル" : ""}
-              containerStyle={{ width: "85%" }}
+              placeholderTextColor={theme.color.gray}
+              style={styles.titleInput}
               onChangeText={text => this.props.onInput("title", text)}
               testID="inputTextTitle"
-              label={this.props.title !== "" ? "タイトル" : ""}
               defaultValue={this.props.title}
               returnKeyType="done"
               autoFocus
+              onFocus={this.onSuggestTitle}
+              selectionColor={theme.color.lightGreen}
             />
-            <TouchableOpacity onPress={this.onOpenActionSheet}>
-              <View style={{ paddingTop: whenIPhoneSE(40, 70) }}>
-                <View
-                  style={{
-                    padding: image ? 0 : 10,
-                    width: imageSize,
-                    height: imageSize,
-                    borderWidth: 1,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    backgroundColor: "#ffffff"
-                  }}
-                >
-                  {image ? (
-                    <Image
-                      style={{ width: imageSize, height: imageSize }}
-                      source={{ uri: image }}
-                    />
-                  ) : (
-                    <IconImage
-                      {...config}
-                      size={whenIPhoneSE(60, 100)}
-                      opacity={1.0}
-                      defaultIcon
-                    />
-                  )}
+            <Divider style={{ marginTop: 20, height: 1 }} />
 
-                  <View
-                    style={{
-                      position: "absolute",
-                      left: 4,
-                      top: 2
-                    }}
-                  >
-                    <Entypo
-                      name="image"
-                      size={25}
-                      style={{
-                        color: "#555555"
-                      }}
-                    />
-                  </View>
-                </View>
-              </View>
-            </TouchableOpacity>
-            <View style={{ paddingTop: 70 }}>
-              <Button
-                title={this.props.mode === "new" ? "作成する" : "変更する"}
-                testID="completion"
-                onPress={this.onSave}
-                buttonStyle={{
-                  width: 300,
-                  height: 50,
-                  backgroundColor: "#77D353",
-                  borderRadius: 15
-                }}
+            {this.state.suggest ? (
+              <Suggest
+                items={this.props.suggestList}
+                onPress={this.onSuggest}
               />
-            </View>
-            <View style={{ paddingTop: 50 }}>
-              <Button
-                title="アイコンを変更する"
-                type="clear"
-                titleStyle={{
-                  color: "#888",
-                  fontSize: 12,
-                  fontWeight: "600"
-                }}
-                buttonStyle={{
-                  borderBottomWidth: 1,
-                  borderBottomColor: "#888",
-                  padding: 0,
-                  paddingHorizontal: 5
-                }}
-                onPress={this.onOpenActionSheet}
-              />
-            </View>
+            ) : (
+              <>
+                <IconImage
+                  image={image}
+                  imageSrc={config.src}
+                  imageSize={imageSize}
+                  onSave={this.onSave}
+                  onOpenActionSheet={this.onOpenActionSheet}
+                />
+                <Body
+                  mode={this.props.mode}
+                  onSave={this.onSave}
+                  onOpenActionSheet={this.onOpenActionSheet}
+                />
+              </>
+            )}
           </View>
         </View>
       </ScrollView>
@@ -214,3 +194,13 @@ class Page extends Component<Props & ActionSheetProps> {
 }
 
 export default connectActionSheet(Page);
+
+const styles = StyleSheet.create({
+  titleInput: {
+    width: "100%",
+    color: theme.color.darkGray,
+    fontSize: 22,
+    fontWeight: "600",
+    paddingLeft: 15
+  }
+});

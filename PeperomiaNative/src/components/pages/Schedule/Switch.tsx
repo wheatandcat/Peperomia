@@ -16,8 +16,7 @@ import {
 import Toast from "react-native-root-toast";
 import uuidv1 from "uuid/v1";
 import { Button } from "react-native-elements";
-import EditSchedule from "../EditSchedule/Connected";
-import SortableSchedule from "../SortableSchedule/Connected";
+import theme from "../../../config/theme";
 import { db } from "../../../lib/db";
 import {
   update as updateItemDetail,
@@ -32,6 +31,8 @@ import {
 import { select1st, delete1st, Item } from "../../../lib/db/item";
 import getShareText from "../../../lib/getShareText";
 import { Consumer as ItemsConsumer } from "../../../containers/Items";
+import EditSchedule from "../EditSchedule/Connected";
+import SortableSchedule from "../SortableSchedule/Connected";
 import Schedule from "./Connected";
 import HeaderLeft from "./HeaderLeft";
 import HeaderRight from "./HeaderRight";
@@ -72,6 +73,10 @@ class Switch extends Component<Props & ActionSheetProps, State> {
           title={params.title}
           onPress={params.onEditPlan}
           testID="updateTitle"
+          titleStyle={{
+            color: theme.color.lightGreen,
+            fontWeight: "600"
+          }}
         />
       ),
 

@@ -2,6 +2,7 @@ import React from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import { TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import theme from "../../../config/theme";
 import { LeftText } from "../../atoms/Header";
 
 interface Props {
@@ -24,7 +25,11 @@ export default (props: Props) => {
       onPress={() => props.navigation.goBack()}
       style={{ flex: 1, flexDirection: "row", marginTop: 10 }}
     >
-      <MaterialCommunityIcons name="chevron-left" size={30} color="#00bfff" />
+      <MaterialCommunityIcons
+        name="chevron-left"
+        size={30}
+        color={theme.color.lightGreen}
+      />
     </TouchableOpacity>
   );
 };

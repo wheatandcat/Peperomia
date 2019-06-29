@@ -5,6 +5,7 @@ import {
   connectActionSheet
 } from "@expo/react-native-action-sheet";
 import { Icon } from "react-native-elements";
+import theme from "../../../config/theme";
 
 interface Props {
   onAdd: () => void;
@@ -41,7 +42,13 @@ class Page extends Component<Props & ActionSheetProps> {
     return (
       <View>
         <TouchableOpacity onPress={this.onOpenActionSheet}>
-          <Icon name="add" size={30} color="#33CC33" raised reverse />
+          <Icon
+            name="add"
+            size={30}
+            color={theme.color.lightGreen}
+            raised
+            reverse
+          />
         </TouchableOpacity>
       </View>
     );

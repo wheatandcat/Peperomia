@@ -88,7 +88,6 @@ class Page extends Component<Props & ActionSheetProps, State> {
         </View>
         <Divider />
         <ScrollView style={{ width: "100%", height: "80%", paddingLeft: 15 }}>
-          {console.log(items)}
           {items.map((item: any, i: number) => (
             <ListItem
               key={i}

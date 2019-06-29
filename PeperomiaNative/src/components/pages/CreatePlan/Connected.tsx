@@ -4,12 +4,14 @@ import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import { TouchableOpacity, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Consumer as ItemsConsumer } from "../../../containers/Items";
 import { db } from "../../../lib/db";
 import { insert as insertItem, Item } from "../../../lib/db/item";
 import getKind from "../../../lib/getKind";
-import Page, { Props as PageProps } from "../../templates/CreatePlan/Page";
+import Page from "../../templates/CreatePlan/Page";
+import { Item as SuggestItem } from "../../organisms/Suggest/List";
 
-interface Props extends PageProps {
+interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
 }
 
@@ -19,9 +21,10 @@ interface State {
   };
   image: string;
   kind: string;
+  suggestList: SuggestItem[];
 }
 
-export default class extends Component<Props, State> {
+export default class extends Component<Props> {
   static navigationOptions = ({
     navigation
   }: {
@@ -43,7 +46,37 @@ export default class extends Component<Props, State> {
     };
   };
 
-  state = { input: { title: "" }, image: "", kind: "" };
+  render() {
+    return (
+      <ItemsConsumer>
+        {({ items }: any) => <Connect {...this.props} items={items} />}
+      </ItemsConsumer>
+    );
+  }
+}
+
+interface ConnectProps extends Props {
+  items: Item[];
+}
+
+class Connect extends Component<ConnectProps, State> {
+  state = {
+    input: { title: "" },
+    image: "",
+    kind: "",
+    suggestList: []
+  };
+
+  componentDidMount() {
+    const suggestList = this.props.items.map(item => ({
+      title: item.title,
+      kind: item.kind
+    }));
+
+    this.setState({
+      suggestList
+    });
+  }
 
   async componentDidUpdate() {
     const image = this.props.navigation.getParam("image", "");
@@ -146,6 +179,7 @@ export default class extends Component<Props, State> {
         title={this.state.input.title}
         image={this.state.image}
         kind={this.state.kind}
+        suggestList={this.state.suggestList}
         onInput={this.onInput}
         onImage={this.onImage}
         onSave={this.onSave}

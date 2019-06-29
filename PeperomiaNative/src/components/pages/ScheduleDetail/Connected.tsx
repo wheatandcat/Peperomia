@@ -32,13 +32,20 @@ interface Props {
 
 export default class extends Component<Props, State> {
   state = {
-    item: { id: 0, title: "", image: "", kind: "" },
+    item: {
+      id: 0,
+      title: "",
+      image: "",
+      kind: ""
+    },
     itemDetail: {
       id: 0,
       itemId: 0,
       kind: "",
       title: "",
       memo: "",
+      place: "",
+      goal: "",
       moveMinutes: 0,
       priority: 0
     }

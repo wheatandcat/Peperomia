@@ -5,10 +5,12 @@ import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import { TouchableOpacity, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Consumer as ItemsConsumer } from "../../../containers/Items";
+import theme from "../../../config/theme";
 import { db } from "../../../lib/db";
 import { update as updateItem, Item } from "../../../lib/db/item";
 import getKind from "../../../lib/getKind";
 import Page from "../../templates/CreatePlan/Page";
+import { Item as SuggestItem } from "../../organisms/Suggest/List";
 
 interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
@@ -20,6 +22,7 @@ interface PlanProps {
   };
   image: string;
   kind: string;
+  items: Item[];
   refreshData: () => void;
   onInput: (name: string, value: any) => void;
   onImage: (image: string) => void;
@@ -43,7 +46,11 @@ export default class extends Component<Props> {
               navigation.goBack();
             }}
           >
-            <MaterialCommunityIcons name="close" size={25} />
+            <MaterialCommunityIcons
+              name="chevron-left"
+              size={25}
+              color={theme.color.lightGreen}
+            />
           </TouchableOpacity>
         </View>
       )
@@ -164,11 +171,12 @@ export default class extends Component<Props> {
   render() {
     return (
       <ItemsConsumer>
-        {({ refreshData }: any) => (
+        {({ refreshData, items }: any) => (
           <Plan
             input={this.state.input}
             image={this.state.image}
             kind={this.state.kind}
+            items={items}
             refreshData={refreshData}
             onInput={this.onInput}
             onImage={this.onImage}
@@ -182,7 +190,26 @@ export default class extends Component<Props> {
   }
 }
 
-class Plan extends Component<PlanProps> {
+interface State {
+  suggestList: SuggestItem[];
+}
+
+class Plan extends Component<PlanProps, State> {
+  state = {
+    suggestList: []
+  };
+
+  componentDidMount() {
+    const suggestList = this.props.items.map(item => ({
+      title: item.title,
+      kind: item.kind
+    }));
+
+    this.setState({
+      suggestList
+    });
+  }
+
   onSave = async () => {
     await this.props.onSave();
     this.props.refreshData();
@@ -195,6 +222,7 @@ class Plan extends Component<PlanProps> {
         title={this.props.input.title}
         image={this.props.image}
         kind={this.props.kind}
+        suggestList={this.state.suggestList}
         onInput={this.props.onInput}
         onImage={this.props.onImage}
         onSave={this.onSave}

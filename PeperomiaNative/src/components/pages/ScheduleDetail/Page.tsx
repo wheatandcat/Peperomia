@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { SafeAreaView, Alert } from "react-native";
+import { SafeAreaView, Alert, StatusBar } from "react-native";
 import {
   ActionSheetProps,
   connectActionSheet
@@ -58,11 +58,12 @@ class Page extends Component<Props & ActionSheetProps> {
     const config = KINDS[kind];
     const ss = s.schedule;
     const bc = Color(config.backgroundColor)
-      .alpha(ss.borderColorAlpha)
+      .alpha(ss.backgroundColorAlpha)
       .toString();
 
     return (
       <>
+        <StatusBar backgroundColor="#fff" barStyle="dark-content" />
         <SafeAreaView
           style={[GlobalStyles.droidSafeArea, { flex: 0, backgroundColor: bc }]}
         />

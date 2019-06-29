@@ -7,6 +7,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { KINDS, KIND_DEFAULT } from "../../../lib/getKind";
 import s from "../../../config/style";
 import { IconImage } from "../../atoms";
+import theme from "../../../config/theme";
 
 export interface Props {
   kind: string;
@@ -20,7 +21,7 @@ export default (props: Props) => {
   const config = KINDS[kind];
   const ss = s.schedule;
   const bc = Color(config.backgroundColor)
-    .alpha(ss.backgroundColorAlpha)
+    .alpha(ss.borderColorAlpha)
     .toString();
 
   return (
@@ -29,13 +30,17 @@ export default (props: Props) => {
         borderBottomWidth: ss.borderWidth,
         borderColor: bc,
         backgroundColor: Color(config.backgroundColor)
-          .alpha(ss.borderColorAlpha)
+          .alpha(ss.backgroundColorAlpha)
           .toString()
       }}
     >
       <View style={{ padding: 15, flexDirection: "row" }}>
         <TouchableOpacity onPress={props.onClose}>
-          <MaterialCommunityIcons name="close" size={30} color="#555" />
+          <MaterialCommunityIcons
+            name="close"
+            size={30}
+            color={theme.color.main}
+          />
         </TouchableOpacity>
         <View style={{ marginRight: 0, marginLeft: "auto" }}>
           {props.right}
