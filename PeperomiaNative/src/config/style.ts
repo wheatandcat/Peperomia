@@ -25,12 +25,12 @@ const config: Config = {
   home: {
     borderWidth: 0.5,
     borderColorAlpha: 1.0,
-    backgroundColorAlpha: 0.5
+    backgroundColorAlpha: 0.1
   },
   schedule: {
     borderWidth: 0.5,
     borderColorAlpha: 0,
-    backgroundColorAlpha: 0.5
+    backgroundColorAlpha: 0.1
   }
 };
 

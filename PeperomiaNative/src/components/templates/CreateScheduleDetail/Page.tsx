@@ -186,7 +186,7 @@ class App extends Component<Props & ActionSheetProps, State> {
     const config = KINDS[kind];
     const ss = s.schedule;
     const bc = Color(config.backgroundColor)
-      .alpha(ss.borderColorAlpha)
+      .lighten(ss.borderColorAlpha)
       .toString();
 
     return (

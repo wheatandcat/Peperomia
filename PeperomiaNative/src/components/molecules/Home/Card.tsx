@@ -37,12 +37,12 @@ export default (props: Props) => {
         containerStyle={{
           borderWidth: 0.5,
           borderColor: Color(config.backgroundColor)
-            .alpha(ss.borderColorAlpha)
+            .lighten(ss.borderColorAlpha)
             .toString(),
           justifyContent: "center",
           alignItems: "center",
           backgroundColor: Color(config.backgroundColor)
-            .alpha(ss.backgroundColorAlpha)
+            .lighten(ss.backgroundColorAlpha)
             .toString()
         }}
         onPress={() => props.onPress(props.id, props.title)}

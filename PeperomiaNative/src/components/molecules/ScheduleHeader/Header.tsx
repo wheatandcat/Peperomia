@@ -21,7 +21,7 @@ export default (props: Props) => {
   const config = KINDS[kind];
   const ss = s.schedule;
   const bc = Color(config.backgroundColor)
-    .alpha(ss.borderColorAlpha)
+    .lighten(ss.borderColorAlpha)
     .toString();
 
   return (
@@ -30,7 +30,7 @@ export default (props: Props) => {
         borderBottomWidth: ss.borderWidth,
         borderColor: bc,
         backgroundColor: Color(config.backgroundColor)
-          .alpha(ss.backgroundColorAlpha)
+          .lighten(ss.backgroundColorAlpha)
           .toString()
       }}
     >

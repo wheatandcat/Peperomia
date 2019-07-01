@@ -146,7 +146,7 @@ class Page extends Component<Props & ActionSheetProps> {
             style={{
               paddingTop: whenIPhoneSE(20, 30),
               backgroundColor: Color(config.backgroundColor)
-                .alpha(ss.backgroundColorAlpha)
+                .lighten(ss.backgroundColorAlpha)
                 .toString(),
               width: "100%"
             }}
@@ -176,6 +176,7 @@ class Page extends Component<Props & ActionSheetProps> {
                   image={image}
                   imageSrc={config.src}
                   imageSize={imageSize}
+                  backgroundColor="#F2F2F2"
                   onSave={this.onSave}
                   onOpenActionSheet={this.onOpenActionSheet}
                 />

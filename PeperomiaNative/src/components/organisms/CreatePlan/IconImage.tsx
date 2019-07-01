@@ -9,6 +9,7 @@ interface Props {
   image: string;
   imageSrc: string;
   imageSize: number;
+  backgroundColor: string;
   onSave: () => void;
   onOpenActionSheet: () => void;
 }
@@ -38,7 +39,12 @@ export default (props: Props) => {
       </View>
       <View style={{ height: 54 }}>
         <View>
-          <View style={styles.cameraIconBackground} />
+          <View
+            style={[
+              styles.cameraIconBackground,
+              { backgroundColor: props.backgroundColor }
+            ]}
+          />
 
           <View style={styles.cameraIconContainer}>
             <TouchableOpacity onPress={props.onOpenActionSheet}>
@@ -62,7 +68,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 3,
     borderColor: theme.color.darkGray,
     marginTop: 27,
-    backgroundColor: "#F2F2F2",
+
     height: "100%"
   },
   cameraIconContainer: {

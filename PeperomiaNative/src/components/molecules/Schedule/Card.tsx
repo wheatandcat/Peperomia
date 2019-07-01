@@ -25,10 +25,10 @@ export default (props: Props) => {
       style={{
         borderWidth: ss.borderWidth,
         borderColor: Color(config.backgroundColor)
-          .alpha(ss.borderColorAlpha)
+          .lighten(ss.borderColorAlpha)
           .toString(),
         backgroundColor: Color(config.backgroundColor)
-          .alpha(ss.backgroundColorAlpha)
+          .lighten(ss.backgroundColorAlpha)
           .toString()
       }}
     >

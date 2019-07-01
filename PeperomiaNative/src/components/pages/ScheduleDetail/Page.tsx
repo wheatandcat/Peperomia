@@ -58,7 +58,7 @@ class Page extends Component<Props & ActionSheetProps> {
     const config = KINDS[kind];
     const ss = s.schedule;
     const bc = Color(config.backgroundColor)
-      .alpha(ss.backgroundColorAlpha)
+      .lighten(ss.backgroundColorAlpha)
       .toString();
 
     return (
