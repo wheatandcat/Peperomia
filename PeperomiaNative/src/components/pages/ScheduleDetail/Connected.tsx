@@ -45,7 +45,7 @@ export default class extends Component<Props, State> {
       title: "",
       memo: "",
       place: "",
-      goal: "",
+      url: "",
       moveMinutes: 0,
       priority: 0
     }

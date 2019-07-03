@@ -72,12 +72,12 @@ export default (props: Props) => {
         </View>
       )}
 
-      {Boolean(props.goal) && (
+      {Boolean(props.url) && (
         <View style={{ paddingHorizontal: 18, paddingTop: 8 }}>
-          <Label text="目的" icon="playlist-check" width={70} />
+          <Label text="URL" icon="link" width={70} />
 
           <View style={styles.memoContainer}>
-            <Text style={styles.memoText}>{props.goal}</Text>
+            <Text style={styles.memoText}>{props.url}</Text>
           </View>
         </View>
       )}

@@ -28,7 +28,7 @@ declare module "expo-sqlite" {
       rows: {
         length: number;
         item: (index: number) => any;
-        _array: Array<object>;
+        _array: Array<any>;
       };
     }
 

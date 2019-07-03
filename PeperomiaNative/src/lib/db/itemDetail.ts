@@ -6,7 +6,7 @@ export interface ItemDetailParam {
   kind: string;
   memo: string;
   place: string;
-  goal: string;
+  url: string;
   moveMinutes: number;
   priority: number;
 }
@@ -28,7 +28,7 @@ export const create = async (
       "kind string," +
       "memo string," +
       "place string," +
-      "goal string," +
+      "url string," +
       "moveMinutes integer," +
       "priority integer" +
       ");",
@@ -44,14 +44,14 @@ export const insert = async (
   callback?: (data: any, error: any) => void
 ) => {
   return tx.executeSql(
-    "insert into item_details (itemId, title, kind, memo, place, goal, moveMinutes, priority) values (?, ?, ?, ?, ?, ?, ?, ?)",
+    "insert into item_details (itemId, title, kind, memo, place, url, moveMinutes, priority) values (?, ?, ?, ?, ?, ?, ?, ?)",
     [
       String(itemDetail.itemId),
       itemDetail.title,
       itemDetail.kind,
       itemDetail.memo,
       itemDetail.place,
-      itemDetail.goal,
+      itemDetail.url,
       String(itemDetail.moveMinutes),
       String(itemDetail.priority)
     ],
@@ -66,13 +66,13 @@ export const update = async (
   callback?: (data: any, error: any) => void
 ) => {
   return tx.executeSql(
-    "update item_details set title = ?, kind = ?, memo = ?, palce = ?, goal = ?, moveMinutes = ?, priority = ? where id = ?",
+    "update item_details set title = ?, kind = ?, memo = ?, place = ?, url = ?, moveMinutes = ?, priority = ? where id = ?",
     [
       itemDetail.title,
       itemDetail.kind,
       itemDetail.memo,
       itemDetail.place,
-      itemDetail.goal,
+      itemDetail.url,
       String(itemDetail.moveMinutes),
       String(itemDetail.priority),
       String(itemDetail.id)
@@ -196,7 +196,7 @@ export const bulkInsert = async (
         itemDetail.kind,
         itemDetail.memo,
         itemDetail.place,
-        itemDetail.goal,
+        itemDetail.url,
         String(itemDetail.moveMinutes),
         String(itemDetail.priority)
       ];
@@ -212,7 +212,7 @@ export const bulkInsert = async (
     })
     .join(",");
 
-  const query = `insert into item_details (id, itemId, title, kind, memo, place, goal, moveMinutes, priority) values ${q};`;
+  const query = `insert into item_details (id, itemId, title, kind, memo, place, url, moveMinutes, priority) values ${q};`;
 
   return tx.executeSql(
     query,

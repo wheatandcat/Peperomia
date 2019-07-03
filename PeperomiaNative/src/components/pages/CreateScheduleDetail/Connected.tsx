@@ -4,6 +4,7 @@ import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import uuidv1 from "uuid/v1";
 import { db } from "../../../lib/db";
 import {
+  ItemDetailParam,
   insert as insertItemDetail,
   countByItemId,
   ItemDetail
@@ -12,20 +13,12 @@ import getKind from "../../../lib/getKind";
 import { Consumer as ItemsConsumer } from "../../../containers/Items";
 import Page from "../../templates/CreateScheduleDetail/Page";
 
-export interface State {
-  title: string;
-  kind: string;
-  memo: string;
-  moveMinutes: number;
+export interface State extends ItemDetailParam {
   iconSelected: boolean;
   priority: number;
 }
 
-interface Props {
-  title: string;
-  kind: string;
-  memo: string;
-  moveMinutes: number;
+interface Props extends ItemDetailParam {
   navigation: NavigationScreenProp<NavigationRoute>;
 }
 
@@ -49,6 +42,8 @@ class Plan extends Component<PlanProps, State> {
   state = {
     title: this.props.title || "",
     kind: this.props.kind || "",
+    place: this.props.place || "",
+    url: this.props.url || "",
     memo: this.props.memo || "",
     moveMinutes: this.props.moveMinutes || 0,
     iconSelected: false,
@@ -89,7 +84,14 @@ class Plan extends Component<PlanProps, State> {
     this.props.navigation.goBack();
   };
 
-  onSave = (title: string, kind: string, memo: string, time: number) => {
+  onSave = (
+    title: string,
+    place: string,
+    url: string,
+    kind: string,
+    memo: string,
+    time: number
+  ) => {
     const itemId = this.props.navigation.getParam("itemId", "1");
 
     db.transaction((tx: SQLite.Transaction) => {
@@ -97,6 +99,8 @@ class Plan extends Component<PlanProps, State> {
         itemId,
         title,
         kind,
+        place,
+        url,
         memo,
         moveMinutes: time,
         priority: this.state.priority
@@ -137,6 +141,8 @@ class Plan extends Component<PlanProps, State> {
       <Page
         title={this.state.title}
         kind={this.state.kind}
+        place={this.state.place}
+        url={this.state.url}
         memo={this.state.memo}
         time={this.state.moveMinutes}
         iconSelected={this.state.iconSelected}

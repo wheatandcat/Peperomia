@@ -3,44 +3,62 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Text as TextPlan,
+  Text,
   SafeAreaView,
   Alert,
-  Platform,
   Keyboard,
   ScrollView,
-  InputAccessoryView
+  StyleSheet
 } from "react-native";
 import {
   ActionSheetProps,
   connectActionSheet
 } from "@expo/react-native-action-sheet";
-import { Button, Overlay } from "react-native-elements";
+import { Button, Divider } from "react-native-elements";
 import Color from "color";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import {
+  Ionicons,
+  MaterialIcons,
+  MaterialCommunityIcons
+} from "@expo/vector-icons";
 import GlobalStyles from "../../../GlobalStyles";
 import getKind, { KINDS, KIND_DEFAULT } from "../../../lib/getKind";
 import s from "../../../config/style";
 import Header from "../../molecules/ScheduleHeader/Header";
+import TimeDialog from "../../organisms/CreateScheduleDetail/TimeDialog";
+import Memo from "../../organisms/CreateScheduleDetail/Memo";
+import theme from "../../../config/theme";
 
 export interface Props {
   title: string;
   kind: string;
+  place: string;
+  url: string;
   memo: string;
   time: number;
   iconSelected: boolean;
   onDismiss: () => void;
   onIcons: (title: string) => void;
-  onSave: (title: string, kind: string, memo: string, time: number) => void;
+  onSave: (
+    title: string,
+    kind: string,
+    place: string,
+    url: string,
+    memo: string,
+    time: number
+  ) => void;
 }
 
 export interface State {
   title: string;
   kind: string;
+  place: string;
+  url: string;
   memo: string;
   time: number;
   manualTime: boolean;
   manualTimeValue: number;
+  keyboard: boolean;
 }
 
 interface Item {
@@ -83,10 +101,45 @@ class App extends Component<Props & ActionSheetProps, State> {
     title: this.props.title,
     kind: this.props.kind,
     memo: this.props.memo,
+    place: this.props.place,
+    url: this.props.url,
     time: this.props.time,
     manualTimeValue: 0,
-    manualTime: false
+    manualTime: false,
+    keyboard: false
   };
+
+  scrollView: any;
+
+  componentDidMount() {
+    this.keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      this._keyboardDidShow.bind(this)
+    );
+    this.keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      this._keyboardDidHide.bind(this)
+    );
+  }
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+
+  keyboardDidShowListener: any;
+  keyboardDidHideListener: any;
+
+  _keyboardDidShow() {
+    this.setState({
+      keyboard: true
+    });
+  }
+
+  _keyboardDidHide() {
+    this.setState({
+      keyboard: false
+    });
+  }
 
   onOpenActionSheet = () => {
     const options = times.map(val => val.label);
@@ -159,11 +212,14 @@ class App extends Component<Props & ActionSheetProps, State> {
     }
   };
 
-  onSave = (title: string, kind: string, memo: string, time: number) => {
-    if (title == "") {
+  onSave = () => {
+    if (this.state.title == "") {
       Alert.alert("タイトルが入力されていません");
     } else {
-      this.props.onSave(title, kind, memo, time);
+      const kind = this.props.iconSelected ? this.props.kind : this.state.kind;
+      const { title, url, place, memo, time } = this.state;
+
+      this.props.onSave(title, kind, place, url, memo, time);
     }
   };
 
@@ -180,8 +236,23 @@ class App extends Component<Props & ActionSheetProps, State> {
     });
   };
 
+  onChangeMemoInput = (name: string, value: string) => {
+    if (name === "memo") {
+      this.setState({
+        memo: value
+      });
+    } else if (name === "place") {
+      this.setState({
+        place: value
+      });
+    } else if (name === "url") {
+      this.setState({
+        url: value
+      });
+    }
+  };
+
   render() {
-    const inputAccessoryViewID = "detailID";
     const kind = this.state.kind || KIND_DEFAULT;
     const config = KINDS[kind];
     const ss = s.schedule;
@@ -190,138 +261,50 @@ class App extends Component<Props & ActionSheetProps, State> {
       .toString();
 
     return (
-      <>
+      <ScrollView
+        ref={ref => {
+          this.scrollView = ref;
+        }}
+      >
         <SafeAreaView
           style={[GlobalStyles.droidSafeArea, { flex: 0, backgroundColor: bc }]}
         />
         <SafeAreaView style={{ flex: 1 }}>
-          <Overlay
-            isVisible={this.state.manualTime}
-            height={Platform.OS === "ios" ? 220 : 245}
-            width="90%"
-            overlayStyle={{ paddingHorizontal: 20, paddingTop: 30 }}
-          >
-            <View
-              style={{
-                height: "100%",
-                width: "100%",
-                backgroundColor: "#fff"
-              }}
-            >
-              <View>
-                <TextPlan
-                  style={{
-                    fontSize: 20,
-                    fontWeight: "600",
-                    textAlign: "center"
-                  }}
-                >
-                  時間を入力して下さい
-                </TextPlan>
-              </View>
-
-              <View
-                style={{
-                  paddingTop: 30
-                }}
-              >
-                <View
-                  style={{ flexDirection: "row", justifyContent: "center" }}
-                >
-                  <TextInput
-                    keyboardType="numeric"
-                    style={{
-                      width: 90,
-                      paddingRight: 10,
-                      textAlign: "right",
-                      fontSize: 24,
-                      borderBottomWidth: 1
-                    }}
-                    defaultValue=""
-                    onChangeText={value =>
-                      this.setState({ manualTimeValue: Number(value) })
-                    }
-                    returnKeyType="done"
-                    maxLength={4}
-                    autoFocus
-                  />
-
-                  <View style={{ paddingTop: 5 }}>
-                    <TextPlan
-                      style={{ paddingTop: 9, paddingLeft: 5, fontSize: 18 }}
-                    >
-                      分
-                    </TextPlan>
-                  </View>
-                </View>
-              </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "center",
-                  width: "auto",
-                  paddingTop: 50
-                }}
-              >
-                <Button
-                  title="設定する"
-                  type="outline"
-                  onPress={this.onSetManualTime}
-                  containerStyle={{
-                    paddingRight: 8,
-                    width: 120
-                  }}
-                  buttonStyle={{
-                    borderWidth: 2,
-                    borderColor: "#85B5AC"
-                  }}
-                  titleStyle={{
-                    color: "#85B5AC",
-                    fontWeight: "600"
-                  }}
-                />
-                <Button
-                  title="キャンセル"
-                  type="clear"
-                  onPress={this.onCloseManualTime}
-                  containerStyle={{ paddingLeft: 8 }}
-                  titleStyle={{
-                    color: "#85B5AC",
-                    fontWeight: "600"
-                  }}
-                />
-              </View>
-            </View>
-          </Overlay>
-          <View
-            style={{
-              backgroundColor: "#ffffff",
-              height: "100%",
-              width: "100%"
-            }}
-          >
+          <TimeDialog
+            open={this.state.manualTime}
+            onChange={value => this.setState({ manualTimeValue: value })}
+            onSetManualTime={this.onSetManualTime}
+            onCloseManualTime={this.onCloseManualTime}
+          />
+          <View style={styles.root}>
             <Header
               kind={this.props.iconSelected ? this.props.kind : this.state.kind}
               right={
-                <TouchableOpacity
-                  onPress={() =>
-                    this.onSave(
-                      this.state.title,
-                      this.props.iconSelected
-                        ? this.props.kind
-                        : this.state.kind,
-                      this.state.memo,
-                      this.state.time
-                    )
-                  }
-                  testID="saveScheduleDetail"
-                >
-                  <TextPlan
-                    style={{ fontSize: 20, fontWeight: "500", color: "#555" }}
+                this.state.keyboard ? (
+                  <TouchableOpacity
+                    onPress={() => Keyboard.dismiss()}
+                    testID="closeKeyBoard"
                   >
-                    保存
-                  </TextPlan>
-                </TouchableOpacity>
+                    <MaterialCommunityIcons
+                      name="keyboard-close"
+                      color={theme.color.main}
+                      size={25}
+                      style={{ paddingRight: 5 }}
+                    />
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    onPress={this.onSave}
+                    testID="saveScheduleDetail"
+                  >
+                    <MaterialIcons
+                      name="check"
+                      color={theme.color.main}
+                      size={25}
+                      style={{ paddingRight: 5 }}
+                    />
+                  </TouchableOpacity>
+                )
               }
               onClose={() =>
                 this.onDismiss(
@@ -335,12 +318,7 @@ class App extends Component<Props & ActionSheetProps, State> {
               <TextInput
                 placeholder="タイトルを入力"
                 placeholderTextColor="#555"
-                style={{
-                  fontSize: 20,
-                  fontWeight: "600",
-                  color: "#555",
-                  paddingLeft: 1
-                }}
+                style={styles.inputTitle}
                 onChangeText={title =>
                   this.setState({ title, kind: getKind(title) })
                 }
@@ -351,108 +329,105 @@ class App extends Component<Props & ActionSheetProps, State> {
               />
             </Header>
 
-            <ScrollView>
-              <View style={{ padding: 20 }}>
+            <>
+              <View
+                style={{
+                  paddingHorizontal: 15,
+                  paddingTop: 15,
+                  paddingBottom: 5
+                }}
+              >
                 <TouchableOpacity onPress={this.onOpenActionSheet}>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      borderBottomWidth: 0.5,
-                      borderColor: "#5A6978",
-                      width: 80,
-                      height: 30
-                    }}
-                  >
+                  <View style={styles.timeContainer}>
                     <Ionicons
                       name="md-time"
-                      color="#5A6978"
-                      size={24}
+                      color={theme.color.lightGreen}
+                      size={25}
                       style={{ paddingTop: 3 }}
                     />
-                    <TextPlan
-                      style={{
-                        fontSize: 16,
-                        fontWeight: "500",
-                        color: "#00A6FF",
-                        paddingHorizontal: 15
-                      }}
-                    >
-                      {this.state.time}分
-                    </TextPlan>
+                    <Text style={styles.timeText}>{this.state.time}分</Text>
                   </View>
                 </TouchableOpacity>
-                <View style={{ paddingTop: 30 }}>
-                  <MaterialIcons name="edit" color="#00A6FF" size={25} />
-                  <View style={{ paddingTop: 5 }}>
-                    <TextInput
-                      placeholder="メモを書く"
-                      multiline
-                      style={{
-                        fontSize: 16,
-                        lineHeight: 24,
-                        fontWeight: "400",
-                        borderBottomWidth: 0.5,
-                        borderColor: "#5A6978"
-                      }}
-                      onChangeText={memo => {
-                        this.setState({ memo });
-                      }}
-                      testID="inputTextScheduleDetailMemo"
-                      inputAccessoryViewID={inputAccessoryViewID}
-                    >
-                      <TextPlan
-                        style={{
-                          fontSize: 16,
-                          lineHeight: 24,
-                          fontWeight: "400"
-                        }}
-                      >
-                        {this.state.memo}
-                      </TextPlan>
-                    </TextInput>
-                  </View>
-                  <View style={{ paddingTop: 80, width: 112 }}>
-                    <Button
-                      title="アイコンを変更する"
-                      type="clear"
-                      titleStyle={{
-                        color: "#a888",
-                        fontSize: 12,
-                        fontWeight: "600",
-                        padding: 0
-                      }}
-                      buttonStyle={{
-                        borderBottomWidth: 1,
-                        borderBottomColor: "#888",
-                        padding: 0
-                      }}
-                      containerStyle={{
-                        padding: 0
-                      }}
-                      onPress={() => this.props.onIcons(this.state.title)}
-                    />
-                  </View>
-                </View>
               </View>
-            </ScrollView>
-
-            {Platform.OS === "ios" && (
-              <InputAccessoryView nativeID={inputAccessoryViewID}>
-                <View style={{ alignItems: "flex-end" }}>
+              <Divider />
+              <View style={{ paddingTop: 10, paddingLeft: 10 }}>
+                <Memo
+                  place={this.state.place}
+                  url={this.state.url}
+                  memo={this.state.memo}
+                  onChangeInputText={this.onChangeMemoInput}
+                  scrollViewRef={this.scrollView}
+                />
+              </View>
+              <View style={{ paddingLeft: 12 }}>
+                <View style={{ paddingTop: 80, width: 105 }}>
                   <Button
-                    buttonStyle={{ width: 80, right: 0, borderRadius: 0 }}
-                    onPress={() => Keyboard.dismiss()}
-                    title="閉じる"
+                    title="アイコンを変更する"
+                    type="clear"
+                    titleStyle={styles.linkTitle}
+                    buttonStyle={styles.linkButton}
+                    containerStyle={{
+                      padding: 0
+                    }}
+                    onPress={() => this.props.onIcons(this.state.title)}
                   />
                 </View>
-              </InputAccessoryView>
-            )}
+              </View>
+            </>
           </View>
         </SafeAreaView>
-      </>
+        <View style={{ height: 500 }} />
+      </ScrollView>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  root: {
+    backgroundColor: "#ffffff",
+    height: "100%",
+    width: "100%"
+  },
+  inputTitle: {
+    fontSize: 20,
+    fontWeight: "600",
+    color: "#555",
+    paddingLeft: 1
+  },
+  timeContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: 80,
+    height: 30
+  },
+  timeText: {
+    fontSize: 18,
+    color: theme.color.darkGray,
+    paddingHorizontal: 15
+  },
+  memoInput: {
+    fontSize: 16,
+    lineHeight: 24,
+    fontWeight: "400",
+    borderBottomWidth: 0.5,
+    borderColor: "#5A6978"
+  },
+  memoText: {
+    fontSize: 16,
+    lineHeight: 24,
+    fontWeight: "400"
+  },
+  linkTitle: {
+    color: "#a888",
+    fontSize: 12,
+    fontWeight: "600",
+    padding: 0
+  },
+  linkButton: {
+    borderBottomWidth: 1,
+    borderBottomColor: "#888",
+    padding: 0
+  }
+});
 
 export default connectActionSheet(App);

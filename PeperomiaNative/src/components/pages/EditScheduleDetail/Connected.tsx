@@ -40,6 +40,8 @@ export default class extends Component<Props> {
 class Plan extends Component<PlanProps, State> {
   state = {
     title: this.props.title || "",
+    place: this.props.place || "",
+    url: this.props.url || "",
     memo: this.props.memo || "",
     moveMinutes: this.props.moveMinutes || 0,
     kind: this.props.kind,
@@ -63,11 +65,20 @@ class Plan extends Component<PlanProps, State> {
     this.props.onShow(false);
   };
 
-  onSave = (title: string, kind: string, memo: string, time: number) => {
+  onSave = (
+    title: string,
+    place: string,
+    url: string,
+    kind: string,
+    memo: string,
+    time: number
+  ) => {
     db.transaction((tx: SQLite.Transaction) => {
       const itemDetail: ItemDetail = {
         id: this.props.id,
         title,
+        place,
+        url,
         memo,
         kind,
         moveMinutes: time,
@@ -108,6 +119,8 @@ class Plan extends Component<PlanProps, State> {
       <Page
         title={this.state.title}
         kind={this.state.kind}
+        place={this.state.place}
+        url={this.state.url}
         memo={this.state.memo}
         time={this.state.moveMinutes}
         iconSelected={this.state.iconSelected}

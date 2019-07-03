@@ -8,7 +8,8 @@ import {
   StatusBar,
   Platform,
   NativeSyntheticEvent,
-  TextInputScrollEventData
+  TextInputScrollEventData,
+  KeyboardAvoidingView
 } from "react-native";
 import { Icon } from "react-native-elements";
 import { getStatusBarHeight } from "react-native-status-bar-height";

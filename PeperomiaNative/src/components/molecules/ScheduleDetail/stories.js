@@ -8,7 +8,7 @@ const props = {
   kind: KIND_PARK,
   title: "葛西臨海公園",
   place: "西口に9:06分に集合",
-  goal: "観覧にいく",
+  url: "観覧にいく",
   memo: "持ってくるもの\n・弁当\n・水筒\n・ブルーシート",
   moveMinutes: 5
 };
