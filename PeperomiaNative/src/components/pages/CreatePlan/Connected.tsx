@@ -2,8 +2,6 @@ import * as ImageManipulator from "expo-image-manipulator";
 import { SQLite } from "expo-sqlite";
 import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
-import { TouchableOpacity, View } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Consumer as ItemsConsumer } from "../../../containers/Items";
 import { db } from "../../../lib/db";
 import { insert as insertItem, Item } from "../../../lib/db/item";
@@ -25,27 +23,6 @@ interface State {
 }
 
 export default class extends Component<Props> {
-  static navigationOptions = ({
-    navigation
-  }: {
-    navigation: NavigationScreenProp<NavigationRoute>;
-  }) => {
-    return {
-      title: "プラン作成",
-      headerLeft: (
-        <View style={{ left: 10 }}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("Home");
-            }}
-          >
-            <MaterialCommunityIcons name="close" size={25} />
-          </TouchableOpacity>
-        </View>
-      )
-    };
-  };
-
   render() {
     return (
       <ItemsConsumer>
@@ -172,6 +149,10 @@ class Connect extends Component<ConnectProps, State> {
     });
   };
 
+  onHome = () => {
+    this.props.navigation.navigate("Home");
+  };
+
   render() {
     return (
       <Page
@@ -185,6 +166,7 @@ class Connect extends Component<ConnectProps, State> {
         onSave={this.onSave}
         onIcons={this.onIcons}
         onCamera={this.onCamera}
+        onHome={this.onHome}
       />
     );
   }

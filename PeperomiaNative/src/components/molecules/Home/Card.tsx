@@ -37,7 +37,7 @@ export default (props: Props) => {
         containerStyle={{
           borderWidth: 0.5,
           borderColor: Color(config.backgroundColor)
-            .lighten(ss.borderColorAlpha)
+            .darken(ss.borderColorAlpha)
             .toString(),
           justifyContent: "center",
           alignItems: "center",
@@ -49,7 +49,7 @@ export default (props: Props) => {
         testID={props.testID}
       >
         <View style={{ padding: 10 }}>
-          <IconImage {...config} opacity={0.9} size={60} />
+          <IconImage {...config} opacity={1.0} size={60} />
         </View>
         <View padding-10 flex>
           <Grid>

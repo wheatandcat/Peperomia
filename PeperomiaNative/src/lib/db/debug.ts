@@ -66,6 +66,8 @@ export const resetSql = (tx: SQLite.Transaction) => {
       itemId: 1,
       title: "新宿駅",
       kind: KIND_TRAIN,
+      url: "",
+      place: "西口に10:00",
       memo: "",
       moveMinutes: 30,
       priority: 1
@@ -74,6 +76,8 @@ export const resetSql = (tx: SQLite.Transaction) => {
       itemId: 1,
       title: "葛西臨海公園",
       kind: KIND_PARK,
+      url: "https://www.tokyo-park.or.jp/park/format/index026.html",
+      place: "駐車場に集合",
       memo: "■行く場所\n・砂浜\n・水族園",
       moveMinutes: 15,
       priority: 2
@@ -82,6 +86,8 @@ export const resetSql = (tx: SQLite.Transaction) => {
       itemId: 1,
       title: "葛西臨海公園　水上バス",
       kind: KIND_SHIP,
+      url: "",
+      place: "",
       memo: "",
       moveMinutes: 120,
       priority: 3
@@ -90,6 +96,8 @@ export const resetSql = (tx: SQLite.Transaction) => {
       itemId: 1,
       title: "浅草寺二天門前",
       kind: KIND_DEFAULT,
+      url: "",
+      place: "",
       memo: "",
       moveMinutes: 0,
       priority: 4
@@ -98,6 +106,8 @@ export const resetSql = (tx: SQLite.Transaction) => {
       itemId: 2,
       title: "市ヶ谷駅",
       kind: KIND_TRAIN,
+      url: "",
+      place: "",
       memo: "",
       moveMinutes: 0,
       priority: 1
@@ -105,6 +115,8 @@ export const resetSql = (tx: SQLite.Transaction) => {
     {
       itemId: 2,
       title: "市ヶ谷フィッシュセンター",
+      url: "",
+      place: "",
       kind: KIND_FISHING,
       memo: "",
       moveMinutes: 120,
@@ -114,6 +126,8 @@ export const resetSql = (tx: SQLite.Transaction) => {
       itemId: 3,
       title: "新宿駅",
       kind: KIND_TRAIN,
+      url: "",
+      place: "",
       memo: "",
       moveMinutes: 0,
       priority: 1
@@ -122,6 +136,8 @@ export const resetSql = (tx: SQLite.Transaction) => {
       itemId: 3,
       title: "TOHOシネマズ 新宿",
       kind: KIND_MOVIE,
+      url: "",
+      place: "",
       memo: "",
       moveMinutes: 0,
       priority: 2
@@ -130,6 +146,8 @@ export const resetSql = (tx: SQLite.Transaction) => {
       itemId: 3,
       title: "新宿御苑",
       kind: KIND_PARK,
+      url: "",
+      place: "",
       memo: "",
       moveMinutes: 0,
       priority: 3
@@ -138,6 +156,8 @@ export const resetSql = (tx: SQLite.Transaction) => {
       itemId: 4,
       title: "飯田橋駅",
       kind: KIND_TRAIN,
+      url: "",
+      place: "",
       memo: "",
       moveMinutes: 0,
       priority: 1
@@ -146,6 +166,8 @@ export const resetSql = (tx: SQLite.Transaction) => {
       itemId: 4,
       title: "お花見",
       kind: KIND_CHERRY_BLOSSOM,
+      url: "",
+      place: "",
       memo: "",
       moveMinutes: 30,
       priority: 2
@@ -154,6 +176,8 @@ export const resetSql = (tx: SQLite.Transaction) => {
       itemId: 4,
       title: "カナルカフェ",
       kind: KIND_COFFEE,
+      url: "",
+      place: "",
       memo: "",
       moveMinutes: 0,
       priority: 3
@@ -162,6 +186,8 @@ export const resetSql = (tx: SQLite.Transaction) => {
       itemId: 4,
       title: "買い物",
       kind: KIND_SHOP,
+      url: "",
+      place: "",
       memo: "",
       moveMinutes: 0,
       priority: 4
@@ -170,6 +196,8 @@ export const resetSql = (tx: SQLite.Transaction) => {
       itemId: 5,
       title: "上野駅",
       kind: KIND_TRAIN,
+      url: "",
+      place: "",
       memo: "",
       moveMinutes: 10,
       priority: 1
@@ -178,6 +206,8 @@ export const resetSql = (tx: SQLite.Transaction) => {
       itemId: 5,
       title: "上野動物園",
       kind: KIND_ZOO,
+      url: "",
+      place: "",
       memo: "",
       moveMinutes: 30,
       priority: 2
@@ -186,6 +216,8 @@ export const resetSql = (tx: SQLite.Transaction) => {
       itemId: 5,
       title: "上野の森美術館",
       kind: KIND_ART_MUSEUM,
+      url: "",
+      place: "",
       memo: "",
       moveMinutes: 0,
       priority: 3

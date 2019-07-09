@@ -217,7 +217,8 @@ const MainCardNavigator = createStackNavigator(
       },
       headerTitleStyle: {
         color: theme.color.lightGreen
-      }
+      },
+      headerTintColor: theme.color.lightGreen
     }
   }
 );

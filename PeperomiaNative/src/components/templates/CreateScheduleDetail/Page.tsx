@@ -8,7 +8,11 @@ import {
   Alert,
   Keyboard,
   ScrollView,
-  StyleSheet
+  StyleSheet,
+  StatusBar,
+  Platform,
+  NativeSyntheticEvent,
+  TextInputScrollEventData
 } from "react-native";
 import {
   ActionSheetProps,
@@ -21,13 +25,18 @@ import {
   MaterialIcons,
   MaterialCommunityIcons
 } from "@expo/vector-icons";
+import { getStatusBarHeight } from "react-native-status-bar-height";
 import GlobalStyles from "../../../GlobalStyles";
 import getKind, { KINDS, KIND_DEFAULT } from "../../../lib/getKind";
 import s from "../../../config/style";
-import Header from "../../molecules/ScheduleHeader/Header";
+import Header from "../../molecules/Header";
+import HeaderImage from "../../molecules/ScheduleHeader/Header";
 import TimeDialog from "../../organisms/CreateScheduleDetail/TimeDialog";
 import Memo from "../../organisms/CreateScheduleDetail/Memo";
 import theme from "../../../config/theme";
+
+const top =
+  Platform.OS === "android" ? StatusBar.currentHeight : getStatusBarHeight();
 
 export interface Props {
   title: string;
@@ -59,6 +68,7 @@ export interface State {
   manualTime: boolean;
   manualTimeValue: number;
   keyboard: boolean;
+  imageHeader: boolean;
 }
 
 interface Item {
@@ -106,7 +116,8 @@ class App extends Component<Props & ActionSheetProps, State> {
     time: this.props.time,
     manualTimeValue: 0,
     manualTime: false,
-    keyboard: false
+    keyboard: false,
+    imageHeader: true
   };
 
   scrollView: any;
@@ -252,132 +263,166 @@ class App extends Component<Props & ActionSheetProps, State> {
     }
   };
 
+  onScroll = (e: NativeSyntheticEvent<TextInputScrollEventData>) => {
+    const offsetY = 84 + (top || 0);
+
+    if (e.nativeEvent.contentOffset.y >= offsetY && this.state.imageHeader) {
+      this.setState({
+        imageHeader: false
+      });
+    }
+    if (e.nativeEvent.contentOffset.y < offsetY && !this.state.imageHeader) {
+      this.setState({
+        imageHeader: true
+      });
+    }
+  };
+
   render() {
     const kind = this.state.kind || KIND_DEFAULT;
     const config = KINDS[kind];
     const ss = s.schedule;
     const bc = Color(config.backgroundColor)
-      .lighten(ss.borderColorAlpha)
+      .lighten(ss.backgroundColorAlpha)
       .toString();
 
     return (
-      <ScrollView
-        ref={ref => {
-          this.scrollView = ref;
+      <View
+        style={{
+          flex: 0,
+          backgroundColor: this.state.imageHeader ? bc : "#fff"
         }}
       >
-        <SafeAreaView
-          style={[GlobalStyles.droidSafeArea, { flex: 0, backgroundColor: bc }]}
-        />
-        <SafeAreaView style={{ flex: 1 }}>
-          <TimeDialog
-            open={this.state.manualTime}
-            onChange={value => this.setState({ manualTimeValue: value })}
-            onSetManualTime={this.onSetManualTime}
-            onCloseManualTime={this.onCloseManualTime}
-          />
-          <View style={styles.root}>
-            <Header
-              kind={this.props.iconSelected ? this.props.kind : this.state.kind}
-              right={
-                this.state.keyboard ? (
-                  <TouchableOpacity
-                    onPress={() => Keyboard.dismiss()}
-                    testID="closeKeyBoard"
-                  >
-                    <MaterialCommunityIcons
-                      name="keyboard-close"
-                      color={theme.color.main}
-                      size={25}
-                      style={{ paddingRight: 5 }}
-                    />
-                  </TouchableOpacity>
-                ) : (
-                  <TouchableOpacity
-                    onPress={this.onSave}
-                    testID="saveScheduleDetail"
-                  >
-                    <MaterialIcons
-                      name="check"
-                      color={theme.color.main}
-                      size={25}
-                      style={{ paddingRight: 5 }}
-                    />
-                  </TouchableOpacity>
-                )
-              }
-              onClose={() =>
-                this.onDismiss(
-                  this.state.title,
-                  this.state.kind,
-                  this.state.memo,
-                  this.state.time
-                )
-              }
-            >
-              <TextInput
-                placeholder="タイトルを入力"
-                placeholderTextColor="#555"
-                style={styles.inputTitle}
-                onChangeText={title =>
-                  this.setState({ title, kind: getKind(title) })
-                }
-                defaultValue={this.props.title}
-                testID="inputTextScheduleDetailTitle"
-                returnKeyType="done"
-                autoFocus
-              />
-            </Header>
-
-            <>
-              <View
-                style={{
-                  paddingHorizontal: 15,
-                  paddingTop: 15,
-                  paddingBottom: 5
-                }}
+        <Header
+          title={this.state.imageHeader ? "" : this.state.title}
+          color={this.state.imageHeader ? "none" : bc}
+          right={
+            this.state.keyboard ? (
+              <TouchableOpacity
+                onPress={Keyboard.dismiss}
+                testID="closeKeyBoard"
               >
-                <TouchableOpacity onPress={this.onOpenActionSheet}>
-                  <View style={styles.timeContainer}>
-                    <Ionicons
-                      name="md-time"
-                      color={theme.color.lightGreen}
-                      size={25}
-                      style={{ paddingTop: 3 }}
-                    />
-                    <Text style={styles.timeText}>{this.state.time}分</Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-              <Divider />
-              <View style={{ paddingTop: 10, paddingLeft: 10 }}>
-                <Memo
-                  place={this.state.place}
-                  url={this.state.url}
-                  memo={this.state.memo}
-                  onChangeInputText={this.onChangeMemoInput}
-                  scrollViewRef={this.scrollView}
+                <MaterialCommunityIcons
+                  name="keyboard-close"
+                  color={theme.color.main}
+                  size={25}
+                  style={{ paddingRight: 5 }}
                 />
-              </View>
-              <View style={{ paddingLeft: 12 }}>
-                <View style={{ paddingTop: 80, width: 105 }}>
-                  <Button
-                    title="アイコンを変更する"
-                    type="clear"
-                    titleStyle={styles.linkTitle}
-                    buttonStyle={styles.linkButton}
-                    containerStyle={{
-                      padding: 0
-                    }}
-                    onPress={() => this.props.onIcons(this.state.title)}
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                onPress={this.onSave}
+                testID="saveScheduleDetail"
+              >
+                <MaterialIcons
+                  name="check"
+                  color={theme.color.main}
+                  size={25}
+                  style={{ paddingRight: 5 }}
+                />
+              </TouchableOpacity>
+            )
+          }
+          onClose={() =>
+            this.onDismiss(
+              this.state.title,
+              this.state.kind,
+              this.state.memo,
+              this.state.time
+            )
+          }
+        />
+        <ScrollView
+          ref={ref => {
+            this.scrollView = ref;
+          }}
+          contentInsetAdjustmentBehavior="never"
+          onScroll={this.onScroll}
+          scrollEventThrottle={1000}
+        >
+          <SafeAreaView
+            style={[
+              GlobalStyles.droidSafeArea,
+              { flex: 0, backgroundColor: bc }
+            ]}
+          />
+          <SafeAreaView style={{ flex: 1 }}>
+            <TimeDialog
+              open={this.state.manualTime}
+              onChange={value => this.setState({ manualTimeValue: value })}
+              onSetManualTime={this.onSetManualTime}
+              onCloseManualTime={this.onCloseManualTime}
+            />
+            <View style={styles.root}>
+              <HeaderImage
+                kind={
+                  this.props.iconSelected ? this.props.kind : this.state.kind
+                }
+              >
+                <TextInput
+                  placeholder="タイトルを入力"
+                  placeholderTextColor="#555"
+                  style={styles.inputTitle}
+                  onChangeText={title =>
+                    this.setState({ title, kind: getKind(title) })
+                  }
+                  defaultValue={this.props.title}
+                  testID="inputTextScheduleDetailTitle"
+                  returnKeyType="done"
+                  autoFocus
+                />
+              </HeaderImage>
+
+              <>
+                <View
+                  style={{
+                    paddingHorizontal: 15,
+                    paddingTop: 15,
+                    paddingBottom: 5
+                  }}
+                >
+                  <TouchableOpacity onPress={this.onOpenActionSheet}>
+                    <View style={styles.timeContainer}>
+                      <Ionicons
+                        name="md-time"
+                        color={theme.color.lightGreen}
+                        size={25}
+                        style={{ paddingTop: 3 }}
+                      />
+                      <Text style={styles.timeText}>{this.state.time}分</Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+                <Divider />
+                <View style={{ paddingTop: 10, paddingLeft: 10 }}>
+                  <Memo
+                    place={this.state.place}
+                    url={this.state.url}
+                    memo={this.state.memo}
+                    onChangeInputText={this.onChangeMemoInput}
+                    scrollViewRef={this.scrollView}
                   />
                 </View>
-              </View>
-            </>
-          </View>
-        </SafeAreaView>
-        <View style={{ height: 500 }} />
-      </ScrollView>
+                <View style={{ paddingLeft: 12 }}>
+                  <View style={{ paddingTop: 40, width: 105 }}>
+                    <Button
+                      title="アイコンを変更する"
+                      type="clear"
+                      titleStyle={styles.linkTitle}
+                      buttonStyle={styles.linkButton}
+                      containerStyle={{
+                        padding: 0
+                      }}
+                      onPress={() => this.props.onIcons(this.state.title)}
+                    />
+                  </View>
+                </View>
+              </>
+            </View>
+          </SafeAreaView>
+          <View style={{ height: 500, backgroundColor: "#fff" }} />
+        </ScrollView>
+      </View>
     );
   }
 }

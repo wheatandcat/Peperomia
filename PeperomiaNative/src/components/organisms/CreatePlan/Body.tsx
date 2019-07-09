@@ -4,27 +4,13 @@ import { Button } from "react-native-elements";
 import theme from "../../../config/theme";
 
 interface Props {
-  mode: string;
-  onSave: () => void;
   onOpenActionSheet: () => void;
 }
 
 export default (props: Props) => {
   return (
     <>
-      <View style={{ backgroundColor: "#F2F2F2", height: "100%" }}>
-        <View style={{ paddingTop: 70, alignItems: "center" }}>
-          <Button
-            title={props.mode === "new" ? "作成する" : "変更する"}
-            testID="completion"
-            onPress={props.onSave}
-            buttonStyle={styles.createButton}
-            titleStyle={{
-              fontSize: 22,
-              fontWeight: "600"
-            }}
-          />
-        </View>
+      <View style={{ backgroundColor: "#FFF", height: "100%" }}>
         <View style={{ paddingTop: 60, paddingLeft: 25 }}>
           <Button
             title="アイコンを変更する"

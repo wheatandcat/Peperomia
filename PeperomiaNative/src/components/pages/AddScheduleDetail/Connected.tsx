@@ -66,9 +66,9 @@ class Plan extends Component<PlanProps, State> {
 
   onSave = (
     title: string,
+    kind: string,
     place: string,
     url: string,
-    kind: string,
     memo: string,
     time: number
   ) => {

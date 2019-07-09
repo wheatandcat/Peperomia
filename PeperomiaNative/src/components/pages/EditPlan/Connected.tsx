@@ -29,6 +29,7 @@ interface PlanProps {
   onSave: () => void;
   onIcons: () => void;
   onCamera: () => void;
+  onHome: () => void;
 }
 
 export default class extends Component<Props> {
@@ -168,6 +169,10 @@ export default class extends Component<Props> {
     });
   };
 
+  onHome = () => {
+    this.props.navigation.goBack();
+  };
+
   render() {
     return (
       <ItemsConsumer>
@@ -183,6 +188,7 @@ export default class extends Component<Props> {
             onSave={this.onSave}
             onIcons={this.onIcons}
             onCamera={this.onCamera}
+            onHome={this.onHome}
           />
         )}
       </ItemsConsumer>
@@ -228,6 +234,7 @@ class Plan extends Component<PlanProps, State> {
         onSave={this.onSave}
         onIcons={this.props.onIcons}
         onCamera={this.props.onCamera}
+        onHome={this.props.onHome}
       />
     );
   }

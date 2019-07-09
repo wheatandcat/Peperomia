@@ -8,19 +8,20 @@ import {
   StatusBar,
   Platform,
   NativeSyntheticEvent,
-  TextInputScrollEventData,
-  KeyboardAvoidingView
+  TextInputScrollEventData
 } from "react-native";
 import { Icon } from "react-native-elements";
 import { getStatusBarHeight } from "react-native-status-bar-height";
+import { MaterialIcons } from "@expo/vector-icons";
 import Color from "color";
+import { ItemDetail } from "../../../lib/db/itemDetail";
 import getKind, { KINDS } from "../../../lib/getKind";
 import theme from "../../../config/theme";
 import s from "../../../config/style";
 import { whenIPhoneSE } from "../../../lib/responsive";
 import IconImage from "../../organisms/CreatePlan/IconImage";
 import List, { Props as CardsProps } from "../../organisms/Schedule/List";
-import { red } from "color-name";
+import Header from "../../molecules/Header";
 
 const top =
   Platform.OS === "android" ? StatusBar.currentHeight : getStatusBarHeight();
@@ -33,6 +34,9 @@ interface Props extends CardsProps {
   kind: string;
   image: string;
   title: string;
+  data: ItemDetail[];
+  onFinish: () => void;
+  onGoBack: () => void;
   onCreateScheduleDetail: () => void;
 }
 
@@ -48,6 +52,16 @@ export default class extends Component<Props, State> {
       setTimeout(() => {
         this.scrollView.scrollToEnd();
       });
+    }
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.data.length > 1) {
+      if (this.props.data.length !== prevProps.data.length) {
+        setTimeout(() => {
+          this.scrollView.scrollToEnd();
+        });
+      }
     }
   }
 
@@ -71,25 +85,36 @@ export default class extends Component<Props, State> {
     const kind = this.props.kind || getKind(this.props.title);
     const config = KINDS[kind];
     const ss = s.schedule;
-
+    const bc = Color(config.backgroundColor)
+      .lighten(ss.backgroundColorAlpha)
+      .toString();
     const imageSize = whenIPhoneSE(120, 180);
 
     return (
-      <>
-        {!this.state.imageHeader && (
-          <View
-            style={[
-              styles.header,
-              {
-                backgroundColor: Color(config.backgroundColor)
-                  .lighten(ss.backgroundColorAlpha)
-                  .toString()
-              }
-            ]}
-          >
-            <Text style={styles.headerTitle}>{this.props.title}</Text>
-          </View>
-        )}
+      <View
+        style={{
+          flex: 0,
+          backgroundColor: this.state.imageHeader ? bc : "#fff"
+        }}
+      >
+        <Header
+          title={this.state.imageHeader ? "" : this.props.title}
+          color={this.state.imageHeader ? "none" : bc}
+          right={
+            <TouchableOpacity
+              onPress={this.props.onFinish}
+              testID="saveScheduleDetail"
+            >
+              <MaterialIcons
+                name="check"
+                color={theme.color.main}
+                size={25}
+                style={{ paddingRight: 5 }}
+              />
+            </TouchableOpacity>
+          }
+          onClose={this.props.onGoBack}
+        />
         <ScrollView
           ref={ref => {
             this.scrollView = ref;
@@ -102,7 +127,8 @@ export default class extends Component<Props, State> {
             style={{
               backgroundColor: Color(config.backgroundColor)
                 .lighten(ss.backgroundColorAlpha)
-                .toString()
+                .toString(),
+              paddingTop: 50
             }}
           >
             <IconImage
@@ -116,7 +142,7 @@ export default class extends Component<Props, State> {
             <Text style={styles.headerImageTitle}>{this.props.title}</Text>
           </View>
 
-          <View style={{ paddingTop: 60 }}>
+          <View style={{ paddingTop: 60, backgroundColor: "#FFF" }}>
             <Text style={styles.scheduleText}>スケジュール</Text>
 
             <List
@@ -143,10 +169,10 @@ export default class extends Component<Props, State> {
               </TouchableOpacity>
               <Text style={styles.addButoonText}>スケジュールを追加する</Text>
             </View>
-            <View style={{ height: 100 }} />
+            <View style={{ height: 120 }} />
           </View>
         </ScrollView>
-      </>
+      </View>
     );
   }
 }

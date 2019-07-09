@@ -31,7 +31,6 @@ import {
 import { select1st, delete1st, Item } from "../../../lib/db/item";
 import getShareText from "../../../lib/getShareText";
 import { Consumer as ItemsConsumer } from "../../../containers/Items";
-import EditSchedule from "../EditSchedule/Connected";
 import SortableSchedule from "../SortableSchedule/Connected";
 import Schedule from "./Connected";
 import HeaderLeft from "./HeaderLeft";
@@ -133,7 +132,6 @@ class Switch extends Component<Props & ActionSheetProps, State> {
 
     this.props.navigation.setParams({
       onAdd: this.onAdd,
-      onEdit: this.onEdit,
       onShow: this.onShow,
       onSort: this.onSort,
       onSave: this.onSave,
@@ -294,16 +292,6 @@ class Switch extends Component<Props & ActionSheetProps, State> {
     });
   };
 
-  onEdit = (items: ItemDetail[]): void => {
-    const itemId = this.props.navigation.getParam("itemId", "1");
-
-    this.setState({ itemId, items, mode: "edit" });
-
-    this.props.navigation.setParams({
-      mode: "edit"
-    });
-  };
-
   onShow = (): void => {
     this.setState({ mode: "show" });
 
@@ -416,17 +404,6 @@ class Plan extends Component<PlanProps & ActionSheetProps> {
   };
 
   render() {
-    if (this.props.mode === "edit") {
-      return (
-        <EditSchedule
-          title={this.props.title}
-          items={this.props.items}
-          navigation={this.props.navigation}
-          onShow={this.props.onShow}
-        />
-      );
-    }
-
     if (this.props.mode === "sort") {
       return (
         <SortableSchedule

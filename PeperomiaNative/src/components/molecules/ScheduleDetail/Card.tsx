@@ -1,7 +1,7 @@
 import React from "react";
-import { TouchableOpacity, StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import styled from "styled-components/native";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { Divider } from "react-native-elements";
 import Header from "../ScheduleHeader/Header";
 import { ItemDetail } from "../../../lib/db/itemDetail";
@@ -18,80 +18,68 @@ export interface Props extends ItemProps {
 
 export default (props: Props) => {
   return (
-    <>
-      <Header
-        kind={props.kind}
-        right={
-          <TouchableOpacity
-            onPress={props.onOpenActionSheet}
-            testID={`scheduleDetailMenu`}
-          >
-            <MaterialCommunityIcons
-              name="dots-horizontal"
-              size={30}
-              color={theme.color.main}
-              style={{ marginRight: 0, marginLeft: "auto" }}
-            />
-          </TouchableOpacity>
-        }
-        onClose={props.onDismiss}
-      >
+    <View>
+      <Header kind={props.kind}>
         <Title numberOfLines={1}>{props.title}</Title>
       </Header>
 
-      {(() => {
-        if (props.moveMinutes === 0) {
-          return null;
-        }
+      <View style={{ backgroundColor: "#fff" }}>
+        {(() => {
+          if (props.moveMinutes === 0) {
+            return null;
+          }
 
-        return (
-          <>
-            <View style={{ paddingHorizontal: 20, paddingVertical: 15 }}>
-              <View style={styles.timeContainer}>
-                <Ionicons
-                  name="md-time"
-                  color={theme.color.lightGreen}
-                  size={24}
-                  style={{ paddingTop: 3 }}
-                />
-                <Text style={styles.timeText}>{`${props.moveMinutes}分`}</Text>
+          return (
+            <>
+              <View style={{ paddingHorizontal: 20, paddingVertical: 15 }}>
+                <View style={styles.timeContainer}>
+                  <Ionicons
+                    name="md-time"
+                    color={theme.color.lightGreen}
+                    size={24}
+                    style={{ paddingTop: 3 }}
+                  />
+                  <Text
+                    style={styles.timeText}
+                  >{`${props.moveMinutes}分`}</Text>
+                </View>
               </View>
+              <Divider style={{ marginBottom: 8 }} />
+            </>
+          );
+        })()}
+
+        {Boolean(props.place) && (
+          <View style={{ paddingHorizontal: 18, paddingTop: 8 }}>
+            <Label text="集合場所" icon="map-marker-outline" width={95} />
+
+            <View style={styles.memoContainer}>
+              <Text style={styles.memoText}>{props.place}</Text>
             </View>
-            <Divider style={{ marginBottom: 8 }} />
-          </>
-        );
-      })()}
-
-      {Boolean(props.place) && (
-        <View style={{ paddingHorizontal: 18, paddingTop: 8 }}>
-          <Label text="集合場所" icon="map-marker-outline" width={95} />
-
-          <View style={styles.memoContainer}>
-            <Text style={styles.memoText}>{props.place}</Text>
           </View>
-        </View>
-      )}
+        )}
 
-      {Boolean(props.url) && (
-        <View style={{ paddingHorizontal: 18, paddingTop: 8 }}>
-          <Label text="URL" icon="link" width={70} />
+        {Boolean(props.url) && (
+          <View style={{ paddingHorizontal: 18, paddingTop: 8 }}>
+            <Label text="URL" icon="link" width={70} />
 
-          <View style={styles.memoContainer}>
-            <Text style={styles.memoText}>{props.url}</Text>
+            <View style={styles.memoContainer}>
+              <Text style={styles.memoText}>{props.url}</Text>
+            </View>
           </View>
-        </View>
-      )}
+        )}
 
-      {Boolean(props.memo) && (
-        <View style={{ paddingHorizontal: 18, paddingTop: 8 }}>
-          <Label text="メモ" icon="file-document-box-outline" width={70} />
+        {Boolean(props.memo) && (
+          <View style={{ paddingHorizontal: 18, paddingTop: 8 }}>
+            <Label text="メモ" icon="file-document-box-outline" width={70} />
 
-          <View style={styles.memoContainer}>
-            <Text style={styles.memoText}>{props.memo}</Text>
+            <View style={styles.memoContainer}>
+              <Text style={styles.memoText}>{props.memo}</Text>
+            </View>
           </View>
-        </View>
-      )}
-    </>
+        )}
+      </View>
+    </View>
   );
 };
 

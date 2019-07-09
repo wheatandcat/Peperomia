@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native-ui-lib";
+import { View } from "react-native";
 import styled from "styled-components/native";
 import Color from "color";
 import { ItemDetail } from "../../../lib/db/itemDetail";
@@ -16,7 +16,7 @@ export default (props: Props) => {
   const ss = s.schedule;
 
   if (!config) {
-    console.log("error");
+    console.log("kind config not found");
     return null;
   }
 
@@ -25,7 +25,7 @@ export default (props: Props) => {
       style={{
         borderWidth: ss.borderWidth,
         borderColor: Color(config.backgroundColor)
-          .lighten(ss.borderColorAlpha)
+          .darken(ss.borderColorAlpha)
           .toString(),
         backgroundColor: Color(config.backgroundColor)
           .lighten(ss.backgroundColorAlpha)
@@ -34,7 +34,7 @@ export default (props: Props) => {
     >
       <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
         <View style={{ position: "absolute", right: 30 }}>
-          <IconImage {...config} size={80} opacity={0.7} />
+          <IconImage {...config} size={80} opacity={1.0} />
         </View>
         <View style={{ flex: 1, padding: 20, paddingBottom: 25 }}>
           <Title numberOfLines={1}>{props.title}</Title>

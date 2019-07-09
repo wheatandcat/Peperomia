@@ -3,9 +3,10 @@ import {
   View,
   Alert,
   TextInput,
-  ScrollView,
   Dimensions,
-  StyleSheet
+  StyleSheet,
+  Keyboard,
+  TouchableOpacity
 } from "react-native";
 import { Divider } from "react-native-elements";
 import * as Permissions from "expo-permissions";
@@ -14,6 +15,7 @@ import {
   ActionSheetProps,
   connectActionSheet
 } from "@expo/react-native-action-sheet";
+import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Color from "color";
 import getKind, { KINDS } from "../../../lib/getKind";
 import { whenIPhoneSE } from "../../../lib/responsive";
@@ -22,6 +24,7 @@ import s from "../../../config/style";
 import Suggest, { Item as SuggestItem } from "../../organisms/Suggest/List";
 import IconImage from "../../organisms/CreatePlan/IconImage";
 import Body from "../../organisms/CreatePlan/Body";
+import Header from "../../molecules/Header";
 
 const deviceHeight = Dimensions.get("window").height;
 
@@ -36,16 +39,53 @@ export interface Props {
   onSave: () => void;
   onIcons: () => void;
   onCamera: () => void;
+  onHome: () => void;
 }
 
 export interface State {
   image: string;
   titleFocusCount: number;
   suggest: boolean;
+  keyboard: boolean;
 }
 
 class Page extends Component<Props & ActionSheetProps> {
-  state = { image: this.props.image, titleFocusCount: 0, suggest: false };
+  state = {
+    image: this.props.image,
+    titleFocusCount: 0,
+    suggest: false,
+    keyboard: false
+  };
+
+  componentDidMount() {
+    this.keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      this._keyboardDidShow.bind(this)
+    );
+    this.keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      this._keyboardDidHide.bind(this)
+    );
+  }
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+
+  keyboardDidShowListener: any;
+  keyboardDidHideListener: any;
+
+  _keyboardDidShow() {
+    this.setState({
+      keyboard: true
+    });
+  }
+
+  _keyboardDidHide() {
+    this.setState({
+      keyboard: false
+    });
+  }
 
   onOpenActionSheet = () => {
     this.props.showActionSheetWithOptions(
@@ -127,18 +167,51 @@ class Page extends Component<Props & ActionSheetProps> {
     const kind = this.props.kind || getKind(this.props.title);
     const config = KINDS[kind];
     const ss = s.schedule;
+    const bc = Color(config.backgroundColor)
+      .lighten(ss.backgroundColorAlpha)
+      .toString();
 
     const imageSize = whenIPhoneSE(120, 180);
 
     return (
-      <ScrollView
-        style={{
-          paddingBottom: 50
-        }}
-      >
+      <>
+        <Header
+          title=""
+          color={bc}
+          position="block"
+          right={
+            this.state.keyboard ? (
+              <TouchableOpacity
+                onPress={Keyboard.dismiss}
+                testID="closeKeyBoard"
+              >
+                <MaterialCommunityIcons
+                  name="keyboard-close"
+                  color={theme.color.main}
+                  size={25}
+                  style={{ paddingRight: 5 }}
+                />
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                onPress={this.onSave}
+                testID="saveScheduleDetail"
+              >
+                <MaterialIcons
+                  name="check"
+                  color={theme.color.main}
+                  size={25}
+                  style={{ paddingRight: 5 }}
+                />
+              </TouchableOpacity>
+            )
+          }
+          onClose={this.props.onHome}
+        />
+
         <View
           style={{
-            backgroundColor: "#F2F2F",
+            backgroundColor: "#ffff",
             height: deviceHeight
           }}
         >
@@ -176,20 +249,16 @@ class Page extends Component<Props & ActionSheetProps> {
                   image={image}
                   imageSrc={config.src}
                   imageSize={imageSize}
-                  backgroundColor="#F2F2F2"
+                  backgroundColor="#ffff"
                   onSave={this.onSave}
                   onOpenActionSheet={this.onOpenActionSheet}
                 />
-                <Body
-                  mode={this.props.mode}
-                  onSave={this.onSave}
-                  onOpenActionSheet={this.onOpenActionSheet}
-                />
+                <Body onOpenActionSheet={this.onOpenActionSheet} />
               </>
             )}
           </View>
         </View>
-      </ScrollView>
+      </>
     );
   }
 }

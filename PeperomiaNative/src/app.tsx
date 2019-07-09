@@ -127,14 +127,31 @@ const IconsNavigator = createStackNavigator(
   }
 );
 
-const CreateNavigator = createStackNavigator({
-  CreatePlan: {
-    screen: CreatePlan
+const CreateNavigatorDetail = createStackNavigator(
+  {
+    CreatePlan: {
+      screen: CreatePlan
+    },
+    CreateSchedule: {
+      screen: CreateSchedule
+    }
   },
-  CreateSchedule: {
-    screen: CreateSchedule
+  {
+    headerMode: "none"
   }
-});
+);
+
+const CreateNavigator = createStackNavigator(
+  {
+    CreatePlan: {
+      screen: CreateNavigatorDetail
+    }
+  },
+  {
+    mode: "modal",
+    headerMode: "none"
+  }
+);
 
 const Navigator = createStackNavigator(
   {

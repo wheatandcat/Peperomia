@@ -86,9 +86,9 @@ class Plan extends Component<PlanProps, State> {
 
   onSave = (
     title: string,
+    kind: string,
     place: string,
     url: string,
-    kind: string,
     memo: string,
     time: number
   ) => {
@@ -110,7 +110,9 @@ class Plan extends Component<PlanProps, State> {
     });
   };
 
-  save = () => {
+  save = (data: any, error: any) => {
+    console.log(error);
+
     const itemId = this.props.navigation.getParam("itemId", "1");
 
     this.props.navigation.navigate("CreateSchedule", {

@@ -6,6 +6,7 @@ import {
   NavigationRoute
 } from "react-navigation";
 import { AsyncStorage, Alert } from "react-native";
+import theme from "../../../config/theme";
 import { db } from "../../../lib/db";
 import { deleteSql, resetSql, deleteUserSql } from "../../../lib/db/debug";
 import { select as selectItems } from "../../../lib/db/item";
@@ -24,7 +25,9 @@ interface Props {
 }
 
 class Container extends Component<Props> {
-  static navigationOptions = { title: "設定" };
+  static navigationOptions = {
+    title: "設定"
+  };
 
   render() {
     return (
@@ -175,11 +178,24 @@ class Connected extends Component<ConnectedProps, State> {
   }
 }
 
-export default createStackNavigator({
-  Setting: Container,
-  Tos: Tos,
-  Policy: Policy,
-  Feedback: Feedback,
-  SignIn: SignIn,
-  MyPage: MyPage
-});
+export default createStackNavigator(
+  {
+    Setting: Container,
+    Tos: Tos,
+    Policy: Policy,
+    Feedback: Feedback,
+    SignIn: SignIn,
+    MyPage: MyPage
+  },
+  {
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: theme.color.main
+      },
+      headerTitleStyle: {
+        color: theme.color.lightGreen
+      },
+      headerTintColor: theme.color.lightGreen
+    }
+  }
+);

@@ -39,7 +39,7 @@ const color = {
   category04: theme.color.lightEmerald,
   category05: theme.color.lightOrange,
   category06: theme.color.beige,
-  category07: theme.color.lightPink,
+  category07: theme.color.pink,
   category08: theme.color.lightNavy,
   category09: theme.color.didgerBlue,
   category10: theme.color.lightGray
