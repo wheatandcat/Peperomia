@@ -5,7 +5,8 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  Platform
 } from "react-native";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import theme from "../../../config/theme";
@@ -198,9 +199,10 @@ export default class extends Component<Props, State> {
                   testID={`inputTextScheduleDetail${item.label}`}
                   autoFocus={this.state.focus === item.value}
                   onFocus={() => {
+                    const height = Platform.OS === "ios" ? 80 : 40;
                     this.props.scrollViewRef.scrollTo({
                       x: 0,
-                      y: y[index] - 80,
+                      y: y[index] - height,
                       animated: true
                     });
                   }}

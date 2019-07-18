@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Platform } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import theme from "../../../config/theme";
 
@@ -19,7 +19,7 @@ export default (props: Props) => (
       backgroundColor: "#F2F2F2",
       width: props.width,
       paddingHorizontal: 3,
-      paddingTop: 2,
+      paddingTop: Platform.OS === "ios" ? 2 : 0,
       paddingBottom: 0,
       borderRadius: 10
     }}

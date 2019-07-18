@@ -5,9 +5,9 @@ import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import { Consumer as ItemsConsumer } from "../../../containers/Items";
 import { db } from "../../../lib/db";
 import { insert as insertItem, Item } from "../../../lib/db/item";
+import { SuggestItem } from "../../../lib/suggest";
 import getKind from "../../../lib/getKind";
 import Page from "../../templates/CreatePlan/Page";
-import { Item as SuggestItem } from "../../organisms/Suggest/List";
 
 interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
@@ -92,8 +92,8 @@ class Connect extends Component<ConnectProps, State> {
     if (this.state.image) {
       const manipResult = await ImageManipulator.manipulateAsync(
         this.state.image,
-        [{ rotate: 0 }, { flip: { vertical: true } }],
-        { format: "png", base64: true }
+        [{ rotate: 0 }, { flip: ImageManipulator.FlipType.Vertical }],
+        { compress: 1, format: ImageManipulator.SaveFormat.PNG, base64: true }
       );
 
       image = manipResult.base64 || "";

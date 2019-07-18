@@ -9,9 +9,9 @@ import {
   ItemDetail
 } from "../../../lib/db/itemDetail";
 import getKind from "../../../lib/getKind";
+import { SuggestItem } from "../../../lib/suggest";
 import { Consumer as ItemsConsumer } from "../../../containers/Items";
 import Page from "../../templates/CreateScheduleDetail/Page";
-import { Item as SuggestItem } from "../../organisms/Suggest/List";
 
 export interface State extends ItemDetailParam {
   iconSelected: boolean;

@@ -49,15 +49,12 @@ export default (props: Props) => (
       />
     </View>
     <View style={{ paddingLeft: 12 }}>
-      <View style={{ paddingTop: 40, width: 105 }}>
+      <View style={{ paddingTop: 40, width: 120 }}>
         <Button
           title="アイコンを変更する"
           type="clear"
           titleStyle={styles.linkTitle}
           buttonStyle={styles.linkButton}
-          containerStyle={{
-            padding: 0
-          }}
           onPress={() => props.onIcons(props.title)}
         />
       </View>

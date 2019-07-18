@@ -292,7 +292,16 @@ class App extends Component<Props & ActionSheetProps, State> {
     }
   };
 
-  onSuggest = () => {};
+  onSuggest = (_: string, name: string) => {
+    this.setState({ title: name, kind: getKind(name), suggest: false });
+  };
+
+  onCloseKeyBoard = () => {
+    Keyboard.dismiss();
+    this.setState({
+      suggest: false
+    });
+  };
 
   render() {
     const kind = this.state.kind || KIND_DEFAULT;
@@ -315,7 +324,7 @@ class App extends Component<Props & ActionSheetProps, State> {
           right={
             this.state.keyboard ? (
               <TouchableOpacity
-                onPress={Keyboard.dismiss}
+                onPress={this.onCloseKeyBoard}
                 testID="closeKeyBoard"
               >
                 <MaterialCommunityIcons
@@ -382,11 +391,12 @@ class App extends Component<Props & ActionSheetProps, State> {
                   onChangeText={title =>
                     this.setState({ title, kind: getKind(title) })
                   }
-                  defaultValue={this.props.title}
+                  value={this.state.title}
                   testID="inputTextScheduleDetailTitle"
                   returnKeyType="done"
                   autoFocus
                   onFocus={this.onSuggestTitle}
+                  selectionColor={theme.color.lightGreen}
                 />
               </HeaderImage>
 

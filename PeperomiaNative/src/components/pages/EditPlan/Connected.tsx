@@ -9,8 +9,8 @@ import theme from "../../../config/theme";
 import { db } from "../../../lib/db";
 import { update as updateItem, Item } from "../../../lib/db/item";
 import getKind from "../../../lib/getKind";
+import { SuggestItem } from "../../../lib/suggest";
 import Page from "../../templates/CreatePlan/Page";
-import { Item as SuggestItem } from "../../organisms/Suggest/List";
 
 interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;

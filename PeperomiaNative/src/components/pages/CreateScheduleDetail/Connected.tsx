@@ -9,6 +9,7 @@ import {
   countByItemId,
   ItemDetail
 } from "../../../lib/db/itemDetail";
+import { SuggestItem } from "../../../lib/suggest";
 import getKind from "../../../lib/getKind";
 import { Consumer as ItemsConsumer } from "../../../containers/Items";
 import Page from "../../templates/CreateScheduleDetail/Page";
@@ -16,6 +17,7 @@ import Page from "../../templates/CreateScheduleDetail/Page";
 export interface State extends ItemDetailParam {
   iconSelected: boolean;
   priority: number;
+  suggestList: SuggestItem[];
 }
 
 interface Props extends ItemDetailParam {
@@ -52,10 +54,20 @@ class Plan extends Component<PlanProps, State> {
     memo: this.props.memo || "",
     moveMinutes: this.props.moveMinutes || 0,
     iconSelected: false,
-    priority: 1
+    priority: 1,
+    suggestList: []
   };
 
   componentDidMount() {
+    const suggestList = this.props.itemDetails.map(itemDetail => ({
+      title: itemDetail.title,
+      kind: itemDetail.kind
+    }));
+
+    this.setState({
+      suggestList
+    });
+
     const itemId = this.props.navigation.getParam("itemId", "1");
 
     db.transaction((tx: SQLite.Transaction) => {
@@ -152,7 +164,7 @@ class Plan extends Component<PlanProps, State> {
         url={this.state.url}
         memo={this.state.memo}
         time={this.state.moveMinutes}
-        suggestList={[]}
+        suggestList={this.state.suggestList}
         iconSelected={this.state.iconSelected}
         onDismiss={this.onDismiss}
         onSave={this.onSave}

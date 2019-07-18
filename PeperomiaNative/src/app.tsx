@@ -68,6 +68,7 @@ const TabNavigator = createBottomTabNavigator(
             style={{
               fontSize: 12,
               fontWeight: "500",
+              textAlign: "center",
               color: focused ? theme.color.main : theme.color.darkGray
             }}
           >

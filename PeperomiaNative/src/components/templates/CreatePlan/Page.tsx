@@ -24,7 +24,6 @@ import theme from "../../../config/theme";
 import s from "../../../config/style";
 import Suggest from "../../organisms/Suggest/List";
 import IconImage from "../../organisms/CreatePlan/IconImage";
-import Body from "../../organisms/CreatePlan/Body";
 import Header from "../../molecules/Header";
 
 const deviceHeight = Dimensions.get("window").height;
@@ -93,22 +92,28 @@ class Page extends Component<Props & ActionSheetProps> {
       {
         options: [
           "アイコンを変更する",
-          "写真を撮影する",
-          "フォトライブラリー",
+          //"写真を撮影する",
+          //"フォトライブラリー",
           "キャンセル"
         ],
-        cancelButtonIndex: 3
+        cancelButtonIndex: 1
       },
       buttonIndex => {
         if (buttonIndex === 0) {
           this.props.onIcons();
         }
+        // TODO: 一旦カメラをやめる
+        /*
         if (buttonIndex === 1) {
           this.props.onCamera();
         }
-        if (buttonIndex === 2) {
+        if (buttonIndex ===   ) {
           this._pickImage();
+          this.setState({
+            titleFocusCount: 0
+          });
         }
+        */
       }
     );
   };
@@ -186,7 +191,7 @@ class Page extends Component<Props & ActionSheetProps> {
         <Header
           title=""
           color={bc}
-          position="block"
+          position="relative"
           right={
             this.state.keyboard ? (
               <TouchableOpacity
@@ -262,7 +267,6 @@ class Page extends Component<Props & ActionSheetProps> {
                   onSave={this.onSave}
                   onOpenActionSheet={this.onOpenActionSheet}
                 />
-                <Body onOpenActionSheet={this.onOpenActionSheet} />
               </>
             )}
           </View>
