@@ -40,6 +40,7 @@ interface Label {
 
 interface LabelInput {
   value: "memo" | "place" | "url";
+  defaultValue: string;
   label: string;
   icon: string;
   width: number;
@@ -105,6 +106,7 @@ export default class extends Component<Props, State> {
         {
           icon: "map-marker-outline",
           value: "place",
+          defaultValue: this.props.place,
           label: "集合場所",
           width: 95,
           multiline: true
@@ -117,6 +119,7 @@ export default class extends Component<Props, State> {
         {
           icon: "link",
           value: "url",
+          defaultValue: this.props.url,
           label: "URL",
           width: 70,
           multiline: false
@@ -129,6 +132,7 @@ export default class extends Component<Props, State> {
         {
           icon: "file-document-box-outline",
           value: "memo",
+          defaultValue: this.props.memo,
           label: "メモ",
           width: 70,
           multiline: true
@@ -201,7 +205,7 @@ export default class extends Component<Props, State> {
                     });
                   }}
                 >
-                  <Text style={styles.memoText}>{this.state.memo}</Text>
+                  <Text style={styles.memoText}>{item.defaultValue}</Text>
                 </TextInput>
               </View>
             </View>

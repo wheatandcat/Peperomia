@@ -205,9 +205,6 @@ const MainCardNavigator = createStackNavigator(
     },
     Schedule: {
       screen: Schedule
-    },
-    EditPlan: {
-      screen: EditPlan
     }
   },
   {
@@ -227,11 +224,13 @@ export default createStackNavigator(
   {
     MainCardNavigator: {
       screen: MainCardNavigator
+    },
+    EditPlan: {
+      screen: EditPlan
     }
   },
   {
     initialRouteName: "MainCardNavigator",
-    mode: "modal",
     headerMode: "none"
   }
 );

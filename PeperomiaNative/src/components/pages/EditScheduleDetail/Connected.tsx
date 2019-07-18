@@ -115,6 +115,7 @@ class Plan extends Component<PlanProps, State> {
   };
 
   render() {
+    console.log(this.state);
     return (
       <Page
         title={this.state.title}

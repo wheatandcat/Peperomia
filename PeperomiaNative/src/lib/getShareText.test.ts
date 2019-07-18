@@ -13,7 +13,9 @@ describe("getShareText", () => {
     kind: "park",
     moveMinutes: moveMinutes || 0,
     priority: 1,
-    memo: ""
+    memo: "",
+    place: "",
+    url: ""
   });
 
   test("itemDetails=[...(4 items)]", () => {

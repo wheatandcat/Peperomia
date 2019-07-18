@@ -11,7 +11,6 @@ import {
   connectActionSheet
 } from "@expo/react-native-action-sheet";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { getStatusBarHeight } from "react-native-status-bar-height";
 import Color from "color";
 import GlobalStyles from "../../../GlobalStyles";
 import { ItemDetail } from "../../../lib/db/itemDetail";

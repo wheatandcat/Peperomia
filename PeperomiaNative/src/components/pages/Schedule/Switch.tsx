@@ -241,7 +241,7 @@ class Switch extends Component<Props & ActionSheetProps, State> {
 
     const { height } = Dimensions.get("window");
 
-    let toast = Toast.show("リンクがコピーされました！", {
+    const toast = Toast.show("リンクがコピーされました！", {
       duration: Toast.durations.LONG,
       position: height - 150,
       shadow: true,

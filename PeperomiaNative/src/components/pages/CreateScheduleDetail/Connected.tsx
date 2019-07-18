@@ -23,6 +23,7 @@ interface Props extends ItemDetailParam {
 }
 
 interface PlanProps extends Props {
+  itemDetails: ItemDetail[];
   refreshData: () => void;
 }
 
@@ -30,8 +31,12 @@ export default class extends Component<Props> {
   render() {
     return (
       <ItemsConsumer>
-        {({ refreshData }: any) => (
-          <Plan {...this.props} refreshData={refreshData} />
+        {({ refreshData, itemDetails }: any) => (
+          <Plan
+            {...this.props}
+            refreshData={refreshData}
+            itemDetails={itemDetails}
+          />
         )}
       </ItemsConsumer>
     );
@@ -147,6 +152,7 @@ class Plan extends Component<PlanProps, State> {
         url={this.state.url}
         memo={this.state.memo}
         time={this.state.moveMinutes}
+        suggestList={[]}
         iconSelected={this.state.iconSelected}
         onDismiss={this.onDismiss}
         onSave={this.onSave}

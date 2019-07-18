@@ -11,9 +11,11 @@ import {
 import getKind from "../../../lib/getKind";
 import { Consumer as ItemsConsumer } from "../../../containers/Items";
 import Page from "../../templates/CreateScheduleDetail/Page";
+import { Item as SuggestItem } from "../../organisms/Suggest/List";
 
 export interface State extends ItemDetailParam {
   iconSelected: boolean;
+  suggestList: SuggestItem[];
 }
 
 interface Props extends ItemDetailParam {
@@ -21,6 +23,7 @@ interface Props extends ItemDetailParam {
 }
 
 interface PlanProps extends Props {
+  itemDetails: ItemDetail[];
   refreshData: () => void;
 }
 
@@ -28,8 +31,12 @@ export default class extends Component<Props> {
   render() {
     return (
       <ItemsConsumer>
-        {({ refreshData }: any) => (
-          <Plan {...this.props} refreshData={refreshData} />
+        {({ refreshData, itemDetails }: any) => (
+          <Plan
+            {...this.props}
+            refreshData={refreshData}
+            itemDetails={itemDetails}
+          />
         )}
       </ItemsConsumer>
     );
@@ -45,8 +52,20 @@ class Plan extends Component<PlanProps, State> {
     moveMinutes: this.props.moveMinutes || 0,
     kind: this.props.kind,
     priority: this.props.priority,
-    iconSelected: false
+    iconSelected: false,
+    suggestList: []
   };
+
+  componentDidMount() {
+    const suggestList = this.props.itemDetails.map(itemDetail => ({
+      title: itemDetail.title,
+      kind: itemDetail.kind
+    }));
+
+    this.setState({
+      suggestList
+    });
+  }
 
   componentDidUpdate() {
     const kind = this.props.navigation.getParam("kind", "");
@@ -118,8 +137,6 @@ class Plan extends Component<PlanProps, State> {
   };
 
   render() {
-    const itemId = this.props.navigation.getParam("itemId", "1");
-
     return (
       <Page
         title={this.state.title}
@@ -128,6 +145,7 @@ class Plan extends Component<PlanProps, State> {
         url={this.state.url}
         memo={this.state.memo}
         time={this.state.moveMinutes}
+        suggestList={this.state.suggestList}
         iconSelected={this.state.iconSelected}
         onDismiss={this.onDismiss}
         onSave={this.onSave}

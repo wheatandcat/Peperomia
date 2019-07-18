@@ -2,7 +2,6 @@ import { SQLite } from "expo-sqlite";
 import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import { Alert } from "react-native";
-import uuidv1 from "uuid/v1";
 import { db } from "../../../lib/db";
 import { Item, select1st } from "../../../lib/db/item";
 import {

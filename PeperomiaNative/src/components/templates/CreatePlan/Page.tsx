@@ -19,9 +19,10 @@ import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Color from "color";
 import getKind, { KINDS } from "../../../lib/getKind";
 import { whenIPhoneSE } from "../../../lib/responsive";
+import { SuggestItem } from "../../../lib/suggest";
 import theme from "../../../config/theme";
 import s from "../../../config/style";
-import Suggest, { Item as SuggestItem } from "../../organisms/Suggest/List";
+import Suggest from "../../organisms/Suggest/List";
 import IconImage from "../../organisms/CreatePlan/IconImage";
 import Body from "../../organisms/CreatePlan/Body";
 import Header from "../../molecules/Header";
@@ -162,6 +163,13 @@ class Page extends Component<Props & ActionSheetProps> {
     });
   };
 
+  onCloseKeyBoard = () => {
+    Keyboard.dismiss();
+    this.setState({
+      suggest: false
+    });
+  };
+
   render() {
     let { image } = this.props;
     const kind = this.props.kind || getKind(this.props.title);
@@ -182,7 +190,7 @@ class Page extends Component<Props & ActionSheetProps> {
           right={
             this.state.keyboard ? (
               <TouchableOpacity
-                onPress={Keyboard.dismiss}
+                onPress={this.onCloseKeyBoard}
                 testID="closeKeyBoard"
               >
                 <MaterialCommunityIcons
@@ -240,6 +248,7 @@ class Page extends Component<Props & ActionSheetProps> {
 
             {this.state.suggest ? (
               <Suggest
+                title={this.props.title}
                 items={this.props.suggestList}
                 onPress={this.onSuggest}
               />

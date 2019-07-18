@@ -142,7 +142,9 @@ export default class extends Component<Props, State> {
             <Text style={styles.headerImageTitle}>{this.props.title}</Text>
           </View>
 
-          <View style={{ paddingTop: 60, backgroundColor: "#FFF" }}>
+          <View
+            style={{ paddingTop: 60, backgroundColor: "#FFF", height: "100%" }}
+          >
             <Text style={styles.scheduleText}>スケジュール</Text>
 
             <List

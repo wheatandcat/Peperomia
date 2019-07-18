@@ -1,6 +1,14 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Linking,
+  TouchableOpacity,
+  Dimensions
+} from "react-native";
 import styled from "styled-components/native";
+import Toast from "react-native-root-toast";
 import { Ionicons } from "@expo/vector-icons";
 import { Divider } from "react-native-elements";
 import Header from "../ScheduleHeader/Header";
@@ -15,6 +23,30 @@ export interface ItemProps extends ItemDetail {
 export interface Props extends ItemProps {
   onOpenActionSheet: () => void;
 }
+
+const handleClick = (url: string) => {
+  Linking.canOpenURL(url).then(supported => {
+    if (supported) {
+      Linking.openURL(url);
+    } else {
+      const { height } = Dimensions.get("window");
+
+      const toast = Toast.show("無効なリンクです", {
+        duration: Toast.durations.LONG,
+        position: height - 150,
+        shadow: true,
+        animation: true,
+        hideOnPress: true,
+        textColor: theme.color.red,
+        delay: 0
+      });
+
+      setTimeout(function() {
+        Toast.hide(toast);
+      }, 3000);
+    }
+  });
+};
 
 export default (props: Props) => {
   return (
@@ -64,7 +96,14 @@ export default (props: Props) => {
             <Label text="URL" icon="link" width={70} />
 
             <View style={styles.memoContainer}>
-              <Text style={styles.memoText}>{props.url}</Text>
+              <TouchableOpacity onPress={() => handleClick(props.url)}>
+                <Text
+                  style={[styles.memoText, { color: theme.color.sky }]}
+                  numberOfLines={1}
+                >
+                  {props.url}
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
         )}

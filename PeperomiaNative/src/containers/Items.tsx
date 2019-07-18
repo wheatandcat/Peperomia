@@ -20,6 +20,7 @@ interface Props {}
 interface State {
   loading: boolean;
   items: Item[];
+  itemDetails: ItemDetail[];
   about: ItemAbout[];
 }
 
@@ -27,6 +28,7 @@ export default class extends Component<Props, State> {
   state = {
     loading: true,
     items: [],
+    itemDetails: [],
     about: []
   };
 
@@ -73,7 +75,8 @@ export default class extends Component<Props, State> {
 
     this.setState({
       about,
-      loading: false
+      loading: false,
+      itemDetails: [...this.state.itemDetails, ...data]
     });
   };
 
@@ -82,6 +85,7 @@ export default class extends Component<Props, State> {
       <Provider
         value={{
           items: this.state.items,
+          itemDetails: this.state.itemDetails,
           about: this.state.about,
           refreshData: this.getData,
           itemsLoading: this.state.loading

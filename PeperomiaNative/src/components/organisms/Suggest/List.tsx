@@ -1,59 +1,64 @@
 import React from "react";
 import { View, TouchableOpacity, Text } from "react-native";
+import { SuggestItem, uniqueSuggests } from "../../../lib/suggest";
 import { KINDS } from "../../../lib/getKind";
 import theme from "../../../config/theme";
 import { IconImage } from "../../atoms";
 
-export interface Item {
-  title: string;
-  kind: string;
-}
-
 interface Props {
-  items: Item[];
+  title: string;
+  items: SuggestItem[];
   onPress: (kind: string, name: string) => void;
 }
 
 export default (props: Props) => (
   <View style={{ padding: 20, backgroundColor: "#fff" }}>
-    {props.items.map(item => (
-      <TouchableOpacity
-        style={{ paddingVertical: 15 }}
-        onPress={() => props.onPress(item.kind, item.title)}
-        key={item.title}
-      >
-        <View
-          style={{ flexDirection: "row", height: 30, alignItems: "center" }}
+    {uniqueSuggests(props.items)
+      .filter(item => {
+        if (!props.title) {
+          return true;
+        }
+        return item.title.includes(props.title);
+      })
+      .slice(0, 8)
+      .map(item => (
+        <TouchableOpacity
+          style={{ paddingVertical: 15 }}
+          onPress={() => props.onPress(item.kind, item.title)}
+          key={item.title}
         >
-          <View style={{ alignItems: "center" }}>
-            <IconImage
-              src={getImageSrc(item.kind)}
-              name=""
-              size={25}
-              opacity={1.0}
-            />
-          </View>
           <View
-            style={{
-              marginLeft: 4,
-              borderLeftWidth: 6,
-              borderColor: getImageColor(item.kind),
-              paddingLeft: 10
-            }}
+            style={{ flexDirection: "row", height: 30, alignItems: "center" }}
           >
-            <Text
+            <View style={{ alignItems: "center" }}>
+              <IconImage
+                src={getImageSrc(item.kind)}
+                name=""
+                size={25}
+                opacity={1.0}
+              />
+            </View>
+            <View
               style={{
-                fontSize: 20,
-                fontWeight: "500",
-                color: theme.color.gray
+                marginLeft: 4,
+                borderLeftWidth: 6,
+                borderColor: getImageColor(item.kind),
+                paddingLeft: 10
               }}
             >
-              {item.title}
-            </Text>
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight: "500",
+                  color: theme.color.gray
+                }}
+              >
+                {item.title}
+              </Text>
+            </View>
           </View>
-        </View>
-      </TouchableOpacity>
-    ))}
+        </TouchableOpacity>
+      ))}
   </View>
 );
 

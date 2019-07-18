@@ -13,6 +13,7 @@ interface Theme {
     lightPink: string;
     lightRed: string;
     lightYellow: string;
+    white: string;
     pink: string;
     main: string;
     red: string;
@@ -35,6 +36,7 @@ const theme: Theme = {
     lightPink: "#F1DBF9",
     lightRed: "#FF8C8C",
     lightYellow: "#FBFDB0",
+    white: "#fff",
     pink: "#FCCBCB",
     main: "#006835",
     red: "#E15757",

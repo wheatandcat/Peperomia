@@ -127,7 +127,7 @@ const IconsNavigator = createStackNavigator(
   }
 );
 
-const CreateNavigatorDetail = createStackNavigator(
+const CreateDetailNavigator = createStackNavigator(
   {
     CreatePlan: {
       screen: CreatePlan
@@ -144,7 +144,7 @@ const CreateNavigatorDetail = createStackNavigator(
 const CreateNavigator = createStackNavigator(
   {
     CreatePlan: {
-      screen: CreateNavigatorDetail
+      screen: CreateDetailNavigator
     }
   },
   {

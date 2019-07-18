@@ -1,5 +1,5 @@
 import { Google } from "expo";
-import { AsyncStorage } from "react-native";
+import { AsyncStorage, Platform } from "react-native";
 import React, { createContext, Component } from "react";
 import * as firebase from "firebase";
 
@@ -45,7 +45,8 @@ export default class extends Component<Props, State> {
     const androidClientId = process.env.GOOGLE_LOGIN_ANDROID_CLIENT_ID;
     const iosClientId = process.env.GOOGLE_LOGIN_IOS_CLIENT_ID;
     const result = await Google.logInAsync({
-      behavior: "web",
+      clientId:
+        Platform.OS === "ios" ? String(iosClientId) : String(androidClientId),
       iosClientId,
       androidClientId,
       scopes: ["profile", "email"]

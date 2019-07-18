@@ -3,7 +3,6 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Text,
   SafeAreaView,
   Alert,
   Keyboard,
@@ -18,22 +17,19 @@ import {
   ActionSheetProps,
   connectActionSheet
 } from "@expo/react-native-action-sheet";
-import { Button, Divider } from "react-native-elements";
 import Color from "color";
-import {
-  Ionicons,
-  MaterialIcons,
-  MaterialCommunityIcons
-} from "@expo/vector-icons";
+import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { getStatusBarHeight } from "react-native-status-bar-height";
 import GlobalStyles from "../../../GlobalStyles";
 import getKind, { KINDS, KIND_DEFAULT } from "../../../lib/getKind";
+import { SuggestItem } from "../../../lib/suggest";
 import s from "../../../config/style";
+import theme from "../../../config/theme";
 import Header from "../../molecules/Header";
 import HeaderImage from "../../molecules/ScheduleHeader/Header";
 import TimeDialog from "../../organisms/CreateScheduleDetail/TimeDialog";
-import Memo from "../../organisms/CreateScheduleDetail/Memo";
-import theme from "../../../config/theme";
+import Body from "../../organisms/CreateScheduleDetail/Body";
+import Suggest from "../../organisms/Suggest/List";
 
 const top =
   Platform.OS === "android" ? StatusBar.currentHeight : getStatusBarHeight();
@@ -46,6 +42,7 @@ export interface Props {
   memo: string;
   time: number;
   iconSelected: boolean;
+  suggestList: SuggestItem[];
   onDismiss: () => void;
   onIcons: (title: string) => void;
   onSave: (
@@ -65,9 +62,11 @@ export interface State {
   url: string;
   memo: string;
   time: number;
+  titleFocusCount: number;
   manualTime: boolean;
   manualTimeValue: number;
   keyboard: boolean;
+  suggest: boolean;
   imageHeader: boolean;
 }
 
@@ -114,10 +113,12 @@ class App extends Component<Props & ActionSheetProps, State> {
     place: this.props.place,
     url: this.props.url,
     time: this.props.time,
+    titleFocusCount: 0,
     manualTimeValue: 0,
     manualTime: false,
     keyboard: false,
-    imageHeader: true
+    imageHeader: true,
+    suggest: false
   };
 
   scrollView: any;
@@ -278,6 +279,21 @@ class App extends Component<Props & ActionSheetProps, State> {
     }
   };
 
+  onSuggestTitle = () => {
+    const titleFocusCount = this.state.titleFocusCount + 1;
+    this.setState({
+      titleFocusCount
+    });
+
+    if (titleFocusCount > 1) {
+      this.setState({
+        suggest: true
+      });
+    }
+  };
+
+  onSuggest = () => {};
+
   render() {
     const kind = this.state.kind || KIND_DEFAULT;
     const config = KINDS[kind];
@@ -370,54 +386,29 @@ class App extends Component<Props & ActionSheetProps, State> {
                   testID="inputTextScheduleDetailTitle"
                   returnKeyType="done"
                   autoFocus
+                  onFocus={this.onSuggestTitle}
                 />
               </HeaderImage>
 
-              <>
-                <View
-                  style={{
-                    paddingHorizontal: 15,
-                    paddingTop: 15,
-                    paddingBottom: 5
-                  }}
-                >
-                  <TouchableOpacity onPress={this.onOpenActionSheet}>
-                    <View style={styles.timeContainer}>
-                      <Ionicons
-                        name="md-time"
-                        color={theme.color.lightGreen}
-                        size={25}
-                        style={{ paddingTop: 3 }}
-                      />
-                      <Text style={styles.timeText}>{this.state.time}分</Text>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-                <Divider />
-                <View style={{ paddingTop: 10, paddingLeft: 10 }}>
-                  <Memo
-                    place={this.state.place}
-                    url={this.state.url}
-                    memo={this.state.memo}
-                    onChangeInputText={this.onChangeMemoInput}
-                    scrollViewRef={this.scrollView}
-                  />
-                </View>
-                <View style={{ paddingLeft: 12 }}>
-                  <View style={{ paddingTop: 40, width: 105 }}>
-                    <Button
-                      title="アイコンを変更する"
-                      type="clear"
-                      titleStyle={styles.linkTitle}
-                      buttonStyle={styles.linkButton}
-                      containerStyle={{
-                        padding: 0
-                      }}
-                      onPress={() => this.props.onIcons(this.state.title)}
-                    />
-                  </View>
-                </View>
-              </>
+              {this.state.suggest ? (
+                <Suggest
+                  title={this.state.title}
+                  items={this.props.suggestList}
+                  onPress={this.onSuggest}
+                />
+              ) : (
+                <Body
+                  title={this.state.title}
+                  place={this.state.place}
+                  url={this.state.url}
+                  memo={this.state.memo}
+                  time={this.state.time}
+                  scrollView={this.scrollView}
+                  onIcons={this.props.onIcons}
+                  onChangeMemoInput={this.onChangeMemoInput}
+                  onOpenActionSheet={this.onOpenActionSheet}
+                />
+              )}
             </View>
           </SafeAreaView>
           <View style={{ height: 500, backgroundColor: "#fff" }} />
@@ -438,40 +429,6 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#555",
     paddingLeft: 1
-  },
-  timeContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: 80,
-    height: 30
-  },
-  timeText: {
-    fontSize: 18,
-    color: theme.color.darkGray,
-    paddingHorizontal: 15
-  },
-  memoInput: {
-    fontSize: 16,
-    lineHeight: 24,
-    fontWeight: "400",
-    borderBottomWidth: 0.5,
-    borderColor: "#5A6978"
-  },
-  memoText: {
-    fontSize: 16,
-    lineHeight: 24,
-    fontWeight: "400"
-  },
-  linkTitle: {
-    color: "#a888",
-    fontSize: 12,
-    fontWeight: "600",
-    padding: 0
-  },
-  linkButton: {
-    borderBottomWidth: 1,
-    borderBottomColor: "#888",
-    padding: 0
   }
 });
 
