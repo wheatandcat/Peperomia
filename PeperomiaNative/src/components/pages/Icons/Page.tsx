@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { View, ScrollView } from "react-native";
-import { Input, ListItem, Button, Divider } from "react-native-elements";
+import { View, ScrollView, Platform } from "react-native";
+import { Input, ListItem, Divider } from "react-native-elements";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
   ActionSheetProps,
@@ -68,7 +68,8 @@ class Page extends Component<Props & ActionSheetProps, State> {
           style={{
             paddingHorizontal: 10,
             height: "7%",
-            backgroundColor: "#eeeeee"
+            backgroundColor: "#eeeeee",
+            alignItems: "center"
           }}
         >
           <Input
@@ -78,10 +79,13 @@ class Page extends Component<Props & ActionSheetProps, State> {
               backgroundColor: "#cccccc",
               borderBottomWidth: 0,
               borderRadius: 10,
-              height: whenIPhoneSE(30, 45)
+              height: Platform.OS === "ios" ? whenIPhoneSE(30, 45) : 30
             }}
             leftIconContainerStyle={{
               marginRight: 20
+            }}
+            containerStyle={{
+              paddingTop: Platform.OS === "ios" ? 0 : 5
             }}
             onChangeText={text => this.setState({ search: text })}
           />
@@ -127,22 +131,7 @@ class Page extends Component<Props & ActionSheetProps, State> {
             height: "8%",
             alignItems: "flex-end"
           }}
-        >
-          {this.props.photo && (
-            <Button
-              title="写真から選択"
-              type="clear"
-              icon={<MaterialIcons name="chevron-right" size={25} />}
-              iconRight
-              titleStyle={{
-                color: "#F95F62",
-                fontSize: 12,
-                fontWeight: "600"
-              }}
-              onPress={this.onOpenActionSheet}
-            />
-          )}
-        </View>
+        />
       </View>
     );
   }

@@ -88,32 +88,17 @@ class Page extends Component<Props & ActionSheetProps> {
   }
 
   onOpenActionSheet = () => {
+    Keyboard.dismiss();
+
     this.props.showActionSheetWithOptions(
       {
-        options: [
-          "アイコンを変更する",
-          //"写真を撮影する",
-          //"フォトライブラリー",
-          "キャンセル"
-        ],
+        options: ["アイコンを変更する", "キャンセル"],
         cancelButtonIndex: 1
       },
       buttonIndex => {
         if (buttonIndex === 0) {
           this.props.onIcons();
         }
-        // TODO: 一旦カメラをやめる
-        /*
-        if (buttonIndex === 1) {
-          this.props.onCamera();
-        }
-        if (buttonIndex ===   ) {
-          this._pickImage();
-          this.setState({
-            titleFocusCount: 0
-          });
-        }
-        */
       }
     );
   };
