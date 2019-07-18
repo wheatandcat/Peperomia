@@ -1,7 +1,7 @@
 import React from "react";
-import { View } from "react-native";
-import { Button } from "react-native-elements";
+import { TouchableOpacity } from "react-native";
 import { Entypo } from "@expo/vector-icons";
+import theme from "../../../config/theme";
 import { RightText } from "../../atoms/Header";
 
 interface Props {
@@ -21,23 +21,12 @@ export default (props: Props) => {
   }
 
   return (
-    <View style={{ flex: 1, flexDirection: "row", paddingTop: 2 }}>
-      <Button
-        icon={<Entypo name="share-alternative" size={13} color="#FFFFFF" />}
-        iconContainerStyle={{
-          padding: 0
-        }}
-        buttonStyle={{
-          backgroundColor: "#4DB6AC",
-          width: 28,
-          height: 28,
-          borderColor: "transparent",
-          borderWidth: 0,
-          borderRadius: 10,
-          marginRight: 10
-        }}
-        onPress={props.onOpenActionSheet}
+    <TouchableOpacity onPress={props.onOpenActionSheet}>
+      <Entypo
+        name="share-alternative"
+        size={25}
+        color={theme.color.lightGreen}
       />
-    </View>
+    </TouchableOpacity>
   );
 };

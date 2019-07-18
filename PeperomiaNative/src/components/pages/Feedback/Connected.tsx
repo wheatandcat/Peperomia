@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import { Alert } from "react-native";
 import Page from "./Page";
+import theme from "../../../config/theme";
 
 interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
@@ -13,7 +14,10 @@ interface State {
 }
 
 export default class extends Component<Props, State> {
-  static navigationOptions = { title: "フィードバック" };
+  static navigationOptions = {
+    title: "フィードバック",
+    headerBackTitle: ""
+  };
 
   state = {
     isOpen: false,

@@ -2,6 +2,7 @@ import React from "react";
 import { Platform } from "react-native";
 import ActionButton from "react-native-action-button";
 import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
+import theme from "../../../config/theme";
 
 interface Props {
   onAdd: () => void;
@@ -12,7 +13,11 @@ interface Props {
 const right = Platform.OS === "ios" ? 50 : 100;
 
 export default (props: Props) => (
-  <ActionButton buttonColor="#33CC33" hideShadow testID="scheduleMenu">
+  <ActionButton
+    buttonColor={theme.color.lightGreen}
+    hideShadow
+    testID="scheduleMenu"
+  >
     <ActionButton.Item
       buttonColor="#0099FF"
       title="予定を追加"

@@ -4,32 +4,28 @@ import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import uuidv1 from "uuid/v1";
 import { db } from "../../../lib/db";
 import {
+  ItemDetailParam,
   insert as insertItemDetail,
   countByItemId,
   ItemDetail
 } from "../../../lib/db/itemDetail";
+import { SuggestItem } from "../../../lib/suggest";
 import getKind from "../../../lib/getKind";
 import { Consumer as ItemsConsumer } from "../../../containers/Items";
 import Page from "../../templates/CreateScheduleDetail/Page";
 
-export interface State {
-  title: string;
-  kind: string;
-  memo: string;
-  moveMinutes: number;
+export interface State extends ItemDetailParam {
   iconSelected: boolean;
   priority: number;
+  suggestList: SuggestItem[];
 }
 
-interface Props {
-  title: string;
-  kind: string;
-  memo: string;
-  moveMinutes: number;
+interface Props extends ItemDetailParam {
   navigation: NavigationScreenProp<NavigationRoute>;
 }
 
 interface PlanProps extends Props {
+  itemDetails: ItemDetail[];
   refreshData: () => void;
 }
 
@@ -37,8 +33,12 @@ export default class extends Component<Props> {
   render() {
     return (
       <ItemsConsumer>
-        {({ refreshData }: any) => (
-          <Plan {...this.props} refreshData={refreshData} />
+        {({ refreshData, itemDetails }: any) => (
+          <Plan
+            {...this.props}
+            refreshData={refreshData}
+            itemDetails={itemDetails}
+          />
         )}
       </ItemsConsumer>
     );
@@ -49,13 +49,25 @@ class Plan extends Component<PlanProps, State> {
   state = {
     title: this.props.title || "",
     kind: this.props.kind || "",
+    place: this.props.place || "",
+    url: this.props.url || "",
     memo: this.props.memo || "",
     moveMinutes: this.props.moveMinutes || 0,
     iconSelected: false,
-    priority: 1
+    priority: 1,
+    suggestList: []
   };
 
   componentDidMount() {
+    const suggestList = this.props.itemDetails.map(itemDetail => ({
+      title: itemDetail.title,
+      kind: itemDetail.kind
+    }));
+
+    this.setState({
+      suggestList
+    });
+
     const itemId = this.props.navigation.getParam("itemId", "1");
 
     db.transaction((tx: SQLite.Transaction) => {
@@ -89,7 +101,14 @@ class Plan extends Component<PlanProps, State> {
     this.props.navigation.goBack();
   };
 
-  onSave = (title: string, kind: string, memo: string, time: number) => {
+  onSave = (
+    title: string,
+    kind: string,
+    place: string,
+    url: string,
+    memo: string,
+    time: number
+  ) => {
     const itemId = this.props.navigation.getParam("itemId", "1");
 
     db.transaction((tx: SQLite.Transaction) => {
@@ -97,6 +116,8 @@ class Plan extends Component<PlanProps, State> {
         itemId,
         title,
         kind,
+        place,
+        url,
         memo,
         moveMinutes: time,
         priority: this.state.priority
@@ -106,7 +127,9 @@ class Plan extends Component<PlanProps, State> {
     });
   };
 
-  save = () => {
+  save = (data: any, error: any) => {
+    console.log(error);
+
     const itemId = this.props.navigation.getParam("itemId", "1");
 
     this.props.navigation.navigate("CreateSchedule", {
@@ -137,8 +160,11 @@ class Plan extends Component<PlanProps, State> {
       <Page
         title={this.state.title}
         kind={this.state.kind}
+        place={this.state.place}
+        url={this.state.url}
         memo={this.state.memo}
         time={this.state.moveMinutes}
+        suggestList={this.state.suggestList}
         iconSelected={this.state.iconSelected}
         onDismiss={this.onDismiss}
         onSave={this.onSave}

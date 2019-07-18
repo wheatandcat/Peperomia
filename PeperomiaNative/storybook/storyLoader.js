@@ -12,9 +12,11 @@ function loadStories() {
   require('../src/components/molecules/Schedule/stories');
   require('../src/components/molecules/ScheduleDetail/stories');
   require('../src/components/molecules/ScheduleHeader/stories');
+  require('../src/components/organisms/CreateScheduleDetail/stories');
   require('../src/components/organisms/Guide/stories');
   require('../src/components/organisms/Home/stories');
   require('../src/components/organisms/Schedule/stories');
+  require('../src/components/organisms/Suggest/stories');
   require('../src/components/pages/AppInfo/stories');
   require('../src/components/pages/Camera/stories');
   require('../src/components/pages/Feedback/stories');
@@ -39,9 +41,11 @@ const stories = [
   '../src/components/molecules/Schedule/stories',
   '../src/components/molecules/ScheduleDetail/stories',
   '../src/components/molecules/ScheduleHeader/stories',
+  '../src/components/organisms/CreateScheduleDetail/stories',
   '../src/components/organisms/Guide/stories',
   '../src/components/organisms/Home/stories',
   '../src/components/organisms/Schedule/stories',
+  '../src/components/organisms/Suggest/stories',
   '../src/components/pages/AppInfo/stories',
   '../src/components/pages/Camera/stories',
   '../src/components/pages/Feedback/stories',

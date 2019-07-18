@@ -1,83 +1,39 @@
 import { SQLite } from "expo-sqlite";
 import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
-import { Text, TouchableOpacity, View, Alert } from "react-native";
-import uuidv1 from "uuid/v1";
+import { Alert } from "react-native";
 import { db } from "../../../lib/db";
-import { select1st } from "../../../lib/db/item";
+import { Item, select1st } from "../../../lib/db/item";
 import {
   selectByItemId,
   ItemDetail,
   update as updateItemDetail
 } from "../../../lib/db/itemDetail";
 import { ItemProps } from "../../organisms/Schedule/Cards";
-import Page, { Props as PageProps } from "../../templates/CreateSchedule/Page";
+import Page from "../../templates/CreateSchedule/Page";
 
-interface Props extends PageProps {
+interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
 }
 
 interface State {
+  item: Item;
   items: ItemProps[];
   refresh: string;
 }
 
 export default class extends Component<Props, State> {
-  static navigationOptions = ({
-    navigation
-  }: {
-    navigation: NavigationScreenProp<NavigationRoute>;
-  }) => {
-    const { params = {} } = navigation.state;
-    let result: any = {
-      title: params.title,
-      headerRight: (
-        <View style={{ right: 10 }}>
-          <TouchableOpacity onPress={params.onFinish} testID="saveSchedule">
-            <Text style={{ fontSize: 16, fontWeight: "600" }}>完了</Text>
-          </TouchableOpacity>
-        </View>
-      )
-    };
-
-    if (params.mode === "edit") {
-      result = {
-        ...result,
-        headerLeft: (
-          <View style={{ paddingLeft: 5 }}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("Schedule", {
-                  itemId: params.itemId,
-                  title: params.title
-                });
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 16,
-                  fontWeight: "600",
-                  color: "red"
-                }}
-              >
-                キャンセル
-              </Text>
-            </TouchableOpacity>
-          </View>
-        )
-      };
-    }
-
-    return result;
+  state = {
+    item: { title: "", kind: "", image: "" },
+    items: [],
+    refresh: "0"
   };
-
-  state = { items: [], refresh: "0" };
 
   componentDidMount() {
     const itemId = this.props.navigation.getParam("itemId", "1");
 
     db.transaction((tx: SQLite.Transaction) => {
-      select1st(tx, itemId, this.setParams);
+      select1st(tx, itemId, this.setItem);
       selectByItemId(tx, itemId, this.setItems);
     });
   }
@@ -95,19 +51,17 @@ export default class extends Component<Props, State> {
     }
   }
 
-  setParams = (data: any, error: any) => {
+  setItem = (data: Item, error: any) => {
     if (error) {
       return;
     }
 
-    const itemId = this.props.navigation.getParam("itemId", "1");
-    const mode = this.props.navigation.getParam("mode", "create");
-
-    this.props.navigation.setParams({
-      title: data.title,
-      itemId,
-      mode,
-      onFinish: this.onFinish
+    this.setState({
+      item: {
+        title: data.title,
+        kind: data.kind,
+        image: data.image
+      }
     });
   };
 
@@ -151,13 +105,7 @@ export default class extends Component<Props, State> {
     const itemId = this.props.navigation.getParam("itemId", "1");
 
     this.props.navigation.navigate("CreateScheduleDetail", {
-      itemId,
-      onSave: () => {
-        this.props.navigation.navigate("CreateSchedule", {
-          itemId: itemId,
-          refresh: uuidv1()
-        });
-      }
+      itemId
     });
   };
 
@@ -192,12 +140,41 @@ export default class extends Component<Props, State> {
     }
   };
 
+  onGoBack = () => {
+    if (this.state.items.length === 0) {
+      Alert.alert(
+        "まだ予定の設定がありません",
+        "本当に閉じますか？",
+        [
+          {
+            text: "キャンセル",
+            style: "cancel"
+          },
+          {
+            text: "閉じる",
+            onPress: () => {
+              this.props.navigation.navigate("Home", { refresh: true });
+            }
+          }
+        ],
+        { cancelable: false }
+      );
+    } else {
+      this.props.navigation.navigate("Home", { refresh: true });
+    }
+  };
+
   render() {
     return (
       <Page
+        title={this.state.item.title}
+        kind={this.state.item.kind}
+        image={this.state.item.image}
         data={this.state.items}
         onScheduleDetail={this.onScheduleDetail}
         onCreateScheduleDetail={this.onCreateScheduleDetail}
+        onFinish={this.onFinish}
+        onGoBack={this.onGoBack}
       />
     );
   }

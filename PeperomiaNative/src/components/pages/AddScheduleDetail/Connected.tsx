@@ -4,30 +4,26 @@ import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import uuidv1 from "uuid/v1";
 import { db } from "../../../lib/db";
 import {
+  ItemDetailParam,
   insert as insertItemDetail,
   ItemDetail
 } from "../../../lib/db/itemDetail";
 import getKind from "../../../lib/getKind";
+import { SuggestItem } from "../../../lib/suggest";
 import { Consumer as ItemsConsumer } from "../../../containers/Items";
 import Page from "../../templates/CreateScheduleDetail/Page";
 
-export interface State {
-  title: string;
-  kind: string;
-  memo: string;
-  moveMinutes: number;
+export interface State extends ItemDetailParam {
   iconSelected: boolean;
+  suggestList: SuggestItem[];
 }
 
-interface Props {
-  title: string;
-  kind: string;
-  memo: string;
-  moveMinutes: number;
+interface Props extends ItemDetailParam {
   navigation: NavigationScreenProp<NavigationRoute>;
 }
 
 interface PlanProps extends Props {
+  itemDetails: ItemDetail[];
   refreshData: () => void;
 }
 
@@ -35,8 +31,12 @@ export default class extends Component<Props> {
   render() {
     return (
       <ItemsConsumer>
-        {({ refreshData }: any) => (
-          <Plan {...this.props} refreshData={refreshData} />
+        {({ refreshData, itemDetails }: any) => (
+          <Plan
+            {...this.props}
+            refreshData={refreshData}
+            itemDetails={itemDetails}
+          />
         )}
       </ItemsConsumer>
     );
@@ -46,11 +46,26 @@ export default class extends Component<Props> {
 class Plan extends Component<PlanProps, State> {
   state = {
     title: this.props.title || "",
-    kind: this.props.kind || "",
+    place: this.props.place || "",
+    url: this.props.url || "",
     memo: this.props.memo || "",
     moveMinutes: this.props.moveMinutes || 0,
-    iconSelected: false
+    kind: this.props.kind,
+    priority: this.props.priority,
+    iconSelected: false,
+    suggestList: []
   };
+
+  componentDidMount() {
+    const suggestList = this.props.itemDetails.map(itemDetail => ({
+      title: itemDetail.title,
+      kind: itemDetail.kind
+    }));
+
+    this.setState({
+      suggestList
+    });
+  }
 
   componentDidUpdate() {
     const kind = this.props.navigation.getParam("kind", "");
@@ -68,7 +83,14 @@ class Plan extends Component<PlanProps, State> {
     this.props.navigation.goBack();
   };
 
-  onSave = (title: string, kind: string, memo: string, time: number) => {
+  onSave = (
+    title: string,
+    kind: string,
+    place: string,
+    url: string,
+    memo: string,
+    time: number
+  ) => {
     const itemId = this.props.navigation.getParam("itemId", "1");
     const priority = this.props.navigation.getParam("priority", "1");
 
@@ -76,8 +98,10 @@ class Plan extends Component<PlanProps, State> {
       const itemDetail: ItemDetail = {
         itemId,
         title,
-        kind,
+        place,
+        url,
         memo,
+        kind,
         moveMinutes: time,
         priority: Number(priority)
       };
@@ -113,16 +137,15 @@ class Plan extends Component<PlanProps, State> {
   };
 
   render() {
-    const itemId = this.props.navigation.getParam("itemId", "1");
-
-    console.log(itemId);
-
     return (
       <Page
         title={this.state.title}
         kind={this.state.kind}
+        place={this.state.place}
+        url={this.state.url}
         memo={this.state.memo}
         time={this.state.moveMinutes}
+        suggestList={this.state.suggestList}
         iconSelected={this.state.iconSelected}
         onDismiss={this.onDismiss}
         onSave={this.onSave}

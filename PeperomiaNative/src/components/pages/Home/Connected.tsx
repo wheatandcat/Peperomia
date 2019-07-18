@@ -8,6 +8,7 @@ import {
 import { Dimensions, View, Image, AsyncStorage } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import uuidv1 from "uuid/v1";
+import theme from "../../../config/theme";
 import { db } from "../../../lib/db";
 import { Item } from "../../../lib/db/item";
 import { delete1st } from "../../../lib/db/item";
@@ -53,8 +54,8 @@ class LogoTitle extends Component {
   render() {
     return (
       <Image
-        source={require("../../../img/title_logo.png")}
-        style={{ height: 35 }}
+        source={require("../../../img/header.png")}
+        style={{ height: 40, zIndex: 10 }}
         resizeMode="contain"
       />
     );
@@ -71,10 +72,11 @@ class HomeScreen extends Component<Props, State> {
 
     return {
       headerTitle: <LogoTitle />,
+
       headerRight: (
         <View style={{ right: 12 }}>
           <Hint onPress={params.onPushCreatePlan} testID="addSchedule">
-            <Feather name="plus" size={28} />
+            <Feather name="plus" size={28} color={theme.color.lightGreen} />
           </Hint>
         </View>
       )
@@ -196,27 +198,39 @@ class HomeScreenPlan extends Component<PlanProps, PlanState> {
   }
 }
 
-const MainCardNavigator = createStackNavigator({
-  Home: {
-    screen: HomeScreen
+const MainCardNavigator = createStackNavigator(
+  {
+    Home: {
+      screen: HomeScreen
+    },
+    Schedule: {
+      screen: Schedule
+    }
   },
-  Schedule: {
-    screen: Schedule
-  },
-  EditPlan: {
-    screen: EditPlan
+  {
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: theme.color.main
+      },
+      headerTitleStyle: {
+        color: theme.color.lightGreen
+      },
+      headerTintColor: theme.color.lightGreen
+    }
   }
-});
+);
 
 export default createStackNavigator(
   {
     MainCardNavigator: {
       screen: MainCardNavigator
+    },
+    EditPlan: {
+      screen: EditPlan
     }
   },
   {
     initialRouteName: "MainCardNavigator",
-    mode: "modal",
     headerMode: "none"
   }
 );

@@ -2,6 +2,7 @@ import React from "react";
 import { View, Card, Text } from "react-native-ui-lib";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import Color from "color";
+import s from "../../../config/style";
 import { KINDS } from "../../../lib/getKind";
 import { IconImage } from "../../atoms";
 
@@ -20,6 +21,7 @@ export interface Props extends ItemProps {
 
 export default (props: Props) => {
   const config = KINDS[props.kind];
+  const ss = s.schedule;
 
   return (
     <View
@@ -35,19 +37,19 @@ export default (props: Props) => {
         containerStyle={{
           borderWidth: 0.5,
           borderColor: Color(config.backgroundColor)
-            .alpha(0.5)
+            .darken(ss.borderColorAlpha)
             .toString(),
           justifyContent: "center",
           alignItems: "center",
           backgroundColor: Color(config.backgroundColor)
-            .alpha(0.2)
+            .lighten(ss.backgroundColorAlpha)
             .toString()
         }}
         onPress={() => props.onPress(props.id, props.title)}
         testID={props.testID}
       >
         <View style={{ padding: 10 }}>
-          <IconImage {...config} opacity={0.9} size={60} />
+          <IconImage {...config} opacity={1.0} size={60} />
         </View>
         <View padding-10 flex>
           <Grid>

@@ -23,6 +23,8 @@ interface Props {
   onEdit: (
     title: string,
     kind: string,
+    place: string,
+    url: string,
     memo: string,
     moveMinutes: number,
     priority: number
@@ -32,13 +34,20 @@ interface Props {
 
 export default class extends Component<Props, State> {
   state = {
-    item: { id: 0, title: "", image: "", kind: "" },
+    item: {
+      id: 0,
+      title: "",
+      image: "",
+      kind: ""
+    },
     itemDetail: {
       id: 0,
       itemId: 0,
       kind: "",
       title: "",
       memo: "",
+      place: "",
+      url: "",
       moveMinutes: 0,
       priority: 0
     }
@@ -74,8 +83,16 @@ export default class extends Component<Props, State> {
   };
 
   onCreateScheduleDetail = () => {
-    const { title, kind, memo, moveMinutes, priority } = this.state.itemDetail;
-    this.props.onEdit(title, kind, memo, moveMinutes, priority);
+    const {
+      title,
+      kind,
+      place,
+      url,
+      memo,
+      moveMinutes,
+      priority
+    } = this.state.itemDetail;
+    this.props.onEdit(title, kind, place, url, memo, moveMinutes, priority);
   };
 
   onDelete = () => {

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Text, View, TouchableOpacity } from "react-native";
-import * as Svg from "react-native-svg";
+import Svg, { Circle } from "react-native-svg";
 import * as Permissions from "expo-permissions";
 import { Camera } from "expo-camera";
 
@@ -19,7 +19,7 @@ export default class extends Component<Props, State> {
   camera: any;
 
   // 初期起動時、カメラの使用の権限を取得する。
-  async componentWillMount() {
+  async componentDidMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({
       hasCameraPermission: status === "granted"
@@ -76,7 +76,7 @@ export default class extends Component<Props, State> {
         >
           <TouchableOpacity onPress={this.takePicture.bind(this)}>
             <Svg height={60} width={60}>
-              <Svg.Circle
+              <Circle
                 cx={30}
                 cy={30}
                 r={25}

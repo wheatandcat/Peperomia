@@ -1,16 +1,16 @@
-import Constants from 'expo-constants';
-import { SQLite } from 'expo-sqlite';
+import Constants from "expo-constants";
+import { SQLite } from "expo-sqlite";
 import React, { Component } from "react";
 import uuidv1 from "uuid/v1";
-import FontAwesomeIcons from "react-native-vector-icons/FontAwesome";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import {
   createAppContainer,
   createBottomTabNavigator,
   createStackNavigator
 } from "react-navigation";
-import { AsyncStorage, StatusBar } from "react-native";
+import { AsyncStorage, StatusBar, Text } from "react-native";
 import Sentry from "sentry-expo";
+import { MaterialIcons } from "@expo/vector-icons";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { Provider as PaperProvider } from "react-native-paper";
 import ItemsProvider from "./containers/Items";
@@ -33,6 +33,7 @@ import {
   insert as insertUser,
   User
 } from "./lib/db/user";
+import theme from "./config/theme";
 
 Sentry.enableInExpoDevelopment = true;
 
@@ -40,8 +41,8 @@ if (process.env.SENTRY_URL) {
   Sentry.config(String(process.env.SENTRY_URL)).install();
 }
 
-StatusBar.setBarStyle("dark-content", true);
-StatusBar.setBackgroundColor("#ffffff", true);
+StatusBar.setBarStyle("light-content", true);
+StatusBar.setBackgroundColor("#000", true);
 
 const TabNavigator = createBottomTabNavigator(
   {
@@ -60,22 +61,37 @@ const TabNavigator = createBottomTabNavigator(
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
+      tabBarLabel: ({ focused }) => {
+        const { routeName } = navigation.state;
+        return (
+          <Text
+            style={{
+              fontSize: 12,
+              fontWeight: "500",
+              textAlign: "center",
+              color: focused ? theme.color.main : theme.color.darkGray
+            }}
+          >
+            {routeName}
+          </Text>
+        );
+      },
       tabBarIcon: ({ focused }) => {
         const { routeName } = navigation.state;
         if (routeName === "マイプラン") {
           return (
-            <FontAwesomeIcons
-              name="calendar-o"
-              size={25}
-              color={focused ? "#4DB6AC" : "#ccc"}
+            <MaterialIcons
+              name="date-range"
+              size={30}
+              color={focused ? theme.color.main : theme.color.darkGray}
             />
           );
         } else if (routeName === "設定") {
           return (
             <MaterialCommunityIcons
-              name="settings"
-              size={25}
-              color={focused ? "#4DB6AC" : "#ccc"}
+              name="settings-outline"
+              size={30}
+              color={focused ? theme.color.main : theme.color.darkGray}
             />
           );
         }
@@ -84,8 +100,10 @@ const TabNavigator = createBottomTabNavigator(
       }
     }),
     tabBarOptions: {
-      activeTintColor: "#4DB6AC",
-      inactiveTintColor: "gray"
+      inactiveTintColor: "gray",
+      style: {
+        backgroundColor: "#F2F2F2"
+      }
     }
   }
 );
@@ -110,14 +128,31 @@ const IconsNavigator = createStackNavigator(
   }
 );
 
-const CreateNavigator = createStackNavigator({
-  CreatePlan: {
-    screen: CreatePlan
+const CreateDetailNavigator = createStackNavigator(
+  {
+    CreatePlan: {
+      screen: CreatePlan
+    },
+    CreateSchedule: {
+      screen: CreateSchedule
+    }
   },
-  CreateSchedule: {
-    screen: CreateSchedule
+  {
+    headerMode: "none"
   }
-});
+);
+
+const CreateNavigator = createStackNavigator(
+  {
+    CreatePlan: {
+      screen: CreateDetailNavigator
+    }
+  },
+  {
+    mode: "modal",
+    headerMode: "none"
+  }
+);
 
 const Navigator = createStackNavigator(
   {

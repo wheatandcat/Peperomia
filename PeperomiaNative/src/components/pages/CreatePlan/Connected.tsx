@@ -2,14 +2,14 @@ import * as ImageManipulator from "expo-image-manipulator";
 import { SQLite } from "expo-sqlite";
 import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
-import { TouchableOpacity, View } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Consumer as ItemsConsumer } from "../../../containers/Items";
 import { db } from "../../../lib/db";
 import { insert as insertItem, Item } from "../../../lib/db/item";
+import { SuggestItem } from "../../../lib/suggest";
 import getKind from "../../../lib/getKind";
-import Page, { Props as PageProps } from "../../templates/CreatePlan/Page";
+import Page from "../../templates/CreatePlan/Page";
 
-interface Props extends PageProps {
+interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
 }
 
@@ -19,31 +19,41 @@ interface State {
   };
   image: string;
   kind: string;
+  suggestList: SuggestItem[];
 }
 
-export default class extends Component<Props, State> {
-  static navigationOptions = ({
-    navigation
-  }: {
-    navigation: NavigationScreenProp<NavigationRoute>;
-  }) => {
-    return {
-      title: "プラン作成",
-      headerLeft: (
-        <View style={{ left: 10 }}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("Home");
-            }}
-          >
-            <MaterialCommunityIcons name="close" size={25} />
-          </TouchableOpacity>
-        </View>
-      )
-    };
+export default class extends Component<Props> {
+  render() {
+    return (
+      <ItemsConsumer>
+        {({ items }: any) => <Connect {...this.props} items={items} />}
+      </ItemsConsumer>
+    );
+  }
+}
+
+interface ConnectProps extends Props {
+  items: Item[];
+}
+
+class Connect extends Component<ConnectProps, State> {
+  state = {
+    input: { title: "" },
+    image: "",
+    kind: "",
+    suggestList: []
   };
 
-  state = { input: { title: "" }, image: "", kind: "" };
+  componentDidMount() {
+    const suggestList = this.props.items.map(item => ({
+      title: item.title,
+      kind: item.kind
+    }));
+
+    this.setState({
+      suggestList
+    });
+  }
 
   async componentDidUpdate() {
     const image = this.props.navigation.getParam("image", "");
@@ -82,8 +92,8 @@ export default class extends Component<Props, State> {
     if (this.state.image) {
       const manipResult = await ImageManipulator.manipulateAsync(
         this.state.image,
-        [{ rotate: 0 }, { flip: { vertical: true } }],
-        { format: "png", base64: true }
+        [{ rotate: 0 }, { flip: ImageManipulator.FlipType.Vertical }],
+        { compress: 1, format: ImageManipulator.SaveFormat.PNG, base64: true }
       );
 
       image = manipResult.base64 || "";
@@ -139,6 +149,10 @@ export default class extends Component<Props, State> {
     });
   };
 
+  onHome = () => {
+    this.props.navigation.navigate("Home");
+  };
+
   render() {
     return (
       <Page
@@ -146,11 +160,13 @@ export default class extends Component<Props, State> {
         title={this.state.input.title}
         image={this.state.image}
         kind={this.state.kind}
+        suggestList={this.state.suggestList}
         onInput={this.onInput}
         onImage={this.onImage}
         onSave={this.onSave}
         onIcons={this.onIcons}
         onCamera={this.onCamera}
+        onHome={this.onHome}
       />
     );
   }

@@ -16,8 +16,7 @@ import {
 import Toast from "react-native-root-toast";
 import uuidv1 from "uuid/v1";
 import { Button } from "react-native-elements";
-import EditSchedule from "../EditSchedule/Connected";
-import SortableSchedule from "../SortableSchedule/Connected";
+import theme from "../../../config/theme";
 import { db } from "../../../lib/db";
 import {
   update as updateItemDetail,
@@ -32,6 +31,7 @@ import {
 import { select1st, delete1st, Item } from "../../../lib/db/item";
 import getShareText from "../../../lib/getShareText";
 import { Consumer as ItemsConsumer } from "../../../containers/Items";
+import SortableSchedule from "../SortableSchedule/Connected";
 import Schedule from "./Connected";
 import HeaderLeft from "./HeaderLeft";
 import HeaderRight from "./HeaderRight";
@@ -72,6 +72,10 @@ class Switch extends Component<Props & ActionSheetProps, State> {
           title={params.title}
           onPress={params.onEditPlan}
           testID="updateTitle"
+          titleStyle={{
+            color: theme.color.lightGreen,
+            fontWeight: "600"
+          }}
         />
       ),
 
@@ -128,7 +132,6 @@ class Switch extends Component<Props & ActionSheetProps, State> {
 
     this.props.navigation.setParams({
       onAdd: this.onAdd,
-      onEdit: this.onEdit,
       onShow: this.onShow,
       onSort: this.onSort,
       onSave: this.onSave,
@@ -238,7 +241,7 @@ class Switch extends Component<Props & ActionSheetProps, State> {
 
     const { height } = Dimensions.get("window");
 
-    let toast = Toast.show("リンクがコピーされました！", {
+    const toast = Toast.show("リンクがコピーされました！", {
       duration: Toast.durations.LONG,
       position: height - 150,
       shadow: true,
@@ -286,16 +289,6 @@ class Switch extends Component<Props & ActionSheetProps, State> {
           refresh: uuidv1()
         });
       }
-    });
-  };
-
-  onEdit = (items: ItemDetail[]): void => {
-    const itemId = this.props.navigation.getParam("itemId", "1");
-
-    this.setState({ itemId, items, mode: "edit" });
-
-    this.props.navigation.setParams({
-      mode: "edit"
     });
   };
 
@@ -411,17 +404,6 @@ class Plan extends Component<PlanProps & ActionSheetProps> {
   };
 
   render() {
-    if (this.props.mode === "edit") {
-      return (
-        <EditSchedule
-          title={this.props.title}
-          items={this.props.items}
-          navigation={this.props.navigation}
-          onShow={this.props.onShow}
-        />
-      );
-    }
-
     if (this.props.mode === "sort") {
       return (
         <SortableSchedule

@@ -23,14 +23,14 @@ const config: Config = {
     }
   },
   home: {
-    borderWidth: 0.5,
-    borderColorAlpha: 0.5,
-    backgroundColorAlpha: 0.5
+    borderWidth: 1,
+    borderColorAlpha: 0.05,
+    backgroundColorAlpha: 0.05
   },
   schedule: {
-    borderWidth: 0.5,
-    borderColorAlpha: 0.2,
-    backgroundColorAlpha: 0.2
+    borderWidth: 1,
+    borderColorAlpha: 0.05,
+    backgroundColorAlpha: 0.05
   }
 };
 

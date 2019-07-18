@@ -37,6 +37,8 @@ class Plan extends Component<PlanProps, State> {
     title: "",
     memo: "",
     kind: "",
+    url: "",
+    place: "",
     moveMinutes: 0,
     priority: 0,
     scheduleDetailId: 0,
@@ -46,6 +48,8 @@ class Plan extends Component<PlanProps, State> {
   onEdit = (
     title: string,
     kind: string,
+    place: string,
+    url: string,
     memo: string,
     moveMinutes: number,
     priority: number
@@ -59,6 +63,8 @@ class Plan extends Component<PlanProps, State> {
       title,
       kind,
       memo,
+      place,
+      url,
       moveMinutes,
       priority,
       scheduleDetailId,
@@ -77,6 +83,8 @@ class Plan extends Component<PlanProps, State> {
           id={this.state.scheduleDetailId}
           title={this.state.title}
           kind={this.state.kind}
+          url={this.state.url}
+          place={this.state.place}
           memo={this.state.memo}
           moveMinutes={this.state.moveMinutes}
           priority={this.state.priority}
