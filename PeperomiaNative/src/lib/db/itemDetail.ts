@@ -33,8 +33,8 @@ export const create = async (
       "priority integer" +
       ");",
     [],
-    (_, props) => success(props.rows._array, callback),
-    (_, err) => error(err, callback)
+    (_: any, props: any) => success(props.rows._array, callback),
+    (_: any, err: any) => error(err, callback)
   );
 };
 
@@ -55,8 +55,8 @@ export const insert = async (
       String(itemDetail.moveMinutes),
       String(itemDetail.priority)
     ],
-    (_, props) => success(props.rows._array, callback),
-    (_, err) => error(err, callback)
+    (_: any, props: any) => success(props.rows._array, callback),
+    (_: any, err: any) => error(err, callback)
   );
 };
 
@@ -77,8 +77,8 @@ export const update = async (
       String(itemDetail.priority),
       String(itemDetail.id)
     ],
-    (_, props) => success(props.rows._array, callback),
-    (_, err) => error(err, callback)
+    (_: any, props: any) => success(props.rows._array, callback),
+    (_: any, err: any) => error(err, callback)
   );
 };
 
@@ -89,8 +89,8 @@ export const select = async (
   return tx.executeSql(
     "select * from item_details",
     [],
-    (_, props) => success(props.rows._array, callback),
-    (_, err) => error(err, callback)
+    (_: any, props: any) => success(props.rows._array, callback),
+    (_: any, err: any) => error(err, callback)
   );
 };
 
@@ -102,8 +102,8 @@ export const selectByItemId = async (
   return tx.executeSql(
     "select * from item_details where itemId = ? order by priority",
     [id],
-    (_, props) => success(props.rows._array, callback),
-    (_, err) => error(err, callback)
+    (_: any, props: any) => success(props.rows._array, callback),
+    (_: any, err: any) => error(err, callback)
   );
 };
 
@@ -115,8 +115,8 @@ export const select1st = async (
   return tx.executeSql(
     "select * from item_details where id = ? limit 1",
     [id],
-    (_, props) => success(props.rows._array[0], callback),
-    (_, err) => error(err, callback)
+    (_: any, props: any) => success(props.rows._array[0], callback),
+    (_: any, err: any) => error(err, callback)
   );
 };
 
@@ -139,8 +139,8 @@ export const countByItemId = async (
   return tx.executeSql(
     "select count(id) as count from item_details where itemId = ?",
     [id],
-    (_, props) => success(props.rows._array[0].count, callback),
-    (_, err) => error(err, callback)
+    (_: any, props: any) => success(props.rows._array[0].count, callback),
+    (_: any, err: any) => error(err, callback)
   );
 };
 
@@ -152,8 +152,8 @@ export const delete1st = async (
   tx.executeSql(
     `delete from item_details where id = ?;`,
     [id],
-    (_, props) => success(props.rows._array[0], callback),
-    (_, err) => error(err, callback)
+    (_: any, props: any) => success(props.rows._array[0], callback),
+    (_: any, err: any) => error(err, callback)
   );
 };
 
@@ -165,8 +165,8 @@ export const deleteByItemId = async (
   tx.executeSql(
     `delete from item_details where itemId = ?;`,
     [id],
-    (_, props) => success(props.rows._array[0], callback),
-    (_, err) => error(err, callback)
+    (_: any, props: any) => success(props.rows._array[0], callback),
+    (_: any, err: any) => error(err, callback)
   );
 };
 
@@ -177,8 +177,8 @@ export const deleteAll = async (
   tx.executeSql(
     `delete from item_details;`,
     [],
-    (_, props) => success(props.rows._array[0], callback),
-    (_, err) => error(err, callback)
+    (_: any, props: any) => success(props.rows._array[0], callback),
+    (_: any, err: any) => error(err, callback)
   );
 };
 
@@ -217,8 +217,8 @@ export const bulkInsert = async (
   return tx.executeSql(
     query,
     param,
-    (_, props) => success(props, callback),
-    (_, err) => {
+    (_: any, props: any) => success(props, callback),
+    (_: any, err: any) => {
       error(err, callback);
     }
   );

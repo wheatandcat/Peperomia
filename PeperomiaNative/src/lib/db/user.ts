@@ -13,8 +13,8 @@ export const create = async (
   return tx.executeSql(
     "create table if not exists users (id integer primary key not null, uuid string);",
     [],
-    (_, props) => success(props.rows._array, callback),
-    (_, err) => error(err, callback)
+    (_: any, props: any) => success(props.rows._array, callback),
+    (_: any, err: any) => error(err, callback)
   );
 };
 
@@ -26,8 +26,8 @@ export const insert = async (
   return tx.executeSql(
     "insert into users (uuid) values (?)",
     [user.uuid],
-    (_, props) => success(props.insertId, callback),
-    (_, err) => error(err, callback)
+    (_: any, props: any) => success(props.insertId, callback),
+    (_: any, err: any) => error(err, callback)
   );
 };
 
@@ -38,7 +38,7 @@ export const select1st = async (
   tx.executeSql(
     `select * from users;`,
     [],
-    (_, props) => success(props.rows._array[0], callback),
-    (_, err) => error(err, callback)
+    (_: any, props: any) => success(props.rows._array[0], callback),
+    (_: any, err: any) => error(err, callback)
   );
 };
