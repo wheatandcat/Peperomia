@@ -1,6 +1,7 @@
 import React from "react";
 import { storiesOf } from "@storybook/react-native";
 import { View } from "react-native-ui-lib";
+import { KIND_PARK } from "../../../lib/getKind";
 import Card from "./Card";
 
 storiesOf("molecules/Home", module).add("Card", () => (
@@ -8,6 +9,9 @@ storiesOf("molecules/Home", module).add("Card", () => (
     <Card
       title="葛西臨海公園"
       about="水上バスで浅草から移動→そのまま海へ行って"
+      kind={KIND_PARK}
+      image=""
+      about="駅→公園"
     />
   </View>
 ));

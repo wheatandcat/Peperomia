@@ -180,22 +180,6 @@ export default class extends Component<Props, State> {
 }
 
 const styles = StyleSheet.create({
-  header: {
-    height: 50,
-    width: "100%",
-    top: 0,
-    left: 0,
-    position: "absolute",
-    borderBottomWidth: 1,
-    borderColor: theme.color.lightGray,
-    zIndex: 20,
-    paddingLeft: 20,
-    justifyContent: "center"
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: "500"
-  },
   headerImageTitle: {
     paddingLeft: 20,
     fontSize: 30,

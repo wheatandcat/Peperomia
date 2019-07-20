@@ -1,11 +1,5 @@
 import React, { Component } from "react";
-import {
-  SafeAreaView,
-  Alert,
-  StatusBar,
-  TouchableOpacity,
-  Platform
-} from "react-native";
+import { SafeAreaView, Alert, StatusBar, TouchableOpacity } from "react-native";
 import {
   ActionSheetProps,
   connectActionSheet

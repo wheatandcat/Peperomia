@@ -25,6 +25,7 @@ const props = [
     kind: KIND_PARK,
     about: "水上バスで浅草から移動→そのまま海へ行って"
   }
+  
 ];
 
 storiesOf("organisms/Home", module).add("Cards", () => (
