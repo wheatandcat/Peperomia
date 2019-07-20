@@ -20,8 +20,8 @@ export const create = async (
       "image string" +
       ");",
     [],
-    (_, props) => success(props.rows._array, callback),
-    (_, err) => error(err, callback)
+    (_: any, props: any) => success(props.rows._array, callback),
+    (_: any, err: any) => error(err, callback)
   );
 };
 
@@ -33,8 +33,8 @@ export const insert = async (
   return tx.executeSql(
     "insert into items (title, kind, image) values (?, ?, ?)",
     [item.title, item.kind, item.image],
-    (_, props) => success(props.insertId, callback),
-    (_, err) => error(err, callback)
+    (_: any, props: any) => success(props.insertId, callback),
+    (_: any, err: any) => error(err, callback)
   );
 };
 
@@ -46,8 +46,8 @@ export const update = async (
   return tx.executeSql(
     "update items set title = ?, kind = ?, image = ? where id = ?",
     [item.title, item.kind, item.image, String(item.id)],
-    (_, props) => success(props.rows._array, callback),
-    (_, err) => error(err, callback)
+    (_: any, props: any) => success(props.rows._array, callback),
+    (_: any, err: any) => error(err, callback)
   );
 };
 
@@ -58,8 +58,8 @@ export const select = async (
   tx.executeSql(
     `select * from items order by id desc;`,
     [],
-    (_, props) => success(props.rows._array, callback),
-    (_, err) => error(err, callback)
+    (_: any, props: any) => success(props.rows._array, callback),
+    (_: any, err: any) => error(err, callback)
   );
 };
 
@@ -71,8 +71,8 @@ export const select1st = async (
   tx.executeSql(
     `select * from items where id = ?;`,
     [id],
-    (_, props) => success(props.rows._array[0], callback),
-    (_, err) => error(err, callback)
+    (_: any, props: any) => success(props.rows._array[0], callback),
+    (_: any, err: any) => error(err, callback)
   );
 };
 
@@ -84,8 +84,8 @@ export const delete1st = async (
   tx.executeSql(
     `delete from items where id = ?;`,
     [id],
-    (_, props) => success(props.rows._array[0], callback),
-    (_, err) => error(err, callback)
+    (_: any, props: any) => success(props.rows._array[0], callback),
+    (_: any, err: any) => error(err, callback)
   );
 };
 
@@ -96,8 +96,8 @@ export const deleteAll = async (
   tx.executeSql(
     `delete from items;`,
     [],
-    (_, props) => success(props.rows._array[0], callback),
-    (_, err) => error(err, callback)
+    (_: any, props: any) => success(props.rows._array[0], callback),
+    (_: any, err: any) => error(err, callback)
   );
 };
 
@@ -126,10 +126,10 @@ export const bulkInsert = async (
   return tx.executeSql(
     query,
     param,
-    (_, props) => {
+    (_: any, props: any) => {
       success(props, callback);
     },
-    (_, err) => {
+    (_: any, err: any) => {
       error(err, callback);
     }
   );

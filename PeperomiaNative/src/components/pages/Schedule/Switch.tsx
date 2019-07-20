@@ -334,7 +334,7 @@ class Switch extends Component<Props & ActionSheetProps, State> {
         // dismissed
       }
     } catch (error) {
-      alert(error.message);
+      Alert.alert(error.message);
     }
   };
 
