@@ -135,7 +135,7 @@
   },
   "lint-staged": {
     "*.{js,ts,tsx}": [
-      "yarn eslint:fix",
+      "eslint --fix",
       "git add"
     ]
   },
