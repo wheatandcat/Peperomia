@@ -107,7 +107,7 @@ export default (props: Props) => {
           >
             <a
               href="https://peperomia.app/"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               target="_blank"
               style={{ color: "#fff", textDecoration: "none" }}
             >
