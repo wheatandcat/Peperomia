@@ -1,18 +1,15 @@
-const { reloadApp } = require("detox-expo-helpers");
-const { takeScreenshot } = require("./helpers");
+import { by, element, expect, waitFor } from "detox";
+import { reloadApp } from "detox-expo-helpers";
 
 describe("e2eテスト", () => {
   beforeEach(async () => {
     await reloadApp();
   });
 
-  it("アプリ紹介", async () => {
-    takeScreenshot();
-  })
+  it("アプリ紹介", async () => {});
 
   it("プランを追加", async () => {
     await expect(element(by.label("プランの登録はありません"))).toBeVisible();
-    takeScreenshot();
 
     await element(by.id("addSchedule")).tap();
     await element(by.id("inputTextTitle")).tap();
@@ -22,15 +19,14 @@ describe("e2eテスト", () => {
     await element(by.id("completion")).tap();
     await element(by.id("completion")).tap();
 
-
-    await waitFor(element(by.label("まずは、予定を追加しよう"))).toBeNotVisible().withTimeout(2000);
+    await waitFor(element(by.label("まずは、予定を追加しよう")))
+      .toBeNotVisible()
+      .withTimeout(2000);
     await expect(element(by.label("まずは、予定を追加しよう"))).toBeVisible();
 
-  
     await expect(element(by.id("addScheduleDetail"))).toBeVisible();
 
     await element(by.id("addScheduleDetail")).tap();
-    takeScreenshot();
 
     await element(by.id("inputTextScheduleDetailTitle")).tap();
     await element(by.id("inputTextScheduleDetailTitle")).replaceText("新宿駅");
@@ -38,7 +34,7 @@ describe("e2eテスト", () => {
     await element(by.id("inputTextScheduleDetailMemo")).replaceText(
       "8:00に西口に集合する"
     );
-    takeScreenshot();
+
     await element(by.id("saveScheduleDetail")).tap();
 
     await element(by.id("addScheduleDetail")).tap();
@@ -65,25 +61,20 @@ describe("e2eテスト", () => {
       "浅草寺二天門前"
     );
     await element(by.id("saveScheduleDetail")).tap();
-    takeScreenshot();
 
     await element(by.id("saveSchedule")).tap();
-
-    takeScreenshot();
   });
 
   it("タイトルの更新", async () => {
     await expect(element(by.label("葛西臨海公園"))).toBeVisible();
     await element(by.id("scheduleItemId_1")).tap();
 
-    takeScreenshot();
     await element(by.id("updateTitle")).tap();
 
     await element(by.id("inputTextTitle")).tap();
     await element(by.id("inputTextTitle")).replaceText("上野公園");
     await element(by.id("completion")).tap();
     await element(by.id("completion")).tap();
-
   });
 
   it("予定の詳細を更新", async () => {
@@ -93,15 +84,13 @@ describe("e2eテスト", () => {
 
     await element(by.text("編集")).tap();
 
-    takeScreenshot();
-
     await element(by.id("inputTextScheduleDetailTitle")).tap();
     await element(by.id("inputTextScheduleDetailTitle")).replaceText("上野駅");
     await element(by.id("inputTextScheduleDetailMemo")).tap();
     await element(by.id("inputTextScheduleDetailMemo")).replaceText(
       "パンダの前に集合"
     );
-    takeScreenshot();
+
     await element(by.id("saveScheduleDetail")).tap();
   });
 
@@ -112,8 +101,5 @@ describe("e2eテスト", () => {
 
     await element(by.text("削除")).tap();
     await element(by.text("削除する")).tap();
-
-    takeScreenshot();
   });
-
 });
