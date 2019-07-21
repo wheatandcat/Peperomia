@@ -19,6 +19,7 @@ import {
   KIND_CHERRY_BLOSSOM,
   KIND_SHIP
 } from "../getKind";
+import { success, error } from "./";
 
 export const deleteSql = (tx: SQLite.Transaction) => {
   tx.executeSql("drop table items");
@@ -226,4 +227,45 @@ export const resetSql = (tx: SQLite.Transaction) => {
 
   items.map(item => insertItem(tx, item));
   itemDetails.map(itemDetail => insertItemDetail(tx, itemDetail));
+};
+
+export const resetSqlV100 = (tx: SQLite.Transaction) => {
+  tx.executeSql("drop table items");
+  tx.executeSql("drop table item_details");
+
+  createItem(tx);
+  createItemDetailV100(tx);
+};
+
+export const createItemDetailV100 = async (
+  tx: SQLite.Transaction,
+  callback?: (data: any, error: any) => void
+) => {
+  return tx.executeSql(
+    "create table if not exists item_details (" +
+      "id integer primary key not null," +
+      "itemId integer," +
+      "title string," +
+      "kind string," +
+      "memo string," +
+      "moveMinutes integer," +
+      "priority integer" +
+      ");",
+    [],
+    (_: any, props: any) => success(props.rows._array, callback),
+    (_: any, err: any) => error(err, callback)
+  );
+};
+
+export const sqliteMaster = async (tx: SQLite.Transaction) => {
+  return tx.executeSql(
+    "select * from sqlite_master;",
+    [],
+    (_: any, props: any) => {
+      console.log(props.rows._array);
+    },
+    (_: any, err: any) => {
+      console.log(err);
+    }
+  );
 };

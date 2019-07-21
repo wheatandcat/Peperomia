@@ -8,7 +8,13 @@ import {
 import { AsyncStorage, Alert } from "react-native";
 import theme from "../../../config/theme";
 import { db } from "../../../lib/db";
-import { deleteSql, resetSql, deleteUserSql } from "../../../lib/db/debug";
+import {
+  deleteSql,
+  resetSql,
+  resetSqlV100,
+  deleteUserSql,
+  sqliteMaster
+} from "../../../lib/db/debug";
 import { select as selectItems } from "../../../lib/db/item";
 import { select as selectItemDetailds } from "../../../lib/db/itemDetail";
 import { Consumer as AuthConsumer } from "../../../containers/Auth";
@@ -94,6 +100,7 @@ class Connected extends Component<ConnectedProps, State> {
     db.transaction((tx: SQLite.Transaction) => {
       selectItems(tx, console.log);
       selectItemDetailds(tx, console.log);
+      sqliteMaster(tx);
     });
   };
 
@@ -157,6 +164,14 @@ class Connected extends Component<ConnectedProps, State> {
     );
   };
 
+  onMigrationV100 = () => {
+    db.transaction((tx: SQLite.Transaction) => {
+      resetSqlV100(tx);
+    });
+
+    AsyncStorage.setItem("APP_VERSION", "1.0.0");
+  };
+
   render() {
     return (
       <Page
@@ -173,6 +188,7 @@ class Connected extends Component<ConnectedProps, State> {
         onSignIn={this.onSignIn}
         onLogout={this.onLogout}
         onMyPage={this.onMyPage}
+        onMigrationV100={this.onMigrationV100}
       />
     );
   }

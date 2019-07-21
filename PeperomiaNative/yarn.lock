@@ -2428,6 +2428,11 @@
   dependencies:
     "@types/color-convert" "*"
 
+"@types/compare-versions@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@types/compare-versions/-/compare-versions-3.0.0.tgz#4a45dffe0ebbc00d0f2daef8a0e96ffc66cf5955"
+  integrity sha512-HNXtUQQuW3ThO9DVfTNbdvClVr+8AZlNNa2pxk5qtEvObnT27qh0DdQXTN4h5PuTTGinxwXkRKXsllJxuAzGPw==
+
 "@types/detox@^12.8.2":
   version "12.8.2"
   resolved "https://registry.yarnpkg.com/@types/detox/-/detox-12.8.2.tgz#b206fee84d6d225bb8913308170d58e40edb7e6a"
@@ -4477,7 +4482,7 @@ commondir@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/commondir/-/commondir-1.0.1.tgz#ddd800da0c66127393cca5950ea968a3aaf1253b"
 
-compare-versions@^3.4.0:
+compare-versions@^3.4.0, compare-versions@^3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/compare-versions/-/compare-versions-3.5.0.tgz#85fc22a1ae9612ff730d77fb092295acd056d311"
 

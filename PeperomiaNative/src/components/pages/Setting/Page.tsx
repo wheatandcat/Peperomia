@@ -25,6 +25,7 @@ export interface Props {
   onLogout: () => void;
   onFeedback: () => void;
   onMyPage: () => void;
+  onMigrationV100: () => void;
 }
 
 export default class extends Component<Props> {
@@ -126,6 +127,11 @@ export default class extends Component<Props> {
               <List.Item
                 title="ユーザー初期化"
                 onPress={this.props.onDeleteUser}
+              />
+              <Divider />
+              <List.Item
+                title="v1,0.0の状態にする"
+                onPress={this.props.onMigrationV100}
               />
               <Divider />
               <List.Item

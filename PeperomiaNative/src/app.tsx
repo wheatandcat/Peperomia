@@ -16,6 +16,7 @@ import { Provider as PaperProvider } from "react-native-paper";
 import ItemsProvider from "./containers/Items";
 import AuthProvider from "./containers/Auth";
 import FetchProvider from "./containers/Fetch";
+import Version from "./containers/Version";
 import Home from "./components/pages/Home/Connected";
 import Setting from "./components/pages/Setting/Connected";
 import CreatePlan from "./components/pages/CreatePlan/Connected";
@@ -34,6 +35,7 @@ import {
   User
 } from "./lib/db/user";
 import theme from "./config/theme";
+import app from "../app.json";
 
 Sentry.enableInExpoDevelopment = true;
 
@@ -217,6 +219,8 @@ export default class App extends Component<Props, State> {
       });
 
       AsyncStorage.setItem("userID", user.uuid);
+      // 現在のバージョンを設定
+      AsyncStorage.setItem("APP_VERSION", app.expo.version);
     } else {
       AsyncStorage.setItem("userID", data.uuid);
       this.setState({
@@ -254,13 +258,15 @@ export default class App extends Component<Props, State> {
     return (
       <PaperProvider>
         <ActionSheetProvider>
-          <AuthProvider>
-            <FetchProvider>
-              <ItemsProvider>
-                <AppContainer />
-              </ItemsProvider>
-            </FetchProvider>
-          </AuthProvider>
+          <Version>
+            <AuthProvider>
+              <FetchProvider>
+                <ItemsProvider>
+                  <AppContainer />
+                </ItemsProvider>
+              </FetchProvider>
+            </AuthProvider>
+          </Version>
         </ActionSheetProvider>
       </PaperProvider>
     );
