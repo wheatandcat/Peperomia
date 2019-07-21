@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// FirebaseAuthMiddleWare Firebase Auth Middleware
 func (m *Middleware) FirebaseAuthMiddleWare(gc *gin.Context) {
 	auth, err := m.FirebaseApp.Auth(context.Background())
 	if err != nil {

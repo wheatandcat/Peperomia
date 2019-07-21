@@ -19,6 +19,9 @@ type ItemDetailRecord struct {
 	Title       string `json:"title" firestore:"title" binding:"required"`
 	Kink        string `json:"kind" firestore:"kind" binding:"required"`
 	MoveMinutes int32  `json:"moveMinutes" firestore:"moveMinutes"`
+	Place       string `json:"place" firestore:"place"`
+	URL         string `json:"url" firestore:"url"`
+	Memo        string `json:"memo" firestore:"memo"`
 	Priority    int32  `json:"priority" firestore:"priority"`
 }
 
