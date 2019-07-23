@@ -122,6 +122,14 @@ components:
           type: string
           example: ""
           description: メモ内容
+        url:
+          type: string
+          example: ""
+          description: リンク
+        place:
+          type: string
+          example: ""
+          description: 集合場所
         moveMinutes:
           type: integer
           pattern: "1"
@@ -132,7 +140,3 @@ components:
           pattern: "1"
           example: 1
           description: 表示順
-
-
-
-
