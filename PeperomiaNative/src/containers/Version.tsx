@@ -20,12 +20,12 @@ export default class extends Component<Props, State> {
       appVerion = "1.0.0";
     }
 
-    if (compareVersions.compare("1.0.4", appVerion, ">")) {
+    if (compareVersions.compare("1.0.5", appVerion, ">")) {
       // カラム追加のマイグレーション実行
       const ok = await migrationV104();
       if (ok) {
         // 現在のバージョンを設定
-        AsyncStorage.setItem("APP_VERSION", "1.0.4");
+        AsyncStorage.setItem("APP_VERSION", "1.0.5");
       }
     }
 
