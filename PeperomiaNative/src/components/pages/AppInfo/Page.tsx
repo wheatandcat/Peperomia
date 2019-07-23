@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import AppIntroSlider from "react-native-app-intro-slider";
 import { whenIPhoneSE } from "../../../lib/responsive";
+import theme from "../../../config/theme";
 
 interface Props {
   onDone: () => void;
@@ -26,9 +27,9 @@ const slides: any = [
     text: "ペペロミアは予定管理アプリです\n簡単な操作で予定を作成",
     image: require("../../../img/intro_home.png"),
     imageWidth: 250,
-    titleColor: "#fff",
-    textColor: "#eee",
-    backgroundColor: "#59b2ab"
+    titleColor: theme.color.main,
+    textColor: theme.color.main,
+    backgroundColor: theme.color.lightGreen
   },
   {
     key: "step2",
@@ -37,9 +38,9 @@ const slides: any = [
       "タイトルをつけると自動でアイコンを設定\n見やすい予定表を作成しよう！",
     image: require("../../../img/intro_plan2.png"),
     imageWidth: 250,
-    titleColor: "#fff",
-    textColor: "#eee",
-    backgroundColor: "#ffa500"
+    titleColor: theme.color.lightGreen,
+    textColor: theme.color.lightGreen,
+    backgroundColor: theme.color.main
   },
   {
     key: "step3",
@@ -47,19 +48,19 @@ const slides: any = [
     text: "作成した予定は\nブラウザから誰にでも共有可能",
     image: require("../../../img/intro_share.png"),
     imageWidth: 300,
-    titleColor: "#fff",
-    textColor: "#eee",
-    backgroundColor: "#ACBC10"
+    titleColor: theme.color.main,
+    textColor: theme.color.main,
+    backgroundColor: theme.color.lightGreen
   },
   {
     key: "step4",
     title: "ようこそ！！",
     text: "ペペロミアを使って予定を作っていこう！",
-    image: require("../../../img/intro_welcome.png"),
+    image: require("../../../img/icon.png"),
     imageWidth: 200,
     titleColor: "#fff",
     textColor: "#eee",
-    backgroundColor: "#59b2ab"
+    backgroundColor: theme.color.main
   }
 ];
 

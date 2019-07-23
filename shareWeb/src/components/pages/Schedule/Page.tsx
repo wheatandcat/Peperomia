@@ -52,7 +52,7 @@ export default (props: Props) => {
           alignItems: "center",
           border: "solid 1px #000",
           backgroundColor: Color(config.backgroundColor)
-            .alpha(ss.borderColorAlpha)
+            .lighten(ss.borderColorAlpha)
             .toString()
         }}
       >

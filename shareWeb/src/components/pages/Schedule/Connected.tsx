@@ -39,6 +39,9 @@ export default class extends Component<Props, State> {
 
   getData = async () => {
     const result = await getPlan(this.props.match.params.id);
+
+    console.log(result);
+    console.log("getData");
     if (!result) {
       return;
     }
@@ -53,6 +56,8 @@ export default class extends Component<Props, State> {
   };
 
   onSnapshot = async (data: Plan) => {
+    console.log(data);
+    console.log("onSnapshot");
     if (this.state.createDate === data.createDate.seconds) {
       return;
     }
