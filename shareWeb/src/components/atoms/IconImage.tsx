@@ -1,16 +1,21 @@
 import React from "react";
 import { Image, View } from "react-native";
 
-export interface Props {
+export type Props = {
   src: string;
+  name: string;
   kind: string;
   size: number;
   opacity?: number;
   image?: string;
   defaultIcon?: boolean;
-}
+};
 
 export default (props: Props) => {
+  if (!props.defaultIcon && props.name === "地球") {
+    return <Frame size={props.size} />;
+  }
+
   return (
     <Frame size={props.size}>
       <Image
@@ -18,7 +23,7 @@ export default (props: Props) => {
           uri: props.src
         }}
         style={{
-          opacity: props.opacity || 0.5,
+          opacity: props.opacity || 0.75,
           width: "100%",
           height: "100%"
         }}
@@ -28,7 +33,7 @@ export default (props: Props) => {
 };
 
 export interface Frame {
-  children: any;
+  children?: any;
   size: number;
 }
 

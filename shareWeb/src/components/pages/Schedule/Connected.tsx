@@ -39,6 +39,7 @@ export default class extends Component<Props, State> {
 
   getData = async () => {
     const result = await getPlan(this.props.match.params.id);
+
     if (!result) {
       return;
     }

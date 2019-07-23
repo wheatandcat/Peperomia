@@ -36,10 +36,10 @@ export default (props: Props) => {
           borderRadius: 0,
           borderWidth: ss.borderWidth,
           borderColor: Color(config.backgroundColor)
-            .alpha(ss.backgroundColorAlpha)
+            .lighten(ss.backgroundColorAlpha)
             .toString(),
           backgroundColor: Color(config.backgroundColor)
-            .alpha(ss.borderColorAlpha)
+            .lighten(ss.borderColorAlpha)
             .toString()
         }}
         {...panelProps}
@@ -53,14 +53,14 @@ export default (props: Props) => {
         >
           <Typography>{props.title}</Typography>
           <div
-            style={{ position: "absolute", top: 2, right: 20, opacity: 0.5 }}
+            style={{ position: "absolute", top: 2, right: 20, opacity: 0.9 }}
           >
             <IconImage {...config} size={45} />
           </div>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
           <Typography>
-            {props.memo.split("\n").map((m, index) => (
+            {(props.memo || "").split("\n").map((m, index) => (
               <span key={index}>
                 {m}
                 <br />

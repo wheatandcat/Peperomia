@@ -15,7 +15,7 @@ export default (props: Props) => (
     isVisible={props.open}
     height={Platform.OS === "ios" ? 220 : 245}
     width="90%"
-    overlayStyle={{ paddingHorizontal: 20, paddingTop: 30 }}
+    overlayStyle={{ paddingHorizontal: 0, paddingTop: 30 }}
   >
     <View style={styles.root}>
       <View>
@@ -45,22 +45,31 @@ export default (props: Props) => (
       </View>
       <View style={styles.fotter}>
         <Button
-          title="設定する"
-          type="outline"
-          onPress={props.onSetManualTime}
-          containerStyle={{
-            paddingRight: 8,
-            width: 120
-          }}
-          buttonStyle={styles.button}
-          titleStyle={styles.buttonText}
-        />
-        <Button
           title="キャンセル"
           type="clear"
           onPress={props.onCloseManualTime}
-          containerStyle={{ paddingLeft: 8 }}
+          containerStyle={{ paddingLeft: 30 }}
           titleStyle={styles.cancel}
+        />
+        <View>
+          <Text
+            style={{
+              fontSize: 22,
+              color: theme.color.lightGray
+            }}
+          >
+            |
+          </Text>
+        </View>
+        <Button
+          title="設定"
+          type="clear"
+          onPress={props.onSetManualTime}
+          containerStyle={{
+            paddingRight: 50,
+            width: 120
+          }}
+          titleStyle={styles.buttonText}
         />
       </View>
     </View>
@@ -76,7 +85,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: "600",
-    textAlign: "center"
+    textAlign: "center",
+    color: theme.color.main
   },
   timeInput: {
     width: 90,
@@ -92,20 +102,20 @@ const styles = StyleSheet.create({
   },
   fotter: {
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-between",
+    alignItems: "center",
     width: "auto",
-    paddingTop: 50
-  },
-  button: {
-    borderWidth: 2,
-    borderColor: theme.color.main
+    marginTop: 50,
+    paddingTop: 10,
+    borderTopWidth: 0.5,
+    borderColor: theme.color.lightGray
   },
   buttonText: {
     color: theme.color.main,
     fontWeight: "600"
   },
   cancel: {
-    color: theme.color.main,
+    color: theme.color.gray,
     fontWeight: "600"
   }
 });
