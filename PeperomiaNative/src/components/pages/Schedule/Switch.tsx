@@ -392,11 +392,9 @@ class Plan extends Component<PlanProps & ActionSheetProps> {
     db.transaction((tx: SQLite.Transaction) => {
       data.forEach(async (item, index) => {
         item.priority = index + 1;
-        await updateItemDetail(tx, item, this.save);
+        await updateItemDetail(tx, item, () => {});
       });
     });
-
-    this.setState({ saveItems: data });
   };
 
   save = (_: any) => {
