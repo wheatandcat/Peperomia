@@ -1,6 +1,6 @@
 import * as Font from "expo-font";
 import React, { Component } from "react";
-import { Text } from "react-native-ui-lib";
+import { Text } from "react-native";
 
 export default class extends Component<any> {
   state = {

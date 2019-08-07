@@ -1,9 +1,7 @@
 import React from "react";
 import { storiesOf } from "@storybook/react-native";
-import { View } from "react-native-ui-lib";
-import {
-  KIND_PARK,
-} from "../../../lib/getKind";
+import { View } from "react-native";
+import { KIND_PARK } from "../../../lib/getKind";
 import Page from "./Page";
 
 const data = [

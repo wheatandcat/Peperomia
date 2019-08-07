@@ -1,6 +1,6 @@
 import React from "react";
 import { Image } from "react-native";
-import { View } from "react-native-ui-lib";
+import { View } from "react-native";
 
 export interface Props {
   src: string;

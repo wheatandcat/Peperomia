@@ -1,2 +1,3 @@
 **/*.test.ts
 app.tsx
+**/stories.js
