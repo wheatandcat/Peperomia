@@ -1,9 +1,7 @@
 import React from "react";
 import { storiesOf } from "@storybook/react-native";
-import { View } from "react-native-ui-lib";
-import {
-  KIND_PARK,
-} from "../../../lib/getKind";
+import { View } from "react-native";
+import { KIND_PARK } from "../../../lib/getKind";
 import Cards from "./Cards";
 
 const props = [
@@ -25,7 +23,6 @@ const props = [
     kind: KIND_PARK,
     about: "水上バスで浅草から移動→そのまま海へ行って"
   }
-  
 ];
 
 storiesOf("organisms/Home", module).add("Cards", () => (

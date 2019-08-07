@@ -1,6 +1,5 @@
 import React, { Fragment } from "react";
-import { TouchableOpacity } from "react-native";
-import { View, Text } from "react-native-ui-lib";
+import { TouchableOpacity, View, Text } from "react-native";
 import Card from "./Card";
 import { ItemDetail } from "../../../lib/db/itemDetail";
 
@@ -28,7 +27,7 @@ export default (props: Props) => {
 
         return (
           <View style={{ padding: 15 }}>
-            <Text text25 style={{ fontWeight: "600" }}>
+            <Text style={{ fontWeight: "600", fontSize: 15 }}>
               {props.moveMinutes ? `${props.moveMinutes}分` : "-"}
             </Text>
           </View>

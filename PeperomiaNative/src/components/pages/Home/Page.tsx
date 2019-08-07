@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native-ui-lib";
+import { View, Text } from "react-native";
 import Cards, { Props as CardsProps } from "../../organisms/Home/Cards";
 
 export interface Props extends CardsProps {

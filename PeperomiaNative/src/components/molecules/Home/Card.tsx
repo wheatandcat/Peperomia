@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Card, Text } from "react-native-ui-lib";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import Color from "color";
 import s from "../../../config/style";
@@ -29,48 +29,65 @@ export default (props: Props) => {
         padding: 3
       }}
     >
-      <Card
-        row
-        height={80}
-        borderRadius={5}
-        enableShadow={false}
-        containerStyle={{
-          borderWidth: 0.5,
-          borderColor: Color(config.backgroundColor)
-            .darken(ss.borderColorAlpha)
-            .toString(),
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: Color(config.backgroundColor)
-            .lighten(ss.backgroundColorAlpha)
-            .toString()
-        }}
+      <TouchableOpacity
         onPress={() => props.onPress(props.id, props.title)}
         testID={props.testID}
       >
-        <View style={{ padding: 10 }}>
-          <IconImage {...config} opacity={1.0} size={60} />
-        </View>
-        <View padding-10 flex>
-          <Grid>
-            <Row size={75}>
-              <Col size={75} style={{ paddingTop: 5 }}>
-                <Text
-                  numberOfLines={1}
-                  style={{ fontWeight: "500", fontSize: 24, color: "#555" }}
-                >
-                  {props.title}
+        <View
+          style={[
+            styles.card,
+            {
+              borderColor: Color(config.backgroundColor)
+                .darken(ss.borderColorAlpha)
+                .toString(),
+              backgroundColor: Color(config.backgroundColor)
+                .lighten(ss.backgroundColorAlpha)
+                .toString()
+            }
+          ]}
+        >
+          <View style={{ padding: 10 }}>
+            <IconImage {...config} opacity={1.0} size={60} />
+          </View>
+          <View style={{ flex: 1, padding: 10 }}>
+            <Grid>
+              <Row size={75}>
+                <Col size={75} style={{ paddingTop: 5 }}>
+                  <Text numberOfLines={1} style={styles.title}>
+                    {props.title}
+                  </Text>
+                </Col>
+              </Row>
+              <Row size={25} style={{ paddingLeft: 2 }}>
+                <Text numberOfLines={1} style={styles.about}>
+                  {props.about}
                 </Text>
-              </Col>
-            </Row>
-            <Row size={25} style={{ paddingLeft: 2 }}>
-              <Text numberOfLines={1} style={{ fontSize: 10, color: "#555" }}>
-                {props.about}
-              </Text>
-            </Row>
-          </Grid>
+              </Row>
+            </Grid>
+          </View>
         </View>
-      </Card>
+      </TouchableOpacity>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  card: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    height: 80,
+    paddingLeft: 10,
+    borderWidth: 0.5,
+    borderRadius: 5
+  },
+  title: {
+    fontWeight: "500",
+    fontSize: 24,
+    color: "#555"
+  },
+  about: {
+    fontSize: 10,
+    color: "#555"
+  }
+});

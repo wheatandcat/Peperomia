@@ -1,12 +1,8 @@
 import React from "react";
 import { storiesOf } from "@storybook/react-native";
-import { View } from "react-native-ui-lib";
+import { View } from "react-native";
 import BottomRight from "./BottomRight";
 import Mask from "./Mask";
-
-;
-
-
 
 storiesOf("atoms/Hint", module)
   .add("BottomRight", () => (
@@ -19,6 +15,3 @@ storiesOf("atoms/Hint", module)
       <BottomRight />
     </Mask>
   ));
-
-
-  

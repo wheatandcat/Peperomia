@@ -1,6 +1,6 @@
 import React from "react";
 import { storiesOf } from "@storybook/react-native";
-import { View } from "react-native-ui-lib";
+import { View } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { KIND_PARK } from "../../../lib/getKind";
 import Header from "./Header";

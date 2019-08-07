@@ -1,6 +1,6 @@
 import React from "react";
 import { storiesOf } from "@storybook/react-native";
-import { View } from "react-native-ui-lib";
+import { View } from "react-native";
 import { Text } from "./";
 
 storiesOf("atoms", module).add("Text", () => (

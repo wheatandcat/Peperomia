@@ -1,6 +1,6 @@
 import React from "react";
+import { View } from "react-native";
 import { storiesOf } from "@storybook/react-native";
-import { View } from "react-native-ui-lib";
 import { KIND_PARK } from "../../../lib/getKind";
 import Card from "./Card";
 
