@@ -17,7 +17,7 @@ export default (props: Props) => {
   }
 
   if (props.mode === "sort") {
-    return <RightText label="完了" onPress={props.onSave} />;
+    return <RightText label="✓" onPress={props.onSave} />;
   }
 
   return (

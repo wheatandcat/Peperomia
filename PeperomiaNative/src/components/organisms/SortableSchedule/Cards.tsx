@@ -39,7 +39,7 @@ export default class extends Component<Props> {
     return (
       <SortableList
         data={obj}
-        renderRow={this.renderItem.bind(this)}
+        renderRow={this.renderItem}
         style={{ flex: 1 }}
         onChangeOrder={this.onChange}
       />
