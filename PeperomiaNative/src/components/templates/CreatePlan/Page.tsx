@@ -209,7 +209,7 @@ class Page extends Component<Props & ActionSheetProps> {
 
         <View
           style={{
-            backgroundColor: "#ffff",
+            backgroundColor: theme.color.white,
             height: deviceHeight
           }}
         >
@@ -248,7 +248,7 @@ class Page extends Component<Props & ActionSheetProps> {
                   image={image}
                   imageSrc={config.src}
                   imageSize={imageSize}
-                  backgroundColor="#ffff"
+                  backgroundColor={theme.color.white}
                   onSave={this.onSave}
                   onOpenActionSheet={this.onOpenActionSheet}
                 />

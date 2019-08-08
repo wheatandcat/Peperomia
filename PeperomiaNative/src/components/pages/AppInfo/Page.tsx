@@ -58,8 +58,8 @@ const slides: any = [
     text: "ペペロミアを使って予定を作っていこう！",
     image: require("../../../img/icon.png"),
     imageWidth: 200,
-    titleColor: "#fff",
-    textColor: "#eee",
+    titleColor: theme.color.white,
+    textColor: theme.color.highLightGray,
     backgroundColor: theme.color.main
   }
 ];

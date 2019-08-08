@@ -3,6 +3,7 @@ import { storiesOf } from "@storybook/react-native";
 import { View } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { KIND_PARK } from "../../../lib/getKind";
+import theme from "../../../config/theme";
 import Header from "./Header";
 
 storiesOf("molecules/ScheduleHeader", module).add("Header", () => (
@@ -13,7 +14,7 @@ storiesOf("molecules/ScheduleHeader", module).add("Header", () => (
         <MaterialCommunityIcons
           name="dots-horizontal"
           size={30}
-          color="#ffffff"
+          color={theme.color.white}
           style={{ marginRight: 0, marginLeft: "auto" }}
         />
       }

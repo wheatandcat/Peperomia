@@ -315,7 +315,7 @@ class App extends Component<Props & ActionSheetProps, State> {
       <View
         style={{
           flex: 0,
-          backgroundColor: this.state.imageHeader ? bc : "#fff"
+          backgroundColor: this.state.imageHeader ? bc : theme.color.white
         }}
       >
         <Header
@@ -386,7 +386,7 @@ class App extends Component<Props & ActionSheetProps, State> {
               >
                 <TextInput
                   placeholder="タイトルを入力"
-                  placeholderTextColor="#555"
+                  placeholderTextColor={theme.color.gray}
                   style={styles.inputTitle}
                   onChangeText={title =>
                     this.setState({ title, kind: getKind(title) })
@@ -421,7 +421,7 @@ class App extends Component<Props & ActionSheetProps, State> {
               )}
             </View>
           </SafeAreaView>
-          <View style={{ height: 500, backgroundColor: "#fff" }} />
+          <View style={{ height: 500, backgroundColor: theme.color.white }} />
         </ScrollView>
       </View>
     );
@@ -430,14 +430,14 @@ class App extends Component<Props & ActionSheetProps, State> {
 
 const styles = StyleSheet.create({
   root: {
-    backgroundColor: "#ffffff",
+    backgroundColor: theme.color.white,
     height: "100%",
     width: "100%"
   },
   inputTitle: {
     fontSize: 20,
     fontWeight: "600",
-    color: "#555",
+    color: theme.color.gray,
     paddingLeft: 1
   }
 });

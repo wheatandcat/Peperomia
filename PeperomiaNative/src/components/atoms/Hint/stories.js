@@ -6,7 +6,7 @@ import Mask from "./Mask";
 
 storiesOf("atoms/Hint", module)
   .add("BottomRight", () => (
-    <View style={{ paddingTop: 60, backgroundColor: "#000", height: "100%" }}>
+    <View style={{ paddingTop: 60 }}>
       <BottomRight />
     </View>
   ))

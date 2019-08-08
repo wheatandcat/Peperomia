@@ -8,6 +8,7 @@ import {
 } from "@expo/react-native-action-sheet";
 import { KINDS } from "../../../lib/getKind";
 import { whenIPhoneSE } from "../../../lib/responsive";
+import theme from "../../../config/theme";
 import { IconImage } from "../../atoms";
 
 export interface Props {
@@ -63,20 +64,24 @@ class Page extends Component<Props & ActionSheetProps, State> {
       });
 
     return (
-      <View style={{ backgroundColor: "#ffffff" }}>
+      <View style={{ backgroundColor: theme.color.white }}>
         <View
           style={{
             paddingHorizontal: 10,
             height: "7%",
-            backgroundColor: "#eeeeee",
+            backgroundColor: theme.color.highLightGray,
             alignItems: "center"
           }}
         >
           <Input
             placeholder="検索"
-            leftIcon={{ type: "MaterialIcons", name: "search", color: "#888" }}
+            leftIcon={{
+              type: "MaterialIcons",
+              name: "search",
+              color: theme.color.gray
+            }}
             inputContainerStyle={{
-              backgroundColor: "#cccccc",
+              backgroundColor: theme.color.lightGray,
               borderBottomWidth: 0,
               borderRadius: 10,
               height: Platform.OS === "ios" ? whenIPhoneSE(30, 45) : 30
@@ -114,7 +119,7 @@ class Page extends Component<Props & ActionSheetProps, State> {
                   {this.props.kind === item.kind ? (
                     <MaterialIcons
                       name="check"
-                      color="#32cd32"
+                      color={theme.color.main}
                       size={20}
                       style={{ paddingRight: 5 }}
                     />
@@ -127,7 +132,7 @@ class Page extends Component<Props & ActionSheetProps, State> {
         </ScrollView>
         <View
           style={{
-            backgroundColor: "#eee",
+            backgroundColor: theme.color.highLightGray,
             height: "8%",
             alignItems: "flex-end"
           }}

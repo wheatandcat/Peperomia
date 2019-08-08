@@ -10,7 +10,7 @@ interface Props {
 export default (props: Props) => {
   return (
     <>
-      <View style={{ backgroundColor: "#FFF", height: "100%" }}>
+      <View style={{ backgroundColor: theme.color.white, height: "100%" }}>
         <View style={{ paddingTop: 60, paddingLeft: 25 }}>
           <Button
             title="アイコンを変更する"

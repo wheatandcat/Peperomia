@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Col, Grid } from "react-native-easy-grid";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import theme from "../../../config/theme";
 
 export interface Props {
   title: string;
@@ -10,7 +11,13 @@ export interface Props {
 }
 
 export default (props: Props) => (
-  <View style={{ height: 50, borderBottomWidth: 1, borderColor: "#AAAAAA" }}>
+  <View
+    style={{
+      height: 50,
+      borderBottomWidth: 1,
+      borderColor: theme.color.lightGray
+    }}
+  >
     <Grid>
       <Col
         size={10}

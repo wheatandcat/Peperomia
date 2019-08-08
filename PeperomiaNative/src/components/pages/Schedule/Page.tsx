@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { View, Alert } from "react-native";
+import theme from "../../../config/theme";
 import Cards, { Props as CardsProps } from "../../organisms/Schedule/Cards";
 import ActionButton from "../../molecules/Schedule/ActionButton";
 
@@ -32,7 +33,12 @@ export default class extends Component<Props> {
 
   render() {
     return (
-      <View style={{ backgroundColor: "#ffffff", height: "100%" }}>
+      <View
+        style={{
+          backgroundColor: theme.color.white,
+          height: "100%"
+        }}
+      >
         <Cards
           data={this.props.data}
           onScheduleDetail={this.props.onScheduleDetail}

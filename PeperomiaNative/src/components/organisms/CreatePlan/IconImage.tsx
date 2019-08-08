@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F2F2F2",
+    backgroundColor: theme.color.highLightGray,
     right: 40
   }
 });

@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import Color from "color";
 import s from "../../../config/style";
+import theme from "../../../config/theme";
 import { KINDS } from "../../../lib/getKind";
 import { IconImage } from "../../atoms";
 
@@ -84,10 +85,10 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: "500",
     fontSize: 24,
-    color: "#555"
+    color: theme.color.darkGray
   },
   about: {
     fontSize: 10,
-    color: "#555"
+    color: theme.color.darkGray
   }
 });

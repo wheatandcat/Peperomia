@@ -12,7 +12,7 @@ interface Props {
 }
 
 export default (props: Props) => (
-  <View style={{ padding: 20, backgroundColor: "#fff" }}>
+  <View style={{ padding: 20, backgroundColor: theme.color.white }}>
     {uniqueSuggests(props.items)
       .filter(item => {
         if (!props.title) {

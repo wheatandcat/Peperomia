@@ -8,6 +8,7 @@ import {
   Alert
 } from "react-native";
 import Swipeout from "react-native-swipeout";
+import theme from "../../../config/theme";
 import Card, { ItemProps as CardProps } from "../../molecules/Home/Card";
 
 export interface Props {
@@ -21,7 +22,7 @@ export default class extends Component<Props> {
   renderItem({ item }: { item: CardProps }) {
     var swipeoutBtns = [
       {
-        backgroundColor: "#fff",
+        backgroundColor: theme.color.white,
         component: (
           <DeleteButton
             onPress={() => {
@@ -49,7 +50,7 @@ export default class extends Component<Props> {
     ];
 
     return (
-      <Swipeout right={swipeoutBtns} backgroundColor="#fff">
+      <Swipeout right={swipeoutBtns} backgroundColor={theme.color.white}>
         <Card
           {...item}
           onPress={this.props.onSchedule}
@@ -86,14 +87,14 @@ const DeleteButton = (props: DeleteButtonProps) => (
         margin: 3,
         borderRadius: 5,
         borderWidth: 0.5,
-        borderColor: "red",
+        borderColor: theme.color.red,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "red",
+        backgroundColor: theme.color.red,
         height: 80
       }}
     >
-      <Text style={{ color: "#fff", fontWeight: "bold" }}>削除</Text>
+      <Text style={{ color: theme.color.white, fontWeight: "bold" }}>削除</Text>
     </View>
   </TouchableOpacity>
 );
