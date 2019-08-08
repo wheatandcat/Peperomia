@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   root: {
     height: "100%",
     width: "100%",
-    backgroundColor: "#fff"
+    backgroundColor: theme.color.white
   },
   title: {
     fontSize: 20,

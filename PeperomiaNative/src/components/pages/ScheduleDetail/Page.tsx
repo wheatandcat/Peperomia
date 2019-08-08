@@ -85,7 +85,10 @@ class Page extends Component<Props & ActionSheetProps> {
           onClose={this.props.onDismiss}
         />
 
-        <StatusBar backgroundColor="#fff" barStyle="dark-content" />
+        <StatusBar
+          backgroundColor={theme.color.white}
+          barStyle="dark-content"
+        />
         <SafeAreaView
           style={[GlobalStyles.droidSafeArea, { flex: 0, backgroundColor: bc }]}
         />

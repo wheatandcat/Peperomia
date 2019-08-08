@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 import Cards, { Props as CardsProps } from "../../organisms/Home/Cards";
+import theme from "../../../config/theme";
 
 export interface Props extends CardsProps {
   onCreate: () => void;
@@ -13,7 +14,7 @@ interface ItemProps extends Props {
 export default (props: ItemProps) => (
   <View
     style={{
-      backgroundColor: "#fff"
+      backgroundColor: theme.color.white
     }}
   >
     <View style={{ height: "100%", paddingTop: 3 }}>

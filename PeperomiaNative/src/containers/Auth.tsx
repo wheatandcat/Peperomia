@@ -1,4 +1,4 @@
-import { Google } from "expo";
+import * as Google from "expo-google-app-auth";
 import { AsyncStorage, Platform } from "react-native";
 import React, { createContext, Component } from "react";
 import * as firebase from "firebase";

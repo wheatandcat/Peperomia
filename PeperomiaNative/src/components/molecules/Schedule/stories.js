@@ -20,7 +20,7 @@ storiesOf("molecules/Schedule", module)
     </View>
   ))
   .add("ActionButton", () => (
-    <View style={{ paddingTop: 50 }}>
+    <View style={{ paddingTop: 500, width: "100%" }}>
       <ActionButton />
     </View>
   ));

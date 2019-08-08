@@ -94,7 +94,7 @@ export default class extends Component<Props, State> {
       <View
         style={{
           flex: 0,
-          backgroundColor: this.state.imageHeader ? bc : "#fff"
+          backgroundColor: this.state.imageHeader ? bc : theme.color.white
         }}
       >
         <Header
@@ -135,7 +135,7 @@ export default class extends Component<Props, State> {
               image={image}
               imageSrc={config.src}
               imageSize={imageSize}
-              backgroundColor="#FFF"
+              backgroundColor={theme.color.white}
               onSave={() => {}}
               onOpenActionSheet={() => {}}
             />
@@ -143,7 +143,11 @@ export default class extends Component<Props, State> {
           </View>
 
           <View
-            style={{ paddingTop: 60, backgroundColor: "#FFF", height: "100%" }}
+            style={{
+              paddingTop: 60,
+              backgroundColor: theme.color.white,
+              height: "100%"
+            }}
           >
             <Text style={styles.scheduleText}>スケジュール</Text>
 

@@ -19,51 +19,51 @@ export default (props: Props) => (
     testID="scheduleMenu"
   >
     <ActionButton.Item
-      buttonColor="#0099FF"
+      buttonColor={theme.color.blue}
       title="予定を追加"
       textStyle={{
         paddingTop: 1
       }}
       textContainerStyle={{
-        right: right,
-        borderColor: "#777"
+        right,
+        borderColor: theme.color.darkGray
       }}
       hideLabelShadow
       onPress={props.onAdd}
       testID="scheduleMenuAdd"
       accessible
     >
-      <MaterialIcons name="add" size={30} color="#fff" />
+      <MaterialIcons name="add" size={30} color={theme.color.white} />
     </ActionButton.Item>
     <ActionButton.Item
-      buttonColor="#FFCC33"
+      buttonColor={theme.color.yellow}
       title="順番を変更"
       textStyle={{
         paddingTop: 1
       }}
       textContainerStyle={{
-        right: right,
-        borderColor: "#777"
+        right,
+        borderColor: theme.color.darkGray
       }}
       hideLabelShadow
       onPress={props.onSort}
     >
-      <FontAwesome name="sort" size={30} color="#fff" />
+      <FontAwesome name="sort" size={30} color={theme.color.white} />
     </ActionButton.Item>
     <ActionButton.Item
-      buttonColor="rgba(231,76,60,1)"
+      buttonColor={theme.color.red}
       title="プランを削除"
       textStyle={{
         paddingTop: 1
       }}
       textContainerStyle={{
-        right: right,
-        borderColor: "#777"
+        right,
+        borderColor: theme.color.darkGray
       }}
       hideLabelShadow
       onPress={props.onDelete}
     >
-      <MaterialIcons name="remove" size={30} color="#fff" />
+      <MaterialIcons name="remove" size={30} color={theme.color.white} />
     </ActionButton.Item>
   </ActionButton>
 );

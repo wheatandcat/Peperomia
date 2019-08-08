@@ -5,6 +5,7 @@ import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Page, { Props as PageProps } from "./Page";
+import theme from "../../../config/theme";
 
 interface Props extends PageProps {
   navigation: NavigationScreenProp<NavigationRoute>;
@@ -24,7 +25,7 @@ export default class extends Component<Props, State> {
       title: "アイコン",
       headerStyle: {
         borderBottomWidth: 0,
-        backgroundColor: "#eeeeee"
+        backgroundColor: theme.color.highLightGray
       },
       headerLeft: (
         <View style={{ left: 10 }}>

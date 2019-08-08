@@ -16,7 +16,7 @@ export default (props: Props) => (
       alignItems: "center",
       borderWidth: 1,
       borderColor: theme.color.lightGray,
-      backgroundColor: "#F2F2F2",
+      backgroundColor: theme.color.highLightGray,
       width: props.width,
       paddingHorizontal: 3,
       paddingTop: Platform.OS === "ios" ? 2 : 0,

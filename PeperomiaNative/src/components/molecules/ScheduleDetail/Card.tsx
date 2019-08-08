@@ -55,7 +55,7 @@ export default (props: Props) => {
         <Title numberOfLines={1}>{props.title}</Title>
       </Header>
 
-      <View style={{ backgroundColor: "#fff" }}>
+      <View style={{ backgroundColor: theme.color.white }}>
         {(() => {
           if (props.moveMinutes === 0) {
             return null;

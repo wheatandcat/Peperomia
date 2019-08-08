@@ -37,7 +37,7 @@ export default (props: Props) => {
 
   return (
     <View style={style}>
-      <StatusBar backgroundColor="#fff" barStyle="dark-content" />
+      <StatusBar backgroundColor={theme.color.white} barStyle="dark-content" />
       <View style={{ paddingLeft: 15, paddingTop: top, flexDirection: "row" }}>
         <TouchableOpacity onPress={props.onClose}>
           <MaterialCommunityIcons
@@ -51,7 +51,7 @@ export default (props: Props) => {
             fontSize: 20,
             paddingTop: 5,
             fontWeight: "600",
-            color: "#555"
+            color: theme.color.darkGray
           }}
         >
           {props.title}

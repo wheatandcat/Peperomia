@@ -9,6 +9,7 @@ import {
 import { List, Divider, Title } from "react-native-paper";
 import { ListItem } from "react-native-elements";
 import Constants from "expo-constants";
+import theme from "../../../config/theme";
 import app from "../../../../app.json";
 
 export interface Props {
@@ -31,24 +32,26 @@ export interface Props {
 export default class extends Component<Props> {
   render() {
     return (
-      <View style={{ backgroundColor: "#efefef", height: "100%" }}>
+      <View
+        style={{ backgroundColor: theme.color.highLightGray, height: "100%" }}
+      >
         <ScrollView>
           <View style={{ height: 50 }} />
           <ListItem
             title="お問い合わせ"
-            rightIcon={{ name: "chevron-right", color: "#888" }}
+            rightIcon={{ name: "chevron-right", color: theme.color.gray }}
             onPress={this.props.onFeedback}
           />
           <View style={{ height: 20 }} />
           <ListItem
             title="利用規約"
-            rightIcon={{ name: "chevron-right", color: "#888" }}
+            rightIcon={{ name: "chevron-right", color: theme.color.gray }}
             bottomDivider
             onPress={this.props.onTos}
           />
           <ListItem
             title="プライバシーポリシー"
-            rightIcon={{ name: "chevron-right", color: "#888" }}
+            rightIcon={{ name: "chevron-right", color: theme.color.gray }}
             onPress={this.props.onPolicy}
           />
 
@@ -56,7 +59,9 @@ export default class extends Component<Props> {
           <ListItem
             title="バージョン情報"
             rightTitle={
-              <Text style={{ color: "#555" }}>{app.expo.version} </Text>
+              <Text style={{ color: theme.color.gray }}>
+                {app.expo.version}{" "}
+              </Text>
             }
           />
 
@@ -68,12 +73,12 @@ export default class extends Component<Props> {
                 <View
                   style={{
                     height: 60,
-                    backgroundColor: "#fff",
+                    backgroundColor: theme.color.white,
                     justifyContent: "center",
                     alignItems: "center"
                   }}
                 >
-                  <ActivityIndicator size="large" color="#aaa" />
+                  <ActivityIndicator size="large" color={theme.color.gray} />
                 </View>
               );
             }
@@ -84,12 +89,15 @@ export default class extends Component<Props> {
                   <ListItem
                     title="マイページ"
                     onPress={this.props.onMyPage}
-                    rightIcon={{ name: "chevron-right", color: "#888" }}
+                    rightIcon={{
+                      name: "chevron-right",
+                      color: theme.color.gray
+                    }}
                     bottomDivider
                   />
                   <ListItem
                     title="ログアウト"
-                    titleStyle={{ color: "#dc143c" }}
+                    titleStyle={{ color: theme.color.red }}
                     onPress={this.props.onLogout}
                   />
                 </>
@@ -99,7 +107,7 @@ export default class extends Component<Props> {
             return (
               <ListItem
                 title="ユーザー登録 / ログイン"
-                rightIcon={{ name: "chevron-right", color: "#888" }}
+                rightIcon={{ name: "chevron-right", color: theme.color.gray }}
                 onPress={this.props.onSignIn}
               />
             );
@@ -111,7 +119,7 @@ export default class extends Component<Props> {
 
               <Title
                 style={{
-                  backgroundColor: "#efefef",
+                  backgroundColor: theme.color.highLightGray,
                   paddingTop: 15,
                   paddingLeft: 10
                 }}

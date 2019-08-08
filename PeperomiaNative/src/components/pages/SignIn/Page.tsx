@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Button } from "react-native-elements";
+import theme from "../../../config/theme";
 
 export interface Props {
   onGoogleLogin: () => void;
@@ -29,7 +30,7 @@ export default class extends Component<Props> {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    backgroundColor: "#efefef",
+    backgroundColor: theme.color.highLightGray,
     height: "100%"
   },
   titleContainer: {
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
     padding: 15
   },
   buttonStyle: {
-    backgroundColor: "#cd5c5c",
+    backgroundColor: theme.color.red,
     borderColor: "transparent"
   }
 });

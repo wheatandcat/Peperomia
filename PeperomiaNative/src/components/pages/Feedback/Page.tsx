@@ -10,6 +10,7 @@ import {
   Keyboard
 } from "react-native";
 import { Button, Overlay } from "react-native-elements";
+import theme from "../../../config/theme";
 
 interface Props {
   isOpen: boolean;
@@ -57,7 +58,7 @@ export default class extends Component<Props, State> {
                 buttonStyle={{
                   borderRadius: 25,
                   paddingVertical: 8,
-                  backgroundColor: "#77D353"
+                  backgroundColor: theme.color.blue
                 }}
                 containerStyle={{
                   width: 120
@@ -67,10 +68,12 @@ export default class extends Component<Props, State> {
             </View>
           </View>
         </Overlay>
-        <View style={{ height: "100%", backgroundColor: "#eee" }}>
+        <View
+          style={{ height: "100%", backgroundColor: theme.color.highLightGray }}
+        >
           <KeyboardAvoidingView behavior="padding">
             <View>
-              <View style={{ backgroundColor: "#eee" }}>
+              <View style={{ backgroundColor: theme.color.highLightGray }}>
                 <Text
                   style={{
                     paddingHorizontal: 20,
@@ -87,7 +90,7 @@ export default class extends Component<Props, State> {
                   paddingTop: 5,
                   paddingHorizontal: 20,
                   height: 250,
-                  backgroundColor: "#fff"
+                  backgroundColor: theme.color.white
                 }}
               >
                 <TextInput
@@ -96,9 +99,7 @@ export default class extends Component<Props, State> {
                   style={{
                     fontSize: 16,
                     lineHeight: 24,
-                    fontWeight: "400",
-
-                    borderColor: "#5A6978"
+                    fontWeight: "400"
                   }}
                   onChangeText={message => {
                     this.setState({

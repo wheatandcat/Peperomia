@@ -44,7 +44,7 @@ if (process.env.SENTRY_URL) {
 }
 
 StatusBar.setBarStyle("light-content", true);
-StatusBar.setBackgroundColor("#000", true);
+StatusBar.setBackgroundColor(theme.color.white, true);
 
 const TabNavigator = createBottomTabNavigator(
   {
@@ -104,7 +104,7 @@ const TabNavigator = createBottomTabNavigator(
     tabBarOptions: {
       inactiveTintColor: "gray",
       style: {
-        backgroundColor: "#F2F2F2"
+        backgroundColor: theme.color.highLightGray
       }
     }
   }

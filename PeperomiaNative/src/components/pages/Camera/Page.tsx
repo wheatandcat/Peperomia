@@ -3,6 +3,7 @@ import { Text, View, TouchableOpacity } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 import * as Permissions from "expo-permissions";
 import { Camera } from "expo-camera";
+import theme from "../../../config/theme";
 
 export interface Props {
   onPicture: (image: string) => void;
@@ -81,8 +82,8 @@ export default class extends Component<Props, State> {
                 cy={30}
                 r={25}
                 strokeWidth={6}
-                stroke="#bbb"
-                fill="#fff"
+                stroke={theme.color.gray}
+                fill={theme.color.white}
               />
             </Svg>
           </TouchableOpacity>

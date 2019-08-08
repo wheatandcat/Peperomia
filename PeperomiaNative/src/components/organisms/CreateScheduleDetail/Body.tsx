@@ -74,27 +74,16 @@ const styles = StyleSheet.create({
     color: theme.color.darkGray,
     paddingHorizontal: 15
   },
-  memoInput: {
-    fontSize: 16,
-    lineHeight: 24,
-    fontWeight: "400",
-    borderBottomWidth: 0.5,
-    borderColor: "#5A6978"
-  },
-  memoText: {
-    fontSize: 16,
-    lineHeight: 24,
-    fontWeight: "400"
-  },
+
   linkTitle: {
-    color: "#a888",
+    color: theme.color.gray,
     fontSize: 12,
     fontWeight: "600",
     padding: 0
   },
   linkButton: {
     borderBottomWidth: 1,
-    borderBottomColor: "#888",
+    borderBottomColor: theme.color.gray,
     padding: 0
   }
 });
