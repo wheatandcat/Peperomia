@@ -56,7 +56,11 @@ export default class extends Component<Props, State> {
     return (
       <>
         <BottomRight />
-        <TouchableOpacity onPress={this.onPushPress} testID={this.props.testID}>
+        <TouchableOpacity
+          onPress={this.onPushPress}
+          testID={this.props.testID}
+          style={{ padding: 5 }}
+        >
           {this.props.children}
         </TouchableOpacity>
       </>

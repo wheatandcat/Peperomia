@@ -62,14 +62,14 @@ emulator -avd Pixel
 ## ios
 
 ```
-npm run build:ios
+yarn build:ios
 ```
 
 ## android
 
 
 ```
-npm run build:android
+yarn build:android
 ```
 
 

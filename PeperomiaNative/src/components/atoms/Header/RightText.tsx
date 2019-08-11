@@ -9,7 +9,11 @@ interface Props {
 }
 
 export default (props: Props) => (
-  <TouchableOpacity onPress={props.onPress} testID={props.testID}>
+  <TouchableOpacity
+    onPress={props.onPress}
+    testID={props.testID}
+    style={{ padding: 5 }}
+  >
     <Text
       style={{
         fontSize: 18,
