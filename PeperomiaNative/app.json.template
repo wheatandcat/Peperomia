@@ -39,7 +39,11 @@
     "android": {
       "package": "com.wheatandcat.peperomia",
       "googleServicesFile": "./android/google-services.json",
-      "versionCode": 7
+      "versionCode": 7,
+      "adaptiveIcon": {
+        "backgroundColor": "#006835",
+        "foregroundImage": "./assets/icon-fg.png"
+      }
     },
     "description": "ペペロミアは予定管理アプリです。",
     "githubUrl": "https://github.com/wheatandcat/Peperomia"
