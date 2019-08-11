@@ -6,8 +6,7 @@ import {
   AsyncStorage,
   ActivityIndicator
 } from "react-native";
-import { List, Divider, Title } from "react-native-paper";
-import { ListItem } from "react-native-elements";
+import { ListItem, Divider } from "react-native-elements";
 import Constants from "expo-constants";
 import theme from "../../../config/theme";
 import app from "../../../../app.json";
@@ -116,40 +115,41 @@ export default class extends Component<Props> {
           {!Constants.isDevice && (
             <>
               <View style={{ marginBottom: 50 }} />
-
-              <Title
+              <Divider />
+              <Text
                 style={{
                   backgroundColor: theme.color.highLightGray,
-                  paddingTop: 15,
-                  paddingLeft: 10
+                  paddingVertical: 15,
+                  paddingLeft: 10,
+                  fontSize: 20
                 }}
               >
                 デバッグ機能
-              </Title>
-              <List.Item
+              </Text>
+              <Divider />
+              <ListItem
                 title="初期データ投入"
-                testID="restSqlDebug"
                 onPress={this.props.onResetSQL}
               />
               <Divider />
-              <List.Item
+              <ListItem
                 title="ユーザー初期化"
                 onPress={this.props.onDeleteUser}
               />
               <Divider />
-              <List.Item
-                title="v1,0.0の状態にする"
+              <ListItem
+                title="v1.0.0の状態にする"
                 onPress={this.props.onMigrationV100}
               />
               <Divider />
-              <List.Item
+              <ListItem
                 title="アイテムを削除"
                 onPress={this.props.onDeleteSQL}
               />
               <Divider />
-              <List.Item title="DBのデータを表示" onPress={this.props.onData} />
+              <ListItem title="DBのデータを表示" onPress={this.props.onData} />
               <Divider />
-              <List.Item
+              <ListItem
                 title="最初のプラン作成キャッシュの削除"
                 onPress={() => {
                   AsyncStorage.removeItem("FIRST_CRAEATE_ITEM");
