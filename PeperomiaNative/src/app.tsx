@@ -12,7 +12,6 @@ import { AsyncStorage, StatusBar, Text } from "react-native";
 import Sentry from "sentry-expo";
 import { MaterialIcons } from "@expo/vector-icons";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
-import { Provider as PaperProvider } from "react-native-paper";
 import ItemsProvider from "./containers/Items";
 import AuthProvider from "./containers/Auth";
 import FetchProvider from "./containers/Fetch";
@@ -256,19 +255,17 @@ export default class App extends Component<Props, State> {
     }
 
     return (
-      <PaperProvider>
-        <ActionSheetProvider>
-          <Version>
-            <AuthProvider>
-              <FetchProvider>
-                <ItemsProvider>
-                  <AppContainer />
-                </ItemsProvider>
-              </FetchProvider>
-            </AuthProvider>
-          </Version>
-        </ActionSheetProvider>
-      </PaperProvider>
+      <ActionSheetProvider>
+        <Version>
+          <AuthProvider>
+            <FetchProvider>
+              <ItemsProvider>
+                <AppContainer />
+              </ItemsProvider>
+            </FetchProvider>
+          </AuthProvider>
+        </Version>
+      </ActionSheetProvider>
     );
   }
 }
