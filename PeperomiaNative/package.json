@@ -61,7 +61,6 @@
     "react-native-svg": "^9.5.3",
     "react-native-swipeout": "^2.3.6",
     "react-native-typescript-transformer": "^1.2.10",
-    "react-native-view-shot": "^3.0.0",
     "react-navigation": "^3.11.0",
     "sentry-expo": "^1.11.2",
     "styled-components": "^4.1.3",
