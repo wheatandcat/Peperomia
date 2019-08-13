@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text, TouchableHighlight } from "react-native";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import Color from "color";
 import s from "../../../config/style";
@@ -25,50 +25,47 @@ export default (props: Props) => {
   const ss = s.schedule;
 
   return (
-    <View
+    <TouchableHighlight
+      onPress={() => props.onPress(props.id, props.title)}
+      testID={props.testID}
       style={{
-        padding: 3
+        margin: 3
       }}
     >
-      <TouchableOpacity
-        onPress={() => props.onPress(props.id, props.title)}
-        testID={props.testID}
+      <View
+        style={[
+          styles.card,
+          {
+            borderColor: Color(config.backgroundColor)
+              .darken(ss.borderColorAlpha)
+              .toString(),
+            backgroundColor: Color(config.backgroundColor)
+              .lighten(ss.backgroundColorAlpha)
+              .toString()
+          }
+        ]}
       >
-        <View
-          style={[
-            styles.card,
-            {
-              borderColor: Color(config.backgroundColor)
-                .darken(ss.borderColorAlpha)
-                .toString(),
-              backgroundColor: Color(config.backgroundColor)
-                .lighten(ss.backgroundColorAlpha)
-                .toString()
-            }
-          ]}
-        >
-          <View style={{ padding: 10 }}>
-            <IconImage {...config} opacity={1.0} size={60} />
-          </View>
-          <View style={{ flex: 1, padding: 10 }}>
-            <Grid>
-              <Row size={75}>
-                <Col size={75} style={{ paddingTop: 5 }}>
-                  <Text numberOfLines={1} style={styles.title}>
-                    {props.title}
-                  </Text>
-                </Col>
-              </Row>
-              <Row size={25} style={{ paddingLeft: 2 }}>
-                <Text numberOfLines={1} style={styles.about}>
-                  {props.about}
-                </Text>
-              </Row>
-            </Grid>
-          </View>
+        <View style={{ padding: 10 }}>
+          <IconImage {...config} opacity={1.0} size={60} />
         </View>
-      </TouchableOpacity>
-    </View>
+        <View style={{ flex: 1, padding: 10 }}>
+          <Grid>
+            <Row size={75}>
+              <Col size={75} style={{ paddingTop: 5 }}>
+                <Text numberOfLines={1} style={styles.title}>
+                  {props.title}
+                </Text>
+              </Col>
+            </Row>
+            <Row size={25} style={{ paddingLeft: 2 }}>
+              <Text numberOfLines={1} style={styles.about}>
+                {props.about}
+              </Text>
+            </Row>
+          </Grid>
+        </View>
+      </View>
+    </TouchableHighlight>
   );
 };
 
