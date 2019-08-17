@@ -21,7 +21,7 @@ class Page extends Component<Props & ActionSheetProps> {
   onOpenActionSheet = () => {
     this.props.showActionSheetWithOptions(
       {
-        options: ["予定を追加する", "予定の順番を変える", "プランを削除する"],
+        options: ["予定を追加する", "予定の順番を変える", "予定を削除する"],
         cancelButtonIndex: 3
       },
       buttonIndex => {

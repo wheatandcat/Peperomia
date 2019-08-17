@@ -8,7 +8,7 @@ describe("e2eテスト", () => {
 
   it("アプリ紹介", async () => {});
 
-  it("プランを追加", async () => {
+  it("予定を追加", async () => {
     await expect(element(by.label("プランの登録はありません"))).toBeVisible();
 
     await element(by.id("addSchedule")).tap();
