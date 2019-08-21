@@ -71,7 +71,7 @@ class Switch extends Component<Props & ActionSheetProps, State> {
           type="clear"
           title={params.title}
           onPress={params.onEditPlan}
-          testID="updateTitle"
+          testID="ScheduleTitleUpdate"
           titleStyle={{
             color: theme.color.lightGreen,
             fontWeight: "600"

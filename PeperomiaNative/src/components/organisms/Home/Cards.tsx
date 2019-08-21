@@ -54,7 +54,7 @@ export default class extends Component<Props> {
         <Card
           {...item}
           onPress={this.props.onSchedule}
-          testID={`scheduleItemId_${item.id}`}
+          testID={`ScheduleID_${item.id}`}
         />
       </Swipeout>
     );

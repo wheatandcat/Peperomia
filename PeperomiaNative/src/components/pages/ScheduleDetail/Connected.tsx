@@ -105,6 +105,8 @@ export default class extends Component<Props, State> {
           tx,
           String(this.state.itemDetail.itemId),
           (itemDetails: any, _) => {
+            console.log(itemDetails);
+
             sortItemDetail(tx, itemDetails, this.onPushSchedule);
           }
         );
