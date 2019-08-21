@@ -16,7 +16,7 @@ export default (props: Props) => {
     <Fragment>
       <TouchableOpacity
         onPress={props.onPress}
-        testID={`scheduleItemDetailId_${props.id}`}
+        testID={`ScheduleDetailID_${props.id}`}
       >
         <Card {...props} />
       </TouchableOpacity>

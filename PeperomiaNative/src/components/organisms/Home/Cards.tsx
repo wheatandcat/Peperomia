@@ -48,7 +48,7 @@ export default class extends Component<Props> {
           refreshing={this.props.loading}
           contentContainerStyle={{ paddingBottom: 300 }}
           data={this.props.data}
-          keyExtractor={item => String(item.id)}
+          keyExtractor={(item: any) => String(item.id)}
           renderHiddenItem={({ item }: { item: CardProps }) => (
             <View style={styles.deleteContainer}>
               <View />
@@ -59,7 +59,7 @@ export default class extends Component<Props> {
             <Card
               {...item}
               onPress={this.props.onSchedule}
-              testID={`scheduleItemId_${item.id}`}
+              testID={`ScheduleID_${item.id}`}
             />
           )}
           rightOpenValue={-85}

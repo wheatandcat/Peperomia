@@ -325,7 +325,7 @@ class App extends Component<Props & ActionSheetProps, State> {
             this.state.keyboard ? (
               <TouchableOpacity
                 onPress={this.onCloseKeyBoard}
-                testID="closeKeyBoard"
+                testID="KeyBoardCloseInCreateScheduleDetail"
               >
                 <MaterialCommunityIcons
                   name="keyboard-close"
@@ -337,7 +337,7 @@ class App extends Component<Props & ActionSheetProps, State> {
             ) : (
               <TouchableOpacity
                 onPress={this.onSave}
-                testID="saveScheduleDetail"
+                testID="ScheduleDetailCreated"
               >
                 <MaterialIcons
                   name="check"
@@ -392,7 +392,7 @@ class App extends Component<Props & ActionSheetProps, State> {
                     this.setState({ title, kind: getKind(title) })
                   }
                   value={this.state.title}
-                  testID="inputTextScheduleDetailTitle"
+                  testID="ScheduleDetailTitleInput"
                   returnKeyType="done"
                   autoFocus
                   onFocus={this.onSuggestTitle}

@@ -181,7 +181,7 @@ class Page extends Component<Props & ActionSheetProps> {
             this.state.keyboard ? (
               <TouchableOpacity
                 onPress={this.onCloseKeyBoard}
-                testID="closeKeyBoard"
+                testID="KeyBoardCloseInCreateSchedule"
               >
                 <MaterialCommunityIcons
                   name="keyboard-close"
@@ -191,10 +191,7 @@ class Page extends Component<Props & ActionSheetProps> {
                 />
               </TouchableOpacity>
             ) : (
-              <TouchableOpacity
-                onPress={this.onSave}
-                testID="saveScheduleDetail"
-              >
+              <TouchableOpacity onPress={this.onSave} testID="ScheduleCreated">
                 <MaterialIcons
                   name="check"
                   color={theme.color.main}
@@ -227,7 +224,7 @@ class Page extends Component<Props & ActionSheetProps> {
               placeholderTextColor={theme.color.gray}
               style={styles.titleInput}
               onChangeText={text => this.props.onInput("title", text)}
-              testID="inputTextTitle"
+              testID="ScheduleTitleInput"
               defaultValue={this.props.title}
               returnKeyType="done"
               autoFocus
