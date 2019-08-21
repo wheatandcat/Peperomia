@@ -75,7 +75,7 @@ class HomeScreen extends Component<Props, State> {
 
       headerRight: (
         <View style={{ right: 12 }}>
-          <Hint onPress={params.onPushCreatePlan} testID="addSchedule">
+          <Hint onPress={params.onPushCreatePlan} testID="ScheduleAdd">
             <Feather name="plus" size={28} color={theme.color.lightGreen} />
           </Hint>
         </View>

@@ -1,70 +1,53 @@
-import { by, element, expect, waitFor } from "detox";
+import { by, element, expect } from "detox";
 import { reloadApp } from "detox-expo-helpers";
+import { addSchedule } from "./helpr";
 
-describe("e2eテスト", () => {
+describe("Authentication tests", () => {
   beforeEach(async () => {
     await reloadApp();
   });
 
   it("アプリ紹介", async () => {});
 
-  it("プランを追加", async () => {
-    await expect(element(by.label("プランの登録はありません"))).toBeVisible();
+  it("予定を追加", async () => {
+    await element(by.id("ScheduleAdd")).tap();
+    await addSchedule("葛西臨海公園");
 
-    await element(by.id("addSchedule")).tap();
-    await element(by.id("inputTextTitle")).tap();
-    await element(by.id("inputTextTitle")).replaceText("葛西臨海公園");
-    //takeScreenshot();
-    await expect(element(by.id("completion"))).toBeVisible();
-    await element(by.id("completion")).tap();
-    await element(by.id("completion")).tap();
+    await expect(element(by.label("葛西臨海公園"))).toBeVisible();
 
-    await waitFor(element(by.label("まずは、予定を追加しよう")))
+    await element(by.id("ScheduleDetailAdd")).tap();
+    await element(by.id("ScheduleDetailTitleInput")).tap();
+    await element(by.id("ScheduleDetailTitleInput")).replaceText("新宿駅");
+    await element(by.id("KeyBoardCloseInCreateScheduleDetail")).tap();
+    await waitFor(element(by.id("ScheduleDetailCreated")))
       .toBeNotVisible()
-      .withTimeout(2000);
-    await expect(element(by.label("まずは、予定を追加しよう"))).toBeVisible();
+      .withTimeout(1000);
+    await element(by.id("ScheduleDetailCreated")).tap();
 
-    await expect(element(by.id("addScheduleDetail"))).toBeVisible();
+    await element(by.id("ScheduleDetailAdd")).tap();
+    /*
+    await element(by.id("TitleInput")).tap();
+    await element(by.id("TitleInput")).replaceText("葛西臨海公園");
+    await element(by.id("KeyBoardClose")).tap();
+    await element(by.id("ScheduleDetailCreated")).tap();
 
-    await element(by.id("addScheduleDetail")).tap();
+    await element(by.id("ScheduleDetailAdd")).tap();
+    await element(by.id("TitleInput")).tap();
+    await element(by.id("TitleInput")).replaceText("葛西臨海公園水上バス");
+    await element(by.id("KeyBoardClose")).tap();
+    await element(by.id("ScheduleDetailCreated")).tap();
 
-    await element(by.id("inputTextScheduleDetailTitle")).tap();
-    await element(by.id("inputTextScheduleDetailTitle")).replaceText("新宿駅");
-    await element(by.id("inputTextScheduleDetailMemo")).tap();
-    await element(by.id("inputTextScheduleDetailMemo")).replaceText(
-      "8:00に西口に集合する"
-    );
+    await element(by.id("ScheduleDetailAdd")).tap();
+    await element(by.id("TitleInput")).tap();
+    await element(by.id("TitleInput")).replaceText("浅草寺二天門前");
+    await element(by.id("KeyBoardClose")).tap();
+    await element(by.id("ScheduleDetailCreated")).tap();
 
-    await element(by.id("saveScheduleDetail")).tap();
-
-    await element(by.id("addScheduleDetail")).tap();
-    await element(by.id("inputTextScheduleDetailTitle")).tap();
-    await element(by.id("inputTextScheduleDetailTitle")).replaceText(
-      "葛西臨海公園"
-    );
-    await element(by.id("inputTextScheduleDetailMemo")).tap();
-    await element(by.id("inputTextScheduleDetailMemo")).replaceText(
-      "行く場所：砂浜、観覧車、水族園"
-    );
-    await element(by.id("saveScheduleDetail")).tap();
-
-    await element(by.id("addScheduleDetail")).tap();
-    await element(by.id("inputTextScheduleDetailTitle")).tap();
-    await element(by.id("inputTextScheduleDetailTitle")).replaceText(
-      "葛西臨海公園水上バス"
-    );
-    await element(by.id("saveScheduleDetail")).tap();
-
-    await element(by.id("addScheduleDetail")).tap();
-    await element(by.id("inputTextScheduleDetailTitle")).tap();
-    await element(by.id("inputTextScheduleDetailTitle")).replaceText(
-      "浅草寺二天門前"
-    );
-    await element(by.id("saveScheduleDetail")).tap();
-
-    await element(by.id("saveSchedule")).tap();
+    await element(by.id("CreateScheduleFinished")).tap();
+    */
   });
 
+  /*
   it("タイトルの更新", async () => {
     await expect(element(by.label("葛西臨海公園"))).toBeVisible();
     await element(by.id("scheduleItemId_1")).tap();
@@ -102,4 +85,5 @@ describe("e2eテスト", () => {
     await element(by.text("削除")).tap();
     await element(by.text("削除する")).tap();
   });
+  */
 });

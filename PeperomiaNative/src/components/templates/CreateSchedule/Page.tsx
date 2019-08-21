@@ -103,7 +103,7 @@ export default class extends Component<Props, State> {
           right={
             <TouchableOpacity
               onPress={this.props.onFinish}
-              testID="saveScheduleDetail"
+              testID="CreateScheduleFinished"
             >
               <MaterialIcons
                 name="check"
@@ -164,7 +164,10 @@ export default class extends Component<Props, State> {
                 }
               ]}
             >
-              <TouchableOpacity onPress={this.props.onCreateScheduleDetail}>
+              <TouchableOpacity
+                onPress={this.props.onCreateScheduleDetail}
+                testID="ScheduleDetailAdd"
+              >
                 <Icon
                   name="add"
                   size={30}
