@@ -106,8 +106,12 @@ export default class extends Component<Props, State> {
           String(this.state.itemDetail.itemId),
           (itemDetails: any, _) => {
             console.log(itemDetails);
-
-            sortItemDetail(tx, itemDetails, this.onPushSchedule);
+            if (itemDetails.length === 0) {
+              this.onPushSchedule();
+              [], false;
+            } else {
+              sortItemDetail(tx, itemDetails, this.onPushSchedule);
+            }
           }
         );
       });

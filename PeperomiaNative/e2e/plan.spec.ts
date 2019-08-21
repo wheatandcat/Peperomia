@@ -33,17 +33,14 @@ describe("Authentication tests", () => {
   /*
   it("予定詳細を追加", async () => {
     await element(by.id("ScheduleID_1")).tap();
-
     await waitFor(element(by.id("ScheduleMenu")))
       .toBeNotVisible()
       .withTimeout(1000);
     await element(by.id("ScheduleMenu")).tap();
-
     await waitFor(element(by.id("ScheduleMenuAdd")))
       .toBeNotVisible()
       .withTimeout(1000);
     await element(by.text("ScheduleMenuAdd")).tap();
-
     await addScheduleDetail("葛西臨海公園");
   });
   */

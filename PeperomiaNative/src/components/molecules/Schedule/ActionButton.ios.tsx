@@ -52,7 +52,7 @@ export default (props: Props) => (
     </ActionButton.Item>
     <ActionButton.Item
       buttonColor={theme.color.red}
-      title="プランを削除"
+      title="予定を削除"
       textStyle={{
         paddingTop: 1
       }}

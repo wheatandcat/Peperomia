@@ -30,6 +30,6 @@ const props = [
 
 storiesOf("organisms/Home", module).add("Cards", () => (
   <View style={{ paddingTop: 60 }}>
-    <Cards data={props} loading={false} />
+    <Cards data={props} loading={false} onSchedule={() => null} />
   </View>
 ));
