@@ -95,10 +95,10 @@ export default class extends Component<Props> {
     );
   };
 
-  _renderItem = (props: any) => (
+  _renderItem = ({ item }: any) => (
     <View
       style={{
-        backgroundColor: props.backgroundColor,
+        backgroundColor: item.backgroundColor,
         height: "100%",
         paddingTop: whenIPhoneSE(30, 150)
       }}
@@ -113,8 +113,8 @@ export default class extends Component<Props> {
         }}
       >
         <Image
-          source={props.image}
-          style={{ width: props.imageWidth }}
+          source={item.image}
+          style={{ width: item.imageWidth }}
           resizeMode="contain"
         />
       </View>
@@ -129,10 +129,10 @@ export default class extends Component<Props> {
           style={{
             fontSize: 25,
             fontWeight: "600",
-            color: props.titleColor
+            color: item.titleColor
           }}
         >
-          {props.title}
+          {item.title}
         </Text>
       </View>
       <View
@@ -143,11 +143,11 @@ export default class extends Component<Props> {
           paddingTop: 20
         }}
       >
-        {props.text.split("\n").map((val: string) => (
+        {item.text.split("\n").map((val: string) => (
           <Text
             style={{
               fontSize: 16,
-              color: props.textColor,
+              color: item.textColor,
               paddingBottom: 5
             }}
             key={val}

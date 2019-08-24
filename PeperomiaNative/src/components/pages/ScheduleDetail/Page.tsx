@@ -72,7 +72,7 @@ class Page extends Component<Props & ActionSheetProps> {
           right={
             <TouchableOpacity
               onPress={this.onOpenActionSheet}
-              testID={`scheduleDetailMenu`}
+              testID="ScheduleDetailMenu"
             >
               <MaterialCommunityIcons
                 name="dots-horizontal"

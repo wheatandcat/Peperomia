@@ -75,6 +75,16 @@ yarn build:android
 
 ## e2e
 
+### 初回
+https://expo.io/tools#client
+↑iOSのアプリファイルをMacにダウンロード
+
+ダウンロードしたフォルダを解答して「Exponent.app」にrenameする。
+このプロジェクトの直下に「bin」フォルダを生成して「Exponent.app」を配置する
+
+
+### テスト実行
+
 ```
 yarn start
 yarn e2e

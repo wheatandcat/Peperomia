@@ -16,7 +16,7 @@ export default (props: Props) => (
   <ActionButton
     buttonColor={theme.color.lightGreen}
     hideShadow
-    testID="scheduleMenu"
+    testID="ScheduleMenu"
   >
     <ActionButton.Item
       buttonColor={theme.color.blue}
@@ -30,7 +30,7 @@ export default (props: Props) => (
       }}
       hideLabelShadow
       onPress={props.onAdd}
-      testID="scheduleMenuAdd"
+      testID="ScheduleMenuAdd"
       accessible
     >
       <MaterialIcons name="add" size={30} color={theme.color.white} />
@@ -52,7 +52,7 @@ export default (props: Props) => (
     </ActionButton.Item>
     <ActionButton.Item
       buttonColor={theme.color.red}
-      title="プランを削除"
+      title="予定を削除"
       textStyle={{
         paddingTop: 1
       }}
