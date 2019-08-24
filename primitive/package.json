@@ -1,0 +1,24 @@
+{
+  "name": "primitive",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/index.js",
+  "tyeps": "build/index.d.ts",
+  "scripts": {},
+  "author": "wheatandcat",
+  "license": "MIT",
+  "dependencies": {
+    "@types/react": "16.8.7",
+    "@types/react-dom": "16.8.2",
+    "@types/react-native": "^0.57.38",
+    "react": "^16.9.0",
+    "react-art": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-native-web": "^0.11.7",
+    "typescript": "^3.5.1"
+  },
+  "devDependencies": {
+    "react-native-typescript-transformer": "^1.2.13"
+  }
+}

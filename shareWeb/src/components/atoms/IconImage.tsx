@@ -4,7 +4,6 @@ import { Image, View } from "react-native";
 export type Props = {
   src: string;
   name: string;
-  kind: string;
   size: number;
   opacity?: number;
   image?: string;
@@ -23,7 +22,7 @@ export default (props: Props) => {
           uri: props.src
         }}
         style={{
-          opacity: props.opacity || 0.75,
+          opacity: props.opacity || 0.5,
           width: "100%",
           height: "100%"
         }}

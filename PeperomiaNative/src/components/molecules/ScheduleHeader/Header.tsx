@@ -2,9 +2,9 @@ import React from "react";
 import { View } from "react-native";
 import styled from "styled-components/native";
 import Color from "color";
+import { IconImage } from "primitive";
 import { KINDS, KIND_DEFAULT } from "../../../lib/getKind";
 import s from "../../../config/style";
-import { IconImage } from "../../atoms";
 
 export interface Props {
   kind: string;
@@ -37,7 +37,12 @@ export default (props: Props) => {
           </View>
 
           <View style={{ position: "absolute", right: 30 }}>
-            <IconImage {...config} size={110} opacity={1.0} />
+            <IconImage
+              src={config.src}
+              name={config.name}
+              size={110}
+              opacity={1.0}
+            />
           </View>
         </View>
       </Content>

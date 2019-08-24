@@ -6,9 +6,6 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Page from "./components/pages/Schedule/Connected";
 
 const theme = createMuiTheme({
-  typography: {
-    useNextVariants: true
-  },
   palette: {
     primary: green
   }

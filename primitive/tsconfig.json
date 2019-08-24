@@ -2,8 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
-    "allowJs": true,
-    "jsx": "react-native",
+    "jsx": "react",
     "baseUrl": "./",
     "lib": [
       "es2015"
@@ -11,13 +10,11 @@
     "esModuleInterop": true,
     "typeRoots": [
       "node_modules/@types",
-      "src/@types"
     ],
-    "noEmit": true,
-    "allowSyntheticDefaultImports": true,
     "strict": true,
+    "declaration":true,
     "skipLibCheck": true,
-    "resolveJsonModule": true
+    "outDir": "./build/"
   },
   "include": [
     "src"
