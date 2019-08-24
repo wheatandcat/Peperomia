@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import theme from "../../../config/theme";
-import { IconImage } from "../../atoms";
+import { IconImage } from "primitive";
 import { whenIPhoneSE } from "../../../lib/responsive";
 
 interface Props {

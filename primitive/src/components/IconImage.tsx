@@ -1,15 +1,14 @@
 import React from "react";
-import { Image } from "react-native";
-import { View } from "react-native";
+import { Image, View } from "react-native";
 
-export interface Props {
+export type Props = {
   src: string;
   name: string;
   size: number;
   opacity?: number;
   image?: string;
   defaultIcon?: boolean;
-}
+};
 
 export default (props: Props) => {
   if (!props.defaultIcon && props.name === "地球") {
@@ -32,12 +31,12 @@ export default (props: Props) => {
   );
 };
 
-export interface Frame {
+export interface FrameProps {
   children?: any;
   size: number;
 }
 
-const Frame = (props: Frame) => (
+const Frame = (props: FrameProps) => (
   <View
     style={{
       width: props.size,

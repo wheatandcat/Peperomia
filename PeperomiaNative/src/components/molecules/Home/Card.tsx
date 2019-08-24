@@ -2,10 +2,10 @@ import React from "react";
 import { StyleSheet, View, Text, TouchableHighlight } from "react-native";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import Color from "color";
+import { IconImage } from "primitive";
 import s from "../../../config/style";
 import theme from "../../../config/theme";
 import { KINDS } from "../../../lib/getKind";
-import { IconImage } from "../../atoms";
 
 export interface ItemProps {
   id: string;
@@ -46,7 +46,12 @@ export default (props: Props) => {
         ]}
       >
         <View style={{ padding: 10 }}>
-          <IconImage {...config} opacity={1.0} size={60} />
+          <IconImage
+            src={config.src}
+            name={config.name}
+            opacity={1.0}
+            size={60}
+          />
         </View>
         <View style={{ flex: 1, padding: 10 }}>
           <Grid>

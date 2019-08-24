@@ -31,6 +31,7 @@ jobs:
       script:
         - yarn
         - yarn test
+        - yarn tsc
     - stage: lint
       env:
         - YARN_CACHE_FOLDER="/home/travis/yarn_cache"

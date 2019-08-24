@@ -1,9 +1,9 @@
 import React from "react";
 import { storiesOf } from "@storybook/react-native";
 import { View } from "react-native";
+import { IconImage } from "primitive";
 import { KINDS, KIND_PARK } from "../../lib/getKind";
 import { Text } from "./";
-import IconImage from "./IconImage";
 
 storiesOf("atoms", module)
   .add("Text", () => (

@@ -1,9 +1,9 @@
 import React from "react";
 import { View, TouchableOpacity, Text } from "react-native";
+import { IconImage } from "primitive";
 import { SuggestItem, uniqueSuggests } from "../../../lib/suggest";
 import { KINDS } from "../../../lib/getKind";
 import theme from "../../../config/theme";
-import { IconImage } from "../../atoms";
 
 interface Props {
   title: string;

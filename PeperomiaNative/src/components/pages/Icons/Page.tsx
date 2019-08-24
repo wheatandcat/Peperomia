@@ -6,10 +6,10 @@ import {
   ActionSheetProps,
   connectActionSheet
 } from "@expo/react-native-action-sheet";
+import { IconImage } from "primitive";
 import { KINDS } from "../../../lib/getKind";
 import { whenIPhoneSE } from "../../../lib/responsive";
 import theme from "../../../config/theme";
-import { IconImage } from "../../atoms";
 
 export interface Props {
   kind: string;
@@ -108,7 +108,8 @@ class Page extends Component<Props & ActionSheetProps, State> {
               onPress={() => this.props.onSelectIcon(item.kind)}
               leftIcon={
                 <IconImage
-                  {...item}
+                  src={item.src}
+                  name={item.name}
                   size={20}
                   opacity={1.0}
                   defaultIcon={this.props.defaultIcon}

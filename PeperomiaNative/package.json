@@ -47,6 +47,7 @@
     "expo-permissions": "~6.0.0",
     "expo-sqlite": "~6.0.0",
     "firebase": "^6.2.4",
+    "primitive": "../primitive",
     "react": "16.8.3",
     "react-native": "https://github.com/expo/react-native/archive/sdk-34.0.0.tar.gz",
     "react-native-action-button": "^2.8.5",

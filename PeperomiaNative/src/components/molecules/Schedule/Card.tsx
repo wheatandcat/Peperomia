@@ -5,7 +5,7 @@ import Color from "color";
 import { ItemDetail } from "../../../lib/db/itemDetail";
 import { KINDS } from "../../../lib/getKind";
 import s from "../../../config/style";
-import { IconImage } from "../../atoms";
+import { IconImage } from "primitive";
 
 export interface Props extends ItemDetail {
   kind: string;
@@ -34,7 +34,12 @@ export default (props: Props) => {
     >
       <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
         <View style={{ position: "absolute", right: 30 }}>
-          <IconImage {...config} size={80} opacity={1.0} />
+          <IconImage
+            src={config.src}
+            name={config.name}
+            size={80}
+            opacity={1.0}
+          />
         </View>
         <View style={{ flex: 1, padding: 20, paddingBottom: 25 }}>
           <Title numberOfLines={1}>{props.title}</Title>
