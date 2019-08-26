@@ -2,7 +2,7 @@ import { SQLite } from "expo-sqlite";
 import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import uuidv1 from "uuid/v1";
-import { db } from "../../../lib/db";
+import { db, ResultError } from "../../../lib/db";
 import {
   ItemDetailParam,
   insert as insertItemDetail,
@@ -11,7 +11,10 @@ import {
 } from "../../../lib/db/itemDetail";
 import { SuggestItem } from "../../../lib/suggest";
 import getKind from "../../../lib/getKind";
-import { Consumer as ItemsConsumer } from "../../../containers/Items";
+import {
+  Consumer as ItemsConsumer,
+  ContextProps
+} from "../../../containers/Items";
 import Page from "../../templates/CreateScheduleDetail/Page";
 
 export interface State extends ItemDetailParam {
@@ -24,16 +27,13 @@ interface Props extends ItemDetailParam {
   navigation: NavigationScreenProp<NavigationRoute>;
 }
 
-interface PlanProps extends Props {
-  itemDetails: ItemDetail[];
-  refreshData: () => void;
-}
+type PlanProps = Props & Pick<ContextProps, "itemDetails" | "refreshData">;
 
 export default class extends Component<Props> {
   render() {
     return (
       <ItemsConsumer>
-        {({ refreshData, itemDetails }: any) => (
+        {({ refreshData, itemDetails }: ContextProps) => (
           <Plan
             {...this.props}
             refreshData={refreshData}
@@ -59,7 +59,7 @@ class Plan extends Component<PlanProps, State> {
   };
 
   componentDidMount() {
-    const suggestList = this.props.itemDetails.map(itemDetail => ({
+    const suggestList = (this.props.itemDetails || []).map(itemDetail => ({
       title: itemDetail.title,
       kind: itemDetail.kind
     }));
@@ -87,13 +87,13 @@ class Plan extends Component<PlanProps, State> {
     }
   }
 
-  getCount = (data: any, error: any) => {
+  getCount = (count: number, error: ResultError) => {
     if (error) {
       return;
     }
 
     this.setState({
-      priority: data + 1
+      priority: count + 1
     });
   };
 
@@ -127,7 +127,7 @@ class Plan extends Component<PlanProps, State> {
     });
   };
 
-  save = (data: any, error: any) => {
+  save = (_: number, error: ResultError) => {
     console.log(error);
 
     const itemId = this.props.navigation.getParam("itemId", "1");
@@ -137,7 +137,9 @@ class Plan extends Component<PlanProps, State> {
       refresh: uuidv1()
     });
 
-    this.props.refreshData();
+    if (this.props.refreshData) {
+      this.props.refreshData();
+    }
   };
 
   onIcons = (title: string) => {

@@ -26,7 +26,7 @@ import CreateScheduleDetail from "./components/pages/CreateScheduleDetail/Connec
 import Icons from "./components/pages/Icons/Connected";
 import Camera from "./components/pages/Camera/Connected";
 import AppInfo from "./components/pages/AppInfo/Page";
-import { db, init } from "./lib/db";
+import { db, init, ResultError } from "./lib/db";
 import "./lib/firebase";
 import {
   select1st as selectUser1st,
@@ -203,7 +203,7 @@ export default class App extends Component<Props, State> {
     });
   }
 
-  checkUser = (data: any, error: any) => {
+  checkUser = (data: User | null, error: ResultError) => {
     if (error) {
       return;
     }
@@ -228,7 +228,7 @@ export default class App extends Component<Props, State> {
     }
   };
 
-  setUser = (_: any, error: any) => {
+  setUser = (_: number, error: ResultError) => {
     if (error) {
       return;
     }

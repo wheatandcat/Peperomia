@@ -17,7 +17,7 @@ import Toast from "react-native-root-toast";
 import uuidv1 from "uuid/v1";
 import { Button } from "react-native-elements";
 import theme from "../../../config/theme";
-import { db } from "../../../lib/db";
+import { db, ResultError } from "../../../lib/db";
 import {
   update as updateItemDetail,
   ItemDetail,
@@ -30,7 +30,10 @@ import {
 } from "../../../lib/firestore/plan";
 import { select1st, delete1st, Item } from "../../../lib/db/item";
 import getShareText from "../../../lib/getShareText";
-import { Consumer as ItemsConsumer } from "../../../containers/Items";
+import {
+  Consumer as ItemsConsumer,
+  ContextProps
+} from "../../../containers/Items";
 import SortableSchedule from "../SortableSchedule/Connected";
 import Schedule from "./Connected";
 import HeaderLeft from "./HeaderLeft";
@@ -49,18 +52,18 @@ interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
 }
 
-interface PlanProps extends Props {
-  refreshData: () => void;
-  item: Item;
-  itemId: number;
-  title: string;
-  items: ItemDetail[];
-  saveItems: ItemDetail[];
-  mode: string;
-  onShow: () => void;
-  onAdd: (items: ItemDetail[]) => void;
-  onSort: (items: ItemDetail[]) => void;
-}
+type PlanProps = Props &
+  Pick<ContextProps, "refreshData"> & {
+    item: Item;
+    itemId: number;
+    title: string;
+    items: ItemDetail[];
+    saveItems: ItemDetail[];
+    mode: string;
+    onShow: () => void;
+    onAdd: (items: ItemDetail[]) => void;
+    onSort: (items: ItemDetail[]) => void;
+  };
 
 class Switch extends Component<Props & ActionSheetProps, State> {
   static navigationOptions = ({ navigation }: { navigation: any }) => {
@@ -142,7 +145,7 @@ class Switch extends Component<Props & ActionSheetProps, State> {
     });
   }
 
-  setItem = (data: any, error: any) => {
+  setItem = (data: Item, error: ResultError) => {
     if (error) {
       return;
     }
@@ -319,7 +322,7 @@ class Switch extends Component<Props & ActionSheetProps, State> {
     try {
       const message = getShareText(items);
 
-      const result: any = await Share.share({
+      const result = await Share.share({
         title,
         message
       });
@@ -350,7 +353,7 @@ class Switch extends Component<Props & ActionSheetProps, State> {
   render() {
     return (
       <ItemsConsumer>
-        {({ refreshData }: any) => (
+        {({ refreshData }: ContextProps) => (
           <Plan
             {...this.props}
             {...this.state}
@@ -370,7 +373,7 @@ class Plan extends Component<PlanProps & ActionSheetProps> {
     const itemId = this.props.navigation.getParam("itemId", "1");
 
     db.transaction((tx: SQLite.Transaction) => {
-      delete1st(tx, itemId, (_: any, error: any) => {
+      delete1st(tx, itemId, (_: Item, error: ResultError) => {
         if (error) {
           return;
         }
@@ -379,13 +382,15 @@ class Plan extends Component<PlanProps & ActionSheetProps> {
     });
   };
 
-  onDeleteRefresh = (_: any, error: any) => {
+  onDeleteRefresh = (_: ItemDetail[], error: ResultError) => {
     if (error) {
       return;
     }
 
-    this.props.refreshData();
-    this.props.navigation.navigate("Home", { refresh: uuidv1() });
+    if (this.props.refreshData) {
+      this.props.refreshData();
+      this.props.navigation.navigate("Home", { refresh: uuidv1() });
+    }
   };
 
   onChangeItems = (data: ItemDetail[]): void => {
@@ -397,8 +402,10 @@ class Plan extends Component<PlanProps & ActionSheetProps> {
     });
   };
 
-  save = (_: any) => {
-    this.props.refreshData();
+  save = () => {
+    if (this.props.refreshData) {
+      this.props.refreshData();
+    }
   };
 
   render() {

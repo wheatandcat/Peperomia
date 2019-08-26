@@ -4,9 +4,12 @@ import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import { TouchableOpacity, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Consumer as ItemsConsumer } from "../../../containers/Items";
+import {
+  Consumer as ItemsConsumer,
+  ContextProps
+} from "../../../containers/Items";
 import theme from "../../../config/theme";
-import { db } from "../../../lib/db";
+import { db, ResultError } from "../../../lib/db";
 import { update as updateItem, Item } from "../../../lib/db/item";
 import getKind from "../../../lib/getKind";
 import { SuggestItem } from "../../../lib/suggest";
@@ -16,21 +19,19 @@ interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
 }
 
-interface PlanProps {
+type PlanProps = Pick<ContextProps, "items" | "refreshData"> & {
   input: {
     title: string;
   };
   image: string;
   kind: string;
-  items: Item[];
-  refreshData: () => void;
   onInput: (name: string, value: any) => void;
   onImage: (image: string) => void;
   onSave: () => void;
   onIcons: () => void;
   onCamera: () => void;
   onHome: () => void;
-}
+};
 
 export default class extends Component<Props> {
   static navigationOptions = ({
@@ -128,7 +129,7 @@ export default class extends Component<Props> {
     });
   };
 
-  save = async (_: any, error: any) => {
+  save = async (_: Item[], error: ResultError) => {
     if (error) {
       return;
     }
@@ -176,7 +177,7 @@ export default class extends Component<Props> {
   render() {
     return (
       <ItemsConsumer>
-        {({ refreshData, items }: any) => (
+        {({ refreshData, items }: ContextProps) => (
           <Plan
             input={this.state.input}
             image={this.state.image}
@@ -206,7 +207,7 @@ class Plan extends Component<PlanProps, State> {
   };
 
   componentDidMount() {
-    const suggestList = this.props.items.map(item => ({
+    const suggestList = (this.props.items || []).map(item => ({
       title: item.title,
       kind: item.kind
     }));
@@ -218,7 +219,9 @@ class Plan extends Component<PlanProps, State> {
 
   onSave = async () => {
     await this.props.onSave();
-    this.props.refreshData();
+    if (this.props.refreshData) {
+      this.props.refreshData();
+    }
   };
 
   render() {

@@ -2,7 +2,7 @@ import { SQLite } from "expo-sqlite";
 import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import { Alert } from "react-native";
-import { db } from "../../../lib/db";
+import { db, ResultError } from "../../../lib/db";
 import { Item, select1st } from "../../../lib/db/item";
 import {
   selectByItemId,
@@ -51,7 +51,7 @@ export default class extends Component<Props, State> {
     }
   }
 
-  setItem = (data: Item, error: any) => {
+  setItem = (data: Item, error: ResultError) => {
     if (error) {
       return;
     }
@@ -65,12 +65,12 @@ export default class extends Component<Props, State> {
     });
   };
 
-  setItems = (data: any, error: any) => {
+  setItems = (data: ItemDetail[], error: ResultError) => {
     if (error) {
       return;
     }
 
-    const prioritys = data.map((item: ItemDetail) => item.priority);
+    const prioritys = data.map(item => item.priority);
     const uniquePrioritys = prioritys.filter(
       (x: number, i: number, self: number[]) => self.indexOf(x) === i
     );
@@ -99,7 +99,7 @@ export default class extends Component<Props, State> {
     this.setState({ items: items });
   };
 
-  save = (_: any) => {};
+  save = () => {};
 
   onCreateScheduleDetail = () => {
     const itemId = this.props.navigation.getParam("itemId", "1");

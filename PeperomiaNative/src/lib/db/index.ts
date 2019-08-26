@@ -4,10 +4,11 @@ import { create as createItemDetail } from "./itemDetail";
 import { create as createUser } from "./user";
 
 export const db: any = SQLite.openDatabase("db.db");
+export type ResultError = Error | null;
 
 export const success = (
   data: any,
-  callback?: (data: any, error: any) => void
+  callback?: (data: any, error: ResultError) => void
 ) => {
   if (!callback) {
     return;
@@ -16,8 +17,8 @@ export const success = (
 };
 
 export const error = (
-  error: any,
-  callback?: (data: any, error: any) => void
+  error: ResultError,
+  callback?: (data: any, error: ResultError) => void
 ) => {
   console.log(error);
   if (!callback) {

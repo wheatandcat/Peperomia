@@ -9,11 +9,14 @@ import { Dimensions, View, Image, AsyncStorage } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import uuidv1 from "uuid/v1";
 import theme from "../../../config/theme";
-import { db } from "../../../lib/db";
+import { db, ResultError } from "../../../lib/db";
 import { Item } from "../../../lib/db/item";
 import { delete1st } from "../../../lib/db/item";
 import { deleteByItemId as deleteItemDetailByItemId } from "../../../lib/db/itemDetail";
-import { Consumer as ItemsConsumer } from "../../../containers/Items";
+import {
+  Consumer as ItemsConsumer,
+  ContextProps
+} from "../../../containers/Items";
 import Hint from "../../atoms/Hint/Hint";
 import Schedule from "../Schedule/Switch";
 import EditPlan from "../EditPlan/Connected";
@@ -22,33 +25,24 @@ import Page from "./Page";
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 
-interface ItemAbout {
-  itemId: number;
-  about: string;
-}
-
-interface Props {
+type Props = {
   navigation: NavigationScreenProp<NavigationRoute>;
-}
+};
 
-interface State {
+type State = {
   refresh: string;
   mask: boolean;
-}
+};
 
-interface PlanProps {
-  loading: boolean;
-  items: Item[];
-  about: ItemAbout[];
-  refreshData: () => void;
-  refresh: string;
-  onSchedule: (id: string, title: string) => void;
-  onCreate: () => void;
-}
+export type PlanProps = Pick<ContextProps, "items" | "about" | "refreshData"> &
+  Pick<HomeScreen, "onCreate" | "onSchedule"> & {
+    loading: boolean;
+    refresh: string;
+  };
 
-interface PlanState {
+type PlanState = {
   refresh: string;
-}
+};
 
 class LogoTitle extends Component {
   render() {
@@ -120,10 +114,10 @@ class HomeScreen extends Component<Props, State> {
 
     return (
       <ItemsConsumer>
-        {({ items, about, refreshData, itemsLoading }: any) => (
+        {({ items, about, refreshData, itemsLoading }: ContextProps) => (
           <>
             <HomeScreenPlan
-              loading={itemsLoading}
+              loading={Boolean(itemsLoading)}
               items={items}
               about={about}
               refresh={refresh}
@@ -159,12 +153,15 @@ class HomeScreenPlan extends Component<PlanProps, PlanState> {
     }
 
     this.setState({ refresh: this.props.refresh });
-    this.props.refreshData();
+
+    if (this.props.refreshData) {
+      this.props.refreshData();
+    }
   }
 
   onDelete = (scheduleId: string) => {
     db.transaction((tx: SQLite.Transaction) => {
-      delete1st(tx, scheduleId, (data: any, error: any) => {
+      delete1st(tx, scheduleId, (_: Item, error: ResultError) => {
         if (error) {
           return;
         }
@@ -178,9 +175,9 @@ class HomeScreenPlan extends Component<PlanProps, PlanState> {
   };
 
   render() {
-    const items: any = this.props.items.map((item: Item) => {
-      const about: any = this.props.about.find(
-        (val: ItemAbout) => val.itemId === item.id
+    const items = (this.props.items || []).map((item: Item) => {
+      const about = (this.props.about || []).find(
+        val => val.itemId === item.id
       );
 
       return { ...item, id: String(item.id), about: about ? about.about : "" };

@@ -2,8 +2,11 @@ import * as ImageManipulator from "expo-image-manipulator";
 import { SQLite } from "expo-sqlite";
 import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
-import { Consumer as ItemsConsumer } from "../../../containers/Items";
-import { db } from "../../../lib/db";
+import {
+  Consumer as ItemsConsumer,
+  ContextProps
+} from "../../../containers/Items";
+import { db, ResultError } from "../../../lib/db";
 import { insert as insertItem, Item } from "../../../lib/db/item";
 import { SuggestItem } from "../../../lib/suggest";
 import getKind from "../../../lib/getKind";
@@ -26,15 +29,13 @@ export default class extends Component<Props> {
   render() {
     return (
       <ItemsConsumer>
-        {({ items }: any) => <Connect {...this.props} items={items} />}
+        {({ items }: ContextProps) => <Connect {...this.props} items={items} />}
       </ItemsConsumer>
     );
   }
 }
 
-interface ConnectProps extends Props {
-  items: Item[];
-}
+type ConnectProps = Props & Pick<ContextProps, "items">;
 
 class Connect extends Component<ConnectProps, State> {
   state = {
@@ -45,7 +46,7 @@ class Connect extends Component<ConnectProps, State> {
   };
 
   componentDidMount() {
-    const suggestList = this.props.items.map(item => ({
+    const suggestList = (this.props.items || []).map(item => ({
       title: item.title,
       kind: item.kind
     }));
@@ -110,7 +111,7 @@ class Connect extends Component<ConnectProps, State> {
     });
   };
 
-  save = (insertId: number, error: any) => {
+  save = (insertId: number, error: ResultError) => {
     if (error) {
       return;
     }

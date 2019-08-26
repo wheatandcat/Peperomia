@@ -1,5 +1,5 @@
 import { SQLite } from "expo-sqlite";
-import { db } from "./db";
+import { db, ResultError } from "./db";
 import {
   select as selectItems,
   deleteAll as deleteItemAll,
@@ -48,7 +48,7 @@ export const backup = (): Promise<Backup> => {
 const getItemAll = (tx: SQLite.Transaction): Promise<Item[]> => {
   // アイテムを取得
   return new Promise(function(resolve, reject) {
-    selectItems(tx, (data: any, error: any) => {
+    selectItems(tx, (data: Item[], error: ResultError) => {
       if (error) {
         reject(error);
         return;
@@ -63,7 +63,7 @@ const getItemAll = (tx: SQLite.Transaction): Promise<Item[]> => {
 const getItemDetailAll = (tx: SQLite.Transaction): Promise<ItemDetail[]> => {
   // アイテム詳細を取得
   return new Promise(function(resolve, reject) {
-    selectItemDetails(tx, (data: any, err: any) => {
+    selectItemDetails(tx, (data: ItemDetail[], err: any) => {
       if (err) {
         Sentry.captureMessage(err);
         reject(err);
@@ -97,7 +97,7 @@ export const restore = async (uid: string): Promise<any> => {
 const truncateItems = (tx: SQLite.Transaction): Promise<any> => {
   // アイテムを削除
   return new Promise(function(resolve, reject) {
-    deleteItemAll(tx, (data: any, err: any) => {
+    deleteItemAll(tx, (data: Item, err: any) => {
       if (err) {
         Sentry.captureMessage(err);
         reject(err);
@@ -113,7 +113,7 @@ const truncateItems = (tx: SQLite.Transaction): Promise<any> => {
 const truncateItemDetails = (tx: SQLite.Transaction): Promise<any> => {
   // アイテム詳細を削除
   return new Promise(function(resolve, reject) {
-    deleteItemDetailAll(tx, (data: any, err: any) => {
+    deleteItemDetailAll(tx, (data: ItemDetail[], err: any) => {
       if (err) {
         Sentry.captureMessage(err);
         reject(err);
@@ -147,7 +147,7 @@ const deleteAll = (tx: SQLite.Transaction): Promise<any> => {
 const importItems = (tx: SQLite.Transaction, items: Item[]): Promise<any> => {
   // アイテムを作成
   return new Promise(function(resolve, reject) {
-    bulkInsertItem(tx, items, (data: any, err: any) => {
+    bulkInsertItem(tx, items, (data: Item[], err: any) => {
       if (err) {
         Sentry.captureMessage(err);
         reject(err);
@@ -166,7 +166,7 @@ const importItemDetails = (
 ): Promise<any> => {
   // アイテム詳細を作成
   return new Promise(function(resolve, reject) {
-    bulkInsertItemDetail(tx, itemDetail, (data: any, err: any) => {
+    bulkInsertItemDetail(tx, itemDetail, (data: ItemDetail[], err: any) => {
       if (err) {
         Sentry.captureMessage(err);
         reject(err);

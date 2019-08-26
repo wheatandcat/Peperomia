@@ -45,7 +45,15 @@ const color = {
   category10: theme.color.lightGray
 };
 
-export const KINDS: any = {
+type Kinds = {
+  [key: string]: {
+    src: string;
+    name: string;
+    backgroundColor: string;
+  };
+};
+
+export const KINDS: Kinds = {
   [KIND_FISHING]: {
     src: fileUrl("0001", "caaccd36-728e-4f5d-8421-c0360b186550"),
     name: "釣り",

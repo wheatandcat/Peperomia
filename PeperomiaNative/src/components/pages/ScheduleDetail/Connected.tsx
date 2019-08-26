@@ -2,7 +2,7 @@ import { SQLite } from "expo-sqlite";
 import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import uuidv1 from "uuid/v1";
-import { db } from "../../../lib/db";
+import { db, ResultError } from "../../../lib/db";
 import { Item, select1st as selectItem1st } from "../../../lib/db/item";
 import {
   ItemDetail,
@@ -11,14 +11,15 @@ import {
   selectByItemId,
   sortItemDetail
 } from "../../../lib/db/itemDetail";
+import { ContextProps } from "../../../containers/Items";
 import Page from "./Page";
 
-interface State {
+type State = {
   item: Item;
   itemDetail: ItemDetail;
-}
+};
 
-interface Props {
+type Props = Pick<ContextProps, "refreshData"> & {
   navigation: NavigationScreenProp<NavigationRoute>;
   onEdit: (
     title: string,
@@ -29,8 +30,7 @@ interface Props {
     moveMinutes: number,
     priority: number
   ) => void;
-  refreshData: () => void;
-}
+};
 
 export default class extends Component<Props, State> {
   state = {
@@ -59,18 +59,22 @@ export default class extends Component<Props, State> {
       "1"
     );
     db.transaction((tx: SQLite.Transaction) => {
-      select1st(tx, scheduleDetailId, (data: any, error: any) => {
-        if (error) {
-          return;
-        }
+      select1st(
+        tx,
+        scheduleDetailId,
+        (data: ItemDetail, error: ResultError) => {
+          if (error) {
+            return;
+          }
 
-        this.setState({ itemDetail: data });
-        selectItem1st(tx, String(this.state.itemDetail.itemId), this.setItem);
-      });
+          this.setState({ itemDetail: data });
+          selectItem1st(tx, String(this.state.itemDetail.itemId), this.setItem);
+        }
+      );
     });
   }
 
-  setItem = (data: any, error: any) => {
+  setItem = (data: Item, error: ResultError) => {
     if (error) {
       return;
     }
@@ -97,38 +101,42 @@ export default class extends Component<Props, State> {
 
   onDelete = () => {
     db.transaction((tx: SQLite.Transaction) => {
-      delete1st(tx, String(this.state.itemDetail.id), (_, error: any) => {
-        if (error) {
-          return;
-        }
-        selectByItemId(
-          tx,
-          String(this.state.itemDetail.itemId),
-          (itemDetails: any, _) => {
-            console.log(itemDetails);
-            if (itemDetails.length === 0) {
-              this.onPushSchedule();
-              [], false;
-            } else {
-              sortItemDetail(tx, itemDetails, this.onPushSchedule);
-            }
+      delete1st(
+        tx,
+        String(this.state.itemDetail.id),
+        (_, error: ResultError) => {
+          if (error) {
+            return;
           }
-        );
-      });
+          selectByItemId(
+            tx,
+            String(this.state.itemDetail.itemId),
+            itemDetails => {
+              if (itemDetails.length === 0) {
+                this.onPushSchedule([], null);
+              } else {
+                sortItemDetail(tx, itemDetails, this.onPushSchedule);
+              }
+            }
+          );
+        }
+      );
     });
   };
 
-  onPushSchedule = (data: any, error: any) => {
+  onPushSchedule = (_: ItemDetail[], error: ResultError) => {
     if (error) {
       return;
     }
 
-    this.props.refreshData();
-    this.props.navigation.navigate("Schedule", {
-      itemId: this.state.itemDetail.itemId,
-      title: this.state.item.title,
-      refresh: uuidv1()
-    });
+    if (this.props.refreshData) {
+      this.props.refreshData();
+      this.props.navigation.navigate("Schedule", {
+        itemId: this.state.itemDetail.itemId,
+        title: this.state.item.title,
+        refresh: uuidv1()
+      });
+    }
   };
 
   render() {
