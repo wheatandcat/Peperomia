@@ -19,7 +19,7 @@ import {
   KIND_CHERRY_BLOSSOM,
   KIND_SHIP
 } from "../getKind";
-import { success, error } from "./";
+import { success, error, ResultError } from "./";
 
 export const deleteSql = (tx: SQLite.Transaction) => {
   tx.executeSql("drop table items");
@@ -239,7 +239,7 @@ export const resetSqlV100 = (tx: SQLite.Transaction) => {
 
 export const createItemDetailV100 = async (
   tx: SQLite.Transaction,
-  callback?: (data: any, error: any) => void
+  callback?: (data: any, error: ResultError) => void
 ) => {
   return tx.executeSql(
     "create table if not exists item_details (" +
@@ -252,8 +252,9 @@ export const createItemDetailV100 = async (
       "priority integer" +
       ");",
     [],
-    (_: any, props: any) => success(props.rows._array, callback),
-    (_: any, err: any) => error(err, callback)
+    (_: SQLite.Transaction, props: SQLite.ResultSet) =>
+      success(props.rows._array, callback),
+    (_: SQLite.Transaction, err: ResultError) => error(err, callback)
   );
 };
 
@@ -261,10 +262,10 @@ export const sqliteMaster = async (tx: SQLite.Transaction) => {
   return tx.executeSql(
     "select * from sqlite_master;",
     [],
-    (_: any, props: any) => {
+    (_: SQLite.Transaction, props: SQLite.ResultSet) => {
       console.log(props.rows._array);
     },
-    (_: any, err: any) => {
+    (_: SQLite.Transaction, err: ResultError) => {
       console.log(err);
     }
   );

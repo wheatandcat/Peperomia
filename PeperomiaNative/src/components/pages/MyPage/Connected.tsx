@@ -5,7 +5,10 @@ import Toast from "react-native-root-toast";
 import { backup, restore } from "../../../lib/backup";
 import { Consumer as FetchConsumer } from "../../../containers/Fetch";
 import { Consumer as AuthConsumer } from "../../../containers/Auth";
-import { Consumer as ItemsConsumer } from "../../../containers/Items";
+import {
+  Consumer as ItemsConsumer,
+  ContextProps as ItemsContextProps
+} from "../../../containers/Items";
 import Page from "./Page";
 
 interface Props {
@@ -22,7 +25,7 @@ export default class extends Component<Props> {
           <FetchConsumer>
             {({ post }: any) => (
               <ItemsConsumer>
-                {({ refreshData }: any) => (
+                {({ refreshData }: ItemsContextProps) => (
                   <Connected
                     {...this.props}
                     post={post}
@@ -40,13 +43,12 @@ export default class extends Component<Props> {
   }
 }
 
-interface ConnectedProps {
+type ConnectedProps = Pick<ItemsContextProps, "refreshData"> & {
   navigation: NavigationScreenProp<NavigationRoute>;
   post: (url: string, param: any) => Promise<Response>;
   email: string;
   uid: string;
-  refreshData: () => void;
-}
+};
 
 interface State {
   loading: boolean;
@@ -178,7 +180,9 @@ class Connected extends Component<ConnectedProps, State> {
         Toast.hide(toast);
       }, 3000);
 
-      await this.props.refreshData();
+      if (this.props.refreshData) {
+        await this.props.refreshData();
+      }
 
       this.setState({
         loading: false

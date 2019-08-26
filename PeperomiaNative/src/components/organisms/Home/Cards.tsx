@@ -48,7 +48,7 @@ export default class extends Component<Props> {
           refreshing={this.props.loading}
           contentContainerStyle={{ paddingBottom: 300 }}
           data={this.props.data}
-          keyExtractor={(item: any) => String(item.id)}
+          keyExtractor={item => String(item.id)}
           renderHiddenItem={({ item }: { item: CardProps }) => (
             <View style={styles.deleteContainer}>
               <View />

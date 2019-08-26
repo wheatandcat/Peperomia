@@ -1,6 +1,6 @@
 import { SQLite } from "expo-sqlite";
 import React, { createContext, Component } from "react";
-import { db } from "../lib/db";
+import { db, ResultError } from "../lib/db";
 import { select as selectItems, Item } from "../lib/db/item";
 import {
   selectByItemId as selectItemDetailByItemId,
@@ -10,21 +10,28 @@ import {
 const Context = createContext({});
 const { Provider } = Context;
 
-interface ItemAbout {
+type ItemAbout = {
   itemId: number;
   about: string;
-}
+};
 
-interface Props {}
+type Props = {};
 
-interface State {
+type State = {
   loading: boolean;
   items: Item[];
   itemDetails: ItemDetail[];
   about: ItemAbout[];
-}
+};
 
-export default class extends Component<Props, State> {
+export type ContextProps = Partial<
+  Pick<State, "items" | "itemDetails" | "about"> & {
+    refreshData: () => void;
+    itemsLoading: Boolean;
+  }
+>;
+
+class Connected extends Component<Props, State> {
   state = {
     loading: true,
     items: [],
@@ -42,10 +49,11 @@ export default class extends Component<Props, State> {
     });
   };
 
-  setItems = (data: any, error: any) => {
+  setItems = (data: Item[], error: ResultError) => {
     if (error) {
       return;
     }
+
     this.setState({
       items: data,
       about: []
@@ -58,7 +66,7 @@ export default class extends Component<Props, State> {
     });
   };
 
-  setItemsDetail = (data: any, error: any) => {
+  setItemsDetail = (data: ItemDetail[], error: ResultError) => {
     if (error || !data || data.length === 0) {
       return;
     }
@@ -97,4 +105,5 @@ export default class extends Component<Props, State> {
   }
 }
 
+export default Connected;
 export const Consumer = Context.Consumer;

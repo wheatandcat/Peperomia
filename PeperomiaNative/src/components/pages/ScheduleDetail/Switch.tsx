@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
-import { Consumer as ItemsConsumer } from "../../../containers/Items";
+import {
+  Consumer as ItemsConsumer,
+  ContextProps
+} from "../../../containers/Items";
 import { ItemDetailParam } from "../../../lib/db/itemDetail";
 import ScheduleDetail from "./Connected";
 import EditScheduleDetail from "../EditScheduleDetail/Connected";
@@ -14,15 +17,13 @@ interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
 }
 
-interface PlanProps extends Props {
-  refreshData: () => void;
-}
+type PlanProps = Props & Pick<ContextProps, "refreshData">;
 
 export default class extends Component<Props> {
   render() {
     return (
       <ItemsConsumer>
-        {({ refreshData }: any) => (
+        {({ refreshData }: ContextProps) => (
           <Plan {...this.props} refreshData={refreshData} />
         )}
       </ItemsConsumer>

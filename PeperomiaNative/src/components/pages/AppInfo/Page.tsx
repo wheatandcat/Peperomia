@@ -20,7 +20,18 @@ const styles = StyleSheet.create({
   }
 });
 
-const slides: any = [
+type Slide = {
+  key: string;
+  title: string;
+  text: string;
+  image: any;
+  imageWidth: number;
+  titleColor: string;
+  textColor: string;
+  backgroundColor: string;
+};
+
+const slides: Slide[] = [
   {
     key: "step1",
     title: "予定を管理",
@@ -95,7 +106,7 @@ export default class extends Component<Props> {
     );
   };
 
-  _renderItem = ({ item }: any) => (
+  _renderItem = ({ item }: { item: Slide }) => (
     <View
       style={{
         backgroundColor: item.backgroundColor,
