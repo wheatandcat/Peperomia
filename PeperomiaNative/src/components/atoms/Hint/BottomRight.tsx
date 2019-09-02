@@ -14,7 +14,11 @@ export default class extends Component<Props> {
         </View>
         <View style={styles.tipsContainer}>
           <Text style={{ fontSize: whenIPhoneSE(12, 14) }}>
-            「+」ボタンをタッチして予定を作成しよう！
+            <Text style={{ fontSize: whenIPhoneSE(17, 20), fontWeight: "600" }}>
+              {" "}
+              +{" "}
+            </Text>
+            ボタンをタッチして予定を作成しよう！
           </Text>
         </View>
       </View>
@@ -42,10 +46,12 @@ const styles = StyleSheet.create({
     right: 10
   },
   tipsContainer: {
+    alignItems: "center",
+    justifyContent: "center",
     width: whenIPhoneSE(280, 330),
-    height: whenIPhoneSE(40, 60),
+    height: whenIPhoneSE(40, 55),
     backgroundColor: theme.color.white,
     borderWidth: 0,
-    padding: whenIPhoneSE(12, 15)
+    paddingHorizontal: whenIPhoneSE(12, 15)
   }
 });

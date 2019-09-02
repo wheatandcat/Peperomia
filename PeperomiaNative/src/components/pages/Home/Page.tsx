@@ -33,7 +33,7 @@ export default (props: ItemProps) => (
             alignItems: "center"
           }}
         >
-          {!props.loading && <Text>プランの登録はありません</Text>}
+          {!props.loading && <Text>予定がありません</Text>}
         </View>
       )}
     </View>

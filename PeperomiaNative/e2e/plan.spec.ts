@@ -7,7 +7,7 @@ describe("Authentication tests", () => {
     await reloadApp();
   });
 
-  it("アプリ紹介", async () => {});
+  it("チュートリアル", async () => {});
 
   it("予定を作成", async () => {
     await element(by.id("ScheduleAdd")).tap();
@@ -20,7 +20,7 @@ describe("Authentication tests", () => {
     await element(by.id("CreateScheduleFinished")).tap();
   });
 
-  it("タイトルの更新", async () => {
+  it("予定タイトルの更新", async () => {
     await expect(element(by.label("葛西臨海公園"))).toBeVisible();
     await element(by.id("ScheduleID_1")).tap();
 
