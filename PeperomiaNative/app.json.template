@@ -3,13 +3,13 @@
     "name": "ペペロミア",
     "slug": "peperomia",
     "privacy": "public",
-    "sdkVersion": "33.0.0",
+    "sdkVersion": "34.0.0",
     "packagerOpts": {
       "sourceExts": ["js", "ts", "tsx"],
       "transformer": "node_modules/react-native-typescript-transformer/index.js"
     },
     "platforms": ["ios", "android"],
-    "version": "1.0.5",
+    "version": "２.0.０",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -23,7 +23,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "buildNumber": "7",
+      "buildNumber": "9",
       "bundleIdentifier": "com.wheatandcat.peperomia",
       "infoPlist": {
         "NSPhotoLibraryUsageDescription": "予定作成のために使用します。",
@@ -39,7 +39,7 @@
     "android": {
       "package": "com.wheatandcat.peperomia",
       "googleServicesFile": "./android/google-services.json",
-      "versionCode": 7,
+      "versionCode": 9,
       "adaptiveIcon": {
         "backgroundColor": "#006835",
         "foregroundImage": "./assets/icon-fg.png"

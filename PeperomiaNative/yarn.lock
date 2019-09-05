@@ -5956,6 +5956,13 @@ expo-google-app-auth@^6.0.0:
     expo-app-auth "~6.0.0"
     expo-constants "~6.0.0"
 
+expo-google-sign-in@~6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/expo-google-sign-in/-/expo-google-sign-in-6.0.0.tgz#ff5c521a046dbdbd24a628e5d09db25fb7bd59bf"
+  integrity sha512-wWiiuRyMYbMy1LdHeUsyu2XAtyKbGB2gek9xUIMQJMklfmOO+wm8KshQipx4ZnYcQVVm2iN0bQCigASlewBdDw==
+  dependencies:
+    invariant "^2.2.4"
+
 expo-image-manipulator@~6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/expo-image-manipulator/-/expo-image-manipulator-6.0.0.tgz#f638691cb0d30a653a9234bb5d2e804d844a0fe8"
