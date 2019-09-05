@@ -1,6 +1,9 @@
+import * as GoogleSignIn from "expo-google-sign-in";
 import * as Google from "expo-google-app-auth";
 import { AsyncStorage, Platform } from "react-native";
 import React, { createContext, Component } from "react";
+import Constants from "expo-constants";
+import { Sentry } from "react-native-sentry";
 import * as firebase from "firebase";
 
 const Context = createContext({});
@@ -13,6 +16,10 @@ interface State {
   email: string;
 }
 
+const isStandaloneAndAndroid = () => {
+  return Platform.OS === "android" && Constants.appOwnership !== "expo";
+};
+
 export default class extends Component<Props, State> {
   state = {
     email: "",
@@ -20,6 +27,17 @@ export default class extends Component<Props, State> {
   };
 
   async componentDidMount() {
+    if (isStandaloneAndAndroid()) {
+      const androidClientId = process.env.GOOGLE_LOGIN_ANDROID_CLIENT_ID;
+      try {
+        await GoogleSignIn.initAsync({
+          clientId: String(androidClientId)
+        });
+      } catch ({ message }) {
+        Sentry.captureMessage(JSON.stringify(message));
+      }
+    }
+
     const loggedIn = await this.loggedIn();
 
     if (loggedIn && !this.state.uid) {
@@ -42,27 +60,53 @@ export default class extends Component<Props, State> {
   }
 
   onGoogleLogin = async () => {
-    const androidClientId = process.env.GOOGLE_LOGIN_ANDROID_CLIENT_ID;
-    const iosClientId = process.env.GOOGLE_LOGIN_IOS_CLIENT_ID;
-    const result = await Google.logInAsync({
-      clientId:
-        Platform.OS === "ios" ? String(iosClientId) : String(androidClientId),
-      iosClientId,
-      androidClientId,
-      scopes: ["profile", "email"]
-    });
+    if (isStandaloneAndAndroid()) {
+      // TODO: AndroidのstandaloneのみGoogleSignInを使わないとエラーになる
+      // https://github.com/expo/expo/issues/4762
 
-    if (result.type === "success") {
-      const { idToken, accessToken } = result;
-      const credential = firebase.auth.GoogleAuthProvider.credential(
-        idToken,
-        accessToken
-      );
+      await GoogleSignIn.askForPlayServicesAsync();
+      const result = await GoogleSignIn.signInAsync();
 
-      await firebase.auth().signInAndRetrieveDataWithCredential(credential);
+      if (result.type === "success" && result.user && result.user.auth) {
+        const { idToken, accessToken } = result.user.auth;
+        await this.firebaseLogin(idToken || "", accessToken || "");
+      } else {
+        Sentry.captureMessage(JSON.stringify(result));
+      }
+    } else {
+      const androidClientId = process.env.GOOGLE_LOGIN_ANDROID_CLIENT_ID;
+      const iosClientId = process.env.GOOGLE_LOGIN_IOS_CLIENT_ID;
+      const result = await Google.logInAsync({
+        clientId:
+          Platform.OS === "ios" ? String(iosClientId) : String(androidClientId),
+        iosClientId,
+        androidClientId,
+        scopes: ["profile", "email"]
+      });
 
-      await this.setSession(true);
+      if (result.type === "success") {
+        const { idToken, accessToken } = result;
+        await this.firebaseLogin(idToken || "", accessToken || "");
+      } else {
+        Sentry.captureMessage(JSON.stringify(result));
+      }
     }
+  };
+
+  firebaseLogin = async (idToken: string, accessToken: string) => {
+    const credential = firebase.auth.GoogleAuthProvider.credential(
+      idToken,
+      accessToken
+    );
+
+    await firebase
+      .auth()
+      .signInAndRetrieveDataWithCredential(credential)
+      .catch(error => {
+        Sentry.captureMessage(JSON.stringify(error));
+      });
+
+    await this.setSession(true);
   };
 
   loggedIn = async () => {
