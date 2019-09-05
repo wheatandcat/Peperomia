@@ -5,7 +5,7 @@
   "scripts": {
     "app:copy": "cp -r App.app.tsx App.tsx",
     "storybook:copy": "cp -r App.storybook.tsx App.tsx",
-    "start": "npm run app:copy && npm run development:config && expo start -c --no-minify",
+    "start": "npm run app:copy && npm run development:config && expo start --no-minify",
     "android": "npm run app:copy && expo start --android",
     "ios": "npm run app:copy && expo start --ios",
     "eject": "expo eject",
