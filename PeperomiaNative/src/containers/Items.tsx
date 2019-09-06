@@ -44,13 +44,20 @@ class Connected extends Component<Props, State> {
   }
 
   getData = () => {
+    this.setState({
+      loading: true
+    });
+
     db.transaction((tx: SQLite.Transaction) => {
       selectItems(tx, this.setItems);
     });
   };
 
   setItems = (data: Item[], error: ResultError) => {
-    if (error) {
+    if (error || !data || data.length === 0) {
+      this.setState({
+        loading: false
+      });
       return;
     }
 
@@ -68,10 +75,13 @@ class Connected extends Component<Props, State> {
 
   setItemsDetail = (data: ItemDetail[], error: ResultError) => {
     if (error || !data || data.length === 0) {
+      this.setState({
+        loading: false
+      });
       return;
     }
 
-    const names = data.map((val: ItemDetail) => val.title).join("→");
+    const names = data.map((val: ItemDetail) => val.title).join(" → ");
     const itemId = data[0].itemId;
     const about = [
       ...this.state.about,
