@@ -1,30 +1,24 @@
-import React, { Component } from "react";
+import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { whenIPhoneSE } from "../../../lib/responsive";
 import theme from "../../../config/theme";
 
-interface Props {}
-
-export default class extends Component<Props> {
-  render() {
-    return (
-      <View style={styles.root}>
-        <View style={{ right: whenIPhoneSE(-250, -300) }}>
-          <View style={styles.tips} />
-        </View>
-        <View style={styles.tipsContainer}>
-          <Text style={{ fontSize: whenIPhoneSE(12, 14) }}>
-            <Text style={{ fontSize: whenIPhoneSE(17, 20), fontWeight: "600" }}>
-              {" "}
-              +{" "}
-            </Text>
-            ボタンをタッチして予定を作成しよう！
-          </Text>
-        </View>
-      </View>
-    );
-  }
-}
+export default () => (
+  <View style={styles.root}>
+    <View style={{ right: whenIPhoneSE(-250, -300) }}>
+      <View style={styles.tips} />
+    </View>
+    <View style={styles.tipsContainer}>
+      <Text style={{ fontSize: whenIPhoneSE(12, 14) }}>
+        <Text style={{ fontSize: whenIPhoneSE(17, 20), fontWeight: "600" }}>
+          {" "}
+          +{" "}
+        </Text>
+        ボタンをタッチして予定を作成しよう！
+      </Text>
+    </View>
+  </View>
+);
 
 const styles = StyleSheet.create({
   root: {
