@@ -22,7 +22,7 @@
     "build:android": "npm run release:config && expo build:android"
   },
   "dependencies": {
-    "@expo/react-native-action-sheet": "^1.1.2",
+    "@expo/react-native-action-sheet": "^3.0.3",
     "@types/color": "^3.0.0",
     "@types/compare-versions": "^3.0.0",
     "@types/expo": "^32.0.13",
