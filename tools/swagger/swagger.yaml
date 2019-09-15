@@ -31,10 +31,11 @@ paths:
   /SyncItems:
     post:
       tags:
-        - 未実装
+        - 実装済み
       requestBody:
         $ref: '#/components/requestBodies/SyncItemsRequest'
-
+      description: |
+        - アプリの情報をバックアップする
       responses:
         '200':
           description: |
