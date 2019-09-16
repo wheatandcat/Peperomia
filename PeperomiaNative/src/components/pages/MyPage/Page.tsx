@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { View, ScrollView, Text } from "react-native";
+import { View, ScrollView, Text, StyleSheet } from "react-native";
 import { ListItem } from "react-native-elements";
 import Spinner from "react-native-loading-spinner-overlay";
-import theme from "../../../config/theme";
+import theme, { darkMode } from "../../../config/theme";
 
 export interface Props {
   loading: boolean;
@@ -15,9 +15,7 @@ export interface Props {
 export default class extends Component<Props> {
   render() {
     return (
-      <View
-        style={{ backgroundColor: theme.color.highLightGray, height: "100%" }}
-      >
+      <View style={styles.root}>
         <Spinner
           visible={this.props.loading}
           textContent={this.props.LoadingText}
@@ -31,34 +29,22 @@ export default class extends Component<Props> {
               marginHorizontal: 10
             }}
           >
-            <View
-              style={{
-                padding: 10,
-                width: "100%",
-                justifyContent: "center",
-                backgroundColor: theme.color.white
-              }}
-            >
-              <Text>メールアドレス:</Text>
-              <Text
-                style={{
-                  fontSize: 20,
-                  fontWeight: "600"
-                }}
-              >
-                {this.props.email}
-              </Text>
+            <View style={styles.emailContainer}>
+              <Text style={styles.emialTitle}>メールアドレス:</Text>
+              <Text style={styles.emial}>{this.props.email}</Text>
             </View>
           </View>
           <ListItem
             title="バックアップを作成する"
-            titleStyle={{ color: theme.color.blue }}
+            titleStyle={styles.menuText}
+            containerStyle={styles.menuContainer}
             onPress={this.props.onBackup}
             bottomDivider
           />
           <ListItem
             title="バックアップから復元する"
-            titleStyle={{ color: theme.color.blue }}
+            titleStyle={styles.menuText}
+            containerStyle={styles.menuContainer}
             onPress={this.props.onRestore}
           />
         </ScrollView>
@@ -66,3 +52,30 @@ export default class extends Component<Props> {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  root: {
+    backgroundColor: theme.mode.background,
+    height: "100%"
+  },
+  emailContainer: {
+    padding: 10,
+    width: "100%",
+    justifyContent: "center",
+    backgroundColor: theme.mode.secondaryBackground
+  },
+  emialTitle: {
+    color: theme.mode.text
+  },
+  emial: {
+    fontSize: 20,
+    fontWeight: "600",
+    color: theme.mode.text
+  },
+  menuContainer: {
+    backgroundColor: theme.mode.secondaryBackground
+  },
+  menuText: {
+    color: darkMode() ? theme.color.white : theme.color.blue
+  }
+});

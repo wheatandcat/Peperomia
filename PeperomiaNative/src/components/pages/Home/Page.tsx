@@ -29,7 +29,9 @@ export default (props: ItemProps) => (
             alignItems: "center"
           }}
         >
-          {!props.loading && <Text>予定がありません</Text>}
+          {!props.loading && (
+            <Text style={styles.notItems}>予定がありません</Text>
+          )}
         </View>
       )}
     </View>
@@ -39,5 +41,8 @@ export default (props: ItemProps) => (
 const styles = StyleSheet.create({
   root: {
     backgroundColor: theme.mode.background
+  },
+  notItems: {
+    color: theme.mode.text
   }
 });

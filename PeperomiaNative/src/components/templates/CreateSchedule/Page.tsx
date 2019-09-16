@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     width: "100%"
   },
   addButoonText: {
-    color: theme.color.gray,
+    color: theme.mode.text,
     fontSize: 16,
     fontWeight: "500",
     paddingTop: 25

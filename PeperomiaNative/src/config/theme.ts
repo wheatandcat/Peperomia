@@ -25,12 +25,18 @@ type ThemeColor = {
   };
   mode: {
     background: string;
+    secondaryBackground: string;
     icon: string;
     text: string;
+    secondaryText: string;
     tabBar: {
       background: string;
       activeTint: string;
       inactiveTint: string;
+    };
+    header: {
+      backgroundColor: string;
+      text: string;
     };
   };
 };
@@ -95,12 +101,18 @@ const theme: Theme = {
     color: baseColor,
     mode: {
       background: baseColor.white,
+      secondaryBackground: baseColor.lightGray,
       icon: baseColor.black,
       text: baseColor.black,
+      secondaryText: baseColor.darkGray,
       tabBar: {
         background: baseColor.highLightGray,
         activeTint: baseColor.main,
         inactiveTint: baseColor.darkGray
+      },
+      header: {
+        backgroundColor: baseColor.main,
+        text: baseColor.lightGreen
       }
     }
   },
@@ -108,12 +120,18 @@ const theme: Theme = {
     color: darkColor,
     mode: {
       background: baseColor.black,
+      secondaryBackground: baseColor.darkGray,
       icon: baseColor.lightGray,
       text: baseColor.lightGray,
+      secondaryText: baseColor.gray,
       tabBar: {
         background: baseColor.darkGray,
         activeTint: baseColor.lightGreen,
         inactiveTint: baseColor.lightGray
+      },
+      header: {
+        backgroundColor: baseColor.black,
+        text: baseColor.highLightGray
       }
     }
   }

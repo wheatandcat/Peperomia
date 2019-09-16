@@ -206,12 +206,12 @@ export default createStackNavigator(
   {
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: theme.color.main
+        backgroundColor: theme.mode.header.backgroundColor
       },
       headerTitleStyle: {
-        color: theme.color.lightGreen
+        color: theme.mode.header.text
       },
-      headerTintColor: theme.color.lightGreen
+      headerTintColor: theme.mode.header.text
     }
   }
 );

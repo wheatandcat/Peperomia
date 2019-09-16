@@ -4,12 +4,13 @@ import {
   ScrollView,
   Text,
   AsyncStorage,
-  ActivityIndicator
+  ActivityIndicator,
+  StyleSheet
 } from "react-native";
 import { Updates } from "expo";
 import { ListItem, Divider } from "react-native-elements";
 import Constants from "expo-constants";
-import theme from "../../../config/theme";
+import theme, { darkMode } from "../../../config/theme";
 import app from "../../../../app.json";
 
 export interface Props {
@@ -32,26 +33,30 @@ export interface Props {
 export default class extends Component<Props> {
   render() {
     return (
-      <View
-        style={{ backgroundColor: theme.color.highLightGray, height: "100%" }}
-      >
+      <View style={styles.root}>
         <ScrollView>
           <View style={{ height: 50 }} />
           <ListItem
             title="お問い合わせ"
-            rightIcon={{ name: "chevron-right", color: theme.color.gray }}
+            rightIcon={{ name: "chevron-right", color: theme.mode.text }}
+            containerStyle={styles.menu}
+            titleStyle={styles.menuText}
             onPress={this.props.onFeedback}
           />
           <View style={{ height: 20 }} />
           <ListItem
             title="利用規約"
-            rightIcon={{ name: "chevron-right", color: theme.color.gray }}
+            rightIcon={{ name: "chevron-right", color: theme.mode.text }}
+            containerStyle={styles.menu}
+            titleStyle={styles.menuText}
             bottomDivider
             onPress={this.props.onTos}
           />
           <ListItem
             title="プライバシーポリシー"
-            rightIcon={{ name: "chevron-right", color: theme.color.gray }}
+            rightIcon={{ name: "chevron-right", color: theme.mode.text }}
+            containerStyle={styles.menu}
+            titleStyle={styles.menuText}
             onPress={this.props.onPolicy}
           />
 
@@ -59,10 +64,12 @@ export default class extends Component<Props> {
           <ListItem
             title="バージョン情報"
             rightTitle={
-              <Text style={{ color: theme.color.gray }}>
+              <Text style={{ color: theme.mode.text }}>
                 {app.expo.version}{" "}
               </Text>
             }
+            containerStyle={styles.menu}
+            titleStyle={styles.menuText}
           />
 
           <View style={{ height: 20 }} />
@@ -71,14 +78,16 @@ export default class extends Component<Props> {
             if (this.props.loading) {
               return (
                 <View
-                  style={{
-                    height: 60,
-                    backgroundColor: theme.color.white,
-                    justifyContent: "center",
-                    alignItems: "center"
-                  }}
+                  style={[
+                    styles.menu,
+                    {
+                      height: 60,
+                      justifyContent: "center",
+                      alignItems: "center"
+                    }
+                  ]}
                 >
-                  <ActivityIndicator size="large" color={theme.color.gray} />
+                  <ActivityIndicator size="large" color={theme.mode.text} />
                 </View>
               );
             }
@@ -91,12 +100,15 @@ export default class extends Component<Props> {
                     onPress={this.props.onMyPage}
                     rightIcon={{
                       name: "chevron-right",
-                      color: theme.color.gray
+                      color: theme.mode.text
                     }}
+                    containerStyle={styles.menu}
+                    titleStyle={styles.menuText}
                     bottomDivider
                   />
                   <ListItem
                     title="ログアウト"
+                    containerStyle={styles.menu}
                     titleStyle={{ color: theme.color.red }}
                     onPress={this.props.onLogout}
                   />
@@ -107,7 +119,12 @@ export default class extends Component<Props> {
             return (
               <ListItem
                 title="ユーザー登録 / ログイン"
-                rightIcon={{ name: "chevron-right", color: theme.color.gray }}
+                rightIcon={{
+                  name: "chevron-right",
+                  color: theme.mode.text
+                }}
+                containerStyle={styles.menu}
+                titleStyle={styles.menuText}
                 onPress={this.props.onSignIn}
               />
             );
@@ -171,3 +188,18 @@ export default class extends Component<Props> {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  root: {
+    backgroundColor: darkMode()
+      ? theme.color.darkGray
+      : theme.color.highLightGray,
+    height: "100%"
+  },
+  menu: {
+    backgroundColor: theme.mode.background
+  },
+  menuText: {
+    color: theme.mode.text
+  }
+});

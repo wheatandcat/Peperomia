@@ -232,7 +232,7 @@ export const KINDS: Kinds = {
   [KIND_BAND]: {
     src: fileUrl("0023", "00a3bcd6-a980-499b-9dae-bed39df6f9de"),
     reversal: {
-      src: reverFileUrl("0023", "5394fa02-0cf8-4dc6-8fa0-7f1a0663032f")
+      src: reverFileUrl("0023", "35436d65-1ee6-4def-b56d-9d6e1d9c1346")
     },
     name: "バンド",
     backgroundColor: color.category07

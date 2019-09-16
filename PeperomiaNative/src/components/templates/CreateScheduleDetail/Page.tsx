@@ -378,7 +378,7 @@ class App extends Component<Props, State> {
               { flex: 0, backgroundColor: bc }
             ]}
           />
-          <SafeAreaView style={{ flex: 1 }}>
+          <SafeAreaView style={styles.body}>
             <TimeDialog
               open={this.state.manualTime}
               onChange={value => this.setState({ manualTimeValue: value })}
@@ -428,7 +428,9 @@ class App extends Component<Props, State> {
               )}
             </View>
           </SafeAreaView>
-          <View style={{ height: 500, backgroundColor: theme.color.white }} />
+          <View
+            style={{ height: 500, backgroundColor: theme.mode.background }}
+          />
         </ScrollView>
       </View>
     );
@@ -437,9 +439,12 @@ class App extends Component<Props, State> {
 
 const styles = StyleSheet.create({
   root: {
-    backgroundColor: theme.color.white,
+    backgroundColor: theme.mode.background,
     height: "100%",
     width: "100%"
+  },
+  body: {
+    flex: 1
   },
   inputTitle: {
     fontSize: 20,

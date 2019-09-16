@@ -12,7 +12,7 @@ export default class extends Component<Props> {
     return (
       <View style={styles.container}>
         <View style={styles.titleContainer}>
-          <Text>ユーザー登録 / ログインする</Text>
+          <Text style={styles.title}>ユーザー登録 / ログインする</Text>
         </View>
         <View style={styles.buttonContainer}>
           <Button
@@ -30,12 +30,15 @@ export default class extends Component<Props> {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    backgroundColor: theme.color.highLightGray,
+    backgroundColor: theme.mode.background,
     height: "100%"
   },
   titleContainer: {
     paddingTop: 30,
     paddingBottom: 10
+  },
+  title: {
+    color: theme.mode.text
   },
   buttonContainer: {
     marginVertical: 30

@@ -71,12 +71,12 @@ const styles = StyleSheet.create({
   },
   timeText: {
     fontSize: 18,
-    color: theme.color.darkGray,
+    color: theme.mode.text,
     paddingHorizontal: 15
   },
 
   linkTitle: {
-    color: theme.color.gray,
+    color: theme.mode.text,
     fontSize: 12,
     fontWeight: "600",
     padding: 0

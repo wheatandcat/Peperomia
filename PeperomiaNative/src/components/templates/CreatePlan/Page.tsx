@@ -57,7 +57,7 @@ class Page extends Component<Props> {
   state = {
     image: this.props.image,
     titleFocusCount: 0,
-    suggest: true,
+    suggest: false,
     keyboard: false
   };
 

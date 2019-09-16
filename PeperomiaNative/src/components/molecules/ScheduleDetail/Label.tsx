@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 1,
     borderColor: theme.color.lightGray,
-    backgroundColor: darkMode ? theme.color.black : theme.color.highLightGray,
+    backgroundColor: darkMode() ? theme.color.black : theme.color.highLightGray,
     paddingHorizontal: 3,
     paddingTop: Platform.OS === "ios" ? 2 : 0,
     paddingBottom: 0,
@@ -46,6 +46,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 14,
     fontWeight: "500",
-    color: darkMode ? theme.color.lightGray : theme.color.gray
+    color: darkMode() ? theme.color.lightGray : theme.color.gray
   }
 });

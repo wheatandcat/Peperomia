@@ -20,6 +20,7 @@ function loadStories() {
   require("../src/components/pages/Feedback/stories");
   require("../src/components/pages/Home/stories");
   require("../src/components/pages/Icons/stories");
+  require("../src/components/pages/MyPage/stories");
   require("../src/components/pages/Schedule/stories");
   require("../src/components/pages/ScheduleDetail/stories");
   require("../src/components/pages/Setting/stories");
@@ -47,6 +48,7 @@ const stories = [
   "../src/components/pages/Feedback/stories",
   "../src/components/pages/Home/stories",
   "../src/components/pages/Icons/stories",
+  "../src/components/pages/MyPage/stories",
   "../src/components/pages/Schedule/stories",
   "../src/components/pages/ScheduleDetail/stories",
   "../src/components/pages/Setting/stories",
