@@ -52,7 +52,7 @@ export default (props: Props) => {
                 name="camera"
                 size={32}
                 style={{
-                  color: theme.color.darkGray
+                  color: theme.mode.icon
                 }}
               />
             </TouchableOpacity>
@@ -66,9 +66,8 @@ export default (props: Props) => {
 const styles = StyleSheet.create({
   cameraIconBackground: {
     borderTopWidth: 3,
-    borderColor: theme.color.darkGray,
+    borderColor: theme.mode.icon,
     marginTop: 27,
-
     height: "100%"
   },
   cameraIconContainer: {
@@ -76,11 +75,11 @@ const styles = StyleSheet.create({
     width: 54,
     borderWidth: 3,
     borderRadius: 54,
-    borderColor: theme.color.darkGray,
+    borderColor: theme.mode.icon,
     position: "absolute",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: theme.color.highLightGray,
+    backgroundColor: theme.mode.background,
     right: 40
   }
 });

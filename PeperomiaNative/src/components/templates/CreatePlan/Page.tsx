@@ -3,7 +3,6 @@ import {
   View,
   Alert,
   TextInput,
-  Dimensions,
   StyleSheet,
   Keyboard,
   TouchableOpacity
@@ -25,8 +24,6 @@ import s from "../../../config/style";
 import Suggest from "../../organisms/Suggest/List";
 import IconImage from "../../organisms/CreatePlan/IconImage";
 import Header from "../../molecules/Header";
-
-const deviceHeight = Dimensions.get("window").height;
 
 type PropsBase = {
   mode: string;
@@ -60,7 +57,7 @@ class Page extends Component<Props> {
   state = {
     image: this.props.image,
     titleFocusCount: 0,
-    suggest: false,
+    suggest: true,
     keyboard: false
   };
 
@@ -211,12 +208,7 @@ class Page extends Component<Props> {
           onClose={this.props.onHome}
         />
 
-        <View
-          style={{
-            backgroundColor: theme.color.white,
-            height: deviceHeight
-          }}
-        >
+        <View style={styles.body}>
           <View
             style={{
               paddingTop: whenIPhoneSE(20, 30),
@@ -239,7 +231,6 @@ class Page extends Component<Props> {
               selectionColor={theme.color.lightGreen}
             />
             <Divider style={{ marginTop: 20, height: 1 }} />
-
             {this.state.suggest ? (
               <Suggest
                 title={this.props.title}
@@ -252,7 +243,7 @@ class Page extends Component<Props> {
                   image={image}
                   imageSrc={config.src}
                   imageSize={imageSize}
-                  backgroundColor={theme.color.white}
+                  backgroundColor={theme.mode.background}
                   onSave={this.onSave}
                   onOpenActionSheet={this.onOpenActionSheet}
                 />
@@ -274,5 +265,9 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "600",
     paddingLeft: 15
+  },
+  body: {
+    backgroundColor: theme.mode.background,
+    height: "100%"
   }
 });

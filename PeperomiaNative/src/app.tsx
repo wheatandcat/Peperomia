@@ -70,7 +70,9 @@ const TabNavigator = createBottomTabNavigator(
               fontSize: 12,
               fontWeight: "500",
               textAlign: "center",
-              color: focused ? theme.color.main : theme.color.darkGray
+              color: focused
+                ? theme.mode.tabBar.activeTint
+                : theme.mode.tabBar.inactiveTint
             }}
           >
             {routeName}
@@ -84,7 +86,11 @@ const TabNavigator = createBottomTabNavigator(
             <MaterialIcons
               name="date-range"
               size={30}
-              color={focused ? theme.color.main : theme.color.darkGray}
+              color={
+                focused
+                  ? theme.mode.tabBar.activeTint
+                  : theme.mode.tabBar.inactiveTint
+              }
             />
           );
         } else if (routeName === "設定") {
@@ -92,7 +98,11 @@ const TabNavigator = createBottomTabNavigator(
             <MaterialCommunityIcons
               name="settings-outline"
               size={30}
-              color={focused ? theme.color.main : theme.color.darkGray}
+              color={
+                focused
+                  ? theme.mode.tabBar.activeTint
+                  : theme.mode.tabBar.inactiveTint
+              }
             />
           );
         }
@@ -101,9 +111,8 @@ const TabNavigator = createBottomTabNavigator(
       }
     }),
     tabBarOptions: {
-      inactiveTintColor: "gray",
       style: {
-        backgroundColor: theme.color.highLightGray
+        backgroundColor: theme.mode.tabBar.background
       }
     }
   }

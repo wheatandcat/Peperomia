@@ -1,7 +1,8 @@
 import React, { Fragment } from "react";
-import { TouchableOpacity, View, Text } from "react-native";
+import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import Card from "./Card";
 import { ItemDetail } from "../../../lib/db/itemDetail";
+import theme from "../../../config/theme";
 
 export interface ItemProps extends ItemDetail {
   end: boolean;
@@ -27,7 +28,7 @@ export default (props: Props) => {
 
         return (
           <View style={{ padding: 15 }}>
-            <Text style={{ fontWeight: "600", fontSize: 15 }}>
+            <Text style={styles.timeText}>
               {props.moveMinutes ? `${props.moveMinutes}分` : "-"}
             </Text>
           </View>
@@ -36,3 +37,11 @@ export default (props: Props) => {
     </Fragment>
   );
 };
+
+const styles = StyleSheet.create({
+  timeText: {
+    fontWeight: "600",
+    fontSize: 15,
+    color: theme.mode.text
+  }
+});

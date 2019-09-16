@@ -58,6 +58,7 @@ storiesOf("templates/CreatePlan", module)
       mode="new"
       image=""
       kind=""
+      suggestList={items}
     />
   ))
   .add("Ship", () => (

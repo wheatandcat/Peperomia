@@ -99,7 +99,9 @@ class Page extends Component<Props> {
         <SafeAreaView
           style={[GlobalStyles.droidSafeArea, { flex: 0, backgroundColor: bc }]}
         />
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView
+          style={{ flex: 1, backgroundColor: theme.mode.background }}
+        >
           <Card {...this.props} onOpenActionSheet={this.onOpenActionSheet} />
         </SafeAreaView>
       </>

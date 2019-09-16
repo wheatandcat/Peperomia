@@ -1,7 +1,7 @@
 import React from "react";
-import { View, Text, Platform } from "react-native";
+import { View, Text, Platform, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import theme from "../../../config/theme";
+import theme, { darkMode } from "../../../config/theme";
 
 export interface Props {
   text: string;
@@ -11,18 +11,12 @@ export interface Props {
 
 export default (props: Props) => (
   <View
-    style={{
-      flexDirection: "row",
-      alignItems: "center",
-      borderWidth: 1,
-      borderColor: theme.color.lightGray,
-      backgroundColor: theme.color.highLightGray,
-      width: props.width,
-      paddingHorizontal: 3,
-      paddingTop: Platform.OS === "ios" ? 2 : 0,
-      paddingBottom: 0,
-      borderRadius: 10
-    }}
+    style={[
+      styles.container,
+      {
+        width: props.width
+      }
+    ]}
   >
     <MaterialCommunityIcons
       name={props.icon}
@@ -33,14 +27,25 @@ export default (props: Props) => (
         paddingLeft: 1
       }}
     />
-    <Text
-      style={{
-        fontSize: 14,
-        fontWeight: "500",
-        color: theme.color.gray
-      }}
-    >
-      {props.text}
-    </Text>
+    <Text style={styles.text}>{props.text}</Text>
   </View>
 );
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: theme.color.lightGray,
+    backgroundColor: darkMode ? theme.color.black : theme.color.highLightGray,
+    paddingHorizontal: 3,
+    paddingTop: Platform.OS === "ios" ? 2 : 0,
+    paddingBottom: 0,
+    borderRadius: 10
+  },
+  text: {
+    fontSize: 14,
+    fontWeight: "500",
+    color: darkMode ? theme.color.lightGray : theme.color.gray
+  }
+});

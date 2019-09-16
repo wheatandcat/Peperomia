@@ -8,6 +8,8 @@ const props = {
   kind: KIND_TRAIN,
   title: "新宿駅",
   memo: "■行く場所メモ\n・砂浜\n・観覧車\n・水族園",
+  url: "http://localhost:7007",
+  place: "新宿駅西口",
   moveMinutes: 60
 };
 

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Alert } from "react-native";
+import { View, Alert, StyleSheet } from "react-native";
 import theme from "../../../config/theme";
 import Cards, { Props as CardsProps } from "../../organisms/Schedule/Cards";
 import ActionButton from "../../molecules/Schedule/ActionButton";
@@ -33,12 +33,7 @@ export default class extends Component<Props> {
 
   render() {
     return (
-      <View
-        style={{
-          backgroundColor: theme.color.white,
-          height: "100%"
-        }}
-      >
+      <View style={styles.root}>
         <Cards
           data={this.props.data}
           onScheduleDetail={this.props.onScheduleDetail}
@@ -62,3 +57,10 @@ export default class extends Component<Props> {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  root: {
+    backgroundColor: theme.mode.background,
+    height: "100%"
+  }
+});

@@ -1,9 +1,9 @@
 import React from "react";
-import { View, TouchableOpacity, Text } from "react-native";
+import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { IconImage } from "primitive";
 import { SuggestItem, uniqueSuggests } from "../../../lib/suggest";
 import { KINDS } from "../../../lib/getKind";
-import theme from "../../../config/theme";
+import theme, { darkMode } from "../../../config/theme";
 
 interface Props {
   title: string;
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export default (props: Props) => (
-  <View style={{ padding: 20, backgroundColor: theme.color.white }}>
+  <View style={styles.root}>
     {uniqueSuggests(props.items)
       .filter(item => {
         if (!props.title) {
@@ -32,7 +32,7 @@ export default (props: Props) => (
           >
             <View style={{ alignItems: "center" }}>
               <IconImage
-                src={getImageSrc(item.kind)}
+                src={getImageSrc(item.kind, darkMode())}
                 name=""
                 size={25}
                 opacity={1.0}
@@ -46,15 +46,7 @@ export default (props: Props) => (
                 paddingLeft: 10
               }}
             >
-              <Text
-                style={{
-                  fontSize: 20,
-                  fontWeight: "500",
-                  color: theme.color.gray
-                }}
-              >
-                {item.title}
-              </Text>
+              <Text style={styles.title}>{item.title}</Text>
             </View>
           </View>
         </TouchableOpacity>
@@ -62,8 +54,12 @@ export default (props: Props) => (
   </View>
 );
 
-const getImageSrc = (kind: string) => {
+const getImageSrc = (kind: string, reversal?: boolean) => {
   const item = KINDS[kind];
+
+  if (reversal) {
+    return item.reversal.src;
+  }
 
   return item.src;
 };
@@ -73,3 +69,13 @@ const getImageColor = (kind: string) => {
 
   return item.backgroundColor;
 };
+
+const styles = StyleSheet.create({
+  root: {
+    padding: 20,
+    backgroundColor: theme.mode.background
+  },
+  title: {
+    color: theme.mode.text
+  }
+});

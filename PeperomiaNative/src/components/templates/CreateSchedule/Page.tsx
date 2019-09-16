@@ -135,20 +135,14 @@ export default class extends Component<Props, State> {
               image={image}
               imageSrc={config.src}
               imageSize={imageSize}
-              backgroundColor={theme.color.white}
+              backgroundColor={theme.mode.background}
               onSave={() => {}}
               onOpenActionSheet={() => {}}
             />
             <Text style={styles.headerImageTitle}>{this.props.title}</Text>
           </View>
 
-          <View
-            style={{
-              paddingTop: 60,
-              backgroundColor: theme.color.white,
-              height: "100%"
-            }}
-          >
+          <View style={styles.schedules}>
             <Text style={styles.scheduleText}>スケジュール</Text>
 
             <List
@@ -190,13 +184,15 @@ const styles = StyleSheet.create({
   headerImageTitle: {
     paddingLeft: 20,
     fontSize: 30,
-    fontWeight: "500"
+    fontWeight: "500",
+    color: theme.mode.text
   },
   scheduleText: {
     paddingLeft: 20,
     paddingBottom: 20,
     fontSize: 16,
-    fontWeight: "500"
+    fontWeight: "500",
+    color: theme.mode.text
   },
   addButoon: {
     justifyContent: "center",
@@ -208,5 +204,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "500",
     paddingTop: 25
+  },
+  schedules: {
+    paddingTop: 60,
+    backgroundColor: theme.mode.background,
+    height: "100%"
   }
 });

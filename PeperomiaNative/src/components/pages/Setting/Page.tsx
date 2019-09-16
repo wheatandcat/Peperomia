@@ -6,6 +6,7 @@ import {
   AsyncStorage,
   ActivityIndicator
 } from "react-native";
+import { Updates } from "expo";
 import { ListItem, Divider } from "react-native-elements";
 import Constants from "expo-constants";
 import theme from "../../../config/theme";
@@ -156,7 +157,13 @@ export default class extends Component<Props> {
                 }}
               />
               <Divider />
-              <Divider />
+              <ListItem
+                title="アプリを再起動する"
+                onPress={() => {
+                  Updates.reload();
+                }}
+              />
+              <Divider style={{ marginBottom: 50 }} />
             </>
           )}
         </ScrollView>

@@ -50,12 +50,12 @@ const handleClick = (url: string) => {
 
 export default (props: Props) => {
   return (
-    <View>
+    <View style={styles.root}>
       <Header kind={props.kind}>
         <Title numberOfLines={1}>{props.title}</Title>
       </Header>
 
-      <View style={{ backgroundColor: theme.color.white }}>
+      <View>
         {(() => {
           if (props.moveMinutes === 0) {
             return null;
@@ -123,12 +123,15 @@ export default (props: Props) => {
 };
 
 const Title = styled.Text`
-  color: #555;
+  color: ${theme.color.darkGray};
   font-weight: 600;
   font-size: 20;
 `;
 
 const styles = StyleSheet.create({
+  root: {
+    height: "100%"
+  },
   timeContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -137,13 +140,13 @@ const styles = StyleSheet.create({
   },
   timeText: {
     fontSize: 18,
-    color: theme.color.darkGray,
+    color: theme.mode.text,
     paddingHorizontal: 15
   },
   memoText: {
     fontSize: 16,
     lineHeight: 24,
-    color: theme.color.darkGray
+    color: theme.mode.text
   },
   memoContainer: {
     paddingTop: 5,
