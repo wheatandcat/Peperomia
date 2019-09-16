@@ -109,7 +109,7 @@
     "react-native-dotenv": "^0.2.0",
     "react-native-storybook-loader": "^1.8.0",
     "rimraf": "^3.0.0",
-    "ts-jest": "^24.0.2"
+    "ts-jest": "^24.1.0"
   },
   "config": {
     "react-native-storybook-loader": {
