@@ -12,7 +12,7 @@ import { Divider } from "react-native-elements";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import {
-  ActionSheetProps,
+  ActionSheetOptions,
   connectActionSheet
 } from "@expo/react-native-action-sheet";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
@@ -28,7 +28,7 @@ import Header from "../../molecules/Header";
 
 const deviceHeight = Dimensions.get("window").height;
 
-export interface Props {
+type PropsBase = {
   mode: string;
   title: string;
   image: string;
@@ -40,7 +40,14 @@ export interface Props {
   onIcons: () => void;
   onCamera: () => void;
   onHome: () => void;
-}
+};
+
+export type Props = PropsBase & {
+  showActionSheetWithOptions: (
+    optons: ActionSheetOptions,
+    callback: (buttonIndex: number) => void
+  ) => void;
+};
 
 export interface State {
   image: string;
@@ -49,7 +56,7 @@ export interface State {
   keyboard: boolean;
 }
 
-class Page extends Component<Props & ActionSheetProps> {
+class Page extends Component<Props> {
   state = {
     image: this.props.image,
     titleFocusCount: 0,
@@ -258,7 +265,7 @@ class Page extends Component<Props & ActionSheetProps> {
   }
 }
 
-export default connectActionSheet(Page);
+export default connectActionSheet<PropsBase>(Page);
 
 const styles = StyleSheet.create({
   titleInput: {

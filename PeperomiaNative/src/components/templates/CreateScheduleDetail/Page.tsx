@@ -14,7 +14,7 @@ import {
   TextInputScrollEventData
 } from "react-native";
 import {
-  ActionSheetProps,
+  ActionSheetOptions,
   connectActionSheet
 } from "@expo/react-native-action-sheet";
 import Color from "color";
@@ -34,7 +34,7 @@ import Suggest from "../../organisms/Suggest/List";
 const top =
   Platform.OS === "android" ? StatusBar.currentHeight : getStatusBarHeight();
 
-export interface Props {
+type PropsBase = {
   title: string;
   kind: string;
   place: string;
@@ -53,7 +53,14 @@ export interface Props {
     memo: string,
     time: number
   ) => void;
-}
+};
+
+export type Props = PropsBase & {
+  showActionSheetWithOptions: (
+    optons: ActionSheetOptions,
+    callback: (buttonIndex: number) => void
+  ) => void;
+};
 
 export interface State {
   title: string;
@@ -105,7 +112,7 @@ const times: Item[] = [
 const cancelButtonIndex = times.length - 1;
 const manualButtonIndex = times.length - 2;
 
-class App extends Component<Props & ActionSheetProps, State> {
+class App extends Component<Props, State> {
   state = {
     title: this.props.title,
     kind: this.props.kind,
@@ -442,4 +449,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connectActionSheet(App);
+export default connectActionSheet<PropsBase>(App);

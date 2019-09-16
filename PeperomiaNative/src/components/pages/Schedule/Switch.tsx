@@ -10,7 +10,7 @@ import {
   Alert
 } from "react-native";
 import {
-  ActionSheetProps,
+  ActionSheetOptions,
   connectActionSheet
 } from "@expo/react-native-action-sheet";
 import Toast from "react-native-root-toast";
@@ -50,6 +50,10 @@ interface State {
 
 interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
+  showActionSheetWithOptions: (
+    optons: ActionSheetOptions,
+    callback: (buttonIndex: number) => void
+  ) => void;
 }
 
 type PlanProps = Props &
@@ -65,7 +69,7 @@ type PlanProps = Props &
     onSort: (items: ItemDetail[]) => void;
   };
 
-class Switch extends Component<Props & ActionSheetProps, State> {
+class Switch extends Component<Props, State> {
   static navigationOptions = ({ navigation }: { navigation: any }) => {
     const { params = {} } = navigation.state;
     return {
@@ -368,7 +372,7 @@ class Switch extends Component<Props & ActionSheetProps, State> {
   }
 }
 
-class Plan extends Component<PlanProps & ActionSheetProps> {
+class Plan extends Component<PlanProps> {
   onDelete = () => {
     const itemId = this.props.navigation.getParam("itemId", "1");
 

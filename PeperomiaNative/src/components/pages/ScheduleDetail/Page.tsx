@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { SafeAreaView, Alert, StatusBar, TouchableOpacity } from "react-native";
 import {
-  ActionSheetProps,
+  ActionSheetOptions,
   connectActionSheet
 } from "@expo/react-native-action-sheet";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -14,13 +14,20 @@ import theme from "../../../config/theme";
 import Card from "../../molecules/ScheduleDetail/Card";
 import Header from "../../molecules/Header";
 
-interface Props extends ItemDetail {
+type PropsBase = ItemDetail & {
   onDismiss: () => void;
   onDelete: () => void;
   onCreateScheduleDetail: () => void;
-}
+};
 
-class Page extends Component<Props & ActionSheetProps> {
+type Props = PropsBase & {
+  showActionSheetWithOptions: (
+    optons: ActionSheetOptions,
+    callback: (buttonIndex: number) => void
+  ) => void;
+};
+
+class Page extends Component<Props> {
   onOpenActionSheet = () => {
     this.props.showActionSheetWithOptions(
       {
@@ -100,4 +107,4 @@ class Page extends Component<Props & ActionSheetProps> {
   }
 }
 
-export default connectActionSheet(Page);
+export default connectActionSheet<PropsBase>(Page);

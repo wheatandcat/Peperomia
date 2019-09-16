@@ -3,7 +3,7 @@ import { View, ScrollView, Platform } from "react-native";
 import { Input, ListItem, Divider } from "react-native-elements";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
-  ActionSheetProps,
+  ActionSheetOptions,
   connectActionSheet
 } from "@expo/react-native-action-sheet";
 import { IconImage } from "primitive";
@@ -11,20 +11,27 @@ import { KINDS } from "../../../lib/getKind";
 import { whenIPhoneSE } from "../../../lib/responsive";
 import theme from "../../../config/theme";
 
-export interface Props {
+type PropsBase = {
   kind: string;
   defaultIcon: boolean;
   photo: boolean;
   onSelectIcon: (kind: string) => void;
   onPhoto: () => void;
   onCamera: () => void;
-}
+};
+
+export type Props = PropsBase & {
+  showActionSheetWithOptions: (
+    optons: ActionSheetOptions,
+    callback: (buttonIndex: number) => void
+  ) => void;
+};
 
 export interface State {
   search: string;
 }
 
-class Page extends Component<Props & ActionSheetProps, State> {
+class Page extends Component<Props, State> {
   state = {
     search: ""
   };
@@ -143,4 +150,4 @@ class Page extends Component<Props & ActionSheetProps, State> {
   }
 }
 
-export default connectActionSheet(Page);
+export default connectActionSheet<PropsBase>(Page);
