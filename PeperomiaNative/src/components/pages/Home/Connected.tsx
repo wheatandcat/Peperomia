@@ -8,7 +8,7 @@ import {
 import { Dimensions, View, Image, AsyncStorage } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import uuidv1 from "uuid/v1";
-import theme from "../../../config/theme";
+import theme, { darkMode } from "../../../config/theme";
 import { db, ResultError } from "../../../lib/db";
 import { Item } from "../../../lib/db/item";
 import { delete1st } from "../../../lib/db/item";
@@ -48,7 +48,11 @@ class LogoTitle extends Component {
   render() {
     return (
       <Image
-        source={require("../../../img/header.png")}
+        source={
+          darkMode()
+            ? require("../../../img/header_dark.png")
+            : require("../../../img/header.png")
+        }
         style={{ height: 40, zIndex: 10 }}
         resizeMode="contain"
       />
@@ -70,7 +74,13 @@ class HomeScreen extends Component<Props, State> {
       headerRight: (
         <View style={{ right: 12 }}>
           <Hint onPress={params.onPushCreatePlan} testID="ScheduleAdd">
-            <Feather name="plus" size={28} color={theme.color.lightGreen} />
+            <Feather
+              name="plus"
+              size={28}
+              color={
+                darkMode() ? theme.color.highLightGray : theme.color.lightGreen
+              }
+            />
           </Hint>
         </View>
       )

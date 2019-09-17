@@ -35,7 +35,6 @@ export default class extends Component<Props> {
     return (
       <View style={styles.root}>
         <ScrollView>
-          <View style={{ height: 50 }} />
           <ListItem
             title="お問い合わせ"
             rightIcon={{ name: "chevron-right", color: theme.mode.text }}
@@ -130,7 +129,7 @@ export default class extends Component<Props> {
             );
           })()}
 
-          {!Constants.isDevice && (
+          {Constants.isDevice && (
             <>
               <View style={{ marginBottom: 50 }} />
               <Divider />
@@ -191,13 +190,11 @@ export default class extends Component<Props> {
 
 const styles = StyleSheet.create({
   root: {
-    backgroundColor: darkMode()
-      ? theme.color.darkGray
-      : theme.color.highLightGray,
+    backgroundColor: darkMode() ? theme.color.black : theme.color.highLightGray,
     height: "100%"
   },
   menu: {
-    backgroundColor: theme.mode.background
+    backgroundColor: darkMode() ? theme.color.darkGray : theme.color.white
   },
   menuText: {
     color: theme.mode.text
