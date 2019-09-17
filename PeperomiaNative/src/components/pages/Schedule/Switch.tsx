@@ -10,7 +10,7 @@ import {
   Alert
 } from "react-native";
 import {
-  ActionSheetOptions,
+  ActionSheetProps,
   connectActionSheet
 } from "@expo/react-native-action-sheet";
 import Toast from "react-native-root-toast";
@@ -48,13 +48,9 @@ interface State {
   mode: string;
 }
 
-interface Props {
+type Props = ActionSheetProps & {
   navigation: NavigationScreenProp<NavigationRoute>;
-  showActionSheetWithOptions: (
-    optons: ActionSheetOptions,
-    callback: (buttonIndex: number) => void
-  ) => void;
-}
+};
 
 type PlanProps = Props &
   Pick<ContextProps, "refreshData"> & {
@@ -80,7 +76,7 @@ class Switch extends Component<Props, State> {
           onPress={params.onEditPlan}
           testID="ScheduleTitleUpdate"
           titleStyle={{
-            color: theme.color.lightGreen,
+            color: theme.mode.header.text,
             fontWeight: "600"
           }}
         />

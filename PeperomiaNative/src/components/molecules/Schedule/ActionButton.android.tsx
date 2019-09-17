@@ -1,21 +1,17 @@
 import React, { Component } from "react";
 import { TouchableOpacity, View } from "react-native";
 import {
-  ActionSheetOptions,
-  connectActionSheet
+  connectActionSheet,
+  ActionSheetProps
 } from "@expo/react-native-action-sheet";
 import { Icon } from "react-native-elements";
 import theme from "../../../config/theme";
 
-interface Props {
+type Props = ActionSheetProps & {
   onAdd: () => void;
   onSort: () => void;
   onDelete: () => void;
-  showActionSheetWithOptions: (
-    optons: ActionSheetOptions,
-    callback: (buttonIndex: number) => void
-  ) => void;
-}
+};
 
 class Page extends Component<Props> {
   state = {

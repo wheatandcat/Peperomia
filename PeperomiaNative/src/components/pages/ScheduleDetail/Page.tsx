@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { SafeAreaView, Alert, StatusBar, TouchableOpacity } from "react-native";
 import {
-  ActionSheetOptions,
+  ActionSheetProps,
   connectActionSheet
 } from "@expo/react-native-action-sheet";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -20,12 +20,7 @@ type PropsBase = ItemDetail & {
   onCreateScheduleDetail: () => void;
 };
 
-type Props = PropsBase & {
-  showActionSheetWithOptions: (
-    optons: ActionSheetOptions,
-    callback: (buttonIndex: number) => void
-  ) => void;
-};
+type Props = PropsBase & ActionSheetProps;
 
 class Page extends Component<Props> {
   onOpenActionSheet = () => {

@@ -3,7 +3,7 @@ import { View, ScrollView, Platform, StyleSheet } from "react-native";
 import { Input, ListItem, Divider } from "react-native-elements";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
-  ActionSheetOptions,
+  ActionSheetProps,
   connectActionSheet
 } from "@expo/react-native-action-sheet";
 import { IconImage } from "primitive";
@@ -20,12 +20,7 @@ type PropsBase = {
   onCamera: () => void;
 };
 
-export type Props = PropsBase & {
-  showActionSheetWithOptions: (
-    optons: ActionSheetOptions,
-    callback: (buttonIndex: number) => void
-  ) => void;
-};
+export type Props = PropsBase & ActionSheetProps;
 
 export interface State {
   search: string;

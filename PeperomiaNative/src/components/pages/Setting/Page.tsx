@@ -129,7 +129,7 @@ export default class extends Component<Props> {
             );
           })()}
 
-          {Constants.isDevice && (
+          {!Constants.isDevice && (
             <>
               <View style={{ marginBottom: 50 }} />
               <Divider />

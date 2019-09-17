@@ -11,7 +11,7 @@ import { Divider } from "react-native-elements";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import {
-  ActionSheetOptions,
+  ActionSheetProps,
   connectActionSheet
 } from "@expo/react-native-action-sheet";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
@@ -39,12 +39,7 @@ type PropsBase = {
   onHome: () => void;
 };
 
-export type Props = PropsBase & {
-  showActionSheetWithOptions: (
-    optons: ActionSheetOptions,
-    callback: (buttonIndex: number) => void
-  ) => void;
-};
+export type Props = PropsBase & ActionSheetProps;
 
 export interface State {
   image: string;

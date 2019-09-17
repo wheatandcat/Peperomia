@@ -17,7 +17,7 @@ export default (props: Props) => {
   }
 
   if (props.mode === "sort") {
-    return <RightText label="âœ“" onPress={props.onSave} />;
+    return <RightText label="✓" onPress={props.onSave} />;
   }
 
   return (
@@ -25,7 +25,7 @@ export default (props: Props) => {
       <Entypo
         name="share-alternative"
         size={25}
-        color={theme.color.lightGreen}
+        color={theme.mode.header.text}
       />
     </TouchableOpacity>
   );

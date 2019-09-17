@@ -18,7 +18,7 @@ export default (props: Props) => (
       style={{
         fontSize: 18,
         fontWeight: "600",
-        color: theme.color.lightGreen
+        color: theme.mode.header.text
       }}
     >
       {props.label}

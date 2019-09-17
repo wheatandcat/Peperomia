@@ -14,7 +14,7 @@ import {
   TextInputScrollEventData
 } from "react-native";
 import {
-  ActionSheetOptions,
+  ActionSheetProps,
   connectActionSheet
 } from "@expo/react-native-action-sheet";
 import Color from "color";
@@ -55,12 +55,7 @@ type PropsBase = {
   ) => void;
 };
 
-export type Props = PropsBase & {
-  showActionSheetWithOptions: (
-    optons: ActionSheetOptions,
-    callback: (buttonIndex: number) => void
-  ) => void;
-};
+export type Props = PropsBase & ActionSheetProps;
 
 export interface State {
   title: string;
