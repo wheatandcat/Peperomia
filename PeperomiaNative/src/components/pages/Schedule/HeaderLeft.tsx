@@ -28,7 +28,7 @@ export default (props: Props) => {
       <MaterialCommunityIcons
         name="chevron-left"
         size={30}
-        color={theme.mode.header.text}
+        color={theme().mode.header.text}
       />
     </TouchableOpacity>
   );

@@ -37,16 +37,16 @@ const reverFileUrl = (file: string, token: string) => {
 };
 
 const color = {
-  category01: theme.color.lightBlue,
-  category02: theme.color.lightRed,
-  category03: theme.color.lightYellow,
-  category04: theme.color.lightEmerald,
-  category05: theme.color.lightOrange,
-  category06: theme.color.beige,
-  category07: theme.color.pink,
-  category08: theme.color.lightNavy,
-  category09: theme.color.didgerBlue,
-  category10: theme.color.lightGray
+  category01: theme().color.lightBlue,
+  category02: theme().color.lightRed,
+  category03: theme().color.lightYellow,
+  category04: theme().color.lightEmerald,
+  category05: theme().color.lightOrange,
+  category06: theme().color.beige,
+  category07: theme().color.pink,
+  category08: theme().color.lightNavy,
+  category09: theme().color.didgerBlue,
+  category10: theme().color.lightGray
 };
 
 type Kinds = {

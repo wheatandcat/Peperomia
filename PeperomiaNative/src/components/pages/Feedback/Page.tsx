@@ -7,9 +7,9 @@ import {
   Image,
   Platform,
   InputAccessoryView,
-  Keyboard,
-  StyleSheet
+  Keyboard
 } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import { Button, Overlay } from "react-native-elements";
 import theme from "../../../config/theme";
 
@@ -59,7 +59,7 @@ export default class extends Component<Props, State> {
                 buttonStyle={{
                   borderRadius: 25,
                   paddingVertical: 8,
-                  backgroundColor: theme.color.blue
+                  backgroundColor: theme().color.blue
                 }}
                 containerStyle={{
                   width: 120
@@ -80,7 +80,7 @@ export default class extends Component<Props, State> {
               <View style={styles.textInputContainer}>
                 <TextInput
                   placeholder="フィードバックを書く"
-                  placeholderTextColor={theme.mode.secondaryText}
+                  placeholderTextColor={theme().mode.secondaryText}
                   multiline
                   style={{
                     fontSize: 16,
@@ -130,31 +130,31 @@ export default class extends Component<Props, State> {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   root: {
-    backgroundColor: theme.mode.background,
+    backgroundColor: "$background",
     height: "100%"
   },
   description: {
-    backgroundColor: theme.mode.secondaryBackground
+    backgroundColor: "$secondaryBackground"
   },
   descriptionText: {
     paddingHorizontal: 20,
     paddingVertical: 10,
     fontSize: 16,
     lineHeight: 20,
-    color: theme.mode.text
+    color: "$text"
   },
   textInputContainer: {
     paddingTop: 5,
     paddingHorizontal: 20,
     height: 250,
-    backgroundColor: theme.mode.background
+    backgroundColor: "$background"
   },
   inputText: {
     fontSize: 16,
     lineHeight: 24,
     fontWeight: "400",
-    color: theme.mode.text
+    color: "$text"
   }
 });

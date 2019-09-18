@@ -1,3 +1,5 @@
+import EStyleSheet from "react-native-extended-stylesheet";
+
 type ThemeColor = {
   color: {
     beige: string;
@@ -137,14 +139,34 @@ const theme: Theme = {
   }
 };
 
-export default theme.dark;
-
-let mode = "dark";
+let mode: "light" | "dark" = "light";
 
 export const setMode = (modeType: "light" | "dark") => {
   mode = modeType;
+
+  const themeMode = theme[mode].mode;
+
+  EStyleSheet.build({
+    $text: themeMode.text,
+    $secondaryText: themeMode.secondaryText,
+    $background: themeMode.background,
+    $secondaryBackground: themeMode.secondaryBackground,
+    $icon: themeMode.icon,
+    $headerText: themeMode.header.text,
+    $searchInputContainer: darkMode()
+      ? baseColor.darkGray
+      : baseColor.highLightGray,
+    $settingRoot: darkMode() ? baseColor.black : baseColor.highLightGray,
+    $settingMenu: darkMode() ? baseColor.darkGray : baseColor.white
+  });
 };
 
 export const darkMode = () => {
   return mode === "dark";
 };
+
+const getTheme = () => {
+  return theme[mode];
+};
+
+export default getTheme;

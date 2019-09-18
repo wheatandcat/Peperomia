@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { View, ScrollView, Text, StyleSheet } from "react-native";
+import { View, ScrollView, Text } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import { ListItem } from "react-native-elements";
 import Spinner from "react-native-loading-spinner-overlay";
-import theme, { darkMode } from "../../../config/theme";
+import theme from "../../../config/theme";
 
 export interface Props {
   loading: boolean;
@@ -19,7 +20,7 @@ export default class extends Component<Props> {
         <Spinner
           visible={this.props.loading}
           textContent={this.props.LoadingText}
-          textStyle={{ color: theme.color.white }}
+          textStyle={{ color: theme().color.white }}
         />
         <ScrollView>
           <View
@@ -53,29 +54,29 @@ export default class extends Component<Props> {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   root: {
-    backgroundColor: theme.mode.background,
+    backgroundColor: "$background",
     height: "100%"
   },
   emailContainer: {
     padding: 10,
     width: "100%",
     justifyContent: "center",
-    backgroundColor: theme.mode.secondaryBackground
+    backgroundColor: "$secondaryBackground"
   },
   emialTitle: {
-    color: theme.mode.text
+    color: "$text"
   },
   emial: {
     fontSize: 20,
     fontWeight: "600",
-    color: theme.mode.text
+    color: "$text"
   },
   menuContainer: {
-    backgroundColor: theme.mode.secondaryBackground
+    backgroundColor: "$secondaryBackground"
   },
   menuText: {
-    color: darkMode() ? theme.color.white : theme.color.blue
+    color: "$text"
   }
 });

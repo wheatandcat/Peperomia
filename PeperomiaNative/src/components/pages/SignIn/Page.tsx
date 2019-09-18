@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import { Button } from "react-native-elements";
 import theme from "../../../config/theme";
 
@@ -27,10 +28,10 @@ export default class extends Component<Props> {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   container: {
     alignItems: "center",
-    backgroundColor: theme.mode.background,
+    backgroundColor: "$background",
     height: "100%"
   },
   titleContainer: {
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10
   },
   title: {
-    color: theme.mode.text
+    color: "$text"
   },
   buttonContainer: {
     marginVertical: 30
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
     padding: 15
   },
   buttonStyle: {
-    backgroundColor: theme.color.red,
+    backgroundColor: theme().color.red,
     borderColor: "transparent"
   }
 });

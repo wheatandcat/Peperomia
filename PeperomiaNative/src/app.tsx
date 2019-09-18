@@ -33,8 +33,10 @@ import {
   insert as insertUser,
   User
 } from "./lib/db/user";
-import theme from "./config/theme";
+import theme, { setMode } from "./config/theme";
 import app from "../app.json";
+
+setMode("dark");
 
 Sentry.enableInExpoDevelopment = true;
 
@@ -43,7 +45,7 @@ if (process.env.SENTRY_URL) {
 }
 
 StatusBar.setBarStyle("light-content", true);
-StatusBar.setBackgroundColor(theme.color.white, true);
+StatusBar.setBackgroundColor(theme().color.white, true);
 
 const TabNavigator = createBottomTabNavigator(
   {
@@ -71,8 +73,8 @@ const TabNavigator = createBottomTabNavigator(
               fontWeight: "500",
               textAlign: "center",
               color: focused
-                ? theme.mode.tabBar.activeTint
-                : theme.mode.tabBar.inactiveTint
+                ? theme().mode.tabBar.activeTint
+                : theme().mode.tabBar.inactiveTint
             }}
           >
             {routeName}
@@ -88,8 +90,8 @@ const TabNavigator = createBottomTabNavigator(
               size={30}
               color={
                 focused
-                  ? theme.mode.tabBar.activeTint
-                  : theme.mode.tabBar.inactiveTint
+                  ? theme().mode.tabBar.activeTint
+                  : theme().mode.tabBar.inactiveTint
               }
             />
           );
@@ -100,8 +102,8 @@ const TabNavigator = createBottomTabNavigator(
               size={30}
               color={
                 focused
-                  ? theme.mode.tabBar.activeTint
-                  : theme.mode.tabBar.inactiveTint
+                  ? theme().mode.tabBar.activeTint
+                  : theme().mode.tabBar.inactiveTint
               }
             />
           );
@@ -112,7 +114,7 @@ const TabNavigator = createBottomTabNavigator(
     }),
     tabBarOptions: {
       style: {
-        backgroundColor: theme.mode.tabBar.background
+        backgroundColor: theme().mode.tabBar.background
       }
     }
   }

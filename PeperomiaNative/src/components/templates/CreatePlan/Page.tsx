@@ -3,10 +3,10 @@ import {
   View,
   Alert,
   TextInput,
-  StyleSheet,
   Keyboard,
   TouchableOpacity
 } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import { Divider } from "react-native-elements";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
@@ -184,7 +184,7 @@ class Page extends Component<Props> {
               >
                 <MaterialCommunityIcons
                   name="keyboard-close"
-                  color={theme.color.main}
+                  color={theme().color.main}
                   size={25}
                   style={{ paddingRight: 5 }}
                 />
@@ -193,7 +193,7 @@ class Page extends Component<Props> {
               <TouchableOpacity onPress={this.onSave} testID="ScheduleCreated">
                 <MaterialIcons
                   name="check"
-                  color={theme.color.main}
+                  color={theme().color.main}
                   size={25}
                   style={{ paddingRight: 5 }}
                 />
@@ -215,7 +215,7 @@ class Page extends Component<Props> {
           >
             <TextInput
               placeholder={this.props.title === "" ? "タイトル" : ""}
-              placeholderTextColor={theme.color.gray}
+              placeholderTextColor={theme().color.gray}
               style={styles.titleInput}
               onChangeText={text => this.props.onInput("title", text)}
               testID="ScheduleTitleInput"
@@ -223,7 +223,7 @@ class Page extends Component<Props> {
               returnKeyType="done"
               autoFocus
               onFocus={this.onSuggestTitle}
-              selectionColor={theme.color.lightGreen}
+              selectionColor={theme().color.lightGreen}
             />
             <Divider style={{ marginTop: 20, height: 1 }} />
             {this.state.suggest ? (
@@ -238,7 +238,7 @@ class Page extends Component<Props> {
                   image={image}
                   imageSrc={config.src}
                   imageSize={imageSize}
-                  backgroundColor={theme.mode.background}
+                  backgroundColor={theme().mode.background}
                   onSave={this.onSave}
                   onOpenActionSheet={this.onOpenActionSheet}
                 />
@@ -253,16 +253,16 @@ class Page extends Component<Props> {
 
 export default connectActionSheet<PropsBase>(Page);
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   titleInput: {
     width: "100%",
-    color: theme.color.darkGray,
+    color: theme().color.darkGray,
     fontSize: 22,
     fontWeight: "600",
     paddingLeft: 15
   },
   body: {
-    backgroundColor: theme.mode.background,
+    backgroundColor: "$background",
     height: "100%"
   }
 });

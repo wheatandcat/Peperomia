@@ -7,12 +7,12 @@ import {
   Alert,
   Keyboard,
   ScrollView,
-  StyleSheet,
   StatusBar,
   Platform,
   NativeSyntheticEvent,
   TextInputScrollEventData
 } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import {
   ActionSheetProps,
   connectActionSheet
@@ -317,7 +317,7 @@ class App extends Component<Props, State> {
       <View
         style={{
           flex: 0,
-          backgroundColor: this.state.imageHeader ? bc : theme.color.white
+          backgroundColor: this.state.imageHeader ? bc : theme().color.white
         }}
       >
         <Header
@@ -331,7 +331,7 @@ class App extends Component<Props, State> {
               >
                 <MaterialCommunityIcons
                   name="keyboard-close"
-                  color={theme.color.main}
+                  color={theme().color.main}
                   size={25}
                   style={{ paddingRight: 5 }}
                 />
@@ -343,7 +343,7 @@ class App extends Component<Props, State> {
               >
                 <MaterialIcons
                   name="check"
-                  color={theme.color.main}
+                  color={theme().color.main}
                   size={25}
                   style={{ paddingRight: 5 }}
                 />
@@ -388,7 +388,7 @@ class App extends Component<Props, State> {
               >
                 <TextInput
                   placeholder="タイトルを入力"
-                  placeholderTextColor={theme.color.gray}
+                  placeholderTextColor={theme().color.gray}
                   style={styles.inputTitle}
                   onChangeText={title =>
                     this.setState({ title, kind: getKind(title) })
@@ -398,7 +398,7 @@ class App extends Component<Props, State> {
                   returnKeyType="done"
                   autoFocus
                   onFocus={this.onSuggestTitle}
-                  selectionColor={theme.color.lightGreen}
+                  selectionColor={theme().color.lightGreen}
                 />
               </HeaderImage>
 
@@ -423,18 +423,16 @@ class App extends Component<Props, State> {
               )}
             </View>
           </SafeAreaView>
-          <View
-            style={{ height: 500, backgroundColor: theme.mode.background }}
-          />
+          <View style={styles.bottom} />
         </ScrollView>
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   root: {
-    backgroundColor: theme.mode.background,
+    backgroundColor: "$background",
     height: "100%",
     width: "100%"
   },
@@ -444,8 +442,12 @@ const styles = StyleSheet.create({
   inputTitle: {
     fontSize: 20,
     fontWeight: "600",
-    color: theme.color.gray,
+    color: theme().color.gray,
     paddingLeft: 1
+  },
+  bottom: {
+    height: 500,
+    backgroundColor: "$background"
   }
 });
 

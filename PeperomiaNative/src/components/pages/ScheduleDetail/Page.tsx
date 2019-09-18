@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { SafeAreaView, Alert, StatusBar, TouchableOpacity } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import {
   ActionSheetProps,
   connectActionSheet
@@ -79,7 +80,7 @@ class Page extends Component<Props> {
               <MaterialCommunityIcons
                 name="dots-horizontal"
                 size={30}
-                color={theme.color.main}
+                color={theme().color.main}
                 style={{ marginRight: 0, marginLeft: "auto" }}
               />
             </TouchableOpacity>
@@ -88,15 +89,13 @@ class Page extends Component<Props> {
         />
 
         <StatusBar
-          backgroundColor={theme.color.white}
+          backgroundColor={theme().color.white}
           barStyle="dark-content"
         />
         <SafeAreaView
           style={[GlobalStyles.droidSafeArea, { flex: 0, backgroundColor: bc }]}
         />
-        <SafeAreaView
-          style={{ flex: 1, backgroundColor: theme.mode.background }}
-        >
+        <SafeAreaView style={styles.contents}>
           <Card {...this.props} onOpenActionSheet={this.onOpenActionSheet} />
         </SafeAreaView>
       </>
@@ -105,3 +104,10 @@ class Page extends Component<Props> {
 }
 
 export default connectActionSheet<PropsBase>(Page);
+
+const styles = EStyleSheet.create({
+  contents: {
+    flex: 1,
+    backgroundColor: "$background"
+  }
+});

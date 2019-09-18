@@ -1,8 +1,8 @@
 import React, { Fragment } from "react";
-import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
+import { TouchableOpacity, View, Text } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import Card from "./Card";
 import { ItemDetail } from "../../../lib/db/itemDetail";
-import theme from "../../../config/theme";
 
 export interface ItemProps extends ItemDetail {
   end: boolean;
@@ -38,10 +38,10 @@ export default (props: Props) => {
   );
 };
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   timeText: {
     fontWeight: "600",
     fontSize: 15,
-    color: theme.mode.text
+    color: "$text"
   }
 });

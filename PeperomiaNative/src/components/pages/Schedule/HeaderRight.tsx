@@ -25,7 +25,7 @@ export default (props: Props) => {
       <Entypo
         name="share-alternative"
         size={25}
-        color={theme.mode.header.text}
+        color={theme().mode.header.text}
       />
     </TouchableOpacity>
   );

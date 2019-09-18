@@ -4,12 +4,12 @@ import {
   View,
   Text,
   ScrollView,
-  StyleSheet,
   StatusBar,
   Platform,
   NativeSyntheticEvent,
   TextInputScrollEventData
 } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import { Icon } from "react-native-elements";
 import { getStatusBarHeight } from "react-native-status-bar-height";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -94,7 +94,7 @@ export default class extends Component<Props, State> {
       <View
         style={{
           flex: 0,
-          backgroundColor: this.state.imageHeader ? bc : theme.color.white
+          backgroundColor: this.state.imageHeader ? bc : theme().color.white
         }}
       >
         <Header
@@ -107,7 +107,7 @@ export default class extends Component<Props, State> {
             >
               <MaterialIcons
                 name="check"
-                color={theme.color.main}
+                color={theme().color.main}
                 size={25}
                 style={{ paddingRight: 5 }}
               />
@@ -135,7 +135,7 @@ export default class extends Component<Props, State> {
               image={image}
               imageSrc={config.src}
               imageSize={imageSize}
-              backgroundColor={theme.mode.background}
+              backgroundColor={theme().mode.background}
               onSave={() => {}}
               onOpenActionSheet={() => {}}
             />
@@ -165,7 +165,7 @@ export default class extends Component<Props, State> {
                 <Icon
                   name="add"
                   size={30}
-                  color={theme.color.lightGreen}
+                  color={theme().color.lightGreen}
                   raised
                   reverse
                 />
@@ -180,19 +180,19 @@ export default class extends Component<Props, State> {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   headerImageTitle: {
     paddingLeft: 20,
     fontSize: 30,
     fontWeight: "500",
-    color: theme.mode.text
+    color: "$text"
   },
   scheduleText: {
     paddingLeft: 20,
     paddingBottom: 20,
     fontSize: 16,
     fontWeight: "500",
-    color: theme.mode.text
+    color: "$text"
   },
   addButoon: {
     justifyContent: "center",
@@ -200,14 +200,14 @@ const styles = StyleSheet.create({
     width: "100%"
   },
   addButoonText: {
-    color: theme.mode.text,
+    color: "$text",
     fontSize: 16,
     fontWeight: "500",
     paddingTop: 25
   },
   schedules: {
     paddingTop: 60,
-    backgroundColor: theme.mode.background,
+    backgroundColor: "$background",
     height: "100%"
   }
 });

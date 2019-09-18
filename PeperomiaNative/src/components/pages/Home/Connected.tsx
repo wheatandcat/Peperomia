@@ -78,7 +78,9 @@ class HomeScreen extends Component<Props, State> {
               name="plus"
               size={28}
               color={
-                darkMode() ? theme.color.highLightGray : theme.color.lightGreen
+                darkMode()
+                  ? theme().color.highLightGray
+                  : theme().color.lightGreen
               }
             />
           </Hint>
@@ -217,12 +219,12 @@ const MainCardNavigator = createStackNavigator(
   {
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: theme.mode.header.backgroundColor
+        backgroundColor: theme().mode.header.backgroundColor
       },
       headerTitleStyle: {
-        color: theme.mode.header.text
+        color: theme().mode.header.text
       },
-      headerTintColor: theme.mode.header.text
+      headerTintColor: theme().mode.header.text
     }
   }
 );

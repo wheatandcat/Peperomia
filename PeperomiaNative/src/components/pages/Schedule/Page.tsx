@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { View, Alert, StyleSheet } from "react-native";
-import theme from "../../../config/theme";
+import { View, Alert } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import Cards, { Props as CardsProps } from "../../organisms/Schedule/Cards";
 import ActionButton from "../../molecules/Schedule/ActionButton";
 
@@ -58,9 +58,9 @@ export default class extends Component<Props> {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   root: {
-    backgroundColor: theme.mode.background,
+    backgroundColor: "$background",
     height: "100%"
   }
 });

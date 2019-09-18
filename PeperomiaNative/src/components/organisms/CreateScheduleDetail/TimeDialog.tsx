@@ -55,7 +55,7 @@ export default (props: Props) => (
           <Text
             style={{
               fontSize: 22,
-              color: theme.color.lightGray
+              color: theme().color.lightGray
             }}
           >
             |
@@ -80,13 +80,13 @@ const styles = StyleSheet.create({
   root: {
     height: "100%",
     width: "100%",
-    backgroundColor: theme.color.white
+    backgroundColor: theme().color.white
   },
   title: {
     fontSize: 20,
     fontWeight: "600",
     textAlign: "center",
-    color: theme.color.main
+    color: theme().color.main
   },
   timeInput: {
     width: 90,
@@ -108,14 +108,14 @@ const styles = StyleSheet.create({
     marginTop: 50,
     paddingTop: 10,
     borderTopWidth: 0.5,
-    borderColor: theme.color.lightGray
+    borderColor: theme().color.lightGray
   },
   buttonText: {
-    color: theme.color.main,
+    color: theme().color.main,
     fontWeight: "600"
   },
   cancel: {
-    color: theme.color.gray,
+    color: theme().color.gray,
     fontWeight: "600"
   }
 });

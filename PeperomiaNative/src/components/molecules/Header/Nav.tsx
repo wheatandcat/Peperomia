@@ -15,7 +15,7 @@ export default (props: Props) => (
     style={{
       height: 50,
       borderBottomWidth: 1,
-      borderColor: theme.color.lightGray
+      borderColor: theme().color.lightGray
     }}
   >
     <Grid>

@@ -1,7 +1,7 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import Cards, { Props as CardsProps } from "../../organisms/Home/Cards";
-import theme from "../../../config/theme";
 
 export interface Props extends CardsProps {
   onCreate: () => void;
@@ -38,11 +38,11 @@ export default (props: ItemProps) => (
   </View>
 );
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   root: {
-    backgroundColor: theme.mode.background
+    backgroundColor: "$background"
   },
   notItems: {
-    color: theme.mode.text
+    color: "$text"
   }
 });

@@ -1,7 +1,7 @@
 import React from "react";
-import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, Image, TouchableOpacity } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import { Feather } from "@expo/vector-icons";
-import theme from "../../../config/theme";
 import { IconImage } from "primitive";
 import { whenIPhoneSE } from "../../../lib/responsive";
 
@@ -48,13 +48,7 @@ export default (props: Props) => {
 
           <View style={styles.cameraIconContainer}>
             <TouchableOpacity onPress={props.onOpenActionSheet}>
-              <Feather
-                name="camera"
-                size={32}
-                style={{
-                  color: theme.mode.icon
-                }}
-              />
+              <Feather name="camera" size={32} style={styles.cameraIcon} />
             </TouchableOpacity>
           </View>
         </View>
@@ -63,10 +57,10 @@ export default (props: Props) => {
   );
 };
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   cameraIconBackground: {
     borderTopWidth: 3,
-    borderColor: theme.mode.icon,
+    borderColor: "$icon",
     marginTop: 27,
     height: "100%"
   },
@@ -75,11 +69,14 @@ const styles = StyleSheet.create({
     width: 54,
     borderWidth: 3,
     borderRadius: 54,
-    borderColor: theme.mode.icon,
+    borderColor: "$icon",
     position: "absolute",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: theme.mode.background,
+    backgroundColor: "$background",
     right: 40
+  },
+  cameraIcon: {
+    color: "$icon"
   }
 });

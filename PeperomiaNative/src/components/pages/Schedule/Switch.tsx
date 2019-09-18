@@ -9,6 +9,7 @@ import {
   Clipboard,
   Alert
 } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import {
   ActionSheetProps,
   connectActionSheet
@@ -16,7 +17,6 @@ import {
 import Toast from "react-native-root-toast";
 import uuidv1 from "uuid/v1";
 import { Button } from "react-native-elements";
-import theme from "../../../config/theme";
 import { db, ResultError } from "../../../lib/db";
 import {
   update as updateItemDetail,
@@ -75,10 +75,7 @@ class Switch extends Component<Props, State> {
           title={params.title}
           onPress={params.onEditPlan}
           testID="ScheduleTitleUpdate"
-          titleStyle={{
-            color: theme.mode.header.text,
-            fontWeight: "600"
-          }}
+          titleStyle={styles.headerTitle}
         />
       ),
 
@@ -430,3 +427,10 @@ class Plan extends Component<PlanProps> {
 }
 
 export default connectActionSheet(Switch);
+
+const styles = EStyleSheet.create({
+  headerTitle: {
+    color: "$headerText",
+    fontWeight: "600"
+  }
+});

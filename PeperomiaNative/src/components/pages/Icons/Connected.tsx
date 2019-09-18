@@ -22,14 +22,14 @@ export default class extends Component<Props, State> {
     const { params = {} } = navigation.state;
 
     return {
-      title: "アイコン",
+      title: "アイコン設定",
       headerStyle: {
         borderBottomWidth: 0,
-        backgroundColor: theme.mode.header.backgroundColor
+        backgroundColor: theme().mode.header.backgroundColor
       },
-      headerTintColor: theme.mode.header.text,
+      headerTintColor: theme().mode.header.text,
       headerTitleStyle: {
-        color: theme.mode.header.text
+        color: theme().mode.header.text
       },
       headerLeft: (
         <View style={{ left: 10 }}>
@@ -37,7 +37,7 @@ export default class extends Component<Props, State> {
             <MaterialCommunityIcons
               name="close"
               size={25}
-              color={theme.mode.text}
+              color={theme().mode.text}
             />
           </TouchableOpacity>
         </View>

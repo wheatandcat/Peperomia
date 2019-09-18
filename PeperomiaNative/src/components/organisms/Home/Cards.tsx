@@ -90,15 +90,15 @@ const styles = StyleSheet.create({
     margin: 3,
     borderRadius: 5,
     borderWidth: 0.5,
-    borderColor: theme.color.red,
+    borderColor: theme().color.red,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: theme.color.red,
+    backgroundColor: theme().color.red,
     height: 80,
     width: 80
   },
   deleteText: {
-    color: theme.color.white,
+    color: theme().color.white,
     fontWeight: "bold"
   },
   deleteContainer: {

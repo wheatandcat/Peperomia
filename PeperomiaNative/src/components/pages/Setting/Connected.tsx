@@ -24,6 +24,7 @@ import Policy from "../Policy/Page";
 import Feedback from "../Feedback/Connected";
 import SignIn from "../SignIn/Connected";
 import MyPage from "../MyPage/Connected";
+import ScreenSetting from "../ScreenSetting/Connected";
 import Page from "./Page";
 
 interface Props {
@@ -141,6 +142,10 @@ class Connected extends Component<ConnectedProps, State> {
     this.props.navigation.navigate("MyPage");
   };
 
+  onScreenSetting = () => {
+    this.props.navigation.navigate("ScreenSetting");
+  };
+
   onLogout = () => {
     Alert.alert(
       "ログアウトしますか",
@@ -189,6 +194,7 @@ class Connected extends Component<ConnectedProps, State> {
         onLogout={this.onLogout}
         onMyPage={this.onMyPage}
         onMigrationV100={this.onMigrationV100}
+        onScreenSetting={this.onScreenSetting}
       />
     );
   }
@@ -201,17 +207,18 @@ export default createStackNavigator(
     Policy: Policy,
     Feedback: Feedback,
     SignIn: SignIn,
-    MyPage: MyPage
+    MyPage: MyPage,
+    ScreenSetting: ScreenSetting
   },
   {
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: theme.mode.header.backgroundColor
+        backgroundColor: theme().mode.header.backgroundColor
       },
       headerTitleStyle: {
-        color: theme.mode.header.text
+        color: theme().mode.header.text
       },
-      headerTintColor: theme.mode.header.text
+      headerTintColor: theme().mode.header.text
     }
   }
 );

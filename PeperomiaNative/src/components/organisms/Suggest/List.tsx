@@ -1,9 +1,10 @@
 import React from "react";
-import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
+import { View, TouchableOpacity, Text } from "react-native";
 import { IconImage } from "primitive";
+import EStyleSheet from "react-native-extended-stylesheet";
 import { SuggestItem, uniqueSuggests } from "../../../lib/suggest";
 import { KINDS } from "../../../lib/getKind";
-import theme, { darkMode } from "../../../config/theme";
+import { darkMode } from "../../../config/theme";
 
 interface Props {
   title: string;
@@ -70,12 +71,12 @@ const getImageColor = (kind: string) => {
   return item.backgroundColor;
 };
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   root: {
     padding: 20,
-    backgroundColor: theme.mode.background
+    backgroundColor: "$background"
   },
   title: {
-    color: theme.mode.text
+    color: "$text"
   }
 });

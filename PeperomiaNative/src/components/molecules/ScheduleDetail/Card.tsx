@@ -1,12 +1,12 @@
 import React from "react";
 import {
-  StyleSheet,
   View,
   Text,
   Linking,
   TouchableOpacity,
   Dimensions
 } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import styled from "styled-components/native";
 import Toast from "react-native-root-toast";
 import { Ionicons } from "@expo/vector-icons";
@@ -37,7 +37,7 @@ const handleClick = (url: string) => {
         shadow: true,
         animation: true,
         hideOnPress: true,
-        textColor: theme.color.red,
+        textColor: theme().color.red,
         delay: 0
       });
 
@@ -67,7 +67,7 @@ export default (props: Props) => {
                 <View style={styles.timeContainer}>
                   <Ionicons
                     name="md-time"
-                    color={theme.color.lightGreen}
+                    color={theme().color.lightGreen}
                     size={24}
                     style={{ paddingTop: 3 }}
                   />
@@ -98,7 +98,7 @@ export default (props: Props) => {
             <View style={styles.memoContainer}>
               <TouchableOpacity onPress={() => handleClick(props.url)}>
                 <Text
-                  style={[styles.memoText, { color: theme.color.sky }]}
+                  style={[styles.memoText, { color: theme().color.sky }]}
                   numberOfLines={1}
                 >
                   {props.url}
@@ -123,12 +123,12 @@ export default (props: Props) => {
 };
 
 const Title = styled.Text`
-  color: ${theme.color.darkGray};
+  color: ${theme().color.darkGray};
   font-weight: 600;
   font-size: 20;
 `;
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   root: {
     height: "100%"
   },
@@ -140,13 +140,13 @@ const styles = StyleSheet.create({
   },
   timeText: {
     fontSize: 18,
-    color: theme.mode.text,
+    color: "$text",
     paddingHorizontal: 15
   },
   memoText: {
     fontSize: 16,
     lineHeight: 24,
-    color: theme.mode.text
+    color: "$text"
   },
   memoContainer: {
     paddingTop: 5,

@@ -4,13 +4,13 @@ import {
   ScrollView,
   Text,
   AsyncStorage,
-  ActivityIndicator,
-  StyleSheet
+  ActivityIndicator
 } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import { Updates } from "expo";
 import { ListItem, Divider } from "react-native-elements";
 import Constants from "expo-constants";
-import theme, { darkMode } from "../../../config/theme";
+import theme from "../../../config/theme";
 import app from "../../../../app.json";
 
 export interface Props {
@@ -28,6 +28,7 @@ export interface Props {
   onFeedback: () => void;
   onMyPage: () => void;
   onMigrationV100: () => void;
+  onScreenSetting: () => void;
 }
 
 export default class extends Component<Props> {
@@ -37,15 +38,23 @@ export default class extends Component<Props> {
         <ScrollView>
           <ListItem
             title="お問い合わせ"
-            rightIcon={{ name: "chevron-right", color: theme.mode.text }}
+            rightIcon={{ name: "chevron-right", color: theme().mode.text }}
             containerStyle={styles.menu}
             titleStyle={styles.menuText}
+            bottomDivider
             onPress={this.props.onFeedback}
+          />
+          <ListItem
+            title="画面表示"
+            rightIcon={{ name: "chevron-right", color: theme().mode.text }}
+            containerStyle={styles.menu}
+            titleStyle={styles.menuText}
+            onPress={this.props.onScreenSetting}
           />
           <View style={{ height: 20 }} />
           <ListItem
             title="利用規約"
-            rightIcon={{ name: "chevron-right", color: theme.mode.text }}
+            rightIcon={{ name: "chevron-right", color: theme().mode.text }}
             containerStyle={styles.menu}
             titleStyle={styles.menuText}
             bottomDivider
@@ -53,7 +62,7 @@ export default class extends Component<Props> {
           />
           <ListItem
             title="プライバシーポリシー"
-            rightIcon={{ name: "chevron-right", color: theme.mode.text }}
+            rightIcon={{ name: "chevron-right", color: theme().mode.text }}
             containerStyle={styles.menu}
             titleStyle={styles.menuText}
             onPress={this.props.onPolicy}
@@ -63,7 +72,7 @@ export default class extends Component<Props> {
           <ListItem
             title="バージョン情報"
             rightTitle={
-              <Text style={{ color: theme.mode.text }}>
+              <Text style={{ color: theme().mode.text }}>
                 {app.expo.version}{" "}
               </Text>
             }
@@ -86,7 +95,7 @@ export default class extends Component<Props> {
                     }
                   ]}
                 >
-                  <ActivityIndicator size="large" color={theme.mode.text} />
+                  <ActivityIndicator size="large" color={theme().mode.text} />
                 </View>
               );
             }
@@ -99,7 +108,7 @@ export default class extends Component<Props> {
                     onPress={this.props.onMyPage}
                     rightIcon={{
                       name: "chevron-right",
-                      color: theme.mode.text
+                      color: theme().mode.text
                     }}
                     containerStyle={styles.menu}
                     titleStyle={styles.menuText}
@@ -108,7 +117,7 @@ export default class extends Component<Props> {
                   <ListItem
                     title="ログアウト"
                     containerStyle={styles.menu}
-                    titleStyle={{ color: theme.color.red }}
+                    titleStyle={{ color: theme().color.red }}
                     onPress={this.props.onLogout}
                   />
                 </>
@@ -120,7 +129,7 @@ export default class extends Component<Props> {
                 title="ユーザー登録 / ログイン"
                 rightIcon={{
                   name: "chevron-right",
-                  color: theme.mode.text
+                  color: theme().mode.text
                 }}
                 containerStyle={styles.menu}
                 titleStyle={styles.menuText}
@@ -135,7 +144,7 @@ export default class extends Component<Props> {
               <Divider />
               <Text
                 style={{
-                  backgroundColor: theme.color.highLightGray,
+                  backgroundColor: theme().color.highLightGray,
                   paddingVertical: 15,
                   paddingLeft: 10,
                   fontSize: 20
@@ -188,15 +197,15 @@ export default class extends Component<Props> {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   root: {
-    backgroundColor: darkMode() ? theme.color.black : theme.color.highLightGray,
+    backgroundColor: "$settingRoot",
     height: "100%"
   },
   menu: {
-    backgroundColor: darkMode() ? theme.color.darkGray : theme.color.white
+    backgroundColor: "$settingMenu"
   },
   menuText: {
-    color: theme.mode.text
+    color: "$text"
   }
 });

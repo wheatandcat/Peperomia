@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     right: -12,
     width: deviceWidth,
     height: deviceHeight,
-    backgroundColor: theme.color.yellow,
+    backgroundColor: theme().color.yellow,
     zIndex: 50
   }
 });

@@ -45,7 +45,7 @@ class Page extends Component<Props> {
           <Icon
             name="add"
             size={30}
-            color={theme.color.lightGreen}
+            color={theme().color.lightGreen}
             raised
             reverse
           />

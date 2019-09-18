@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import { View, ScrollView, Platform, StyleSheet } from "react-native";
+import { View, ScrollView, Platform } from "react-native";
 import { Input, ListItem, Divider } from "react-native-elements";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
   ActionSheetProps,
   connectActionSheet
 } from "@expo/react-native-action-sheet";
+import EStyleSheet from "react-native-extended-stylesheet";
 import { IconImage } from "primitive";
 import { KINDS } from "../../../lib/getKind";
 import { whenIPhoneSE } from "../../../lib/responsive";
@@ -71,11 +72,11 @@ class Page extends Component<Props, State> {
         <View style={styles.searchContainer}>
           <Input
             placeholder="検索"
-            placeholderTextColor={theme.mode.secondaryText}
+            placeholderTextColor={theme().mode.secondaryText}
             leftIcon={{
               type: "MaterialIcons",
               name: "search",
-              color: theme.mode.icon
+              color: theme().mode.icon
             }}
             inputContainerStyle={styles.searchInputContainer}
             leftIconContainerStyle={{
@@ -98,18 +99,14 @@ class Page extends Component<Props, State> {
           <View style={{ paddingBottom: 150 }}>
             {items.map((item: any, i: number) => (
               <ListItem
-                containerStyle={{
-                  backgroundColor: theme.mode.background
-                }}
+                containerStyle={styles.iconListItem}
                 key={i}
                 title={
                   !this.props.defaultIcon && item.name === "地球"
                     ? "アイコンなし"
                     : item.name
                 }
-                titleStyle={{
-                  color: theme.mode.text
-                }}
+                titleStyle={styles.iconListItemTitle}
                 onPress={() => this.props.onSelectIcon(item.kind)}
                 leftIcon={
                   <IconImage
@@ -127,8 +124,8 @@ class Page extends Component<Props, State> {
                         name="check"
                         color={
                           darkMode()
-                            ? theme.color.highLightGray
-                            : theme.color.main
+                            ? theme().color.highLightGray
+                            : theme().color.main
                         }
                         size={20}
                         style={{ paddingRight: 5 }}
@@ -148,23 +145,27 @@ class Page extends Component<Props, State> {
 
 export default connectActionSheet<PropsBase>(Page);
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   root: {
-    backgroundColor: theme.mode.background
+    backgroundColor: "$background"
   },
   searchContainer: {
     paddingTop: 5,
     paddingHorizontal: 10,
     height: Platform.OS === "ios" ? whenIPhoneSE(40, 55) : 40,
-    backgroundColor: theme.mode.background,
+    backgroundColor: "$background",
     alignItems: "center"
   },
   searchInputContainer: {
-    backgroundColor: darkMode()
-      ? theme.color.darkGray
-      : theme.color.highLightGray,
+    backgroundColor: "$searchInputContainer",
     borderBottomWidth: 0,
     borderRadius: 10,
     height: Platform.OS === "ios" ? whenIPhoneSE(30, 45) : 30
+  },
+  iconListItem: {
+    backgroundColor: "$background"
+  },
+  iconListItemTitle: {
+    color: "$text"
   }
 });
