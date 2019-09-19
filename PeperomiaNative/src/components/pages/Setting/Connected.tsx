@@ -32,8 +32,17 @@ interface Props {
 }
 
 class Container extends Component<Props> {
-  static navigationOptions = {
-    title: "設定"
+  static navigationOptions = () => {
+    return {
+      title: "設定",
+      headerTitleStyle: {
+        color: theme().mode.header.text
+      },
+      headerTintColor: theme().mode.header.text,
+      headerStyle: {
+        backgroundColor: theme().mode.header.backgroundColor
+      }
+    };
   };
 
   render() {

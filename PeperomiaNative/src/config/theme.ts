@@ -147,6 +147,7 @@ export const setMode = (modeType: "light" | "dark") => {
   const themeMode = theme[mode].mode;
 
   EStyleSheet.build({
+    $theme: modeType,
     $text: themeMode.text,
     $secondaryText: themeMode.secondaryText,
     $background: themeMode.background,

@@ -17,6 +17,10 @@ import {
   Consumer as ItemsConsumer,
   ContextProps
 } from "../../../containers/Items";
+import {
+  Consumer as ThemeConsumer,
+  ContextProps as ThemeContextProps
+} from "../../../containers/Theme";
 import Hint from "../../atoms/Hint/Hint";
 import Schedule from "../Schedule/Switch";
 import EditPlan from "../EditPlan/Connected";
@@ -35,6 +39,8 @@ type State = {
 };
 
 export type PlanProps = Pick<ContextProps, "items" | "about" | "refreshData"> &
+  Pick<ThemeContextProps, "rerendering" | "onFinishRerendering"> &
+  Pick<Props, "navigation"> &
   Pick<HomeScreen, "onCreate" | "onSchedule"> & {
     loading: boolean;
     refresh: string;
@@ -70,7 +76,9 @@ class HomeScreen extends Component<Props, State> {
 
     return {
       headerTitle: <LogoTitle />,
-
+      headerStyle: {
+        backgroundColor: theme().mode.header.backgroundColor
+      },
       headerRight: (
         <View style={{ right: 12 }}>
           <Hint onPress={params.onPushCreatePlan} testID="ScheduleAdd">
@@ -127,27 +135,34 @@ class HomeScreen extends Component<Props, State> {
     return (
       <ItemsConsumer>
         {({ items, about, refreshData, itemsLoading }: ContextProps) => (
-          <>
-            <HomeScreenPlan
-              loading={Boolean(itemsLoading)}
-              items={items}
-              about={about}
-              refresh={refresh}
-              refreshData={refreshData}
-              onSchedule={this.onSchedule}
-              onCreate={this.onCreate}
-            />
-            {this.state.mask && (
-              <View
-                style={{
-                  position: "absolute",
-                  width: deviceWidth,
-                  height: deviceHeight,
-                  backgroundColor: "rgba(0,0,0,0.8)"
-                }}
-              />
+          <ThemeConsumer>
+            {({ rerendering, onFinishRerendering }: ThemeContextProps) => (
+              <>
+                <HomeScreenPlan
+                  loading={Boolean(itemsLoading)}
+                  navigation={this.props.navigation}
+                  rerendering={rerendering}
+                  items={items}
+                  about={about}
+                  refresh={refresh}
+                  refreshData={refreshData}
+                  onSchedule={this.onSchedule}
+                  onCreate={this.onCreate}
+                  onFinishRerendering={onFinishRerendering}
+                />
+                {this.state.mask && (
+                  <View
+                    style={{
+                      position: "absolute",
+                      width: deviceWidth,
+                      height: deviceHeight,
+                      backgroundColor: "rgba(0,0,0,0.8)"
+                    }}
+                  />
+                )}
+              </>
             )}
-          </>
+          </ThemeConsumer>
         )}
       </ItemsConsumer>
     );
@@ -158,6 +173,12 @@ class HomeScreenPlan extends Component<PlanProps, PlanState> {
   state = {
     refresh: ""
   };
+  componentDidMount() {
+    if (this.props.rerendering) {
+      this.props.navigation.navigate("ScreenSetting");
+      if (this.props.onFinishRerendering) this.props.onFinishRerendering();
+    }
+  }
 
   componentDidUpdate() {
     if (this.state.refresh === this.props.refresh) {

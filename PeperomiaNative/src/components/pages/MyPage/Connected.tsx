@@ -3,6 +3,7 @@ import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import { Alert, Dimensions } from "react-native";
 import Toast from "react-native-root-toast";
 import { backup, restore } from "../../../lib/backup";
+import theme from "../../../config/theme";
 import { Consumer as FetchConsumer } from "../../../containers/Fetch";
 import { Consumer as AuthConsumer } from "../../../containers/Auth";
 import {
@@ -16,7 +17,19 @@ interface Props {
 }
 
 export default class extends Component<Props> {
-  static navigationOptions = { title: "マイページ" };
+  static navigationOptions = () => {
+    return {
+      title: "マイページ",
+      headerBackTitle: "",
+      headerTitleStyle: {
+        color: theme().mode.header.text
+      },
+      headerTintColor: theme().mode.header.text,
+      headerStyle: {
+        backgroundColor: theme().mode.header.backgroundColor
+      }
+    };
+  };
 
   render() {
     return (

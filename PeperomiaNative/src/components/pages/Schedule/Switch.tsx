@@ -17,6 +17,7 @@ import {
 import Toast from "react-native-root-toast";
 import uuidv1 from "uuid/v1";
 import { Button } from "react-native-elements";
+import theme from "../../../config/theme";
 import { db, ResultError } from "../../../lib/db";
 import {
   update as updateItemDetail,
@@ -78,7 +79,9 @@ class Switch extends Component<Props, State> {
           titleStyle={styles.headerTitle}
         />
       ),
-
+      headerStyle: {
+        backgroundColor: theme().mode.header.backgroundColor
+      },
       headerLeft: (
         <View style={{ left: 5 }}>
           <HeaderLeft

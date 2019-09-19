@@ -6,7 +6,8 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import {
   createAppContainer,
   createBottomTabNavigator,
-  createStackNavigator
+  createStackNavigator,
+  BottomTabBar
 } from "react-navigation";
 import { AsyncStorage, StatusBar, Text } from "react-native";
 import Sentry from "sentry-expo";
@@ -15,6 +16,7 @@ import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import ItemsProvider from "./containers/Items";
 import AuthProvider from "./containers/Auth";
 import FetchProvider from "./containers/Fetch";
+import ThemeProvider from "./containers/Theme";
 import Version from "./containers/Version";
 import Home from "./components/pages/Home/Connected";
 import Setting from "./components/pages/Setting/Connected";
@@ -36,8 +38,6 @@ import {
 import theme, { setMode } from "./config/theme";
 import app from "../app.json";
 
-setMode("dark");
-
 Sentry.enableInExpoDevelopment = true;
 
 if (process.env.SENTRY_URL) {
@@ -46,6 +46,8 @@ if (process.env.SENTRY_URL) {
 
 StatusBar.setBarStyle("light-content", true);
 StatusBar.setBackgroundColor(theme().color.white, true);
+
+const TabBarComponent = (props: any) => <BottomTabBar {...props} />;
 
 const TabNavigator = createBottomTabNavigator(
   {
@@ -63,6 +65,12 @@ const TabNavigator = createBottomTabNavigator(
     }
   },
   {
+    tabBarComponent: props => (
+      <TabBarComponent
+        {...props}
+        style={{ backgroundColor: theme().mode.tabBar.background }}
+      />
+    ),
     defaultNavigationOptions: ({ navigation }) => ({
       tabBarLabel: ({ focused }) => {
         const { routeName } = navigation.state;
@@ -111,12 +119,7 @@ const TabNavigator = createBottomTabNavigator(
 
         return null;
       }
-    }),
-    tabBarOptions: {
-      style: {
-        backgroundColor: theme().mode.tabBar.background
-      }
-    }
+    })
   }
 );
 
@@ -271,7 +274,9 @@ export default class App extends Component<Props, State> {
           <AuthProvider>
             <FetchProvider>
               <ItemsProvider>
-                <AppContainer />
+                <ThemeProvider>
+                  <AppContainer />
+                </ThemeProvider>
               </ItemsProvider>
             </FetchProvider>
           </AuthProvider>

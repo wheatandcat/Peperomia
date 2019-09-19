@@ -56,14 +56,14 @@ export default class extends Component<Props> {
 
 const styles = EStyleSheet.create({
   root: {
-    backgroundColor: "$background",
+    backgroundColor: "$settingRoot",
     height: "100%"
   },
   emailContainer: {
     padding: 10,
     width: "100%",
     justifyContent: "center",
-    backgroundColor: "$secondaryBackground"
+    backgroundColor: "$settingMenu"
   },
   emialTitle: {
     color: "$text"
@@ -74,7 +74,7 @@ const styles = EStyleSheet.create({
     color: "$text"
   },
   menuContainer: {
-    backgroundColor: "$secondaryBackground"
+    backgroundColor: "$settingMenu"
   },
   menuText: {
     color: "$text"
