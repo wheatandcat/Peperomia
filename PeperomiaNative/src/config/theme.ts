@@ -158,7 +158,9 @@ export const setMode = (modeType: "light" | "dark") => {
       ? baseColor.darkGray
       : baseColor.highLightGray,
     $settingRoot: darkMode() ? baseColor.black : baseColor.highLightGray,
-    $settingMenu: darkMode() ? baseColor.darkGray : baseColor.white
+    $settingMenu: darkMode() ? baseColor.darkGray : baseColor.white,
+    $chip: darkMode() ? baseColor.black : baseColor.highLightGray,
+    $chipText: darkMode() ? baseColor.lightGray : baseColor.gray
   });
 };
 

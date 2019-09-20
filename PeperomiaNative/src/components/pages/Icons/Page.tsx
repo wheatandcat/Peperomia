@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, ScrollView, Platform } from "react-native";
+import { View, ScrollView, Platform, StatusBar } from "react-native";
 import { Input, ListItem, Divider } from "react-native-elements";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
@@ -68,6 +68,12 @@ class Page extends Component<Props, State> {
 
     return (
       <View style={styles.root}>
+        <StatusBar
+          backgroundColor={
+            darkMode() ? theme().color.black : theme().color.white
+          }
+          barStyle={darkMode() ? "light-content" : "dark-content"}
+        />
         <Divider />
         <View style={styles.searchContainer}>
           <Input
