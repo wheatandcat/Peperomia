@@ -1,4 +1,4 @@
-import { SQLite } from "expo-sqlite";
+import * as SQLite from "expo-sqlite";
 import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import { Alert } from "react-native";

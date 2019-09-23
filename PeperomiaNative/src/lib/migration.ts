@@ -1,4 +1,4 @@
-import { SQLite } from "expo-sqlite";
+import * as SQLite from "expo-sqlite";
 import { Sentry } from "react-native-sentry";
 import {
   migrationV1040 as v1040,

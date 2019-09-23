@@ -1,5 +1,5 @@
 import Constants from "expo-constants";
-import { SQLite } from "expo-sqlite";
+import * as SQLite from "expo-sqlite";
 import React, { Component } from "react";
 import uuidv1 from "uuid/v1";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
