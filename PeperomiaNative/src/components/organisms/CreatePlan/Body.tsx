@@ -10,7 +10,7 @@ interface Props {
 export default (props: Props) => {
   return (
     <>
-      <View style={{ backgroundColor: theme.color.white, height: "100%" }}>
+      <View style={{ backgroundColor: theme().color.white, height: "100%" }}>
         <View style={{ paddingTop: 60, paddingLeft: 25 }}>
           <Button
             title="アイコンを変更する"
@@ -19,7 +19,7 @@ export default (props: Props) => {
               width: 128
             }}
             titleStyle={{
-              color: theme.color.darkGray,
+              color: theme().color.darkGray,
               fontSize: 14,
               fontWeight: "600"
             }}
@@ -36,12 +36,12 @@ const styles = StyleSheet.create({
   createButton: {
     width: 330,
     height: 60,
-    backgroundColor: theme.color.lightGreen,
+    backgroundColor: theme().color.lightGreen,
     borderRadius: 15
   },
   linkButton: {
     borderBottomWidth: 1,
-    borderBottomColor: theme.color.darkGray,
+    borderBottomColor: theme().color.darkGray,
     padding: 0,
     paddingHorizontal: 5
   }

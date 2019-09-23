@@ -6,7 +6,8 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import {
   createAppContainer,
   createBottomTabNavigator,
-  createStackNavigator
+  createStackNavigator,
+  BottomTabBar
 } from "react-navigation";
 import { AsyncStorage, StatusBar, Text } from "react-native";
 import Sentry from "sentry-expo";
@@ -15,6 +16,7 @@ import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import ItemsProvider from "./containers/Items";
 import AuthProvider from "./containers/Auth";
 import FetchProvider from "./containers/Fetch";
+import ThemeProvider from "./containers/Theme";
 import Version from "./containers/Version";
 import Home from "./components/pages/Home/Connected";
 import Setting from "./components/pages/Setting/Connected";
@@ -33,7 +35,7 @@ import {
   insert as insertUser,
   User
 } from "./lib/db/user";
-import theme from "./config/theme";
+import theme, { setMode } from "./config/theme";
 import app from "../app.json";
 
 Sentry.enableInExpoDevelopment = true;
@@ -43,7 +45,9 @@ if (process.env.SENTRY_URL) {
 }
 
 StatusBar.setBarStyle("light-content", true);
-StatusBar.setBackgroundColor(theme.color.white, true);
+StatusBar.setBackgroundColor(theme().color.white, true);
+
+const TabBarComponent = (props: any) => <BottomTabBar {...props} />;
 
 const TabNavigator = createBottomTabNavigator(
   {
@@ -61,6 +65,12 @@ const TabNavigator = createBottomTabNavigator(
     }
   },
   {
+    tabBarComponent: props => (
+      <TabBarComponent
+        {...props}
+        style={{ backgroundColor: theme().mode.tabBar.background }}
+      />
+    ),
     defaultNavigationOptions: ({ navigation }) => ({
       tabBarLabel: ({ focused }) => {
         const { routeName } = navigation.state;
@@ -71,8 +81,8 @@ const TabNavigator = createBottomTabNavigator(
               fontWeight: "500",
               textAlign: "center",
               color: focused
-                ? theme.mode.tabBar.activeTint
-                : theme.mode.tabBar.inactiveTint
+                ? theme().mode.tabBar.activeTint
+                : theme().mode.tabBar.inactiveTint
             }}
           >
             {routeName}
@@ -88,8 +98,8 @@ const TabNavigator = createBottomTabNavigator(
               size={30}
               color={
                 focused
-                  ? theme.mode.tabBar.activeTint
-                  : theme.mode.tabBar.inactiveTint
+                  ? theme().mode.tabBar.activeTint
+                  : theme().mode.tabBar.inactiveTint
               }
             />
           );
@@ -100,8 +110,8 @@ const TabNavigator = createBottomTabNavigator(
               size={30}
               color={
                 focused
-                  ? theme.mode.tabBar.activeTint
-                  : theme.mode.tabBar.inactiveTint
+                  ? theme().mode.tabBar.activeTint
+                  : theme().mode.tabBar.inactiveTint
               }
             />
           );
@@ -109,12 +119,7 @@ const TabNavigator = createBottomTabNavigator(
 
         return null;
       }
-    }),
-    tabBarOptions: {
-      style: {
-        backgroundColor: theme.mode.tabBar.background
-      }
-    }
+    })
   }
 );
 
@@ -269,7 +274,9 @@ export default class App extends Component<Props, State> {
           <AuthProvider>
             <FetchProvider>
               <ItemsProvider>
-                <AppContainer />
+                <ThemeProvider>
+                  <AppContainer />
+                </ThemeProvider>
               </ItemsProvider>
             </FetchProvider>
           </AuthProvider>

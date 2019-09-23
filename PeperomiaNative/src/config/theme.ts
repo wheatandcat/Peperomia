@@ -1,3 +1,5 @@
+import EStyleSheet from "react-native-extended-stylesheet";
+
 type ThemeColor = {
   color: {
     beige: string;
@@ -25,12 +27,18 @@ type ThemeColor = {
   };
   mode: {
     background: string;
+    secondaryBackground: string;
     icon: string;
     text: string;
+    secondaryText: string;
     tabBar: {
       background: string;
       activeTint: string;
       inactiveTint: string;
+    };
+    header: {
+      backgroundColor: string;
+      text: string;
     };
   };
 };
@@ -95,12 +103,18 @@ const theme: Theme = {
     color: baseColor,
     mode: {
       background: baseColor.white,
+      secondaryBackground: baseColor.lightGray,
       icon: baseColor.black,
       text: baseColor.black,
+      secondaryText: baseColor.darkGray,
       tabBar: {
         background: baseColor.highLightGray,
         activeTint: baseColor.main,
         inactiveTint: baseColor.darkGray
+      },
+      header: {
+        backgroundColor: baseColor.main,
+        text: baseColor.lightGreen
       }
     }
   },
@@ -108,25 +122,54 @@ const theme: Theme = {
     color: darkColor,
     mode: {
       background: baseColor.black,
+      secondaryBackground: baseColor.darkGray,
       icon: baseColor.lightGray,
       text: baseColor.lightGray,
+      secondaryText: baseColor.gray,
       tabBar: {
         background: baseColor.darkGray,
         activeTint: baseColor.lightGreen,
         inactiveTint: baseColor.lightGray
+      },
+      header: {
+        backgroundColor: baseColor.black,
+        text: baseColor.highLightGray
       }
     }
   }
 };
 
-export default theme.dark;
-
-let mode = "dark";
+let mode: "light" | "dark" = "light";
 
 export const setMode = (modeType: "light" | "dark") => {
   mode = modeType;
+
+  const themeMode = theme[mode].mode;
+
+  EStyleSheet.build({
+    $theme: modeType,
+    $text: themeMode.text,
+    $secondaryText: themeMode.secondaryText,
+    $background: themeMode.background,
+    $secondaryBackground: themeMode.secondaryBackground,
+    $icon: themeMode.icon,
+    $headerText: themeMode.header.text,
+    $searchInputContainer: darkMode()
+      ? baseColor.darkGray
+      : baseColor.highLightGray,
+    $settingRoot: darkMode() ? baseColor.black : baseColor.highLightGray,
+    $settingMenu: darkMode() ? baseColor.darkGray : baseColor.white,
+    $chip: darkMode() ? baseColor.black : baseColor.highLightGray,
+    $chipText: darkMode() ? baseColor.lightGray : baseColor.gray
+  });
 };
 
 export const darkMode = () => {
   return mode === "dark";
 };
+
+const getTheme = () => {
+  return theme[mode];
+};
+
+export default getTheme;

@@ -35,8 +35,8 @@ const styles = StyleSheet.create({
     borderTopWidth: 20,
     transform: [{ rotate: "180deg" }],
     borderRightColor: "transparent",
-    borderTopColor: theme.color.white,
-    borderBottomColor: theme.color.white,
+    borderTopColor: theme().color.white,
+    borderBottomColor: theme().color.white,
     right: 10
   },
   tipsContainer: {
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: whenIPhoneSE(280, 330),
     height: whenIPhoneSE(40, 55),
-    backgroundColor: theme.color.white,
+    backgroundColor: theme().color.white,
     borderWidth: 0,
     paddingHorizontal: whenIPhoneSE(12, 15)
   }

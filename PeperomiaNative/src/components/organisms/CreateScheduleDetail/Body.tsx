@@ -1,5 +1,6 @@
 import React from "react";
-import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
+import { View, TouchableOpacity, Text } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import { Button, Divider } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
 import theme from "../../../config/theme";
@@ -30,7 +31,7 @@ export default (props: Props) => (
         <View style={styles.timeContainer}>
           <Ionicons
             name="md-time"
-            color={theme.color.lightGreen}
+            color={theme().color.lightGreen}
             size={25}
             style={{ paddingTop: 3 }}
           />
@@ -62,7 +63,7 @@ export default (props: Props) => (
   </>
 );
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   timeContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -71,19 +72,19 @@ const styles = StyleSheet.create({
   },
   timeText: {
     fontSize: 18,
-    color: theme.color.darkGray,
+    color: "$text",
     paddingHorizontal: 15
   },
 
   linkTitle: {
-    color: theme.color.gray,
+    color: "$text",
     fontSize: 12,
     fontWeight: "600",
     padding: 0
   },
   linkButton: {
     borderBottomWidth: 1,
-    borderBottomColor: theme.color.gray,
+    borderBottomColor: theme().color.gray,
     padding: 0
   }
 });

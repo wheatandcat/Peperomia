@@ -1,6 +1,12 @@
 import { uniqueSuggests } from "./suggest";
 import { KIND_PARK, KIND_TRAIN, KIND_SHIP } from "./getKind";
 
+jest.mock("react-native-extended-stylesheet", () => {
+  return jest.fn().mockImplementation(() => {
+    return {};
+  });
+});
+
 describe("uniqueSuggests", () => {
   test("重複削除", () => {
     expect(

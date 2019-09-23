@@ -1,15 +1,16 @@
 import React, { Component } from "react";
-import { View, ScrollView, Platform } from "react-native";
+import { View, ScrollView, Platform, StatusBar } from "react-native";
 import { Input, ListItem, Divider } from "react-native-elements";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
-  ActionSheetOptions,
+  ActionSheetProps,
   connectActionSheet
 } from "@expo/react-native-action-sheet";
+import EStyleSheet from "react-native-extended-stylesheet";
 import { IconImage } from "primitive";
 import { KINDS } from "../../../lib/getKind";
 import { whenIPhoneSE } from "../../../lib/responsive";
-import theme from "../../../config/theme";
+import theme, { darkMode } from "../../../config/theme";
 
 type PropsBase = {
   kind: string;
@@ -20,12 +21,7 @@ type PropsBase = {
   onCamera: () => void;
 };
 
-export type Props = PropsBase & {
-  showActionSheetWithOptions: (
-    optons: ActionSheetOptions,
-    callback: (buttonIndex: number) => void
-  ) => void;
-};
+export type Props = PropsBase & ActionSheetProps;
 
 export interface State {
   search: string;
@@ -71,28 +67,24 @@ class Page extends Component<Props, State> {
       });
 
     return (
-      <View style={{ backgroundColor: theme.color.white }}>
-        <View
-          style={{
-            paddingHorizontal: 10,
-            height: "7%",
-            backgroundColor: theme.color.highLightGray,
-            alignItems: "center"
-          }}
-        >
+      <View style={styles.root}>
+        <StatusBar
+          backgroundColor={
+            darkMode() ? theme().color.black : theme().color.white
+          }
+          barStyle={darkMode() ? "light-content" : "dark-content"}
+        />
+        <Divider />
+        <View style={styles.searchContainer}>
           <Input
             placeholder="検索"
+            placeholderTextColor={theme().mode.secondaryText}
             leftIcon={{
               type: "MaterialIcons",
               name: "search",
-              color: theme.color.gray
+              color: theme().mode.icon
             }}
-            inputContainerStyle={{
-              backgroundColor: theme.color.lightGray,
-              borderBottomWidth: 0,
-              borderRadius: 10,
-              height: Platform.OS === "ios" ? whenIPhoneSE(30, 45) : 30
-            }}
+            inputContainerStyle={styles.searchInputContainer}
             leftIconContainerStyle={{
               marginRight: 20
             }}
@@ -102,52 +94,84 @@ class Page extends Component<Props, State> {
             onChangeText={text => this.setState({ search: text })}
           />
         </View>
-        <Divider />
-        <ScrollView style={{ width: "100%", height: "80%", paddingLeft: 15 }}>
-          {items.map((item: any, i: number) => (
-            <ListItem
-              key={i}
-              title={
-                !this.props.defaultIcon && item.name === "地球"
-                  ? "アイコンなし"
-                  : item.name
-              }
-              onPress={() => this.props.onSelectIcon(item.kind)}
-              leftIcon={
-                <IconImage
-                  src={item.src}
-                  name={item.name}
-                  size={20}
-                  opacity={1.0}
-                  defaultIcon={this.props.defaultIcon}
-                />
-              }
-              rightIcon={
-                <View>
-                  {this.props.kind === item.kind ? (
-                    <MaterialIcons
-                      name="check"
-                      color={theme.color.main}
-                      size={20}
-                      style={{ paddingRight: 5 }}
-                    />
-                  ) : null}
-                </View>
-              }
-              bottomDivider
-            />
-          ))}
-        </ScrollView>
-        <View
+
+        <ScrollView
           style={{
-            backgroundColor: theme.color.highLightGray,
-            height: "8%",
-            alignItems: "flex-end"
+            width: "100%",
+            height: "100%",
+            paddingLeft: 15
           }}
-        />
+        >
+          <View style={{ paddingBottom: 150 }}>
+            {items.map((item: any, i: number) => (
+              <ListItem
+                containerStyle={styles.iconListItem}
+                key={i}
+                title={
+                  !this.props.defaultIcon && item.name === "地球"
+                    ? "アイコンなし"
+                    : item.name
+                }
+                titleStyle={styles.iconListItemTitle}
+                onPress={() => this.props.onSelectIcon(item.kind)}
+                leftIcon={
+                  <IconImage
+                    src={darkMode() ? item.reversal.src : item.src}
+                    name={item.name}
+                    size={20}
+                    opacity={1.0}
+                    defaultIcon={this.props.defaultIcon}
+                  />
+                }
+                rightIcon={
+                  <View>
+                    {this.props.kind === item.kind ? (
+                      <MaterialIcons
+                        name="check"
+                        color={
+                          darkMode()
+                            ? theme().color.highLightGray
+                            : theme().color.main
+                        }
+                        size={20}
+                        style={{ paddingRight: 5 }}
+                      />
+                    ) : null}
+                  </View>
+                }
+                bottomDivider
+              />
+            ))}
+          </View>
+        </ScrollView>
       </View>
     );
   }
 }
 
 export default connectActionSheet<PropsBase>(Page);
+
+const styles = EStyleSheet.create({
+  root: {
+    backgroundColor: "$background"
+  },
+  searchContainer: {
+    paddingTop: 5,
+    paddingHorizontal: 10,
+    height: Platform.OS === "ios" ? whenIPhoneSE(40, 55) : 40,
+    backgroundColor: "$background",
+    alignItems: "center"
+  },
+  searchInputContainer: {
+    backgroundColor: "$searchInputContainer",
+    borderBottomWidth: 0,
+    borderRadius: 10,
+    height: Platform.OS === "ios" ? whenIPhoneSE(30, 45) : 30
+  },
+  iconListItem: {
+    backgroundColor: "$background"
+  },
+  iconListItemTitle: {
+    color: "$text"
+  }
+});

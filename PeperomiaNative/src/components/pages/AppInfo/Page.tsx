@@ -38,9 +38,9 @@ const slides: Slide[] = [
     text: "ペペロミアは予定管理アプリです\n簡単な操作で予定を作成",
     image: require("../../../img/intro_home.png"),
     imageWidth: 250,
-    titleColor: theme.color.main,
-    textColor: theme.color.main,
-    backgroundColor: theme.color.lightGreen
+    titleColor: theme().color.main,
+    textColor: theme().color.main,
+    backgroundColor: theme().color.lightGreen
   },
   {
     key: "step2",
@@ -49,9 +49,9 @@ const slides: Slide[] = [
       "タイトルをつけると自動でアイコンを設定\n見やすい予定表を作成しよう！",
     image: require("../../../img/intro_plan2.png"),
     imageWidth: 250,
-    titleColor: theme.color.lightGreen,
-    textColor: theme.color.lightGreen,
-    backgroundColor: theme.color.main
+    titleColor: theme().color.lightGreen,
+    textColor: theme().color.lightGreen,
+    backgroundColor: theme().color.main
   },
   {
     key: "step3",
@@ -59,9 +59,9 @@ const slides: Slide[] = [
     text: "作成した予定は\nブラウザから誰にでも共有可能",
     image: require("../../../img/intro_share.png"),
     imageWidth: 300,
-    titleColor: theme.color.main,
-    textColor: theme.color.main,
-    backgroundColor: theme.color.lightGreen
+    titleColor: theme().color.main,
+    textColor: theme().color.main,
+    backgroundColor: theme().color.lightGreen
   },
   {
     key: "step4",
@@ -69,9 +69,9 @@ const slides: Slide[] = [
     text: "ペペロミアを使って予定を作っていこう！",
     image: require("../../../img/icon.png"),
     imageWidth: 200,
-    titleColor: theme.color.white,
-    textColor: theme.color.highLightGray,
-    backgroundColor: theme.color.main
+    titleColor: theme().color.white,
+    textColor: theme().color.highLightGray,
+    backgroundColor: theme().color.main
   }
 ];
 

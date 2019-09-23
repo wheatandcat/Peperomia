@@ -9,8 +9,9 @@ import {
   Clipboard,
   Alert
 } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import {
-  ActionSheetOptions,
+  ActionSheetProps,
   connectActionSheet
 } from "@expo/react-native-action-sheet";
 import Toast from "react-native-root-toast";
@@ -48,13 +49,9 @@ interface State {
   mode: string;
 }
 
-interface Props {
+type Props = ActionSheetProps & {
   navigation: NavigationScreenProp<NavigationRoute>;
-  showActionSheetWithOptions: (
-    optons: ActionSheetOptions,
-    callback: (buttonIndex: number) => void
-  ) => void;
-}
+};
 
 type PlanProps = Props &
   Pick<ContextProps, "refreshData"> & {
@@ -79,13 +76,12 @@ class Switch extends Component<Props, State> {
           title={params.title}
           onPress={params.onEditPlan}
           testID="ScheduleTitleUpdate"
-          titleStyle={{
-            color: theme.color.lightGreen,
-            fontWeight: "600"
-          }}
+          titleStyle={styles.headerTitle}
         />
       ),
-
+      headerStyle: {
+        backgroundColor: theme().mode.header.backgroundColor
+      },
       headerLeft: (
         <View style={{ left: 5 }}>
           <HeaderLeft
@@ -434,3 +430,10 @@ class Plan extends Component<PlanProps> {
 }
 
 export default connectActionSheet(Switch);
+
+const styles = EStyleSheet.create({
+  headerTitle: {
+    color: "$headerText",
+    fontWeight: "600"
+  }
+});

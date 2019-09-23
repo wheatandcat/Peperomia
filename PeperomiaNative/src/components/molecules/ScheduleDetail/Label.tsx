@@ -1,7 +1,8 @@
 import React from "react";
-import { View, Text, Platform, StyleSheet } from "react-native";
+import { View, Text, Platform } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import theme, { darkMode } from "../../../config/theme";
+import theme from "../../../config/theme";
 
 export interface Props {
   text: string;
@@ -20,7 +21,7 @@ export default (props: Props) => (
   >
     <MaterialCommunityIcons
       name={props.icon}
-      color={theme.color.lightGreen}
+      color={theme().color.lightGreen}
       size={24}
       style={{
         paddingRight: 2,
@@ -31,13 +32,13 @@ export default (props: Props) => (
   </View>
 );
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: theme.color.lightGray,
-    backgroundColor: darkMode ? theme.color.black : theme.color.highLightGray,
+    borderColor: theme().color.lightGray,
+    backgroundColor: "$chip",
     paddingHorizontal: 3,
     paddingTop: Platform.OS === "ios" ? 2 : 0,
     paddingBottom: 0,
@@ -46,6 +47,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 14,
     fontWeight: "500",
-    color: darkMode ? theme.color.lightGray : theme.color.gray
+    color: "$chipText"
   }
 });

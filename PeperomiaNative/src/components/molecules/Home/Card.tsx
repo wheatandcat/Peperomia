@@ -87,10 +87,10 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: "500",
     fontSize: 24,
-    color: theme.color.darkGray
+    color: theme().color.darkGray
   },
   about: {
     fontSize: 10,
-    color: theme.color.darkGray
+    color: theme().color.darkGray
   }
 });

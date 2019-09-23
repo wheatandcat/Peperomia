@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import { Alert } from "react-native";
+import theme from "../../../config/theme";
 import Page from "./Page";
 
 interface Props {
@@ -13,9 +14,18 @@ interface State {
 }
 
 export default class extends Component<Props, State> {
-  static navigationOptions = {
-    title: "フィードバック",
-    headerBackTitle: ""
+  static navigationOptions = () => {
+    return {
+      title: "フィードバック",
+      headerBackTitle: "",
+      headerTitleStyle: {
+        color: theme().mode.header.text
+      },
+      headerTintColor: theme().mode.header.text,
+      headerStyle: {
+        backgroundColor: theme().mode.header.backgroundColor
+      }
+    };
   };
 
   state = {

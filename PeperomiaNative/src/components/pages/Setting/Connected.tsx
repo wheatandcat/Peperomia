@@ -24,6 +24,7 @@ import Policy from "../Policy/Page";
 import Feedback from "../Feedback/Connected";
 import SignIn from "../SignIn/Connected";
 import MyPage from "../MyPage/Connected";
+import ScreenSetting from "../ScreenSetting/Connected";
 import Page from "./Page";
 
 interface Props {
@@ -31,8 +32,17 @@ interface Props {
 }
 
 class Container extends Component<Props> {
-  static navigationOptions = {
-    title: "設定"
+  static navigationOptions = () => {
+    return {
+      title: "設定",
+      headerTitleStyle: {
+        color: theme().mode.header.text
+      },
+      headerTintColor: theme().mode.header.text,
+      headerStyle: {
+        backgroundColor: theme().mode.header.backgroundColor
+      }
+    };
   };
 
   render() {
@@ -141,6 +151,10 @@ class Connected extends Component<ConnectedProps, State> {
     this.props.navigation.navigate("MyPage");
   };
 
+  onScreenSetting = () => {
+    this.props.navigation.navigate("ScreenSetting");
+  };
+
   onLogout = () => {
     Alert.alert(
       "ログアウトしますか",
@@ -189,6 +203,7 @@ class Connected extends Component<ConnectedProps, State> {
         onLogout={this.onLogout}
         onMyPage={this.onMyPage}
         onMigrationV100={this.onMigrationV100}
+        onScreenSetting={this.onScreenSetting}
       />
     );
   }
@@ -201,17 +216,18 @@ export default createStackNavigator(
     Policy: Policy,
     Feedback: Feedback,
     SignIn: SignIn,
-    MyPage: MyPage
+    MyPage: MyPage,
+    ScreenSetting: ScreenSetting
   },
   {
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: theme.color.main
+        backgroundColor: theme().mode.header.backgroundColor
       },
       headerTitleStyle: {
-        color: theme.color.lightGreen
+        color: theme().mode.header.text
       },
-      headerTintColor: theme.color.lightGreen
+      headerTintColor: theme().mode.header.text
     }
   }
 );

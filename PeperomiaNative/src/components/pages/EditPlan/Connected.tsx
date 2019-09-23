@@ -51,7 +51,7 @@ export default class extends Component<Props> {
             <MaterialCommunityIcons
               name="chevron-left"
               size={25}
-              color={theme.color.lightGreen}
+              color={theme().color.lightGreen}
             />
           </TouchableOpacity>
         </View>

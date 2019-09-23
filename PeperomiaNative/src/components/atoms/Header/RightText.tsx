@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, TouchableOpacity } from "react-native";
-import theme from "../../../config/theme";
+import EStyleSheet from "react-native-extended-stylesheet";
 
 interface Props {
   label: string;
@@ -14,14 +14,14 @@ export default (props: Props) => (
     testID={props.testID}
     style={{ padding: 5 }}
   >
-    <Text
-      style={{
-        fontSize: 18,
-        fontWeight: "600",
-        color: theme.color.lightGreen
-      }}
-    >
-      {props.label}
-    </Text>
+    <Text style={styles.text}>{props.label}</Text>
   </TouchableOpacity>
 );
+
+const styles = EStyleSheet.create({
+  text: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "$headerText"
+  }
+});

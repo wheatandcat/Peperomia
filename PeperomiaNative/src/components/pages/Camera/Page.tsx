@@ -82,8 +82,8 @@ export default class extends Component<Props, State> {
                 cy={30}
                 r={25}
                 strokeWidth={6}
-                stroke={theme.color.gray}
-                fill={theme.color.white}
+                stroke={theme().color.gray}
+                fill={theme().color.white}
               />
             </Svg>
           </TouchableOpacity>

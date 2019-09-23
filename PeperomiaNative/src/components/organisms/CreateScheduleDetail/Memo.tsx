@@ -3,13 +3,13 @@ import {
   View,
   TextInput,
   Text,
-  StyleSheet,
   TouchableOpacity,
   ScrollView,
   Platform
 } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
-import theme from "../../../config/theme";
+import theme, { darkMode } from "../../../config/theme";
 import InputLabel from "../../molecules/ScheduleDetail/Label";
 
 let y = [0, 0, 0];
@@ -168,7 +168,7 @@ export default class extends Component<Props, State> {
         <View>
           <MaterialIcons
             name="mode-edit"
-            color={theme.color.lightGreen}
+            color={theme().color.lightGreen}
             size={23}
             style={{
               paddingLeft: 3
@@ -191,6 +191,9 @@ export default class extends Component<Props, State> {
               <View style={{ paddingVertical: 12, paddingHorizontal: 5 }}>
                 <TextInput
                   placeholder={item.label}
+                  placeholderTextColor={
+                    darkMode() ? theme().color.lightGray : theme().color.gray
+                  }
                   multiline={item.multiline}
                   style={styles.memoInput}
                   onChangeText={value => {
@@ -223,7 +226,7 @@ export default class extends Component<Props, State> {
             >
               <MaterialCommunityIcons
                 name="plus"
-                color={theme.color.lightGreen}
+                color={theme().color.lightGreen}
                 size={28}
                 style={{
                   paddingRight: 2
@@ -248,7 +251,7 @@ export default class extends Component<Props, State> {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   memoInput: {
     fontSize: 16,
     lineHeight: 24,
@@ -257,6 +260,7 @@ const styles = StyleSheet.create({
   memoText: {
     fontSize: 16,
     lineHeight: 24,
-    fontWeight: "400"
+    fontWeight: "400",
+    color: "$text"
   }
 });

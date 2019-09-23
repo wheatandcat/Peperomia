@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Alert } from "react-native";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
+import theme from "../../../config/theme";
 import { Consumer as AuthConsumer } from "../../../containers/Auth";
 import { Consumer as FetchConsumer } from "../../../containers/Fetch";
 import Page from "./Page";
@@ -10,6 +11,20 @@ interface Props {
 }
 
 export default class extends Component<Props> {
+  static navigationOptions = () => {
+    return {
+      title: "ユーザー登録 / ログイン",
+      headerBackTitle: "",
+      headerTitleStyle: {
+        color: theme().mode.header.text
+      },
+      headerTintColor: theme().mode.header.text,
+      headerStyle: {
+        backgroundColor: theme().mode.header.backgroundColor
+      }
+    };
+  };
+
   render() {
     return (
       <AuthConsumer>
@@ -38,8 +53,6 @@ interface ConnectedProps {
 }
 
 class Connected extends Component<ConnectedProps> {
-  static navigationOptions = { title: "ユーザー登録 / ログイン" };
-
   onGoogleLogin = async () => {
     try {
       await this.props.onGoogleLogin();

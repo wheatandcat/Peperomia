@@ -8,7 +8,7 @@ import {
 import { Dimensions, View, Image, AsyncStorage } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import uuidv1 from "uuid/v1";
-import theme from "../../../config/theme";
+import theme, { darkMode } from "../../../config/theme";
 import { db, ResultError } from "../../../lib/db";
 import { Item } from "../../../lib/db/item";
 import { delete1st } from "../../../lib/db/item";
@@ -17,6 +17,10 @@ import {
   Consumer as ItemsConsumer,
   ContextProps
 } from "../../../containers/Items";
+import {
+  Consumer as ThemeConsumer,
+  ContextProps as ThemeContextProps
+} from "../../../containers/Theme";
 import Hint from "../../atoms/Hint/Hint";
 import Schedule from "../Schedule/Switch";
 import EditPlan from "../EditPlan/Connected";
@@ -35,6 +39,8 @@ type State = {
 };
 
 export type PlanProps = Pick<ContextProps, "items" | "about" | "refreshData"> &
+  Pick<ThemeContextProps, "rerendering" | "onFinishRerendering"> &
+  Pick<Props, "navigation"> &
   Pick<HomeScreen, "onCreate" | "onSchedule"> & {
     loading: boolean;
     refresh: string;
@@ -48,7 +54,11 @@ class LogoTitle extends Component {
   render() {
     return (
       <Image
-        source={require("../../../img/header.png")}
+        source={
+          darkMode()
+            ? require("../../../img/header_dark.png")
+            : require("../../../img/header.png")
+        }
         style={{ height: 40, zIndex: 10 }}
         resizeMode="contain"
       />
@@ -66,11 +76,21 @@ class HomeScreen extends Component<Props, State> {
 
     return {
       headerTitle: <LogoTitle />,
-
+      headerStyle: {
+        backgroundColor: theme().mode.header.backgroundColor
+      },
       headerRight: (
         <View style={{ right: 12 }}>
           <Hint onPress={params.onPushCreatePlan} testID="ScheduleAdd">
-            <Feather name="plus" size={28} color={theme.color.lightGreen} />
+            <Feather
+              name="plus"
+              size={28}
+              color={
+                darkMode()
+                  ? theme().color.highLightGray
+                  : theme().color.lightGreen
+              }
+            />
           </Hint>
         </View>
       )
@@ -115,27 +135,34 @@ class HomeScreen extends Component<Props, State> {
     return (
       <ItemsConsumer>
         {({ items, about, refreshData, itemsLoading }: ContextProps) => (
-          <>
-            <HomeScreenPlan
-              loading={Boolean(itemsLoading)}
-              items={items}
-              about={about}
-              refresh={refresh}
-              refreshData={refreshData}
-              onSchedule={this.onSchedule}
-              onCreate={this.onCreate}
-            />
-            {this.state.mask && (
-              <View
-                style={{
-                  position: "absolute",
-                  width: deviceWidth,
-                  height: deviceHeight,
-                  backgroundColor: "rgba(0,0,0,0.8)"
-                }}
-              />
+          <ThemeConsumer>
+            {({ rerendering, onFinishRerendering }: ThemeContextProps) => (
+              <>
+                <HomeScreenPlan
+                  loading={Boolean(itemsLoading)}
+                  navigation={this.props.navigation}
+                  rerendering={rerendering}
+                  items={items}
+                  about={about}
+                  refresh={refresh}
+                  refreshData={refreshData}
+                  onSchedule={this.onSchedule}
+                  onCreate={this.onCreate}
+                  onFinishRerendering={onFinishRerendering}
+                />
+                {this.state.mask && (
+                  <View
+                    style={{
+                      position: "absolute",
+                      width: deviceWidth,
+                      height: deviceHeight,
+                      backgroundColor: "rgba(0,0,0,0.8)"
+                    }}
+                  />
+                )}
+              </>
             )}
-          </>
+          </ThemeConsumer>
         )}
       </ItemsConsumer>
     );
@@ -146,6 +173,12 @@ class HomeScreenPlan extends Component<PlanProps, PlanState> {
   state = {
     refresh: ""
   };
+  componentDidMount() {
+    if (this.props.rerendering) {
+      this.props.navigation.navigate("ScreenSetting");
+      if (this.props.onFinishRerendering) this.props.onFinishRerendering();
+    }
+  }
 
   componentDidUpdate() {
     if (this.state.refresh === this.props.refresh) {
@@ -207,12 +240,12 @@ const MainCardNavigator = createStackNavigator(
   {
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: theme.color.main
+        backgroundColor: theme().mode.header.backgroundColor
       },
       headerTitleStyle: {
-        color: theme.color.lightGreen
+        color: theme().mode.header.text
       },
-      headerTintColor: theme.color.lightGreen
+      headerTintColor: theme().mode.header.text
     }
   }
 );
