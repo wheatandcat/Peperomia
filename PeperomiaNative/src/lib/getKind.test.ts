@@ -5,6 +5,12 @@ import getKind, {
   KIND_DEFAULT
 } from "./getKind";
 
+jest.mock("react-native-extended-stylesheet", () => {
+  return jest.fn().mockImplementation(() => {
+    return {};
+  });
+});
+
 describe("getKind", () => {
   test("kind=KIND_PARK", () => {
     expect(getKind("葛西臨海公園")).toEqual(KIND_PARK);
