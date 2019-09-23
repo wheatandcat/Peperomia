@@ -1,4 +1,4 @@
-import { SQLite } from "expo-sqlite";
+import * as SQLite from "expo-sqlite";
 import { success, error, ResultError } from "./";
 
 export type Item = {
