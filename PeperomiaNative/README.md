@@ -3,13 +3,11 @@
 
 # ローカルでの実行手順
 
-初期設定
+取り敢えず、ローカル環境を作りたい人は以下のコマンドで初期設定が済むようになっています。
 
 ```
-cp -r app.json.template app.json
-cp -r .env.template .env
-cd android
-cp -r google-services.json.template google-services.json
+sh localInit.sh
+yes
 ```
 
 ## Firebaseのアカウントを持っている場合
