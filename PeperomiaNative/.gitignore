@@ -20,7 +20,7 @@ yarn-error.log
 google-services.json
 google-services.development.json
 google-services.product.json
-app.development.json
-app.product.json
 app.json
+config/development.json
+config/product.json
 

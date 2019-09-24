@@ -3,11 +3,11 @@
 [![Build Status](https://travis-ci.org/wheatandcat/Peperomia.svg?branch=master)](https://travis-ci.org/wheatandcat/Peperomia)
 
 <div style="display:flex">
-    <img src="./image/thumbnail/iphoneX_1.png" width="300" style="padding:3px"/>
-    <img src="./image/thumbnail/iphoneX_2.png" width="300" style="padding:3px"/>
-    <img src="./image/thumbnail/iphoneX_3.png" width="300" style="padding:3px"/>
-    <img src="./image/thumbnail/iphoneX_4.png" width="300" style="padding:3px"/>
-    <img src="./image/thumbnail/iphoneX_5.png" width="300" style="padding:3px"/>
+    <img src="./image/thumbnail/iphoneX_1.png" width="200" style="padding:3px"/>
+    <img src="./image/thumbnail/iphoneX_2.png" width="200" style="padding:3px"/>
+    <img src="./image/thumbnail/iphoneX_3.png" width="200" style="padding:3px"/>
+    <img src="./image/thumbnail/iphoneX_4.png" width="200" style="padding:3px"/>
+    <img src="./image/thumbnail/iphoneX_5.png" width="200" style="padding:3px"/>
 </div>
 
 ペペロミアは予定作成アプリです
