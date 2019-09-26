@@ -30,7 +30,6 @@ export default class extends Component<Props, State> {
 
   async componentDidMount() {
     let mode = await AsyncStorage.getItem("THEME_MODE");
-    console.log(mode);
 
     if (mode !== "dark") {
       mode = "light";
