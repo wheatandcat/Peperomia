@@ -1,4 +1,5 @@
 import * as SQLite from "expo-sqlite";
+import * as Sentry from "sentry-expo";
 import { db, ResultError } from "./db";
 import {
   select as selectItems,
@@ -15,7 +16,6 @@ import {
 import { getFireStore } from "./firebase";
 import { findByUID as findItemByUID } from "./firestore/item";
 import { findByUID as findItemDetailByUID } from "./firestore/itemDetail";
-import { Sentry } from "react-native-sentry";
 
 interface Backup {
   items: Item[];

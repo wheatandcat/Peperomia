@@ -3,7 +3,7 @@ import * as Google from "expo-google-app-auth";
 import { AsyncStorage, Platform } from "react-native";
 import React, { createContext, Component } from "react";
 import Constants from "expo-constants";
-import { Sentry } from "react-native-sentry";
+import * as Sentry from "sentry-expo";
 import * as firebase from "firebase";
 
 const Context = createContext({});

@@ -10,7 +10,7 @@ import {
   BottomTabBar
 } from "react-navigation";
 import { AsyncStorage, StatusBar, Text } from "react-native";
-import Sentry from "sentry-expo";
+import * as Sentry from "sentry-expo";
 import { MaterialIcons } from "@expo/vector-icons";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import ItemsProvider from "./containers/Items";
@@ -35,13 +35,15 @@ import {
   insert as insertUser,
   User
 } from "./lib/db/user";
-import theme, { setMode } from "./config/theme";
+import theme from "./config/theme";
 import app from "../app.json";
 
-Sentry.enableInExpoDevelopment = true;
-
 if (process.env.SENTRY_URL) {
-  Sentry.config(String(process.env.SENTRY_URL)).install();
+  Sentry.setRelease(String(Constants.manifest.revisionId));
+  Sentry.init({
+    dsn: String(process.env.SENTRY_URL),
+    debug: true
+  });
 }
 
 StatusBar.setBarStyle("light-content", true);
