@@ -2,6 +2,16 @@
 ## [Peperomia]
 
 
+<a name="v2.0.0"></a>
+## [v2.0.0] - 2019-09-27
+- AndroidのstandaloneのみGoogle Sign inに失敗する [#74](https://github.com/wheatandcat/Peperomia/issues/74)
+- webとアプリの共通コンポーネントを共通処理にまとめる [#67](https://github.com/wheatandcat/Peperomia/issues/67)
+- e2e修正 [#65](https://github.com/wheatandcat/Peperomia/issues/65)
+- react-native-swipe-list-viewの導入 [#61](https://github.com/wheatandcat/Peperomia/issues/61)
+- カラーコードの直書き修正 [#55](https://github.com/wheatandcat/Peperomia/issues/55)
+- react-native-ui-libを削除する [#52](https://github.com/wheatandcat/Peperomia/issues/52)
+- react-native-paperを削除する [#59](https://github.com/wheatandcat/Peperomia/issues/59)
+
 <a name="v1.0.5"></a>
 ## [v1.0.5] - 2019-08-03
 - Expo SDK33にバージョンアップ [#18](https://github.com/wheatandcat/Peperomia/issues/18)
@@ -38,10 +48,8 @@
 - iPhoneSEのサイズに対応
 - ボトムタブのアクティブカラー変更
 
-<a name="v1.0.0"></a>
-## v1.0.0 - 2019-04-28
-- ios/android リリース
-[Unreleased]: https://github.com/wheatandcat/Peperomia/compare/v1.0.5...HEAD
+[Unreleased]: https://github.com/wheatandcat/Peperomia/compare/v2.0.0...HEAD
+[v2.0.0]: https://github.com/wheatandcat/Peperomia/compare/v1.0.5...v2.0.0
 [v1.0.5]: https://github.com/wheatandcat/Peperomia/compare/v1.0.4...v1.0.5
 [v1.0.4]: https://github.com/wheatandcat/Peperomia/compare/v1.0.3...v1.0.4
 [v1.0.3]: https://github.com/wheatandcat/Peperomia/compare/v1.0.2...v1.0.3

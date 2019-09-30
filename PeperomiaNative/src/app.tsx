@@ -3,6 +3,7 @@ import * as SQLite from "expo-sqlite";
 import React, { Component } from "react";
 import uuidv1 from "uuid/v1";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { AppearanceProvider } from "react-native-appearance";
 import {
   createAppContainer,
   createBottomTabNavigator,
@@ -271,19 +272,21 @@ export default class App extends Component<Props, State> {
     }
 
     return (
-      <ActionSheetProvider>
-        <Version>
-          <AuthProvider>
-            <FetchProvider>
-              <ItemsProvider>
-                <ThemeProvider>
-                  <AppContainer />
-                </ThemeProvider>
-              </ItemsProvider>
-            </FetchProvider>
-          </AuthProvider>
-        </Version>
-      </ActionSheetProvider>
+      <AppearanceProvider>
+        <ActionSheetProvider>
+          <Version>
+            <AuthProvider>
+              <FetchProvider>
+                <ItemsProvider>
+                  <ThemeProvider>
+                    <AppContainer />
+                  </ThemeProvider>
+                </ItemsProvider>
+              </FetchProvider>
+            </AuthProvider>
+          </Version>
+        </ActionSheetProvider>
+      </AppearanceProvider>
     );
   }
 }
