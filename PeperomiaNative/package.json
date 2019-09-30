@@ -91,7 +91,7 @@
     "@typescript-eslint/eslint-plugin-tslint": "^1.9.0",
     "@typescript-eslint/parser": "^1.10.2",
     "babel-plugin-inline-dotenv": "^1.5.0",
-    "babel-preset-expo": "^5.2.0",
+    "babel-preset-expo": "^7.0.0",
     "detox": "~12.3.0",
     "detox-expo-helpers": "^0.6.0",
     "emotion-theming": "^10.0.14",
