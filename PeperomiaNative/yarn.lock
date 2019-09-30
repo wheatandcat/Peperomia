@@ -12014,10 +12014,10 @@ react-native-storybook-loader@^1.8.1:
     glob "^7.1.1"
     yargs "^14.0.0"
 
-react-native-svg@*, react-native-svg@^9.9.3:
-  version "9.9.3"
-  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-9.9.3.tgz#5dab1a44b20b13a3f35245a286f30882b9611d66"
-  integrity sha512-oL4EWGEYhaXDwZw3ULxAtXXh3xao0BiUt2UdVANdGuP3jdpSWuXUmXCd2HpgppOVsHwbSuR67sFmnduXPGaxuA==
+react-native-svg@*, react-native-svg@^9.9.9:
+  version "9.9.9"
+  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-9.9.9.tgz#67c83b56d7a292162762a6d389dc78512558c2ca"
+  integrity sha512-a/wxzEaAqWZ3uYwTJKo8sj2gURmEs4xBB83tx5gK9rpoEixzHfsj8+qLacwmQrHab7nf+tWj56INMTSPqm60oA==
 
 react-native-swipe-gestures@^1.0.3:
   version "1.0.3"
