@@ -5,14 +5,17 @@ import {
   configure,
   addDecorator
 } from "@storybook/react-native";
+import { AppearanceProvider } from "react-native-appearance";
 import ThemeProvider from "../src/containers/Theme.tsx";
 import { loadStories } from "./storyLoader";
 import "./rn-addons";
 
 export const provider = story => (
-  <ActionSheetProvider>
-    <ThemeProvider>{story()}</ThemeProvider>
-  </ActionSheetProvider>
+  <AppearanceProvider>
+    <ActionSheetProvider>
+      <ThemeProvider>{story()}</ThemeProvider>
+    </ActionSheetProvider>
+  </AppearanceProvider>
 );
 
 addDecorator(provider);

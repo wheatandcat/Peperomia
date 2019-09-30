@@ -160,7 +160,10 @@ export const setMode = (modeType: "light" | "dark") => {
     $settingRoot: darkMode() ? baseColor.black : baseColor.highLightGray,
     $settingMenu: darkMode() ? baseColor.darkGray : baseColor.white,
     $chip: darkMode() ? baseColor.black : baseColor.highLightGray,
-    $chipText: darkMode() ? baseColor.lightGray : baseColor.gray
+    $chipText: darkMode() ? baseColor.lightGray : baseColor.gray,
+    $button: darkMode() ? baseColor.black : baseColor.main,
+    $secondaryButton: darkMode() ? baseColor.white : baseColor.main,
+    $buttonBorder: darkMode() ? baseColor.white : baseColor.main
   });
 };
 

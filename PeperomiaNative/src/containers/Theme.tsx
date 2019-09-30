@@ -1,12 +1,20 @@
-import React, { createContext, Component } from "react";
+import React, { createContext, Component, ReactNode } from "react";
 import { AsyncStorage } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
+import { Appearance, useColorScheme } from "react-native-appearance";
 import { setMode } from "../config/theme";
 
 const Context = createContext({});
 const { Provider } = Context;
 
-type Props = {};
+type Props = {
+  children: ReactNode;
+};
+
+type ThemeProps = {
+  children: ReactNode;
+  colorScheme: string;
+};
 
 type State = {
   rerendering: boolean;
@@ -21,7 +29,17 @@ export type ContextProps = Partial<
   }
 >;
 
-export default class extends Component<Props, State> {
+Appearance.getColorScheme();
+
+export default (props: Props) => {
+  console.log("--------------");
+  const colorScheme = useColorScheme();
+  console.log(colorScheme);
+
+  return <Theme colorScheme={colorScheme}>{props.children}</Theme>;
+};
+
+class Theme extends Component<ThemeProps, State> {
   state = {
     rerendering: false,
     mode: "light",
@@ -32,7 +50,15 @@ export default class extends Component<Props, State> {
     let mode = await AsyncStorage.getItem("THEME_MODE");
 
     if (mode !== "dark") {
-      mode = "light";
+      if (
+        this.props.colorScheme === "light" ||
+        this.props.colorScheme === "dark"
+      ) {
+        // 初期値はデバイスのモードで設定
+        mode = this.props.colorScheme;
+      } else {
+        mode = "light";
+      }
     }
 
     if (mode === "light" || mode === "dark") {

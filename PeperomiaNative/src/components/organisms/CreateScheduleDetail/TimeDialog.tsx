@@ -1,7 +1,8 @@
 import React from "react";
-import { View, TextInput, Text, Platform, StyleSheet } from "react-native";
+import { View, TextInput, Text, Platform } from "react-native";
 import { Button, Overlay } from "react-native-elements";
-import theme from "../../../config/theme";
+import EStyleSheet from "react-native-extended-stylesheet";
+import theme, { darkMode } from "../../../config/theme";
 
 interface Props {
   open: boolean;
@@ -16,6 +17,9 @@ export default (props: Props) => (
     height={Platform.OS === "ios" ? 220 : 245}
     width="90%"
     overlayStyle={{ paddingHorizontal: 0, paddingTop: 30 }}
+    overlayBackgroundColor={
+      darkMode() ? theme().color.black : theme().color.white
+    }
   >
     <View style={styles.root}>
       <View>
@@ -76,29 +80,32 @@ export default (props: Props) => (
   </Overlay>
 );
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   root: {
     height: "100%",
     width: "100%",
-    backgroundColor: theme().color.white
+    backgroundColor: "$background"
   },
   title: {
     fontSize: 20,
     fontWeight: "600",
     textAlign: "center",
-    color: theme().color.main
+    color: "$text"
   },
   timeInput: {
     width: 90,
     paddingRight: 10,
     textAlign: "right",
     fontSize: 24,
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
+    color: "$text",
+    borderColor: "$text"
   },
   timeInputSuffix: {
     paddingTop: 9,
     paddingLeft: 5,
-    fontSize: 18
+    fontSize: 18,
+    color: "$text"
   },
   fotter: {
     flexDirection: "row",
@@ -111,7 +118,7 @@ const styles = StyleSheet.create({
     borderColor: theme().color.lightGray
   },
   buttonText: {
-    color: theme().color.main,
+    color: "$secondaryButton",
     fontWeight: "600"
   },
   cancel: {

@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { Button, Overlay } from "react-native-elements";
-import theme from "../../../config/theme";
+import theme, { darkMode } from "../../../config/theme";
 
 interface Props {
   isOpen: boolean;
@@ -34,36 +34,36 @@ export default class extends Component<Props, State> {
 
     return (
       <>
-        <Overlay isVisible={this.props.isOpen} height={280}>
-          <View style={{ alignItems: "center", justifyContent: "center" }}>
+        <Overlay
+          isVisible={this.props.isOpen}
+          height={280}
+          overlayBackgroundColor={
+            darkMode() ? theme().color.black : theme().color.white
+          }
+        >
+          <View style={styles.dialogContainer}>
             <View style={{ padding: 15 }}>
               <Image
-                source={require("../../../img/check.png")}
+                source={
+                  darkMode()
+                    ? require("../../../img/check_dark.png")
+                    : require("../../../img/check.png")
+                }
                 style={{ height: 125, width: 125 }}
               />
             </View>
-            <Text
-              style={{
-                fontSize: 15,
-                fontWeight: "600",
-                paddingVertical: 10,
-                paddingHorizontal: 5
-              }}
-            >
+            <Text style={styles.dialogText}>
               フィードバックありがとうございます！
             </Text>
             <View style={{ padding: 15 }}>
               <Button
-                titleStyle={{ fontWeight: "500" }}
+                titleStyle={styles.dialogButonText}
                 title="閉じる"
-                buttonStyle={{
-                  borderRadius: 25,
-                  paddingVertical: 8,
-                  backgroundColor: theme().color.blue
-                }}
+                buttonStyle={styles.dialogButon}
                 containerStyle={{
                   width: 120
                 }}
+                type={darkMode() ? "outline" : "solid"}
                 onPress={this.props.onClose}
               />
             </View>
@@ -156,5 +156,28 @@ const styles = EStyleSheet.create({
     lineHeight: 24,
     fontWeight: "400",
     color: "$text"
+  },
+  dialogContainer: {
+    backgroundColor: "$background",
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  dialogText: {
+    fontSize: 15,
+    fontWeight: "600",
+    paddingVertical: 10,
+    paddingHorizontal: 5,
+    color: "$text"
+  },
+  dialogButon: {
+    borderRadius: 25,
+    paddingVertical: 8,
+    backgroundColor: "$button",
+    borderColor: "$buttonBorder"
+  },
+  dialogButonText: {
+    fontWeight: "500",
+    color: theme().color.white
   }
 });

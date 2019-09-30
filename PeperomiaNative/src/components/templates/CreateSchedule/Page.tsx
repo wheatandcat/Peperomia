@@ -94,7 +94,10 @@ export default class extends Component<Props, State> {
       <View
         style={{
           flex: 0,
-          backgroundColor: this.state.imageHeader ? bc : theme().color.white
+          backgroundColor: this.state.imageHeader
+            ? bc
+            : theme().mode.background,
+          height: "100%"
         }}
       >
         <Header
