@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.3.3",
-    "@material-ui/icons": "^4.2.1",
+    "@material-ui/icons": "^4.4.3",
     "@types/color": "^3.0.0",
     "@types/firebase": "^3.2.1",
     "@types/jest": "24.0.18",
