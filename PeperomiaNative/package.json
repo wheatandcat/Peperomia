@@ -108,7 +108,7 @@
     "prop-types": "^15.6.2",
     "react-dom": ">=16.3.3",
     "react-native-dotenv": "^0.2.0",
-    "react-native-storybook-loader": "^1.8.0",
+    "react-native-storybook-loader": "^1.8.1",
     "rimraf": "^3.0.0",
     "ts-jest": "^24.1.0"
   },
