@@ -34,6 +34,26 @@
     semver "^5.4.1"
     source-map "^0.5.0"
 
+"@babel/core@^7.4.5":
+  version "7.6.2"
+  resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.6.2.tgz#069a776e8d5e9eefff76236bc8845566bd31dd91"
+  integrity sha512-l8zto/fuoZIbncm+01p8zPSDZu/VuuJhAfA7d/AbzM09WR7iVhavvfNDYCNpo1VvLk6E6xgAoP9P+/EMJHuRkQ==
+  dependencies:
+    "@babel/code-frame" "^7.5.5"
+    "@babel/generator" "^7.6.2"
+    "@babel/helpers" "^7.6.2"
+    "@babel/parser" "^7.6.2"
+    "@babel/template" "^7.6.0"
+    "@babel/traverse" "^7.6.2"
+    "@babel/types" "^7.6.0"
+    convert-source-map "^1.1.0"
+    debug "^4.1.0"
+    json5 "^2.1.0"
+    lodash "^4.17.13"
+    resolve "^1.3.2"
+    semver "^5.4.1"
+    source-map "^0.5.0"
+
 "@babel/generator@^7.0.0", "@babel/generator@^7.4.0":
   version "7.4.4"
   resolved "https://registry.yarnpkg.com/@babel/generator/-/generator-7.4.4.tgz#174a215eb843fc392c7edcaabeaa873de6e8f041"
@@ -269,6 +289,15 @@
     "@babel/template" "^7.4.4"
     "@babel/traverse" "^7.4.4"
     "@babel/types" "^7.4.4"
+
+"@babel/helpers@^7.6.2":
+  version "7.6.2"
+  resolved "https://registry.yarnpkg.com/@babel/helpers/-/helpers-7.6.2.tgz#681ffe489ea4dcc55f23ce469e58e59c1c045153"
+  integrity sha512-3/bAUL8zZxYs1cdX2ilEE0WobqbCmKWr/889lf2SS0PpDcpEIY8pb1CCyz0pEcX3pEb+MCbks1jIokz2xLtGTA==
+  dependencies:
+    "@babel/template" "^7.6.0"
+    "@babel/traverse" "^7.6.2"
+    "@babel/types" "^7.6.0"
 
 "@babel/highlight@^7.0.0":
   version "7.5.0"
@@ -1001,7 +1030,7 @@
     "@babel/parser" "^7.4.4"
     "@babel/types" "^7.4.4"
 
-"@babel/template@^7.1.0", "@babel/template@^7.4.4":
+"@babel/template@^7.1.0", "@babel/template@^7.4.4", "@babel/template@^7.6.0":
   version "7.6.0"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.6.0.tgz#7f0159c7f5012230dad64cca42ec9bdb5c9536e6"
   integrity sha512-5AEH2EXD8euCk446b7edmgFdub/qfH1SN6Nii3+fyXP807QRx9Q73A2N5hNwRRslC2H9sNzaFhsPubkS4L8oNQ==
@@ -1024,7 +1053,7 @@
     globals "^11.1.0"
     lodash "^4.17.11"
 
-"@babel/traverse@^7.1.0", "@babel/traverse@^7.4.4", "@babel/traverse@^7.5.5":
+"@babel/traverse@^7.1.0", "@babel/traverse@^7.4.4", "@babel/traverse@^7.5.5", "@babel/traverse@^7.6.2":
   version "7.6.2"
   resolved "https://registry.yarnpkg.com/@babel/traverse/-/traverse-7.6.2.tgz#b0e2bfd401d339ce0e6c05690206d1e11502ce2c"
   integrity sha512-8fRE76xNwNttVEF2TwxJDGBLWthUkHWSldmfuBzVRmEDWOtu4XdINTgN7TDWzuLg4bbeIMLvfMFD9we5YcWkRQ==
@@ -2516,9 +2545,9 @@
   integrity sha512-HNXtUQQuW3ThO9DVfTNbdvClVr+8AZlNNa2pxk5qtEvObnT27qh0DdQXTN4h5PuTTGinxwXkRKXsllJxuAzGPw==
 
 "@types/detox@^12.8.2":
-  version "12.8.3"
-  resolved "https://registry.yarnpkg.com/@types/detox/-/detox-12.8.3.tgz#6734e83efad500cc4033af131ea65616284985be"
-  integrity sha512-Bx9DBmVousynqSre3X/zJFKNPhFwBgZYI3eKhPZMLrE3pVcEnyULu6Ld3s5w4ZvJz9zsDrSRiWMDj9259FD1+Q==
+  version "12.8.4"
+  resolved "https://registry.yarnpkg.com/@types/detox/-/detox-12.8.4.tgz#afd9999b0de62938d261577ccc8f5e0617bcc028"
+  integrity sha512-ZqjfETBta4Ku31qeOBzk+/YwXPmbDBNDASFnzTmOpWoCAQJusSNpw4v7Taw0zGtFW55GgLwOYEVGb1Rxt7MtnQ==
 
 "@types/eslint-visitor-keys@^1.0.0":
   version "1.0.0"
@@ -5446,14 +5475,18 @@ detox-expo-helpers@^0.6.0:
     semver "^5.6.0"
     xdl "^51.5.0"
 
-detox@~12.3.0:
-  version "12.3.0"
-  resolved "https://registry.yarnpkg.com/detox/-/detox-12.3.0.tgz#b586f7a0c18b031dd84d245b0a465f0acb9e83bc"
+detox@~14.3.4:
+  version "14.3.4"
+  resolved "https://registry.yarnpkg.com/detox/-/detox-14.3.4.tgz#ec8e040fe2a1e6c5c6cbce70486ac5973bfb37dc"
+  integrity sha512-P+rLrGrnJLlxcwDrk2LEt6tt36G5RKOs9DYtwlWef4KiYtVfjjijgGRsUoojXl2g2BkGK0baIm1uOZtmYllW8g==
   dependencies:
+    "@babel/core" "^7.4.5"
     bunyan "^1.8.12"
     bunyan-debug-stream "^1.1.0"
+    chalk "^2.4.2"
     child-process-promise "^2.2.0"
     fs-extra "^4.0.2"
+    funpermaproxy "^1.0.1"
     get-port "^2.1.0"
     ini "^1.3.4"
     lodash "^4.17.5"
@@ -5464,7 +5497,8 @@ detox@~12.3.0:
     tail "^2.0.0"
     telnet-client "0.15.3"
     tempfile "^2.0.0"
-    ws "^1.1.1"
+    which "^1.3.1"
+    ws "^3.3.1"
     yargs "^13.0.0"
     yargs-parser "^13.0.0"
 
@@ -7004,6 +7038,11 @@ functions-have-names@^1.1.1:
   resolved "https://registry.yarnpkg.com/functions-have-names/-/functions-have-names-1.1.1.tgz#79d35927f07b8e7103d819fed475b64ccf7225ea"
   integrity sha512-U0kNHUoxwPNPWOJaMG7Z00d4a/qZVrFtzWJRaK8V9goaVOCXBSQSJpt3MYGNtkScKEBKovxLjnNdC9MlXwo5Pw==
 
+funpermaproxy@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/funpermaproxy/-/funpermaproxy-1.0.1.tgz#4650e69b7c334d9717c06beba9b339cc08ac3335"
+  integrity sha512-9pEzs5vnNtR7ZGihly98w/mQ7blsvl68Wj30ZCDAXy7qDN4CWLLjdfjtH/P2m6whsnaJkw15hysCNHMXue+wdA==
+
 fuse.js@^3.4.4:
   version "3.4.5"
   resolved "https://registry.yarnpkg.com/fuse.js/-/fuse.js-3.4.5.tgz#8954fb43f9729bd5dbcb8c08f251db552595a7a6"
@@ -7322,11 +7361,6 @@ gzip-size@5.1.1:
   dependencies:
     duplexer "^0.1.1"
     pify "^4.0.1"
-
-hammerjs@^2.0.8:
-  version "2.0.8"
-  resolved "https://registry.yarnpkg.com/hammerjs/-/hammerjs-2.0.8.tgz#04ef77862cff2bb79d30f7692095930222bf60f1"
-  integrity sha1-BO93hiz/K7edMPdpIJWTAiK/YPE=
 
 handlebars@^4.1.2:
   version "4.1.2"
@@ -8406,6 +8440,28 @@ jest-changed-files@^24.9.0:
   dependencies:
     "@jest/types" "^24.9.0"
     execa "^1.0.0"
+    throat "^4.0.0"
+
+jest-circus@^24.9.0:
+  version "24.9.0"
+  resolved "https://registry.yarnpkg.com/jest-circus/-/jest-circus-24.9.0.tgz#8a557683636807d537507eac02ba64c95b686485"
+  integrity sha512-dwkvwFtRc9Anmk1XTc+bonVL8rVMZ3CeGMoFWmv1oaQThdAgvfI9bwaFlZp+gLVphNVz6ZLfCWo3ERhS5CeVvA==
+  dependencies:
+    "@babel/traverse" "^7.1.0"
+    "@jest/environment" "^24.9.0"
+    "@jest/test-result" "^24.9.0"
+    "@jest/types" "^24.9.0"
+    chalk "^2.0.1"
+    co "^4.6.0"
+    expect "^24.9.0"
+    is-generator-fn "^2.0.0"
+    jest-each "^24.9.0"
+    jest-matcher-utils "^24.9.0"
+    jest-message-util "^24.9.0"
+    jest-snapshot "^24.9.0"
+    jest-util "^24.9.0"
+    pretty-format "^24.9.0"
+    stack-utils "^1.0.1"
     throat "^4.0.0"
 
 jest-cli@^24.9.0:
@@ -11906,15 +11962,14 @@ react-native-extended-stylesheet@^0.12.0:
     css-mediaquery "^0.1.2"
     object-resolve-path "^1.1.0"
 
-react-native-gesture-handler@^1.4.1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.4.1.tgz#c38d9e57637b95e221722a79f2bafac62e3aeb21"
-  integrity sha512-Ffcs+SbEbkGaal0CClYL+v7A9y4OA5G5lW01qrzjxaqASp5C8BfnWSKuqYKE00s6bLwE5L4xnlHkG0yIxAtbrQ==
+react-native-gesture-handler@~1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.3.0.tgz#d0386f565928ccc1849537f03f2e37fd5f6ad43f"
+  integrity sha512-ASRFIXBuKRvqlmwkWJhV8yP2dTpvcqVrLNpd7FKVBFHYWr6SAxjGyO9Ik8w1lAxDhMlRP2IcJ9p9eq5X2WWeLQ==
   dependencies:
-    hammerjs "^2.0.8"
     hoist-non-react-statics "^2.3.1"
-    invariant "^2.2.4"
-    prop-types "^15.7.2"
+    invariant "^2.2.2"
+    prop-types "^15.5.10"
 
 react-native-loading-spinner-overlay@^1.0.1:
   version "1.0.1"
@@ -14753,7 +14808,7 @@ write@1.0.3:
   dependencies:
     mkdirp "^0.5.1"
 
-ws@^1.1.0, ws@^1.1.1, ws@^1.1.5:
+ws@^1.1.0, ws@^1.1.5:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/ws/-/ws-1.1.5.tgz#cbd9e6e75e09fc5d2c90015f21f0c40875e0dd51"
   dependencies:

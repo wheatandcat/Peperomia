@@ -1,11 +1,8 @@
 import { by, element, expect } from "detox";
-import { reloadApp } from "detox-expo-helpers";
-import { addSchedule, addScheduleDetail } from "./helpr";
+import { addSchedule, addScheduleDetail } from "./helper";
 
 describe("Authentication tests", () => {
-  beforeEach(async () => {
-    await reloadApp();
-  });
+  beforeEach(async () => {});
 
   it("チュートリアル", async () => {});
 
