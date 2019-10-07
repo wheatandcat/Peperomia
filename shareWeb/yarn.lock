@@ -851,9 +851,15 @@
     "@babel/helper-plugin-utils" "^7.0.0"
     "@babel/plugin-transform-typescript" "^7.6.0"
 
-"@babel/runtime@7.6.0", "@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.3.1", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.2", "@babel/runtime@^7.4.4", "@babel/runtime@^7.4.5", "@babel/runtime@^7.5.5":
+"@babel/runtime@7.6.0":
   version "7.6.0"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.6.0.tgz#4fc1d642a9fd0299754e8b5de62c631cf5568205"
+  dependencies:
+    regenerator-runtime "^0.13.2"
+
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.3.1", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.2", "@babel/runtime@^7.4.4", "@babel/runtime@^7.4.5", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.2":
+  version "7.6.2"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.6.2.tgz#c3d6e41b304ef10dcf13777a33e7694ec4a9a6dd"
   dependencies:
     regenerator-runtime "^0.13.2"
 
@@ -1299,15 +1305,15 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
-"@material-ui/core@^4.3.3":
-  version "4.3.3"
-  resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-4.3.3.tgz#38a02331da7916c18e65c3dc56f3f6a67ba60c07"
+"@material-ui/core@^4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-4.5.0.tgz#7e57cc40988c71b6340e3b2569b47dbac1820351"
   dependencies:
     "@babel/runtime" "^7.4.4"
-    "@material-ui/styles" "^4.3.3"
-    "@material-ui/system" "^4.3.3"
+    "@material-ui/styles" "^4.5.0"
+    "@material-ui/system" "^4.5.0"
     "@material-ui/types" "^4.1.1"
-    "@material-ui/utils" "^4.3.0"
+    "@material-ui/utils" "^4.4.0"
     "@types/react-transition-group" "^4.2.0"
     clsx "^1.0.2"
     convert-css-length "^2.0.1"
@@ -1317,8 +1323,7 @@
     normalize-scroll-left "^0.2.0"
     popper.js "^1.14.1"
     prop-types "^15.7.2"
-    react-transition-group "^4.0.0"
-    warning "^4.0.1"
+    react-transition-group "^4.3.0"
 
 "@material-ui/icons@^4.4.3":
   version "4.4.3"
@@ -1326,9 +1331,9 @@
   dependencies:
     "@babel/runtime" "^7.4.4"
 
-"@material-ui/styles@^4.3.3":
-  version "4.3.3"
-  resolved "https://registry.yarnpkg.com/@material-ui/styles/-/styles-4.3.3.tgz#39867dd6f3779a8326075e097d72208d3c5b4977"
+"@material-ui/styles@^4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@material-ui/styles/-/styles-4.5.0.tgz#4e591b8d44c7ecce318634bd8ac652499b6c277a"
   dependencies:
     "@babel/runtime" "^7.4.4"
     "@emotion/hash" "^0.7.1"
@@ -1338,25 +1343,23 @@
     csstype "^2.5.2"
     deepmerge "^4.0.0"
     hoist-non-react-statics "^3.2.1"
-    jss "10.0.0-alpha.24"
-    jss-plugin-camel-case "10.0.0-alpha.24"
-    jss-plugin-default-unit "10.0.0-alpha.24"
-    jss-plugin-global "10.0.0-alpha.24"
-    jss-plugin-nested "10.0.0-alpha.24"
-    jss-plugin-props-sort "10.0.0-alpha.24"
-    jss-plugin-rule-value-function "10.0.0-alpha.24"
-    jss-plugin-vendor-prefixer "10.0.0-alpha.24"
+    jss "^10.0.0"
+    jss-plugin-camel-case "^10.0.0"
+    jss-plugin-default-unit "^10.0.0"
+    jss-plugin-global "^10.0.0"
+    jss-plugin-nested "^10.0.0"
+    jss-plugin-props-sort "^10.0.0"
+    jss-plugin-rule-value-function "^10.0.0"
+    jss-plugin-vendor-prefixer "^10.0.0"
     prop-types "^15.7.2"
-    warning "^4.0.1"
 
-"@material-ui/system@^4.3.3":
-  version "4.3.3"
-  resolved "https://registry.yarnpkg.com/@material-ui/system/-/system-4.3.3.tgz#8534fe76adbd3938a8dea833e69d84a7a143ecff"
+"@material-ui/system@^4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@material-ui/system/-/system-4.5.0.tgz#3235f5d7da8b8af4df425e4f065990c16dee8097"
   dependencies:
     "@babel/runtime" "^7.4.4"
     deepmerge "^4.0.0"
     prop-types "^15.7.2"
-    warning "^4.0.1"
 
 "@material-ui/types@^4.1.1":
   version "4.1.1"
@@ -1364,9 +1367,9 @@
   dependencies:
     "@types/react" "*"
 
-"@material-ui/utils@^4.1.0", "@material-ui/utils@^4.3.0":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/@material-ui/utils/-/utils-4.3.0.tgz#ea7f09815c792e80f270ef8b916517c3f9caba13"
+"@material-ui/utils@^4.1.0", "@material-ui/utils@^4.4.0":
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/@material-ui/utils/-/utils-4.4.0.tgz#9275421e2798a067850d201212d46f12725828ad"
   dependencies:
     "@babel/runtime" "^7.4.4"
     prop-types "^15.7.2"
@@ -3227,11 +3230,11 @@ css-url-regex@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/css-url-regex/-/css-url-regex-1.1.0.tgz#83834230cc9f74c457de59eebd1543feeb83b7ec"
 
-css-vendor@^2.0.5:
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/css-vendor/-/css-vendor-2.0.6.tgz#a205f73d7562e8728c86ef6ce5ee7c7e5eefd71b"
+css-vendor@^2.0.6:
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/css-vendor/-/css-vendor-2.0.7.tgz#4e6d53d953c187981576d6a542acc9fb57174bda"
   dependencies:
-    "@babel/runtime" "^7.5.5"
+    "@babel/runtime" "^7.6.2"
     is-in-browser "^1.0.2"
 
 css-what@2.1, css-what@^2.1.2:
@@ -3350,6 +3353,10 @@ cssstyle@^1.1.1:
 csstype@^2.2.0, csstype@^2.5.2, csstype@^2.6.5:
   version "2.6.6"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.6.tgz#c34f8226a94bbb10c32cc0d714afdf942291fc41"
+
+csstype@^2.6.6:
+  version "2.6.7"
+  resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.7.tgz#20b0024c20b6718f4eda3853a1f5a1cce7f5e4a5"
 
 cyclist@~0.2.2:
   version "0.2.2"
@@ -3588,11 +3595,12 @@ dom-converter@^0.2:
   dependencies:
     utila "~0.4"
 
-dom-helpers@^3.4.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/dom-helpers/-/dom-helpers-3.4.0.tgz#e9b369700f959f62ecde5a6babde4bccd9169af8"
+dom-helpers@^5.0.1:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/dom-helpers/-/dom-helpers-5.1.0.tgz#57a726de04abcc2a8bbfe664b3e21c584bde514e"
   dependencies:
-    "@babel/runtime" "^7.1.2"
+    "@babel/runtime" "^7.5.5"
+    csstype "^2.6.6"
 
 dom-serializer@0:
   version "0.1.1"
@@ -5931,61 +5939,61 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-jss-plugin-camel-case@10.0.0-alpha.24:
-  version "10.0.0-alpha.24"
-  resolved "https://registry.yarnpkg.com/jss-plugin-camel-case/-/jss-plugin-camel-case-10.0.0-alpha.24.tgz#579a48989d2628ee8baaa006449b1b82d32ee27e"
+jss-plugin-camel-case@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/jss-plugin-camel-case/-/jss-plugin-camel-case-10.0.0.tgz#d601bae2e8e2041cc526add289dcd7062db0a248"
   dependencies:
     "@babel/runtime" "^7.3.1"
     hyphenate-style-name "^1.0.3"
-    jss "10.0.0-alpha.24"
+    jss "10.0.0"
 
-jss-plugin-default-unit@10.0.0-alpha.24:
-  version "10.0.0-alpha.24"
-  resolved "https://registry.yarnpkg.com/jss-plugin-default-unit/-/jss-plugin-default-unit-10.0.0-alpha.24.tgz#3e6e24e8ec7aaa950c8975f1645ea861b8aa338e"
+jss-plugin-default-unit@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/jss-plugin-default-unit/-/jss-plugin-default-unit-10.0.0.tgz#601caf5f576fc0c66986fbe8a9aa37307a3a3ea3"
   dependencies:
     "@babel/runtime" "^7.3.1"
-    jss "10.0.0-alpha.24"
+    jss "10.0.0"
 
-jss-plugin-global@10.0.0-alpha.24:
-  version "10.0.0-alpha.24"
-  resolved "https://registry.yarnpkg.com/jss-plugin-global/-/jss-plugin-global-10.0.0-alpha.24.tgz#a53e2028d0cb073661e8213f2e622fef9ef4b1fa"
+jss-plugin-global@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/jss-plugin-global/-/jss-plugin-global-10.0.0.tgz#0fed1b6461e0d57d6e394f877529009bc1cb3cb6"
   dependencies:
     "@babel/runtime" "^7.3.1"
-    jss "10.0.0-alpha.24"
+    jss "10.0.0"
 
-jss-plugin-nested@10.0.0-alpha.24:
-  version "10.0.0-alpha.24"
-  resolved "https://registry.yarnpkg.com/jss-plugin-nested/-/jss-plugin-nested-10.0.0-alpha.24.tgz#f1b4a0bd1050e29d627c9bc2dc0f424c35f0aa44"
+jss-plugin-nested@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/jss-plugin-nested/-/jss-plugin-nested-10.0.0.tgz#d37ecc013c3b0d0e4acc2b48f6b62da6ae53948b"
   dependencies:
     "@babel/runtime" "^7.3.1"
-    jss "10.0.0-alpha.24"
+    jss "10.0.0"
     tiny-warning "^1.0.2"
 
-jss-plugin-props-sort@10.0.0-alpha.24:
-  version "10.0.0-alpha.24"
-  resolved "https://registry.yarnpkg.com/jss-plugin-props-sort/-/jss-plugin-props-sort-10.0.0-alpha.24.tgz#e309e286004b6e059c373efaa308b8742e22ec16"
+jss-plugin-props-sort@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/jss-plugin-props-sort/-/jss-plugin-props-sort-10.0.0.tgz#38a13407384c2a4a7c026659488350669b953b18"
   dependencies:
     "@babel/runtime" "^7.3.1"
-    jss "10.0.0-alpha.24"
+    jss "10.0.0"
 
-jss-plugin-rule-value-function@10.0.0-alpha.24:
-  version "10.0.0-alpha.24"
-  resolved "https://registry.yarnpkg.com/jss-plugin-rule-value-function/-/jss-plugin-rule-value-function-10.0.0-alpha.24.tgz#85bfd5f994647cb4bf2237d18232421ea362665c"
+jss-plugin-rule-value-function@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/jss-plugin-rule-value-function/-/jss-plugin-rule-value-function-10.0.0.tgz#3ec1b781b7c86080136dbef6c36e91f20244b72e"
   dependencies:
     "@babel/runtime" "^7.3.1"
-    jss "10.0.0-alpha.24"
+    jss "10.0.0"
 
-jss-plugin-vendor-prefixer@10.0.0-alpha.24:
-  version "10.0.0-alpha.24"
-  resolved "https://registry.yarnpkg.com/jss-plugin-vendor-prefixer/-/jss-plugin-vendor-prefixer-10.0.0-alpha.24.tgz#c4c2c28667d3c7c0d9a01ca1f7a2f74367d1ceef"
+jss-plugin-vendor-prefixer@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/jss-plugin-vendor-prefixer/-/jss-plugin-vendor-prefixer-10.0.0.tgz#400280535b0f483a9c78105afe4eee61b70018eb"
   dependencies:
     "@babel/runtime" "^7.3.1"
-    css-vendor "^2.0.5"
-    jss "10.0.0-alpha.24"
+    css-vendor "^2.0.6"
+    jss "10.0.0"
 
-jss@10.0.0-alpha.24:
-  version "10.0.0-alpha.24"
-  resolved "https://registry.yarnpkg.com/jss/-/jss-10.0.0-alpha.24.tgz#f8e2044b6b2f034db05a685d99c599095baf8b61"
+jss@10.0.0, jss@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/jss/-/jss-10.0.0.tgz#998d5026c02accae15708de83bd6ba57bac977d2"
   dependencies:
     "@babel/runtime" "^7.3.1"
     csstype "^2.6.5"
@@ -8222,12 +8230,12 @@ react-timer-mixin@^0.13.4:
   version "0.13.4"
   resolved "https://registry.yarnpkg.com/react-timer-mixin/-/react-timer-mixin-0.13.4.tgz#75a00c3c94c13abe29b43d63b4c65a88fc8264d3"
 
-react-transition-group@^4.0.0:
-  version "4.2.2"
-  resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.2.2.tgz#8b5252410180c27fd7eebf50b185256b41799b16"
+react-transition-group@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.3.0.tgz#fea832e386cf8796c58b61874a3319704f5ce683"
   dependencies:
-    "@babel/runtime" "^7.4.5"
-    dom-helpers "^3.4.0"
+    "@babel/runtime" "^7.5.5"
+    dom-helpers "^5.0.1"
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
