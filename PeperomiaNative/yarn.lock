@@ -11884,10 +11884,10 @@ react-native-easy-grid@^0.2.2:
   dependencies:
     lodash "^4.17.15"
 
-react-native-elements@^1.2.3:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/react-native-elements/-/react-native-elements-1.2.3.tgz#de16b592d872ec550da414f787bbf030598e702b"
-  integrity sha512-z7xwqSmLh5a4buW/zjAROTmn+4AanoWifP1VYs6cNh0AAguPKw7wp68TW2KyJykIsfugxzscGSAStl/l6NhNkA==
+react-native-elements@^1.2.5:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/react-native-elements/-/react-native-elements-1.2.5.tgz#f806af1d6c8df56f84ef4e2c8db4c84207ede25a"
+  integrity sha512-zAZPc5BLoep2dPzVNsZfTMDpb7vq3frVmB71N0SzAgK59mDBNvw8Ku/P7XHp9DGdMVLqJRnAJuGybkxTTkzDoQ==
   dependencies:
     "@types/react-native-vector-icons" "^6.4.1"
     color "^3.1.0"
