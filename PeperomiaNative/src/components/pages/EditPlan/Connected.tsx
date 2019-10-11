@@ -22,6 +22,7 @@ interface Props {
 type PlanProps = Pick<ContextProps, "items" | "refreshData"> & {
   input: {
     title: string;
+    date: string;
   };
   image: string;
   kind: string;
@@ -59,14 +60,15 @@ export default class extends Component<Props> {
     };
   };
 
-  state = { input: { title: "" }, image: "", kind: "" };
+  state = { input: { title: "", date: "" }, image: "", kind: "" };
 
   componentDidMount() {
     const image = this.props.navigation.getParam("image", "");
     const title = this.props.navigation.getParam("title", "");
     const kind = this.props.navigation.getParam("kind", "");
+    const date = this.props.navigation.getParam("date", "");
     this.setState({
-      input: { title },
+      input: { title, date },
       image,
       kind
     });
@@ -229,6 +231,7 @@ class Plan extends Component<PlanProps, State> {
       <Page
         mode="edit"
         title={this.props.input.title}
+        date={this.props.input.date}
         image={this.props.image}
         kind={this.props.kind}
         suggestList={this.state.suggestList}

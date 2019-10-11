@@ -7,7 +7,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
-import { Divider } from "react-native-elements";
+import { Divider, Button } from "react-native-elements";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import {
@@ -16,6 +16,7 @@ import {
 } from "@expo/react-native-action-sheet";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Color from "color";
+import DatePicker from "react-native-datepicker";
 import getKind, { KINDS } from "../../../lib/getKind";
 import { whenIPhoneSE } from "../../../lib/responsive";
 import { SuggestItem } from "../../../lib/suggest";
@@ -30,6 +31,7 @@ type PropsBase = {
   title: string;
   image: string;
   kind: string;
+  date: string;
   suggestList: SuggestItem[];
   onInput: (name: string, value: any) => void;
   onImage: (image: string) => void;
@@ -41,12 +43,12 @@ type PropsBase = {
 
 export type Props = PropsBase & ActionSheetProps;
 
-export interface State {
+export type State = {
   image: string;
   titleFocusCount: number;
   suggest: boolean;
   keyboard: boolean;
-}
+};
 
 class Page extends Component<Props> {
   state = {
@@ -55,6 +57,8 @@ class Page extends Component<Props> {
     suggest: false,
     keyboard: false
   };
+
+  datePicker: any;
 
   componentDidMount() {
     this.keyboardDidShowListener = Keyboard.addListener(
@@ -159,6 +163,10 @@ class Page extends Component<Props> {
     });
   };
 
+  onOpendDtePicker = () => {
+    this.datePicker.onPressDate();
+  };
+
   render() {
     let { image } = this.props;
     const kind = this.props.kind || getKind(this.props.title);
@@ -172,6 +180,19 @@ class Page extends Component<Props> {
 
     return (
       <>
+        <DatePicker
+          style={styles.datePicker}
+          ref={picker => {
+            this.datePicker = picker;
+          }}
+          mode="date"
+          format="YYYY年MM月DD日"
+          iconComponent={<View />}
+          confirmBtnText="完了"
+          cancelBtnText="キャンセル"
+          locale="ja"
+          onDateChange={date => this.props.onInput("date", date)}
+        />
         <Header
           title=""
           color={bc}
@@ -233,18 +254,46 @@ class Page extends Component<Props> {
                 onPress={this.onSuggest}
               />
             ) : (
-              <>
-                <IconImage
-                  image={image}
-                  imageSrc={config.src}
-                  imageSize={imageSize}
-                  backgroundColor={theme().mode.background}
-                  onSave={this.onSave}
-                  onOpenActionSheet={this.onOpenActionSheet}
-                />
-              </>
+              <IconImage
+                image={image}
+                imageSrc={config.src}
+                imageSize={imageSize}
+                backgroundColor={theme().mode.background}
+                onSave={this.onSave}
+                onOpenActionSheet={this.onOpenActionSheet}
+              />
             )}
           </View>
+
+          {this.props.date ? (
+            <View style={styles.datePickerContainer}>
+              <DatePicker
+                mode="date"
+                date={this.props.date}
+                confirmBtnText="完了"
+                cancelBtnText="キャンセル"
+                locale="ja"
+                format="YYYY年MM月DD日"
+                style={{ width: "100%" }}
+                placeholder="日付を設定する"
+                onDateChange={date => this.props.onInput("date", date)}
+              />
+            </View>
+          ) : (
+            <View style={styles.dateButtonContainer}>
+              <Button
+                icon={{
+                  name: "date-range",
+                  size: 20,
+                  color: "white"
+                }}
+                buttonStyle={styles.dateButton}
+                titleStyle={styles.dateButtonText}
+                title="日付を設定する"
+                onPress={this.onOpendDtePicker}
+              />
+            </View>
+          )}
         </View>
       </>
     );
@@ -264,5 +313,31 @@ const styles = EStyleSheet.create({
   body: {
     backgroundColor: "$background",
     height: "100%"
+  },
+  dateButtonContainer: {
+    padding: 30
+  },
+  dateButton: {
+    backgroundColor: theme().color.lightGreen,
+    borderRadius: 15,
+    padding: 15
+  },
+  dateButtonText: {
+    fontSize: 20,
+    fontWeight: "600"
+  },
+  datePicker: {
+    width: 0,
+    height: 0,
+    //  TDOD: androidで謎の線が残るので↓で対処,
+    position: "absolute",
+    top: -9999
+  },
+  datePickerContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    paddingHorizontal: 30,
+    paddingTop: 35
   }
 });

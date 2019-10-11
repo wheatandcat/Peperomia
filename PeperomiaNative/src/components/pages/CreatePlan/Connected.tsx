@@ -19,6 +19,7 @@ interface Props {
 interface State {
   input: {
     title: string;
+    date: string;
   };
   image: string;
   kind: string;
@@ -39,7 +40,7 @@ type ConnectProps = Props & Pick<ContextProps, "items">;
 
 class Connect extends Component<ConnectProps, State> {
   state = {
-    input: { title: "" },
+    input: { title: "", date: "" },
     image: "",
     kind: "",
     suggestList: []
@@ -159,6 +160,7 @@ class Connect extends Component<ConnectProps, State> {
       <Page
         mode="new"
         title={this.state.input.title}
+        date={this.state.input.date}
         image={this.state.image}
         kind={this.state.kind}
         suggestList={this.state.suggestList}

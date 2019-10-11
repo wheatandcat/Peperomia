@@ -6,6 +6,7 @@ import {
   ItemDetail
 } from "./itemDetail";
 import { create as createUser } from "./user";
+import { create as createCalendar } from "./calendar";
 import {
   KIND_FISHING,
   KIND_PARK,
@@ -22,11 +23,13 @@ import {
 import { success, error, ResultError } from "./";
 
 export const deleteSql = (tx: SQLite.Transaction) => {
+  tx.executeSql("drop table calendars");
   tx.executeSql("drop table items");
   tx.executeSql("drop table item_details");
 
   createItem(tx);
   createItemDetail(tx);
+  createCalendar(tx);
 };
 
 export const deleteUserSql = (tx: SQLite.Transaction) => {

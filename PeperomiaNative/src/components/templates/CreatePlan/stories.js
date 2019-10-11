@@ -82,4 +82,16 @@ storiesOf("templates/CreatePlan", module)
       kind=""
       suggestList={items}
     />
+  ))
+  .add("日付", () => (
+    <Page
+      onInput={() => {}}
+      onSave={() => {}}
+      title="釣り堀"
+      mode="new"
+      image=""
+      kind=""
+      suggestList={items}
+      date="2019-10-01"
+    />
   ));
