@@ -40,6 +40,7 @@
     "@types/uuid": "^3.4.4",
     "color": "^3.1.0",
     "compare-versions": "^3.5.0",
+    "dayjs": "^1.8.16",
     "expo": "^35.0.0",
     "expo-camera": "~7.0.0",
     "expo-constants": "~7.0.0",

@@ -4,13 +4,20 @@ import {
   NavigationScreenProp,
   NavigationRoute
 } from "react-navigation";
-import { KIND_PARK, KIND_ART_MUSEUM, KIND_COFFEE } from "../../../lib/getKind";
+import {
+  Consumer as ItemsConsumer,
+  ContextProps
+} from "../../../containers/Items";
 import theme from "../../../config/theme";
+import Schedule from "../Schedule/Switch";
+import EditPlan from "../EditPlan/Connected";
 import Page from "./Page";
 
 type Props = {
   navigation: NavigationScreenProp<NavigationRoute>;
 };
+
+export type PlanProps = Pick<ContextProps, "calendars" | "itemsLoading">;
 
 class Container extends Component<Props> {
   static navigationOptions = () => {
@@ -26,29 +33,40 @@ class Container extends Component<Props> {
     };
   };
 
-  render() {
-    const items = [
-      {
-        kind: KIND_COFFEE,
-        date: "2019-10-03"
-      },
-      {
-        kind: KIND_PARK,
-        date: "2019-10-14"
-      },
-      {
-        kind: KIND_ART_MUSEUM,
-        date: "2019-10-24"
-      }
-    ];
+  onCreate = (date: string) => {
+    this.props.navigation.navigate("CreatePlan", {
+      date
+    });
+  };
 
-    return <Page items={items} />;
+  onSchedule = (id: number, title: string) => {
+    this.props.navigation.navigate("Schedule", { itemId: id, title });
+  };
+
+  render() {
+    return (
+      <ItemsConsumer>
+        {({ calendars, itemsLoading }: ContextProps) => (
+          <Page
+            calendars={calendars || []}
+            loading={itemsLoading || false}
+            onCreate={this.onCreate}
+            onSchedule={this.onSchedule}
+          />
+        )}
+      </ItemsConsumer>
+    );
   }
 }
 
-export default createStackNavigator(
+const MainCardNavigator = createStackNavigator(
   {
-    Calendars: Container
+    Container: {
+      screen: Container
+    },
+    Schedule: {
+      screen: Schedule
+    }
   },
   {
     defaultNavigationOptions: {
@@ -60,5 +78,20 @@ export default createStackNavigator(
       },
       headerTintColor: theme().mode.header.text
     }
+  }
+);
+
+export default createStackNavigator(
+  {
+    MainCardNavigator: {
+      screen: MainCardNavigator
+    },
+    EditPlan: {
+      screen: EditPlan
+    }
+  },
+  {
+    initialRouteName: "MainCardNavigator",
+    headerMode: "none"
   }
 );

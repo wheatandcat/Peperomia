@@ -7,7 +7,7 @@ import {
 import { create as createCalendar } from "./db/calendar";
 import { db } from "./db";
 
-export const migrationV104 = async (): Promise<Boolean> => {
+export const migrationV104 = async (): Promise<boolean> => {
   try {
     await db.transaction(async (tx: SQLite.Transaction) => {
       await v1040(tx);
@@ -21,7 +21,7 @@ export const migrationV104 = async (): Promise<Boolean> => {
   }
 };
 
-export const migrationV201 = async (): Promise<Boolean> => {
+export const migrationV201 = async (): Promise<boolean> => {
   try {
     await db.transaction(async (tx: SQLite.Transaction) => {
       await createCalendar(tx);

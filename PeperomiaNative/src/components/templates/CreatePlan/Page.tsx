@@ -10,6 +10,9 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { Divider, Button } from "react-native-elements";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
+import dayjs from "dayjs";
+import advancedFormat from "dayjs/plugin/advancedFormat";
+import "dayjs/locale/ja";
 import {
   ActionSheetProps,
   connectActionSheet
@@ -25,6 +28,8 @@ import s from "../../../config/style";
 import Suggest from "../../organisms/Suggest/List";
 import IconImage from "../../organisms/CreatePlan/IconImage";
 import Header from "../../molecules/Header";
+
+dayjs.extend(advancedFormat);
 
 type PropsBase = {
   mode: string;
@@ -265,35 +270,50 @@ class Page extends Component<Props> {
             )}
           </View>
 
-          {this.props.date ? (
-            <View style={styles.datePickerContainer}>
-              <DatePicker
-                mode="date"
-                date={this.props.date}
-                confirmBtnText="完了"
-                cancelBtnText="キャンセル"
-                locale="ja"
-                format="YYYY年MM月DD日"
-                style={{ width: "100%" }}
-                placeholder="日付を設定する"
-                onDateChange={date => this.props.onInput("date", date)}
-              />
-            </View>
-          ) : (
-            <View style={styles.dateButtonContainer}>
-              <Button
-                icon={{
-                  name: "date-range",
-                  size: 20,
-                  color: "white"
-                }}
-                buttonStyle={styles.dateButton}
-                titleStyle={styles.dateButtonText}
-                title="日付を設定する"
-                onPress={this.onOpendDtePicker}
-              />
-            </View>
-          )}
+          {(() => {
+            if (this.state.suggest) {
+              return null;
+            }
+
+            if (this.props.date) {
+              return (
+                <View style={styles.datePickerContainer}>
+                  <DatePicker
+                    mode="date"
+                    date={this.props.date}
+                    confirmBtnText="完了"
+                    cancelBtnText="キャンセル"
+                    locale="ja"
+                    format="YYYY年MM月DD日"
+                    style={{ width: "100%" }}
+                    placeholder="日付を設定する"
+                    onDateChange={(_: string, date: Date) => {
+                      return this.props.onInput(
+                        "date",
+                        dayjs(date).format("YYYY-MM-DD")
+                      );
+                    }}
+                  />
+                </View>
+              );
+            } else {
+              return (
+                <View style={styles.dateButtonContainer}>
+                  <Button
+                    icon={{
+                      name: "date-range",
+                      size: 20,
+                      color: "white"
+                    }}
+                    buttonStyle={styles.dateButton}
+                    titleStyle={styles.dateButtonText}
+                    title="日付を設定する"
+                    onPress={this.onOpendDtePicker}
+                  />
+                </View>
+              );
+            }
+          })()}
         </View>
       </>
     );

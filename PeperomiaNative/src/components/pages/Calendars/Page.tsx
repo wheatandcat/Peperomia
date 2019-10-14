@@ -1,7 +1,16 @@
 import React from "react";
-import { Text, View, Dimensions, StyleSheet, Image } from "react-native";
+import {
+  Text,
+  View,
+  Dimensions,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  ActivityIndicator
+} from "react-native";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 import Color from "color";
+import { SelectCalendar } from "../../../lib/db/calendar";
 import theme from "../../../config/theme";
 import ImageDay from "../../organisms/Calendars/Image";
 
@@ -41,13 +50,11 @@ LocaleConfig.locales["jp"] = {
 };
 LocaleConfig.defaultLocale = "jp";
 
-type Item = {
-  kind: string;
-  date: string;
-};
-
 type Props = {
-  items: Item[];
+  loading: boolean;
+  calendars: SelectCalendar[];
+  onCreate: (date: string) => void;
+  onSchedule: (id: number, title: string) => void;
 };
 
 export default (props: Props) => (
@@ -70,62 +77,75 @@ export default (props: Props) => (
       <Text style={styles.weekText}>金</Text>
       <Text style={[styles.weekText, { color: theme().color.sky }]}>土</Text>
     </View>
-    <Calendar
-      style={{
-        backgroundColor: theme().color.lightNavy
-      }}
-      current={"2019-10-01"}
-      monthFormat={""}
-      hideDayNames
-      hideArrows
-      theme={{
-        "stylesheet.calendar.main": {
-          week: {
-            marginTop: 0,
-            flexDirection: "row",
-            justifyContent: "space-between"
-          }
-        },
-        textMonthFontSize: 18,
-        monthTextColor: "#000",
-        textMonthFontWeight: "600",
-        "stylesheet.calendar.header": {
-          header: {
-            height: 0
+    {props.loading ? (
+      <ActivityIndicator size="large" color={theme().mode.text} />
+    ) : (
+      <Calendar
+        style={{
+          backgroundColor: theme().color.lightNavy
+        }}
+        current={"2019-10-01"}
+        monthFormat={""}
+        hideDayNames
+        hideArrows
+        theme={{
+          "stylesheet.calendar.main": {
+            week: {
+              marginTop: 0,
+              flexDirection: "row",
+              justifyContent: "space-between"
+            }
           },
-          dayHeader: {
-            fontWeight: "600",
-            paddingBottom: 10,
-            color: "#000"
+          textMonthFontSize: 18,
+          monthTextColor: "#000",
+          textMonthFontWeight: "600",
+          "stylesheet.calendar.header": {
+            header: {
+              height: 0
+            },
+            dayHeader: {
+              fontWeight: "600",
+              paddingBottom: 10,
+              color: "#000"
+            }
           }
-        }
-      }}
-      dayComponent={({ date }) => {
-        const schedule = props.items.find(
-          item => item.date === date.dateString
-        );
-        console.log(schedule);
+        }}
+        dayComponent={({ date }) => {
+          const schedule = props.calendars.find(
+            item => item.date === date.dateString
+          );
 
-        if (schedule) {
-          return <ImageDay kind={schedule.kind} day={String(date.day)} />;
-        }
+          if (schedule) {
+            return (
+              <TouchableOpacity
+                onPress={() =>
+                  props.onSchedule(schedule.itemId, schedule.title)
+                }
+              >
+                <ImageDay kind={schedule.kind} day={String(date.day)} />
+              </TouchableOpacity>
+            );
+          }
 
-        return (
-          <View
-            style={[
-              styles.itemContainer,
-              {
-                backgroundColor: Color(theme().color.lightNavy)
-                  .lighten(0.1)
-                  .toString()
-              }
-            ]}
-          >
-            <Text style={styles.dayText}>{date.day}</Text>
-          </View>
-        );
-      }}
-    />
+          return (
+            <TouchableOpacity onPress={() => props.onCreate(date.dateString)}>
+              <View
+                style={[
+                  styles.itemContainer,
+                  {
+                    backgroundColor: Color(theme().color.lightNavy)
+                      .lighten(0.1)
+                      .toString()
+                  }
+                ]}
+              >
+                <Text style={styles.dayText}>{date.day}</Text>
+              </View>
+            </TouchableOpacity>
+          );
+        }}
+      />
+    )}
     <View style={styles.calendarBottom} />
   </View>
 );

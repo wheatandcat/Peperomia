@@ -1,4 +1,5 @@
 import * as SQLite from "expo-sqlite";
+import { Item } from "./item";
 import { success, error, ResultError } from "./";
 
 export type Calendar = {
@@ -6,6 +7,8 @@ export type Calendar = {
   itemId: number;
   date: string;
 };
+
+export type SelectCalendar = Item & Calendar;
 
 export const create = async (
   tx: SQLite.Transaction,
@@ -38,16 +41,29 @@ export const insert = async (
   );
 };
 
-export const select1st = async (
+export const update = async (
   tx: SQLite.Transaction,
-  id: string,
+  calendar: Calendar,
   callback?: (data: Calendar, error: ResultError) => void
 ) => {
   return tx.executeSql(
-    "select * from calendars where id = ? limit 1",
-    [id],
+    "update calendars set date = ? where id = ?",
+    [calendar.date, String(calendar.id)],
     (_: SQLite.Transaction, props: SQLite.ResultSet) =>
       success(props.rows._array[0], callback),
+    (_: SQLite.Transaction, err: ResultError) => error(err, callback)
+  );
+};
+
+export const select = async (
+  tx: SQLite.Transaction,
+  callback?: (data: SelectCalendar[], error: ResultError) => void
+) => {
+  return tx.executeSql(
+    "select * from calendars inner join items on calendars.itemId = items.id",
+    [],
+    (_: SQLite.Transaction, props: SQLite.ResultSet) =>
+      success(props.rows._array, callback),
     (_: SQLite.Transaction, err: ResultError) => error(err, callback)
   );
 };

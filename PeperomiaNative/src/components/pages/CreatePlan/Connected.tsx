@@ -8,6 +8,7 @@ import {
 } from "../../../containers/Items";
 import { db, ResultError } from "../../../lib/db";
 import { insert as insertItem, Item } from "../../../lib/db/item";
+import { insert as insertCalendar, Calendar } from "../../../lib/db/calendar";
 import { SuggestItem } from "../../../lib/suggest";
 import getKind from "../../../lib/getKind";
 import Page from "../../templates/CreatePlan/Page";
@@ -30,13 +31,15 @@ export default class extends Component<Props> {
   render() {
     return (
       <ItemsConsumer>
-        {({ items }: ContextProps) => <Connect {...this.props} items={items} />}
+        {({ items, refreshData }: ContextProps) => (
+          <Connect {...this.props} items={items} refreshData={refreshData} />
+        )}
       </ItemsConsumer>
     );
   }
 }
 
-type ConnectProps = Props & Pick<ContextProps, "items">;
+type ConnectProps = Props & Pick<ContextProps, "items" | "refreshData">;
 
 class Connect extends Component<ConnectProps, State> {
   state = {
@@ -47,13 +50,19 @@ class Connect extends Component<ConnectProps, State> {
   };
 
   componentDidMount() {
+    const date = this.props.navigation.getParam("date", "");
+
     const suggestList = (this.props.items || []).map(item => ({
       title: item.title,
       kind: item.kind
     }));
 
     this.setState({
-      suggestList
+      suggestList,
+      input: {
+        ...this.state.input,
+        date
+      }
     });
   }
 
@@ -117,8 +126,34 @@ class Connect extends Component<ConnectProps, State> {
       return;
     }
 
+    if (this.state.input.date) {
+      // 日付のデータがある場合ははcalendarに登録する
+      db.transaction((tx: SQLite.Transaction) => {
+        const item: Calendar = {
+          itemId: insertId,
+          date: this.state.input.date
+        };
+
+        insertCalendar(tx, item, (_, error: ResultError) => {
+          if (error) {
+            return;
+          }
+
+          this.pushCreateSchedule(insertId);
+        });
+      });
+    } else {
+      this.pushCreateSchedule(insertId);
+    }
+  };
+
+  pushCreateSchedule = (itemId: number) => {
+    if (this.props.refreshData) {
+      this.props.refreshData();
+    }
+
     this.props.navigation.navigate("CreateSchedule", {
-      itemId: insertId,
+      itemId,
       title: this.state.input.title
     });
   };
@@ -152,7 +187,7 @@ class Connect extends Component<ConnectProps, State> {
   };
 
   onHome = () => {
-    this.props.navigation.navigate("Home");
+    this.props.navigation.goBack(null);
   };
 
   render() {
