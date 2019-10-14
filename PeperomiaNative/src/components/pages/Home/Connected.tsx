@@ -13,6 +13,7 @@ import { db, ResultError } from "../../../lib/db";
 import { Item } from "../../../lib/db/item";
 import { delete1st } from "../../../lib/db/item";
 import { deleteByItemId as deleteItemDetailByItemId } from "../../../lib/db/itemDetail";
+import { deleteByItemId as deleteCalendarByItemId } from "../../../lib/db/calendar";
 import {
   Consumer as ItemsConsumer,
   ContextProps
@@ -192,13 +193,14 @@ class HomeScreenPlan extends Component<PlanProps, PlanState> {
     }
   }
 
-  onDelete = (scheduleId: string) => {
+  onDelete = (itemId: string) => {
     db.transaction((tx: SQLite.Transaction) => {
-      delete1st(tx, scheduleId, (_: Item, error: ResultError) => {
+      delete1st(tx, itemId, (_: Item, error: ResultError) => {
         if (error) {
           return;
         }
-        deleteItemDetailByItemId(tx, scheduleId, this.onRefresh);
+        deleteCalendarByItemId(tx, Number(itemId), () => null);
+        deleteItemDetailByItemId(tx, itemId, this.onRefresh);
       });
     });
   };

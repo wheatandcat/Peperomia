@@ -67,3 +67,17 @@ export const select = async (
     (_: SQLite.Transaction, err: ResultError) => error(err, callback)
   );
 };
+
+export const deleteByItemId = async (
+  tx: SQLite.Transaction,
+  itemId: number,
+  callback?: (data: Calendar, error: ResultError) => void
+) => {
+  tx.executeSql(
+    `delete from calendars where itemId = ?;`,
+    [String(itemId)],
+    (_: SQLite.Transaction, props: SQLite.ResultSet) =>
+      success(props.rows._array[0], callback),
+    (_: SQLite.Transaction, err: ResultError) => error(err, callback)
+  );
+};

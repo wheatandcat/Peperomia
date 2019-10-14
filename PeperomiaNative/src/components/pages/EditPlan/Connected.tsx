@@ -2,7 +2,7 @@ import * as ImageManipulator from "expo-image-manipulator";
 import * as SQLite from "expo-sqlite";
 import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
-import { TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View, Alert } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import {
   Consumer as ItemsConsumer,
@@ -184,6 +184,17 @@ class Connected extends Component<ConnectedProps, State> {
   };
 
   onSave = async () => {
+    if (this.state.input.date) {
+      const check = (this.props.calendars || []).find(
+        calendar => calendar.date === this.state.input.date
+      );
+
+      if (check) {
+        Alert.alert("同じ日にスケジュールが既に登録されています");
+        return;
+      }
+    }
+
     let image = "";
     if (this.state.image) {
       const manipResult = await ImageManipulator.manipulateAsync(
@@ -207,12 +218,11 @@ class Connected extends Component<ConnectedProps, State> {
 
       updateItem(tx, item, this.save);
 
-      if (this.state.calendar.id) {
-        console.log({
-          ...this.state.calendar,
-          date: this.state.input.date
-        });
+      if (!this.state.input.date) {
+        return;
+      }
 
+      if (this.state.calendar.id) {
         updateCalendar(
           tx,
           {
