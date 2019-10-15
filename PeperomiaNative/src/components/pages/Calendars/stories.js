@@ -4,7 +4,7 @@ import { storiesOf } from "@storybook/react-native";
 import { KIND_PARK, KIND_ART_MUSEUM, KIND_COFFEE } from "../../../lib/getKind";
 import Page from "./Page";
 
-const items = [
+const calendars = [
   {
     kind: KIND_COFFEE,
     date: "2019-10-03"
@@ -21,6 +21,6 @@ const items = [
 
 storiesOf("pages", module).add("Calendars", () => (
   <View style={{ paddingTop: 60 }}>
-    <Page items={items} />
+    <Page calendars={calendars} onCreate={() => null} onSchedule={() => null} />
   </View>
 ));

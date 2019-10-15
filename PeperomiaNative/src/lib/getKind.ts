@@ -45,7 +45,7 @@ const color = {
   category06: theme().color.beige,
   category07: theme().color.pink,
   category08: theme().color.lightNavy,
-  category09: theme().color.didgerBlue,
+  category09: theme().color.dodgerBlue,
   category10: theme().color.lightGray
 };
 

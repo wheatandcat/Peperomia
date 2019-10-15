@@ -5,7 +5,7 @@ type ThemeColor = {
     beige: string;
     blue: string;
     darkGray: string;
-    didgerBlue: string;
+    dodgerBlue: string;
     gray: string;
     lightBlue: string;
     lightEmerald: string;
@@ -52,7 +52,7 @@ const baseColor = {
   beige: "#E4E4C8",
   blue: "#007bbb",
   darkGray: "#4F4F4F",
-  didgerBlue: "#A1CBF3",
+  dodgerBlue: "#A1CBF3",
   gray: "#828282",
   lightBlue: "#A7EFFF",
   lightEmerald: "#98D181",
@@ -77,7 +77,7 @@ const darkColor = {
   beige: "#E4E4C8",
   blue: "#007bbb",
   darkGray: "#4F4F4F",
-  didgerBlue: "#A1CBF3",
+  dodgerBlue: "#A1CBF3",
   gray: "#828282",
   lightBlue: "#A7EFFF",
   lightEmerald: "#98D181",
