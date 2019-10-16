@@ -392,7 +392,7 @@ class Plan extends Component<PlanProps> {
 
     if (this.props.refreshData) {
       this.props.refreshData();
-      this.props.navigation.navigate("Home", { refresh: uuidv1() });
+      this.props.navigation.goBack();
     }
   };
 

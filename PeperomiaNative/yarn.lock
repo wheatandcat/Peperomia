@@ -2741,6 +2741,14 @@
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@types/react-native-status-bar-height/-/react-native-status-bar-height-2.1.0.tgz#7046e1de6a053d0a23aa93e17dd23ea7533e0ffb"
 
+"@types/react-native-swipe-gestures@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@types/react-native-swipe-gestures/-/react-native-swipe-gestures-1.0.0.tgz#17b992c0ea38fd16768e6cbe82c170111bd29677"
+  integrity sha512-oV+Giz45L1v8fJ909ZMIpY8lbQw/pO8r/H/dlSS93hScc7qW8P9ORCB+6VKWYoEHJtTb54drRV1C4sakO0vrLA==
+  dependencies:
+    "@types/react" "*"
+    "@types/react-native" "*"
+
 "@types/react-native-vector-icons@^4.6.4":
   version "4.6.4"
   resolved "https://registry.yarnpkg.com/@types/react-native-vector-icons/-/react-native-vector-icons-4.6.4.tgz#83c2d88f0c2615a44b9059eb75c11f92702c1ee2"
@@ -12121,6 +12129,11 @@ react-native-svg@*, react-native-svg@^9.9.3:
 react-native-swipe-gestures@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/react-native-swipe-gestures/-/react-native-swipe-gestures-1.0.3.tgz#4160f8d459627323f3a3d2770af4bcd82fd054f5"
+
+react-native-swipe-gestures@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/react-native-swipe-gestures/-/react-native-swipe-gestures-1.0.4.tgz#6a9c6613bfe06cd9014a36a2c4a09f719ff62451"
+  integrity sha512-C/vz0KPHNyqHk3uF4Cz/jzd/0N8z34ZgsjAZUh/RsXPH2FtJJf3Fw73pQDWJSoCMtvVadlztb8xQ+/aEQrll7w==
 
 react-native-swipe-list-view@^2.0.0:
   version "2.0.0"
