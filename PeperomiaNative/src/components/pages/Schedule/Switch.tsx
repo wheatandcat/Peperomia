@@ -19,11 +19,13 @@ import uuidv1 from "uuid/v1";
 import { Button } from "react-native-elements";
 import theme from "../../../config/theme";
 import { db, ResultError } from "../../../lib/db";
+import { deleteByItemId as deleteCalendarByItemId } from "../../../lib/db/calendar";
 import {
   update as updateItemDetail,
   ItemDetail,
   deleteByItemId as deleteItemDetailByItemId
 } from "../../../lib/db/itemDetail";
+
 import {
   save as saveFirestore,
   isShare,
@@ -377,6 +379,7 @@ class Plan extends Component<PlanProps> {
         if (error) {
           return;
         }
+        deleteCalendarByItemId(tx, Number(itemId), () => null);
         deleteItemDetailByItemId(tx, itemId, this.onDeleteRefresh);
       });
     });
@@ -389,7 +392,7 @@ class Plan extends Component<PlanProps> {
 
     if (this.props.refreshData) {
       this.props.refreshData();
-      this.props.navigation.navigate("Home", { refresh: uuidv1() });
+      this.props.navigation.goBack();
     }
   };
 

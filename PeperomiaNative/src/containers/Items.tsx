@@ -2,6 +2,8 @@ import * as SQLite from "expo-sqlite";
 import React, { createContext, Component } from "react";
 import { db, ResultError } from "../lib/db";
 import { select as selectItems, Item } from "../lib/db/item";
+import { select as selectcalendars, SelectCalendar } from "../lib/db/calendar";
+
 import {
   selectByItemId as selectItemDetailByItemId,
   ItemDetail
@@ -22,21 +24,24 @@ type State = {
   items: Item[];
   itemDetails: ItemDetail[];
   about: ItemAbout[];
+  calendars: SelectCalendar[];
 };
 
 export type ContextProps = Partial<
-  Pick<State, "items" | "itemDetails" | "about"> & {
+  Pick<State, "items" | "itemDetails" | "about" | "calendars"> & {
     refreshData: () => void;
-    itemsLoading: Boolean;
+    itemsLoading: boolean;
   }
 >;
 
 class Connected extends Component<Props, State> {
   state = {
     loading: true,
+    calendarsLoading: true,
     items: [],
     itemDetails: [],
-    about: []
+    about: [],
+    calendars: []
   };
 
   componentDidMount() {
@@ -50,6 +55,7 @@ class Connected extends Component<Props, State> {
 
     db.transaction((tx: SQLite.Transaction) => {
       selectItems(tx, this.setItems);
+      selectcalendars(tx, this.setCalendars);
     });
   };
 
@@ -70,6 +76,19 @@ class Connected extends Component<Props, State> {
       db.transaction((tx: SQLite.Transaction) => {
         selectItemDetailByItemId(tx, String(val.id), this.setItemsDetail);
       });
+    });
+  };
+
+  setCalendars = (data: SelectCalendar[], error: ResultError) => {
+    if (error || !data || data.length === 0) {
+      this.setState({
+        loading: false
+      });
+      return;
+    }
+
+    this.setState({
+      calendars: data
     });
   };
 
@@ -104,6 +123,7 @@ class Connected extends Component<Props, State> {
         value={{
           items: this.state.items,
           itemDetails: this.state.itemDetails,
+          calendars: this.state.calendars,
           about: this.state.about,
           refreshData: this.getData,
           itemsLoading: this.state.loading

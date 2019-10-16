@@ -20,6 +20,7 @@ import FetchProvider from "./containers/Fetch";
 import ThemeProvider from "./containers/Theme";
 import Version from "./containers/Version";
 import Home from "./components/pages/Home/Connected";
+import Calendars from "./components/pages/Calendars/Connected";
 import Setting from "./components/pages/Setting/Connected";
 import CreatePlan from "./components/pages/CreatePlan/Connected";
 import CreateSchedule from "./components/pages/CreateSchedule/Connected";
@@ -60,6 +61,12 @@ const TabNavigator = createBottomTabNavigator(
         tabBarTestID: "MyPlan"
       }
     },
+    カレンダー: {
+      screen: Calendars,
+      navigationOptions: {
+        tabBarTestID: "Calendars"
+      }
+    },
     設定: {
       screen: Setting,
       navigationOptions: {
@@ -95,6 +102,18 @@ const TabNavigator = createBottomTabNavigator(
       tabBarIcon: ({ focused }) => {
         const { routeName } = navigation.state;
         if (routeName === "マイプラン") {
+          return (
+            <MaterialIcons
+              name="create"
+              size={30}
+              color={
+                focused
+                  ? theme().mode.tabBar.activeTint
+                  : theme().mode.tabBar.inactiveTint
+              }
+            />
+          );
+        } else if (routeName === "カレンダー") {
           return (
             <MaterialIcons
               name="date-range"

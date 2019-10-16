@@ -47,7 +47,7 @@ export const updateShare = async (doc: string, share: boolean) => {
   }
 };
 
-export const isShare = async (doc: string): Promise<Boolean> => {
+export const isShare = async (doc: string): Promise<boolean> => {
   const db = getFireStore();
 
   const documentSnapshot = await db

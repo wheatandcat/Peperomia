@@ -1,4 +1,6 @@
 import * as SQLite from "expo-sqlite";
+import dayjs from "dayjs";
+import "dayjs/locale/ja";
 import { create as createItem, insert as insertItem, Item } from "./item";
 import {
   create as createItemDetail,
@@ -6,6 +8,11 @@ import {
   ItemDetail
 } from "./itemDetail";
 import { create as createUser } from "./user";
+import {
+  create as createCalendar,
+  insert as insertCalendar,
+  Calendar
+} from "./calendar";
 import {
   KIND_FISHING,
   KIND_PARK,
@@ -22,11 +29,13 @@ import {
 import { success, error, ResultError } from "./";
 
 export const deleteSql = (tx: SQLite.Transaction) => {
+  tx.executeSql("drop table calendars");
   tx.executeSql("drop table items");
   tx.executeSql("drop table item_details");
 
   createItem(tx);
   createItemDetail(tx);
+  createCalendar(tx);
 };
 
 export const deleteUserSql = (tx: SQLite.Transaction) => {
@@ -225,8 +234,35 @@ export const resetSql = (tx: SQLite.Transaction) => {
     }
   ];
 
+  const year = dayjs().year();
+  const month = ("00" + String(dayjs().month() + 1)).slice(-2);
+
+  const calendars: Calendar[] = [
+    {
+      itemId: 1,
+      date: `${year}-${month}-01`
+    },
+    {
+      itemId: 2,
+      date: `${year}-${month}-07`
+    },
+    {
+      itemId: 3,
+      date: `${year}-${month}-18`
+    },
+    {
+      itemId: 4,
+      date: `${year}-${month}-23`
+    },
+    {
+      itemId: 5,
+      date: `${year}-${month}-27`
+    }
+  ];
+
   items.map(item => insertItem(tx, item));
   itemDetails.map(itemDetail => insertItemDetail(tx, itemDetail));
+  calendars.map(calendar => insertCalendar(tx, calendar));
 };
 
 export const resetSqlV100 = (tx: SQLite.Transaction) => {
