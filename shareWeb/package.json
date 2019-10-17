@@ -15,7 +15,7 @@
     "@types/react-router-dom": "^4.3.1",
     "@types/styled-components": "^4.1.19",
     "color": "^3.1.0",
-    "firebase": "^5.8.5",
+    "firebase": "^7.2.1",
     "primitive": "../primitive",
     "react": "^16.10.2",
     "react-art": "^16.8.4",
