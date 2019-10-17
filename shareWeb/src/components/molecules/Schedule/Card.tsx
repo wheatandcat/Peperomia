@@ -4,6 +4,7 @@ import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { ItemDetail } from "../../../lib/item";
 import { IconImage } from "primitive";
@@ -54,20 +55,20 @@ export default (props: Props) => {
         >
           <Typography>{props.title}</Typography>
           <div
-            style={{ position: "absolute", top: 2, right: 20, opacity: 0.9 }}
+            style={{ position: "absolute", top: 2, right: 50, opacity: 0.9 }}
           >
             <IconImage src={config.src} name={config.name} size={45} />
           </div>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
-          <Typography>
+          <Box fontSize={12}>
             {(props.memo || "").split("\n").map((m, index) => (
               <span key={index}>
                 {m}
                 <br />
               </span>
             ))}
-          </Typography>
+          </Box>
         </ExpansionPanelDetails>
       </ExpansionPanel>
       {!props.last && (
