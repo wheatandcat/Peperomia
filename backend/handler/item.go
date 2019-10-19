@@ -12,6 +12,7 @@ import (
 type SyncItemsRequest struct {
 	Items       []repository.ItemRecord       `json:"items" binding:"required"`
 	ItemDetails []repository.ItemDetailRecord `json:"itemDetails" binding:"required"`
+	Calendars   []repository.CalendarRecord   `json:"calendars"`
 }
 
 // SyncItems アイテムを同期させる
@@ -30,6 +31,7 @@ func (h *Handler) SyncItems(gc *gin.Context) {
 	}
 	ir := repository.NewItemRepository()
 	idr := repository.NewItemDetailRepository()
+	cr := repository.NewCalendarRepository()
 
 	// データ削除
 	if err := ir.DeleteByUID(ctx, h.FirestoreClient, uid); err != nil {
@@ -37,6 +39,10 @@ func (h *Handler) SyncItems(gc *gin.Context) {
 		return
 	}
 	if err := idr.DeleteByUID(ctx, h.FirestoreClient, uid); err != nil {
+		NewErrorResponse(err).Render(gc)
+		return
+	}
+	if err := cr.DeleteByUID(ctx, h.FirestoreClient, uid); err != nil {
 		NewErrorResponse(err).Render(gc)
 		return
 	}
@@ -53,6 +59,14 @@ func (h *Handler) SyncItems(gc *gin.Context) {
 	for _, itemDetail := range req.ItemDetails {
 		itemDetail.UID = uid
 		if err := idr.CreateItemDetail(ctx, h.FirestoreClient, itemDetail); err != nil {
+			NewErrorResponse(err).Render(gc)
+			return
+		}
+	}
+
+	for _, calendar := range req.Calendars {
+		calendar.UID = uid
+		if err := cr.CreateCalendar(ctx, h.FirestoreClient, calendar); err != nil {
 			NewErrorResponse(err).Render(gc)
 			return
 		}

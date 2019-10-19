@@ -13,13 +13,21 @@ import {
   bulkInsert as bulkInsertItemDetail,
   ItemDetail
 } from "./db/itemDetail";
+import {
+  selectAll as selectCalendars,
+  deleteAll as deleteCalendarAll,
+  bulkInsert as bulkInsertCalendar,
+  Calendar
+} from "./db/calendar";
 import { getFireStore } from "./firebase";
 import { findByUID as findItemByUID } from "./firestore/item";
 import { findByUID as findItemDetailByUID } from "./firestore/itemDetail";
+import { findByUID as findCalendarByUID } from "./firestore/calendar";
 
 interface Backup {
   items: Item[];
   itemDetails: ItemDetail[];
+  calendars: Calendar[];
 }
 
 export const backup = (): Promise<Backup> => {
@@ -29,12 +37,15 @@ export const backup = (): Promise<Backup> => {
   ) {
     try {
       db.transaction(async (tx: SQLite.Transaction) => {
-        Promise.all([getItemAll(tx), getItemDetailAll(tx)]).then(function(
-          values
-        ) {
+        Promise.all([
+          getItemAll(tx),
+          getItemDetailAll(tx),
+          getCalendarAll(tx)
+        ]).then(function(values) {
           resolve({
             items: values[0],
-            itemDetails: values[1]
+            itemDetails: values[1],
+            calendars: values[2]
           });
         });
       });
@@ -76,10 +87,27 @@ const getItemDetailAll = (tx: SQLite.Transaction): Promise<ItemDetail[]> => {
   });
 };
 
+const getCalendarAll = (tx: SQLite.Transaction): Promise<Calendar[]> => {
+  // アイテム詳細を取得
+  return new Promise(function(resolve, reject) {
+    selectCalendars(tx, (data: Calendar[], err: any) => {
+      if (err) {
+        Sentry.captureMessage(err);
+        reject(err);
+        return;
+      }
+
+      resolve(data);
+      return;
+    });
+  });
+};
+
 export const restore = async (uid: string): Promise<any> => {
   const firestore = getFireStore();
   const items = await findItemByUID(firestore, uid);
   const itemDetails = await findItemDetailByUID(firestore, uid);
+  const calendars = await findCalendarByUID(firestore, uid);
 
   if (items.length === 0) {
     throw new Error("バックアップデータがありません。");
@@ -90,7 +118,7 @@ export const restore = async (uid: string): Promise<any> => {
   });
 
   await db.transaction(async (tx: SQLite.Transaction) => {
-    await importAll(tx, items, itemDetails);
+    await importAll(tx, items, itemDetails, calendars);
   });
 };
 
@@ -126,17 +154,35 @@ const truncateItemDetails = (tx: SQLite.Transaction): Promise<any> => {
   });
 };
 
+const truncateCalendars = (tx: SQLite.Transaction): Promise<any> => {
+  // アイテム詳細を削除
+  return new Promise(function(resolve, reject) {
+    deleteCalendarAll(tx, (data: Calendar, err: any) => {
+      if (err) {
+        Sentry.captureMessage(err);
+        reject(err);
+        return;
+      }
+
+      resolve(data);
+      return;
+    });
+  });
+};
+
 const deleteAll = (tx: SQLite.Transaction): Promise<any> => {
   return new Promise(function(
     resolve: () => void,
     reject: (error: Error) => void
   ) {
     try {
-      Promise.all([truncateItems(tx), truncateItemDetails(tx)]).then(
-        function() {
-          resolve();
-        }
-      );
+      Promise.all([
+        truncateItems(tx),
+        truncateItemDetails(tx),
+        truncateCalendars(tx)
+      ]).then(function() {
+        resolve();
+      });
     } catch (err) {
       Sentry.captureMessage(err);
       reject(err);
@@ -179,10 +225,30 @@ const importItemDetails = (
   });
 };
 
+const importCalendars = (
+  tx: SQLite.Transaction,
+  calendars: Calendar[]
+): Promise<any> => {
+  // アイテム詳細を作成
+  return new Promise(function(resolve, reject) {
+    bulkInsertCalendar(tx, calendars, (data: Calendar[], err: any) => {
+      if (err) {
+        Sentry.captureMessage(err);
+        reject(err);
+        return;
+      }
+
+      resolve(data);
+      return;
+    });
+  });
+};
+
 const importAll = (
   tx: SQLite.Transaction,
   items: Item[],
-  itemDetail: ItemDetail[]
+  itemDetail: ItemDetail[],
+  calendars: Calendar[]
 ): Promise<any> => {
   return new Promise(function(
     resolve: () => void,
@@ -191,7 +257,8 @@ const importAll = (
     try {
       Promise.all([
         importItems(tx, items),
-        importItemDetails(tx, itemDetail)
+        importItemDetails(tx, itemDetail),
+        importCalendars(tx, calendars)
       ]).then(function() {
         resolve();
       });

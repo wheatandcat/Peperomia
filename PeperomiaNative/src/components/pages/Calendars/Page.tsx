@@ -7,7 +7,10 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
-  Animated
+  Animated,
+  SafeAreaView,
+  ScrollView,
+  StatusBar
 } from "react-native";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -18,11 +21,13 @@ import "dayjs/locale/ja";
 import Color from "color";
 import { SelectCalendar } from "../../../lib/db/calendar";
 import theme from "../../../config/theme";
+import GlobalStyles from "../../../GlobalStyles";
 import ImageDay from "../../organisms/Calendars/Image";
 
 dayjs.extend(advancedFormat);
 
 const width = Dimensions.get("window").width;
+const AnimatedSafeAreaView = Animated.createAnimatedComponent(SafeAreaView);
 
 LocaleConfig.locales["jp"] = {
   monthNames: [
@@ -182,136 +187,154 @@ export default class extends Component<Props, State> {
     };
 
     return (
-      <GestureRecognizer
-        onSwipeLeft={this.onNextMonth}
-        onSwipeRight={this.onPrevMonth}
-        config={config}
+      <ScrollView
+        style={{
+          height: "100%",
+          width: "100%",
+          backgroundColor: backgroundColors[currentMonth]
+        }}
       >
-        <Animated.View style={[styles.root, animationStyle]}>
-          <View style={styles.headerContainer}>
-            <TouchableOpacity onPress={this.onPrevMonth}>
-              <MaterialCommunityIcons
-                name="chevron-left"
-                size={30}
-                color={theme().color.main}
-              />
-            </TouchableOpacity>
+        <StatusBar
+          backgroundColor={theme().color.white}
+          barStyle="dark-content"
+        />
+        <AnimatedSafeAreaView
+          style={[GlobalStyles.droidSafeArea, { flex: 0 }, animationStyle]}
+        />
+        <GestureRecognizer
+          onSwipeLeft={this.onNextMonth}
+          onSwipeRight={this.onPrevMonth}
+          config={config}
+        >
+          <AnimatedSafeAreaView style={[styles.root, animationStyle]}>
+            <View style={styles.headerContainer}>
+              <TouchableOpacity onPress={this.onPrevMonth}>
+                <MaterialCommunityIcons
+                  name="chevron-left"
+                  size={30}
+                  color={theme().color.main}
+                />
+              </TouchableOpacity>
 
-            <View style={styles.yearContainer}>
-              <Text style={styles.year}>
-                {dayjs(this.state.currentDate)
-                  .add(this.state.count, "month")
-                  .format("YYYY年MM月")}
+              <View style={styles.yearContainer}>
+                <Text style={styles.year}>
+                  {dayjs(this.state.currentDate)
+                    .add(this.state.count, "month")
+                    .format("YYYY年MM月")}
+                </Text>
+              </View>
+
+              <TouchableOpacity onPress={this.onNextMonth}>
+                <MaterialCommunityIcons
+                  name="chevron-right"
+                  size={30}
+                  color={theme().color.main}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.imageContainer}>
+              <Image
+                source={require("../../../img/october.png")}
+                style={{ width: "100%" }}
+              />
+            </View>
+            <View style={styles.weekNameContainer}>
+              <Text style={[styles.weekText, { color: theme().color.red }]}>
+                日
+              </Text>
+              <Text style={styles.weekText}>月</Text>
+              <Text style={styles.weekText}>火</Text>
+              <Text style={styles.weekText}>水</Text>
+              <Text style={styles.weekText}>木</Text>
+              <Text style={styles.weekText}>金</Text>
+              <Text style={[styles.weekText, { color: theme().color.sky }]}>
+                土
               </Text>
             </View>
-
-            <TouchableOpacity onPress={this.onNextMonth}>
-              <MaterialCommunityIcons
-                name="chevron-right"
-                size={30}
-                color={theme().color.main}
-              />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.imageContainer}>
-            <Image
-              source={require("../../../img/october.png")}
-              style={{ width: "100%" }}
-            />
-          </View>
-          <View style={styles.weekNameContainer}>
-            <Text style={[styles.weekText, { color: theme().color.red }]}>
-              日
-            </Text>
-            <Text style={styles.weekText}>月</Text>
-            <Text style={styles.weekText}>火</Text>
-            <Text style={styles.weekText}>水</Text>
-            <Text style={styles.weekText}>木</Text>
-            <Text style={styles.weekText}>金</Text>
-            <Text style={[styles.weekText, { color: theme().color.sky }]}>
-              土
-            </Text>
-          </View>
-          {this.props.loading ? (
-            <ActivityIndicator size="large" color={theme().mode.text} />
-          ) : (
-            <Calendar
-              ref={ref => (this.calendar = ref)}
-              style={{
-                backgroundColor: backgroundColors[currentMonth]
-              }}
-              monthFormat={""}
-              hideDayNames
-              hideArrows
-              theme={{
-                "stylesheet.calendar.main": {
-                  week: {
-                    marginTop: 0,
-                    flexDirection: "row",
-                    justifyContent: "space-between"
-                  }
-                },
-                textMonthFontSize: 18,
-                monthTextColor: "#000",
-                textMonthFontWeight: "600",
-                "stylesheet.calendar.header": {
-                  header: {
-                    height: 0
+            {this.props.loading ? (
+              <ActivityIndicator size="large" color={theme().mode.text} />
+            ) : (
+              <Calendar
+                ref={ref => (this.calendar = ref)}
+                style={{
+                  backgroundColor: backgroundColors[currentMonth]
+                }}
+                monthFormat={""}
+                hideDayNames
+                hideArrows
+                theme={{
+                  "stylesheet.calendar.main": {
+                    week: {
+                      marginTop: 0,
+                      flexDirection: "row",
+                      justifyContent: "space-between"
+                    }
                   },
-                  dayHeader: {
-                    fontWeight: "600",
-                    paddingBottom: 10,
-                    color: "#000"
+                  textMonthFontSize: 18,
+                  monthTextColor: "#000",
+                  textMonthFontWeight: "600",
+                  "stylesheet.calendar.header": {
+                    header: {
+                      height: 0
+                    },
+                    dayHeader: {
+                      fontWeight: "600",
+                      paddingBottom: 10,
+                      color: "#000"
+                    }
                   }
-                }
-              }}
-              dayComponent={({ date }) => {
-                const schedule = this.props.calendars.find(
-                  item => item.date === date.dateString
-                );
+                }}
+                dayComponent={({ date }) => {
+                  const schedule = this.props.calendars.find(
+                    item => item.date === date.dateString
+                  );
 
-                if (schedule) {
+                  if (schedule) {
+                    return (
+                      <TouchableOpacity
+                        onPress={() =>
+                          this.props.onSchedule(schedule.itemId, schedule.title)
+                        }
+                      >
+                        <ImageDay kind={schedule.kind} day={String(date.day)} />
+                      </TouchableOpacity>
+                    );
+                  }
+
                   return (
                     <TouchableOpacity
-                      onPress={() =>
-                        this.props.onSchedule(schedule.itemId, schedule.title)
-                      }
+                      onPress={() => this.props.onCreate(date.dateString)}
                     >
-                      <ImageDay kind={schedule.kind} day={String(date.day)} />
+                      <View
+                        style={[
+                          styles.itemContainer,
+                          {
+                            backgroundColor: Color(
+                              backgroundColors[currentMonth]
+                            )
+                              .lighten(0.4)
+                              .toString()
+                          }
+                        ]}
+                      >
+                        <Text style={styles.dayText}>{date.day}</Text>
+                      </View>
                     </TouchableOpacity>
                   );
-                }
-
-                return (
-                  <TouchableOpacity
-                    onPress={() => this.props.onCreate(date.dateString)}
-                  >
-                    <View
-                      style={[
-                        styles.itemContainer,
-                        {
-                          backgroundColor: Color(backgroundColors[currentMonth])
-                            .lighten(0.4)
-                            .toString()
-                        }
-                      ]}
-                    >
-                      <Text style={styles.dayText}>{date.day}</Text>
-                    </View>
-                  </TouchableOpacity>
-                );
-              }}
-            />
-          )}
-          <View style={styles.calendarBottom} />
-        </Animated.View>
-      </GestureRecognizer>
+                }}
+              />
+            )}
+            <View style={styles.calendarBottom} />
+          </AnimatedSafeAreaView>
+        </GestureRecognizer>
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
   root: {
+    flex: 1,
     height: "100%",
     width: "100%"
   },
@@ -331,8 +354,8 @@ const styles = StyleSheet.create({
     fontWeight: "600"
   },
   imageContainer: {
-    paddingTop: 30,
-    paddingBottom: 30,
+    paddingTop: 15,
+    paddingBottom: 15,
     alignItems: "center",
     justifyContent: "center"
   },

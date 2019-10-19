@@ -64,6 +64,10 @@ components:
                   type: array
                   items:
                     $ref: '#/components/schemas/ItemDetail'
+                calendars:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Calendar'
   schemas:
     Item:
       type: object
@@ -109,7 +113,7 @@ components:
           format: int32
           pattern: "1"
           example: 1
-          description: ID
+          description: アイテムID
         title:
           type: string
           pattern: string
@@ -141,3 +145,24 @@ components:
           pattern: "1"
           example: 1
           description: 表示順
+    Calendar:
+      type: object
+      description: スケジュールアイテム日付
+      properties:
+        id:
+          type: integer
+          format: int32
+          pattern: "1"
+          example: 1
+          description: ID
+        itemId:
+          type: integer
+          format: int32
+          pattern: "1"
+          example: 1
+          description: アイテムID
+        date:
+          type: string
+          pattern: string
+          example: "2018-01-01T00:00:00Z"
+          description: 日付

@@ -16,7 +16,7 @@ type ItemRecord struct {
 	ID        int32  `json:"id" firestore:"id" binding:"required"`
 	UID       string `json:"uid" firestore:"uid"`
 	Title     string `json:"title" firestore:"title" binding:"required"`
-	Kink      string `json:"kind" firestore:"kind" binding:"required"`
+	Kind      string `json:"kind" firestore:"kind" binding:"required"`
 	Image     string `json:"image" firestore:"image"`
 	ImagePath string `json:"imagePath" firestore:"imagePath"`
 }
