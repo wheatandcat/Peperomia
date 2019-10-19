@@ -22,14 +22,7 @@ export type PlanProps = Pick<ContextProps, "calendars" | "itemsLoading">;
 class Container extends Component<Props> {
   static navigationOptions = () => {
     return {
-      title: "カレンダー",
-      headerTitleStyle: {
-        color: theme().mode.header.text
-      },
-      headerTintColor: theme().mode.header.text,
-      headerStyle: {
-        backgroundColor: theme().mode.header.backgroundColor
-      }
+      header: null
     };
   };
 

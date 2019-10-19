@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { NavigationScreenProp, NavigationRoute } from "react-navigation";
 import { Alert, Dimensions } from "react-native";
 import Toast from "react-native-root-toast";
+import dayjs from "dayjs";
+import advancedFormat from "dayjs/plugin/advancedFormat";
+import "dayjs/locale/ja";
 import { backup, restore } from "../../../lib/backup";
 import theme from "../../../config/theme";
 import { Consumer as FetchConsumer } from "../../../containers/Fetch";
@@ -11,6 +14,8 @@ import {
   ContextProps as ItemsContextProps
 } from "../../../containers/Items";
 import Page from "./Page";
+
+dayjs.extend(advancedFormat);
 
 interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
@@ -103,11 +108,15 @@ class Connected extends Component<ConnectedProps, State> {
     });
 
     try {
-      const { items, itemDetails } = await backup();
+      const { items, itemDetails, calendars } = await backup();
 
       const request = {
         items,
-        itemDetails
+        itemDetails,
+        calendars: calendars.map(calendar => ({
+          ...calendar,
+          date: dayjs(calendar.date).format()
+        }))
       };
       const response = await this.props.post("SyncItems", {
         body: JSON.stringify(request)
@@ -115,6 +124,9 @@ class Connected extends Component<ConnectedProps, State> {
 
       if (!response.ok) {
         Alert.alert("バックアップに失敗しました");
+        this.setState({
+          loading: false
+        });
         return;
       }
 

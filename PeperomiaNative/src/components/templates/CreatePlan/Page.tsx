@@ -286,6 +286,11 @@ class Page extends Component<Props> {
                     locale="ja"
                     format="YYYY年MM月DD日"
                     style={{ width: "100%" }}
+                    customStyles={{
+                      dateText: {
+                        color: theme().mode.text
+                      }
+                    }}
                     placeholder="日付を設定する"
                     onDateChange={(_: string, date: Date) => {
                       return this.props.onInput(
