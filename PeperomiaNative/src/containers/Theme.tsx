@@ -1,5 +1,5 @@
 import React, { createContext, Component, ReactNode } from "react";
-import { AsyncStorage } from "react-native";
+import { AsyncStorage, StatusBar } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
 import { Appearance, useColorScheme } from "react-native-appearance";
 import { setMode } from "../config/theme";
@@ -22,8 +22,11 @@ type State = {
   render: boolean;
 };
 
+var colorScheme1st: any = "";
+
 export type ContextProps = Partial<
   Pick<State, "rerendering" | "mode"> & {
+    colorScheme: string;
     onModeChange: (mode: "light" | "dark") => void;
     onFinishRerendering: () => void;
   }
@@ -32,11 +35,13 @@ export type ContextProps = Partial<
 Appearance.getColorScheme();
 
 export default (props: Props) => {
-  console.log("--------------");
   const colorScheme = useColorScheme();
-  console.log(colorScheme);
 
-  return <Theme colorScheme={colorScheme}>{props.children}</Theme>;
+  if (!colorScheme1st) {
+    colorScheme1st = colorScheme;
+  }
+
+  return <Theme colorScheme={colorScheme1st}>{props.children}</Theme>;
 };
 
 class Theme extends Component<ThemeProps, State> {
@@ -107,10 +112,12 @@ class Theme extends Component<ThemeProps, State> {
   render() {
     return (
       <>
+        <StatusBar backgroundColor="#fff" barStyle="light-content" />
         <Spinner visible={this.state.rerendering} textContent="" />
         {this.state.render && (
           <Provider
             value={{
+              colorScheme: this.props.colorScheme,
               rerendering: this.state.rerendering,
               mode: this.state.mode,
               onModeChange: this.onModeChange,
