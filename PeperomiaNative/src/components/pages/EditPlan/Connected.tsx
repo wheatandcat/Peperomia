@@ -246,6 +246,7 @@ class Connected extends Component<ConnectedProps, State> {
 
   save = (_: Item[], error: ResultError) => {
     if (error) {
+      Alert.alert("保存に失敗しました");
       return;
     }
 
