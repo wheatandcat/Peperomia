@@ -20,6 +20,10 @@ import {
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Color from "color";
 import DatePicker from "react-native-datepicker";
+import {
+  Consumer as ThemeConsumer,
+  ContextProps as ThemeContextProps
+} from "../../../containers/Theme";
 import getKind, { KINDS } from "../../../lib/getKind";
 import { whenIPhoneSE } from "../../../lib/responsive";
 import { SuggestItem } from "../../../lib/suggest";
@@ -184,143 +188,169 @@ class Page extends Component<Props> {
     const imageSize = whenIPhoneSE(120, 180);
 
     return (
-      <>
-        <DatePicker
-          style={styles.datePicker}
-          ref={picker => {
-            this.datePicker = picker;
-          }}
-          mode="date"
-          format="YYYY年MM月DD日"
-          iconComponent={<View />}
-          confirmBtnText="完了"
-          cancelBtnText="キャンセル"
-          locale="ja"
-          onDateChange={date => this.props.onInput("date", date)}
-        />
-        <Header
-          title=""
-          color={bc}
-          position="relative"
-          right={
-            this.state.keyboard ? (
-              <TouchableOpacity
-                onPress={this.onCloseKeyBoard}
-                testID="KeyBoardCloseInCreateSchedule"
-              >
-                <MaterialCommunityIcons
-                  name="keyboard-close"
-                  color={theme().color.main}
-                  size={25}
-                  style={{ paddingRight: 5 }}
-                />
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity onPress={this.onSave} testID="ScheduleCreated">
-                <MaterialIcons
-                  name="check"
-                  color={theme().color.main}
-                  size={25}
-                  style={{ paddingRight: 5 }}
-                />
-              </TouchableOpacity>
-            )
-          }
-          onClose={this.props.onHome}
-        />
-
-        <View style={styles.body}>
-          <View
-            style={{
-              paddingTop: whenIPhoneSE(20, 30),
-              backgroundColor: Color(config.backgroundColor)
-                .lighten(ss.backgroundColorAlpha)
-                .toString(),
-              width: "100%"
-            }}
-          >
-            <TextInput
-              placeholder={this.props.title === "" ? "タイトル" : ""}
-              placeholderTextColor={theme().color.gray}
-              style={styles.titleInput}
-              onChangeText={text => this.props.onInput("title", text)}
-              testID="ScheduleTitleInput"
-              defaultValue={this.props.title}
-              returnKeyType="done"
-              autoFocus
-              onFocus={this.onSuggestTitle}
-              selectionColor={theme().color.lightGreen}
+      <ThemeConsumer>
+        {({ colorScheme }: ThemeContextProps) => (
+          <>
+            <DatePicker
+              style={styles.datePicker}
+              ref={picker => {
+                this.datePicker = picker;
+              }}
+              mode="date"
+              format="YYYY年MM月DD日"
+              iconComponent={<View />}
+              confirmBtnText="完了"
+              cancelBtnText="キャンセル"
+              customStyles={{
+                dateText: {
+                  color: theme().mode.text
+                },
+                datePicker: {
+                  backgroundColor: colorScheme === "dark" ? "#222" : "white"
+                },
+                datePickerCon: {
+                  backgroundColor: colorScheme === "dark" ? "#333" : "white"
+                }
+              }}
+              locale="ja"
+              onDateChange={date => this.props.onInput("date", date)}
             />
-            <Divider style={{ marginTop: 20, height: 1 }} />
-            {this.state.suggest ? (
-              <Suggest
-                title={this.props.title}
-                items={this.props.suggestList}
-                onPress={this.onSuggest}
-              />
-            ) : (
-              <IconImage
-                image={image}
-                imageSrc={config.src}
-                imageSize={imageSize}
-                backgroundColor={theme().mode.background}
-                onSave={this.onSave}
-                onOpenActionSheet={this.onOpenActionSheet}
-              />
-            )}
-          </View>
+            <Header
+              title=""
+              color={bc}
+              position="relative"
+              right={
+                this.state.keyboard ? (
+                  <TouchableOpacity
+                    onPress={this.onCloseKeyBoard}
+                    testID="KeyBoardCloseInCreateSchedule"
+                  >
+                    <MaterialCommunityIcons
+                      name="keyboard-close"
+                      color={theme().color.main}
+                      size={25}
+                      style={{ paddingRight: 5 }}
+                    />
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    onPress={this.onSave}
+                    testID="ScheduleCreated"
+                  >
+                    <MaterialIcons
+                      name="check"
+                      color={theme().color.main}
+                      size={25}
+                      style={{ paddingRight: 5 }}
+                    />
+                  </TouchableOpacity>
+                )
+              }
+              onClose={this.props.onHome}
+            />
 
-          {(() => {
-            if (this.state.suggest) {
-              return null;
-            }
+            <View style={styles.body}>
+              <View
+                style={{
+                  paddingTop: whenIPhoneSE(20, 30),
+                  backgroundColor: Color(config.backgroundColor)
+                    .lighten(ss.backgroundColorAlpha)
+                    .toString(),
+                  width: "100%"
+                }}
+              >
+                <TextInput
+                  placeholder={this.props.title === "" ? "タイトル" : ""}
+                  placeholderTextColor={theme().color.gray}
+                  style={styles.titleInput}
+                  onChangeText={text => this.props.onInput("title", text)}
+                  testID="ScheduleTitleInput"
+                  defaultValue={this.props.title}
+                  returnKeyType="done"
+                  autoFocus
+                  onFocus={this.onSuggestTitle}
+                  selectionColor={theme().color.lightGreen}
+                />
+                <Divider style={{ marginTop: 20, height: 1 }} />
+                {this.state.suggest ? (
+                  <Suggest
+                    title={this.props.title}
+                    items={this.props.suggestList}
+                    onPress={this.onSuggest}
+                  />
+                ) : (
+                  <IconImage
+                    image={image}
+                    imageSrc={config.src}
+                    imageSize={imageSize}
+                    backgroundColor={theme().mode.background}
+                    onSave={this.onSave}
+                    onOpenActionSheet={this.onOpenActionSheet}
+                  />
+                )}
+              </View>
 
-            if (this.props.date) {
-              return (
-                <View style={styles.datePickerContainer}>
-                  <DatePicker
-                    mode="date"
-                    date={this.props.date}
-                    confirmBtnText="完了"
-                    cancelBtnText="キャンセル"
-                    locale="ja"
-                    format="YYYY年MM月DD日"
-                    style={{ width: "100%" }}
-                    customStyles={{
-                      dateText: {
-                        color: theme().mode.text
-                      }
-                    }}
-                    placeholder="日付を設定する"
-                    onDateChange={(_: string, date: Date) => {
-                      return this.props.onInput(
-                        "date",
-                        dayjs(date).format("YYYY-MM-DD")
-                      );
-                    }}
-                  />
-                </View>
-              );
-            } else {
-              return (
-                <View style={styles.dateButtonContainer}>
-                  <Button
-                    icon={{
-                      name: "date-range",
-                      size: 20,
-                      color: "white"
-                    }}
-                    buttonStyle={styles.dateButton}
-                    titleStyle={styles.dateButtonText}
-                    title="日付を設定する"
-                    onPress={this.onOpendDtePicker}
-                  />
-                </View>
-              );
-            }
-          })()}
-        </View>
-      </>
+              {(() => {
+                if (this.state.suggest) {
+                  return null;
+                }
+
+                if (this.props.date) {
+                  return (
+                    <View style={styles.datePickerContainer}>
+                      <DatePicker
+                        mode="date"
+                        date={this.props.date}
+                        confirmBtnText="完了"
+                        cancelBtnText="キャンセル"
+                        locale="ja"
+                        format="YYYY年MM月DD日"
+                        style={{ width: "100%" }}
+                        customStyles={{
+                          dateText: {
+                            color: theme().mode.text
+                          },
+                          datePicker: {
+                            backgroundColor:
+                              colorScheme === "dark" ? "#222" : "white"
+                          },
+                          datePickerCon: {
+                            backgroundColor:
+                              colorScheme === "dark" ? "#333" : "white"
+                          }
+                        }}
+                        placeholder="日付を設定する"
+                        onDateChange={(_: string, date: Date) => {
+                          return this.props.onInput(
+                            "date",
+                            dayjs(date).format("YYYY-MM-DD")
+                          );
+                        }}
+                      />
+                    </View>
+                  );
+                } else {
+                  return (
+                    <View style={styles.dateButtonContainer}>
+                      <Button
+                        icon={{
+                          name: "date-range",
+                          size: 20,
+                          color: "white"
+                        }}
+                        buttonStyle={styles.dateButton}
+                        titleStyle={styles.dateButtonText}
+                        title="日付を設定する"
+                        onPress={this.onOpendDtePicker}
+                      />
+                    </View>
+                  );
+                }
+              })()}
+            </View>
+          </>
+        )}
+      </ThemeConsumer>
     );
   }
 }

@@ -9,8 +9,7 @@ import {
   ActivityIndicator,
   Animated,
   SafeAreaView,
-  ScrollView,
-  StatusBar
+  ScrollView
 } from "react-native";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -217,10 +216,6 @@ export default class extends Component<Props, State> {
           backgroundColor: backgroundColors[currentMonth]
         }}
       >
-        <StatusBar
-          backgroundColor={theme().color.white}
-          barStyle="dark-content"
-        />
         <AnimatedSafeAreaView
           style={[GlobalStyles.droidSafeArea, { flex: 0 }, animationStyle]}
         />
