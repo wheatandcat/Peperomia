@@ -63,6 +63,21 @@ LocaleConfig.locales["jp"] = {
 };
 LocaleConfig.defaultLocale = "jp";
 
+const images = [
+  require("../../../img/months/october.png"),
+  require("../../../img/months/october.png"),
+  require("../../../img/months/october.png"),
+  require("../../../img/months/october.png"),
+  require("../../../img/months/october.png"),
+  require("../../../img/months/october.png"),
+  require("../../../img/months/october.png"),
+  require("../../../img/months/october.png"),
+  require("../../../img/months/october.png"),
+  require("../../../img/months/october.png"),
+  require("../../../img/months/november.png"),
+  require("../../../img/months/december.png")
+];
+
 type Props = {
   loading: boolean;
   calendars: SelectCalendar[];
@@ -86,9 +101,9 @@ const backgroundColors = [
   "#a0d8ef",
   "#f2f2b0",
   theme().color.beige,
-  theme().color.lightNavy,
-  "#eaedf7",
-  "#ebf6f7"
+  "#E3E3FE",
+  "#FFE7D0",
+  "#BFD3B7"
 ];
 
 const config = {
@@ -98,9 +113,9 @@ const config = {
 
 export default class extends Component<Props, State> {
   state = {
-    currentDate: "2019-10-01",
+    currentDate: dayjs().format("YYYY-MM-01"),
     count: 0,
-    backgroundColor: new Animated.Value(9)
+    backgroundColor: new Animated.Value(dayjs().month())
   };
 
   calendar: any;
@@ -113,6 +128,10 @@ export default class extends Component<Props, State> {
   }
 
   onNextMonth = () => {
+    if (this.state.count === 2) {
+      return;
+    }
+
     const count = this.state.count + 1;
     const currentMonth = dayjs(this.state.currentDate)
       .add(count, "month")
@@ -141,6 +160,10 @@ export default class extends Component<Props, State> {
   };
 
   onPrevMonth = () => {
+    if (this.state.count === 0) {
+      return;
+    }
+
     const count = this.state.count - 1;
     const currentMonth = dayjs(this.state.currentDate)
       .add(count, "month")
@@ -208,13 +231,17 @@ export default class extends Component<Props, State> {
         >
           <AnimatedSafeAreaView style={[styles.root, animationStyle]}>
             <View style={styles.headerContainer}>
-              <TouchableOpacity onPress={this.onPrevMonth}>
-                <MaterialCommunityIcons
-                  name="chevron-left"
-                  size={30}
-                  color={theme().color.main}
-                />
-              </TouchableOpacity>
+              {this.state.count === 0 ? (
+                <View />
+              ) : (
+                <TouchableOpacity onPress={this.onPrevMonth}>
+                  <MaterialCommunityIcons
+                    name="chevron-left"
+                    size={30}
+                    color={theme().color.main}
+                  />
+                </TouchableOpacity>
+              )}
 
               <View style={styles.yearContainer}>
                 <Text style={styles.year}>
@@ -224,19 +251,20 @@ export default class extends Component<Props, State> {
                 </Text>
               </View>
 
-              <TouchableOpacity onPress={this.onNextMonth}>
-                <MaterialCommunityIcons
-                  name="chevron-right"
-                  size={30}
-                  color={theme().color.main}
-                />
-              </TouchableOpacity>
+              {this.state.count === 2 ? (
+                <View />
+              ) : (
+                <TouchableOpacity onPress={this.onNextMonth}>
+                  <MaterialCommunityIcons
+                    name="chevron-right"
+                    size={30}
+                    color={theme().color.main}
+                  />
+                </TouchableOpacity>
+              )}
             </View>
             <View style={styles.imageContainer}>
-              <Image
-                source={require("../../../img/october.png")}
-                style={{ width: "100%" }}
-              />
+              <Image source={images[currentMonth]} style={{ width: "100%" }} />
             </View>
             <View style={styles.weekNameContainer}>
               <Text style={[styles.weekText, { color: theme().color.red }]}>
@@ -260,6 +288,8 @@ export default class extends Component<Props, State> {
                   backgroundColor: backgroundColors[currentMonth]
                 }}
                 monthFormat={""}
+                minDate={"2019-10-01"}
+                maxDate={"2019-12-31"}
                 hideDayNames
                 hideArrows
                 theme={{

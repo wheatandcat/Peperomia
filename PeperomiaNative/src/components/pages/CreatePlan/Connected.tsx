@@ -141,6 +141,7 @@ class Connect extends Component<ConnectProps, State> {
 
   save = (insertId: number, error: ResultError) => {
     if (error) {
+      Alert.alert("保存に失敗しました");
       return;
     }
 

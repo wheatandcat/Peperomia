@@ -128,7 +128,9 @@ class Plan extends Component<PlanProps, State> {
   };
 
   save = (_: number, error: ResultError) => {
-    console.log(error);
+    if (error) {
+      return;
+    }
 
     const itemId = this.props.navigation.getParam("itemId", "1");
 
