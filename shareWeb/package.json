@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.5.1",
-    "@material-ui/icons": "^4.4.3",
+    "@material-ui/icons": "^4.5.1",
     "@types/color": "^3.0.0",
     "@types/jest": "24.0.18",
     "@types/node": "11.10.5",
