@@ -6063,10 +6063,10 @@ expect@^24.9.0:
     jest-message-util "^24.9.0"
     jest-regex-util "^24.9.0"
 
-expo-app-auth@~6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/expo-app-auth/-/expo-app-auth-6.0.0.tgz#4b2535da16a0234f67e813708960fc146aec867e"
-  integrity sha512-/7dv/RXYfg4OGmm5xOJUTecezTqccxmaUuYx1jt+hoI/QqD+q5uvT2u5Phi8uU4WsE5bi8qlkSRNTpL+rGSVoQ==
+expo-app-auth@~7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/expo-app-auth/-/expo-app-auth-7.0.0.tgz#6d75dd561ba12a6b039a76cdc8dc519c69a715d1"
+  integrity sha512-j5lSTm0uFcqSye8YJYB7bwBAS1VWYh1BcZc9NZPKn9hMz+RKdqJChB0Vx51mu07dDyD3eaV4U2Um7pKihAAatg==
   dependencies:
     invariant "^2.2.4"
 
@@ -6099,13 +6099,6 @@ expo-constants@*, expo-constants@~7.0.0:
   dependencies:
     ua-parser-js "^0.7.19"
 
-expo-constants@~6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-6.0.0.tgz#ff4598985ba006e24949be3f05be7429e5bedacf"
-  integrity sha512-O0yL3Ok0YUEWpAqsWjOdgFD/lMfg8PUGH/nq31CZ1s7cuFUlksD42i5YhIRlb0Pa/btK8X9LpfY3eWhx9eTmbg==
-  dependencies:
-    ua-parser-js "^0.7.19"
-
 expo-detox-hook@^1.0.10:
   version "1.0.10"
   resolved "https://registry.yarnpkg.com/expo-detox-hook/-/expo-detox-hook-1.0.10.tgz#fd75f845f962421299f31ec361ad6cb94dd1d06f"
@@ -6128,13 +6121,13 @@ expo-font@~7.0.0:
   dependencies:
     fontfaceobserver "^2.1.0"
 
-expo-google-app-auth@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/expo-google-app-auth/-/expo-google-app-auth-6.0.0.tgz#1d9e4603271fa89d36ebaf604adb0169739f4235"
-  integrity sha512-23gkverd0OKGuCSjCxR/Uo08GvlMpTBR5yipbfwGosqvEk3WuCAhISGWIEg0Ozd0WA8DfZ9AyQhLYyWkbM4EIQ==
+expo-google-app-auth@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/expo-google-app-auth/-/expo-google-app-auth-7.0.0.tgz#66d772339a2a61cdfb256f4094fa693eda02951b"
+  integrity sha512-sVVl5yYrKD0FTGpvxCo4M1xCLgdDGtAYostsavzZjRAui0GpmA96iS7jMePltSWpffg4r7dIjRZEUbLjQ03g6g==
   dependencies:
-    expo-app-auth "~6.0.0"
-    expo-constants "~6.0.0"
+    expo-app-auth "~7.0.0"
+    expo-constants "~7.0.0"
 
 expo-google-sign-in@~7.0.0:
   version "7.0.0"
