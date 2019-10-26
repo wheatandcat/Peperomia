@@ -1,0 +1,33 @@
+{
+  "name": "hello-world",
+  "version": "1.2.0",
+  "description": "alexa utility for quickly building skills",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.ts",
+    "pjson": "ts-node ./tools/gen-package-json.ts > ./lambda/custom/package.json",
+    "test": "jest",
+    "lint": "tslint src/**/*.ts",
+    "clean": "rm -rf ./lambda/custom/*"
+  },
+  "author": "Amazon Alexa",
+  "license": "Apache License",
+  "dependencies": {
+    "ask-sdk-core": "^2.7.0",
+    "ask-sdk-model": "^1.22.0",
+    "aws-sdk": "^2.326.0",
+    "i18next": "^15.0.5"
+  },
+  "devDependencies": {
+    "@types/node": "^12.11.7",
+    "@types/webpack": "^4.39.5",
+    "@types/webpack-node-externals": "^1.6.3",
+    "pjson": "^1.0.9",
+    "ts-loader": "5.3.3",
+    "ts-node": "7.0.1",
+    "typescript": "3.2.2",
+    "webpack": "4.28.3",
+    "webpack-cli": "3.2.1",
+    "webpack-node-externals": "1.7.2"
+  }
+}

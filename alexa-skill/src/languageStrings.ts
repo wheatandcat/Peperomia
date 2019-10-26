@@ -5,7 +5,7 @@
  * that match the request's locale.
  * */
 
-module.exports = {
+export default {
   ja: {
     translation: {
       WELCOME_MSG: "作成したい予定を教えて下さい",
