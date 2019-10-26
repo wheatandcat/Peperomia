@@ -40,6 +40,29 @@ const PlanIntentHandler = {
     );
   },
   handle(handlerInput) {
+    const planDate = Alexa.getSlotValue(
+      handlerInput.requestEnvelope,
+      "PlanCity"
+    );
+    const planCity = Alexa.getSlotValue(
+      handlerInput.requestEnvelope,
+      "PlanDate"
+    );
+
+    if (planDate && planCity) {
+      const speakOutput = handlerInput.t("PLAN_DATE_MSG", {
+        planDate,
+        planCity
+      });
+
+      return (
+        handlerInput.responseBuilder
+          .speak(speakOutput)
+          //.reprompt('add a reprompt if you want to keep the session open for the user to respond')
+          .getResponse()
+      );
+    }
+
     const vlue = Alexa.getSlotValue(handlerInput.requestEnvelope, "Query");
     const speakOutput = handlerInput.t("PLAN_MSG", { planName: vlue });
 

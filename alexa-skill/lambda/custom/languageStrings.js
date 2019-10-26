@@ -8,8 +8,9 @@
 module.exports = {
   ja: {
     translation: {
-      WELCOME_MSG: "追加したい予定を教えて下さい",
-      PLAN_MSG: "{{planName}}を追加しました",
+      WELCOME_MSG: "作成したい予定を教えて下さい",
+      PLAN_DATE_MSG: "{{planDate}}に{{planCity}}の予定を作成しました",
+      PLAN_QUERY_MSG: "{{planName}}を追加しました",
       HELP_MSG: "こんにちは、と言ってみてください。どうぞ！",
       GOODBYE_MSG: "さようなら",
       REFLECTOR_MSG: "{{intentName}}がトリガーされました。",

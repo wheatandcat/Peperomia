@@ -22,7 +22,7 @@ $ ask deploy
 $ ask dialog -l ja-JP
 
   User  >  ペペロミアを開いて
-  Alexa >  ようこそ。追加したい予定を教えて下さい
+  Alexa >  作成したい予定を教えて下さい
 ```
 
  or 

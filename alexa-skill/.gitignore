@@ -1,3 +1,4 @@
 node_modules/
-.ask/
+.ask/*
+!.ask/.gitkeep
 .DS_Store

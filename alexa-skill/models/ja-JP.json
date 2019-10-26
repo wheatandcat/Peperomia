@@ -31,9 +31,21 @@
             {
               "name": "Query",
               "type": "AMAZON.SearchQuery"
+            },
+            {
+              "name": "PlanCity",
+              "type": "AMAZON.City"
+            },
+            {
+              "name": "PlanDate",
+              "type": "AMAZON.DATE"
             }
           ],
-          "samples": ["{Query} を追加"]
+          "samples": [
+            "{PlanDate} に {PlanCity} の予定を作成",
+            "{Query} を作成",
+            "{Query} を作成して"
+          ]
         },
         {
           "name": "AMAZON.NavigateHomeIntent",
