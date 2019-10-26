@@ -1,0 +1,46 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "ペペロミア",
+      "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "HelloWorldIntent",
+          "slots": [],
+          "samples": ["hello", "ハロー", "こんにちは"]
+        },
+        {
+          "name": "MorningIntent",
+          "slots": [],
+          "samples": ["おはよう"]
+        },
+        {
+          "name": "PlanIntent",
+          "slots": [
+            {
+              "name": "Query",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": ["{Query} を追加"]
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        }
+      ],
+      "types": []
+    }
+  }
+}

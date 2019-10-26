@@ -1,0 +1,32 @@
+{
+  "manifest": {
+    "publishingInformation": {
+      "locales": {
+        "ja-JP": {
+          "name": "ペペロミア",
+          "summary": "予定作成",
+          "description": "ペペロミアの予定を作成する",
+          "examplePhrases": [
+            "アレクサ、ぺぺミアで予定を作成して",
+            "こんにちは",
+            "ヘルプ"
+          ],
+          "keywords": []
+        }
+      },
+      "isAvailableWorldwide": true,
+      "testingInstructions": "Sample Testing Instructions.",
+      "category": "KNOWLEDGE_AND_TRIVIA",
+      "distributionCountries": []
+    },
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "sourceDir": "lambda/custom",
+          "uri": "ask-custom-hello-world-default"
+        }
+      }
+    },
+    "manifestVersion": "1.0"
+  }
+}
