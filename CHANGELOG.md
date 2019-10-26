@@ -2,6 +2,11 @@
 ## [Peperomia]
 
 
+<a name="v2.0.1"></a>
+## [v2.0.1] - 2019-10-26
+ - ダークモード実装 [#132](https://github.com/wheatandcat/Peperomia/issues/132)
+ - カレンダー実装 [#150](https://github.com/wheatandcat/Peperomia/issues/150)
+
 <a name="v2.0.0"></a>
 ## [v2.0.0] - 2019-09-27
 - AndroidのstandaloneのみGoogle Sign inに失敗する [#74](https://github.com/wheatandcat/Peperomia/issues/74)
@@ -48,11 +53,13 @@
 - iPhoneSEのサイズに対応
 - ボトムタブのアクティブカラー変更
 
-[Unreleased]: https://github.com/wheatandcat/Peperomia/compare/v2.0.0...HEAD
+
+[Unreleased]: https://github.com/wheatandcat/Peperomia/compare/v2.0.1...HEAD
+[v2.0.1]: https://github.com/wheatandcat/Peperomia/compare/v2.0.0...v2.0.1
 [v2.0.0]: https://github.com/wheatandcat/Peperomia/compare/v1.0.5...v2.0.0
 [v1.0.5]: https://github.com/wheatandcat/Peperomia/compare/v1.0.4...v1.0.5
 [v1.0.4]: https://github.com/wheatandcat/Peperomia/compare/v1.0.3...v1.0.4
 [v1.0.3]: https://github.com/wheatandcat/Peperomia/compare/v1.0.2...v1.0.3
-[v1.0.2]: https://github.com/wheatandcat/Peperomia/compare/push...v1.0.2
-[push]: https://github.com/wheatandcat/Peperomia/compare/v1.0.1...push
-[v1.0.1]: https://github.com/wheatandcat/Peperomia/compare/v1.0.0...v1.0.1
+[v1.0.2]: https://github.com/wheatandcat/Peperomia/compare/v1.0.1...v1.0.2
+[v1.0.1]: https://github.com/wheatandcat/Peperomia/compare/push...v1.0.1
+[push]: https://github.com/wheatandcat/Peperomia/compare/v1.0.0...push
