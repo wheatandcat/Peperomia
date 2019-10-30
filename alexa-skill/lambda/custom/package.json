@@ -5,9 +5,13 @@
   "main": "index.js",
   "license": "Apache License",
   "dependencies": {
+    "@types/request": "^2.48.3",
+    "@types/request-promise": "^4.1.44",
     "ask-sdk-core": "^2.7.0",
     "ask-sdk-model": "^1.22.0",
     "aws-sdk": "^2.326.0",
-    "i18next": "^15.0.5"
+    "i18next": "^15.0.5",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4"
   }
 }

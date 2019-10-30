@@ -48,6 +48,20 @@
           ]
         },
         {
+          "name": "AccountLinkingTestIntent",
+          "slots": [],
+          "samples": [
+            "名前を教えてくれるかな",
+            "名前を教えてくれる",
+            "名前を教えて",
+            "名前は",
+            "私の名前を教えてくれるかな",
+            "私の名前を教えてくれる",
+            "私の名前を教えて",
+            "私の名前は"
+          ]
+        },
+        {
           "name": "AMAZON.NavigateHomeIntent",
           "samples": []
         }

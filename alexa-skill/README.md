@@ -18,6 +18,7 @@ $ yarn build
 $ ask deploy
 ```
 
+yarn clean && yarn pjson && yarn build && ask deploy
 ## テスト
 
 

@@ -1,8 +1,18 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "es2017",
+    "lib": [
+      "es2017"
+    ],
     "module": "commonjs",
+    "moduleResolution": "node",
+    "strict": true,
     "esModuleInterop": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
     "sourceMap": true
-  }
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }

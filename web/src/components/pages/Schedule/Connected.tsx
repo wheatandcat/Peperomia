@@ -33,6 +33,10 @@ export default class extends Component<Props, State> {
   };
 
   async componentDidMount() {
+    if (this.props.match.params.id === "login") {
+      return;
+    }
+
     await this.getData();
     onSnapshot(this.props.match.params.id, this.onSnapshot);
   }

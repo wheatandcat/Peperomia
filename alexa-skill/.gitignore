@@ -4,3 +4,4 @@ node_modules/
 lambda/custom/*
 !lambda/custom/.gitkeep
 .DS_Store
+yarn-error.log

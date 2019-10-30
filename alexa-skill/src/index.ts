@@ -7,6 +7,7 @@ import Alexa, {
 } from "ask-sdk-core";
 import { SessionEndedRequest, IntentRequest } from "ask-sdk-model";
 import i18n from "i18next";
+import rp from "request-promise";
 import languageStrings from "./languageStrings";
 
 type HandlerInput = MinHandlerInput & {
@@ -35,11 +36,10 @@ const planIntentHandler: RequestHandler = {
     );
   },
   handle(handlerInput: HandlerInput) {
-    const request = handlerInput.requestEnvelope.request;
-    console.log((request as IntentRequest).intent.slots);
+    const request = handlerInput.requestEnvelope.request as IntentRequest;
 
-    const planDate = (request as IntentRequest).intent.slots["PlanDate"].value;
-    const planCity = (request as IntentRequest).intent.slots["PlanCity"].value;
+    const planDate = getSlotValue(request, "PlanDate");
+    const planCity = getSlotValue(request, "PlanCity");
 
     if (planDate && planCity) {
       const speechText = handlerInput.t("PLAN_DATE_MSG", {
@@ -53,7 +53,8 @@ const planIntentHandler: RequestHandler = {
         .getResponse();
     }
 
-    const vlue = (request as IntentRequest).intent.slots["Query"].value;
+    const vlue = getSlotValue(request, "Query");
+
     const speechText = handlerInput.t("PLAN_QUERY_MSG", { planName: vlue });
 
     return handlerInput.responseBuilder
@@ -77,6 +78,45 @@ const helloWorldIntentHandler: RequestHandler = {
       .speak(speechText)
       .withSimpleCard("Hello World", speechText)
       .getResponse();
+  }
+};
+
+const AccountLinkingTestIntent = {
+  canHandle(handlerInput: HandlerInput) {
+    return (
+      handlerInput.requestEnvelope.request.type == "IntentRequest" &&
+      handlerInput.requestEnvelope.request.intent.name ==
+        "AccountLinkingTestIntent"
+    );
+  },
+  async handle(handlerInput: HandlerInput) {
+    let accessToken =
+      handlerInput.requestEnvelope.context.System.user.accessToken;
+    if (accessToken === undefined) {
+      // トークンが未定義の場合はユーザーに許可を促す
+      let message = "スキルを利用するためにログインを許可してください";
+      return handlerInput.responseBuilder
+        .speak(message)
+        .withLinkAccountCard()
+        .getResponse();
+    }
+
+    let url = "https://api.amazon.com/user/profile?access_token=" + accessToken;
+    try {
+      let body = await rp(url).promise();
+      console.log(body);
+      let name = JSON.parse(body).name;
+      let speechText = name + "さん、こんにちは";
+      return handlerInput.responseBuilder
+        .speak(speechText)
+        .reprompt(speechText)
+        .getResponse();
+    } catch (e) {
+      console.log(e);
+      return handlerInput.responseBuilder
+        .speak("通信に問題が発生しました。")
+        .getResponse();
+    }
   }
 };
 
@@ -146,7 +186,7 @@ const errorHandler: ErrorHandler = {
 };
 
 const LocalisationRequestInterceptor = {
-  process(handlerInput) {
+  process(handlerInput: HandlerInput) {
     i18n
       .init({
         lng: getLocale(handlerInput.requestEnvelope),
@@ -163,6 +203,7 @@ const skillBuilder = SkillBuilders.custom();
 exports.handler = skillBuilder
   .addRequestHandlers(
     launchRequestHandler,
+    AccountLinkingTestIntent,
     planIntentHandler,
     helloWorldIntentHandler,
     helpIntentHandler,
@@ -172,3 +213,11 @@ exports.handler = skillBuilder
   .addErrorHandlers(errorHandler)
   .addRequestInterceptors(LocalisationRequestInterceptor)
   .lambda();
+
+const getSlotValue = (request: IntentRequest, key: string) => {
+  if (!request.intent.slots) {
+    return "";
+  }
+
+  return request.intent.slots[key].value;
+};
