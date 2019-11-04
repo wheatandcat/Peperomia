@@ -39,7 +39,20 @@ paths:
       responses:
         '200':
           description: |
-            - 同期成功
+            - 同期成功した
+
+  /LognWithAmazon:
+    post:
+      tags:
+        - 未実装
+      requestBody:
+        $ref: '#/components/requestBodies/AmazonWithLoginRequest'
+      description: |
+        - amazonアカウントとの連携情報を登録する
+      responses:
+        '200':
+          description: |
+            - 連携に成功した
 
 components:
   securitySchemes:
@@ -68,6 +81,20 @@ components:
                   type: array
                   items:
                     $ref: '#/components/schemas/Calendar'
+    AmazonWithLoginRequest:
+        description: amazonアカウントに連携する
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                  format: string
+                  pattern: "qawaqwsedrftgyhujiko"
+                  example: ""
+                  description: アクセスToken
+
   schemas:
     Item:
       type: object
@@ -166,3 +193,4 @@ components:
           pattern: string
           example: "2018-01-01T00:00:00Z"
           description: 日付
+

@@ -52,6 +52,7 @@ func main() {
 
 	r.POST("/CreateUser", h.CreateUser)
 	r.POST("/SyncItems", h.SyncItems)
+	r.POST("/LoginWithAmazon", h.LoginWithAmazon)
 
 	r.Run()
 }

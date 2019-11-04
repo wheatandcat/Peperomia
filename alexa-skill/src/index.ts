@@ -1,4 +1,4 @@
-import Alexa, {
+import {
   HandlerInput as MinHandlerInput,
   getLocale,
   RequestHandler,
