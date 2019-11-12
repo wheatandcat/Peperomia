@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Card from "@material-ui/core/Card";
+import queryString from "query-string";
 import CardContent from "@material-ui/core/CardContent";
 
 window.onAmazonLoginReady = function() {
@@ -18,22 +19,53 @@ window.onAmazonLoginReady = function() {
 
 export default class extends Component {
   state = {
-    loading: true
+    loading: false
   };
 
-  onLogin = () => {
+  componentDidMount() {
+    console.log(window.location.origin + window.location.pathname);
+
+    const parsed = queryString.parse(window.location.search);
+    if (parsed.accessToken) {
+      this.setState({
+        loading: true
+      });
+    }
+    if (parsed.access_token) {
+      this.setState({
+        loading: true
+      });
+      const redirectUrl = window.localStorage.getItem("redirect_uri");
+      const url = `${redirectUrl}?accessToken=${parsed.access_token}`;
+      // アクセストークンが取得できた場合はリダイレクト
+      //alert(url);
+      window.location = `${url}?accessToken=${parsed.access_token}`;
+    }
+  }
+
+  onLogin = async () => {
+    const parsed = queryString.parse(window.location.search);
+    if (!parsed.redirect_uri) {
+      return;
+    }
+    await window.localStorage.setItem("redirect_uri", parsed.redirect_uri);
+
     const options = { scope: "profile" };
     global.amazon.Login.authorize(
       options,
-      "http://localhost:3000/login/amazon"
+      window.location.origin + window.location.pathname
     );
   };
 
   render() {
+    if (this.state.loading) {
+      return <div>読込中</div>;
+    }
     return (
       <div>
         <Card>
           <CardContent>
+            <div>1</div>
             <div id="LoginWithAmazon" onClick={this.onLogin}>
               <img
                 border="0"

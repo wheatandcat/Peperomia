@@ -25,6 +25,7 @@ import Feedback from "../Feedback/Connected";
 import SignIn from "../SignIn/Connected";
 import MyPage from "../MyPage/Connected";
 import ScreenSetting from "../ScreenSetting/Connected";
+import LoginWithAmazon from "../LoginWithAmazon/Connected";
 import Page from "./Page";
 
 interface Props {
@@ -178,6 +179,10 @@ class Connected extends Component<ConnectedProps, State> {
     );
   };
 
+  onLoginWithAmazon = () => {
+    this.props.navigation.navigate("LoginWithAmazon");
+  };
+
   onMigrationV100 = () => {
     db.transaction((tx: SQLite.Transaction) => {
       resetSqlV100(tx);
@@ -204,6 +209,7 @@ class Connected extends Component<ConnectedProps, State> {
         onMyPage={this.onMyPage}
         onMigrationV100={this.onMigrationV100}
         onScreenSetting={this.onScreenSetting}
+        onLoginWithAmazon={this.onLoginWithAmazon}
       />
     );
   }
@@ -217,7 +223,8 @@ export default createStackNavigator(
     Feedback: Feedback,
     SignIn: SignIn,
     MyPage: MyPage,
-    ScreenSetting: ScreenSetting
+    ScreenSetting: ScreenSetting,
+    LoginWithAmazon: LoginWithAmazon
   },
   {
     defaultNavigationOptions: {

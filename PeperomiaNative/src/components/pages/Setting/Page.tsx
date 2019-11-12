@@ -29,6 +29,7 @@ export interface Props {
   onMyPage: () => void;
   onMigrationV100: () => void;
   onScreenSetting: () => void;
+  onLoginWithAmazon: () => void;
 }
 
 export default class extends Component<Props> {
@@ -119,6 +120,7 @@ export default class extends Component<Props> {
                     containerStyle={styles.menu}
                     titleStyle={{ color: theme().color.red }}
                     onPress={this.props.onLogout}
+                    bottomDivider
                   />
                 </>
               );
@@ -134,9 +136,21 @@ export default class extends Component<Props> {
                 containerStyle={styles.menu}
                 titleStyle={styles.menuText}
                 onPress={this.props.onSignIn}
+                bottomDivider
               />
             );
           })()}
+
+          <ListItem
+            title="Alexa連携を設定する"
+            rightIcon={{
+              name: "chevron-right",
+              color: theme().mode.text
+            }}
+            containerStyle={styles.menu}
+            titleStyle={styles.menuText}
+            onPress={this.props.onLoginWithAmazon}
+          />
 
           {!Constants.isDevice && (
             <>

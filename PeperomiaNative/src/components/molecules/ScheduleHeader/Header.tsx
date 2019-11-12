@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { View } from "react-native";
 import styled from "styled-components/native";
 import Color from "color";
@@ -8,7 +8,7 @@ import s from "../../../config/style";
 
 export interface Props {
   kind: string;
-  children: any;
+  children: ReactNode;
 }
 
 export default (props: Props) => {

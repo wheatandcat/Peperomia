@@ -1,9 +1,9 @@
-import React, { Component } from "react";
+import React, { Component, ReactNode } from "react";
 import { Animated, Easing, Platform, View } from "react-native";
 
 export interface RowProps {
   active: boolean;
-  children: any;
+  children: ReactNode;
 }
 
 export default class extends Component<RowProps> {
