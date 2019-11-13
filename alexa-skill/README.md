@@ -18,7 +18,11 @@ $ yarn build
 $ ask deploy
 ```
 
-yarn clean && yarn pjson && yarn build && ask deploy
+一括で実行
+```
+$ yarn clean && yarn pjson && yarn build && ask deploy
+```
+
 ## テスト
 
 
@@ -27,9 +31,10 @@ $ ask dialog -l ja-JP
 
   User  >  ペペロミアを開いて
   Alexa >  作成したい予定を教えて下さい
-  User  >  明日 に 渋谷 の予定を作成
-  Alexa >  2019-10-27に渋谷の予定を作成しました
-  User  >
+  User  >  明日 に 上野駅 の予定を作成
+  Alexa >  2019-11-14に渋谷。予定の中身を教えてください。
+  User  >  上野駅 と 上野公園 と 上野美術館 を追加
+  Alexa >  上野駅に上野公園と上野美術館を追加しました。
 ```
 
  or 
