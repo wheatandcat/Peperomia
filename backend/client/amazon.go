@@ -2,7 +2,9 @@ package client
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 )
 
@@ -48,6 +50,12 @@ func (c *AmazonClient) GetUserID() (string, error) {
 
 	if err = json.Unmarshal(resBody, &res); err != nil {
 		return "", err
+	}
+
+	log.Printf("#%v", res)
+
+	if res.UserID == "" {
+		return "", fmt.Errorf(fmt.Sprintf("Error: Amazon UserID is empty"))
 	}
 
 	return res.UserID, nil

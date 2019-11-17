@@ -32,7 +32,12 @@ func (re *UserIntegrationRepository) Create(ctx context.Context, f *firestore.Cl
 
 // Update ユーザー連携情報を作成する
 func (re *UserIntegrationRepository) Update(ctx context.Context, f *firestore.Client, uir UserIntegrationRecode) error {
-	_, err := f.Collection("userIntegrations").Doc(uir.UID).Set(ctx, uir, firestore.MergeAll)
+	v := map[string]interface{}{
+		"uid":          uir.UID,
+		"amazonUserID": uir.AmazonUserID,
+	}
+
+	_, err := f.Collection("userIntegrations").Doc(uir.UID).Set(ctx, v, firestore.MergeAll)
 
 	return err
 }

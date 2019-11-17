@@ -49,6 +49,19 @@ func GetSelfUID(gc *gin.Context) (string, error) {
 	return "", errors.New("not uid")
 }
 
+// GetSelfAmazonUID 自身のAmazonUIDを取得する
+func GetSelfAmazonUID(gc *gin.Context) (string, error) {
+	fuid, ok := gc.Get("amazonUID")
+	if ok {
+		uid, ok := fuid.(string)
+		if ok {
+			return uid, nil
+		}
+	}
+
+	return "", errors.New("not uid")
+}
+
 // NewErrorResponse エラーレスポンス作成する
 func NewErrorResponse(err error) *ErrorResponse {
 	e := &ErrorResponse{

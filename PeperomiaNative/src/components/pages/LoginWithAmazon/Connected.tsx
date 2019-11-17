@@ -87,7 +87,6 @@ class Connected extends Component<ConnectedProps, State> {
     const result = (await queryString.parse(
       queryString.extract(event.url)
     )) as WebPageResponse;
-    console.log(result);
 
     if (!this.props.post) {
       return;
@@ -95,9 +94,9 @@ class Connected extends Component<ConnectedProps, State> {
 
     try {
       const request = {
-        accessToken: result.accessToken
+        accessToken: result.accessToken.split("?")[0]
       };
-
+      console.log(request);
       const response = await this.props.post("LoginWithAmazon", {
         body: JSON.stringify(request)
       });

@@ -1,6 +1,7 @@
 import { RequestHandler } from "ask-sdk-core";
 import { IntentRequest } from "ask-sdk-model";
-import { HandlerInput, getSlotValue, checkStep, m } from "./util";
+import { HandlerInput, getSlotValue, checkStep, m, postOption } from "./util";
+import rp from "request-promise";
 
 const planDetailIntentHandler: RequestHandler = {
   canHandle(h: HandlerInput) {
@@ -10,7 +11,7 @@ const planDetailIntentHandler: RequestHandler = {
       checkStep(h, m.STEP_2)
     );
   },
-  handle(h: HandlerInput) {
+  async handle(h: HandlerInput) {
     const r = h.requestEnvelope.request as IntentRequest;
 
     const planCity1 = getSlotValue(r, "PlanCity_One");
@@ -35,8 +36,18 @@ const planDetailIntentHandler: RequestHandler = {
           title: attributes.planCity,
           date: attributes.planDate
         },
-        items: planCities
+        itemDetails: planCities.map(city => ({
+          title: city
+        }))
       };
+      console.log(request);
+
+      const option = postOption(
+        "RegisterItem",
+        request,
+        attributes.accessToken
+      );
+      await rp(option).promise();
 
       const speechText = h.t("PLAN_DETAIL_MSG", {
         planCity: request.item.title,
@@ -53,8 +64,16 @@ const planDetailIntentHandler: RequestHandler = {
         title: attributes.planCity,
         date: attributes.planDate
       },
-      items: [vlue]
+      itemDetails: [
+        {
+          title: vlue
+        }
+      ]
     };
+    console.log(request);
+
+    const option = postOption("RegisterItem", request, attributes.accessToken);
+    await rp(option).promise();
 
     const speechText = h.t("PLAN_DETAIL_MSG", {
       planCity: request.item.title,

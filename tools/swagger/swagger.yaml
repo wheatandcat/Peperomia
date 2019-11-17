@@ -44,11 +44,24 @@ paths:
   /LognWithAmazon:
     post:
       tags:
-        - 未実装
+        - 実装済み
       requestBody:
         $ref: '#/components/requestBodies/AmazonWithLoginRequest'
       description: |
         - amazonアカウントとの連携情報を登録する
+      responses:
+        '200':
+          description: |
+            - 連携に成功した
+
+  /amazon/RegisterItem:
+    post:
+      tags:
+        - 未実装
+      requestBody:
+        $ref: '#/components/requestBodies/AlexaRegisterItemRequest'
+      description: |
+        - Alexa経由で予定を登録する
       responses:
         '200':
           description: |
@@ -94,6 +107,20 @@ components:
                   pattern: "qawaqwsedrftgyhujiko"
                   example: ""
                   description: アクセスToken
+    AlexaRegisterItemRequest:
+        description: Alexa経由で予定を登録Request
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                item:
+                  $ref: '#/components/schemas/AlexaItem'
+
+                itemDetails:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/AlexaItemDetail'
 
   schemas:
     Item:
@@ -193,4 +220,26 @@ components:
           pattern: string
           example: "2018-01-01T00:00:00Z"
           description: 日付
-
+    AlexaItem:
+      type: object
+      description: Alexa経由の予定
+      properties:
+        title:
+          type: string
+          pattern: string
+          example: 葛西臨海公園
+          description: タイトル
+        date:
+          type: string
+          pattern: string
+          example: "2018-01-01T00:00:00Z"
+          description: 日付
+    AlexaItemDetail:
+      type: object
+      description: Alexa経由の予定詳細
+      properties:
+        title:
+          type: string
+          pattern: string
+          example: 葛西臨海公園
+          description: タイトル

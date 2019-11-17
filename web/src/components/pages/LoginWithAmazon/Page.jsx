@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import Card from "@material-ui/core/Card";
 import queryString from "query-string";
-import CardContent from "@material-ui/core/CardContent";
+import styled from "styled-components";
+import Divider from "@material-ui/core/Divider";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 window.onAmazonLoginReady = function() {
   console.log(process.env);
@@ -26,11 +27,7 @@ export default class extends Component {
     console.log(window.location.origin + window.location.pathname);
 
     const parsed = queryString.parse(window.location.search);
-    if (parsed.accessToken) {
-      this.setState({
-        loading: true
-      });
-    }
+
     if (parsed.access_token) {
       this.setState({
         loading: true
@@ -38,8 +35,8 @@ export default class extends Component {
       const redirectUrl = window.localStorage.getItem("redirect_uri");
       const url = `${redirectUrl}?accessToken=${parsed.access_token}`;
       // アクセストークンが取得できた場合はリダイレクト
-      //alert(url);
-      window.location = `${url}?accessToken=${parsed.access_token}`;
+      window.location = url;
+      console.log(`Bearer ${parsed.access_token}`);
     }
   }
 
@@ -58,14 +55,16 @@ export default class extends Component {
   };
 
   render() {
-    if (this.state.loading) {
-      return <div>読込中</div>;
-    }
     return (
-      <div>
+      <Root>
         <Card>
-          <CardContent>
-            <div>1</div>
+          <Title>Alexaスキルとアカウントリンクする</Title>
+
+          <Divider />
+
+          {this.state.loading ? (
+            <CircularProgress value={32} />
+          ) : (
             <div id="LoginWithAmazon" onClick={this.onLogin}>
               <img
                 border="0"
@@ -75,9 +74,39 @@ export default class extends Component {
                 height="32"
               />
             </div>
-          </CardContent>
+          )}
         </Card>
-      </div>
+      </Root>
     );
   }
 }
+
+const Title = styled.div`
+  background-color: #006835;
+  color: #adcf01;
+  font-size: 14px;
+  font-weight: 600;
+  width: 100%;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Card = styled.div`
+  background-color: #fff;
+  width: 90%;
+  height: 45%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+`;
+
+const Root = styled.div`
+  background-color: #ccc;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;

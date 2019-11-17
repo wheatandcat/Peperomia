@@ -31,3 +31,20 @@ export const checkStep = (h: HandlerInput, step: number) => {
   const attr = h.attributesManager.getSessionAttributes();
   return attr.step == step;
 };
+
+export const postOption = (
+  url: string,
+  request: Object,
+  accessToken: string
+) => {
+  return {
+    method: "POST",
+    uri: `https://peperomia-196da.appspot.com/amazon/${url}`,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`
+    },
+    body: request,
+    json: true // Automatically stringifies the body to JSON
+  };
+};
