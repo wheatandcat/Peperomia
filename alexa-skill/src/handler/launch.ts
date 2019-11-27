@@ -1,7 +1,7 @@
 import { RequestHandler } from "ask-sdk-core";
 import { HandlerInput, setSetep, m } from "./util";
 
-const accountLinkingTestIntent: RequestHandler = {
+const accountLinkingIntent: RequestHandler = {
   canHandle(h: HandlerInput) {
     return h.requestEnvelope.request.type == "LaunchRequest";
   },
@@ -33,4 +33,4 @@ const accountLinkingTestIntent: RequestHandler = {
   }
 };
 
-export default accountLinkingTestIntent;
+export default accountLinkingIntent;

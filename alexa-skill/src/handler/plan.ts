@@ -1,6 +1,10 @@
 import { RequestHandler } from "ask-sdk-core";
 import { IntentRequest } from "ask-sdk-model";
 import { HandlerInput, getSlotValue, checkStep, setSetep, m } from "./util";
+import dayjs from "dayjs";
+import advancedFormat from "dayjs/plugin/advancedFormat";
+import "dayjs/locale/ja";
+dayjs.extend(advancedFormat);
 
 const planIntentHandler: RequestHandler = {
   canHandle(h: HandlerInput) {
@@ -21,7 +25,7 @@ const planIntentHandler: RequestHandler = {
 
     // 日付と場所の指定がある
     if (planDate && planCity) {
-      attributes.planDate = planDate;
+      attributes.planDate = dayjs(planDate).format();
       attributes.planCity = planCity;
       h.attributesManager.setSessionAttributes(attributes);
 
@@ -40,6 +44,7 @@ const planIntentHandler: RequestHandler = {
     const speechText = h.t("PLAN_QUERY_MSG", { planName: query });
 
     attributes.planCity = query;
+    attributes.planDate = "0001-01-01T00:00:00Z";
     h.attributesManager.setSessionAttributes(attributes);
 
     return h.responseBuilder

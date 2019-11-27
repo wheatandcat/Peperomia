@@ -40,8 +40,11 @@ export default class extends Component {
     }
   }
 
-  onLogin = async () => {
+  onLogin = async () => {    
+    console.log("onLogin");
+    
     const parsed = queryString.parse(window.location.search);
+    console.log(parsed);
     if (!parsed.redirect_uri) {
       return;
     }

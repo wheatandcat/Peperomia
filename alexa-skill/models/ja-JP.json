@@ -16,16 +16,6 @@
           "samples": []
         },
         {
-          "name": "HelloWorldIntent",
-          "slots": [],
-          "samples": ["hello", "ハロー", "こんにちは"]
-        },
-        {
-          "name": "MorningIntent",
-          "slots": [],
-          "samples": ["おはよう"]
-        },
-        {
           "name": "PlanIntent",
           "slots": [
             {
@@ -43,6 +33,7 @@
           ],
           "samples": [
             "{PlanDate} に {PlanCity} の予定を作成",
+            "{PlanCity} の予定を {PlanDate} に作成",
             "{Query} を作成",
             "{Query} を作成して"
           ]
@@ -84,20 +75,7 @@
             "{Query} を追加"
           ]
         },
-        {
-          "name": "AccountLinkingTestIntent",
-          "slots": [],
-          "samples": [
-            "名前を教えてくれるかな",
-            "名前を教えてくれる",
-            "名前を教えて",
-            "名前は",
-            "私の名前を教えてくれるかな",
-            "私の名前を教えてくれる",
-            "私の名前を教えて",
-            "私の名前は"
-          ]
-        },
+
         {
           "name": "AMAZON.NavigateHomeIntent",
           "samples": []

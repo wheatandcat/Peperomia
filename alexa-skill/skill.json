@@ -5,19 +5,34 @@
         "ja-JP": {
           "name": "ペペロミア",
           "summary": "予定作成",
-          "description": "ペペロミアの予定を作成する",
+          "description": "アプリペペロミアの予定を音声で作成できます",
+          "smallIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/e083/6eb1cd4dac874e488f2d9797c843c054/APP_ICON?versionId=YI2Z4BAe8aJcmvW7X.RFfVeQM33Oi.mY&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20191127T123434Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Credential=AKIAJFEYRBGIHK2BBYKA%2F20191127%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=e004d3976767cb222b8127c302732c3ffdf69141a4c3fc54615f1a9b7727e92a",
+          "largeIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/8e64/a401b60783554c98976544b0fed26591/APP_ICON_LARGE?versionId=gb9KyoHkH8CX77PDEbmS93EAzmLOvekZ&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20191127T123434Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Credential=AKIAJFEYRBGIHK2BBYKA%2F20191127%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=7f4786957e94d1c3d72f3979763f5189b582817c36d6f4ed9274b4464c4b02d5",
           "examplePhrases": [
             "アレクサ、ぺぺミアで予定を作成して",
-            "こんにちは",
-            "ヘルプ"
+            "上野駅 の予定を 明後日 に作成",
+            "上野駅 と 上野公園 と 上野美術館 を追加"
           ],
-          "keywords": []
+          "keywords": ["ペペロミア"]
         }
       },
-      "isAvailableWorldwide": true,
-      "testingInstructions": "Sample Testing Instructions.",
-      "category": "KNOWLEDGE_AND_TRIVIA",
-      "distributionCountries": []
+      "isAvailableWorldwide": false,
+      "testingInstructions": "1) アレクサ、ぺぺミアで予定を作成して",
+      "category": "CALENDARS_AND_REMINDERS",
+      "distributionCountries": ["JP"]
+    },
+    "privacyAndCompliance": {
+      "allowsPurchases": false,
+      "usesPersonalInfo": false,
+      "isChildDirected": false,
+      "isExportCompliant": true,
+      "containsAds": false,
+      "locales": {
+        "ja-JP": {
+          "privacyPolicyUrl": "https://peperomia.app/policy",
+          "termsOfUseUrl": "https://peperomia.app/tos"
+        }
+      }
     },
     "apis": {
       "custom": {

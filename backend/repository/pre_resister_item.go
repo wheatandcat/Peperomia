@@ -14,7 +14,7 @@ type PreResisterItemRepository struct {
 // PreResisterItemRecord is item data
 type PreResisterItemRecord struct {
 	Title string     `json:"title" firestore:"title" binding:"required"`
-	Date  *time.Time `json:"date" firestore:"date" binding:"required"`
+	Date  *time.Time `json:"date" firestore:"date"`
 }
 
 // PreResisterItemDetailRecord is item data

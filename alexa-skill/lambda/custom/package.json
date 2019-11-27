@@ -10,6 +10,7 @@
     "ask-sdk-core": "^2.7.0",
     "ask-sdk-model": "^1.22.0",
     "aws-sdk": "^2.326.0",
+    "dayjs": "^1.8.17",
     "i18next": "^15.0.5",
     "request": "^2.88.0",
     "request-promise": "^4.2.4"
