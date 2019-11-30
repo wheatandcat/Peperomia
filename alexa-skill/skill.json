@@ -13,7 +13,8 @@
             "上野駅 の予定を 明後日 に作成",
             "上野駅 と 上野公園 と 上野美術館 を追加"
           ],
-          "keywords": ["ペペロミア"]
+          "keywords": ["ペペロミア"],
+          "updatesDescription": "予定を作成できるようになりました。"
         }
       },
       "isAvailableWorldwide": false,

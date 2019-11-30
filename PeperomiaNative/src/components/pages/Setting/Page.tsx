@@ -141,16 +141,18 @@ export default class extends Component<Props> {
             );
           })()}
 
-          <ListItem
-            title="Alexa連携を設定する"
-            rightIcon={{
-              name: "chevron-right",
-              color: theme().mode.text
-            }}
-            containerStyle={styles.menu}
-            titleStyle={styles.menuText}
-            onPress={this.props.onLoginWithAmazon}
-          />
+          {!Constants.isDevice && (
+            <ListItem
+              title="Alexa連携を設定する"
+              rightIcon={{
+                name: "chevron-right",
+                color: theme().mode.text
+              }}
+              containerStyle={styles.menu}
+              titleStyle={styles.menuText}
+              onPress={this.props.onLoginWithAmazon}
+            />
+          )}
 
           {!Constants.isDevice && (
             <>

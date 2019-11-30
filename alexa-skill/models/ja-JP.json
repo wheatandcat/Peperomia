@@ -75,7 +75,6 @@
             "{Query} を追加"
           ]
         },
-
         {
           "name": "AMAZON.NavigateHomeIntent",
           "samples": []
