@@ -7,8 +7,14 @@ import advancedFormat from "dayjs/plugin/advancedFormat";
 import "dayjs/locale/ja";
 import { backup, restore } from "../../../lib/backup";
 import theme from "../../../config/theme";
-import { Consumer as FetchConsumer } from "../../../containers/Fetch";
-import { Consumer as AuthConsumer } from "../../../containers/Auth";
+import {
+  Consumer as FetchConsumer,
+  ContextProps as FetchContextProps
+} from "../../../containers/Fetch";
+import {
+  Consumer as AuthConsumer,
+  ContextProps as AuthContextProps
+} from "../../../containers/Auth";
 import {
   Consumer as ItemsConsumer,
   ContextProps as ItemsContextProps
@@ -39,9 +45,9 @@ export default class extends Component<Props> {
   render() {
     return (
       <AuthConsumer>
-        {({ email, uid }: any) => (
+        {({ email, uid }: AuthContextProps) => (
           <FetchConsumer>
-            {({ post }: any) => (
+            {({ post }: FetchContextProps) => (
               <ItemsConsumer>
                 {({ refreshData }: ItemsContextProps) => (
                   <Connected
@@ -61,12 +67,11 @@ export default class extends Component<Props> {
   }
 }
 
-type ConnectedProps = Pick<ItemsContextProps, "refreshData"> & {
-  navigation: NavigationScreenProp<NavigationRoute>;
-  post: (url: string, param: any) => Promise<Response>;
-  email: string;
-  uid: string;
-};
+type ConnectedProps = Pick<ItemsContextProps, "refreshData"> &
+  Pick<AuthContextProps, "uid" | "email"> &
+  Pick<FetchContextProps, "post"> & {
+    navigation: NavigationScreenProp<NavigationRoute>;
+  };
 
 interface State {
   loading: boolean;
@@ -74,8 +79,6 @@ interface State {
 }
 
 class Connected extends Component<ConnectedProps, State> {
-  static navigationOptions = { title: "設定" };
-
   state = {
     loading: false,
     LoadingText: ""
@@ -102,6 +105,10 @@ class Connected extends Component<ConnectedProps, State> {
   };
 
   backup = async () => {
+    if (!this.props.post) {
+      return;
+    }
+
     this.setState({
       loading: true,
       LoadingText: "バックアップ中です..."
@@ -181,6 +188,10 @@ class Connected extends Component<ConnectedProps, State> {
   };
 
   restore = async () => {
+    if (!this.props.uid) {
+      return;
+    }
+
     this.setState({
       loading: true,
       LoadingText: "復元中です..."
@@ -228,7 +239,7 @@ class Connected extends Component<ConnectedProps, State> {
       <Page
         loading={this.state.loading}
         LoadingText={this.state.LoadingText}
-        email={this.props.email}
+        email={this.props.email || ""}
         onBackup={this.onBackup}
         onRestore={this.onRestore}
       />

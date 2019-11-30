@@ -5,6 +5,6 @@ import Page from "./Page";
 
 storiesOf("pages", module).add("ScreenSetting", () => (
   <View style={{ paddingTop: 30 }}>
-    <Page onChange={() => null} />;
+    <Page darkMode onChange={() => null} />
   </View>
 ));

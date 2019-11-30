@@ -1,17 +1,24 @@
-import React, { createContext, Component } from "react";
+import React, { createContext, Component, ReactNode } from "react";
 import Constants from "expo-constants";
-import { Consumer as AuthConsumer } from "./Auth";
+import {
+  Consumer as AuthConsumer,
+  ContextProps as AuthContextProps
+} from "./Auth";
 
 const Context = createContext({});
 const { Provider } = Context;
 
-interface Props {}
+export type ContextProps = Partial<Pick<Connected, "post">>;
+
+type Props = {
+  children: ReactNode;
+};
 
 export default class extends Component<Props> {
   render() {
     return (
       <AuthConsumer>
-        {({ getIdToken }: any) => (
+        {({ getIdToken }: AuthContextProps) => (
           <Connected getIdToken={getIdToken}>{this.props.children}</Connected>
         )}
       </AuthConsumer>
@@ -19,9 +26,7 @@ export default class extends Component<Props> {
   }
 }
 
-interface ConnectedProps {
-  getIdToken: () => void;
-}
+type ConnectedProps = Pick<AuthContextProps, "getIdToken">;
 
 export interface FetchValue {
   post: (url: string, param: any) => Promise<Response>;
@@ -29,7 +34,7 @@ export interface FetchValue {
 
 class Connected extends Component<ConnectedProps> {
   post = async (url: string, param: any): Promise<Response> => {
-    const idToken = await this.props.getIdToken();
+    const idToken = this.props.getIdToken ? await this.props.getIdToken() : "";
     const apiHost = process.env.API_HOST;
     const init = {
       ...param,
@@ -47,7 +52,7 @@ class Connected extends Component<ConnectedProps> {
     console.info(`Bearer ${idToken}`);
 
     const response = await fetch(`${apiHost}/${url}`, init);
-
+    console.log(response);
     if (!Constants.isDevice) {
       if (!response.ok) {
         const result = await response.json();

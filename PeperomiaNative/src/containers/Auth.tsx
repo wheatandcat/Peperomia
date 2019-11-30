@@ -16,11 +16,16 @@ interface State {
   email: string;
 }
 
+export type ContextProps = Partial<
+  Pick<State, "email" | "uid"> &
+    Pick<AuthProvider, "onGoogleLogin" | "getIdToken" | "loggedIn" | "logout">
+>;
+
 const isStandaloneAndAndroid = () => {
   return Platform.OS === "android" && Constants.appOwnership !== "expo";
 };
 
-export default class extends Component<Props, State> {
+export default class AuthProvider extends Component<Props, State> {
   state = {
     email: "",
     uid: ""

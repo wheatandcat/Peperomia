@@ -43,15 +43,30 @@ func main() {
 
 	m := middleware.NewMiddleware(f)
 
-	r.Use(m.FirebaseAuthMiddleWare)
+	app := r.Group("")
+	{
+		app.Use(m.FirebaseAuthMiddleWare)
 
-	h, err := handler.NewHandler(ctx, f)
-	if err != nil {
-		panic(err)
+		h, err := handler.NewHandler(ctx, f)
+		if err != nil {
+			panic(err)
+		}
+
+		app.POST("/CreateUser", h.CreateUser)
+		app.POST("/SyncItems", h.SyncItems)
+		app.POST("/LoginWithAmazon", h.LoginWithAmazon)
 	}
 
-	r.POST("/CreateUser", h.CreateUser)
-	r.POST("/SyncItems", h.SyncItems)
+	am := r.Group("/amazon")
+	{
+		am.Use(m.AmazonAuthMiddleWare)
+		h, err := handler.NewHandler(ctx, f)
+		if err != nil {
+			panic(err)
+		}
+
+		am.POST("/RegisterItem", h.AmazonRegisterItem)
+	}
 
 	r.Run()
 }
