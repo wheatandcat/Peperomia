@@ -1,10 +1,7 @@
 import * as SQLite from "expo-sqlite";
 import React, { Component } from "react";
-import {
-  createStackNavigator,
-  NavigationScreenProp,
-  NavigationRoute
-} from "react-navigation";
+import { NavigationScreenProp, NavigationRoute } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 import { AsyncStorage, Alert } from "react-native";
 import theme from "../../../config/theme";
 import { db } from "../../../lib/db";

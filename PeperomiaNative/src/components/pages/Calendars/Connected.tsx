@@ -1,9 +1,6 @@
 import React, { Component } from "react";
-import {
-  createStackNavigator,
-  NavigationScreenProp,
-  NavigationRoute
-} from "react-navigation";
+import { NavigationScreenProp, NavigationRoute } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 import {
   Consumer as ItemsConsumer,
   ContextProps

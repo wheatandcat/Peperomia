@@ -1,10 +1,7 @@
 import * as SQLite from "expo-sqlite";
 import React, { Component } from "react";
-import {
-  createStackNavigator,
-  NavigationScreenProp,
-  NavigationRoute
-} from "react-navigation";
+import { NavigationScreenProp, NavigationRoute } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 import { Dimensions, View, Image, AsyncStorage } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import uuidv1 from "uuid/v1";
