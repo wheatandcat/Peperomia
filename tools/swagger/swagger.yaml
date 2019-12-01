@@ -57,7 +57,7 @@ paths:
   /amazon/RegisterItem:
     post:
       tags:
-        - 未実装
+        - 実装済み
       requestBody:
         $ref: '#/components/requestBodies/AlexaRegisterItemRequest'
       description: |
