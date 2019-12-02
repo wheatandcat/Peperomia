@@ -94,7 +94,7 @@
     "@storybook/react-native": "^5.2.4",
     "@storybook/react-native-server": "^5.2.4",
     "@storybook/theming": "^5.2.4",
-    "@types/detox": "^12.8.2",
+    "@types/detox": "^14.5.1",
     "@types/jasmine": "^3.3.14",
     "@types/jest": "^24.0.23",
     "@types/react-native-status-bar-height": "^2.1.0",

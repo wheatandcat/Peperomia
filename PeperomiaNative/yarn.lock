@@ -2335,10 +2335,10 @@
   resolved "https://registry.yarnpkg.com/@types/compare-versions/-/compare-versions-3.0.0.tgz#4a45dffe0ebbc00d0f2daef8a0e96ffc66cf5955"
   integrity sha512-HNXtUQQuW3ThO9DVfTNbdvClVr+8AZlNNa2pxk5qtEvObnT27qh0DdQXTN4h5PuTTGinxwXkRKXsllJxuAzGPw==
 
-"@types/detox@^12.8.2":
-  version "12.8.4"
-  resolved "https://registry.yarnpkg.com/@types/detox/-/detox-12.8.4.tgz#afd9999b0de62938d261577ccc8f5e0617bcc028"
-  integrity sha512-ZqjfETBta4Ku31qeOBzk+/YwXPmbDBNDASFnzTmOpWoCAQJusSNpw4v7Taw0zGtFW55GgLwOYEVGb1Rxt7MtnQ==
+"@types/detox@^14.5.1":
+  version "14.5.1"
+  resolved "https://registry.yarnpkg.com/@types/detox/-/detox-14.5.1.tgz#54ad43d28da9b1e4d02dedbf7629a7879923e8e7"
+  integrity sha512-JZIejOec6KElGU145ErK3s1lbyPCRilCCmpsLvu0cLZQGJOPDypv0OXozGTDGOUnClrz/zphqnmiV4081q58JQ==
 
 "@types/eslint-visitor-keys@^1.0.0":
   version "1.0.0"
