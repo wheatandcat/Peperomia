@@ -63,9 +63,9 @@ LocaleConfig.locales["jp"] = {
 LocaleConfig.defaultLocale = "jp";
 
 const images = [
-  require("../../../img/months/october.png"),
-  require("../../../img/months/october.png"),
-  require("../../../img/months/october.png"),
+  require("../../../img/months/january.png"),
+  require("../../../img/months/february.png"),
+  require("../../../img/months/march.png"),
   require("../../../img/months/october.png"),
   require("../../../img/months/october.png"),
   require("../../../img/months/october.png"),
@@ -91,9 +91,9 @@ type State = {
 };
 
 const backgroundColors = [
-  "#e5e4e6",
-  "#d4dcda",
-  "#e8d3d1",
+  "#FDDACB",
+  "#FBEDF2",
+  "#DCF6FA",
   "#fdeff2",
   "#badcad",
   theme().color.dodgerBlue,
@@ -127,7 +127,7 @@ export default class extends Component<Props, State> {
   }
 
   onNextMonth = () => {
-    if (this.state.count === 2) {
+    if (this.state.count === 3) {
       return;
     }
 
@@ -159,7 +159,7 @@ export default class extends Component<Props, State> {
   };
 
   onPrevMonth = () => {
-    if (this.state.count === 0) {
+    if (this.state.count === -3) {
       return;
     }
 
@@ -226,7 +226,7 @@ export default class extends Component<Props, State> {
         >
           <AnimatedSafeAreaView style={[styles.root, animationStyle]}>
             <View style={styles.headerContainer}>
-              {this.state.count === 0 ? (
+              {this.state.count === -2 ? (
                 <View />
               ) : (
                 <TouchableOpacity onPress={this.onPrevMonth}>
@@ -246,7 +246,7 @@ export default class extends Component<Props, State> {
                 </Text>
               </View>
 
-              {this.state.count === 2 ? (
+              {this.state.count === 3 ? (
                 <View />
               ) : (
                 <TouchableOpacity onPress={this.onNextMonth}>
