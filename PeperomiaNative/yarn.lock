@@ -2647,16 +2647,6 @@
     global "^4.3.2"
     telejson "^3.0.2"
 
-"@storybook/channel-websocket@5.2.4":
-  version "5.2.4"
-  resolved "https://registry.yarnpkg.com/@storybook/channel-websocket/-/channel-websocket-5.2.4.tgz#c757961d9686a8b871b41acf987290b146e90114"
-  integrity sha512-7qDy4ZAforTl/lNi/KBylRQw05hfeNdXJrBmi8+gmuu4tpqP1UaU2VznpiaB8wyHVxZUqvxp6UqNQOcF7pTcSg==
-  dependencies:
-    "@storybook/channels" "5.2.4"
-    core-js "^3.0.1"
-    global "^4.3.2"
-    json-fn "^1.1.1"
-
 "@storybook/channel-websocket@5.2.8":
   version "5.2.8"
   resolved "https://registry.yarnpkg.com/@storybook/channel-websocket/-/channel-websocket-5.2.8.tgz#b5528348edea820c15a4ddee3e614524f2ebbb5f"
@@ -2906,18 +2896,18 @@
     webpack "^4.33.0"
     ws "^6.1.0"
 
-"@storybook/react-native@^5.2.4":
-  version "5.2.4"
-  resolved "https://registry.yarnpkg.com/@storybook/react-native/-/react-native-5.2.4.tgz#414cc68d87781074e0a52cb1849ff6aff6b3e078"
-  integrity sha512-pwGgSS0Spk6l5f3RPpiE10xmO8x4VUo0KkmJcJV3xCXUpKqWtCvVWuzFHqRBqZiYOTfLJDEbtfGiiDDew5WvDg==
+"@storybook/react-native@^5.2.8":
+  version "5.2.8"
+  resolved "https://registry.yarnpkg.com/@storybook/react-native/-/react-native-5.2.8.tgz#034aea30b82a07c766e18445c70619576de50552"
+  integrity sha512-uRbetQcC/42843+4XZMiBrLnWqFDS7Tqy5svyX1qMyoexYTQ6Pz9wLT3YhctAu2oK8Gfdiay1Tpg/OTrene1Sg==
   dependencies:
     "@emotion/core" "^10.0.14"
     "@emotion/native" "^10.0.14"
-    "@storybook/addons" "5.2.4"
-    "@storybook/channel-websocket" "5.2.4"
-    "@storybook/channels" "5.2.4"
-    "@storybook/client-api" "5.2.4"
-    "@storybook/core-events" "5.2.4"
+    "@storybook/addons" "5.2.8"
+    "@storybook/channel-websocket" "5.2.8"
+    "@storybook/channels" "5.2.8"
+    "@storybook/client-api" "5.2.8"
+    "@storybook/core-events" "5.2.8"
     core-js "^3.0.1"
     emotion-theming "^10.0.14"
     react-native-swipe-gestures "^1.0.3"
@@ -12740,11 +12730,7 @@ react-native-svg@*, react-native-svg@^9.9.3:
   resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-9.9.3.tgz#5dab1a44b20b13a3f35245a286f30882b9611d66"
   integrity sha512-oL4EWGEYhaXDwZw3ULxAtXXh3xao0BiUt2UdVANdGuP3jdpSWuXUmXCd2HpgppOVsHwbSuR67sFmnduXPGaxuA==
 
-react-native-swipe-gestures@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/react-native-swipe-gestures/-/react-native-swipe-gestures-1.0.3.tgz#4160f8d459627323f3a3d2770af4bcd82fd054f5"
-
-react-native-swipe-gestures@^1.0.4:
+react-native-swipe-gestures@^1.0.3, react-native-swipe-gestures@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/react-native-swipe-gestures/-/react-native-swipe-gestures-1.0.4.tgz#6a9c6613bfe06cd9014a36a2c4a09f719ff62451"
   integrity sha512-C/vz0KPHNyqHk3uF4Cz/jzd/0N8z34ZgsjAZUh/RsXPH2FtJJf3Fw73pQDWJSoCMtvVadlztb8xQ+/aEQrll7w==

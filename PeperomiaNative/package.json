@@ -91,7 +91,7 @@
     "@storybook/addon-ondevice-knobs": "^5.2.4",
     "@storybook/addon-ondevice-notes": "^5.2.4",
     "@storybook/addons": "^5.2.4",
-    "@storybook/react-native": "^5.2.4",
+    "@storybook/react-native": "^5.2.8",
     "@storybook/react-native-server": "^5.2.8",
     "@storybook/theming": "^5.2.4",
     "@types/detox": "^14.5.1",
