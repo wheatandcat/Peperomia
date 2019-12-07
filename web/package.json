@@ -15,7 +15,7 @@
     "color": "^3.1.2",
     "firebase": "^7.2.1",
     "primitive": "../primitive",
-    "query-string": "^6.8.3",
+    "query-string": "^6.9.0",
     "react": "^16.10.2",
     "react-art": "^16.8.4",
     "react-dom": "^16.10.2",
