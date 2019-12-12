@@ -2577,13 +2577,13 @@
     prop-types "^15.7.2"
     qs "^6.6.0"
 
-"@storybook/addon-ondevice-knobs@^5.2.4":
-  version "5.2.4"
-  resolved "https://registry.yarnpkg.com/@storybook/addon-ondevice-knobs/-/addon-ondevice-knobs-5.2.4.tgz#a74cdc2f893efd1d8c9d044b37c000192f075c99"
-  integrity sha512-DnfsLH2E6ewIvSAccjfVwc4Cew/E3ma31jLAWz18yvfet1tKMz5lxnA0wmRlMYNJGDgNDNHbFOKe02nT28epXQ==
+"@storybook/addon-ondevice-knobs@^5.2.8":
+  version "5.2.8"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-ondevice-knobs/-/addon-ondevice-knobs-5.2.8.tgz#c7dfbdacff5935b6487b0c5b836a8503befc4c22"
+  integrity sha512-EtFXFetAY63FdOW0LNtB65z1j/VcpbSeqrGS/e0SCfP4ffuJCC4e55qad8sy6JBz0Tz7IuZpluhyvla8XEjGLA==
   dependencies:
-    "@storybook/addons" "5.2.4"
-    "@storybook/core-events" "5.2.4"
+    "@storybook/addons" "5.2.8"
+    "@storybook/core-events" "5.2.8"
     core-js "^3.0.1"
     deep-equal "^1.0.1"
     prop-types "^15.7.2"
