@@ -35,7 +35,7 @@
     "@types/react-native-loading-spinner-overlay": "^0.5.1",
     "@types/react-native-sortable-list": "0.0.8",
     "@types/react-native-swipe-gestures": "^1.0.0",
-    "@types/react-native-vector-icons": "^4.6.4",
+    "@types/react-native-vector-icons": "^6.4.4",
     "@types/react-navigation": "^3.4.0",
     "@types/styled-components": "^4.1.18",
     "@types/uuid": "^3.4.6",
