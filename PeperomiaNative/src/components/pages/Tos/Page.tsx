@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { WebView } from "react-native";
+import { WebView } from "react-native-webview";
 import theme from "../../../config/theme";
 
 interface Props {}
