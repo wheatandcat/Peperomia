@@ -70,18 +70,6 @@ export default class extends Component<Props> {
           />
 
           <View style={{ height: 20 }} />
-          <ListItem
-            title="バージョン情報"
-            rightTitle={
-              <Text style={{ color: theme().mode.text }}>
-                {app.expo.version}{" "}
-              </Text>
-            }
-            containerStyle={styles.menu}
-            titleStyle={styles.menuText}
-          />
-
-          <View style={{ height: 20 }} />
 
           {(() => {
             if (this.props.loading) {
@@ -141,19 +129,28 @@ export default class extends Component<Props> {
             );
           })()}
 
-          {!Constants.isDevice && (
-            <ListItem
-              title="Alexa連携を設定する"
-              rightIcon={{
-                name: "chevron-right",
-                color: theme().mode.text
-              }}
-              containerStyle={styles.menu}
-              titleStyle={styles.menuText}
-              onPress={this.props.onLoginWithAmazon}
-            />
-          )}
+          <ListItem
+            title="Alexa連携を設定する(β版)"
+            rightIcon={{
+              name: "chevron-right",
+              color: theme().mode.text
+            }}
+            containerStyle={styles.menu}
+            titleStyle={styles.menuText}
+            onPress={this.props.onLoginWithAmazon}
+          />
 
+          <View style={{ height: 20 }} />
+          <ListItem
+            title="バージョン情報"
+            rightTitle={
+              <Text style={{ color: theme().mode.text }}>
+                {app.expo.version}{" "}
+              </Text>
+            }
+            containerStyle={styles.menu}
+            titleStyle={styles.menuText}
+          />
           {!Constants.isDevice && (
             <>
               <View style={{ marginBottom: 50 }} />
