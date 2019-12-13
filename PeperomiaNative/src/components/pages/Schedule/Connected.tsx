@@ -9,17 +9,17 @@ import {
 } from "../../../lib/db/itemDetail";
 import Page from "./Page";
 
-interface Props {
+type Props = {
   navigation: NavigationScreenProp<NavigationRoute>;
   onAdd: (items: ItemDetail[]) => void;
   onSort: (items: ItemDetail[]) => void;
   onDelete: () => void;
-}
+};
 
-interface State {
+type State = {
   items: ItemDetail[];
   refresh: string;
-}
+};
 
 export default class extends Component<Props, State> {
   state = { items: [], refresh: "" };

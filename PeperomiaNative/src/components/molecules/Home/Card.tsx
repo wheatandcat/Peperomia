@@ -7,18 +7,18 @@ import s from "../../../config/style";
 import theme from "../../../config/theme";
 import { KINDS } from "../../../lib/getKind";
 
-export interface ItemProps {
+export type ItemProps = {
   id: string;
   title: string;
   kind: string;
   image: string;
   about: string;
-}
+};
 
-export interface Props extends ItemProps {
-  onPress: (id: string, title: string) => void;
+type Props = ItemProps & {
+  onPress: () => void;
   testID: string;
-}
+};
 
 export default (props: Props) => {
   const config = KINDS[props.kind];
@@ -26,7 +26,7 @@ export default (props: Props) => {
 
   return (
     <TouchableHighlight
-      onPress={() => props.onPress(props.id, props.title)}
+      onPress={props.onPress}
       testID={props.testID}
       style={{
         margin: 3

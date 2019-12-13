@@ -11,12 +11,12 @@ import { SwipeListView } from "react-native-swipe-list-view";
 import theme from "../../../config/theme";
 import Card, { ItemProps as CardProps } from "../../molecules/Home/Card";
 
-export interface Props {
+export type Props = {
   data: CardProps[];
   loading: boolean;
   onSchedule: (id: string, title: string) => void;
   onDelete: (id: string) => void;
-}
+};
 
 export default class extends Component<Props> {
   onDelete = (item: CardProps) => {
@@ -58,7 +58,9 @@ export default class extends Component<Props> {
           renderItem={({ item }: { item: CardProps }) => (
             <Card
               {...item}
-              onPress={this.props.onSchedule}
+              onPress={() => {
+                this.props.onSchedule(item.id, item.title);
+              }}
               testID={`ScheduleID_${item.id}`}
             />
           )}
