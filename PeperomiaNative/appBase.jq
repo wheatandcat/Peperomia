@@ -23,7 +23,7 @@
     "assetBundlePatterns": ["src/**/*"],
     "ios": {
       "supportsTablet": true,
-      "buildNumber": "11",
+      "buildNumber": "13",
       "bundleIdentifier": "com.wheatandcat.peperomia",
       "infoPlist": {
         "NSPhotoLibraryUsageDescription": "予定作成のために使用します。",
@@ -39,7 +39,7 @@
     "android": {
       "package": "com.wheatandcat.peperomia",
       "googleServicesFile": "./android/google-services.json",
-      "versionCode": 12,
+      "versionCode": 13,
       "adaptiveIcon": {
         "backgroundColor": "#006835",
         "foregroundImage": "./assets/icon-fg.png"

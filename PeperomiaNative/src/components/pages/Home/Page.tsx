@@ -3,13 +3,13 @@ import { View, Text } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import Cards, { Props as CardsProps } from "../../organisms/Home/Cards";
 
-export interface Props extends CardsProps {
+export type Props = CardsProps & {
   onCreate: () => void;
-}
+};
 
-interface ItemProps extends Props {
+type ItemProps = Props & {
   onDelete: (id: string) => void;
-}
+};
 
 export default (props: ItemProps) => (
   <View style={styles.root}>
