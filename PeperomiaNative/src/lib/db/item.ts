@@ -1,11 +1,9 @@
-import * as SQLite from "expo-sqlite";
-import { success, error, ResultError } from "./";
+import * as SQLite from 'expo-sqlite';
+import { Item as ItemParam } from '../../domain/item';
+import { success, error, ResultError } from './';
 
-export type Item = {
+export type Item = ItemParam & {
   id?: number;
-  title: string;
-  kind: string;
-  image: string;
 };
 
 export const create = async (
@@ -13,12 +11,12 @@ export const create = async (
   callback?: (data: any, error: ResultError) => void
 ) => {
   return tx.executeSql(
-    "create table if not exists items (" +
-      "id integer primary key not null," +
-      "title string," +
-      "kind string," +
-      "image string" +
-      ");",
+    'create table if not exists items (' +
+      'id integer primary key not null,' +
+      'title string,' +
+      'kind string,' +
+      'image string' +
+      ');',
     [],
     (_: SQLite.Transaction, props: SQLite.ResultSet) =>
       success(props.rows._array, callback),
@@ -32,7 +30,7 @@ export const insert = async (
   callback?: (insertId: number, error: ResultError) => void
 ) => {
   return tx.executeSql(
-    "insert into items (title, kind, image) values (?, ?, ?)",
+    'insert into items (title, kind, image) values (?, ?, ?)',
     [item.title, item.kind, item.image],
     (_: SQLite.Transaction, props: SQLite.ResultSet) =>
       success(props.insertId, callback),
@@ -46,7 +44,7 @@ export const update = async (
   callback?: (data: Item[], error: ResultError) => void
 ) => {
   return tx.executeSql(
-    "update items set title = ?, kind = ?, image = ? where id = ?",
+    'update items set title = ?, kind = ?, image = ? where id = ?',
     [item.title, item.kind, item.image, String(item.id)],
     (_: SQLite.Transaction, props: SQLite.ResultSet) =>
       success(props.rows._array, callback),
@@ -59,7 +57,7 @@ export const select = async (
   callback?: (data: Item[], error: ResultError) => void
 ) => {
   tx.executeSql(
-    `select * from items order by id desc;`,
+    'select * from items order by id desc;',
     [],
     (_: SQLite.Transaction, props: SQLite.ResultSet) =>
       success(props.rows._array, callback),
@@ -73,7 +71,7 @@ export const select1st = async (
   callback?: (data: Item, error: ResultError) => void
 ) => {
   tx.executeSql(
-    `select * from items where id = ?;`,
+    'select * from items where id = ?;',
     [id],
     (_: SQLite.Transaction, props: SQLite.ResultSet) =>
       success(props.rows._array[0], callback),
@@ -87,7 +85,7 @@ export const delete1st = async (
   callback?: (data: Item, error: ResultError) => void
 ) => {
   tx.executeSql(
-    `delete from items where id = ?;`,
+    'delete from items where id = ?;',
     [id],
     (_: SQLite.Transaction, props: SQLite.ResultSet) =>
       success(props.rows._array[0], callback),
@@ -100,7 +98,7 @@ export const deleteAll = async (
   callback?: (data: Item, error: ResultError) => void
 ) => {
   tx.executeSql(
-    `delete from items;`,
+    'delete from items;',
     [],
     (_: SQLite.Transaction, props: SQLite.ResultSet) =>
       success(props.rows._array[0], callback),
@@ -124,9 +122,9 @@ export const bulkInsert = async (
 
   const q = items
     .map(() => {
-      return `(?, ?, ?, ?)`;
+      return '(?, ?, ?, ?)';
     })
-    .join(",");
+    .join(',');
 
   const query = `insert into items (id, title, kind, image) values ${q};`;
 

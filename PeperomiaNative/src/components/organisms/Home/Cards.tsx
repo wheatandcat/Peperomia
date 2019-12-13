@@ -1,111 +1,111 @@
-import React, { Component } from "react";
+import React from 'react';
 import {
   View,
   Text,
   RefreshControl,
-  StyleSheet,
   TouchableOpacity,
-  Alert
-} from "react-native";
-import { SwipeListView } from "react-native-swipe-list-view";
-import theme from "../../../config/theme";
-import Card, { ItemProps as CardProps } from "../../molecules/Home/Card";
+  Alert,
+} from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { SwipeListView } from 'react-native-swipe-list-view';
+import theme from '../../../config/theme';
+import { HomeScreenPlan } from '../../pages/Home/Connected';
+import Card, { ItemProps as CardProps } from '../../molecules/Home/Card';
 
-export type Props = {
+export type Props = Pick<HomeScreenPlan, 'onSchedule' | 'onDelete'> & {
   data: CardProps[];
   loading: boolean;
-  onSchedule: (id: string, title: string) => void;
-  onDelete: (id: string) => void;
 };
 
-export default class extends Component<Props> {
-  onDelete = (item: CardProps) => {
+export default ({ loading, data, onSchedule, onDelete }: Props) => {
+  const onDeleteAlert = ({ id }: CardProps) => {
     Alert.alert(
-      "削除しますか？",
-      "",
+      '削除しますか？',
+      '',
       [
         {
-          text: "キャンセル",
-          style: "cancel"
+          text: 'キャンセル',
+          style: 'cancel',
         },
         {
-          text: "削除する",
+          text: '削除する',
           onPress: () => {
-            this.props.onDelete(item.id);
-          }
-        }
+            onDelete(id);
+          },
+        },
       ],
       { cancelable: false }
     );
   };
 
-  render() {
-    return (
-      <View>
-        <SwipeListView
-          useFlatList
-          refreshControl={<RefreshControl refreshing={this.props.loading} />}
-          refreshing={this.props.loading}
-          contentContainerStyle={{ paddingBottom: 300 }}
-          data={this.props.data}
-          keyExtractor={item => String(item.id)}
-          renderHiddenItem={({ item }: { item: CardProps }) => (
-            <View style={styles.deleteContainer}>
-              <View />
-              <DeleteButton onPress={() => this.onDelete(item)} />
-            </View>
-          )}
-          renderItem={({ item }: { item: CardProps }) => (
-            <Card
-              {...item}
-              onPress={() => {
-                this.props.onSchedule(item.id, item.title);
-              }}
-              testID={`ScheduleID_${item.id}`}
-            />
-          )}
-          rightOpenValue={-85}
-          stopRightSwipe={-105}
-          disableRightSwipe
-          closeOnRowBeginSwipe={false}
-          closeOnScroll={false}
-        />
-      </View>
-    );
-  }
-}
+  return (
+    <View>
+      <SwipeListView
+        useFlatList
+        refreshControl={<RefreshControl refreshing={loading} />}
+        refreshing={loading}
+        contentContainerStyle={styles.swipeContentContainer}
+        data={data}
+        keyExtractor={item => String(item.id)}
+        renderHiddenItem={({ item }: { item: CardProps }) => (
+          <View style={styles.deleteContainer}>
+            <View />
+            <DeleteButton onPress={() => onDeleteAlert(item)} />
+          </View>
+        )}
+        renderItem={({ item }: { item: CardProps }) => (
+          <Card
+            {...item}
+            onPress={() => {
+              onSchedule(item.id, item.title);
+            }}
+            testID={`ScheduleID_${item.id}`}
+          />
+        )}
+        rightOpenValue={-85}
+        stopRightSwipe={-105}
+        disableRightSwipe
+        closeOnRowBeginSwipe={false}
+        closeOnScroll={false}
+      />
+    </View>
+  );
+};
 
-interface DeleteButtonProps {
+type DeleteButtonProps = {
   onPress: () => void;
-}
+};
 
-const DeleteButton = (props: DeleteButtonProps) => (
-  <TouchableOpacity onPress={props.onPress}>
+const DeleteButton = ({ onPress }: DeleteButtonProps) => (
+  <TouchableOpacity onPress={onPress}>
     <View style={styles.deleteButton}>
       <Text style={styles.deleteText}>削除</Text>
     </View>
   </TouchableOpacity>
 );
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   deleteButton: {
     margin: 3,
     borderRadius: 5,
     borderWidth: 0.5,
     borderColor: theme().color.red,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: theme().color.red,
     height: 80,
-    width: 80
+    width: 80,
   },
   deleteText: {
     color: theme().color.white,
-    fontWeight: "bold"
+    fontWeight: 'bold',
   },
   deleteContainer: {
-    justifyContent: "space-between",
-    flexDirection: "row",
-    flex: 1
-  }
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    flex: 1,
+  },
+  swipeContentContainer: {
+    paddingBottom: 300,
+  },
 });

@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import { TouchableOpacity, AsyncStorage } from "react-native";
-import BottomRight from "./BottomRight";
+import React, { Component } from 'react';
+import { TouchableOpacity, AsyncStorage } from 'react-native';
+import BottomRight from './BottomRight';
 
 interface Props {
   onPress: () => void;
@@ -13,31 +13,31 @@ interface State {
 
 export default class extends Component<Props, State> {
   state = {
-    visible: false
+    visible: false,
   };
 
   async componentDidMount() {
-    const visible = await AsyncStorage.getItem("FIRST_CRAEATE_ITEM");
+    const visible = await AsyncStorage.getItem('FIRST_CRAEATE_ITEM');
 
     this.setState({
-      visible: !Boolean(visible)
+      visible: !visible,
     });
   }
 
   onPress = () => {
     this.setState({
-      visible: false
+      visible: false,
     });
 
-    AsyncStorage.setItem("FIRST_CRAEATE_ITEM", "true");
+    AsyncStorage.setItem('FIRST_CRAEATE_ITEM', 'true');
   };
 
   onPushPress = () => {
     this.setState({
-      visible: false
+      visible: false,
     });
 
-    AsyncStorage.setItem("FIRST_CRAEATE_ITEM", "true");
+    AsyncStorage.setItem('FIRST_CRAEATE_ITEM', 'true');
     this.props.onPress();
   };
 

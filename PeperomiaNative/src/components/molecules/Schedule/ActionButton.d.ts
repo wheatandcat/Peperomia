@@ -1,3 +1,3 @@
-import DefaultIos from "./ActionButton.ios";
+import DefaultIos from './ActionButton.ios';
 
 export default DefaultIos;

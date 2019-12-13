@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { View, Dimensions, TouchableOpacity, StyleSheet } from "react-native";
-import theme from "../../../config/theme";
+import React, { Component } from 'react';
+import { View, Dimensions, TouchableOpacity, StyleSheet } from 'react-native';
+import theme from '../../../config/theme';
 
-const deviceHeight = Dimensions.get("window").height;
-const deviceWidth = Dimensions.get("window").width;
+const deviceHeight = Dimensions.get('window').height;
+const deviceWidth = Dimensions.get('window').width;
 
 interface Props {
   visible?: boolean;
@@ -22,12 +22,12 @@ export default class extends Component<Props> {
 
 const styles = StyleSheet.create({
   root: {
-    position: "absolute",
+    position: 'absolute',
     top: -80,
     right: -12,
     width: deviceWidth,
     height: deviceHeight,
     backgroundColor: theme().color.yellow,
-    zIndex: 50
-  }
+    zIndex: 50,
+  },
 });

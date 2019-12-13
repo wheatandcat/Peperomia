@@ -1,1 +1,1 @@
-declare module "detox-expo-helpers";
+declare module 'detox-expo-helpers';

@@ -1,4 +1,4 @@
-import EStyleSheet from "react-native-extended-stylesheet";
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 type ThemeColor = {
   color: {
@@ -49,53 +49,53 @@ type Theme = {
 };
 
 const baseColor = {
-  beige: "#E4E4C8",
-  blue: "#007bbb",
-  darkGray: "#4F4F4F",
-  dodgerBlue: "#A1CBF3",
-  gray: "#828282",
-  lightBlue: "#A7EFFF",
-  lightEmerald: "#98D181",
-  lightGray: "#D3D3D3",
-  highLightGray: "#F2F2F2",
-  lightGreen: "#ADCF01",
-  lightNavy: "#CECEE6",
-  lightOrange: "#FFE3AC",
-  lightPink: "#F1DBF9",
-  lightRed: "#FF8C8C",
-  lightYellow: "#FBFDB0",
-  white: "#fff",
-  pink: "#FCCBCB",
-  main: "#006835",
-  red: "#E15757",
-  sky: "#00C2ED",
-  yellow: "#f8e58c",
-  black: "#333631"
+  beige: '#E4E4C8',
+  blue: '#007bbb',
+  darkGray: '#4F4F4F',
+  dodgerBlue: '#A1CBF3',
+  gray: '#828282',
+  lightBlue: '#A7EFFF',
+  lightEmerald: '#98D181',
+  lightGray: '#D3D3D3',
+  highLightGray: '#F2F2F2',
+  lightGreen: '#ADCF01',
+  lightNavy: '#CECEE6',
+  lightOrange: '#FFE3AC',
+  lightPink: '#F1DBF9',
+  lightRed: '#FF8C8C',
+  lightYellow: '#FBFDB0',
+  white: '#fff',
+  pink: '#FCCBCB',
+  main: '#006835',
+  red: '#E15757',
+  sky: '#00C2ED',
+  yellow: '#f8e58c',
+  black: '#333631',
 };
 
 const darkColor = {
-  beige: "#E4E4C8",
-  blue: "#007bbb",
-  darkGray: "#4F4F4F",
-  dodgerBlue: "#A1CBF3",
-  gray: "#828282",
-  lightBlue: "#A7EFFF",
-  lightEmerald: "#98D181",
-  lightGray: "#D3D3D3",
-  highLightGray: "#F2F2F2",
-  lightGreen: "#ADCF01",
-  lightNavy: "#CECEE6",
-  lightOrange: "#FFE3AC",
-  lightPink: "#F1DBF9",
-  lightRed: "#FF8C8C",
-  lightYellow: "#FBFDB0",
-  white: "#fff",
-  pink: "#FCCBCB",
-  main: "#006835",
-  red: "#E15757",
-  sky: "#00C2ED",
-  yellow: "#f8e58c",
-  black: "#333631"
+  beige: '#E4E4C8',
+  blue: '#007bbb',
+  darkGray: '#4F4F4F',
+  dodgerBlue: '#A1CBF3',
+  gray: '#828282',
+  lightBlue: '#A7EFFF',
+  lightEmerald: '#98D181',
+  lightGray: '#D3D3D3',
+  highLightGray: '#F2F2F2',
+  lightGreen: '#ADCF01',
+  lightNavy: '#CECEE6',
+  lightOrange: '#FFE3AC',
+  lightPink: '#F1DBF9',
+  lightRed: '#FF8C8C',
+  lightYellow: '#FBFDB0',
+  white: '#fff',
+  pink: '#FCCBCB',
+  main: '#006835',
+  red: '#E15757',
+  sky: '#00C2ED',
+  yellow: '#f8e58c',
+  black: '#333631',
 };
 
 const theme: Theme = {
@@ -110,13 +110,13 @@ const theme: Theme = {
       tabBar: {
         background: baseColor.highLightGray,
         activeTint: baseColor.main,
-        inactiveTint: baseColor.darkGray
+        inactiveTint: baseColor.darkGray,
       },
       header: {
         backgroundColor: baseColor.main,
-        text: baseColor.lightGreen
-      }
-    }
+        text: baseColor.lightGreen,
+      },
+    },
   },
   dark: {
     color: darkColor,
@@ -129,19 +129,19 @@ const theme: Theme = {
       tabBar: {
         background: baseColor.darkGray,
         activeTint: baseColor.lightGreen,
-        inactiveTint: baseColor.lightGray
+        inactiveTint: baseColor.lightGray,
       },
       header: {
         backgroundColor: baseColor.black,
-        text: baseColor.highLightGray
-      }
-    }
-  }
+        text: baseColor.highLightGray,
+      },
+    },
+  },
 };
 
-let mode: "light" | "dark" = "light";
+let mode: 'light' | 'dark' = 'light';
 
-export const setMode = (modeType: "light" | "dark") => {
+export const setMode = (modeType: 'light' | 'dark') => {
   mode = modeType;
 
   const themeMode = theme[mode].mode;
@@ -163,12 +163,12 @@ export const setMode = (modeType: "light" | "dark") => {
     $chipText: darkMode() ? baseColor.lightGray : baseColor.gray,
     $button: darkMode() ? baseColor.black : baseColor.main,
     $secondaryButton: darkMode() ? baseColor.white : baseColor.main,
-    $buttonBorder: darkMode() ? baseColor.white : baseColor.main
+    $buttonBorder: darkMode() ? baseColor.white : baseColor.main,
   });
 };
 
 export const darkMode = () => {
-  return mode === "dark";
+  return mode === 'dark';
 };
 
 const getTheme = () => {

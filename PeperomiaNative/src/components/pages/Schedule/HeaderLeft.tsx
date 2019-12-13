@@ -1,9 +1,10 @@
-import React from "react";
-import { NavigationScreenProp, NavigationRoute } from "react-navigation";
-import { TouchableOpacity } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import theme from "../../../config/theme";
-import { LeftText } from "../../atoms/Header";
+import React from 'react';
+import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { TouchableOpacity } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import theme from '../../../config/theme';
+import { LeftText } from '../../atoms/Header';
 
 interface Props {
   mode: string;
@@ -12,18 +13,18 @@ interface Props {
 }
 
 export default (props: Props) => {
-  if (props.mode === "edit") {
+  if (props.mode === 'edit') {
     return <LeftText label="キャンセル" cancel onPress={props.onShow} />;
   }
 
-  if (props.mode === "sort") {
+  if (props.mode === 'sort') {
     return null;
   }
 
   return (
     <TouchableOpacity
       onPress={() => props.navigation.goBack()}
-      style={{ flex: 1, flexDirection: "row", marginTop: 10 }}
+      style={styles.root}
     >
       <MaterialCommunityIcons
         name="chevron-left"
@@ -33,3 +34,7 @@ export default (props: Props) => {
     </TouchableOpacity>
   );
 };
+
+const styles = EStyleSheet.create({
+  root: { flex: 1, flexDirection: 'row', marginTop: 10 },
+});

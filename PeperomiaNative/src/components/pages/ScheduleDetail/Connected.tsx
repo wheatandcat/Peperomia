@@ -1,25 +1,25 @@
-import * as SQLite from "expo-sqlite";
-import React, { Component } from "react";
-import { NavigationScreenProp, NavigationRoute } from "react-navigation";
-import uuidv1 from "uuid/v1";
-import { db, ResultError } from "../../../lib/db";
-import { Item, select1st as selectItem1st } from "../../../lib/db/item";
+import * as SQLite from 'expo-sqlite';
+import React, { Component } from 'react';
+import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
+import uuidv1 from 'uuid/v1';
+import { db, ResultError } from '../../../lib/db';
+import { Item, select1st as selectItem1st } from '../../../lib/db/item';
 import {
   ItemDetail,
   select1st,
   delete1st,
   selectByItemId,
-  sortItemDetail
-} from "../../../lib/db/itemDetail";
-import { ContextProps } from "../../../containers/Items";
-import Page from "./Page";
+  sortItemDetail,
+} from '../../../lib/db/itemDetail';
+import { ContextProps } from '../../../containers/Items';
+import Page from './Page';
 
 type State = {
   item: Item;
   itemDetail: ItemDetail;
 };
 
-type Props = Pick<ContextProps, "refreshData"> & {
+type Props = Pick<ContextProps, 'refreshData'> & {
   navigation: NavigationScreenProp<NavigationRoute>;
   onEdit: (
     title: string,
@@ -36,27 +36,27 @@ export default class extends Component<Props, State> {
   state = {
     item: {
       id: 0,
-      title: "",
-      image: "",
-      kind: ""
+      title: '',
+      image: '',
+      kind: '',
     },
     itemDetail: {
       id: 0,
       itemId: 0,
-      kind: "",
-      title: "",
-      memo: "",
-      place: "",
-      url: "",
+      kind: '',
+      title: '',
+      memo: '',
+      place: '',
+      url: '',
       moveMinutes: 0,
-      priority: 0
-    }
+      priority: 0,
+    },
   };
 
   componentDidMount() {
     const scheduleDetailId = this.props.navigation.getParam(
-      "scheduleDetailId",
-      "1"
+      'scheduleDetailId',
+      '1'
     );
     db.transaction((tx: SQLite.Transaction) => {
       select1st(
@@ -94,7 +94,7 @@ export default class extends Component<Props, State> {
       url,
       memo,
       moveMinutes,
-      priority
+      priority,
     } = this.state.itemDetail;
     this.props.onEdit(title, kind, place, url, memo, moveMinutes, priority);
   };
@@ -131,10 +131,10 @@ export default class extends Component<Props, State> {
 
     if (this.props.refreshData) {
       this.props.refreshData();
-      this.props.navigation.navigate("Schedule", {
+      this.props.navigation.navigate('Schedule', {
         itemId: this.state.itemDetail.itemId,
         title: this.state.item.title,
-        refresh: uuidv1()
+        refresh: uuidv1(),
       });
     }
   };

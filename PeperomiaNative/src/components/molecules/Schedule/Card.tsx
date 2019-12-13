@@ -1,11 +1,11 @@
-import React from "react";
-import { View } from "react-native";
-import styled from "styled-components/native";
-import Color from "color";
-import { ItemDetail } from "../../../lib/db/itemDetail";
-import { KINDS } from "../../../lib/getKind";
-import s from "../../../config/style";
-import { IconImage } from "primitive";
+import React from 'react';
+import { View } from 'react-native';
+import styled from 'styled-components/native';
+import Color from 'color';
+import { ItemDetail } from '../../../lib/db/itemDetail';
+import { KINDS } from '../../../lib/getKind';
+import s from '../../../config/style';
+import { IconImage } from 'primitive';
 
 export interface Props extends ItemDetail {
   kind: string;
@@ -16,7 +16,7 @@ export default (props: Props) => {
   const ss = s.schedule;
 
   if (!config) {
-    console.log("kind config not found");
+    console.log('kind config not found');
     return null;
   }
 
@@ -29,11 +29,11 @@ export default (props: Props) => {
           .toString(),
         backgroundColor: Color(config.backgroundColor)
           .lighten(ss.backgroundColorAlpha)
-          .toString()
+          .toString(),
       }}
     >
-      <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
-        <View style={{ position: "absolute", right: 30 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+        <View style={{ position: 'absolute', right: 30 }}>
           <IconImage
             src={config.src}
             name={config.name}

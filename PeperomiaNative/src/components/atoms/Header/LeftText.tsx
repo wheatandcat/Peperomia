@@ -1,5 +1,5 @@
-import React from "react";
-import { Text, TouchableOpacity } from "react-native";
+import React from 'react';
+import { Text, TouchableOpacity } from 'react-native';
 
 interface Props {
   label: string;
@@ -17,8 +17,8 @@ export default (props: Props) => (
     <Text
       style={{
         fontSize: 16,
-        fontWeight: "600",
-        color: props.cancel ? "red" : "black"
+        fontWeight: '600',
+        color: props.cancel ? 'red' : 'black',
       }}
     >
       {props.label}

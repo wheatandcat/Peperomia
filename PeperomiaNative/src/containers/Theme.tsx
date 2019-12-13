@@ -1,8 +1,8 @@
-import React, { createContext, Component, ReactNode } from "react";
-import { AsyncStorage, StatusBar } from "react-native";
-import Spinner from "react-native-loading-spinner-overlay";
-import { Appearance, useColorScheme } from "react-native-appearance";
-import { setMode } from "../config/theme";
+import React, { createContext, Component, ReactNode } from 'react';
+import { AsyncStorage, StatusBar } from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
+import { Appearance, useColorScheme } from 'react-native-appearance';
+import { setMode } from '../config/theme';
 
 const Context = createContext({});
 const { Provider } = Context;
@@ -22,12 +22,12 @@ type State = {
   render: boolean;
 };
 
-var colorScheme1st: any = "";
+var colorScheme1st: any = '';
 
 export type ContextProps = Partial<
-  Pick<State, "rerendering" | "mode"> & {
+  Pick<State, 'rerendering' | 'mode'> & {
     colorScheme: string;
-    onModeChange: (mode: "light" | "dark") => void;
+    onModeChange: (mode: 'light' | 'dark') => void;
     onFinishRerendering: () => void;
   }
 >;
@@ -47,44 +47,44 @@ export default (props: Props) => {
 class Theme extends Component<ThemeProps, State> {
   state = {
     rerendering: false,
-    mode: "light",
-    render: false
+    mode: 'light',
+    render: false,
   };
 
   async componentDidMount() {
-    let mode = await AsyncStorage.getItem("THEME_MODE");
+    let mode = await AsyncStorage.getItem('THEME_MODE');
 
-    if (mode !== "dark") {
+    if (mode !== 'dark') {
       if (
-        this.props.colorScheme === "light" ||
-        this.props.colorScheme === "dark"
+        this.props.colorScheme === 'light' ||
+        this.props.colorScheme === 'dark'
       ) {
         // 初期値はデバイスのモードで設定
         mode = this.props.colorScheme;
       } else {
-        mode = "light";
+        mode = 'light';
       }
     }
 
-    if (mode === "light" || mode === "dark") {
+    if (mode === 'light' || mode === 'dark') {
       setMode(mode);
     }
 
     this.setState({
       mode,
-      render: true
+      render: true,
     });
   }
 
-  onModeChange = async (mode: "light" | "dark") => {
+  onModeChange = async (mode: 'light' | 'dark') => {
     this.setState({
       mode,
-      rerendering: true
+      rerendering: true,
     });
 
-    await AsyncStorage.setItem("THEME_MODE", mode);
+    await AsyncStorage.setItem('THEME_MODE', mode);
 
-    if (mode === "light" || mode === "dark") {
+    if (mode === 'light' || mode === 'dark') {
       setMode(mode);
       setTimeout(this.setUnRender.bind(this), 100);
       setTimeout(this.setRender.bind(this), 101);
@@ -93,19 +93,19 @@ class Theme extends Component<ThemeProps, State> {
 
   setUnRender = () => {
     this.setState({
-      render: false
+      render: false,
     });
   };
 
   setRender = () => {
     this.setState({
-      render: true
+      render: true,
     });
   };
 
   onFinishRerendering = () => {
     this.setState({
-      rerendering: false
+      rerendering: false,
     });
   };
 
@@ -121,7 +121,7 @@ class Theme extends Component<ThemeProps, State> {
               rerendering: this.state.rerendering,
               mode: this.state.mode,
               onModeChange: this.onModeChange,
-              onFinishRerendering: this.onFinishRerendering
+              onFinishRerendering: this.onFinishRerendering,
             }}
           >
             {this.props.children}

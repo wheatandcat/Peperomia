@@ -1,7 +1,8 @@
-import React, { Component } from "react";
-import { FlatList } from "react-native";
-import { ItemDetail } from "../../../lib/db/itemDetail";
-import Card from "../../molecules/Schedule/TouchableCard";
+import React, { Component } from 'react';
+import { FlatList } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { ItemDetail } from '../../../lib/db/itemDetail';
+import Card from '../../molecules/Schedule/TouchableCard';
 
 export interface ItemProps extends ItemDetail {}
 
@@ -28,8 +29,14 @@ export default class extends Component<Props> {
         data={this.props.data}
         keyExtractor={item => String(item.id)}
         renderItem={this.renderItem.bind(this)}
-        contentContainerStyle={{ paddingBottom: 50 }}
+        contentContainerStyle={styles.root}
       />
     );
   }
 }
+
+const styles = EStyleSheet.create({
+  root: {
+    paddingBottom: 50,
+  },
+});

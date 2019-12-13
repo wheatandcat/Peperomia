@@ -1,5 +1,5 @@
-import * as SQLite from "expo-sqlite";
-import { success, error, ResultError } from "./";
+import * as SQLite from 'expo-sqlite';
+import { success, error, ResultError } from './';
 
 export interface ItemDetailParam {
   title: string;
@@ -21,17 +21,17 @@ export const create = async (
   callback?: (data: any, error: ResultError) => void
 ) => {
   return tx.executeSql(
-    "create table if not exists item_details (" +
-      "id integer primary key not null," +
-      "itemId integer," +
-      "title string," +
-      "kind string," +
-      "memo string," +
-      "place string," +
-      "url string," +
-      "moveMinutes integer," +
-      "priority integer" +
-      ");",
+    'create table if not exists item_details (' +
+      'id integer primary key not null,' +
+      'itemId integer,' +
+      'title string,' +
+      'kind string,' +
+      'memo string,' +
+      'place string,' +
+      'url string,' +
+      'moveMinutes integer,' +
+      'priority integer' +
+      ');',
     [],
     (_: SQLite.Transaction, props: SQLite.ResultSet) =>
       success(props.rows._array, callback),
@@ -45,7 +45,7 @@ export const insert = async (
   callback?: (insertId: number, error: ResultError) => void
 ) => {
   return tx.executeSql(
-    "insert into item_details (itemId, title, kind, memo, place, url, moveMinutes, priority) values (?, ?, ?, ?, ?, ?, ?, ?)",
+    'insert into item_details (itemId, title, kind, memo, place, url, moveMinutes, priority) values (?, ?, ?, ?, ?, ?, ?, ?)',
     [
       String(itemDetail.itemId),
       itemDetail.title,
@@ -54,7 +54,7 @@ export const insert = async (
       itemDetail.place,
       itemDetail.url,
       String(itemDetail.moveMinutes),
-      String(itemDetail.priority)
+      String(itemDetail.priority),
     ],
     (_: SQLite.Transaction, props: SQLite.ResultSet) =>
       success(props.insertId, callback),
@@ -68,7 +68,7 @@ export const update = async (
   callback?: (data: ItemDetail[], error: ResultError) => void
 ) => {
   return tx.executeSql(
-    "update item_details set title = ?, kind = ?, memo = ?, place = ?, url = ?, moveMinutes = ?, priority = ? where id = ?",
+    'update item_details set title = ?, kind = ?, memo = ?, place = ?, url = ?, moveMinutes = ?, priority = ? where id = ?',
     [
       itemDetail.title,
       itemDetail.kind,
@@ -77,7 +77,7 @@ export const update = async (
       itemDetail.url,
       String(itemDetail.moveMinutes),
       String(itemDetail.priority),
-      String(itemDetail.id)
+      String(itemDetail.id),
     ],
     (_: SQLite.Transaction, props: SQLite.ResultSet) =>
       success(props.rows._array, callback),
@@ -90,7 +90,7 @@ export const select = async (
   callback?: (data: ItemDetail[], error: ResultError) => void
 ) => {
   return tx.executeSql(
-    "select * from item_details",
+    'select * from item_details',
     [],
     (_: SQLite.Transaction, props: SQLite.ResultSet) =>
       success(props.rows._array, callback),
@@ -104,7 +104,7 @@ export const selectByItemId = async (
   callback?: (data: ItemDetail[], error: ResultError) => void
 ) => {
   return tx.executeSql(
-    "select * from item_details where itemId = ? order by priority",
+    'select * from item_details where itemId = ? order by priority',
     [id],
     (_: SQLite.Transaction, props: SQLite.ResultSet) =>
       success(props.rows._array, callback),
@@ -118,7 +118,7 @@ export const select1st = async (
   callback?: (data: ItemDetail, error: ResultError) => void
 ) => {
   return tx.executeSql(
-    "select * from item_details where id = ? limit 1",
+    'select * from item_details where id = ? limit 1',
     [id],
     (_: SQLite.Transaction, props: SQLite.ResultSet) =>
       success(props.rows._array[0], callback),
@@ -143,7 +143,7 @@ export const countByItemId = async (
   callback?: (count: number, error: ResultError) => void
 ) => {
   return tx.executeSql(
-    "select count(id) as count from item_details where itemId = ?",
+    'select count(id) as count from item_details where itemId = ?',
     [id],
     (_: SQLite.Transaction, props: SQLite.ResultSet) =>
       success(props.rows._array[0].count, callback),
@@ -157,7 +157,7 @@ export const delete1st = async (
   callback?: (data: ItemDetail, error: ResultError) => void
 ) => {
   tx.executeSql(
-    `delete from item_details where id = ?;`,
+    'delete from item_details where id = ?;',
     [id],
     (_: SQLite.Transaction, props: SQLite.ResultSet) =>
       success(props.rows._array[0], callback),
@@ -171,7 +171,7 @@ export const deleteByItemId = async (
   callback?: (data: ItemDetail[], error: ResultError) => void
 ) => {
   tx.executeSql(
-    `delete from item_details where itemId = ?;`,
+    'delete from item_details where itemId = ?;',
     [id],
     (_: SQLite.Transaction, props: SQLite.ResultSet) =>
       success(props.rows._array, callback),
@@ -184,7 +184,7 @@ export const deleteAll = async (
   callback?: (data: ItemDetail[], error: ResultError) => void
 ) => {
   tx.executeSql(
-    `delete from item_details;`,
+    'delete from item_details;',
     [],
     (_: SQLite.Transaction, props: SQLite.ResultSet) =>
       success(props.rows._array, callback),
@@ -208,7 +208,7 @@ export const bulkInsert = async (
         itemDetail.place,
         itemDetail.url,
         String(itemDetail.moveMinutes),
-        String(itemDetail.priority)
+        String(itemDetail.priority),
       ];
     })
     .reduce((pre, current) => {
@@ -218,9 +218,9 @@ export const bulkInsert = async (
 
   const q = itemDetails
     .map(() => {
-      return `(?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+      return '(?, ?, ?, ?, ?, ?, ?, ?, ?)';
     })
-    .join(",");
+    .join(',');
 
   const query = `insert into item_details (id, itemId, title, kind, memo, place, url, moveMinutes, priority) values ${q};`;
 

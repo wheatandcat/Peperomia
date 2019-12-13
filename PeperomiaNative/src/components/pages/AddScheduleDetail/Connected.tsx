@@ -1,20 +1,20 @@
-import * as SQLite from "expo-sqlite";
-import React, { Component } from "react";
-import { NavigationScreenProp, NavigationRoute } from "react-navigation";
-import uuidv1 from "uuid/v1";
-import { db } from "../../../lib/db";
+import * as SQLite from 'expo-sqlite';
+import React, { Component } from 'react';
+import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
+import uuidv1 from 'uuid/v1';
+import { db } from '../../../lib/db';
 import {
   ItemDetailParam,
   insert as insertItemDetail,
-  ItemDetail
-} from "../../../lib/db/itemDetail";
-import getKind from "../../../lib/getKind";
-import { SuggestItem } from "../../../lib/suggest";
+  ItemDetail,
+} from '../../../lib/db/itemDetail';
+import getKind from '../../../lib/getKind';
+import { SuggestItem } from '../../../lib/suggest';
 import {
   Consumer as ItemsConsumer,
-  ContextProps
-} from "../../../containers/Items";
-import Page from "../../templates/CreateScheduleDetail/Page";
+  ContextProps,
+} from '../../../containers/Items';
+import Page from '../../templates/CreateScheduleDetail/Page';
 
 export interface State extends ItemDetailParam {
   iconSelected: boolean;
@@ -25,7 +25,7 @@ interface Props extends ItemDetailParam {
   navigation: NavigationScreenProp<NavigationRoute>;
 }
 
-type PlanProps = Props & Pick<ContextProps, "itemDetails" | "refreshData">;
+type PlanProps = Props & Pick<ContextProps, 'itemDetails' | 'refreshData'>;
 
 export default class extends Component<Props> {
   render() {
@@ -45,30 +45,30 @@ export default class extends Component<Props> {
 
 class Plan extends Component<PlanProps, State> {
   state = {
-    title: this.props.title || "",
-    place: this.props.place || "",
-    url: this.props.url || "",
-    memo: this.props.memo || "",
+    title: this.props.title || '',
+    place: this.props.place || '',
+    url: this.props.url || '',
+    memo: this.props.memo || '',
     moveMinutes: this.props.moveMinutes || 0,
     kind: this.props.kind,
     priority: this.props.priority,
     iconSelected: false,
-    suggestList: []
+    suggestList: [],
   };
 
   componentDidMount() {
     const suggestList = (this.props.itemDetails || []).map(itemDetail => ({
       title: itemDetail.title,
-      kind: itemDetail.kind
+      kind: itemDetail.kind,
     }));
 
     this.setState({
-      suggestList
+      suggestList,
     });
   }
 
   componentDidUpdate() {
-    const kind = this.props.navigation.getParam("kind", "");
+    const kind = this.props.navigation.getParam('kind', '');
 
     if (!kind) {
       return;
@@ -91,8 +91,8 @@ class Plan extends Component<PlanProps, State> {
     memo: string,
     time: number
   ) => {
-    const itemId = this.props.navigation.getParam("itemId", "1");
-    const priority = this.props.navigation.getParam("priority", "1");
+    const itemId = this.props.navigation.getParam('itemId', '1');
+    const priority = this.props.navigation.getParam('priority', '1');
 
     db.transaction((tx: SQLite.Transaction) => {
       const itemDetail: ItemDetail = {
@@ -103,7 +103,7 @@ class Plan extends Component<PlanProps, State> {
         memo,
         kind,
         moveMinutes: time,
-        priority: Number(priority)
+        priority: Number(priority),
       };
 
       insertItemDetail(tx, itemDetail, this.save);
@@ -111,11 +111,11 @@ class Plan extends Component<PlanProps, State> {
   };
 
   save = () => {
-    const itemId = this.props.navigation.getParam("itemId", "1");
+    const itemId = this.props.navigation.getParam('itemId', '1');
 
-    this.props.navigation.navigate("Schedule", {
+    this.props.navigation.navigate('Schedule', {
       itemId,
-      refresh: uuidv1()
+      refresh: uuidv1(),
     });
 
     if (this.props.refreshData) {
@@ -124,17 +124,17 @@ class Plan extends Component<PlanProps, State> {
   };
 
   onIcons = (title: string) => {
-    this.props.navigation.navigate("Icons", {
+    this.props.navigation.navigate('Icons', {
       kind: getKind(title),
       onSelectIcon: (kind: string) => {
-        this.props.navigation.navigate("AddScheduleDetail", {
-          kind: kind
+        this.props.navigation.navigate('AddScheduleDetail', {
+          kind: kind,
         });
       },
       onDismiss: () => {
-        this.props.navigation.navigate("AddScheduleDetail");
+        this.props.navigation.navigate('AddScheduleDetail');
       },
-      photo: false
+      photo: false,
     });
   };
 

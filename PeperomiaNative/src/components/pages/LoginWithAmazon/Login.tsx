@@ -1,7 +1,7 @@
-import React from "react";
-import { View, Image, Text } from "react-native";
-import { Button, Divider } from "react-native-elements";
-import EStyleSheet from "react-native-extended-stylesheet";
+import React from 'react';
+import { View, Image, Text } from 'react-native';
+import { Button, Divider } from 'react-native-elements';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 type Props = {
   loading: boolean;
@@ -14,8 +14,8 @@ export default ({ loading, onAmazonLogin }: Props) => {
       <View style={styles.alexaSkillContainer}>
         <View style={styles.log}>
           <Image
-            source={require("../../../img/alexa_skill.png")}
-            style={{ height: 80, width: 80 }}
+            source={require('../../../img/alexa_skill.png')}
+            style={styles.icon}
           />
         </View>
         <View>
@@ -25,8 +25,8 @@ export default ({ loading, onAmazonLogin }: Props) => {
       <Divider />
       <View style={styles.description}>
         <Text style={styles.title}>
-          ※こちらの機能はまだβ版です。{`\n`}
-          {`\n`}
+          ※こちらの機能はまだβ版です。{'\n'}
+          {'\n'}
           ペペロミアの予定作成をAlexaスキルから行う事ができます。
         </Text>
       </View>
@@ -45,29 +45,34 @@ export default ({ loading, onAmazonLogin }: Props) => {
 
 const styles = EStyleSheet.create({
   root: {
-    backgroundColor: "$background",
-    height: "100%",
-    width: "100%"
+    backgroundColor: '$background',
+    height: '100%',
+    width: '100%',
   },
   alexaSkillContainer: {
-    flexDirection: "row",
-    alignItems: "center"
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   log: {
-    padding: 15
+    padding: 15,
   },
   title: {
-    color: "$text",
-    fontSize: 18
+    color: '$text',
+    fontSize: 18,
   },
   description: {
-    padding: 15
+    padding: 15,
   },
   text: {
-    color: "$text"
+    color: '$text',
   },
   buttonAction: {
     paddingHorizontal: 15,
-    paddingVertical: 20
-  }
+    paddingVertical: 20,
+  },
+
+  icon: {
+    height: 80,
+    width: 80,
+  },
 });

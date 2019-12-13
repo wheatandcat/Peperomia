@@ -1,8 +1,8 @@
-import React from "react";
-import { View, Text, Platform } from "react-native";
-import EStyleSheet from "react-native-extended-stylesheet";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import theme from "../../../config/theme";
+import React from 'react';
+import { View, Text, Platform } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import theme from '../../../config/theme';
 
 export interface Props {
   text: string;
@@ -15,8 +15,8 @@ export default (props: Props) => (
     style={[
       styles.container,
       {
-        width: props.width
-      }
+        width: props.width,
+      },
     ]}
   >
     <MaterialCommunityIcons
@@ -25,7 +25,7 @@ export default (props: Props) => (
       size={24}
       style={{
         paddingRight: 2,
-        paddingLeft: 1
+        paddingLeft: 1,
       }}
     />
     <Text style={styles.text}>{props.text}</Text>
@@ -34,19 +34,19 @@ export default (props: Props) => (
 
 const styles = EStyleSheet.create({
   container: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     borderWidth: 1,
     borderColor: theme().color.lightGray,
-    backgroundColor: "$chip",
+    backgroundColor: '$chip',
     paddingHorizontal: 3,
-    paddingTop: Platform.OS === "ios" ? 2 : 0,
+    paddingTop: Platform.OS === 'ios' ? 2 : 0,
     paddingBottom: 0,
-    borderRadius: 10
+    borderRadius: 10,
   },
   text: {
     fontSize: 14,
-    fontWeight: "500",
-    color: "$chipText"
-  }
+    fontWeight: '500',
+    color: '$chipText',
+  },
 });

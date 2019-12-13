@@ -1,14 +1,14 @@
-import React, { createContext, Component, ReactNode } from "react";
-import Constants from "expo-constants";
+import React, { createContext, Component, ReactNode } from 'react';
+import Constants from 'expo-constants';
 import {
   Consumer as AuthConsumer,
-  ContextProps as AuthContextProps
-} from "./Auth";
+  ContextProps as AuthContextProps,
+} from './Auth';
 
 const Context = createContext({});
 const { Provider } = Context;
 
-export type ContextProps = Partial<Pick<Connected, "post">>;
+export type ContextProps = Partial<Pick<Connected, 'post'>>;
 
 type Props = {
   children: ReactNode;
@@ -26,7 +26,7 @@ export default class extends Component<Props> {
   }
 }
 
-type ConnectedProps = Pick<AuthContextProps, "getIdToken">;
+type ConnectedProps = Pick<AuthContextProps, 'getIdToken'>;
 
 export interface FetchValue {
   post: (url: string, param: any) => Promise<Response>;
@@ -34,15 +34,15 @@ export interface FetchValue {
 
 class Connected extends Component<ConnectedProps> {
   post = async (url: string, param: any): Promise<Response> => {
-    const idToken = this.props.getIdToken ? await this.props.getIdToken() : "";
+    const idToken = this.props.getIdToken ? await this.props.getIdToken() : '';
     const apiHost = process.env.API_HOST;
     const init = {
       ...param,
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${idToken}`
-      }
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`,
+      },
     };
 
     if (!Constants.isDevice) {
@@ -67,7 +67,7 @@ class Connected extends Component<ConnectedProps> {
     return (
       <Provider
         value={{
-          post: this.post
+          post: this.post,
         }}
       >
         {this.props.children}

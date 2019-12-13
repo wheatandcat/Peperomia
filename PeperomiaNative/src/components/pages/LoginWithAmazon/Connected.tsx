@@ -1,22 +1,22 @@
-import React, { Component } from "react";
-import { NavigationScreenProp, NavigationRoute } from "react-navigation";
-import { Linking, Alert, Dimensions } from "react-native";
-import Constants from "expo-constants";
-import Toast from "react-native-root-toast";
-import dayjs from "dayjs";
-import advancedFormat from "dayjs/plugin/advancedFormat";
-import "dayjs/locale/ja";
-import queryString from "query-string";
-import theme from "../../../config/theme";
+import React, { Component } from 'react';
+import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
+import { Linking, Alert, Dimensions } from 'react-native';
+import Constants from 'expo-constants';
+import Toast from 'react-native-root-toast';
+import dayjs from 'dayjs';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
+import 'dayjs/locale/ja';
+import queryString from 'query-string';
+import theme from '../../../config/theme';
 import {
   Consumer as FetchConsumer,
-  ContextProps as FetchContextProps
-} from "../../../containers/Fetch";
+  ContextProps as FetchContextProps,
+} from '../../../containers/Fetch';
 import {
   Consumer as AuthConsumer,
-  ContextProps as AuthContextProps
-} from "../../../containers/Auth";
-import Page from "./Page";
+  ContextProps as AuthContextProps,
+} from '../../../containers/Auth';
+import Page from './Page';
 
 dayjs.extend(advancedFormat);
 
@@ -31,15 +31,15 @@ type WebPageResponse = {
 export default class extends Component<Props> {
   static navigationOptions = () => {
     return {
-      title: "Amazonアカウント連携",
-      headerBackTitle: "",
+      title: 'Amazonアカウント連携',
+      headerBackTitle: '',
       headerTitleStyle: {
-        color: theme().mode.header.text
+        color: theme().mode.header.text,
       },
       headerTintColor: theme().mode.header.text,
       headerStyle: {
-        backgroundColor: theme().mode.header.backgroundColor
-      }
+        backgroundColor: theme().mode.header.backgroundColor,
+      },
     };
   };
 
@@ -58,8 +58,8 @@ export default class extends Component<Props> {
   }
 }
 
-type ConnectedProps = Pick<AuthContextProps, "uid"> &
-  Pick<FetchContextProps, "post"> & {
+type ConnectedProps = Pick<AuthContextProps, 'uid'> &
+  Pick<FetchContextProps, 'post'> & {
     navigation: NavigationScreenProp<NavigationRoute>;
   };
 
@@ -71,18 +71,18 @@ interface State {
 class Connected extends Component<ConnectedProps, State> {
   state = {
     loading: false,
-    linked: false
+    linked: false,
   };
 
   onAmazonLogin = () => {
-    Linking.addEventListener("url", event => this.redirect(event));
+    Linking.addEventListener('url', event => this.redirect(event));
     const url = `https://peperomia.info/login/amazon?aaa=aa12&redirect_uri=${Constants.linkingUri}`;
 
     Linking.openURL(url);
   };
 
   redirect = async (event: any) => {
-    Linking.removeEventListener("url", event => this.redirect(event));
+    Linking.removeEventListener('url', e => this.redirect(e));
 
     const result = (await queryString.parse(
       queryString.extract(event.url)
@@ -94,29 +94,29 @@ class Connected extends Component<ConnectedProps, State> {
 
     try {
       const request = {
-        accessToken: result.accessToken.split("?")[0]
+        accessToken: result.accessToken.split('?')[0],
       };
       console.log(request);
-      const response = await this.props.post("LoginWithAmazon", {
-        body: JSON.stringify(request)
+      const response = await this.props.post('LoginWithAmazon', {
+        body: JSON.stringify(request),
       });
 
       if (!response.ok) {
-        Alert.alert("連携の登録に失敗しました");
+        Alert.alert('連携の登録に失敗しました');
         this.setState({
-          loading: false
+          loading: false,
         });
         return;
       }
-      const { height } = Dimensions.get("window");
+      const { height } = Dimensions.get('window');
 
-      let toast = Toast.show("Alexa連携しました", {
+      let toast = Toast.show('Alexa連携しました', {
         duration: Toast.durations.LONG,
         position: height - 150,
         shadow: true,
         animation: true,
         hideOnPress: true,
-        delay: 0
+        delay: 0,
       });
 
       setTimeout(function() {
@@ -125,15 +125,15 @@ class Connected extends Component<ConnectedProps, State> {
 
       this.setState({
         loading: false,
-        linked: true
+        linked: true,
       });
     } catch (err) {
       this.setState({
-        loading: false
+        loading: false,
       });
 
       setTimeout(() => {
-        Alert.alert("連携の登録に失敗しました");
+        Alert.alert('連携の登録に失敗しました');
       }, 100);
     }
   };

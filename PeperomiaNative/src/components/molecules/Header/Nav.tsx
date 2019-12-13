@@ -1,8 +1,8 @@
-import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
-import { Col, Grid } from "react-native-easy-grid";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import theme from "../../../config/theme";
+import React from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { Col, Grid } from 'react-native-easy-grid';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import theme from '../../../config/theme';
 
 export interface Props {
   title: string;
@@ -15,28 +15,28 @@ export default (props: Props) => (
     style={{
       height: 50,
       borderBottomWidth: 1,
-      borderColor: theme().color.lightGray
+      borderColor: theme().color.lightGray,
     }}
   >
     <Grid>
       <Col
         size={10}
-        style={{ left: 20, justifyContent: "center", paddingTop: 5 }}
+        style={{ left: 20, justifyContent: 'center', paddingTop: 5 }}
       >
         <MaterialCommunityIcons name="close" size={25} />
       </Col>
       <Col
         size={80}
         style={{
-          justifyContent: "center",
-          alignItems: "center"
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
       >
-        <Text style={{ fontWeight: "600", fontSize: 20 }}>{props.title}</Text>
+        <Text style={{ fontWeight: '600', fontSize: 20 }}>{props.title}</Text>
       </Col>
-      <Col size={10} style={{ justifyContent: "center", right: 20 }}>
+      <Col size={10} style={{ justifyContent: 'center', right: 20 }}>
         <TouchableOpacity onPress={props.onPress}>
-          <Text style={{ fontWeight: "600", fontSize: 18 }}>
+          <Text style={{ fontWeight: '600', fontSize: 18 }}>
             {props.rightTitle}
           </Text>
         </TouchableOpacity>

@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { View, Text } from "react-native";
-import EStyleSheet from "react-native-extended-stylesheet";
-import { Button } from "react-native-elements";
-import theme from "../../../config/theme";
+import React, { Component } from 'react';
+import { View, Text } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { Button } from 'react-native-elements';
+import theme from '../../../config/theme';
 
 export interface Props {
   onGoogleLogin: () => void;
@@ -30,25 +30,25 @@ export default class extends Component<Props> {
 
 const styles = EStyleSheet.create({
   container: {
-    alignItems: "center",
-    backgroundColor: "$background",
-    height: "100%"
+    alignItems: 'center',
+    backgroundColor: '$background',
+    height: '100%',
   },
   titleContainer: {
     paddingTop: 30,
-    paddingBottom: 10
+    paddingBottom: 10,
   },
   title: {
-    color: "$text"
+    color: '$text',
   },
   buttonContainer: {
-    marginVertical: 30
+    marginVertical: 30,
   },
   buttonTitleStyle: {
-    padding: 15
+    padding: 15,
   },
   buttonStyle: {
     backgroundColor: theme().color.red,
-    borderColor: "transparent"
-  }
+    borderColor: 'transparent',
+  },
 });

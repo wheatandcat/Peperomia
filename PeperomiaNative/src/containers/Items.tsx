@@ -1,13 +1,13 @@
-import * as SQLite from "expo-sqlite";
-import React, { createContext, Component } from "react";
-import { db, ResultError } from "../lib/db";
-import { select as selectItems, Item } from "../lib/db/item";
-import { select as selectcalendars, SelectCalendar } from "../lib/db/calendar";
+import * as SQLite from 'expo-sqlite';
+import React, { createContext, Component } from 'react';
+import { db, ResultError } from '../lib/db';
+import { select as selectItems, Item } from '../lib/db/item';
+import { select as selectcalendars, SelectCalendar } from '../lib/db/calendar';
 
 import {
   selectByItemId as selectItemDetailByItemId,
-  ItemDetail
-} from "../lib/db/itemDetail";
+  ItemDetail,
+} from '../lib/db/itemDetail';
 
 const Context = createContext({});
 const { Provider } = Context;
@@ -28,7 +28,7 @@ type State = {
 };
 
 export type ContextProps = Partial<
-  Pick<State, "items" | "itemDetails" | "about" | "calendars"> & {
+  Pick<State, 'items' | 'itemDetails' | 'about' | 'calendars'> & {
     refreshData: () => void;
     itemsLoading: boolean;
   }
@@ -41,7 +41,7 @@ class Connected extends Component<Props, State> {
     items: [],
     itemDetails: [],
     about: [],
-    calendars: []
+    calendars: [],
   };
 
   componentDidMount() {
@@ -50,7 +50,7 @@ class Connected extends Component<Props, State> {
 
   getData = () => {
     this.setState({
-      loading: true
+      loading: true,
     });
 
     db.transaction((tx: SQLite.Transaction) => {
@@ -62,14 +62,14 @@ class Connected extends Component<Props, State> {
   setItems = (data: Item[], error: ResultError) => {
     if (error || !data || data.length === 0) {
       this.setState({
-        loading: false
+        loading: false,
       });
       return;
     }
 
     this.setState({
       items: data,
-      about: []
+      about: [],
     });
 
     data.map((val: Item) => {
@@ -82,38 +82,38 @@ class Connected extends Component<Props, State> {
   setCalendars = (data: SelectCalendar[], error: ResultError) => {
     if (error || !data || data.length === 0) {
       this.setState({
-        loading: false
+        loading: false,
       });
       return;
     }
 
     this.setState({
-      calendars: data
+      calendars: data,
     });
   };
 
   setItemsDetail = (data: ItemDetail[], error: ResultError) => {
     if (error || !data || data.length === 0) {
       this.setState({
-        loading: false
+        loading: false,
       });
       return;
     }
 
-    const names = data.map((val: ItemDetail) => val.title).join(" → ");
+    const names = data.map((val: ItemDetail) => val.title).join(' → ');
     const itemId = data[0].itemId;
     const about = [
       ...this.state.about,
       {
         itemId: itemId,
-        about: names
-      }
+        about: names,
+      },
     ];
 
     this.setState({
       about,
       loading: false,
-      itemDetails: [...this.state.itemDetails, ...data]
+      itemDetails: [...this.state.itemDetails, ...data],
     });
   };
 
@@ -126,7 +126,7 @@ class Connected extends Component<Props, State> {
           calendars: this.state.calendars,
           about: this.state.about,
           refreshData: this.getData,
-          itemsLoading: this.state.loading
+          itemsLoading: this.state.loading,
         }}
       >
         {this.props.children}

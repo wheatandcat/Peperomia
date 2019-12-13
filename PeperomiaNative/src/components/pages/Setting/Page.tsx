@@ -1,17 +1,17 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   View,
   ScrollView,
   Text,
   AsyncStorage,
-  ActivityIndicator
-} from "react-native";
-import EStyleSheet from "react-native-extended-stylesheet";
-import { Updates } from "expo";
-import { ListItem, Divider } from "react-native-elements";
-import Constants from "expo-constants";
-import theme from "../../../config/theme";
-import app from "../../../../app.json";
+  ActivityIndicator,
+} from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { Updates } from 'expo';
+import { ListItem, Divider } from 'react-native-elements';
+import Constants from 'expo-constants';
+import theme from '../../../config/theme';
+import app from '../../../../app.json';
 
 export interface Props {
   login: boolean;
@@ -39,7 +39,7 @@ export default class extends Component<Props> {
         <ScrollView>
           <ListItem
             title="お問い合わせ"
-            rightIcon={{ name: "chevron-right", color: theme().mode.text }}
+            rightIcon={{ name: 'chevron-right', color: theme().mode.text }}
             containerStyle={styles.menu}
             titleStyle={styles.menuText}
             bottomDivider
@@ -47,15 +47,15 @@ export default class extends Component<Props> {
           />
           <ListItem
             title="画面表示"
-            rightIcon={{ name: "chevron-right", color: theme().mode.text }}
+            rightIcon={{ name: 'chevron-right', color: theme().mode.text }}
             containerStyle={styles.menu}
             titleStyle={styles.menuText}
             onPress={this.props.onScreenSetting}
           />
-          <View style={{ height: 20 }} />
+          <View style={styles.menuSpace} />
           <ListItem
             title="利用規約"
-            rightIcon={{ name: "chevron-right", color: theme().mode.text }}
+            rightIcon={{ name: 'chevron-right', color: theme().mode.text }}
             containerStyle={styles.menu}
             titleStyle={styles.menuText}
             bottomDivider
@@ -63,27 +63,18 @@ export default class extends Component<Props> {
           />
           <ListItem
             title="プライバシーポリシー"
-            rightIcon={{ name: "chevron-right", color: theme().mode.text }}
+            rightIcon={{ name: 'chevron-right', color: theme().mode.text }}
             containerStyle={styles.menu}
             titleStyle={styles.menuText}
             onPress={this.props.onPolicy}
           />
 
-          <View style={{ height: 20 }} />
+          <View style={styles.menuSpace} />
 
           {(() => {
             if (this.props.loading) {
               return (
-                <View
-                  style={[
-                    styles.menu,
-                    {
-                      height: 60,
-                      justifyContent: "center",
-                      alignItems: "center"
-                    }
-                  ]}
-                >
+                <View style={[styles.menu, styles.loginMenu]}>
                   <ActivityIndicator size="large" color={theme().mode.text} />
                 </View>
               );
@@ -96,8 +87,8 @@ export default class extends Component<Props> {
                     title="マイページ"
                     onPress={this.props.onMyPage}
                     rightIcon={{
-                      name: "chevron-right",
-                      color: theme().mode.text
+                      name: 'chevron-right',
+                      color: theme().mode.text,
                     }}
                     containerStyle={styles.menu}
                     titleStyle={styles.menuText}
@@ -118,8 +109,8 @@ export default class extends Component<Props> {
               <ListItem
                 title="ユーザー登録 / ログイン"
                 rightIcon={{
-                  name: "chevron-right",
-                  color: theme().mode.text
+                  name: 'chevron-right',
+                  color: theme().mode.text,
                 }}
                 containerStyle={styles.menu}
                 titleStyle={styles.menuText}
@@ -133,8 +124,8 @@ export default class extends Component<Props> {
             <ListItem
               title="Alexa連携を設定する(β版)"
               rightIcon={{
-                name: "chevron-right",
-                color: theme().mode.text
+                name: 'chevron-right',
+                color: theme().mode.text,
               }}
               containerStyle={styles.menu}
               titleStyle={styles.menuText}
@@ -142,12 +133,12 @@ export default class extends Component<Props> {
             />
           )}
 
-          <View style={{ height: 20 }} />
+          <View style={styles.menuSpace} />
           <ListItem
             title="バージョン情報"
             rightTitle={
               <Text style={{ color: theme().mode.text }}>
-                {app.expo.version}{" "}
+                {app.expo.version}{' '}
               </Text>
             }
             containerStyle={styles.menu}
@@ -155,18 +146,9 @@ export default class extends Component<Props> {
           />
           {!Constants.isDevice && (
             <>
-              <View style={{ marginBottom: 50 }} />
+              <View style={styles.debugSpace} />
               <Divider />
-              <Text
-                style={{
-                  backgroundColor: theme().color.highLightGray,
-                  paddingVertical: 15,
-                  paddingLeft: 10,
-                  fontSize: 20
-                }}
-              >
-                デバッグ機能
-              </Text>
+              <Text style={styles.debug}>デバッグ機能</Text>
               <Divider />
               <ListItem
                 title="初期データ投入"
@@ -193,7 +175,7 @@ export default class extends Component<Props> {
               <ListItem
                 title="最初のプラン作成キャッシュの削除"
                 onPress={() => {
-                  AsyncStorage.removeItem("FIRST_CRAEATE_ITEM");
+                  AsyncStorage.removeItem('FIRST_CRAEATE_ITEM');
                 }}
               />
               <Divider />
@@ -203,7 +185,7 @@ export default class extends Component<Props> {
                   Updates.reload();
                 }}
               />
-              <Divider style={{ marginBottom: 50 }} />
+              <Divider style={styles.debugSpace} />
             </>
           )}
         </ScrollView>
@@ -214,13 +196,32 @@ export default class extends Component<Props> {
 
 const styles = EStyleSheet.create({
   root: {
-    backgroundColor: "$settingRoot",
-    height: "100%"
+    backgroundColor: '$settingRoot',
+    height: '100%',
   },
   menu: {
-    backgroundColor: "$settingMenu"
+    backgroundColor: '$settingMenu',
   },
   menuText: {
-    color: "$text"
-  }
+    color: '$text',
+  },
+  menuSpace: {
+    height: 20,
+  },
+  loginMenu: {
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  debugSpace: {
+    marginBottom: 50,
+  },
+
+  debug: {
+    backgroundColor: theme().color.highLightGray,
+    paddingVertical: 15,
+    paddingLeft: 10,
+    fontSize: 20,
+  },
 });

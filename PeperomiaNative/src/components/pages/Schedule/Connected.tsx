@@ -1,13 +1,13 @@
-import * as SQLite from "expo-sqlite";
-import React, { Component } from "react";
-import { NavigationScreenProp, NavigationRoute } from "react-navigation";
-import { db, ResultError } from "../../../lib/db";
+import * as SQLite from 'expo-sqlite';
+import React, { Component } from 'react';
+import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
+import { db, ResultError } from '../../../lib/db';
 import {
   selectByItemId,
   ItemDetail,
-  update as updateItemDetail
-} from "../../../lib/db/itemDetail";
-import Page from "./Page";
+  update as updateItemDetail,
+} from '../../../lib/db/itemDetail';
+import Page from './Page';
 
 type Props = {
   navigation: NavigationScreenProp<NavigationRoute>;
@@ -22,17 +22,17 @@ type State = {
 };
 
 export default class extends Component<Props, State> {
-  state = { items: [], refresh: "" };
+  state = { items: [], refresh: '' };
 
   componentDidMount() {
-    const itemId = this.props.navigation.getParam("itemId", "1");
+    const itemId = this.props.navigation.getParam('itemId', '1');
 
     this.getData(itemId);
   }
 
   componentDidUpdate() {
-    const refresh = this.props.navigation.getParam("refresh", "");
-    const itemId = this.props.navigation.getParam("itemId", "1");
+    const refresh = this.props.navigation.getParam('refresh', '');
+    const itemId = this.props.navigation.getParam('itemId', '1');
 
     if (this.state.refresh === refresh) {
       return;
@@ -61,7 +61,7 @@ export default class extends Component<Props, State> {
     // priorityが重複していない
     if (prioritys.length === uniquePrioritys.length) {
       this.props.navigation.setParams({
-        items: data
+        items: data,
       });
       this.setState({ items: data });
     }
@@ -69,7 +69,7 @@ export default class extends Component<Props, State> {
     // priorityが重複している場合はid順でpriorityをupdateする
     const items: ItemDetail[] = data.map((item: ItemDetail, index: number) => ({
       ...item,
-      priority: index + 1
+      priority: index + 1,
     }));
 
     db.transaction((tx: SQLite.Transaction) => {
@@ -85,11 +85,11 @@ export default class extends Component<Props, State> {
   save = () => {};
 
   onScheduleDetail = (id: string) => {
-    const itemId = this.props.navigation.getParam("itemId", "1");
+    const itemId = this.props.navigation.getParam('itemId', '1');
 
-    this.props.navigation.navigate("ScheduleDetail", {
+    this.props.navigation.navigate('ScheduleDetail', {
       scheduleDetailId: id,
-      refreshData: () => this.getData(itemId)
+      refreshData: () => this.getData(itemId),
     });
   };
 

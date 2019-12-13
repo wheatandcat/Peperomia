@@ -1,20 +1,20 @@
-import React from "react";
+import React from 'react';
 import {
   View,
   Text,
   Linking,
   TouchableOpacity,
-  Dimensions
-} from "react-native";
-import EStyleSheet from "react-native-extended-stylesheet";
-import styled from "styled-components/native";
-import Toast from "react-native-root-toast";
-import { Ionicons } from "@expo/vector-icons";
-import { Divider } from "react-native-elements";
-import Header from "../ScheduleHeader/Header";
-import { ItemDetail } from "../../../lib/db/itemDetail";
-import theme from "../../../config/theme";
-import Label from "./Label";
+  Dimensions,
+} from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import styled from 'styled-components/native';
+import Toast from 'react-native-root-toast';
+import { Ionicons } from '@expo/vector-icons';
+import { Divider } from 'react-native-elements';
+import Header from '../ScheduleHeader/Header';
+import { ItemDetail } from '../../../lib/db/itemDetail';
+import theme from '../../../config/theme';
+import Label from './Label';
 
 export interface ItemProps extends ItemDetail {
   onDismiss: () => void;
@@ -29,16 +29,16 @@ const handleClick = (url: string) => {
     if (supported) {
       Linking.openURL(url);
     } else {
-      const { height } = Dimensions.get("window");
+      const { height } = Dimensions.get('window');
 
-      const toast = Toast.show("無効なリンクです", {
+      const toast = Toast.show('無効なリンクです', {
         duration: Toast.durations.LONG,
         position: height - 150,
         shadow: true,
         animation: true,
         hideOnPress: true,
         textColor: theme().color.red,
-        delay: 0
+        delay: 0,
       });
 
       setTimeout(function() {
@@ -130,27 +130,27 @@ const Title = styled.Text`
 
 const styles = EStyleSheet.create({
   root: {
-    height: "100%"
+    height: '100%',
   },
   timeContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     width: 80,
-    height: 30
+    height: 30,
   },
   timeText: {
     fontSize: 18,
-    color: "$text",
-    paddingHorizontal: 15
+    color: '$text',
+    paddingHorizontal: 15,
   },
   memoText: {
     fontSize: 16,
     lineHeight: 24,
-    color: "$text"
+    color: '$text',
   },
   memoContainer: {
     paddingTop: 5,
     paddingBottom: 10,
-    paddingHorizontal: 2
-  }
+    paddingHorizontal: 2,
+  },
 });

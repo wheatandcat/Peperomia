@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { NavigationScreenProp, NavigationRoute } from "react-navigation";
+import React, { Component } from 'react';
+import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import {
   Consumer as ItemsConsumer,
-  ContextProps
-} from "../../../containers/Items";
-import { ItemDetailParam } from "../../../lib/db/itemDetail";
-import ScheduleDetail from "./Connected";
-import EditScheduleDetail from "../EditScheduleDetail/Connected";
+  ContextProps,
+} from '../../../containers/Items';
+import { ItemDetailParam } from '../../../lib/db/itemDetail';
+import ScheduleDetail from './Connected';
+import EditScheduleDetail from '../EditScheduleDetail/Connected';
 
 interface State extends ItemDetailParam {
   scheduleDetailId: number;
@@ -17,7 +17,7 @@ interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
 }
 
-type PlanProps = Props & Pick<ContextProps, "refreshData">;
+type PlanProps = Props & Pick<ContextProps, 'refreshData'>;
 
 export default class extends Component<Props> {
   render() {
@@ -35,15 +35,15 @@ class Plan extends Component<PlanProps, State> {
   static navigationOptions = { header: null };
 
   state = {
-    title: "",
-    memo: "",
-    kind: "",
-    url: "",
-    place: "",
+    title: '',
+    memo: '',
+    kind: '',
+    url: '',
+    place: '',
     moveMinutes: 0,
     priority: 0,
     scheduleDetailId: 0,
-    mode: "show"
+    mode: 'show',
   };
 
   onEdit = (
@@ -56,8 +56,8 @@ class Plan extends Component<PlanProps, State> {
     priority: number
   ): void => {
     const scheduleDetailId = this.props.navigation.getParam(
-      "scheduleDetailId",
-      "1"
+      'scheduleDetailId',
+      '1'
     );
 
     this.setState({
@@ -69,16 +69,16 @@ class Plan extends Component<PlanProps, State> {
       moveMinutes,
       priority,
       scheduleDetailId,
-      mode: "edit"
+      mode: 'edit',
     });
   };
 
   onShow = (): void => {
-    this.setState({ mode: "show" });
+    this.setState({ mode: 'show' });
   };
 
   render() {
-    if (this.state.mode === "edit") {
+    if (this.state.mode === 'edit') {
       return (
         <EditScheduleDetail
           id={this.state.scheduleDetailId}

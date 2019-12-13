@@ -1,10 +1,10 @@
-import React from "react";
-import { View, TouchableOpacity, Text } from "react-native";
-import EStyleSheet from "react-native-extended-stylesheet";
-import { Button, Divider } from "react-native-elements";
-import { Ionicons } from "@expo/vector-icons";
-import theme from "../../../config/theme";
-import Memo from "./Memo";
+import React from 'react';
+import { View, TouchableOpacity, Text } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { Button, Divider } from 'react-native-elements';
+import { Ionicons } from '@expo/vector-icons';
+import theme from '../../../config/theme';
+import Memo from './Memo';
 
 export interface Props {
   title: string;
@@ -20,27 +20,21 @@ export interface Props {
 
 export default (props: Props) => (
   <>
-    <View
-      style={{
-        paddingHorizontal: 15,
-        paddingTop: 15,
-        paddingBottom: 5
-      }}
-    >
+    <View style={styles.root}>
       <TouchableOpacity onPress={props.onOpenActionSheet}>
         <View style={styles.timeContainer}>
           <Ionicons
             name="md-time"
             color={theme().color.lightGreen}
             size={25}
-            style={{ paddingTop: 3 }}
+            style={styles.time}
           />
           <Text style={styles.timeText}>{props.time}分</Text>
         </View>
       </TouchableOpacity>
     </View>
     <Divider />
-    <View style={{ paddingTop: 10, paddingLeft: 10 }}>
+    <View style={styles.memoContainer}>
       <Memo
         place={props.place}
         url={props.url}
@@ -49,42 +43,59 @@ export default (props: Props) => (
         onChangeInputText={props.onChangeMemoInput}
       />
     </View>
-    <View style={{ paddingLeft: 12 }}>
-      <View style={{ paddingTop: 40, width: 120 }}>
-        <Button
-          title="アイコンを変更する"
-          type="clear"
-          titleStyle={styles.linkTitle}
-          buttonStyle={styles.linkButton}
-          onPress={() => props.onIcons(props.title)}
-        />
-      </View>
+    <View style={styles.buttonContainer}>
+      <Button
+        title="アイコンを変更する"
+        type="clear"
+        titleStyle={styles.linkTitle}
+        buttonStyle={styles.linkButton}
+        onPress={() => props.onIcons(props.title)}
+      />
     </View>
   </>
 );
 
 const styles = EStyleSheet.create({
+  root: {
+    paddingHorizontal: 15,
+    paddingTop: 15,
+    paddingBottom: 5,
+  },
+  time: {
+    paddingTop: 3,
+  },
   timeContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     width: 80,
-    height: 30
+    height: 30,
   },
   timeText: {
     fontSize: 18,
-    color: "$text",
-    paddingHorizontal: 15
+    color: '$text',
+    paddingHorizontal: 15,
   },
 
   linkTitle: {
-    color: "$text",
+    color: '$text',
     fontSize: 12,
-    fontWeight: "600",
-    padding: 0
+    fontWeight: '600',
+    padding: 0,
   },
   linkButton: {
     borderBottomWidth: 1,
     borderBottomColor: theme().color.gray,
-    padding: 0
-  }
+    padding: 0,
+  },
+
+  memoContainer: {
+    paddingTop: 10,
+    paddingLeft: 10,
+  },
+
+  buttonContainer: {
+    paddingLeft: 12,
+    paddingTop: 40,
+    width: 120,
+  },
 });

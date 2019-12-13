@@ -1,11 +1,11 @@
-import * as SQLite from "expo-sqlite";
-import * as Sentry from "sentry-expo";
+import * as SQLite from 'expo-sqlite';
+import * as Sentry from 'sentry-expo';
 import {
   migrationV1040 as v1040,
-  migrationV1041 as v1041
-} from "./db/migration";
-import { create as createCalendar } from "./db/calendar";
-import { db } from "./db";
+  migrationV1041 as v1041,
+} from './db/migration';
+import { create as createCalendar } from './db/calendar';
+import { db } from './db';
 
 export const migrationV104 = async (): Promise<boolean> => {
   try {

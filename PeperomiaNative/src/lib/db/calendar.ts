@@ -1,6 +1,6 @@
-import * as SQLite from "expo-sqlite";
-import { Item } from "./item";
-import { success, error, ResultError } from "./";
+import * as SQLite from 'expo-sqlite';
+import { Item } from './item';
+import { success, error, ResultError } from './';
 
 export type Calendar = {
   id?: number;
@@ -15,11 +15,11 @@ export const create = async (
   callback?: (data: any, error: ResultError) => void
 ) => {
   return tx.executeSql(
-    "create table if not exists calendars (" +
-      "id integer primary key not null," +
-      "itemId integer," +
-      "date string" +
-      ");",
+    'create table if not exists calendars (' +
+      'id integer primary key not null,' +
+      'itemId integer,' +
+      'date string' +
+      ');',
     [],
     (_: SQLite.Transaction, props: SQLite.ResultSet) =>
       success(props.rows._array, callback),
@@ -33,7 +33,7 @@ export const insert = async (
   callback?: (insertId: number, error: ResultError) => void
 ) => {
   return tx.executeSql(
-    "insert into calendars (itemId, date) values (?, ?)",
+    'insert into calendars (itemId, date) values (?, ?)',
     [String(calendar.itemId), calendar.date],
     (_: SQLite.Transaction, props: SQLite.ResultSet) =>
       success(props.insertId, callback),
@@ -47,7 +47,7 @@ export const update = async (
   callback?: (data: Calendar, error: ResultError) => void
 ) => {
   return tx.executeSql(
-    "update calendars set date = ? where id = ?",
+    'update calendars set date = ? where id = ?',
     [calendar.date, String(calendar.id)],
     (_: SQLite.Transaction, props: SQLite.ResultSet) =>
       success(props.rows._array[0], callback),
@@ -60,7 +60,7 @@ export const select = async (
   callback?: (data: SelectCalendar[], error: ResultError) => void
 ) => {
   return tx.executeSql(
-    "select * from calendars inner join items on calendars.itemId = items.id",
+    'select * from calendars inner join items on calendars.itemId = items.id',
     [],
     (_: SQLite.Transaction, props: SQLite.ResultSet) =>
       success(props.rows._array, callback),
@@ -74,7 +74,7 @@ export const deleteByItemId = async (
   callback?: (data: Calendar, error: ResultError) => void
 ) => {
   tx.executeSql(
-    `delete from calendars where itemId = ?;`,
+    'delete from calendars where itemId = ?;',
     [String(itemId)],
     (_: SQLite.Transaction, props: SQLite.ResultSet) =>
       success(props.rows._array[0], callback),
@@ -87,7 +87,7 @@ export const selectAll = async (
   callback?: (data: Calendar[], error: ResultError) => void
 ) => {
   return tx.executeSql(
-    "select * from calendars",
+    'select * from calendars',
     [],
     (_: SQLite.Transaction, props: SQLite.ResultSet) =>
       success(props.rows._array, callback),
@@ -100,7 +100,7 @@ export const deleteAll = async (
   callback?: (data: Calendar, error: ResultError) => void
 ) => {
   tx.executeSql(
-    `delete from calendars;`,
+    'delete from calendars;',
     [],
     (_: SQLite.Transaction, props: SQLite.ResultSet) =>
       success(props.rows._array[0], callback),
@@ -124,9 +124,9 @@ export const bulkInsert = async (
 
   const q = calendars
     .map(() => {
-      return `(?, ?, ?)`;
+      return '(?, ?, ?)';
     })
-    .join(",");
+    .join(',');
 
   const query = `insert into calendars (id, itemId, date) values ${q};`;
 

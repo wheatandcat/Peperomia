@@ -1,8 +1,8 @@
-import React from "react";
-import { TouchableOpacity } from "react-native";
-import { Entypo } from "@expo/vector-icons";
-import theme from "../../../config/theme";
-import { RightText } from "../../atoms/Header";
+import React from 'react';
+import { TouchableOpacity } from 'react-native';
+import { Entypo } from '@expo/vector-icons';
+import theme from '../../../config/theme';
+import { RightText } from '../../atoms/Header';
 
 interface Props {
   mode: string;
@@ -12,11 +12,11 @@ interface Props {
 }
 
 export default (props: Props) => {
-  if (props.mode === "edit") {
+  if (props.mode === 'edit') {
     return null;
   }
 
-  if (props.mode === "sort") {
+  if (props.mode === 'sort') {
     return <RightText label="✓" onPress={props.onSave} />;
   }
 

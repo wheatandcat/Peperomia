@@ -1,9 +1,9 @@
-import React from "react";
-import { View, Image, TouchableOpacity } from "react-native";
-import EStyleSheet from "react-native-extended-stylesheet";
-import { Feather } from "@expo/vector-icons";
-import { IconImage } from "primitive";
-import { whenIPhoneSE } from "../../../lib/responsive";
+import React from 'react';
+import { View, Image, TouchableOpacity } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { Feather } from '@expo/vector-icons';
+import { IconImage } from 'primitive';
+import { whenIPhoneSE } from '../../../lib/responsive';
 
 interface Props {
   image: string;
@@ -17,14 +17,16 @@ interface Props {
 export default (props: Props) => {
   return (
     <>
-      <View style={{ alignItems: "center", paddingVertical: 15 }}>
+      <View style={styles.root}>
         {props.image ? (
           <Image
-            style={{
-              width: props.imageSize,
-              height: props.imageSize,
-              opacity: 0.85
-            }}
+            style={[
+              styles.image,
+              {
+                width: props.imageSize,
+                height: props.imageSize,
+              },
+            ]}
             source={{ uri: props.image }}
           />
         ) : (
@@ -37,12 +39,12 @@ export default (props: Props) => {
           />
         )}
       </View>
-      <View style={{ height: 54 }}>
+      <View style={styles.camera}>
         <View>
           <View
             style={[
               styles.cameraIconBackground,
-              { backgroundColor: props.backgroundColor }
+              { backgroundColor: props.backgroundColor },
             ]}
           />
 
@@ -60,23 +62,33 @@ export default (props: Props) => {
 const styles = EStyleSheet.create({
   cameraIconBackground: {
     borderTopWidth: 3,
-    borderColor: "$icon",
+    borderColor: '$icon',
     marginTop: 27,
-    height: "100%"
+    height: '100%',
   },
   cameraIconContainer: {
     height: 54,
     width: 54,
     borderWidth: 3,
     borderRadius: 54,
-    borderColor: "$icon",
-    position: "absolute",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "$background",
-    right: 40
+    borderColor: '$icon',
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '$background',
+    right: 40,
   },
   cameraIcon: {
-    color: "$icon"
-  }
+    color: '$icon',
+  },
+  image: {
+    opacity: 0.85,
+  },
+  root: {
+    alignItems: 'center',
+    paddingVertical: 15,
+  },
+  camera: {
+    height: 54,
+  },
 });

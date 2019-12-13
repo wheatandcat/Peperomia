@@ -1,17 +1,15 @@
-import React from "react";
-import { StyleSheet, View, Text, TouchableHighlight } from "react-native";
-import { Col, Row, Grid } from "react-native-easy-grid";
-import Color from "color";
-import { IconImage } from "primitive";
-import s from "../../../config/style";
-import theme from "../../../config/theme";
-import { KINDS } from "../../../lib/getKind";
+import React from 'react';
+import { StyleSheet, View, Text, TouchableHighlight } from 'react-native';
+import { Col, Row, Grid } from 'react-native-easy-grid';
+import Color from 'color';
+import { IconImage } from 'primitive';
+import s from '../../../config/style';
+import theme from '../../../config/theme';
+import { KINDS } from '../../../lib/getKind';
+import { Item } from '../../../domain/item';
 
-export type ItemProps = {
+export type ItemProps = Item & {
   id: string;
-  title: string;
-  kind: string;
-  image: string;
   about: string;
 };
 
@@ -29,7 +27,7 @@ export default (props: Props) => {
       onPress={props.onPress}
       testID={props.testID}
       style={{
-        margin: 3
+        margin: 3,
       }}
     >
       <View
@@ -41,8 +39,8 @@ export default (props: Props) => {
               .toString(),
             backgroundColor: Color(config.backgroundColor)
               .lighten(ss.backgroundColorAlpha)
-              .toString()
-          }
+              .toString(),
+          },
         ]}
       >
         <View style={{ padding: 10 }}>
@@ -76,21 +74,21 @@ export default (props: Props) => {
 
 const styles = StyleSheet.create({
   card: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     height: 80,
     paddingLeft: 10,
     borderWidth: 0.5,
-    borderRadius: 5
+    borderRadius: 5,
   },
   title: {
-    fontWeight: "500",
+    fontWeight: '500',
     fontSize: 24,
-    color: theme().color.darkGray
+    color: theme().color.darkGray,
   },
   about: {
     fontSize: 10,
-    color: theme().color.darkGray
-  }
+    color: theme().color.darkGray,
+  },
 });

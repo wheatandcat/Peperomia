@@ -1,10 +1,10 @@
-import React from "react";
-import { Text, View, Dimensions, StyleSheet } from "react-native";
-import { IconImage } from "primitive";
-import { KINDS } from "../../../lib/getKind";
-import theme from "../../../config/theme";
+import React from 'react';
+import { Text, View, Dimensions, StyleSheet } from 'react-native';
+import { IconImage } from 'primitive';
+import { KINDS } from '../../../lib/getKind';
+import theme from '../../../config/theme';
 
-const width = Dimensions.get("window").width;
+const width = Dimensions.get('window').width;
 
 type Props = {
   kind: string;
@@ -18,7 +18,7 @@ export default (props: Props) => {
     <View
       style={[
         styles.itemContainer,
-        { backgroundColor: config.backgroundColor }
+        { backgroundColor: config.backgroundColor },
       ]}
     >
       <Text style={styles.dayText}>{props.day}</Text>
@@ -35,14 +35,14 @@ const styles = StyleSheet.create({
     borderRightWidth: 0.5,
     borderLeftWidth: 0.5,
     borderColor: theme().color.gray,
-    alignItems: "center",
-    justifyContent: "center"
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   dayText: {
-    textAlign: "center",
+    textAlign: 'center',
     color: theme().color.black,
     fontSize: 12,
-    fontWeight: "600",
-    paddingBottom: 7
-  }
+    fontWeight: '600',
+    paddingBottom: 7,
+  },
 });
