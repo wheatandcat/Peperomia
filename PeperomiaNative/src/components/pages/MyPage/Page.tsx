@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { View, ScrollView, Text } from "react-native";
-import EStyleSheet from "react-native-extended-stylesheet";
-import { ListItem } from "react-native-elements";
-import Spinner from "react-native-loading-spinner-overlay";
-import theme from "../../../config/theme";
+import React, { Component } from 'react';
+import { View, ScrollView, Text } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { ListItem } from 'react-native-elements';
+import Spinner from 'react-native-loading-spinner-overlay';
+import theme from '../../../config/theme';
 
 export interface Props {
   loading: boolean;
@@ -23,13 +23,7 @@ export default class extends Component<Props> {
           textStyle={{ color: theme().color.white }}
         />
         <ScrollView>
-          <View
-            style={{
-              height: 80,
-              marginTop: 20,
-              marginHorizontal: 10
-            }}
-          >
+          <View style={styles.contents}>
             <View style={styles.emailContainer}>
               <Text style={styles.emialTitle}>メールアドレス:</Text>
               <Text style={styles.emial}>{this.props.email}</Text>
@@ -56,27 +50,32 @@ export default class extends Component<Props> {
 
 const styles = EStyleSheet.create({
   root: {
-    backgroundColor: "$settingRoot",
-    height: "100%"
+    backgroundColor: '$settingRoot',
+    height: '100%',
   },
   emailContainer: {
     padding: 10,
-    width: "100%",
-    justifyContent: "center",
-    backgroundColor: "$settingMenu"
+    width: '100%',
+    justifyContent: 'center',
+    backgroundColor: '$settingMenu',
   },
   emialTitle: {
-    color: "$text"
+    color: '$text',
   },
   emial: {
     fontSize: 20,
-    fontWeight: "600",
-    color: "$text"
+    fontWeight: '600',
+    color: '$text',
   },
   menuContainer: {
-    backgroundColor: "$settingMenu"
+    backgroundColor: '$settingMenu',
   },
   menuText: {
-    color: "$text"
-  }
+    color: '$text',
+  },
+  contents: {
+    height: 80,
+    marginTop: 20,
+    marginHorizontal: 10,
+  },
 });

@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { View, Alert } from "react-native";
-import EStyleSheet from "react-native-extended-stylesheet";
-import Cards, { Props as CardsProps } from "../../organisms/Schedule/Cards";
-import ActionButton from "../../molecules/Schedule/ActionButton";
+import React, { Component } from 'react';
+import { View, Alert } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import Cards, { Props as CardsProps } from '../../organisms/Schedule/Cards';
+import ActionButton from '../../molecules/Schedule/ActionButton';
 
 export interface Props extends CardsProps {
   onAdd: () => void;
@@ -13,19 +13,19 @@ export interface Props extends CardsProps {
 export default class extends Component<Props> {
   onDelete = () => {
     Alert.alert(
-      "本当に削除しますか？",
-      "",
+      '本当に削除しますか？',
+      '',
       [
         {
-          text: "キャンセル",
-          style: "cancel"
+          text: 'キャンセル',
+          style: 'cancel',
         },
         {
-          text: "削除する",
+          text: '削除する',
           onPress: () => {
             this.props.onDelete();
-          }
-        }
+          },
+        },
       ],
       { cancelable: false }
     );
@@ -38,15 +38,7 @@ export default class extends Component<Props> {
           data={this.props.data}
           onScheduleDetail={this.props.onScheduleDetail}
         />
-        <View
-          style={{
-            width: 60,
-            height: 60,
-            position: "absolute",
-            bottom: 50,
-            right: 40
-          }}
-        >
+        <View style={styles.footer}>
           <ActionButton
             onAdd={this.props.onAdd}
             onSort={this.props.onSort}
@@ -60,7 +52,14 @@ export default class extends Component<Props> {
 
 const styles = EStyleSheet.create({
   root: {
-    backgroundColor: "$background",
-    height: "100%"
-  }
+    backgroundColor: '$background',
+    height: '100%',
+  },
+  footer: {
+    width: 60,
+    height: 60,
+    position: 'absolute',
+    bottom: 50,
+    right: 40,
+  },
 });

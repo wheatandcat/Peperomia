@@ -1,17 +1,15 @@
-import React from "react";
-import { StyleSheet, View, Text, TouchableHighlight } from "react-native";
-import { Col, Row, Grid } from "react-native-easy-grid";
-import Color from "color";
-import { IconImage } from "primitive";
-import s from "../../../config/style";
-import theme from "../../../config/theme";
-import { KINDS } from "../../../lib/getKind";
+import React from 'react';
+import { StyleSheet, View, Text, TouchableHighlight } from 'react-native';
+import { Col, Row, Grid } from 'react-native-easy-grid';
+import Color from 'color';
+import { IconImage } from 'primitive';
+import s from '../../../config/style';
+import theme from '../../../config/theme';
+import { KINDS } from '../../../lib/getKind';
+import { Item } from '../../../domain/item';
 
-export type ItemProps = {
+export type ItemProps = Item & {
   id: string;
-  title: string;
-  kind: string;
-  image: string;
   about: string;
 };
 
@@ -28,9 +26,7 @@ export default (props: Props) => {
     <TouchableHighlight
       onPress={props.onPress}
       testID={props.testID}
-      style={{
-        margin: 3
-      }}
+      style={styles.root}
     >
       <View
         style={[
@@ -41,11 +37,11 @@ export default (props: Props) => {
               .toString(),
             backgroundColor: Color(config.backgroundColor)
               .lighten(ss.backgroundColorAlpha)
-              .toString()
-          }
+              .toString(),
+          },
         ]}
       >
-        <View style={{ padding: 10 }}>
+        <View style={styles.icon}>
           <IconImage
             src={config.src}
             name={config.name}
@@ -53,16 +49,16 @@ export default (props: Props) => {
             size={60}
           />
         </View>
-        <View style={{ flex: 1, padding: 10 }}>
+        <View style={styles.contents}>
           <Grid>
             <Row size={75}>
-              <Col size={75} style={{ paddingTop: 5 }}>
+              <Col size={75} style={styles.titleContainer}>
                 <Text numberOfLines={1} style={styles.title}>
                   {props.title}
                 </Text>
               </Col>
             </Row>
-            <Row size={25} style={{ paddingLeft: 2 }}>
+            <Row size={25} style={styles.aboutContainer}>
               <Text numberOfLines={1} style={styles.about}>
                 {props.about}
               </Text>
@@ -76,21 +72,37 @@ export default (props: Props) => {
 
 const styles = StyleSheet.create({
   card: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     height: 80,
     paddingLeft: 10,
     borderWidth: 0.5,
-    borderRadius: 5
+    borderRadius: 5,
   },
   title: {
-    fontWeight: "500",
+    fontWeight: '500',
     fontSize: 24,
-    color: theme().color.darkGray
+    color: theme().color.darkGray,
   },
   about: {
     fontSize: 10,
-    color: theme().color.darkGray
-  }
+    color: theme().color.darkGray,
+  },
+  root: {
+    margin: 3,
+  },
+  icon: {
+    padding: 10,
+  },
+  contents: {
+    flex: 1,
+    padding: 10,
+  },
+  titleContainer: {
+    paddingTop: 5,
+  },
+  aboutContainer: {
+    paddingLeft: 2,
+  },
 });

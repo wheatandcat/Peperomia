@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   View,
   TextInput,
@@ -10,29 +10,29 @@ import {
   StatusBar,
   Platform,
   NativeSyntheticEvent,
-  TextInputScrollEventData
-} from "react-native";
-import EStyleSheet from "react-native-extended-stylesheet";
+  TextInputScrollEventData,
+} from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import {
   ActionSheetProps,
-  connectActionSheet
-} from "@expo/react-native-action-sheet";
-import Color from "color";
-import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { getStatusBarHeight } from "react-native-status-bar-height";
-import GlobalStyles from "../../../GlobalStyles";
-import getKind, { KINDS, KIND_DEFAULT } from "../../../lib/getKind";
-import { SuggestItem } from "../../../lib/suggest";
-import s from "../../../config/style";
-import theme from "../../../config/theme";
-import Header from "../../molecules/Header";
-import HeaderImage from "../../molecules/ScheduleHeader/Header";
-import TimeDialog from "../../organisms/CreateScheduleDetail/TimeDialog";
-import Body from "../../organisms/CreateScheduleDetail/Body";
-import Suggest from "../../organisms/Suggest/List";
+  connectActionSheet,
+} from '@expo/react-native-action-sheet';
+import Color from 'color';
+import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
+import GlobalStyles from '../../../GlobalStyles';
+import getKind, { KINDS, KIND_DEFAULT } from '../../../lib/getKind';
+import { SuggestItem } from '../../../lib/suggest';
+import s from '../../../config/style';
+import theme from '../../../config/theme';
+import Header from '../../molecules/Header';
+import HeaderImage from '../../molecules/ScheduleHeader/Header';
+import TimeDialog from '../../organisms/CreateScheduleDetail/TimeDialog';
+import Body from '../../organisms/CreateScheduleDetail/Body';
+import Suggest from '../../organisms/Suggest/List';
 
 const top =
-  Platform.OS === "android" ? StatusBar.currentHeight : getStatusBarHeight();
+  Platform.OS === 'android' ? StatusBar.currentHeight : getStatusBarHeight();
 
 type PropsBase = {
   title: string;
@@ -80,28 +80,28 @@ interface Item {
 const times: Item[] = [
   {
     value: 0,
-    label: "0分"
+    label: '0分',
   },
   {
     value: 10,
-    label: " 10分"
+    label: ' 10分',
   },
   {
     value: 30,
-    label: " 30分"
+    label: ' 30分',
   },
   {
     value: 60,
-    label: " 60分"
+    label: ' 60分',
   },
   {
     value: null,
-    label: "手動で更新"
+    label: '手動で更新',
   },
   {
     value: null,
-    label: "キャンセル"
-  }
+    label: 'キャンセル',
+  },
 ];
 
 const cancelButtonIndex = times.length - 1;
@@ -120,18 +120,18 @@ class App extends Component<Props, State> {
     manualTime: false,
     keyboard: false,
     imageHeader: true,
-    suggest: false
+    suggest: false,
   };
 
   scrollView: any;
 
   componentDidMount() {
     this.keyboardDidShowListener = Keyboard.addListener(
-      "keyboardDidShow",
+      'keyboardDidShow',
       this._keyboardDidShow.bind(this)
     );
     this.keyboardDidHideListener = Keyboard.addListener(
-      "keyboardDidHide",
+      'keyboardDidHide',
       this._keyboardDidHide.bind(this)
     );
   }
@@ -145,13 +145,13 @@ class App extends Component<Props, State> {
 
   _keyboardDidShow() {
     this.setState({
-      keyboard: true
+      keyboard: true,
     });
   }
 
   _keyboardDidHide() {
     this.setState({
-      keyboard: false
+      keyboard: false,
     });
   }
 
@@ -169,15 +169,15 @@ class App extends Component<Props, State> {
       {
         options,
         cancelButtonIndex,
-        destructiveButtonIndex
+        destructiveButtonIndex,
       },
       buttonIndex => {
         // Do something here depending on the button index selected
-        if (buttonIndex == cancelButtonIndex) {
+        if (buttonIndex === cancelButtonIndex) {
           return;
         }
 
-        if (buttonIndex == manualButtonIndex) {
+        if (buttonIndex === manualButtonIndex) {
           this.setState({ manualTime: true });
           return;
         }
@@ -205,19 +205,19 @@ class App extends Component<Props, State> {
       this.props.time !== time
     ) {
       Alert.alert(
-        "保存されていない変更があります",
-        "戻りますか？",
+        '保存されていない変更があります',
+        '戻りますか？',
         [
           {
-            text: "キャンセル",
-            style: "cancel"
+            text: 'キャンセル',
+            style: 'cancel',
           },
           {
-            text: "戻る",
+            text: '戻る',
             onPress: () => {
               this.props.onDismiss();
-            }
-          }
+            },
+          },
         ],
         { cancelable: false }
       );
@@ -227,8 +227,8 @@ class App extends Component<Props, State> {
   };
 
   onSave = () => {
-    if (this.state.title == "") {
-      Alert.alert("タイトルが入力されていません");
+    if (this.state.title === '') {
+      Alert.alert('タイトルが入力されていません');
     } else {
       const kind = this.props.iconSelected ? this.props.kind : this.state.kind;
       const { title, url, place, memo, time } = this.state;
@@ -240,28 +240,28 @@ class App extends Component<Props, State> {
   onSetManualTime = () => {
     this.setState({
       time: this.state.manualTimeValue,
-      manualTime: false
+      manualTime: false,
     });
   };
 
   onCloseManualTime = () => {
     this.setState({
-      manualTime: false
+      manualTime: false,
     });
   };
 
   onChangeMemoInput = (name: string, value: string) => {
-    if (name === "memo") {
+    if (name === 'memo') {
       this.setState({
-        memo: value
+        memo: value,
       });
-    } else if (name === "place") {
+    } else if (name === 'place') {
       this.setState({
-        place: value
+        place: value,
       });
-    } else if (name === "url") {
+    } else if (name === 'url') {
       this.setState({
-        url: value
+        url: value,
       });
     }
   };
@@ -271,12 +271,12 @@ class App extends Component<Props, State> {
 
     if (e.nativeEvent.contentOffset.y >= offsetY && this.state.imageHeader) {
       this.setState({
-        imageHeader: false
+        imageHeader: false,
       });
     }
     if (e.nativeEvent.contentOffset.y < offsetY && !this.state.imageHeader) {
       this.setState({
-        imageHeader: true
+        imageHeader: true,
       });
     }
   };
@@ -284,12 +284,12 @@ class App extends Component<Props, State> {
   onSuggestTitle = () => {
     const titleFocusCount = this.state.titleFocusCount + 1;
     this.setState({
-      titleFocusCount
+      titleFocusCount,
     });
 
     if (titleFocusCount > 1) {
       this.setState({
-        suggest: true
+        suggest: true,
       });
     }
   };
@@ -301,7 +301,7 @@ class App extends Component<Props, State> {
   onCloseKeyBoard = () => {
     Keyboard.dismiss();
     this.setState({
-      suggest: false
+      suggest: false,
     });
   };
 
@@ -315,14 +315,16 @@ class App extends Component<Props, State> {
 
     return (
       <View
-        style={{
-          flex: 0,
-          backgroundColor: this.state.imageHeader ? bc : theme().color.white
-        }}
+        style={[
+          styles.headerContainer,
+          {
+            backgroundColor: this.state.imageHeader ? bc : theme().color.white,
+          },
+        ]}
       >
         <Header
-          title={this.state.imageHeader ? "" : this.state.title}
-          color={this.state.imageHeader ? "none" : bc}
+          title={this.state.imageHeader ? '' : this.state.title}
+          color={this.state.imageHeader ? 'none' : bc}
           right={
             this.state.keyboard ? (
               <TouchableOpacity
@@ -333,7 +335,7 @@ class App extends Component<Props, State> {
                   name="keyboard-close"
                   color={theme().color.main}
                   size={25}
-                  style={{ paddingRight: 5 }}
+                  style={styles.keyboardClose}
                 />
               </TouchableOpacity>
             ) : (
@@ -345,7 +347,7 @@ class App extends Component<Props, State> {
                   name="check"
                   color={theme().color.main}
                   size={25}
-                  style={{ paddingRight: 5 }}
+                  style={styles.keyboardClose}
                 />
               </TouchableOpacity>
             )
@@ -370,7 +372,8 @@ class App extends Component<Props, State> {
           <SafeAreaView
             style={[
               GlobalStyles.droidSafeArea,
-              { flex: 0, backgroundColor: bc }
+              styles.headerContainer,
+              { backgroundColor: bc },
             ]}
           />
           <SafeAreaView style={styles.body}>
@@ -432,23 +435,30 @@ class App extends Component<Props, State> {
 
 const styles = EStyleSheet.create({
   root: {
-    backgroundColor: "$background",
-    height: "100%",
-    width: "100%"
+    backgroundColor: '$background',
+    height: '100%',
+    width: '100%',
+  },
+  headerContainer: {
+    flex: 0,
   },
   body: {
-    flex: 1
+    flex: 1,
   },
   inputTitle: {
     fontSize: 20,
-    fontWeight: "600",
+    fontWeight: '600',
     color: theme().color.gray,
-    paddingLeft: 1
+    paddingLeft: 1,
   },
   bottom: {
     height: 500,
-    backgroundColor: "$background"
-  }
+    backgroundColor: '$background',
+  },
+
+  keyboardClose: {
+    paddingRight: 5,
+  },
 });
 
 export default connectActionSheet<PropsBase>(App);

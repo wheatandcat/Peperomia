@@ -1,29 +1,29 @@
-import * as SQLite from "expo-sqlite";
-import React, { Component } from "react";
-import { NavigationScreenProp, NavigationRoute } from "react-navigation";
-import { createStackNavigator } from "react-navigation-stack";
-import { AsyncStorage, Alert } from "react-native";
-import theme from "../../../config/theme";
-import { db } from "../../../lib/db";
+import * as SQLite from 'expo-sqlite';
+import React, { Component } from 'react';
+import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+import { AsyncStorage, Alert } from 'react-native';
+import theme from '../../../config/theme';
+import { db } from '../../../lib/db';
 import {
   deleteSql,
   resetSql,
   resetSqlV100,
   deleteUserSql,
-  sqliteMaster
-} from "../../../lib/db/debug";
-import { select as selectItems } from "../../../lib/db/item";
-import { select as selectItemDetailds } from "../../../lib/db/itemDetail";
-import { Consumer as AuthConsumer } from "../../../containers/Auth";
-import { Consumer as FetchConsumer } from "../../../containers/Fetch";
-import Tos from "../Tos/Page";
-import Policy from "../Policy/Page";
-import Feedback from "../Feedback/Connected";
-import SignIn from "../SignIn/Connected";
-import MyPage from "../MyPage/Connected";
-import ScreenSetting from "../ScreenSetting/Connected";
-import LoginWithAmazon from "../LoginWithAmazon/Connected";
-import Page from "./Page";
+  sqliteMaster,
+} from '../../../lib/db/debug';
+import { select as selectItems } from '../../../lib/db/item';
+import { select as selectItemDetailds } from '../../../lib/db/itemDetail';
+import { Consumer as AuthConsumer } from '../../../containers/Auth';
+import { Consumer as FetchConsumer } from '../../../containers/Fetch';
+import Tos from '../Tos/Page';
+import Policy from '../Policy/Page';
+import Feedback from '../Feedback/Connected';
+import SignIn from '../SignIn/Connected';
+import MyPage from '../MyPage/Connected';
+import ScreenSetting from '../ScreenSetting/Connected';
+import LoginWithAmazon from '../LoginWithAmazon/Connected';
+import Page from './Page';
 
 interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
@@ -32,14 +32,14 @@ interface Props {
 class Container extends Component<Props> {
   static navigationOptions = () => {
     return {
-      title: "設定",
+      title: '設定',
       headerTitleStyle: {
-        color: theme().mode.header.text
+        color: theme().mode.header.text,
       },
       headerTintColor: theme().mode.header.text,
       headerStyle: {
-        backgroundColor: theme().mode.header.backgroundColor
-      }
+        backgroundColor: theme().mode.header.backgroundColor,
+      },
     };
   };
 
@@ -76,11 +76,11 @@ interface State {
 }
 
 class Connected extends Component<ConnectedProps, State> {
-  static navigationOptions = { title: "設定" };
+  static navigationOptions = { title: '設定' };
 
   state = {
     loading: true,
-    login: false
+    login: false,
   };
 
   async componentDidMount() {
@@ -88,7 +88,7 @@ class Connected extends Component<ConnectedProps, State> {
 
     this.setState({
       login: loggedIn,
-      loading: false
+      loading: false,
     });
   }
 
@@ -117,67 +117,67 @@ class Connected extends Component<ConnectedProps, State> {
       deleteUserSql(tx);
     });
 
-    AsyncStorage.removeItem("FIRST_CRAEATE_ITEM");
+    AsyncStorage.removeItem('FIRST_CRAEATE_ITEM');
   };
 
   onShowSQL = () => {};
 
   onTos = () => {
-    this.props.navigation.navigate("Tos");
+    this.props.navigation.navigate('Tos');
   };
 
   onPolicy = () => {
-    this.props.navigation.navigate("Policy");
+    this.props.navigation.navigate('Policy');
   };
 
   onFeedback = () => {
-    this.props.navigation.navigate("Feedback");
+    this.props.navigation.navigate('Feedback');
   };
 
   onSignIn = () => {
-    this.props.navigation.navigate("SignIn", {
+    this.props.navigation.navigate('SignIn', {
       onLogin: () => {
         this.setState({
           login: true,
-          loading: false
+          loading: false,
         });
-      }
+      },
     });
   };
 
   onMyPage = () => {
-    this.props.navigation.navigate("MyPage");
+    this.props.navigation.navigate('MyPage');
   };
 
   onScreenSetting = () => {
-    this.props.navigation.navigate("ScreenSetting");
+    this.props.navigation.navigate('ScreenSetting');
   };
 
   onLogout = () => {
     Alert.alert(
-      "ログアウトしますか",
-      "",
+      'ログアウトしますか',
+      '',
       [
         {
-          text: "キャンセル",
-          style: "cancel"
+          text: 'キャンセル',
+          style: 'cancel',
         },
         {
-          text: "ログアウト",
+          text: 'ログアウト',
           onPress: async () => {
             await this.props.logout();
             this.setState({
-              login: false
+              login: false,
             });
-          }
-        }
+          },
+        },
       ],
       { cancelable: false }
     );
   };
 
   onLoginWithAmazon = () => {
-    this.props.navigation.navigate("LoginWithAmazon");
+    this.props.navigation.navigate('LoginWithAmazon');
   };
 
   onMigrationV100 = () => {
@@ -185,7 +185,7 @@ class Connected extends Component<ConnectedProps, State> {
       resetSqlV100(tx);
     });
 
-    AsyncStorage.setItem("APP_VERSION", "1.0.0");
+    AsyncStorage.setItem('APP_VERSION', '1.0.0');
   };
 
   render() {
@@ -221,17 +221,17 @@ export default createStackNavigator(
     SignIn: SignIn,
     MyPage: MyPage,
     ScreenSetting: ScreenSetting,
-    LoginWithAmazon: LoginWithAmazon
+    LoginWithAmazon: LoginWithAmazon,
   },
   {
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: theme().mode.header.backgroundColor
+        backgroundColor: theme().mode.header.backgroundColor,
       },
       headerTitleStyle: {
-        color: theme().mode.header.text
+        color: theme().mode.header.text,
       },
-      headerTintColor: theme().mode.header.text
-    }
+      headerTintColor: theme().mode.header.text,
+    },
   }
 );

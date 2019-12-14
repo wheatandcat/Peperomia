@@ -1,8 +1,8 @@
-import React, { Fragment } from "react";
-import { TouchableOpacity, View, Text } from "react-native";
-import EStyleSheet from "react-native-extended-stylesheet";
-import Card from "./Card";
-import { ItemDetail } from "../../../lib/db/itemDetail";
+import React, { Fragment } from 'react';
+import { TouchableOpacity, View, Text } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import Card from './Card';
+import { ItemDetail } from '../../../lib/db/itemDetail';
 
 export interface ItemProps extends ItemDetail {
   end: boolean;
@@ -27,9 +27,9 @@ export default (props: Props) => {
         }
 
         return (
-          <View style={{ padding: 15 }}>
+          <View style={styles.container}>
             <Text style={styles.timeText}>
-              {props.moveMinutes ? `${props.moveMinutes}分` : "-"}
+              {props.moveMinutes ? `${props.moveMinutes}分` : '-'}
             </Text>
           </View>
         );
@@ -40,8 +40,11 @@ export default (props: Props) => {
 
 const styles = EStyleSheet.create({
   timeText: {
-    fontWeight: "600",
+    fontWeight: '600',
     fontSize: 15,
-    color: "$text"
-  }
+    color: '$text',
+  },
+  container: {
+    padding: 15,
+  },
 });

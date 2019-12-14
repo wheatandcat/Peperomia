@@ -1,19 +1,19 @@
-import React, { Component } from "react";
-import { SafeAreaView, Alert, StatusBar, TouchableOpacity } from "react-native";
-import EStyleSheet from "react-native-extended-stylesheet";
+import React, { Component } from 'react';
+import { SafeAreaView, Alert, StatusBar, TouchableOpacity } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import {
   ActionSheetProps,
-  connectActionSheet
-} from "@expo/react-native-action-sheet";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import Color from "color";
-import GlobalStyles from "../../../GlobalStyles";
-import { ItemDetail } from "../../../lib/db/itemDetail";
-import { KINDS, KIND_DEFAULT } from "../../../lib/getKind";
-import s from "../../../config/style";
-import theme from "../../../config/theme";
-import Card from "../../molecules/ScheduleDetail/Card";
-import Header from "../../molecules/Header";
+  connectActionSheet,
+} from '@expo/react-native-action-sheet';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import Color from 'color';
+import GlobalStyles from '../../../GlobalStyles';
+import { ItemDetail } from '../../../lib/db/itemDetail';
+import { KINDS, KIND_DEFAULT } from '../../../lib/getKind';
+import s from '../../../config/style';
+import theme from '../../../config/theme';
+import Card from '../../molecules/ScheduleDetail/Card';
+import Header from '../../molecules/Header';
 
 type PropsBase = ItemDetail & {
   onDismiss: () => void;
@@ -27,9 +27,9 @@ class Page extends Component<Props> {
   onOpenActionSheet = () => {
     this.props.showActionSheetWithOptions(
       {
-        options: ["編集", "削除", "キャンセル"],
+        options: ['編集', '削除', 'キャンセル'],
         destructiveButtonIndex: 1,
-        cancelButtonIndex: 2
+        cancelButtonIndex: 2,
       },
       buttonIndex => {
         if (buttonIndex === 0) {
@@ -37,20 +37,20 @@ class Page extends Component<Props> {
         }
         if (buttonIndex === 1) {
           Alert.alert(
-            "削除しますか？",
-            "",
+            '削除しますか？',
+            '',
             [
               {
-                text: "キャンセル",
+                text: 'キャンセル',
                 onPress: () => {},
-                style: "cancel"
+                style: 'cancel',
               },
               {
-                text: "削除する",
+                text: '削除する',
                 onPress: () => {
                   this.props.onDelete();
-                }
-              }
+                },
+              },
             ],
             { cancelable: false }
           );
@@ -71,7 +71,7 @@ class Page extends Component<Props> {
       <>
         <Header
           title=""
-          color={"none"}
+          color={'none'}
           right={
             <TouchableOpacity
               onPress={this.onOpenActionSheet}
@@ -81,7 +81,7 @@ class Page extends Component<Props> {
                 name="dots-horizontal"
                 size={30}
                 color={theme().color.main}
-                style={{ marginRight: 0, marginLeft: "auto" }}
+                style={styles.icon}
               />
             </TouchableOpacity>
           }
@@ -93,7 +93,11 @@ class Page extends Component<Props> {
           barStyle="dark-content"
         />
         <SafeAreaView
-          style={[GlobalStyles.droidSafeArea, { flex: 0, backgroundColor: bc }]}
+          style={[
+            GlobalStyles.droidSafeArea,
+            styles.header,
+            { backgroundColor: bc },
+          ]}
         />
         <SafeAreaView style={styles.contents}>
           <Card {...this.props} onOpenActionSheet={this.onOpenActionSheet} />
@@ -108,6 +112,13 @@ export default connectActionSheet<PropsBase>(Page);
 const styles = EStyleSheet.create({
   contents: {
     flex: 1,
-    backgroundColor: "$background"
-  }
+    backgroundColor: '$background',
+  },
+  icon: {
+    marginRight: 0,
+    marginLeft: 'auto',
+  },
+  header: {
+    flex: 0,
+  },
 });

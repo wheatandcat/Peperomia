@@ -1,10 +1,10 @@
-import * as SQLite from "expo-sqlite";
-import { create as createItem } from "./item";
-import { create as createItemDetail } from "./itemDetail";
-import { create as createUser } from "./user";
-import { create as createCalendar } from "./calendar";
+import * as SQLite from 'expo-sqlite';
+import { create as createItem } from './item';
+import { create as createItemDetail } from './itemDetail';
+import { create as createUser } from './user';
+import { create as createCalendar } from './calendar';
 
-export const db: any = SQLite.openDatabase("db.db");
+export const db: any = SQLite.openDatabase('db.db');
 export type ResultError = Error | null;
 
 export const success = (
@@ -18,14 +18,14 @@ export const success = (
 };
 
 export const error = (
-  error: ResultError,
-  callback?: (data: any, error: ResultError) => void
+  err: ResultError,
+  callback?: (data: any, err: ResultError) => void
 ) => {
-  console.log(error);
+  console.log(err);
   if (!callback) {
     return;
   }
-  callback(null, error);
+  callback(null, err);
 };
 
 export const init = (tx: SQLite.Transaction) => {

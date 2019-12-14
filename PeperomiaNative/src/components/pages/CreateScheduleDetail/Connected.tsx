@@ -1,21 +1,21 @@
-import * as SQLite from "expo-sqlite";
-import React, { Component } from "react";
-import { NavigationScreenProp, NavigationRoute } from "react-navigation";
-import uuidv1 from "uuid/v1";
-import { db, ResultError } from "../../../lib/db";
+import * as SQLite from 'expo-sqlite';
+import React, { Component } from 'react';
+import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
+import uuidv1 from 'uuid/v1';
+import { db, ResultError } from '../../../lib/db';
 import {
   ItemDetailParam,
   insert as insertItemDetail,
   countByItemId,
-  ItemDetail
-} from "../../../lib/db/itemDetail";
-import { SuggestItem } from "../../../lib/suggest";
-import getKind from "../../../lib/getKind";
+  ItemDetail,
+} from '../../../lib/db/itemDetail';
+import { SuggestItem } from '../../../lib/suggest';
+import getKind from '../../../lib/getKind';
 import {
   Consumer as ItemsConsumer,
-  ContextProps
-} from "../../../containers/Items";
-import Page from "../../templates/CreateScheduleDetail/Page";
+  ContextProps,
+} from '../../../containers/Items';
+import Page from '../../templates/CreateScheduleDetail/Page';
 
 export interface State extends ItemDetailParam {
   iconSelected: boolean;
@@ -27,7 +27,7 @@ interface Props extends ItemDetailParam {
   navigation: NavigationScreenProp<NavigationRoute>;
 }
 
-type PlanProps = Props & Pick<ContextProps, "itemDetails" | "refreshData">;
+type PlanProps = Props & Pick<ContextProps, 'itemDetails' | 'refreshData'>;
 
 export default class extends Component<Props> {
   render() {
@@ -47,28 +47,28 @@ export default class extends Component<Props> {
 
 class Plan extends Component<PlanProps, State> {
   state = {
-    title: this.props.title || "",
-    kind: this.props.kind || "",
-    place: this.props.place || "",
-    url: this.props.url || "",
-    memo: this.props.memo || "",
+    title: this.props.title || '',
+    kind: this.props.kind || '',
+    place: this.props.place || '',
+    url: this.props.url || '',
+    memo: this.props.memo || '',
     moveMinutes: this.props.moveMinutes || 0,
     iconSelected: false,
     priority: 1,
-    suggestList: []
+    suggestList: [],
   };
 
   componentDidMount() {
     const suggestList = (this.props.itemDetails || []).map(itemDetail => ({
       title: itemDetail.title,
-      kind: itemDetail.kind
+      kind: itemDetail.kind,
     }));
 
     this.setState({
-      suggestList
+      suggestList,
     });
 
-    const itemId = this.props.navigation.getParam("itemId", "1");
+    const itemId = this.props.navigation.getParam('itemId', '1');
 
     db.transaction((tx: SQLite.Transaction) => {
       countByItemId(tx, itemId, this.getCount);
@@ -76,7 +76,7 @@ class Plan extends Component<PlanProps, State> {
   }
 
   componentDidUpdate() {
-    const kind = this.props.navigation.getParam("kind", "");
+    const kind = this.props.navigation.getParam('kind', '');
 
     if (!kind) {
       return;
@@ -93,7 +93,7 @@ class Plan extends Component<PlanProps, State> {
     }
 
     this.setState({
-      priority: count + 1
+      priority: count + 1,
     });
   };
 
@@ -109,7 +109,7 @@ class Plan extends Component<PlanProps, State> {
     memo: string,
     time: number
   ) => {
-    const itemId = this.props.navigation.getParam("itemId", "1");
+    const itemId = this.props.navigation.getParam('itemId', '1');
 
     db.transaction((tx: SQLite.Transaction) => {
       const itemDetail: ItemDetail = {
@@ -120,7 +120,7 @@ class Plan extends Component<PlanProps, State> {
         url,
         memo,
         moveMinutes: time,
-        priority: this.state.priority
+        priority: this.state.priority,
       };
 
       insertItemDetail(tx, itemDetail, this.save);
@@ -132,11 +132,11 @@ class Plan extends Component<PlanProps, State> {
       return;
     }
 
-    const itemId = this.props.navigation.getParam("itemId", "1");
+    const itemId = this.props.navigation.getParam('itemId', '1');
 
-    this.props.navigation.navigate("CreateSchedule", {
+    this.props.navigation.navigate('CreateSchedule', {
       itemId,
-      refresh: uuidv1()
+      refresh: uuidv1(),
     });
 
     if (this.props.refreshData) {
@@ -145,17 +145,17 @@ class Plan extends Component<PlanProps, State> {
   };
 
   onIcons = (title: string) => {
-    this.props.navigation.navigate("Icons", {
+    this.props.navigation.navigate('Icons', {
       kind: getKind(title),
       onSelectIcon: (kind: string) => {
-        this.props.navigation.navigate("CreateScheduleDetail", {
-          kind: kind
+        this.props.navigation.navigate('CreateScheduleDetail', {
+          kind: kind,
         });
       },
       onDismiss: () => {
-        this.props.navigation.navigate("CreateScheduleDetail");
+        this.props.navigation.navigate('CreateScheduleDetail');
       },
-      photo: false
+      photo: false,
     });
   };
 

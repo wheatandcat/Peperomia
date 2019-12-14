@@ -1,8 +1,8 @@
-import React from "react";
-import { View, TextInput, Text, Platform } from "react-native";
-import { Button, Overlay } from "react-native-elements";
-import EStyleSheet from "react-native-extended-stylesheet";
-import theme, { darkMode } from "../../../config/theme";
+import React from 'react';
+import { View, TextInput, Text, Platform } from 'react-native';
+import { Button, Overlay } from 'react-native-elements';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import theme, { darkMode } from '../../../config/theme';
 
 interface Props {
   open: boolean;
@@ -14,9 +14,9 @@ interface Props {
 export default (props: Props) => (
   <Overlay
     isVisible={props.open}
-    height={Platform.OS === "ios" ? 220 : 245}
+    height={Platform.OS === 'ios' ? 220 : 245}
     width="90%"
-    overlayStyle={{ paddingHorizontal: 0, paddingTop: 30 }}
+    overlayStyle={styles.overlay}
     overlayBackgroundColor={
       darkMode() ? theme().color.black : theme().color.white
     }
@@ -26,12 +26,8 @@ export default (props: Props) => (
         <Text style={styles.title}>時間を入力して下さい</Text>
       </View>
 
-      <View
-        style={{
-          paddingTop: 30
-        }}
-      >
-        <View style={{ flexDirection: "row", justifyContent: "center" }}>
+      <View style={styles.contents}>
+        <View style={styles.textInputContainer}>
           <TextInput
             keyboardType="numeric"
             style={styles.timeInput}
@@ -42,7 +38,7 @@ export default (props: Props) => (
             autoFocus
           />
 
-          <View style={{ paddingTop: 5 }}>
+          <View style={styles.minutes}>
             <Text style={styles.timeInputSuffix}>分</Text>
           </View>
         </View>
@@ -52,27 +48,17 @@ export default (props: Props) => (
           title="キャンセル"
           type="clear"
           onPress={props.onCloseManualTime}
-          containerStyle={{ paddingLeft: 30 }}
+          containerStyle={styles.cancelContainer}
           titleStyle={styles.cancel}
         />
         <View>
-          <Text
-            style={{
-              fontSize: 22,
-              color: theme().color.lightGray
-            }}
-          >
-            |
-          </Text>
+          <Text style={styles.line}>|</Text>
         </View>
         <Button
           title="設定"
           type="clear"
           onPress={props.onSetManualTime}
-          containerStyle={{
-            paddingRight: 50,
-            width: 120
-          }}
+          containerStyle={styles.settingButton}
           titleStyle={styles.buttonText}
         />
       </View>
@@ -82,47 +68,72 @@ export default (props: Props) => (
 
 const styles = EStyleSheet.create({
   root: {
-    height: "100%",
-    width: "100%",
-    backgroundColor: "$background"
+    height: '100%',
+    width: '100%',
+    backgroundColor: '$background',
   },
   title: {
     fontSize: 20,
-    fontWeight: "600",
-    textAlign: "center",
-    color: "$text"
+    fontWeight: '600',
+    textAlign: 'center',
+    color: '$text',
   },
   timeInput: {
     width: 90,
     paddingRight: 10,
-    textAlign: "right",
+    textAlign: 'right',
     fontSize: 24,
     borderBottomWidth: 1,
-    color: "$text",
-    borderColor: "$text"
+    color: '$text',
+    borderColor: '$text',
   },
   timeInputSuffix: {
     paddingTop: 9,
     paddingLeft: 5,
     fontSize: 18,
-    color: "$text"
+    color: '$text',
   },
   fotter: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: "auto",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: 'auto',
     marginTop: 50,
     paddingTop: 10,
     borderTopWidth: 0.5,
-    borderColor: theme().color.lightGray
+    borderColor: theme().color.lightGray,
   },
   buttonText: {
-    color: "$secondaryButton",
-    fontWeight: "600"
+    color: '$secondaryButton',
+    fontWeight: '600',
   },
   cancel: {
     color: theme().color.gray,
-    fontWeight: "600"
-  }
+    fontWeight: '600',
+  },
+  overlay: {
+    paddingHorizontal: 0,
+    paddingTop: 30,
+  },
+  contents: {
+    paddingTop: 30,
+  },
+  textInputContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  minutes: {
+    paddingTop: 5,
+  },
+  cancelContainer: {
+    paddingLeft: 30,
+  },
+  line: {
+    fontSize: 22,
+    color: theme().color.lightGray,
+  },
+  settingButton: {
+    paddingRight: 50,
+    width: 120,
+  },
 });

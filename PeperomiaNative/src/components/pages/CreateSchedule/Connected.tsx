@@ -1,16 +1,16 @@
-import * as SQLite from "expo-sqlite";
-import React, { Component } from "react";
-import { NavigationScreenProp, NavigationRoute } from "react-navigation";
-import { Alert } from "react-native";
-import { db, ResultError } from "../../../lib/db";
-import { Item, select1st } from "../../../lib/db/item";
+import * as SQLite from 'expo-sqlite';
+import React, { Component } from 'react';
+import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
+import { Alert } from 'react-native';
+import { db, ResultError } from '../../../lib/db';
+import { Item, select1st } from '../../../lib/db/item';
 import {
   selectByItemId,
   ItemDetail,
-  update as updateItemDetail
-} from "../../../lib/db/itemDetail";
-import { ItemProps } from "../../organisms/Schedule/Cards";
-import Page from "../../templates/CreateSchedule/Page";
+  update as updateItemDetail,
+} from '../../../lib/db/itemDetail';
+import { ItemProps } from '../../organisms/Schedule/Cards';
+import Page from '../../templates/CreateSchedule/Page';
 
 interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
@@ -24,13 +24,13 @@ interface State {
 
 export default class extends Component<Props, State> {
   state = {
-    item: { title: "", kind: "", image: "" },
+    item: { title: '', kind: '', image: '' },
     items: [],
-    refresh: "0"
+    refresh: '0',
   };
 
   componentDidMount() {
-    const itemId = this.props.navigation.getParam("itemId", "1");
+    const itemId = this.props.navigation.getParam('itemId', '1');
 
     db.transaction((tx: SQLite.Transaction) => {
       select1st(tx, itemId, this.setItem);
@@ -39,10 +39,10 @@ export default class extends Component<Props, State> {
   }
 
   componentDidUpdate() {
-    const refresh = this.props.navigation.getParam("refresh", "0");
+    const refresh = this.props.navigation.getParam('refresh', '0');
 
     if (refresh !== this.state.refresh) {
-      const itemId = this.props.navigation.getParam("itemId", "1");
+      const itemId = this.props.navigation.getParam('itemId', '1');
       db.transaction((tx: SQLite.Transaction) => {
         selectByItemId(tx, itemId, this.setItems);
       });
@@ -60,8 +60,8 @@ export default class extends Component<Props, State> {
       item: {
         title: data.title,
         kind: data.kind,
-        image: data.image
-      }
+        image: data.image,
+      },
     });
   };
 
@@ -78,7 +78,7 @@ export default class extends Component<Props, State> {
     // priorityが重複していない
     if (prioritys.length === uniquePrioritys.length) {
       this.props.navigation.setParams({
-        items: data
+        items: data,
       });
       this.setState({ items: data });
     }
@@ -86,7 +86,7 @@ export default class extends Component<Props, State> {
     // priorityが重複している場合はid順でpriorityをupdateする
     const items: ItemDetail[] = data.map((item: ItemDetail, index: number) => ({
       ...item,
-      priority: index + 1
+      priority: index + 1,
     }));
 
     db.transaction((tx: SQLite.Transaction) => {
@@ -102,65 +102,65 @@ export default class extends Component<Props, State> {
   save = () => {};
 
   onCreateScheduleDetail = () => {
-    const itemId = this.props.navigation.getParam("itemId", "1");
+    const itemId = this.props.navigation.getParam('itemId', '1');
 
-    this.props.navigation.navigate("CreateScheduleDetail", {
-      itemId
+    this.props.navigation.navigate('CreateScheduleDetail', {
+      itemId,
     });
   };
 
   onScheduleDetail = (id: string) => {
-    this.props.navigation.navigate("ScheduleDetail", {
+    this.props.navigation.navigate('ScheduleDetail', {
       scheduleDetailId: id,
-      priority: this.state.items.length + 1
+      priority: this.state.items.length + 1,
     });
   };
 
   onFinish = () => {
     if (this.state.items.length === 0) {
       Alert.alert(
-        "まだ予定の設定がありません",
-        "本当に完了しますか？",
+        'まだ予定の設定がありません',
+        '本当に完了しますか？',
         [
           {
-            text: "キャンセル",
-            style: "cancel"
+            text: 'キャンセル',
+            style: 'cancel',
           },
           {
-            text: "完了する",
+            text: '完了する',
             onPress: () => {
-              this.props.navigation.navigate("Home", { refresh: true });
-            }
-          }
+              this.props.navigation.navigate('Home', { refresh: true });
+            },
+          },
         ],
         { cancelable: false }
       );
     } else {
-      this.props.navigation.navigate("Home", { refresh: true });
+      this.props.navigation.navigate('Home', { refresh: true });
     }
   };
 
   onGoBack = () => {
     if (this.state.items.length === 0) {
       Alert.alert(
-        "まだ予定の設定がありません",
-        "本当に閉じますか？",
+        'まだ予定の設定がありません',
+        '本当に閉じますか？',
         [
           {
-            text: "キャンセル",
-            style: "cancel"
+            text: 'キャンセル',
+            style: 'cancel',
           },
           {
-            text: "閉じる",
+            text: '閉じる',
             onPress: () => {
-              this.props.navigation.navigate("Home", { refresh: true });
-            }
-          }
+              this.props.navigation.navigate('Home', { refresh: true });
+            },
+          },
         ],
         { cancelable: false }
       );
     } else {
-      this.props.navigation.navigate("Home", { refresh: true });
+      this.props.navigation.navigate('Home', { refresh: true });
     }
   };
 

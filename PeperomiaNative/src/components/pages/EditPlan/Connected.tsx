@@ -1,24 +1,25 @@
-import * as ImageManipulator from "expo-image-manipulator";
-import * as SQLite from "expo-sqlite";
-import React, { Component } from "react";
-import { NavigationScreenProp, NavigationRoute } from "react-navigation";
-import { TouchableOpacity, View, Alert } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import * as ImageManipulator from 'expo-image-manipulator';
+import * as SQLite from 'expo-sqlite';
+import React, { Component } from 'react';
+import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { TouchableOpacity, View, Alert } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import {
   Consumer as ItemsConsumer,
-  ContextProps
-} from "../../../containers/Items";
-import theme from "../../../config/theme";
-import { db, ResultError } from "../../../lib/db";
-import { update as updateItem, Item } from "../../../lib/db/item";
+  ContextProps,
+} from '../../../containers/Items';
+import theme from '../../../config/theme';
+import { db, ResultError } from '../../../lib/db';
+import { update as updateItem, Item } from '../../../lib/db/item';
 import {
   update as updateCalendar,
   insert as insertCalendar,
-  Calendar
-} from "../../../lib/db/calendar";
-import getKind from "../../../lib/getKind";
-import { SuggestItem } from "../../../lib/suggest";
-import Page from "../../templates/CreatePlan/Page";
+  Calendar,
+} from '../../../lib/db/calendar';
+import getKind from '../../../lib/getKind';
+import { SuggestItem } from '../../../lib/suggest';
+import Page from '../../templates/CreatePlan/Page';
 
 type Props = {
   navigation: NavigationScreenProp<NavigationRoute>;
@@ -26,12 +27,12 @@ type Props = {
 
 type ConnectedProps = Pick<
   ContextProps,
-  "items" | "refreshData" | "calendars"
+  'items' | 'refreshData' | 'calendars'
 > & {
   navigation: NavigationScreenProp<NavigationRoute>;
 };
 
-type PlanProps = Pick<ContextProps, "items" | "refreshData"> & {
+type PlanProps = Pick<ContextProps, 'items' | 'refreshData'> & {
   navigation: NavigationScreenProp<NavigationRoute>;
   input: {
     title: string;
@@ -59,14 +60,14 @@ type State = {
 
 export default class extends Component<Props> {
   static navigationOptions = ({
-    navigation
+    navigation,
   }: {
     navigation: NavigationScreenProp<NavigationRoute>;
   }) => {
     return {
-      title: "タイトル編集",
+      title: 'タイトル編集',
       headerLeft: (
-        <View style={{ left: 10 }}>
+        <View style={styles.headerLeft}>
           <TouchableOpacity
             onPress={() => {
               navigation.goBack();
@@ -79,7 +80,7 @@ export default class extends Component<Props> {
             />
           </TouchableOpacity>
         </View>
-      )
+      ),
     };
   };
 
@@ -101,24 +102,24 @@ export default class extends Component<Props> {
 
 class Connected extends Component<ConnectedProps, State> {
   state = {
-    input: { title: "", date: "" },
-    image: "",
-    kind: "",
+    input: { title: '', date: '' },
+    image: '',
+    kind: '',
     calendar: {
       id: 0,
       itemId: 0,
-      date: ""
-    }
+      date: '',
+    },
   };
 
   componentDidMount() {
-    const id = this.props.navigation.getParam("id", 0);
+    const id = this.props.navigation.getParam('id', 0);
     let input: {
       date: string;
       title: string;
     } = {
-      date: "",
-      title: ""
+      date: '',
+      title: '',
     };
 
     const calendar = (this.props.calendars || []).find(
@@ -128,7 +129,7 @@ class Connected extends Component<ConnectedProps, State> {
     if (calendar && calendar.date) {
       input.date = calendar.date;
       this.setState({
-        calendar
+        calendar,
       });
     }
 
@@ -140,46 +141,46 @@ class Connected extends Component<ConnectedProps, State> {
       input.title = schedule.title;
     }
 
-    const image = this.props.navigation.getParam("image", "");
-    const kind = this.props.navigation.getParam("kind", "");
+    const image = this.props.navigation.getParam('image', '');
+    const kind = this.props.navigation.getParam('kind', '');
 
     this.setState({
       input,
       image,
-      kind
+      kind,
     });
   }
 
   async componentDidUpdate() {
-    const image = this.props.navigation.getParam("image", "");
+    const image = this.props.navigation.getParam('image', '');
     if (image && image !== this.state.image) {
       this.setState({
-        image
+        image,
       });
     }
 
-    const kind = this.props.navigation.getParam("kind", "");
+    const kind = this.props.navigation.getParam('kind', '');
     if (kind && kind !== this.state.kind) {
       this.setState({
-        kind
+        kind,
       });
     }
   }
 
   onImage = (image: string) => {
     this.setState({
-      image
+      image,
     });
   };
 
   onInput = (name: string, value: any) => {
     const input = {
       ...this.state.input,
-      [name]: value
+      [name]: value,
     };
 
     this.setState({
-      input
+      input,
     });
   };
 
@@ -190,30 +191,30 @@ class Connected extends Component<ConnectedProps, State> {
       );
 
       if (check) {
-        Alert.alert("同じ日にスケジュールが既に登録されています");
+        Alert.alert('同じ日にスケジュールが既に登録されています');
         return;
       }
     }
 
-    let image = "";
+    let image = '';
     if (this.state.image) {
       const manipResult = await ImageManipulator.manipulateAsync(
         this.state.image,
         [{ rotate: 0 }, { flip: { vertical: true } }],
-        { format: "png", base64: true }
+        { format: 'png', base64: true }
       );
 
-      image = manipResult.base64 || "";
+      image = manipResult.base64 || '';
     }
 
     db.transaction((tx: SQLite.Transaction) => {
-      const id = this.props.navigation.getParam("id", 0);
+      const id = this.props.navigation.getParam('id', 0);
 
       const item: Item = {
         id,
         title: this.state.input.title,
         kind: this.state.kind || getKind(this.state.input.title),
-        image
+        image,
       };
 
       updateItem(tx, item, this.save);
@@ -227,7 +228,7 @@ class Connected extends Component<ConnectedProps, State> {
           tx,
           {
             ...this.state.calendar,
-            date: this.state.input.date
+            date: this.state.input.date,
           },
           this.saveCalendar
         );
@@ -236,7 +237,7 @@ class Connected extends Component<ConnectedProps, State> {
           tx,
           {
             itemId: id,
-            date: this.state.input.date
+            date: this.state.input.date,
           },
           this.saveCalendar
         );
@@ -246,15 +247,15 @@ class Connected extends Component<ConnectedProps, State> {
 
   save = (_: Item[], error: ResultError) => {
     if (error) {
-      Alert.alert("保存に失敗しました");
+      Alert.alert('保存に失敗しました');
       return;
     }
 
-    const id = this.props.navigation.getParam("id", 0);
+    const id = this.props.navigation.getParam('id', 0);
 
-    this.props.navigation.navigate("Schedule", {
+    this.props.navigation.navigate('Schedule', {
       itemId: id,
-      title: this.state.input.title
+      title: this.state.input.title,
     });
   };
 
@@ -269,30 +270,30 @@ class Connected extends Component<ConnectedProps, State> {
   };
 
   onIcons = () => {
-    this.props.navigation.navigate("Icons", {
+    this.props.navigation.navigate('Icons', {
       kind: getKind(this.state.input.title),
       onSelectIcon: (kind: string) => {
-        this.props.navigation.navigate("EditPlan", {
-          kind: kind
+        this.props.navigation.navigate('EditPlan', {
+          kind: kind,
         });
       },
       onDismiss: () => {
-        this.props.navigation.navigate("EditPlan");
+        this.props.navigation.navigate('EditPlan');
       },
-      photo: true
+      photo: true,
     });
   };
 
   onCamera = () => {
-    this.props.navigation.navigate("Camera", {
+    this.props.navigation.navigate('Camera', {
       onPicture: (image?: string) => {
-        this.props.navigation.navigate("EditPlan", {
-          image
+        this.props.navigation.navigate('EditPlan', {
+          image,
         });
       },
       onDismiss: () => {
-        this.props.navigation.navigate("EditPlan");
-      }
+        this.props.navigation.navigate('EditPlan');
+      },
     });
   };
 
@@ -326,17 +327,17 @@ interface PlanState {
 
 class Plan extends Component<PlanProps, PlanState> {
   state = {
-    suggestList: []
+    suggestList: [],
   };
 
   componentDidMount() {
     const suggestList = (this.props.items || []).map(item => ({
       title: item.title,
-      kind: item.kind
+      kind: item.kind,
     }));
 
     this.setState({
-      suggestList
+      suggestList,
     });
   }
 
@@ -367,3 +368,9 @@ class Plan extends Component<PlanProps, PlanState> {
     );
   }
 }
+
+const styles = EStyleSheet.create({
+  headerLeft: {
+    left: 10,
+  },
+});

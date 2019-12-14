@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { Alert } from "react-native";
-import { NavigationScreenProp, NavigationRoute } from "react-navigation";
-import theme from "../../../config/theme";
-import { Consumer as AuthConsumer } from "../../../containers/Auth";
-import { Consumer as FetchConsumer } from "../../../containers/Fetch";
-import Page from "./Page";
+import React, { Component } from 'react';
+import { Alert } from 'react-native';
+import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
+import theme from '../../../config/theme';
+import { Consumer as AuthConsumer } from '../../../containers/Auth';
+import { Consumer as FetchConsumer } from '../../../containers/Fetch';
+import Page from './Page';
 
 interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
@@ -13,15 +13,15 @@ interface Props {
 export default class extends Component<Props> {
   static navigationOptions = () => {
     return {
-      title: "ユーザー登録 / ログイン",
-      headerBackTitle: "",
+      title: 'ユーザー登録 / ログイン',
+      headerBackTitle: '',
       headerTitleStyle: {
-        color: theme().mode.header.text
+        color: theme().mode.header.text,
       },
       headerTintColor: theme().mode.header.text,
       headerStyle: {
-        backgroundColor: theme().mode.header.backgroundColor
-      }
+        backgroundColor: theme().mode.header.backgroundColor,
+      },
     };
   };
 
@@ -58,7 +58,7 @@ class Connected extends Component<ConnectedProps> {
       await this.props.onGoogleLogin();
       const ok = await this.saveUser();
       if (ok) {
-        const onLogin = this.props.navigation.getParam("onLogin", () => {});
+        const onLogin = this.props.navigation.getParam('onLogin', () => {});
         onLogin();
 
         this.props.navigation.goBack();
@@ -67,17 +67,17 @@ class Connected extends Component<ConnectedProps> {
         this.props.logout();
       }
     } catch (err) {
-      console.log("err:", err);
+      console.log('err:', err);
     }
   };
 
   saveUser = async () => {
-    console.log("saveUser");
-    const response = await this.props.post("CreateUser", {});
+    console.log('saveUser');
+    const response = await this.props.post('CreateUser', {});
     console.log(response);
 
     if (!response.ok) {
-      Alert.alert("ユーザーの保存に失敗しました。");
+      Alert.alert('ユーザーの保存に失敗しました。');
       return false;
     }
 

@@ -1,10 +1,10 @@
-import React from "react";
-import { View, TouchableOpacity, Text } from "react-native";
-import { IconImage } from "primitive";
-import EStyleSheet from "react-native-extended-stylesheet";
-import { SuggestItem, uniqueSuggests } from "../../../lib/suggest";
-import { KINDS } from "../../../lib/getKind";
-import { darkMode } from "../../../config/theme";
+import React from 'react';
+import { View, TouchableOpacity, Text } from 'react-native';
+import { IconImage } from 'primitive';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { SuggestItem, uniqueSuggests } from '../../../lib/suggest';
+import { KINDS } from '../../../lib/getKind';
+import { darkMode } from '../../../config/theme';
 
 interface Props {
   title: string;
@@ -24,14 +24,12 @@ export default (props: Props) => (
       .slice(0, 8)
       .map(item => (
         <TouchableOpacity
-          style={{ paddingVertical: 15 }}
+          style={styles.tap}
           onPress={() => props.onPress(item.kind, item.title)}
           key={item.title}
         >
-          <View
-            style={{ flexDirection: "row", height: 30, alignItems: "center" }}
-          >
-            <View style={{ alignItems: "center" }}>
+          <View style={styles.container}>
+            <View style={styles.iconImage}>
               <IconImage
                 src={getImageSrc(item.kind, darkMode())}
                 name=""
@@ -40,12 +38,12 @@ export default (props: Props) => (
               />
             </View>
             <View
-              style={{
-                marginLeft: 4,
-                borderLeftWidth: 6,
-                borderColor: getImageColor(item.kind),
-                paddingLeft: 10
-              }}
+              style={[
+                styles.titleContainer,
+                {
+                  borderColor: getImageColor(item.kind),
+                },
+              ]}
             >
               <Text style={styles.title}>{item.title}</Text>
             </View>
@@ -74,9 +72,25 @@ const getImageColor = (kind: string) => {
 const styles = EStyleSheet.create({
   root: {
     padding: 20,
-    backgroundColor: "$background"
+    backgroundColor: '$background',
   },
   title: {
-    color: "$text"
-  }
+    color: '$text',
+  },
+  tap: {
+    paddingVertical: 15,
+  },
+  container: {
+    flexDirection: 'row',
+    height: 30,
+    alignItems: 'center',
+  },
+  iconImage: {
+    alignItems: 'center',
+  },
+  titleContainer: {
+    marginLeft: 4,
+    borderLeftWidth: 6,
+    paddingLeft: 10,
+  },
 });

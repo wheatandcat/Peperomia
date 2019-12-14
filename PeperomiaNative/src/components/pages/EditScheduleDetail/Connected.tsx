@@ -1,19 +1,19 @@
-import * as SQLite from "expo-sqlite";
-import React, { Component } from "react";
-import { NavigationScreenProp, NavigationRoute } from "react-navigation";
-import { db } from "../../../lib/db";
+import * as SQLite from 'expo-sqlite';
+import React, { Component } from 'react';
+import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
+import { db } from '../../../lib/db';
 import {
   ItemDetailParam,
   update as updateItemDetail,
-  ItemDetail
-} from "../../../lib/db/itemDetail";
-import getKind from "../../../lib/getKind";
-import { SuggestItem } from "../../../lib/suggest";
+  ItemDetail,
+} from '../../../lib/db/itemDetail';
+import getKind from '../../../lib/getKind';
+import { SuggestItem } from '../../../lib/suggest';
 import {
   Consumer as ItemsConsumer,
-  ContextProps
-} from "../../../containers/Items";
-import Page from "../../templates/CreateScheduleDetail/Page";
+  ContextProps,
+} from '../../../containers/Items';
+import Page from '../../templates/CreateScheduleDetail/Page';
 
 interface State extends ItemDetailParam {
   iconSelected: boolean;
@@ -26,7 +26,7 @@ interface Props extends ItemDetailParam {
   onShow: (reload: boolean) => void;
 }
 
-type PlanProps = Props & Pick<ContextProps, "itemDetails" | "refreshData">;
+type PlanProps = Props & Pick<ContextProps, 'itemDetails' | 'refreshData'>;
 
 export default class extends Component<Props> {
   render() {
@@ -46,30 +46,30 @@ export default class extends Component<Props> {
 
 class Plan extends Component<PlanProps, State> {
   state = {
-    title: this.props.title || "",
-    place: this.props.place || "",
-    url: this.props.url || "",
-    memo: this.props.memo || "",
+    title: this.props.title || '',
+    place: this.props.place || '',
+    url: this.props.url || '',
+    memo: this.props.memo || '',
     moveMinutes: this.props.moveMinutes || 0,
     kind: this.props.kind,
     priority: this.props.priority,
     iconSelected: false,
-    suggestList: []
+    suggestList: [],
   };
 
   componentDidMount() {
     const suggestList = (this.props.itemDetails || []).map(itemDetail => ({
       title: itemDetail.title,
-      kind: itemDetail.kind
+      kind: itemDetail.kind,
     }));
 
     this.setState({
-      suggestList
+      suggestList,
     });
   }
 
   componentDidUpdate() {
-    const kind = this.props.navigation.getParam("kind", "");
+    const kind = this.props.navigation.getParam('kind', '');
 
     if (!kind) {
       return;
@@ -102,7 +102,7 @@ class Plan extends Component<PlanProps, State> {
         kind,
         moveMinutes: time,
         priority: this.props.priority,
-        itemId: 0
+        itemId: 0,
       };
 
       updateItemDetail(tx, itemDetail, this.save);
@@ -110,7 +110,7 @@ class Plan extends Component<PlanProps, State> {
   };
 
   save = async () => {
-    const refreshData = this.props.navigation.getParam("refreshData", () => {});
+    const refreshData = this.props.navigation.getParam('refreshData', () => {});
     await refreshData();
 
     if (this.props.refreshData) {
@@ -120,18 +120,18 @@ class Plan extends Component<PlanProps, State> {
   };
 
   onIcons = (title: string) => {
-    this.props.navigation.navigate("Icons", {
+    this.props.navigation.navigate('Icons', {
       kind: getKind(title),
       defaultIcon: false,
       onSelectIcon: (kind: string) => {
-        this.props.navigation.navigate("ScheduleDetail", {
-          kind: kind
+        this.props.navigation.navigate('ScheduleDetail', {
+          kind: kind,
         });
       },
       onDismiss: () => {
-        this.props.navigation.navigate("ScheduleDetail");
+        this.props.navigation.navigate('ScheduleDetail');
       },
-      photo: false
+      photo: false,
     });
   };
 

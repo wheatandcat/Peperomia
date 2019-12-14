@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import { ItemDetail } from "../../../lib/db/itemDetail";
-import Card from "../../molecules/Schedule/TouchableCard";
+import React, { Component } from 'react';
+import { ItemDetail } from '../../../lib/db/itemDetail';
+import Card from '../../molecules/Schedule/TouchableCard';
 
 export interface ItemProps extends ItemDetail {}
 

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   TouchableOpacity,
   View,
@@ -7,24 +7,24 @@ import {
   StatusBar,
   Platform,
   NativeSyntheticEvent,
-  TextInputScrollEventData
-} from "react-native";
-import EStyleSheet from "react-native-extended-stylesheet";
-import { Icon } from "react-native-elements";
-import { getStatusBarHeight } from "react-native-status-bar-height";
-import { MaterialIcons } from "@expo/vector-icons";
-import Color from "color";
-import { ItemDetail } from "../../../lib/db/itemDetail";
-import getKind, { KINDS } from "../../../lib/getKind";
-import theme from "../../../config/theme";
-import s from "../../../config/style";
-import { whenIPhoneSE } from "../../../lib/responsive";
-import IconImage from "../../organisms/CreatePlan/IconImage";
-import List, { Props as CardsProps } from "../../organisms/Schedule/List";
-import Header from "../../molecules/Header";
+  TextInputScrollEventData,
+} from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { Icon } from 'react-native-elements';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { MaterialIcons } from '@expo/vector-icons';
+import Color from 'color';
+import { ItemDetail } from '../../../lib/db/itemDetail';
+import getKind, { KINDS } from '../../../lib/getKind';
+import theme from '../../../config/theme';
+import s from '../../../config/style';
+import { whenIPhoneSE } from '../../../lib/responsive';
+import IconImage from '../../organisms/CreatePlan/IconImage';
+import List, { Props as CardsProps } from '../../organisms/Schedule/List';
+import Header from '../../molecules/Header';
 
 const top =
-  Platform.OS === "android" ? StatusBar.currentHeight : getStatusBarHeight();
+  Platform.OS === 'android' ? StatusBar.currentHeight : getStatusBarHeight();
 
 interface State {
   imageHeader: boolean;
@@ -42,7 +42,7 @@ interface Props extends CardsProps {
 
 export default class extends Component<Props, State> {
   state = {
-    imageHeader: true
+    imageHeader: true,
   };
 
   scrollView: any;
@@ -70,12 +70,12 @@ export default class extends Component<Props, State> {
 
     if (e.nativeEvent.contentOffset.y >= offsetY && this.state.imageHeader) {
       this.setState({
-        imageHeader: false
+        imageHeader: false,
       });
     }
     if (e.nativeEvent.contentOffset.y < offsetY && !this.state.imageHeader) {
       this.setState({
-        imageHeader: true
+        imageHeader: true,
       });
     }
   };
@@ -89,20 +89,22 @@ export default class extends Component<Props, State> {
       .lighten(ss.backgroundColorAlpha)
       .toString();
     const imageSize = whenIPhoneSE(120, 180);
+    const height = this.props.data.length > 0 ? 150 : 300;
 
     return (
       <View
-        style={{
-          flex: 0,
-          backgroundColor: this.state.imageHeader
-            ? bc
-            : theme().mode.background,
-          height: "100%"
-        }}
+        style={[
+          styles.headrContainer,
+          {
+            backgroundColor: this.state.imageHeader
+              ? bc
+              : theme().mode.background,
+          },
+        ]}
       >
         <Header
-          title={this.state.imageHeader ? "" : this.props.title}
-          color={this.state.imageHeader ? "none" : bc}
+          title={this.state.imageHeader ? '' : this.props.title}
+          color={this.state.imageHeader ? 'none' : bc}
           right={
             <TouchableOpacity
               onPress={this.props.onFinish}
@@ -112,7 +114,7 @@ export default class extends Component<Props, State> {
                 name="check"
                 color={theme().color.main}
                 size={25}
-                style={{ paddingRight: 5 }}
+                style={styles.headerRightIcon}
               />
             </TouchableOpacity>
           }
@@ -127,12 +129,14 @@ export default class extends Component<Props, State> {
           scrollEventThrottle={1000}
         >
           <View
-            style={{
-              backgroundColor: Color(config.backgroundColor)
-                .lighten(ss.backgroundColorAlpha)
-                .toString(),
-              paddingTop: 50
-            }}
+            style={[
+              styles.contents,
+              {
+                backgroundColor: Color(config.backgroundColor)
+                  .lighten(ss.backgroundColorAlpha)
+                  .toString(),
+              },
+            ]}
           >
             <IconImage
               image={image}
@@ -153,14 +157,7 @@ export default class extends Component<Props, State> {
               onScheduleDetail={this.props.onScheduleDetail}
             />
 
-            <View
-              style={[
-                styles.addButoon,
-                {
-                  height: this.props.data.length > 0 ? 150 : 300
-                }
-              ]}
-            >
+            <View style={[styles.addButoon, { height }]}>
               <TouchableOpacity
                 onPress={this.props.onCreateScheduleDetail}
                 testID="ScheduleDetailAdd"
@@ -175,7 +172,7 @@ export default class extends Component<Props, State> {
               </TouchableOpacity>
               <Text style={styles.addButoonText}>スケジュールを追加する</Text>
             </View>
-            <View style={{ height: 120 }} />
+            <View style={styles.bottom} />
           </View>
         </ScrollView>
       </View>
@@ -184,33 +181,46 @@ export default class extends Component<Props, State> {
 }
 
 const styles = EStyleSheet.create({
+  headrContainer: {
+    flex: 0,
+    height: '100%',
+  },
   headerImageTitle: {
     paddingLeft: 20,
     fontSize: 30,
-    fontWeight: "500",
-    color: "$text"
+    fontWeight: '500',
+    color: '$text',
+  },
+  headerRightIcon: {
+    paddingRight: 5,
+  },
+  contents: {
+    paddingTop: 50,
+  },
+  bottom: {
+    height: 120,
   },
   scheduleText: {
     paddingLeft: 20,
     paddingBottom: 20,
     fontSize: 16,
-    fontWeight: "500",
-    color: "$text"
+    fontWeight: '500',
+    color: '$text',
   },
   addButoon: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%"
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
   },
   addButoonText: {
-    color: "$text",
+    color: '$text',
     fontSize: 16,
-    fontWeight: "500",
-    paddingTop: 25
+    fontWeight: '500',
+    paddingTop: 25,
   },
   schedules: {
     paddingTop: 60,
-    backgroundColor: "$background",
-    height: "100%"
-  }
+    backgroundColor: '$background',
+    height: '100%',
+  },
 });

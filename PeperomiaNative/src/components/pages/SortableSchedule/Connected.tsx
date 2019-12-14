@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import { ItemDetail } from "../../../lib/db/itemDetail";
-import Page from "../../templates/SortableSchedule/Page";
+import React, { Component } from 'react';
+import { ItemDetail } from '../../../lib/db/itemDetail';
+import Page from '../../templates/SortableSchedule/Page';
 
 export interface SortableItemDetail extends ItemDetail {
   tmpId?: number;
@@ -23,7 +23,7 @@ export default class extends Component<Props, State> {
     const items = this.state.items.map(item => ({
       ...item,
       tmpId: item.id,
-      id: item.priority
+      id: item.priority,
     }));
 
     this.setState({ ready: false, items });

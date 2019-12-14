@@ -1,15 +1,16 @@
-import React, { Component } from "react";
-import SortableList from "react-native-sortable-list";
-import { SortableItemDetail } from "../../pages/SortableSchedule/Connected";
-import Card from "../../molecules/Schedule/Card";
-import Row from "./Row";
+import React, { Component } from 'react';
+import SortableList from 'react-native-sortable-list';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { SortableItemDetail } from '../../pages/SortableSchedule/Connected';
+import Card from '../../molecules/Schedule/Card';
+import Row from './Row';
 
 type DataKey = string | number;
 
-export interface Props {
+export type Props = {
   data: SortableItemDetail[];
   onChange: (data: any) => void;
-}
+};
 
 export default class extends Component<Props> {
   renderItem({ data, active }: { data: SortableItemDetail; active: boolean }) {
@@ -40,9 +41,15 @@ export default class extends Component<Props> {
       <SortableList
         data={obj}
         renderRow={this.renderItem}
-        style={{ flex: 1 }}
+        style={styles.root}
         onChangeOrder={this.onChange}
       />
     );
   }
 }
+
+const styles = EStyleSheet.create({
+  root: {
+    flex: 1,
+  },
+});

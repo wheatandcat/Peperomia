@@ -1,5 +1,5 @@
-import * as SQLite from "expo-sqlite";
-import { success, error, ResultError } from "./";
+import * as SQLite from 'expo-sqlite';
+import { success, error, ResultError } from './';
 
 export interface User {
   id?: number;
@@ -11,7 +11,7 @@ export const create = async (
   callback?: (data: any, error: ResultError) => void
 ) => {
   return tx.executeSql(
-    "create table if not exists users (id integer primary key not null, uuid string);",
+    'create table if not exists users (id integer primary key not null, uuid string);',
     [],
     (_: SQLite.Transaction, props: SQLite.ResultSet) =>
       success(props.rows._array, callback),
@@ -25,7 +25,7 @@ export const insert = async (
   callback?: (insertId: number, error: ResultError) => void
 ) => {
   return tx.executeSql(
-    "insert into users (uuid) values (?)",
+    'insert into users (uuid) values (?)',
     [user.uuid],
     (_: SQLite.Transaction, props: SQLite.ResultSet) =>
       success(props.insertId, callback),
@@ -38,7 +38,7 @@ export const select1st = async (
   callback?: (data: User | null, error: ResultError) => void
 ) => {
   tx.executeSql(
-    `select * from users;`,
+    'select * from users;',
     [],
     (_: SQLite.Transaction, props: SQLite.ResultSet) =>
       success(props.rows._array[0], callback),

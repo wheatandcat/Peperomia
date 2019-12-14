@@ -1,8 +1,9 @@
-import React from "react";
-import { Platform } from "react-native";
-import ActionButton from "react-native-action-button";
-import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
-import theme from "../../../config/theme";
+import React from 'react';
+import { Platform } from 'react-native';
+import ActionButton from 'react-native-action-button';
+import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import theme from '../../../config/theme';
 
 interface Props {
   onAdd: () => void;
@@ -10,7 +11,7 @@ interface Props {
   onDelete: () => void;
 }
 
-const right = Platform.OS === "ios" ? 50 : 100;
+const right = Platform.OS === 'ios' ? 50 : 100;
 
 export default (props: Props) => (
   <ActionButton
@@ -21,12 +22,10 @@ export default (props: Props) => (
     <ActionButton.Item
       buttonColor={theme().color.blue}
       title="予定を追加"
-      textStyle={{
-        paddingTop: 1
-      }}
+      textStyle={styles.item}
       textContainerStyle={{
         right,
-        borderColor: theme().color.darkGray
+        borderColor: theme().color.darkGray,
       }}
       hideLabelShadow
       onPress={props.onAdd}
@@ -38,12 +37,10 @@ export default (props: Props) => (
     <ActionButton.Item
       buttonColor={theme().color.yellow}
       title="順番を変更"
-      textStyle={{
-        paddingTop: 1
-      }}
+      textStyle={styles.item}
       textContainerStyle={{
         right,
-        borderColor: theme().color.darkGray
+        borderColor: theme().color.darkGray,
       }}
       hideLabelShadow
       onPress={props.onSort}
@@ -53,12 +50,10 @@ export default (props: Props) => (
     <ActionButton.Item
       buttonColor={theme().color.red}
       title="予定を削除"
-      textStyle={{
-        paddingTop: 1
-      }}
+      textStyle={styles.item}
       textContainerStyle={{
         right,
-        borderColor: theme().color.darkGray
+        borderColor: theme().color.darkGray,
       }}
       hideLabelShadow
       onPress={props.onDelete}
@@ -67,3 +62,9 @@ export default (props: Props) => (
     </ActionButton.Item>
   </ActionButton>
 );
+
+const styles = EStyleSheet.create({
+  item: {
+    paddingTop: 1,
+  },
+});

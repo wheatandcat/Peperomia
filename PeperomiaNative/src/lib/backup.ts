@@ -1,28 +1,28 @@
-import * as SQLite from "expo-sqlite";
-import * as Sentry from "sentry-expo";
-import { db, ResultError } from "./db";
+import * as SQLite from 'expo-sqlite';
+import * as Sentry from 'sentry-expo';
+import { db, ResultError } from './db';
 import {
   select as selectItems,
   deleteAll as deleteItemAll,
   bulkInsert as bulkInsertItem,
-  Item
-} from "./db/item";
+  Item,
+} from './db/item';
 import {
   select as selectItemDetails,
   deleteAll as deleteItemDetailAll,
   bulkInsert as bulkInsertItemDetail,
-  ItemDetail
-} from "./db/itemDetail";
+  ItemDetail,
+} from './db/itemDetail';
 import {
   selectAll as selectCalendars,
   deleteAll as deleteCalendarAll,
   bulkInsert as bulkInsertCalendar,
-  Calendar
-} from "./db/calendar";
-import { getFireStore } from "./firebase";
-import { findByUID as findItemByUID } from "./firestore/item";
-import { findByUID as findItemDetailByUID } from "./firestore/itemDetail";
-import { findByUID as findCalendarByUID } from "./firestore/calendar";
+  Calendar,
+} from './db/calendar';
+import { getFireStore } from './firebase';
+import { findByUID as findItemByUID } from './firestore/item';
+import { findByUID as findItemDetailByUID } from './firestore/itemDetail';
+import { findByUID as findCalendarByUID } from './firestore/calendar';
 
 interface Backup {
   items: Item[];
@@ -40,12 +40,12 @@ export const backup = (): Promise<Backup> => {
         Promise.all([
           getItemAll(tx),
           getItemDetailAll(tx),
-          getCalendarAll(tx)
+          getCalendarAll(tx),
         ]).then(function(values) {
           resolve({
             items: values[0],
             itemDetails: values[1],
-            calendars: values[2]
+            calendars: values[2],
           });
         });
       });
@@ -110,7 +110,7 @@ export const restore = async (uid: string): Promise<any> => {
   const calendars = await findCalendarByUID(firestore, uid);
 
   if (items.length === 0) {
-    throw new Error("バックアップデータがありません。");
+    throw new Error('バックアップデータがありません。');
   }
 
   await db.transaction(async (tx: SQLite.Transaction) => {
@@ -179,7 +179,7 @@ const deleteAll = (tx: SQLite.Transaction): Promise<any> => {
       Promise.all([
         truncateItems(tx),
         truncateItemDetails(tx),
-        truncateCalendars(tx)
+        truncateCalendars(tx),
       ]).then(function() {
         resolve();
       });
@@ -258,7 +258,7 @@ const importAll = (
       Promise.all([
         importItems(tx, items),
         importItemDetails(tx, itemDetail),
-        importCalendars(tx, calendars)
+        importCalendars(tx, calendars),
       ]).then(function() {
         resolve();
       });

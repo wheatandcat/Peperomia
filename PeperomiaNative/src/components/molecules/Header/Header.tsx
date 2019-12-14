@@ -1,17 +1,18 @@
-import React from "react";
+import React from 'react';
 import {
   TouchableOpacity,
   View,
   Text,
   Platform,
-  StatusBar
-} from "react-native";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { getStatusBarHeight } from "react-native-status-bar-height";
-import theme from "../../../config/theme";
+  StatusBar,
+} from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
+import theme from '../../../config/theme';
 
 const top =
-  Platform.OS === "android" ? StatusBar.currentHeight : getStatusBarHeight();
+  Platform.OS === 'android' ? StatusBar.currentHeight : getStatusBarHeight();
 
 export interface Props {
   title: string;
@@ -23,15 +24,15 @@ export interface Props {
 
 export default (props: Props) => {
   let style: any = {
-    position: props.position || "absolute",
+    position: props.position || 'absolute',
     height: 60 + Number(top) / 2,
-    width: "100%",
-    zIndex: 10
+    width: '100%',
+    zIndex: 10,
   };
-  if (props.color !== "none") {
+  if (props.color !== 'none') {
     style = {
       ...style,
-      backgroundColor: props.color
+      backgroundColor: props.color,
     };
   }
 
@@ -41,7 +42,7 @@ export default (props: Props) => {
         backgroundColor={theme().color.white}
         barStyle="dark-content"
       />
-      <View style={{ paddingLeft: 15, paddingTop: top, flexDirection: "row" }}>
+      <View style={[styles.contents, { paddingTop: top }]}>
         <TouchableOpacity onPress={props.onClose}>
           <MaterialCommunityIcons
             name="close"
@@ -49,20 +50,26 @@ export default (props: Props) => {
             color={theme().color.main}
           />
         </TouchableOpacity>
-        <Text
-          style={{
-            fontSize: 20,
-            paddingTop: 5,
-            fontWeight: "600",
-            color: theme().color.darkGray
-          }}
-        >
-          {props.title}
-        </Text>
-        <View style={{ marginRight: 15, marginLeft: "auto" }}>
-          {props.right}
-        </View>
+        <Text style={styles.title}>{props.title}</Text>
+        <View style={styles.right}>{props.right}</View>
       </View>
     </View>
   );
 };
+
+const styles = EStyleSheet.create({
+  contents: {
+    paddingLeft: 15,
+    flexDirection: 'row',
+  },
+  title: {
+    fontSize: 20,
+    paddingTop: 5,
+    fontWeight: '600',
+    color: theme().color.darkGray,
+  },
+  right: {
+    marginRight: 15,
+    marginLeft: 'auto',
+  },
+});

@@ -1,21 +1,21 @@
-import React, { Component } from "react";
-import { WebView } from "react-native-webview";
-import theme from "../../../config/theme";
+import React, { Component } from 'react';
+import { WebView } from 'react-native-webview';
+import theme from '../../../config/theme';
 
 interface Props {}
 
 export default class extends Component<Props> {
   static navigationOptions = () => {
     return {
-      title: "プライバシーポリシー",
-      headerBackTitle: "",
+      title: 'プライバシーポリシー',
+      headerBackTitle: '',
       headerTitleStyle: {
-        color: theme().mode.header.text
+        color: theme().mode.header.text,
       },
       headerTintColor: theme().mode.header.text,
       headerStyle: {
-        backgroundColor: theme().mode.header.backgroundColor
-      }
+        backgroundColor: theme().mode.header.backgroundColor,
+      },
     };
   };
 
@@ -23,7 +23,7 @@ export default class extends Component<Props> {
     return (
       <WebView
         source={{
-          uri: "https://peperomia.app/policy"
+          uri: 'https://peperomia.app/policy',
         }}
       />
     );

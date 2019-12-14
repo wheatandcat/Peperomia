@@ -1,80 +1,80 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Text,
   View,
   Dimensions,
-  StyleSheet,
   Image,
   TouchableOpacity,
   ActivityIndicator,
   Animated,
   SafeAreaView,
-  ScrollView
-} from "react-native";
-import { Calendar, LocaleConfig } from "react-native-calendars";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import GestureRecognizer from "react-native-swipe-gestures";
-import dayjs from "dayjs";
-import advancedFormat from "dayjs/plugin/advancedFormat";
-import "dayjs/locale/ja";
-import Color from "color";
-import { SelectCalendar } from "../../../lib/db/calendar";
-import theme from "../../../config/theme";
-import GlobalStyles from "../../../GlobalStyles";
-import ImageDay from "../../organisms/Calendars/Image";
+  ScrollView,
+} from 'react-native';
+import { Calendar, LocaleConfig } from 'react-native-calendars';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import GestureRecognizer from 'react-native-swipe-gestures';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import dayjs from 'dayjs';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
+import 'dayjs/locale/ja';
+import Color from 'color';
+import { SelectCalendar } from '../../../lib/db/calendar';
+import theme from '../../../config/theme';
+import GlobalStyles from '../../../GlobalStyles';
+import ImageDay from '../../organisms/Calendars/Image';
 
 dayjs.extend(advancedFormat);
 
-const width = Dimensions.get("window").width;
+const width = Dimensions.get('window').width;
 const AnimatedSafeAreaView = Animated.createAnimatedComponent(SafeAreaView);
 
-LocaleConfig.locales["jp"] = {
+LocaleConfig.locales.jp = {
   monthNames: [
-    "1月",
-    "2月",
-    "3月",
-    "4月",
-    "5月",
-    "6月",
-    "7月",
-    "8月",
-    "9月",
-    "10月",
-    "11月",
-    "12月"
+    '1月',
+    '2月',
+    '3月',
+    '4月',
+    '5月',
+    '6月',
+    '7月',
+    '8月',
+    '9月',
+    '10月',
+    '11月',
+    '12月',
   ],
   monthNamesShort: [
-    "1月",
-    "2月",
-    "3月",
-    "4月",
-    "5月",
-    "6月",
-    "7月",
-    "8月",
-    "9月",
-    "10月",
-    "11月",
-    "12月"
+    '1月',
+    '2月',
+    '3月',
+    '4月',
+    '5月',
+    '6月',
+    '7月',
+    '8月',
+    '9月',
+    '10月',
+    '11月',
+    '12月',
   ],
-  dayNames: ["日", "月", "火", "水", "木", "金", "土"],
-  dayNamesShort: ["日", "月", "火", "水", "木", "金", "土"]
+  dayNames: ['日', '月', '火', '水', '木', '金', '土'],
+  dayNamesShort: ['日', '月', '火', '水', '木', '金', '土'],
 };
-LocaleConfig.defaultLocale = "jp";
+LocaleConfig.defaultLocale = 'jp';
 
 const images = [
-  require("../../../img/months/january.png"),
-  require("../../../img/months/february.png"),
-  require("../../../img/months/march.png"),
-  require("../../../img/months/october.png"),
-  require("../../../img/months/october.png"),
-  require("../../../img/months/october.png"),
-  require("../../../img/months/october.png"),
-  require("../../../img/months/october.png"),
-  require("../../../img/months/october.png"),
-  require("../../../img/months/october.png"),
-  require("../../../img/months/november.png"),
-  require("../../../img/months/december.png")
+  require('../../../img/months/january.png'),
+  require('../../../img/months/february.png'),
+  require('../../../img/months/march.png'),
+  require('../../../img/months/october.png'),
+  require('../../../img/months/october.png'),
+  require('../../../img/months/october.png'),
+  require('../../../img/months/october.png'),
+  require('../../../img/months/october.png'),
+  require('../../../img/months/october.png'),
+  require('../../../img/months/october.png'),
+  require('../../../img/months/november.png'),
+  require('../../../img/months/december.png'),
 ];
 
 type Props = {
@@ -91,30 +91,30 @@ type State = {
 };
 
 const backgroundColors = [
-  "#FDDACB",
-  "#FBEDF2",
-  "#DCF6FA",
-  "#fdeff2",
-  "#badcad",
+  '#FDDACB',
+  '#FBEDF2',
+  '#DCF6FA',
+  '#fdeff2',
+  '#badcad',
   theme().color.dodgerBlue,
-  "#a0d8ef",
-  "#f2f2b0",
+  '#a0d8ef',
+  '#f2f2b0',
   theme().color.beige,
-  "#E3E3FE",
-  "#FFE7D0",
-  "#BFD3B7"
+  '#E3E3FE',
+  '#FFE7D0',
+  '#BFD3B7',
 ];
 
 const config = {
   velocityThreshold: 0.3,
-  directionalOffsetThreshold: 80
+  directionalOffsetThreshold: 80,
 };
 
 export default class extends Component<Props, State> {
   state = {
-    currentDate: dayjs().format("YYYY-MM-01"),
+    currentDate: dayjs().format('YYYY-MM-01'),
     count: 0,
-    backgroundColor: new Animated.Value(dayjs().month())
+    backgroundColor: new Animated.Value(dayjs().month()),
   };
 
   calendar: any;
@@ -122,7 +122,7 @@ export default class extends Component<Props, State> {
     const currentMonth = dayjs(this.state.currentDate).month();
 
     Animated.timing(this.state.backgroundColor, {
-      toValue: currentMonth
+      toValue: currentMonth,
     }).start();
   }
 
@@ -133,26 +133,26 @@ export default class extends Component<Props, State> {
 
     const count = this.state.count + 1;
     const currentMonth = dayjs(this.state.currentDate)
-      .add(count, "month")
+      .add(count, 'month')
       .month();
 
     this.setState({
-      count
+      count,
     });
 
     if (currentMonth === 0) {
       Animated.timing(this.state.backgroundColor, {
-        toValue: 12
+        toValue: 12,
       }).start(props => {
         if (props.finished) {
           this.setState({
-            backgroundColor: new Animated.Value(0)
+            backgroundColor: new Animated.Value(0),
           });
         }
       });
     } else {
       Animated.timing(this.state.backgroundColor, {
-        toValue: currentMonth
+        toValue: currentMonth,
       }).start();
     }
     this.calendar.addMonth(1);
@@ -165,26 +165,26 @@ export default class extends Component<Props, State> {
 
     const count = this.state.count - 1;
     const currentMonth = dayjs(this.state.currentDate)
-      .add(count, "month")
+      .add(count, 'month')
       .month();
 
     this.setState({
-      count
+      count,
     });
 
     if (currentMonth === 11) {
       Animated.timing(this.state.backgroundColor, {
-        toValue: -1
+        toValue: -1,
       }).start(props => {
         if (props.finished) {
           this.setState({
-            backgroundColor: new Animated.Value(12)
+            backgroundColor: new Animated.Value(12),
           });
         }
       });
     } else {
       Animated.timing(this.state.backgroundColor, {
-        toValue: currentMonth
+        toValue: currentMonth,
       }).start();
     }
     this.calendar.addMonth(-1);
@@ -196,28 +196,29 @@ export default class extends Component<Props, State> {
       outputRange: [
         backgroundColors[11],
         ...backgroundColors,
-        backgroundColors[0]
-      ]
+        backgroundColors[0],
+      ],
     });
 
     const currentMonth = dayjs(this.state.currentDate)
-      .add(this.state.count, "month")
+      .add(this.state.count, 'month')
       .month();
 
     const animationStyle = {
-      backgroundColor
+      backgroundColor,
     };
 
     return (
       <ScrollView
-        style={{
-          height: "100%",
-          width: "100%",
-          backgroundColor: backgroundColors[currentMonth]
-        }}
+        style={[
+          styles.scroll,
+          {
+            backgroundColor: backgroundColors[currentMonth],
+          },
+        ]}
       >
         <AnimatedSafeAreaView
-          style={[GlobalStyles.droidSafeArea, { flex: 0 }, animationStyle]}
+          style={[GlobalStyles.droidSafeArea, styles.safeArea, animationStyle]}
         />
         <GestureRecognizer
           onSwipeLeft={this.onNextMonth}
@@ -241,8 +242,8 @@ export default class extends Component<Props, State> {
               <View style={styles.yearContainer}>
                 <Text style={styles.year}>
                   {dayjs(this.state.currentDate)
-                    .add(this.state.count, "month")
-                    .format("YYYY年MM月")}
+                    .add(this.state.count, 'month')
+                    .format('YYYY年MM月')}
                 </Text>
               </View>
 
@@ -259,7 +260,7 @@ export default class extends Component<Props, State> {
               )}
             </View>
             <View style={styles.imageContainer}>
-              <Image source={images[currentMonth]} style={{ width: "100%" }} />
+              <Image source={images[currentMonth]} style={styles.image} />
             </View>
             <View style={styles.weekNameContainer}>
               <Text style={[styles.weekText, { color: theme().color.red }]}>
@@ -280,34 +281,34 @@ export default class extends Component<Props, State> {
               <Calendar
                 ref={ref => (this.calendar = ref)}
                 style={{
-                  backgroundColor: backgroundColors[currentMonth]
+                  backgroundColor: backgroundColors[currentMonth],
                 }}
-                monthFormat={""}
-                minDate={"2019-10-01"}
-                maxDate={"2019-12-31"}
+                monthFormat={''}
+                minDate={'2019-10-01'}
+                maxDate={'2019-12-31'}
                 hideDayNames
                 hideArrows
                 theme={{
-                  "stylesheet.calendar.main": {
+                  'stylesheet.calendar.main': {
                     week: {
                       marginTop: 0,
-                      flexDirection: "row",
-                      justifyContent: "space-between"
-                    }
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                    },
                   },
                   textMonthFontSize: 18,
-                  monthTextColor: "#000",
-                  textMonthFontWeight: "600",
-                  "stylesheet.calendar.header": {
+                  monthTextColor: '#000',
+                  textMonthFontWeight: '600',
+                  'stylesheet.calendar.header': {
                     header: {
-                      height: 0
+                      height: 0,
                     },
                     dayHeader: {
-                      fontWeight: "600",
+                      fontWeight: '600',
                       paddingBottom: 10,
-                      color: "#000"
-                    }
-                  }
+                      color: '#000',
+                    },
+                  },
                 }}
                 dayComponent={({ date }) => {
                   const schedule = this.props.calendars.find(
@@ -338,8 +339,8 @@ export default class extends Component<Props, State> {
                               backgroundColors[currentMonth]
                             )
                               .lighten(0.4)
-                              .toString()
-                          }
+                              .toString(),
+                          },
                         ]}
                       >
                         <Text style={styles.dayText}>{date.day}</Text>
@@ -357,32 +358,32 @@ export default class extends Component<Props, State> {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   root: {
     flex: 1,
-    height: "100%",
-    width: "100%"
+    height: '100%',
+    width: '100%',
   },
   headerContainer: {
-    justifyContent: "space-between",
-    alignItems: "center",
-    flexDirection: "row"
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
   },
   yearContainer: {
     paddingVertical: 20,
-    justifyContent: "center"
+    justifyContent: 'center',
   },
   year: {
-    textAlign: "center",
+    textAlign: 'center',
     color: theme().color.darkGray,
     fontSize: 25,
-    fontWeight: "600"
+    fontWeight: '600',
   },
   imageContainer: {
     paddingTop: 15,
     paddingBottom: 15,
-    alignItems: "center",
-    justifyContent: "center"
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   itemContainer: {
     width: width / 7,
@@ -390,32 +391,42 @@ const styles = StyleSheet.create({
     borderTopWidth: 0.5,
     borderRightWidth: 0.5,
     borderLeftWidth: 0.5,
-    borderColor: "gray",
-    alignItems: "center",
-    justifyContent: "center"
+    borderColor: 'gray',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   weekNameContainer: {
     marginTop: 7,
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginHorizontal: 4
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginHorizontal: 4,
   },
   weekText: {
     paddingVertical: 12,
-    textAlign: "center",
-    alignItems: "center",
+    textAlign: 'center',
+    alignItems: 'center',
     fontSize: 18,
-    fontWeight: "600"
+    fontWeight: '600',
   },
   calendarBottom: {
-    borderColor: "gray",
+    borderColor: 'gray',
     marginHorizontal: 4,
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
   },
   dayText: {
-    textAlign: "center",
+    textAlign: 'center',
     color: theme().color.gray,
     fontSize: 18,
-    fontWeight: "600"
-  }
+    fontWeight: '600',
+  },
+  scroll: {
+    height: '100%',
+    width: '100%',
+  },
+  safeArea: {
+    flex: 0,
+  },
+  image: {
+    width: '100%',
+  },
 });

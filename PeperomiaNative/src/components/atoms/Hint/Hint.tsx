@@ -1,6 +1,7 @@
-import React, { Component } from "react";
-import { TouchableOpacity, AsyncStorage } from "react-native";
-import BottomRight from "./BottomRight";
+import React, { Component } from 'react';
+import { TouchableOpacity, AsyncStorage } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import BottomRight from './BottomRight';
 
 interface Props {
   onPress: () => void;
@@ -13,31 +14,31 @@ interface State {
 
 export default class extends Component<Props, State> {
   state = {
-    visible: false
+    visible: false,
   };
 
   async componentDidMount() {
-    const visible = await AsyncStorage.getItem("FIRST_CRAEATE_ITEM");
+    const visible = await AsyncStorage.getItem('FIRST_CRAEATE_ITEM');
 
     this.setState({
-      visible: !Boolean(visible)
+      visible: !visible,
     });
   }
 
   onPress = () => {
     this.setState({
-      visible: false
+      visible: false,
     });
 
-    AsyncStorage.setItem("FIRST_CRAEATE_ITEM", "true");
+    AsyncStorage.setItem('FIRST_CRAEATE_ITEM', 'true');
   };
 
   onPushPress = () => {
     this.setState({
-      visible: false
+      visible: false,
     });
 
-    AsyncStorage.setItem("FIRST_CRAEATE_ITEM", "true");
+    AsyncStorage.setItem('FIRST_CRAEATE_ITEM', 'true');
     this.props.onPress();
   };
 
@@ -59,7 +60,7 @@ export default class extends Component<Props, State> {
         <TouchableOpacity
           onPress={this.onPushPress}
           testID={this.props.testID}
-          style={{ padding: 5 }}
+          style={styles.tap}
         >
           {this.props.children}
         </TouchableOpacity>
@@ -67,3 +68,7 @@ export default class extends Component<Props, State> {
     );
   }
 }
+
+const styles = EStyleSheet.create({
+  tap: { padding: 5 },
+});

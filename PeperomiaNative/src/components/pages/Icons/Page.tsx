@@ -1,16 +1,16 @@
-import React, { Component } from "react";
-import { View, ScrollView, Platform, StatusBar } from "react-native";
-import { Input, ListItem, Divider } from "react-native-elements";
-import { MaterialIcons } from "@expo/vector-icons";
+import React, { Component } from 'react';
+import { View, ScrollView, Platform, StatusBar } from 'react-native';
+import { Input, ListItem, Divider } from 'react-native-elements';
+import { MaterialIcons } from '@expo/vector-icons';
 import {
   ActionSheetProps,
-  connectActionSheet
-} from "@expo/react-native-action-sheet";
-import EStyleSheet from "react-native-extended-stylesheet";
-import { IconImage } from "primitive";
-import { KINDS } from "../../../lib/getKind";
-import { whenIPhoneSE } from "../../../lib/responsive";
-import theme, { darkMode } from "../../../config/theme";
+  connectActionSheet,
+} from '@expo/react-native-action-sheet';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { IconImage } from 'primitive';
+import { KINDS } from '../../../lib/getKind';
+import { whenIPhoneSE } from '../../../lib/responsive';
+import theme, { darkMode } from '../../../config/theme';
 
 type PropsBase = {
   kind: string;
@@ -29,14 +29,14 @@ export interface State {
 
 class Page extends Component<Props, State> {
   state = {
-    search: ""
+    search: '',
   };
 
   onOpenActionSheet = () => {
     this.props.showActionSheetWithOptions(
       {
-        options: ["写真を撮影する", "フォトライブラリー", "キャンセル"],
-        cancelButtonIndex: 2
+        options: ['写真を撮影する', 'フォトライブラリー', 'キャンセル'],
+        cancelButtonIndex: 2,
       },
       buttonIndex => {
         if (buttonIndex === 0) {
@@ -53,10 +53,10 @@ class Page extends Component<Props, State> {
     const items = Object.entries(KINDS)
       .map(([key, value]) => ({
         kind: key,
-        ...value
+        ...value,
       }))
       .filter((item: any) => {
-        if (this.state.search === "") {
+        if (this.state.search === '') {
           return true;
         }
 
@@ -72,7 +72,7 @@ class Page extends Component<Props, State> {
           backgroundColor={
             darkMode() ? theme().color.black : theme().color.white
           }
-          barStyle={darkMode() ? "light-content" : "dark-content"}
+          barStyle={darkMode() ? 'light-content' : 'dark-content'}
         />
         <Divider />
         <View style={styles.searchContainer}>
@@ -80,36 +80,26 @@ class Page extends Component<Props, State> {
             placeholder="検索"
             placeholderTextColor={theme().mode.secondaryText}
             leftIcon={{
-              type: "MaterialIcons",
-              name: "search",
-              color: theme().mode.icon
+              type: 'MaterialIcons',
+              name: 'search',
+              color: theme().mode.icon,
             }}
             inputContainerStyle={styles.searchInputContainer}
-            leftIconContainerStyle={{
-              marginRight: 20
-            }}
-            containerStyle={{
-              paddingTop: Platform.OS === "ios" ? 0 : 5
-            }}
+            leftIconContainerStyle={styles.inputLeftIconContainer}
+            containerStyle={styles.inputContainer}
             onChangeText={text => this.setState({ search: text })}
           />
         </View>
 
-        <ScrollView
-          style={{
-            width: "100%",
-            height: "100%",
-            paddingLeft: 15
-          }}
-        >
-          <View style={{ paddingBottom: 150 }}>
+        <ScrollView style={styles.scroll}>
+          <View style={styles.contents}>
             {items.map((item: any, i: number) => (
               <ListItem
                 containerStyle={styles.iconListItem}
                 key={i}
                 title={
-                  !this.props.defaultIcon && item.name === "地球"
-                    ? "アイコンなし"
+                  !this.props.defaultIcon && item.name === '地球'
+                    ? 'アイコンなし'
                     : item.name
                 }
                 titleStyle={styles.iconListItemTitle}
@@ -134,7 +124,7 @@ class Page extends Component<Props, State> {
                             : theme().color.main
                         }
                         size={20}
-                        style={{ paddingRight: 5 }}
+                        style={styles.check}
                       />
                     ) : null}
                   </View>
@@ -153,25 +143,42 @@ export default connectActionSheet<PropsBase>(Page);
 
 const styles = EStyleSheet.create({
   root: {
-    backgroundColor: "$background"
+    backgroundColor: '$background',
   },
   searchContainer: {
     paddingTop: 5,
     paddingHorizontal: 10,
-    height: Platform.OS === "ios" ? whenIPhoneSE(40, 55) : 40,
-    backgroundColor: "$background",
-    alignItems: "center"
+    height: Platform.OS === 'ios' ? whenIPhoneSE(40, 55) : 40,
+    backgroundColor: '$background',
+    alignItems: 'center',
   },
   searchInputContainer: {
-    backgroundColor: "$searchInputContainer",
+    backgroundColor: '$searchInputContainer',
     borderBottomWidth: 0,
     borderRadius: 10,
-    height: Platform.OS === "ios" ? whenIPhoneSE(30, 45) : 30
+    height: Platform.OS === 'ios' ? whenIPhoneSE(30, 45) : 30,
   },
   iconListItem: {
-    backgroundColor: "$background"
+    backgroundColor: '$background',
   },
   iconListItemTitle: {
-    color: "$text"
-  }
+    color: '$text',
+  },
+  inputLeftIconContainer: {
+    marginRight: 20,
+  },
+  inputContainer: {
+    paddingTop: Platform.OS === 'ios' ? 0 : 5,
+  },
+  scroll: {
+    width: '100%',
+    height: '100%',
+    paddingLeft: 15,
+  },
+  contents: {
+    paddingBottom: 150,
+  },
+  check: {
+    paddingRight: 5,
+  },
 });

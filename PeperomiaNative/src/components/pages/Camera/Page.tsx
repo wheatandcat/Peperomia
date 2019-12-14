@@ -1,9 +1,10 @@
-import React, { Component } from "react";
-import { Text, View, TouchableOpacity } from "react-native";
-import Svg, { Circle } from "react-native-svg";
-import * as Permissions from "expo-permissions";
-import { Camera } from "expo-camera";
-import theme from "../../../config/theme";
+import React, { Component } from 'react';
+import { Text, View, TouchableOpacity } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import Svg, { Circle } from 'react-native-svg';
+import * as Permissions from 'expo-permissions';
+import { Camera } from 'expo-camera';
+import theme from '../../../config/theme';
 
 export interface Props {
   onPicture: (image: string) => void;
@@ -15,7 +16,7 @@ export interface State {
 
 export default class extends Component<Props, State> {
   state = {
-    hasCameraPermission: null // カメラ機能の許可
+    hasCameraPermission: null, // カメラ機能の許可
   };
   camera: any;
 
@@ -23,7 +24,7 @@ export default class extends Component<Props, State> {
   async componentDidMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({
-      hasCameraPermission: status === "granted"
+      hasCameraPermission: status === 'granted',
     });
   }
 
@@ -48,33 +49,17 @@ export default class extends Component<Props, State> {
     }
 
     return (
-      <View
-        style={{
-          height: "100%"
-        }}
-      >
-        <View
-          style={{
-            height: "80%"
-          }}
-        >
+      <View style={styles.root}>
+        <View style={styles.contents}>
           <Camera
-            style={{
-              flex: 1,
-              height: "100%"
-            }}
+            style={styles.camera}
             type={Camera.Constants.Type.back}
             ref={(ref: any) => {
               this.camera = ref;
             }}
           />
         </View>
-        <View
-          style={{
-            alignItems: "center",
-            padding: 30
-          }}
-        >
+        <View style={styles.container}>
           <TouchableOpacity onPress={this.takePicture.bind(this)}>
             <Svg height={60} width={60}>
               <Circle
@@ -92,3 +77,20 @@ export default class extends Component<Props, State> {
     );
   }
 }
+
+const styles = EStyleSheet.create({
+  root: {
+    height: '100%',
+  },
+  contents: {
+    height: '80%',
+  },
+  camera: {
+    flex: 1,
+    height: '100%',
+  },
+  container: {
+    alignItems: 'center',
+    padding: 30,
+  },
+});

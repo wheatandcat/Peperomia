@@ -2,6 +2,18 @@
 ## [Peperomia]
 
 
+<a name="v2.0.2"></a>
+## [v2.0.2] - 2019-12-13
+### Add
+- image ([#252](https://github.com/wheatandcat/Peperomia/issues/252))
+
+### Update
+- package ([#276](https://github.com/wheatandcat/Peperomia/issues/276))
+- version ([#275](https://github.com/wheatandcat/Peperomia/issues/275))
+- components ([#268](https://github.com/wheatandcat/Peperomia/issues/268))
+- react-navgation v4 ([#234](https://github.com/wheatandcat/Peperomia/issues/234))
+
+
 <a name="v2.0.1"></a>
 ## [v2.0.1] - 2019-10-26
  - ダークモード実装 [#132](https://github.com/wheatandcat/Peperomia/issues/132)
@@ -53,8 +65,8 @@
 - iPhoneSEのサイズに対応
 - ボトムタブのアクティブカラー変更
 
-
-[Unreleased]: https://github.com/wheatandcat/Peperomia/compare/v2.0.1...HEAD
+[Unreleased]: https://github.com/wheatandcat/Peperomia/compare/v2.0.2...HEAD
+[v2.0.2]: https://github.com/wheatandcat/Peperomia/compare/v2.0.1...v2.0.2
 [v2.0.1]: https://github.com/wheatandcat/Peperomia/compare/v2.0.0...v2.0.1
 [v2.0.0]: https://github.com/wheatandcat/Peperomia/compare/v1.0.5...v2.0.0
 [v1.0.5]: https://github.com/wheatandcat/Peperomia/compare/v1.0.4...v1.0.5

@@ -1,1 +1,1 @@
-declare module "expo-image-manipulator";
+declare module 'expo-image-manipulator';

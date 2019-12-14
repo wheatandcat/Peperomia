@@ -1,4 +1,4 @@
-declare module "expo-sqlite" {
+declare module 'expo-sqlite' {
   /**
    * Expo SQLite
    */

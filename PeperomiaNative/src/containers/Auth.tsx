@@ -1,10 +1,10 @@
-import * as GoogleSignIn from "expo-google-sign-in";
-import * as Google from "expo-google-app-auth";
-import { AsyncStorage, Platform } from "react-native";
-import React, { createContext, Component } from "react";
-import Constants from "expo-constants";
-import * as Sentry from "sentry-expo";
-import * as firebase from "firebase";
+import * as GoogleSignIn from 'expo-google-sign-in';
+import * as Google from 'expo-google-app-auth';
+import { AsyncStorage, Platform } from 'react-native';
+import React, { createContext, Component } from 'react';
+import Constants from 'expo-constants';
+import * as Sentry from 'sentry-expo';
+import * as firebase from 'firebase';
 
 const Context = createContext({});
 const { Provider } = Context;
@@ -17,18 +17,18 @@ interface State {
 }
 
 export type ContextProps = Partial<
-  Pick<State, "email" | "uid"> &
-    Pick<AuthProvider, "onGoogleLogin" | "getIdToken" | "loggedIn" | "logout">
+  Pick<State, 'email' | 'uid'> &
+    Pick<AuthProvider, 'onGoogleLogin' | 'getIdToken' | 'loggedIn' | 'logout'>
 >;
 
 const isStandaloneAndAndroid = () => {
-  return Platform.OS === "android" && Constants.appOwnership !== "expo";
+  return Platform.OS === 'android' && Constants.appOwnership !== 'expo';
 };
 
 export default class AuthProvider extends Component<Props, State> {
   state = {
-    email: "",
-    uid: ""
+    email: '',
+    uid: '',
   };
 
   async componentDidMount() {
@@ -36,7 +36,7 @@ export default class AuthProvider extends Component<Props, State> {
       const androidClientId = process.env.GOOGLE_LOGIN_ANDROID_CLIENT_ID;
       try {
         await GoogleSignIn.initAsync({
-          clientId: String(androidClientId)
+          clientId: String(androidClientId),
         });
       } catch ({ message }) {
         Sentry.captureMessage(JSON.stringify(message));
@@ -46,19 +46,19 @@ export default class AuthProvider extends Component<Props, State> {
     const loggedIn = await this.loggedIn();
 
     if (loggedIn && !this.state.uid) {
-      const uid = await AsyncStorage.getItem("uid");
+      const uid = await AsyncStorage.getItem('uid');
       if (uid) {
         this.setState({
-          uid
+          uid,
         });
       }
     }
 
     if (loggedIn && !this.state.email) {
-      const email = await AsyncStorage.getItem("email");
+      const email = await AsyncStorage.getItem('email');
       if (email) {
         this.setState({
-          email
+          email,
         });
       }
     }
@@ -72,9 +72,9 @@ export default class AuthProvider extends Component<Props, State> {
       await GoogleSignIn.askForPlayServicesAsync();
       const result = await GoogleSignIn.signInAsync();
 
-      if (result.type === "success" && result.user && result.user.auth) {
+      if (result.type === 'success' && result.user && result.user.auth) {
         const { idToken, accessToken } = result.user.auth;
-        await this.firebaseLogin(idToken || "", accessToken || "");
+        await this.firebaseLogin(idToken || '', accessToken || '');
       } else {
         Sentry.captureMessage(JSON.stringify(result));
       }
@@ -83,15 +83,15 @@ export default class AuthProvider extends Component<Props, State> {
       const iosClientId = process.env.GOOGLE_LOGIN_IOS_CLIENT_ID;
       const result = await Google.logInAsync({
         clientId:
-          Platform.OS === "ios" ? String(iosClientId) : String(androidClientId),
+          Platform.OS === 'ios' ? String(iosClientId) : String(androidClientId),
         iosClientId,
         androidClientId,
-        scopes: ["profile", "email"]
+        scopes: ['profile', 'email'],
       });
 
-      if (result.type === "success") {
+      if (result.type === 'success') {
         const { idToken, accessToken } = result;
-        await this.firebaseLogin(idToken || "", accessToken || "");
+        await this.firebaseLogin(idToken || '', accessToken || '');
       } else {
         Sentry.captureMessage(JSON.stringify(result));
       }
@@ -123,9 +123,9 @@ export default class AuthProvider extends Component<Props, State> {
   logout = async () => {
     await firebase.auth().signOut();
 
-    await AsyncStorage.removeItem("id_token");
-    await AsyncStorage.removeItem("expiration");
-    await AsyncStorage.removeItem("email");
+    await AsyncStorage.removeItem('id_token');
+    await AsyncStorage.removeItem('expiration');
+    await AsyncStorage.removeItem('email');
   };
 
   setSession = async (refresh = false) => {
@@ -135,18 +135,18 @@ export default class AuthProvider extends Component<Props, State> {
     }
 
     if (user.email) {
-      await AsyncStorage.setItem("email", user.email);
-      await AsyncStorage.setItem("uid", user.uid);
+      await AsyncStorage.setItem('email', user.email);
+      await AsyncStorage.setItem('uid', user.uid);
       this.setState({
         email: user.email,
-        uid: user.uid
+        uid: user.uid,
       });
     }
 
     const idToken = await user.getIdToken(refresh);
-    await AsyncStorage.setItem("id_token", idToken);
+    await AsyncStorage.setItem('id_token', idToken);
     await AsyncStorage.setItem(
-      "expiration",
+      'expiration',
       String(new Date().getTime() + 60 * 60)
     );
 
@@ -154,12 +154,12 @@ export default class AuthProvider extends Component<Props, State> {
   };
 
   getIdToken = async () => {
-    const idToken = await AsyncStorage.getItem("id_token");
+    const idToken = await AsyncStorage.getItem('id_token');
     if (!idToken) {
       return null;
     }
 
-    const expiration = await AsyncStorage.getItem("expiration");
+    const expiration = await AsyncStorage.getItem('expiration');
     if (Number(expiration) > new Date().getTime()) {
       return idToken;
     }
@@ -176,7 +176,7 @@ export default class AuthProvider extends Component<Props, State> {
           loggedIn: this.loggedIn,
           logout: this.logout,
           email: this.state.email,
-          uid: this.state.uid
+          uid: this.state.uid,
         }}
       >
         {this.props.children}

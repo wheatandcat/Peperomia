@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { NavigationScreenProp, NavigationRoute } from "react-navigation";
-import { Alert } from "react-native";
-import theme from "../../../config/theme";
-import Page from "./Page";
+import React, { Component } from 'react';
+import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
+import { Alert } from 'react-native';
+import theme from '../../../config/theme';
+import Page from './Page';
 
 interface Props {
   navigation: NavigationScreenProp<NavigationRoute>;
@@ -16,26 +16,26 @@ interface State {
 export default class extends Component<Props, State> {
   static navigationOptions = () => {
     return {
-      title: "フィードバック",
-      headerBackTitle: "",
+      title: 'フィードバック',
+      headerBackTitle: '',
       headerTitleStyle: {
-        color: theme().mode.header.text
+        color: theme().mode.header.text,
       },
       headerTintColor: theme().mode.header.text,
       headerStyle: {
-        backgroundColor: theme().mode.header.backgroundColor
-      }
+        backgroundColor: theme().mode.header.backgroundColor,
+      },
     };
   };
 
   state = {
     isOpen: false,
-    loading: false
+    loading: false,
   };
 
   onFeedback = async (message: string) => {
     this.setState({
-      loading: true
+      loading: true,
     });
 
     const response = await fetch(
@@ -45,9 +45,9 @@ export default class extends Component<Props, State> {
     );
 
     if (!response.ok) {
-      Alert.alert("アクセスに失敗しました", "");
+      Alert.alert('アクセスに失敗しました', '');
       this.setState({
-        loading: false
+        loading: false,
       });
       return;
     }

@@ -1,10 +1,10 @@
-import React, { ReactNode } from "react";
-import { View } from "react-native";
-import styled from "styled-components/native";
-import Color from "color";
-import { IconImage } from "primitive";
-import { KINDS, KIND_DEFAULT } from "../../../lib/getKind";
-import s from "../../../config/style";
+import React, { ReactNode } from 'react';
+import { View } from 'react-native';
+import Color from 'color';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { IconImage } from 'primitive';
+import { KINDS, KIND_DEFAULT } from '../../../lib/getKind';
+import s from '../../../config/style';
 
 export interface Props {
   kind: string;
@@ -21,39 +21,52 @@ export default (props: Props) => {
 
   return (
     <View
-      style={{
-        paddingTop: 100,
-        borderBottomWidth: ss.borderWidth,
-        borderColor: bc,
-        backgroundColor: Color(config.backgroundColor)
-          .lighten(ss.backgroundColorAlpha)
-          .toString()
-      }}
+      style={[
+        styles.root,
+        {
+          borderBottomWidth: ss.borderWidth,
+          borderColor: bc,
+          backgroundColor: Color(config.backgroundColor)
+            .lighten(ss.backgroundColorAlpha)
+            .toString(),
+        },
+      ]}
     >
-      <Content>
-        <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
-          <View style={{ flex: 1, paddingLeft: 15, paddingBottom: 25 }}>
-            {props.children}
-          </View>
+      <View style={styles.contents}>
+        <View style={styles.children}>{props.children}</View>
 
-          <View style={{ position: "absolute", right: 30 }}>
-            <IconImage
-              src={config.src}
-              name={config.name}
-              size={110}
-              opacity={1.0}
-            />
-          </View>
+        <View style={styles.icon}>
+          <IconImage
+            src={config.src}
+            name={config.name}
+            size={110}
+            opacity={1.0}
+          />
         </View>
-      </Content>
+      </View>
     </View>
   );
 };
 
-const Content = styled.View`
-  padding-horizontal: 0;
-  padding-vertical: 0;
-  border-radius: 0;
-  height: 80;
-  justify-content: flex-end;
-`;
+const styles = EStyleSheet.create({
+  root: {
+    paddingTop: 100,
+  },
+  contents: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    padding: 0,
+    borderRadius: 0,
+    height: 80,
+    justifyContent: 'flex-end',
+  },
+  children: {
+    flex: 1,
+    paddingLeft: 15,
+    paddingBottom: 25,
+  },
+  icon: {
+    position: 'absolute',
+    right: 30,
+  },
+});

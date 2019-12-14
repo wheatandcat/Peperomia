@@ -4,5 +4,5 @@ export const firebaseConfig = {
   databaseURL: process.env.FIRE_BASE_DATABASE_URL,
   projectId: process.env.FIRE_BASE_PROJECT_ID,
   storageBucket: process.env.FIRE_BASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.FIRE_BASE_MESSAGING_SENDER_ID
+  messagingSenderId: process.env.FIRE_BASE_MESSAGING_SENDER_ID,
 };

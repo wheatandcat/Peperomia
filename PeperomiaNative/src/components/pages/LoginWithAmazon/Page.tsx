@@ -1,8 +1,8 @@
-import React from "react";
-import { View } from "react-native";
-import EStyleSheet from "react-native-extended-stylesheet";
-import Login from "./Login";
-import Linked from "./Linked";
+import React from 'react';
+import { View } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import Login from './Login';
+import Linked from './Linked';
 
 type Props = {
   loading: boolean;
@@ -24,8 +24,8 @@ export default (props: Props) => {
 
 const styles = EStyleSheet.create({
   root: {
-    backgroundColor: "$background",
-    height: "100%",
-    width: "100%"
-  }
+    backgroundColor: '$background',
+    height: '100%',
+    width: '100%',
+  },
 });

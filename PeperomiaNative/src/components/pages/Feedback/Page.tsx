@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -7,11 +7,11 @@ import {
   Image,
   Platform,
   InputAccessoryView,
-  Keyboard
-} from "react-native";
-import EStyleSheet from "react-native-extended-stylesheet";
-import { Button, Overlay } from "react-native-elements";
-import theme, { darkMode } from "../../../config/theme";
+  Keyboard,
+} from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import { Button, Overlay } from 'react-native-elements';
+import theme, { darkMode } from '../../../config/theme';
 
 interface Props {
   isOpen: boolean;
@@ -26,11 +26,11 @@ interface State {
 
 export default class extends Component<Props, State> {
   state = {
-    message: ""
+    message: '',
   };
 
   render() {
-    const inputAccessoryViewID = "feedbackID";
+    const inputAccessoryViewID = 'feedbackID';
 
     return (
       <>
@@ -42,28 +42,26 @@ export default class extends Component<Props, State> {
           }
         >
           <View style={styles.dialogContainer}>
-            <View style={{ padding: 15 }}>
+            <View style={styles.imageContainer}>
               <Image
                 source={
                   darkMode()
-                    ? require("../../../img/check_dark.png")
-                    : require("../../../img/check.png")
+                    ? require('../../../img/check_dark.png')
+                    : require('../../../img/check.png')
                 }
-                style={{ height: 125, width: 125 }}
+                style={styles.image}
               />
             </View>
             <Text style={styles.dialogText}>
               フィードバックありがとうございます！
             </Text>
-            <View style={{ padding: 15 }}>
+            <View style={styles.imageContainer}>
               <Button
                 titleStyle={styles.dialogButonText}
                 title="閉じる"
                 buttonStyle={styles.dialogButon}
-                containerStyle={{
-                  width: 120
-                }}
-                type={darkMode() ? "outline" : "solid"}
+                containerStyle={styles.button}
+                type={darkMode() ? 'outline' : 'solid'}
                 onPress={this.props.onClose}
               />
             </View>
@@ -82,14 +80,10 @@ export default class extends Component<Props, State> {
                   placeholder="フィードバックを書く"
                   placeholderTextColor={theme().mode.secondaryText}
                   multiline
-                  style={{
-                    fontSize: 16,
-                    lineHeight: 24,
-                    fontWeight: "400"
-                  }}
+                  style={styles.textInput}
                   onChangeText={message => {
                     this.setState({
-                      message
+                      message,
                     });
                   }}
                   testID="inputTextFeedbackMemo"
@@ -101,23 +95,20 @@ export default class extends Component<Props, State> {
               </View>
               <Button
                 title="フィードバックを送信する"
-                titleStyle={{ fontWeight: "600" }}
-                buttonStyle={{
-                  borderRadius: 0,
-                  paddingVertical: 15
-                }}
-                disabled={this.state.message === "" || this.props.loading}
+                titleStyle={styles.buttonTitle}
+                buttonStyle={styles.sendButton}
+                disabled={this.state.message === '' || this.props.loading}
                 onPress={() => this.props.onFeedback(this.state.message)}
                 loading={this.props.loading}
               />
             </View>
           </KeyboardAvoidingView>
 
-          {Platform.OS === "ios" && (
+          {Platform.OS === 'ios' && (
             <InputAccessoryView nativeID={inputAccessoryViewID}>
-              <View style={{ alignItems: "flex-end" }}>
+              <View style={styles.keyboardButtonContainer}>
                 <Button
-                  buttonStyle={{ width: 80, right: 0, borderRadius: 0 }}
+                  buttonStyle={styles.keyboardButton}
                   onPress={() => Keyboard.dismiss()}
                   title="閉じる"
                 />
@@ -132,52 +123,82 @@ export default class extends Component<Props, State> {
 
 const styles = EStyleSheet.create({
   root: {
-    backgroundColor: "$background",
-    height: "100%"
+    backgroundColor: '$background',
+    height: '100%',
   },
   description: {
-    backgroundColor: "$secondaryBackground"
+    backgroundColor: '$secondaryBackground',
   },
   descriptionText: {
     paddingHorizontal: 20,
     paddingVertical: 10,
     fontSize: 16,
     lineHeight: 20,
-    color: "$text"
+    color: '$text',
   },
   textInputContainer: {
     paddingTop: 5,
     paddingHorizontal: 20,
     height: 250,
-    backgroundColor: "$background"
+    backgroundColor: '$background',
   },
   inputText: {
     fontSize: 16,
     lineHeight: 24,
-    fontWeight: "400",
-    color: "$text"
+    fontWeight: '400',
+    color: '$text',
   },
   dialogContainer: {
-    backgroundColor: "$background",
-    height: "100%",
-    alignItems: "center",
-    justifyContent: "center"
+    backgroundColor: '$background',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   dialogText: {
     fontSize: 15,
-    fontWeight: "600",
+    fontWeight: '600',
     paddingVertical: 10,
     paddingHorizontal: 5,
-    color: "$text"
+    color: '$text',
   },
   dialogButon: {
     borderRadius: 25,
     paddingVertical: 8,
-    backgroundColor: "$button",
-    borderColor: "$buttonBorder"
+    backgroundColor: '$button',
+    borderColor: '$buttonBorder',
   },
   dialogButonText: {
-    fontWeight: "500",
-    color: theme().color.white
-  }
+    fontWeight: '500',
+    color: theme().color.white,
+  },
+  imageContainer: {
+    padding: 15,
+  },
+  image: {
+    height: 125,
+    width: 125,
+  },
+  button: {
+    width: 120,
+  },
+  textInput: {
+    fontSize: 16,
+    lineHeight: 24,
+    fontWeight: '400',
+  },
+  buttonTitle: {
+    fontWeight: '600',
+  },
+  sendButton: {
+    borderRadius: 0,
+    paddingVertical: 15,
+  },
+  keyboardButtonContainer: {
+    alignItems: 'flex-end',
+  },
+  keyboardButton: {
+    width: 80,
+    right: 0,
+    borderRadius: 0,
+  },
 });

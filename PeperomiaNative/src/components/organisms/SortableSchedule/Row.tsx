@@ -1,5 +1,6 @@
-import React, { Component, ReactNode } from "react";
-import { Animated, Easing, Platform, View } from "react-native";
+import React, { Component, ReactNode } from 'react';
+import { Animated, Easing, Platform, View } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 export interface RowProps {
   active: boolean;
@@ -22,14 +23,14 @@ export default class extends Component<RowProps> {
             {
               scale: this._active.interpolate({
                 inputRange: [0, 1],
-                outputRange: [1, 1.1]
-              })
-            }
+                outputRange: [1, 1.1],
+              }),
+            },
           ],
           shadowRadius: this._active.interpolate({
             inputRange: [0, 1],
-            outputRange: [2, 10]
-          })
+            outputRange: [2, 10],
+          }),
         },
 
         android: {
@@ -37,16 +38,16 @@ export default class extends Component<RowProps> {
             {
               scale: this._active.interpolate({
                 inputRange: [0, 1],
-                outputRange: [1, 1.07]
-              })
-            }
+                outputRange: [1, 1.07],
+              }),
+            },
           ],
           elevation: this._active.interpolate({
             inputRange: [0, 1],
-            outputRange: [2, 6]
-          })
-        }
-      })
+            outputRange: [2, 6],
+          }),
+        },
+      }),
     };
   }
 
@@ -55,7 +56,7 @@ export default class extends Component<RowProps> {
       Animated.timing(this._active, {
         duration: 300,
         easing: Easing.bounce,
-        toValue: Number(this.props.active)
+        toValue: Number(this.props.active),
       }).start();
     }
   }
@@ -63,8 +64,14 @@ export default class extends Component<RowProps> {
   render() {
     return (
       <Animated.View style={[this._style]}>
-        <View style={{ paddingBottom: 50 }}>{this.props.children}</View>
+        <View style={styles.root}>{this.props.children}</View>
       </Animated.View>
     );
   }
 }
+
+const styles = EStyleSheet.create({
+  root: {
+    paddingBottom: 50,
+  },
+});
