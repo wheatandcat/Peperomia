@@ -63,26 +63,22 @@ export default (props: Props) => {
 
           return (
             <>
-              <View style={{ paddingHorizontal: 20, paddingVertical: 15 }}>
-                <View style={styles.timeContainer}>
-                  <Ionicons
-                    name="md-time"
-                    color={theme().color.lightGreen}
-                    size={24}
-                    style={{ paddingTop: 3 }}
-                  />
-                  <Text
-                    style={styles.timeText}
-                  >{`${props.moveMinutes}分`}</Text>
-                </View>
+              <View style={styles.timeContainer}>
+                <Ionicons
+                  name="md-time"
+                  color={theme().color.lightGreen}
+                  size={24}
+                  style={styles.icon}
+                />
+                <Text style={styles.timeText}>{`${props.moveMinutes}分`}</Text>
               </View>
-              <Divider style={{ marginBottom: 8 }} />
+              <Divider style={styles.divider} />
             </>
           );
         })()}
 
         {Boolean(props.place) && (
-          <View style={{ paddingHorizontal: 18, paddingTop: 8 }}>
+          <View style={styles.container}>
             <Label text="集合場所" icon="map-marker-outline" width={95} />
 
             <View style={styles.memoContainer}>
@@ -92,7 +88,7 @@ export default (props: Props) => {
         )}
 
         {Boolean(props.url) && (
-          <View style={{ paddingHorizontal: 18, paddingTop: 8 }}>
+          <View style={styles.container}>
             <Label text="URL" icon="link" width={70} />
 
             <View style={styles.memoContainer}>
@@ -109,7 +105,7 @@ export default (props: Props) => {
         )}
 
         {Boolean(props.memo) && (
-          <View style={{ paddingHorizontal: 18, paddingTop: 8 }}>
+          <View style={styles.container}>
             <Label text="メモ" icon="file-document-box-outline" width={70} />
 
             <View style={styles.memoContainer}>
@@ -137,6 +133,8 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
     width: 80,
     height: 30,
+    paddingHorizontal: 20,
+    paddingVertical: 15,
   },
   timeText: {
     fontSize: 18,
@@ -152,5 +150,15 @@ const styles = EStyleSheet.create({
     paddingTop: 5,
     paddingBottom: 10,
     paddingHorizontal: 2,
+  },
+  icon: {
+    paddingTop: 3,
+  },
+  divider: {
+    marginBottom: 8,
+  },
+  container: {
+    paddingHorizontal: 18,
+    paddingTop: 8,
   },
 });

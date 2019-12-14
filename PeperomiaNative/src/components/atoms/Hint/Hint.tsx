@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, AsyncStorage } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import BottomRight from './BottomRight';
 
 interface Props {
@@ -59,7 +60,7 @@ export default class extends Component<Props, State> {
         <TouchableOpacity
           onPress={this.onPushPress}
           testID={this.props.testID}
-          style={{ padding: 5 }}
+          style={styles.tap}
         >
           {this.props.children}
         </TouchableOpacity>
@@ -67,3 +68,7 @@ export default class extends Component<Props, State> {
     );
   }
 }
+
+const styles = EStyleSheet.create({
+  tap: { padding: 5 },
+});

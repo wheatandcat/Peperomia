@@ -23,10 +23,7 @@ export default (props: Props) => (
       name={props.icon}
       color={theme().color.lightGreen}
       size={24}
-      style={{
-        paddingRight: 2,
-        paddingLeft: 1,
-      }}
+      style={styles.icon}
     />
     <Text style={styles.text}>{props.text}</Text>
   </View>
@@ -48,5 +45,9 @@ const styles = EStyleSheet.create({
     fontSize: 14,
     fontWeight: '500',
     color: '$chipText',
+  },
+  icon: {
+    paddingRight: 2,
+    paddingLeft: 1,
   },
 });

@@ -2,6 +2,7 @@ import React from 'react';
 import { Platform } from 'react-native';
 import ActionButton from 'react-native-action-button';
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import theme from '../../../config/theme';
 
 interface Props {
@@ -21,9 +22,7 @@ export default (props: Props) => (
     <ActionButton.Item
       buttonColor={theme().color.blue}
       title="予定を追加"
-      textStyle={{
-        paddingTop: 1,
-      }}
+      textStyle={styles.item}
       textContainerStyle={{
         right,
         borderColor: theme().color.darkGray,
@@ -38,9 +37,7 @@ export default (props: Props) => (
     <ActionButton.Item
       buttonColor={theme().color.yellow}
       title="順番を変更"
-      textStyle={{
-        paddingTop: 1,
-      }}
+      textStyle={styles.item}
       textContainerStyle={{
         right,
         borderColor: theme().color.darkGray,
@@ -53,9 +50,7 @@ export default (props: Props) => (
     <ActionButton.Item
       buttonColor={theme().color.red}
       title="予定を削除"
-      textStyle={{
-        paddingTop: 1,
-      }}
+      textStyle={styles.item}
       textContainerStyle={{
         right,
         borderColor: theme().color.darkGray,
@@ -67,3 +62,9 @@ export default (props: Props) => (
     </ActionButton.Item>
   </ActionButton>
 );
+
+const styles = EStyleSheet.create({
+  item: {
+    paddingTop: 1,
+  },
+});

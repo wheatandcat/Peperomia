@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
 import { View } from 'react-native';
-import styled from 'styled-components/native';
 import Color from 'color';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { IconImage } from 'primitive';
@@ -33,36 +32,41 @@ export default (props: Props) => {
         },
       ]}
     >
-      <Content>
-        <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
-          <View style={{ flex: 1, paddingLeft: 15, paddingBottom: 25 }}>
-            {props.children}
-          </View>
+      <View style={styles.contents}>
+        <View style={styles.children}>{props.children}</View>
 
-          <View style={{ position: 'absolute', right: 30 }}>
-            <IconImage
-              src={config.src}
-              name={config.name}
-              size={110}
-              opacity={1.0}
-            />
-          </View>
+        <View style={styles.icon}>
+          <IconImage
+            src={config.src}
+            name={config.name}
+            size={110}
+            opacity={1.0}
+          />
         </View>
-      </Content>
+      </View>
     </View>
   );
 };
 
-const Content = styled.View`
-  padding-horizontal: 0;
-  padding-vertical: 0;
-  border-radius: 0;
-  height: 80;
-  justify-content: flex-end;
-`;
-
 const styles = EStyleSheet.create({
   root: {
     paddingTop: 100,
+  },
+  contents: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    padding: 0,
+    borderRadius: 0,
+    height: 80,
+    justifyContent: 'flex-end',
+  },
+  children: {
+    flex: 1,
+    paddingLeft: 15,
+    paddingBottom: 25,
+  },
+  icon: {
+    position: 'absolute',
+    right: 30,
   },
 });

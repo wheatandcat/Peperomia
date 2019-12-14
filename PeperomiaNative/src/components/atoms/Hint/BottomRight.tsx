@@ -5,15 +5,12 @@ import theme from '../../../config/theme';
 
 export default () => (
   <View style={styles.root}>
-    <View style={{ right: whenIPhoneSE(-250, -300) }}>
+    <View style={styles.right}>
       <View style={styles.tips} />
     </View>
     <View style={styles.tipsContainer}>
-      <Text style={{ fontSize: whenIPhoneSE(12, 14) }}>
-        <Text style={{ fontSize: whenIPhoneSE(17, 20), fontWeight: '600' }}>
-          {' '}
-          +{' '}
-        </Text>
+      <Text style={styles.text}>
+        <Text style={styles.plus}> + </Text>
         ボタンをタッチして予定を作成しよう！
       </Text>
     </View>
@@ -47,5 +44,16 @@ const styles = StyleSheet.create({
     backgroundColor: theme().color.white,
     borderWidth: 0,
     paddingHorizontal: whenIPhoneSE(12, 15),
+  },
+
+  text: {
+    fontSize: whenIPhoneSE(12, 14),
+  },
+  plus: {
+    fontSize: whenIPhoneSE(17, 20),
+    fontWeight: '600',
+  },
+  right: {
+    right: whenIPhoneSE(-250, -300),
   },
 });

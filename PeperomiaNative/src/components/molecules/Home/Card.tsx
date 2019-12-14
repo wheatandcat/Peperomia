@@ -26,9 +26,7 @@ export default (props: Props) => {
     <TouchableHighlight
       onPress={props.onPress}
       testID={props.testID}
-      style={{
-        margin: 3,
-      }}
+      style={styles.root}
     >
       <View
         style={[
@@ -43,7 +41,7 @@ export default (props: Props) => {
           },
         ]}
       >
-        <View style={{ padding: 10 }}>
+        <View style={styles.icon}>
           <IconImage
             src={config.src}
             name={config.name}
@@ -51,16 +49,16 @@ export default (props: Props) => {
             size={60}
           />
         </View>
-        <View style={{ flex: 1, padding: 10 }}>
+        <View style={styles.contents}>
           <Grid>
             <Row size={75}>
-              <Col size={75} style={{ paddingTop: 5 }}>
+              <Col size={75} style={styles.titleContainer}>
                 <Text numberOfLines={1} style={styles.title}>
                   {props.title}
                 </Text>
               </Col>
             </Row>
-            <Row size={25} style={{ paddingLeft: 2 }}>
+            <Row size={25} style={styles.aboutContainer}>
               <Text numberOfLines={1} style={styles.about}>
                 {props.about}
               </Text>
@@ -90,5 +88,21 @@ const styles = StyleSheet.create({
   about: {
     fontSize: 10,
     color: theme().color.darkGray,
+  },
+  root: {
+    margin: 3,
+  },
+  icon: {
+    padding: 10,
+  },
+  contents: {
+    flex: 1,
+    padding: 10,
+  },
+  titleContainer: {
+    paddingTop: 5,
+  },
+  aboutContainer: {
+    paddingLeft: 2,
   },
 });

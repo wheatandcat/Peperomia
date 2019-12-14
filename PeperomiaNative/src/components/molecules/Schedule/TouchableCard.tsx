@@ -27,7 +27,7 @@ export default (props: Props) => {
         }
 
         return (
-          <View style={{ padding: 15 }}>
+          <View style={styles.container}>
             <Text style={styles.timeText}>
               {props.moveMinutes ? `${props.moveMinutes}分` : '-'}
             </Text>
@@ -43,5 +43,8 @@ const styles = EStyleSheet.create({
     fontWeight: '600',
     fontSize: 15,
     color: '$text',
+  },
+  container: {
+    padding: 15,
   },
 });

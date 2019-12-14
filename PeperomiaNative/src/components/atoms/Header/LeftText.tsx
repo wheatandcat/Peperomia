@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 interface Props {
   label: string;
@@ -8,20 +8,35 @@ interface Props {
   onPress: () => void;
 }
 
-export default (props: Props) => (
-  <TouchableOpacity
-    onPress={props.onPress}
-    style={{ left: 5 }}
-    testID={props.testID}
-  >
-    <Text
-      style={{
-        fontSize: 16,
-        fontWeight: '600',
-        color: props.cancel ? 'red' : 'black',
-      }}
+export default (props: Props) => {
+  const color = props.cancel ? 'red' : 'black';
+
+  return (
+    <TouchableOpacity
+      onPress={props.onPress}
+      style={styles.tap}
+      testID={props.testID}
     >
-      {props.label}
-    </Text>
-  </TouchableOpacity>
-);
+      <Text
+        style={[
+          styles.text,
+          {
+            color,
+          },
+        ]}
+      >
+        {props.label}
+      </Text>
+    </TouchableOpacity>
+  );
+};
+
+const styles = StyleSheet.create({
+  tap: {
+    left: 5,
+  },
+  text: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+});
