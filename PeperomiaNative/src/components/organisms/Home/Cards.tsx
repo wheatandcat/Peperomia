@@ -9,10 +9,10 @@ import {
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import theme from '../../../config/theme';
-import { HomeScreenPlan } from '../../pages/Home/Connected';
+import { HomeScreenPlanType } from '../../pages/Home/Connected';
 import Card, { ItemProps as CardProps } from '../../molecules/Home/Card';
 
-export type Props = Pick<HomeScreenPlan, 'onSchedule' | 'onDelete'> & {
+export type Props = HomeScreenPlanType & {
   data: CardProps[];
   loading: boolean;
 };

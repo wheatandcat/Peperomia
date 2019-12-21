@@ -9,7 +9,7 @@ import {
   ItemDetail,
 } from '../lib/db/itemDetail';
 
-const Context = createContext({});
+export const Context = createContext<ContextProps>({});
 const { Provider } = Context;
 
 type ItemAbout = {

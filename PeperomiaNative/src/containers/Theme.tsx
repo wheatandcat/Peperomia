@@ -4,7 +4,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { Appearance, useColorScheme } from 'react-native-appearance';
 import { setMode } from '../config/theme';
 
-const Context = createContext({});
+export const Context = createContext<ContextProps>({});
 const { Provider } = Context;
 
 type Props = {

@@ -19,6 +19,7 @@ export default class extends Component<Props, State> {
 
   async componentDidMount() {
     const visible = await AsyncStorage.getItem('FIRST_CRAEATE_ITEM');
+    console.log(visible);
 
     this.setState({
       visible: !visible,

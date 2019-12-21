@@ -5,7 +5,7 @@ import {
   ContextProps as AuthContextProps,
 } from './Auth';
 
-const Context = createContext({});
+export const Context = createContext<ContextProps>({});
 const { Provider } = Context;
 
 export type ContextProps = Partial<Pick<Connected, 'post'>>;
