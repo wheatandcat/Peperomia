@@ -6,7 +6,7 @@ import Constants from 'expo-constants';
 import * as Sentry from 'sentry-expo';
 import * as firebase from 'firebase';
 
-const Context = createContext({});
+export const Context = createContext<ContextProps>({});
 const { Provider } = Context;
 
 interface Props {}

@@ -1,6 +1,17 @@
 import * as SQLite from 'expo-sqlite';
-import React, { Component } from 'react';
-import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
+import React, {
+  memo,
+  useContext,
+  useState,
+  useCallback,
+  useEffect,
+} from 'react';
+import {
+  NavigationScreenProp,
+  NavigationRoute,
+  NavigationContext,
+} from 'react-navigation';
+import { useNavigation, useNavigationParam } from 'react-navigation-hooks';
 import { createStackNavigator } from 'react-navigation-stack';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Dimensions, View, Image, AsyncStorage } from 'react-native';
@@ -13,13 +24,14 @@ import { delete1st } from '../../../lib/db/item';
 import { deleteByItemId as deleteItemDetailByItemId } from '../../../lib/db/itemDetail';
 import { deleteByItemId as deleteCalendarByItemId } from '../../../lib/db/calendar';
 import {
-  Consumer as ItemsConsumer,
+  Context as ItemsContext,
   ContextProps,
 } from '../../../containers/Items';
 import {
-  Consumer as ThemeConsumer,
+  Context as ThemeContext,
   ContextProps as ThemeContextProps,
 } from '../../../containers/Theme';
+import { useDidMount } from '../../../hooks/index';
 import Hint from '../../atoms/Hint/Hint';
 import Schedule from '../Schedule/Switch';
 import EditPlan from '../EditPlan/Connected';
@@ -38,8 +50,7 @@ type State = {
 };
 
 export type PlanProps = Pick<ContextProps, 'items' | 'about' | 'refreshData'> &
-  Pick<ThemeContextProps, 'rerendering' | 'onFinishRerendering'> &
-  Pick<Props, 'navigation'> & {
+  Pick<ThemeContextProps, 'rerendering' | 'onFinishRerendering'> & {
     loading: boolean;
     refresh: string;
   };
@@ -60,156 +71,156 @@ const LogoTitle = () => (
   />
 );
 
-class HomeScreen extends Component<Props, State> {
-  static navigationOptions = ({
-    navigation,
-  }: {
-    navigation: NavigationScreenProp<NavigationRoute>;
-  }) => {
-    const { params = {} } = navigation.state;
+type HomeScreeState = {
+  mask: boolean;
+};
 
-    return {
-      headerTitle: <LogoTitle />,
-      headerStyle: {
-        backgroundColor: theme().mode.header.backgroundColor,
-      },
-      headerRight: (
-        <View style={styles.headerRight}>
-          <Hint onPress={params.onPushCreatePlan} testID="ScheduleAdd">
-            <Feather
-              name="plus"
-              size={28}
-              color={
-                darkMode()
-                  ? theme().color.highLightGray
-                  : theme().color.lightGreen
-              }
-            />
-          </Hint>
-        </View>
-      ),
-    };
-  };
+const HomeScreen = () => {
+  const navigation = useContext(NavigationContext);
+  const { items, about, refreshData, itemsLoading } = useContext(ItemsContext);
+  const { rerendering, onFinishRerendering } = useContext(ThemeContext);
+  const [state, setState] = useState<HomeScreeState>({ mask: false });
 
-  state = {
-    refresh: '',
-    mask: false,
-  };
+  const refresh = useNavigationParam('refresh') || '';
 
-  async componentDidMount() {
-    this.props.navigation.setParams({
+  useDidMount(() => {
+    navigation.setParams({
       onPushCreatePlan: async () => {
-        this.setState({
-          mask: false,
-        });
+        setState({ mask: false });
 
         await AsyncStorage.setItem('FIRST_CRAEATE_ITEM', 'true');
-        this.props.navigation.navigate('CreatePlan');
+        navigation.navigate('CreatePlan');
       },
     });
 
-    const mask = await AsyncStorage.getItem('FIRST_CRAEATE_ITEM');
+    const checkMask = async () => {
+      const m = await AsyncStorage.getItem('FIRST_CRAEATE_ITEM');
+      setState({ mask: !m });
+    };
 
-    this.setState({
-      mask: !mask,
-    });
-  }
+    checkMask();
+  });
 
-  render() {
-    const refresh = this.props.navigation.getParam('refresh', '');
+  return (
+    <View>
+      <HomeScreenPlan
+        loading={Boolean(itemsLoading)}
+        rerendering={rerendering}
+        items={items}
+        about={about}
+        refresh={refresh}
+        refreshData={refreshData}
+        onFinishRerendering={onFinishRerendering}
+      />
+      {state.mask && <View style={styles.mask} />}
+    </View>
+  );
+};
 
-    return (
-      <ItemsConsumer>
-        {({ items, about, refreshData, itemsLoading }: ContextProps) => (
-          <ThemeConsumer>
-            {({ rerendering, onFinishRerendering }: ThemeContextProps) => (
-              <>
-                <HomeScreenPlan
-                  loading={Boolean(itemsLoading)}
-                  navigation={this.props.navigation}
-                  rerendering={rerendering}
-                  items={items}
-                  about={about}
-                  refresh={refresh}
-                  refreshData={refreshData}
-                  onFinishRerendering={onFinishRerendering}
-                />
-                {this.state.mask && <View style={styles.mask} />}
-              </>
-            )}
-          </ThemeConsumer>
-        )}
-      </ItemsConsumer>
-    );
-  }
-}
+type NavigationOptions = {
+  navigation: NavigationScreenProp<NavigationRoute>;
+};
 
-export class HomeScreenPlan extends Component<PlanProps, PlanState> {
-  state = {
-    refresh: '',
+HomeScreen.navigationOptions = ({ navigation }: NavigationOptions) => {
+  const { params = {} } = navigation.state;
+
+  return {
+    headerTitle: <LogoTitle />,
+    headerStyle: {
+      backgroundColor: theme().mode.header.backgroundColor,
+    },
+    headerRight: (
+      <View style={styles.headerRight}>
+        <Hint onPress={params.onPushCreatePlan} testID="ScheduleAdd">
+          <Feather
+            name="plus"
+            size={28}
+            color={
+              darkMode()
+                ? theme().color.highLightGray
+                : theme().color.lightGreen
+            }
+          />
+        </Hint>
+      </View>
+    ),
   };
-  componentDidMount() {
-    if (this.props.rerendering) {
-      this.props.navigation.navigate('ScreenSetting');
-      if (this.props.onFinishRerendering) this.props.onFinishRerendering();
-    }
-  }
+};
 
-  componentDidUpdate() {
-    if (this.state.refresh === this.props.refresh) {
+export type HomeScreenPlanType = {
+  onSchedule: (itemId: string, title: string) => void;
+  onDelete: (itemId: string) => void;
+};
+
+const HomeScreenPlan = memo((props: PlanProps) => {
+  const { navigate } = useNavigation();
+  const navigation = useContext(NavigationContext);
+  const [state, setState] = useState<PlanState>({ refresh: '' });
+  console.log(navigation);
+
+  useDidMount(() => {
+    if (props.rerendering) {
+      navigate('ScreenSetting');
+      if (props.onFinishRerendering) props.onFinishRerendering();
+    }
+  });
+
+  useEffect(() => {
+    if (state.refresh === props.refresh) {
       return;
     }
+    setState({ refresh: props.refresh });
 
-    this.setState({ refresh: this.props.refresh });
-
-    if (this.props.refreshData) {
-      this.props.refreshData();
+    if (props.refreshData) {
+      props.refreshData();
     }
-  }
+  }, [props, props.refresh, state.refresh]);
 
-  onDelete = (itemId: string) => {
-    db.transaction((tx: SQLite.Transaction) => {
-      delete1st(tx, itemId, (_: Item, error: ResultError) => {
-        if (error) {
-          return;
-        }
-        deleteCalendarByItemId(tx, Number(itemId), () => null);
-        deleteItemDetailByItemId(tx, itemId, this.onRefresh);
+  const onRefresh = useCallback(() => {
+    setState({ refresh: uuidv1() });
+  }, []);
+
+  const onDelete = useCallback(
+    (itemId: string) => {
+      db.transaction((tx: SQLite.Transaction) => {
+        delete1st(tx, itemId, (_: Item, error: ResultError) => {
+          if (error) {
+            return;
+          }
+          deleteCalendarByItemId(tx, Number(itemId), () => null);
+          deleteItemDetailByItemId(tx, itemId, onRefresh);
+        });
       });
-    });
-  };
+    },
+    [onRefresh]
+  );
 
-  onSchedule = (id: string, title: string) => {
-    this.props.navigation.navigate('Schedule', { itemId: id, title });
-  };
+  const onSchedule = useCallback(
+    (id: string, title: string) => {
+      navigate('Schedule', { itemId: id, title });
+    },
+    [navigate]
+  );
 
-  onRefresh = () => {
-    this.setState({ refresh: uuidv1() });
-  };
+  const items = (props.items || []).map((item: Item) => {
+    const about = (props.about || []).find(val => val.itemId === item.id);
 
-  render() {
-    const items = (this.props.items || []).map((item: Item) => {
-      const about = (this.props.about || []).find(
-        val => val.itemId === item.id
-      );
+    return {
+      ...item,
+      id: String(item.id),
+      about: about ? about.about : '',
+    };
+  });
 
-      return {
-        ...item,
-        id: String(item.id),
-        about: about ? about.about : '',
-      };
-    });
-
-    return (
-      <Page
-        data={items}
-        loading={this.props.loading}
-        onSchedule={this.onSchedule}
-        onDelete={this.onDelete}
-      />
-    );
-  }
-}
+  return (
+    <Page
+      data={items}
+      loading={props.loading}
+      onSchedule={onSchedule}
+      onDelete={onDelete}
+    />
+  );
+});
 
 const MainCardNavigator = createStackNavigator(
   {

@@ -40,7 +40,7 @@ export default (props: Props) => {
           <IconImage
             src={config.src}
             name={config.name}
-            size={80}
+            size={60}
             opacity={1.0}
           />
         </View>
