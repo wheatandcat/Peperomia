@@ -1,6 +1,6 @@
 import * as SQLite from 'expo-sqlite';
-import React, { Component } from 'react';
-import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
+import React, { useContext, useState, memo, useCallback } from 'react';
+import { useNavigation } from 'react-navigation-hooks';
 import { createStackNavigator } from 'react-navigation-stack';
 import { AsyncStorage, Alert } from 'react-native';
 import theme from '../../../config/theme';
@@ -14,8 +14,15 @@ import {
 } from '../../../lib/db/debug';
 import { select as selectItems } from '../../../lib/db/item';
 import { select as selectItemDetailds } from '../../../lib/db/itemDetail';
-import { Consumer as AuthConsumer } from '../../../containers/Auth';
-import { Consumer as FetchConsumer } from '../../../containers/Fetch';
+import {
+  Context as AuthContext,
+  ContextProps as AuthContextProps,
+} from '../../../containers/Auth';
+import {
+  Context as FetchContext,
+  ContextProps as FetchContextProps,
+} from '../../../containers/Fetch';
+import { useDidMount } from '../../../hooks/index';
 import Tos from '../Tos/Page';
 import Policy from '../Policy/Page';
 import Feedback from '../Feedback/Connected';
@@ -25,135 +32,116 @@ import ScreenSetting from '../ScreenSetting/Connected';
 import LoginWithAmazon from '../LoginWithAmazon/Connected';
 import Page from './Page';
 
-interface Props {
-  navigation: NavigationScreenProp<NavigationRoute>;
-}
+const Container = () => {
+  const { loggedIn, logout } = useContext(AuthContext);
+  const { post } = useContext(FetchContext);
 
-class Container extends Component<Props> {
-  static navigationOptions = () => {
-    return {
-      title: '設定',
-      headerTitleStyle: {
-        color: theme().mode.header.text,
-      },
-      headerTintColor: theme().mode.header.text,
-      headerStyle: {
-        backgroundColor: theme().mode.header.backgroundColor,
-      },
-    };
-  };
+  return <Connected loggedIn={loggedIn} logout={logout} post={post} />;
+};
 
-  render() {
-    return (
-      <AuthConsumer>
-        {({ loggedIn, logout }: any) => (
-          <FetchConsumer>
-            {({ post }: any) => (
-              <Connected
-                {...this.props}
-                loggedIn={loggedIn}
-                logout={logout}
-                post={post}
-              />
-            )}
-          </FetchConsumer>
-        )}
-      </AuthConsumer>
-    );
-  }
-}
+Container.navigationOptions = {
+  title: '設定',
+  headerTitleStyle: {
+    color: theme().mode.header.text,
+  },
+  headerTintColor: theme().mode.header.text,
+  headerStyle: {
+    backgroundColor: theme().mode.header.backgroundColor,
+  },
+};
 
-interface ConnectedProps {
-  navigation: NavigationScreenProp<NavigationRoute>;
-  loggedIn: () => boolean;
-  logout: () => void;
-  post: (url: string, param: any) => Promise<Response>;
-}
+type ConnectedProps = Pick<FetchContextProps, 'post'> &
+  Pick<AuthContextProps, 'loggedIn' | 'logout'>;
 
-interface State {
+type State = {
   login: boolean;
   loading: boolean;
-}
+};
 
-class Connected extends Component<ConnectedProps, State> {
-  static navigationOptions = { title: '設定' };
-
-  state = {
+const Connected = memo((props: ConnectedProps) => {
+  const { navigate } = useNavigation();
+  const [state, setState] = useState<State>({
     loading: true,
     login: false,
-  };
+  });
 
-  async componentDidMount() {
-    const loggedIn = await this.props.loggedIn();
+  useDidMount(() => {
+    const check = async () => {
+      if (props.loggedIn) {
+        const loggedIn = await props.loggedIn();
 
-    this.setState({
-      login: loggedIn,
-      loading: false,
-    });
-  }
+        setState({
+          login: loggedIn,
+          loading: false,
+        });
+      }
+    };
 
-  onDeleteSQL = () => {
+    check();
+  });
+
+  const onDeleteSQL = useCallback(() => {
     db.transaction((tx: SQLite.Transaction) => {
       deleteSql(tx);
     });
-  };
+  }, []);
 
-  onResetSQL = () => {
+  const onResetSQL = useCallback(() => {
     db.transaction((tx: SQLite.Transaction) => {
       resetSql(tx);
     });
-  };
+  }, []);
 
-  onData = () => {
+  const onData = useCallback(() => {
     db.transaction((tx: SQLite.Transaction) => {
       selectItems(tx, console.log);
       selectItemDetailds(tx, console.log);
       sqliteMaster(tx);
     });
-  };
+  }, []);
 
-  onDeleteUser = () => {
+  const onDeleteUser = useCallback(() => {
     db.transaction((tx: SQLite.Transaction) => {
       deleteUserSql(tx);
     });
 
     AsyncStorage.removeItem('FIRST_CRAEATE_ITEM');
-  };
+  }, []);
 
-  onShowSQL = () => {};
+  const onShowSQL = useCallback(() => {}, []);
 
-  onTos = () => {
-    this.props.navigation.navigate('Tos');
-  };
+  const onTos = useCallback(() => {
+    navigate('Tos');
+  }, [navigate]);
 
-  onPolicy = () => {
-    this.props.navigation.navigate('Policy');
-  };
+  const onPolicy = useCallback(() => {
+    navigate('Policy');
+  }, [navigate]);
 
-  onFeedback = () => {
-    this.props.navigation.navigate('Feedback');
-  };
+  const onFeedback = useCallback(() => {
+    navigate('Feedback');
+  }, [navigate]);
 
-  onSignIn = () => {
-    this.props.navigation.navigate('SignIn', {
+  const onSignIn = useCallback(() => {
+    navigate('SignIn', {
       onLogin: () => {
-        this.setState({
+        setState({
           login: true,
           loading: false,
         });
       },
     });
-  };
+  }, [navigate]);
 
-  onMyPage = () => {
-    this.props.navigation.navigate('MyPage');
-  };
+  const onMyPage = useCallback(() => {
+    navigate('MyPage');
+  }, [navigate]);
 
-  onScreenSetting = () => {
-    this.props.navigation.navigate('ScreenSetting');
-  };
+  const onScreenSetting = useCallback(() => {
+    navigate('ScreenSetting');
+  }, [navigate]);
 
-  onLogout = () => {
+  const onLogout = useCallback(() => {
     Alert.alert(
       'ログアウトしますか',
       '',
@@ -165,52 +153,53 @@ class Connected extends Component<ConnectedProps, State> {
         {
           text: 'ログアウト',
           onPress: async () => {
-            await this.props.logout();
-            this.setState({
-              login: false,
-            });
+            if (props.logout) {
+              await props.logout();
+              setState({
+                ...state,
+                login: false,
+              });
+            }
           },
         },
       ],
       { cancelable: false }
     );
-  };
+  }, [props, state]);
 
-  onLoginWithAmazon = () => {
-    this.props.navigation.navigate('LoginWithAmazon');
-  };
+  const onLoginWithAmazon = useCallback(() => {
+    navigate('LoginWithAmazon');
+  }, [navigate]);
 
-  onMigrationV100 = () => {
+  const onMigrationV100 = useCallback(() => {
     db.transaction((tx: SQLite.Transaction) => {
       resetSqlV100(tx);
     });
 
     AsyncStorage.setItem('APP_VERSION', '1.0.0');
-  };
+  }, []);
 
-  render() {
-    return (
-      <Page
-        loading={this.state.loading}
-        login={this.state.login}
-        onResetSQL={this.onResetSQL}
-        onData={this.onData}
-        onDeleteSQL={this.onDeleteSQL}
-        onDeleteUser={this.onDeleteUser}
-        onShowSQL={this.onShowSQL}
-        onTos={this.onTos}
-        onPolicy={this.onPolicy}
-        onFeedback={this.onFeedback}
-        onSignIn={this.onSignIn}
-        onLogout={this.onLogout}
-        onMyPage={this.onMyPage}
-        onMigrationV100={this.onMigrationV100}
-        onScreenSetting={this.onScreenSetting}
-        onLoginWithAmazon={this.onLoginWithAmazon}
-      />
-    );
-  }
-}
+  return (
+    <Page
+      loading={state.loading}
+      login={state.login}
+      onResetSQL={onResetSQL}
+      onData={onData}
+      onDeleteSQL={onDeleteSQL}
+      onDeleteUser={onDeleteUser}
+      onShowSQL={onShowSQL}
+      onTos={onTos}
+      onPolicy={onPolicy}
+      onFeedback={onFeedback}
+      onSignIn={onSignIn}
+      onLogout={onLogout}
+      onMyPage={onMyPage}
+      onMigrationV100={onMigrationV100}
+      onScreenSetting={onScreenSetting}
+      onLoginWithAmazon={onLoginWithAmazon}
+    />
+  );
+});
 
 export default createStackNavigator(
   {
