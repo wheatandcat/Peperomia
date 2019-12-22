@@ -20,8 +20,6 @@ export const findByUID = async (
     return elem.data();
   });
 
-  console.log(records);
-
   return records.map((record: any) => ({
     ...record,
     date: dayjs(record.date.seconds * 1000).format('YYYY-MM-DD'),

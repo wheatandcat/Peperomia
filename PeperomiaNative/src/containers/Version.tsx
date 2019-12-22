@@ -1,55 +1,58 @@
-import { Component } from 'react';
+import { useState, ReactNode } from 'react';
 import { AsyncStorage } from 'react-native';
 import compareVersions from 'compare-versions';
+import { useDidMount } from '../hooks/index';
 import { migrationV104, migrationV201 } from '../lib/migration';
 
-interface Props {}
+type Props = {
+  children: ReactNode;
+};
 
-interface State {
+type State = {
   loading: boolean;
-}
+};
 
-export default class extends Component<Props, State> {
-  state = {
-    loading: true,
-  };
+export default (props: Props) => {
+  const [state, setState] = useState<State>({ loading: false });
 
-  async componentDidMount() {
-    let appVerion = await AsyncStorage.getItem('APP_VERSION');
-    if (!appVerion) {
-      appVerion = '1.0.0';
-    }
-
-    if (compareVersions.compare('1.0.5', appVerion, '>')) {
-      // カラム追加のマイグレーション実行
-      const ok = await migrationV104();
-      if (ok) {
-        // 現在のバージョンを設定
-        await AsyncStorage.setItem('APP_VERSION', '1.0.5');
-        appVerion = '1.0.5';
+  useDidMount(() => {
+    const checkVersion = async () => {
+      let appVerion = await AsyncStorage.getItem('APP_VERSION');
+      if (!appVerion) {
+        appVerion = '1.0.0';
       }
-    }
 
-    if (compareVersions.compare('2.0.1', appVerion, '>')) {
-      // カラム追加のマイグレーション実行
-      const ok = await migrationV201();
-      if (ok) {
-        // 現在のバージョンを設定
-        await AsyncStorage.setItem('APP_VERSION', '2.0.1');
-        appVerion = '2.0.1';
+      if (compareVersions.compare('1.0.5', appVerion, '>')) {
+        // カラム追加のマイグレーション実行
+        const ok = await migrationV104();
+        if (ok) {
+          // 現在のバージョンを設定
+          await AsyncStorage.setItem('APP_VERSION', '1.0.5');
+          appVerion = '1.0.5';
+        }
       }
-    }
 
-    this.setState({
-      loading: false,
-    });
+      if (compareVersions.compare('2.0.1', appVerion, '>')) {
+        // カラム追加のマイグレーション実行
+        const ok = await migrationV201();
+        if (ok) {
+          // 現在のバージョンを設定
+          await AsyncStorage.setItem('APP_VERSION', '2.0.1');
+          appVerion = '2.0.1';
+        }
+      }
+
+      setState({
+        loading: false,
+      });
+    };
+
+    checkVersion();
+  });
+
+  if (state.loading) {
+    return null;
   }
 
-  render() {
-    if (this.state.loading) {
-      return null;
-    }
-
-    return this.props.children;
-  }
-}
+  return props.children;
+};

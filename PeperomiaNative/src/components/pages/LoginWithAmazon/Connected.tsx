@@ -96,7 +96,7 @@ class Connected extends Component<ConnectedProps, State> {
       const request = {
         accessToken: result.accessToken.split('?')[0],
       };
-      console.log(request);
+
       const response = await this.props.post('LoginWithAmazon', {
         body: JSON.stringify(request),
       });

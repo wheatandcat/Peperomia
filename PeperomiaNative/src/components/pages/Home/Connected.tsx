@@ -154,9 +154,7 @@ export type HomeScreenPlanType = {
 
 const HomeScreenPlan = memo((props: PlanProps) => {
   const { navigate } = useNavigation();
-  const navigation = useContext(NavigationContext);
   const [state, setState] = useState<PlanState>({ refresh: '' });
-  console.log(navigation);
 
   useDidMount(() => {
     if (props.rerendering) {
