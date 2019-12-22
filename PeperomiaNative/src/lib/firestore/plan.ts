@@ -56,7 +56,6 @@ export const isShare = async (doc: string): Promise<boolean> => {
     .get();
 
   const result: any = documentSnapshot.data();
-  console.log(result);
 
   if (!result) {
     return false;
