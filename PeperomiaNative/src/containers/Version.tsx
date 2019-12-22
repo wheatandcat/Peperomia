@@ -12,7 +12,7 @@ type State = {
   loading: boolean;
 };
 
-export default (props: Props) => {
+export default (props: Props): any => {
   const [state, setState] = useState<State>({ loading: false });
 
   useDidMount(() => {
