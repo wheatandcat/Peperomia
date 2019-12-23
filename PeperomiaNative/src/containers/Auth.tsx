@@ -156,20 +156,20 @@ export default (props: Props) => {
       if (login && !state.uid) {
         const uid = await AsyncStorage.getItem('uid');
         if (uid) {
-          setState({
-            ...state,
+          setState(s => ({
+            ...s,
             uid,
-          });
+          }));
         }
       }
 
       if (login && !state.email) {
         const email = await AsyncStorage.getItem('email');
         if (email) {
-          setState({
-            ...state,
+          setState(s => ({
+            ...s,
             email,
-          });
+          }));
         }
       }
     };

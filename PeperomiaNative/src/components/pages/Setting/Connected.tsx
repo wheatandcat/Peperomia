@@ -155,17 +155,17 @@ const Connected = memo((props: ConnectedProps) => {
           onPress: async () => {
             if (props.logout) {
               await props.logout();
-              setState({
-                ...state,
+              setState(s => ({
+                ...s,
                 login: false,
-              });
+              }));
             }
           },
         },
       ],
       { cancelable: false }
     );
-  }, [props, state]);
+  }, [props]);
 
   const onLoginWithAmazon = useCallback(() => {
     navigate('LoginWithAmazon');

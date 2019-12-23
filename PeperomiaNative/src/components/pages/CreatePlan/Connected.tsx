@@ -192,19 +192,6 @@ class Connect extends Component<ConnectProps, State> {
     });
   };
 
-  onCamera = () => {
-    this.props.navigation.navigate('Camera', {
-      onPicture: (image?: string) => {
-        this.props.navigation.navigate('CreatePlan', {
-          image,
-        });
-      },
-      onDismiss: () => {
-        this.props.navigation.navigate('CreatePlan');
-      },
-    });
-  };
-
   onHome = () => {
     this.props.navigation.goBack(null);
   };
@@ -222,7 +209,6 @@ class Connect extends Component<ConnectProps, State> {
         onImage={this.onImage}
         onSave={this.onSave}
         onIcons={this.onIcons}
-        onCamera={this.onCamera}
         onHome={this.onHome}
       />
     );

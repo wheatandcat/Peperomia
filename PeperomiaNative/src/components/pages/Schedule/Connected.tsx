@@ -56,7 +56,10 @@ export default memo((props: Props) => {
         navigation.setParams({
           items: data,
         });
-        setState({ ...state, items: data });
+        setState(s => ({
+          ...s,
+          items: data,
+        }));
       }
 
       // priorityが重複している場合はid順でpriorityをupdateする
@@ -74,9 +77,12 @@ export default memo((props: Props) => {
         });
       });
 
-      setState({ ...state, items: items });
+      setState(s => ({
+        ...s,
+        items: items,
+      }));
     },
-    [navigation, save, state]
+    [navigation, save]
   );
 
   const getData = useCallback(
@@ -101,10 +107,11 @@ export default memo((props: Props) => {
       return;
     }
 
-    setState({
-      ...state,
+    setState(s => ({
+      ...s,
       refresh,
-    });
+    }));
+
     getData(String(itemId));
   }, [getData, props.navigation, state]);
 

@@ -46,7 +46,6 @@ type PropsBase = {
   onImage: (image: string) => void;
   onSave: () => void;
   onIcons: () => void;
-  onCamera: () => void;
   onHome: () => void;
 };
 

@@ -61,10 +61,10 @@ const Plan = memo((props: PlanProps) => {
       kind: itemDetail.kind,
     }));
 
-    setState({
-      ...state,
+    setState(s => ({
+      ...s,
       suggestList,
-    });
+    }));
   });
 
   useEffect(() => {
@@ -75,7 +75,11 @@ const Plan = memo((props: PlanProps) => {
     }
 
     if (state.kind !== kind) {
-      setState({ ...state, kind, iconSelected: true });
+      setState(s => ({
+        ...s,
+        kind,
+        iconSelected: true,
+      }));
     }
   }, [props.navigation, state]);
 
