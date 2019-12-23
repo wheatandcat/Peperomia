@@ -1,15 +1,17 @@
-import * as ImageManipulator from 'expo-image-manipulator';
 import * as SQLite from 'expo-sqlite';
-import React, { Component } from 'react';
+import React, {
+  useContext,
+  useState,
+  memo,
+  useEffect,
+  useCallback,
+} from 'react';
 import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
-import EStyleSheet from 'react-native-extended-stylesheet';
-import { TouchableOpacity, View, Alert } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Alert } from 'react-native';
 import {
-  Consumer as ItemsConsumer,
-  ContextProps,
+  Context as ItemsContext,
+  ContextProps as ItemContextProps,
 } from '../../../containers/Items';
-import theme from '../../../config/theme';
 import { db, ResultError } from '../../../lib/db';
 import { update as updateItem, Item } from '../../../lib/db/item';
 import {
@@ -19,6 +21,7 @@ import {
 } from '../../../lib/db/calendar';
 import getKind from '../../../lib/getKind';
 import { SuggestItem } from '../../../lib/suggest';
+import { useDidMount } from '../../../hooks/index';
 import Page from '../../templates/CreatePlan/Page';
 
 type Props = {
@@ -26,13 +29,13 @@ type Props = {
 };
 
 type ConnectedProps = Pick<
-  ContextProps,
+  ItemContextProps,
   'items' | 'refreshData' | 'calendars'
 > & {
   navigation: NavigationScreenProp<NavigationRoute>;
 };
 
-type PlanProps = Pick<ContextProps, 'items' | 'refreshData'> & {
+type PlanProps = Pick<ItemContextProps, 'items' | 'refreshData'> & {
   navigation: NavigationScreenProp<NavigationRoute>;
   input: {
     title: string;
@@ -44,7 +47,6 @@ type PlanProps = Pick<ContextProps, 'items' | 'refreshData'> & {
   onImage: (image: string) => void;
   onSave: () => void;
   onIcons: () => void;
-  onCamera: () => void;
   onHome: () => void;
 };
 
@@ -58,50 +60,21 @@ type State = {
   calendar: Calendar;
 };
 
-export default class extends Component<Props> {
-  static navigationOptions = ({
-    navigation,
-  }: {
-    navigation: NavigationScreenProp<NavigationRoute>;
-  }) => {
-    return {
-      title: 'タイトル編集',
-      headerLeft: (
-        <View style={styles.headerLeft}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.goBack();
-            }}
-          >
-            <MaterialCommunityIcons
-              name="chevron-left"
-              size={25}
-              color={theme().color.lightGreen}
-            />
-          </TouchableOpacity>
-        </View>
-      ),
-    };
-  };
+export default (props: Props) => {
+  const { refreshData, items, calendars } = useContext(ItemsContext);
 
-  render() {
-    return (
-      <ItemsConsumer>
-        {({ refreshData, items, calendars }: ContextProps) => (
-          <Connected
-            navigation={this.props.navigation}
-            items={items}
-            refreshData={refreshData}
-            calendars={calendars}
-          />
-        )}
-      </ItemsConsumer>
-    );
-  }
-}
+  return (
+    <Connected
+      navigation={props.navigation}
+      items={items}
+      refreshData={refreshData}
+      calendars={calendars}
+    />
+  );
+};
 
-class Connected extends Component<ConnectedProps, State> {
-  state = {
+const Connected = memo((props: ConnectedProps) => {
+  const [state, setState] = useState<State>({
     input: { title: '', date: '' },
     image: '',
     kind: '',
@@ -110,10 +83,10 @@ class Connected extends Component<ConnectedProps, State> {
       itemId: 0,
       date: '',
     },
-  };
+  });
 
-  componentDidMount() {
-    const id = this.props.navigation.getParam('id', 0);
+  useDidMount(() => {
+    const id = props.navigation.getParam('id', 0);
     let input: {
       date: string;
       title: string;
@@ -122,18 +95,20 @@ class Connected extends Component<ConnectedProps, State> {
       title: '',
     };
 
-    const calendar = (this.props.calendars || []).find(
+    const calendar = (props.calendars || []).find(
       item => Number(id) === Number(item.itemId)
     );
 
     if (calendar && calendar.date) {
       input.date = calendar.date;
-      this.setState({
+      setState(s => ({
+        ...s,
+        ...state,
         calendar,
-      });
+      }));
     }
 
-    const schedule = (this.props.items || []).find(
+    const schedule = (props.items || []).find(
       item => Number(id) === Number(item.id)
     );
 
@@ -141,53 +116,91 @@ class Connected extends Component<ConnectedProps, State> {
       input.title = schedule.title;
     }
 
-    const image = this.props.navigation.getParam('image', '');
-    const kind = this.props.navigation.getParam('kind', '');
+    const image = props.navigation.getParam('image', '');
+    const kind = props.navigation.getParam('kind', '');
 
-    this.setState({
+    setState(s => ({
+      ...s,
       input,
       image,
       kind,
-    });
-  }
+    }));
+  });
 
-  async componentDidUpdate() {
-    const image = this.props.navigation.getParam('image', '');
-    if (image && image !== this.state.image) {
-      this.setState({
+  useEffect(() => {
+    const image = props.navigation.getParam('image', '');
+    if (image && image !== state.image) {
+      setState(s => ({
+        ...s,
         image,
-      });
+      }));
     }
 
-    const kind = this.props.navigation.getParam('kind', '');
-    if (kind && kind !== this.state.kind) {
-      this.setState({
+    const kind = props.navigation.getParam('kind', '');
+    if (kind && kind !== state.kind) {
+      setState(s => ({
+        ...s,
         kind,
-      });
+      }));
     }
-  }
+  }, [props.navigation, state]);
 
-  onImage = (image: string) => {
-    this.setState({
+  const onImage = useCallback((image: string) => {
+    setState(s => ({
+      ...s,
       image,
-    });
-  };
+    }));
+  }, []);
 
-  onInput = (name: string, value: any) => {
-    const input = {
-      ...this.state.input,
-      [name]: value,
-    };
+  const onInput = useCallback(
+    (name: string, value: any) => {
+      const input = {
+        ...state.input,
+        [name]: value,
+      };
 
-    this.setState({
-      input,
-    });
-  };
+      setState(s => ({
+        ...s,
+        input,
+      }));
+    },
+    [state]
+  );
 
-  onSave = async () => {
-    if (this.state.input.date) {
-      const check = (this.props.calendars || []).find(
-        calendar => calendar.date === this.state.input.date
+  const save = useCallback(
+    (_: Item[], error: ResultError) => {
+      if (error) {
+        Alert.alert('保存に失敗しました');
+        return;
+      }
+
+      const id = props.navigation.getParam('id', 0);
+
+      props.navigation.navigate('Schedule', {
+        itemId: id,
+        title: state.input.title,
+      });
+    },
+    [props.navigation, state.input.title]
+  );
+
+  const saveCalendar = useCallback(
+    (_: Calendar | number, error: ResultError) => {
+      if (error) {
+        return;
+      }
+
+      if (props.refreshData) {
+        props.refreshData();
+      }
+    },
+    [props]
+  );
+
+  const onSave = useCallback(async () => {
+    if (state.input.date) {
+      const check = (props.calendars || []).find(
+        calendar => calendar.date === state.input.date
       );
 
       if (check) {
@@ -196,181 +209,133 @@ class Connected extends Component<ConnectedProps, State> {
       }
     }
 
-    let image = '';
-    if (this.state.image) {
-      const manipResult = await ImageManipulator.manipulateAsync(
-        this.state.image,
-        [{ rotate: 0 }, { flip: { vertical: true } }],
-        { format: 'png', base64: true }
-      );
-
-      image = manipResult.base64 || '';
-    }
-
     db.transaction((tx: SQLite.Transaction) => {
-      const id = this.props.navigation.getParam('id', 0);
+      const id = props.navigation.getParam('id', 0);
 
       const item: Item = {
         id,
-        title: this.state.input.title,
-        kind: this.state.kind || getKind(this.state.input.title),
-        image,
+        title: state.input.title,
+        kind: state.kind || getKind(state.input.title),
+        image: '',
       };
 
-      updateItem(tx, item, this.save);
+      updateItem(tx, item, save);
 
-      if (!this.state.input.date) {
+      if (!state.input.date) {
         return;
       }
 
-      if (this.state.calendar.id) {
+      if (state.calendar.id) {
         updateCalendar(
           tx,
           {
-            ...this.state.calendar,
-            date: this.state.input.date,
+            ...state.calendar,
+            date: state.input.date,
           },
-          this.saveCalendar
+          saveCalendar
         );
       } else {
         insertCalendar(
           tx,
           {
             itemId: id,
-            date: this.state.input.date,
+            date: state.input.date,
           },
-          this.saveCalendar
+          saveCalendar
         );
       }
     });
-  };
+  }, [
+    props.calendars,
+    props.navigation,
+    save,
+    saveCalendar,
+    state.calendar,
+    state.input.date,
+    state.input.title,
+    state.kind,
+  ]);
 
-  save = (_: Item[], error: ResultError) => {
-    if (error) {
-      Alert.alert('保存に失敗しました');
-      return;
-    }
-
-    const id = this.props.navigation.getParam('id', 0);
-
-    this.props.navigation.navigate('Schedule', {
-      itemId: id,
-      title: this.state.input.title,
-    });
-  };
-
-  saveCalendar = (_: Calendar | number, error: ResultError) => {
-    if (error) {
-      return;
-    }
-
-    if (this.props.refreshData) {
-      this.props.refreshData();
-    }
-  };
-
-  onIcons = () => {
-    this.props.navigation.navigate('Icons', {
-      kind: getKind(this.state.input.title),
+  const onIcons = useCallback(() => {
+    props.navigation.navigate('Icons', {
+      kind: getKind(state.input.title),
       onSelectIcon: (kind: string) => {
-        this.props.navigation.navigate('EditPlan', {
+        props.navigation.navigate('EditPlan', {
           kind: kind,
         });
       },
       onDismiss: () => {
-        this.props.navigation.navigate('EditPlan');
+        props.navigation.navigate('EditPlan');
       },
       photo: true,
     });
-  };
+  }, [props.navigation, state.input.title]);
 
-  onCamera = () => {
-    this.props.navigation.navigate('Camera', {
-      onPicture: (image?: string) => {
-        this.props.navigation.navigate('EditPlan', {
-          image,
-        });
-      },
-      onDismiss: () => {
-        this.props.navigation.navigate('EditPlan');
-      },
-    });
-  };
+  const onHome = useCallback(() => {
+    props.navigation.goBack();
+  }, [props.navigation]);
 
-  onHome = () => {
-    this.props.navigation.goBack();
-  };
+  console.log(state);
 
-  render() {
-    return (
-      <Plan
-        navigation={this.props.navigation}
-        input={this.state.input}
-        image={this.state.image}
-        kind={this.state.kind}
-        items={this.props.items}
-        refreshData={this.props.refreshData}
-        onInput={this.onInput}
-        onImage={this.onImage}
-        onSave={this.onSave}
-        onIcons={this.onIcons}
-        onCamera={this.onCamera}
-        onHome={this.onHome}
-      />
-    );
-  }
-}
+  return (
+    <Plan
+      navigation={props.navigation}
+      input={state.input}
+      image={state.image}
+      kind={state.kind}
+      items={props.items}
+      refreshData={props.refreshData}
+      onInput={onInput}
+      onImage={onImage}
+      onSave={onSave}
+      onIcons={onIcons}
+      onHome={onHome}
+    />
+  );
+});
 
-interface PlanState {
+type PlanState = {
   suggestList: SuggestItem[];
-}
+};
 
-class Plan extends Component<PlanProps, PlanState> {
-  state = {
+const Plan = memo((props: PlanProps) => {
+  const [state, setState] = useState<PlanState>({
     suggestList: [],
-  };
+  });
 
-  componentDidMount() {
-    const suggestList = (this.props.items || []).map(item => ({
+  useDidMount(() => {
+    const suggestList = (props.items || []).map(item => ({
       title: item.title,
       kind: item.kind,
     }));
 
-    this.setState({
+    setState(s => ({
+      ...s,
       suggestList,
-    });
-  }
+    }));
+  });
 
-  onSave = async () => {
-    await this.props.onSave();
+  const onSave = useCallback(async () => {
+    await props.onSave();
 
-    if (this.props.refreshData) {
-      this.props.refreshData();
+    if (props.refreshData) {
+      props.refreshData();
     }
-  };
+  }, [props]);
 
-  render() {
-    return (
-      <Page
-        mode="edit"
-        title={this.props.input.title}
-        date={this.props.input.date}
-        image={this.props.image}
-        kind={this.props.kind}
-        suggestList={this.state.suggestList}
-        onInput={this.props.onInput}
-        onImage={this.props.onImage}
-        onSave={this.onSave}
-        onIcons={this.props.onIcons}
-        onCamera={this.props.onCamera}
-        onHome={this.props.onHome}
-      />
-    );
-  }
-}
-
-const styles = EStyleSheet.create({
-  headerLeft: {
-    left: 10,
-  },
+  return (
+    <Page
+      mode="edit"
+      title={props.input.title}
+      date={props.input.date}
+      image={props.image}
+      kind={props.kind}
+      suggestList={state.suggestList}
+      onInput={props.onInput}
+      onImage={props.onImage}
+      onSave={onSave}
+      onIcons={props.onIcons}
+      onHome={props.onHome}
+    />
+  );
 });

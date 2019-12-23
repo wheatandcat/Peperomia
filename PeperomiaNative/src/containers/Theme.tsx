@@ -54,11 +54,11 @@ export default (props: Props) => {
         setMode(mode);
       }
 
-      setState({
-        ...state,
-        mode,
+      setState(s => ({
+        rerendering: s.rerendering,
+        mode: String(mode),
         render: true,
-      });
+      }));
     };
 
     checkMode();
@@ -82,11 +82,11 @@ export default (props: Props) => {
 
   const onModeChange = useCallback(
     async (mode: 'light' | 'dark') => {
-      setState({
-        ...state,
+      setState(s => ({
+        ...s,
         mode,
         rerendering: true,
-      });
+      }));
 
       await AsyncStorage.setItem('THEME_MODE', mode);
 
@@ -96,15 +96,15 @@ export default (props: Props) => {
         setTimeout(setRender, 101);
       }
     },
-    [setRender, setUnRender, state]
+    [setRender, setUnRender]
   );
 
   const onFinishRerendering = useCallback(() => {
-    setState({
-      ...state,
+    setState(s => ({
+      ...s,
       rerendering: false,
-    });
-  }, [state]);
+    }));
+  }, []);
 
   return (
     <>
