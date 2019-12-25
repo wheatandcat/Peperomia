@@ -1,24 +1,31 @@
 import * as ImageManipulator from 'expo-image-manipulator';
 import * as SQLite from 'expo-sqlite';
-import React, { Component } from 'react';
+import React, {
+  useState,
+  memo,
+  useEffect,
+  useCallback,
+  useContext,
+} from 'react';
 import { Alert } from 'react-native';
 import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import {
-  Consumer as ItemsConsumer,
-  ContextProps,
+  Context as ItemsContext,
+  ContextProps as ItemContextProps,
 } from '../../../containers/Items';
 import { db, ResultError } from '../../../lib/db';
 import { insert as insertItem, Item } from '../../../lib/db/item';
 import { insert as insertCalendar, Calendar } from '../../../lib/db/calendar';
 import { SuggestItem } from '../../../lib/suggest';
 import getKind from '../../../lib/getKind';
+import { useDidMount } from '../../../hooks/index';
 import Page from '../../templates/CreatePlan/Page';
 
-interface Props {
+type Props = {
   navigation: NavigationScreenProp<NavigationRoute>;
-}
+};
 
-interface State {
+type State = {
   input: {
     title: string;
     date: string;
@@ -26,89 +33,149 @@ interface State {
   image: string;
   kind: string;
   suggestList: SuggestItem[];
-}
+};
 
-export default class extends Component<Props> {
-  render() {
-    return (
-      <ItemsConsumer>
-        {({ items, refreshData, calendars }: ContextProps) => (
-          <Connect
-            {...this.props}
-            items={items}
-            refreshData={refreshData}
-            calendars={calendars}
-          />
-        )}
-      </ItemsConsumer>
-    );
-  }
-}
+export default (props: Props) => {
+  const { items, refreshData, calendars } = useContext(ItemsContext);
+
+  return (
+    <Connect
+      {...props}
+      items={items}
+      refreshData={refreshData}
+      calendars={calendars}
+    />
+  );
+};
 
 type ConnectProps = Props &
-  Pick<ContextProps, 'items' | 'refreshData' | 'calendars'>;
+  Pick<ItemContextProps, 'items' | 'refreshData' | 'calendars'>;
 
-class Connect extends Component<ConnectProps, State> {
-  state = {
+const Connect = memo((props: ConnectProps) => {
+  const [state, setState] = useState<State>({
     input: { title: '', date: '' },
     image: '',
     kind: '',
     suggestList: [],
-  };
+  });
 
-  componentDidMount() {
-    const date = this.props.navigation.getParam('date', '');
+  useDidMount(() => {
+    const date = props.navigation.getParam('date', '');
 
-    const suggestList = (this.props.items || []).map(item => ({
+    const suggestList = (props.items || []).map(item => ({
       title: item.title,
       kind: item.kind,
     }));
 
-    this.setState({
+    setState(s => ({
+      ...s,
       suggestList,
       input: {
-        ...this.state.input,
+        ...s.input,
         date,
       },
-    });
-  }
+    }));
+  });
 
-  async componentDidUpdate() {
-    const image = this.props.navigation.getParam('image', '');
-    if (image && image !== this.state.image) {
-      this.setState({
+  useEffect(() => {
+    const image = props.navigation.getParam('image', '');
+    if (image && image !== state.image) {
+      setState(s => ({
+        ...s,
         image,
-      });
+      }));
     }
 
-    const kind = this.props.navigation.getParam('kind', '');
+    const kind = props.navigation.getParam('kind', '');
 
-    if (kind && kind !== this.state.kind) {
-      this.setState({
+    if (kind && kind !== state.kind) {
+      setState(s => ({
+        ...s,
         kind,
-      });
+      }));
     }
-  }
+  }, [props.navigation, state.image, state.kind]);
 
-  onImage = (image: string) => {
-    this.setState({
+  const onImage = useCallback((image: string) => {
+    setState(s => ({
+      ...s,
       image,
-    });
-  };
+    }));
+  }, []);
 
-  onInput = (name: string, value: any) => {
-    this.setState({
+  const onIcons = useCallback(() => {
+    props.navigation.navigate('Icons', {
+      kind: getKind(state.input.title),
+      onSelectIcon: (kind: string) => {
+        props.navigation.navigate('CreatePlan', {
+          kind: kind,
+        });
+      },
+      onDismiss: () => {
+        props.navigation.navigate('CreatePlan');
+      },
+      photo: true,
+    });
+  }, [props.navigation, state.input.title]);
+
+  const pushCreateSchedule = useCallback(
+    (itemId: number) => {
+      if (props.refreshData) {
+        props.refreshData();
+      }
+
+      props.navigation.navigate('CreateSchedule', {
+        itemId,
+        title: state.input.title,
+      });
+    },
+    [props, state.input.title]
+  );
+
+  const onInput = useCallback((name: string, value: string) => {
+    setState(s => ({
+      ...s,
       input: {
-        ...this.state.input,
+        ...s.input,
         [name]: value,
       },
-    });
-  };
+    }));
+  }, []);
 
-  onSave = async () => {
-    if (this.state.input.date) {
-      const check = (this.props.calendars || []).find(
-        calendar => calendar.date === this.state.input.date
+  const save = useCallback(
+    (insertId: number, error: ResultError) => {
+      if (error) {
+        Alert.alert('保存に失敗しました');
+        return;
+      }
+
+      if (state.input.date) {
+        // 日付のデータがある場合ははcalendarに登録する
+        db.transaction((tx: SQLite.Transaction) => {
+          const item: Calendar = {
+            itemId: insertId,
+            date: state.input.date,
+          };
+
+          insertCalendar(tx, item, (_, err: ResultError) => {
+            if (err) {
+              return;
+            }
+
+            pushCreateSchedule(insertId);
+          });
+        });
+      } else {
+        pushCreateSchedule(insertId);
+      }
+    },
+    [pushCreateSchedule, state.input.date]
+  );
+
+  const onSave = useCallback(async () => {
+    if (state.input.date) {
+      const check = (props.calendars || []).find(
+        calendar => calendar.date === state.input.date
       );
 
       if (check) {
@@ -118,9 +185,9 @@ class Connect extends Component<ConnectProps, State> {
     }
 
     let image = '';
-    if (this.state.image) {
+    if (state.image) {
       const manipResult = await ImageManipulator.manipulateAsync(
-        this.state.image,
+        state.image,
         [{ rotate: 0 }, { flip: ImageManipulator.FlipType.Vertical }],
         { compress: 1, format: ImageManipulator.SaveFormat.PNG, base64: true }
       );
@@ -130,87 +197,39 @@ class Connect extends Component<ConnectProps, State> {
 
     db.transaction((tx: SQLite.Transaction) => {
       const item: Item = {
-        title: this.state.input.title,
-        kind: this.state.kind || getKind(this.state.input.title),
+        title: state.input.title,
+        kind: state.kind || getKind(state.input.title),
         image,
       };
 
-      insertItem(tx, item, this.save);
+      insertItem(tx, item, save);
     });
-  };
+  }, [
+    props.calendars,
+    save,
+    state.image,
+    state.input.date,
+    state.input.title,
+    state.kind,
+  ]);
 
-  save = (insertId: number, error: ResultError) => {
-    if (error) {
-      Alert.alert('保存に失敗しました');
-      return;
-    }
+  const onHome = useCallback(() => {
+    props.navigation.goBack(null);
+  }, [props.navigation]);
 
-    if (this.state.input.date) {
-      // 日付のデータがある場合ははcalendarに登録する
-      db.transaction((tx: SQLite.Transaction) => {
-        const item: Calendar = {
-          itemId: insertId,
-          date: this.state.input.date,
-        };
-
-        insertCalendar(tx, item, (_, err: ResultError) => {
-          if (err) {
-            return;
-          }
-
-          this.pushCreateSchedule(insertId);
-        });
-      });
-    } else {
-      this.pushCreateSchedule(insertId);
-    }
-  };
-
-  pushCreateSchedule = (itemId: number) => {
-    if (this.props.refreshData) {
-      this.props.refreshData();
-    }
-
-    this.props.navigation.navigate('CreateSchedule', {
-      itemId,
-      title: this.state.input.title,
-    });
-  };
-
-  onIcons = () => {
-    this.props.navigation.navigate('Icons', {
-      kind: getKind(this.state.input.title),
-      onSelectIcon: (kind: string) => {
-        this.props.navigation.navigate('CreatePlan', {
-          kind: kind,
-        });
-      },
-      onDismiss: () => {
-        this.props.navigation.navigate('CreatePlan');
-      },
-      photo: true,
-    });
-  };
-
-  onHome = () => {
-    this.props.navigation.goBack(null);
-  };
-
-  render() {
-    return (
-      <Page
-        mode="new"
-        title={this.state.input.title}
-        date={this.state.input.date}
-        image={this.state.image}
-        kind={this.state.kind}
-        suggestList={this.state.suggestList}
-        onInput={this.onInput}
-        onImage={this.onImage}
-        onSave={this.onSave}
-        onIcons={this.onIcons}
-        onHome={this.onHome}
-      />
-    );
-  }
-}
+  return (
+    <Page
+      mode="new"
+      title={state.input.title}
+      date={state.input.date}
+      image={state.image}
+      kind={state.kind}
+      suggestList={state.suggestList}
+      onInput={onInput}
+      onImage={onImage}
+      onSave={onSave}
+      onIcons={onIcons}
+      onHome={onHome}
+    />
+  );
+});
