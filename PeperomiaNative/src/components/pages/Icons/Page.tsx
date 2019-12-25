@@ -17,8 +17,6 @@ type PropsBase = {
   defaultIcon: boolean;
   photo: boolean;
   onSelectIcon: (kind: string) => void;
-  onPhoto: () => void;
-  onCamera: () => void;
 };
 
 export type Props = PropsBase & ActionSheetProps;
@@ -30,23 +28,6 @@ export interface State {
 class Page extends Component<Props, State> {
   state = {
     search: '',
-  };
-
-  onOpenActionSheet = () => {
-    this.props.showActionSheetWithOptions(
-      {
-        options: ['写真を撮影する', 'フォトライブラリー', 'キャンセル'],
-        cancelButtonIndex: 2,
-      },
-      buttonIndex => {
-        if (buttonIndex === 0) {
-          this.props.onCamera();
-        }
-        if (buttonIndex === 1) {
-          this.props.onPhoto();
-        }
-      }
-    );
   };
 
   render() {
