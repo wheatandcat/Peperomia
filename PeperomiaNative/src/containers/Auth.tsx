@@ -1,143 +1,53 @@
 import * as GoogleSignIn from 'expo-google-sign-in';
 import * as Google from 'expo-google-app-auth';
 import { AsyncStorage, Platform } from 'react-native';
-import React, { createContext, Component } from 'react';
+import React, { createContext, ReactNode, useState, useCallback } from 'react';
 import Constants from 'expo-constants';
 import * as Sentry from 'sentry-expo';
 import * as firebase from 'firebase';
+import { useDidMount } from '../hooks/index';
 
 export const Context = createContext<ContextProps>({});
 const { Provider } = Context;
 
-interface Props {}
+type Props = {
+  children: ReactNode;
+};
 
-interface State {
+type State = {
   uid: string;
   email: string;
-}
+};
 
 export type ContextProps = Partial<
-  Pick<State, 'email' | 'uid'> &
-    Pick<AuthProvider, 'onGoogleLogin' | 'getIdToken' | 'loggedIn' | 'logout'>
+  Pick<State, 'email' | 'uid'> & {
+    onGoogleLogin: () => Promise<void>;
+    getIdToken: () => Promise<string | null>;
+    loggedIn: () => Promise<boolean>;
+    logout: () => Promise<void>;
+  }
 >;
 
 const isStandaloneAndAndroid = () => {
   return Platform.OS === 'android' && Constants.appOwnership !== 'expo';
 };
 
-export default class AuthProvider extends Component<Props, State> {
-  state = {
+export default (props: Props) => {
+  const [state, setState] = useState<State>({
     email: '',
     uid: '',
-  };
+  });
 
-  async componentDidMount() {
-    if (isStandaloneAndAndroid()) {
-      const androidClientId = process.env.GOOGLE_LOGIN_ANDROID_CLIENT_ID;
-      try {
-        await GoogleSignIn.initAsync({
-          clientId: String(androidClientId),
-        });
-      } catch ({ message }) {
-        Sentry.captureMessage(JSON.stringify(message));
-      }
-    }
-
-    const loggedIn = await this.loggedIn();
-
-    if (loggedIn && !this.state.uid) {
-      const uid = await AsyncStorage.getItem('uid');
-      if (uid) {
-        this.setState({
-          uid,
-        });
-      }
-    }
-
-    if (loggedIn && !this.state.email) {
-      const email = await AsyncStorage.getItem('email');
-      if (email) {
-        this.setState({
-          email,
-        });
-      }
-    }
-  }
-
-  onGoogleLogin = async () => {
-    if (isStandaloneAndAndroid()) {
-      // TODO: AndroidのstandaloneのみGoogleSignInを使わないとエラーになる
-      // https://github.com/expo/expo/issues/4762
-
-      await GoogleSignIn.askForPlayServicesAsync();
-      const result = await GoogleSignIn.signInAsync();
-
-      if (result.type === 'success' && result.user && result.user.auth) {
-        const { idToken, accessToken } = result.user.auth;
-        await this.firebaseLogin(idToken || '', accessToken || '');
-      } else {
-        Sentry.captureMessage(JSON.stringify(result));
-      }
-    } else {
-      const androidClientId = process.env.GOOGLE_LOGIN_ANDROID_CLIENT_ID;
-      const iosClientId = process.env.GOOGLE_LOGIN_IOS_CLIENT_ID;
-      const result = await Google.logInAsync({
-        clientId:
-          Platform.OS === 'ios' ? String(iosClientId) : String(androidClientId),
-        iosClientId,
-        androidClientId,
-        scopes: ['profile', 'email'],
-      });
-
-      if (result.type === 'success') {
-        const { idToken, accessToken } = result;
-        await this.firebaseLogin(idToken || '', accessToken || '');
-      } else {
-        Sentry.captureMessage(JSON.stringify(result));
-      }
-    }
-  };
-
-  firebaseLogin = async (idToken: string, accessToken: string) => {
-    const credential = firebase.auth.GoogleAuthProvider.credential(
-      idToken,
-      accessToken
-    );
-
-    await firebase
-      .auth()
-      .signInAndRetrieveDataWithCredential(credential)
-      .catch(error => {
-        Sentry.captureMessage(JSON.stringify(error));
-      });
-
-    await this.setSession(true);
-  };
-
-  loggedIn = async () => {
-    const idToken = await this.getIdToken();
-
-    return Boolean(idToken);
-  };
-
-  logout = async () => {
-    await firebase.auth().signOut();
-
-    await AsyncStorage.removeItem('id_token');
-    await AsyncStorage.removeItem('expiration');
-    await AsyncStorage.removeItem('email');
-  };
-
-  setSession = async (refresh = false) => {
+  const setSession = useCallback(async (refresh = false) => {
     const user = firebase.auth().currentUser;
     if (!user) {
-      return;
+      return null;
     }
 
     if (user.email) {
       await AsyncStorage.setItem('email', user.email);
       await AsyncStorage.setItem('uid', user.uid);
-      this.setState({
+      setState({
         email: user.email,
         uid: user.uid,
       });
@@ -151,9 +61,9 @@ export default class AuthProvider extends Component<Props, State> {
     );
 
     return idToken;
-  };
+  }, []);
 
-  getIdToken = async () => {
+  const getIdToken = useCallback(async () => {
     const idToken = await AsyncStorage.getItem('id_token');
     if (!idToken) {
       return null;
@@ -164,25 +74,131 @@ export default class AuthProvider extends Component<Props, State> {
       return idToken;
     }
 
-    return this.setSession(true);
-  };
+    return setSession(true);
+  }, [setSession]);
 
-  render() {
-    return (
-      <Provider
-        value={{
-          onGoogleLogin: this.onGoogleLogin,
-          getIdToken: this.getIdToken,
-          loggedIn: this.loggedIn,
-          logout: this.logout,
-          email: this.state.email,
-          uid: this.state.uid,
-        }}
-      >
-        {this.props.children}
-      </Provider>
-    );
-  }
-}
+  const loggedIn = useCallback(async () => {
+    const idToken = await getIdToken();
+
+    return Boolean(idToken);
+  }, [getIdToken]);
+
+  const firebaseLogin = useCallback(
+    async (idToken: string, accessToken: string) => {
+      const credential = firebase.auth.GoogleAuthProvider.credential(
+        idToken,
+        accessToken
+      );
+
+      const data = await firebase
+        .auth()
+        .signInWithCredential(credential)
+        .catch(error => {
+          Sentry.captureMessage(JSON.stringify(error));
+        });
+      console.log(data);
+
+      await setSession(true);
+    },
+    [setSession]
+  );
+
+  const onGoogleLogin = useCallback(async () => {
+    if (isStandaloneAndAndroid()) {
+      // TODO: AndroidのstandaloneのみGoogleSignInを使わないとエラーになる
+      // https://github.com/expo/expo/issues/4762
+
+      await GoogleSignIn.askForPlayServicesAsync();
+      const result = await GoogleSignIn.signInAsync();
+
+      if (result.type === 'success' && result.user && result.user.auth) {
+        const { idToken, accessToken } = result.user.auth;
+        await firebaseLogin(idToken || '', accessToken || '');
+      } else {
+        Sentry.captureMessage(JSON.stringify(result));
+      }
+    } else {
+      const androidClientId = process.env.GOOGLE_LOGIN_ANDROID_CLIENT_ID;
+      const iosClientId = process.env.GOOGLE_LOGIN_IOS_CLIENT_ID;
+      const result = await Google.logInAsync({
+        clientId:
+          Platform.OS === 'ios' ? String(iosClientId) : String(androidClientId),
+        iosClientId,
+        androidClientId,
+        scopes: ['profile', 'email'],
+      });
+      console.log(result);
+
+      if (result.type === 'success') {
+        const { idToken, accessToken } = result;
+        await firebaseLogin(idToken || '', accessToken || '');
+      } else {
+        Sentry.captureMessage(JSON.stringify(result));
+      }
+    }
+  }, [firebaseLogin]);
+
+  useDidMount(() => {
+    if (isStandaloneAndAndroid()) {
+      const androidClientId = process.env.GOOGLE_LOGIN_ANDROID_CLIENT_ID;
+      try {
+        GoogleSignIn.initAsync({
+          clientId: String(androidClientId),
+        });
+      } catch ({ message }) {
+        Sentry.captureMessage(JSON.stringify(message));
+      }
+    }
+
+    const checkLogin = async () => {
+      const login = await loggedIn();
+
+      if (login && !state.uid) {
+        const uid = await AsyncStorage.getItem('uid');
+        if (uid) {
+          setState(s => ({
+            ...s,
+            uid,
+          }));
+        }
+      }
+
+      if (login && !state.email) {
+        const email = await AsyncStorage.getItem('email');
+        if (email) {
+          setState(s => ({
+            ...s,
+            email,
+          }));
+        }
+      }
+    };
+
+    checkLogin();
+  });
+
+  return (
+    <Provider
+      value={{
+        onGoogleLogin: onGoogleLogin,
+        getIdToken: getIdToken,
+        loggedIn: loggedIn,
+        logout: logout,
+        email: state.email,
+        uid: state.uid,
+      }}
+    >
+      {props.children}
+    </Provider>
+  );
+};
+
+const logout = async () => {
+  await firebase.auth().signOut();
+
+  await AsyncStorage.removeItem('id_token');
+  await AsyncStorage.removeItem('expiration');
+  await AsyncStorage.removeItem('email');
+};
 
 export const Consumer = Context.Consumer;

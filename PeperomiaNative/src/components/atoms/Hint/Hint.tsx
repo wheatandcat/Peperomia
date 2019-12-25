@@ -1,74 +1,66 @@
-import React, { Component } from 'react';
+import React, { ReactNode, memo, useState, useCallback } from 'react';
 import { TouchableOpacity, AsyncStorage } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { useDidMount } from '../../../hooks/index';
 import BottomRight from './BottomRight';
 
-interface Props {
+type Props = {
   onPress: () => void;
   testID: string;
-}
+  children: ReactNode;
+};
 
-interface State {
+type State = {
   visible: boolean;
-}
+};
 
-export default class extends Component<Props, State> {
-  state = {
+export default memo((props: Props) => {
+  const [state, setState] = useState<State>({
     visible: false,
-  };
+  });
 
-  async componentDidMount() {
-    const visible = await AsyncStorage.getItem('FIRST_CRAEATE_ITEM');
-    console.log(visible);
+  useDidMount(() => {
+    const setup = async () => {
+      const visible = await AsyncStorage.getItem('FIRST_CRAEATE_ITEM');
 
-    this.setState({
-      visible: !visible,
-    });
-  }
+      setState({
+        visible: !visible,
+      });
+    };
 
-  onPress = () => {
-    this.setState({
+    setup();
+  });
+
+  const onPushPress = useCallback(() => {
+    setState({
       visible: false,
     });
 
     AsyncStorage.setItem('FIRST_CRAEATE_ITEM', 'true');
-  };
+    props.onPress();
+  }, [props]);
 
-  onPushPress = () => {
-    this.setState({
-      visible: false,
-    });
-
-    AsyncStorage.setItem('FIRST_CRAEATE_ITEM', 'true');
-    this.props.onPress();
-  };
-
-  render() {
-    if (!this.state.visible) {
-      return (
-        <TouchableOpacity
-          onPress={this.props.onPress}
-          testID={this.props.testID}
-        >
-          {this.props.children}
-        </TouchableOpacity>
-      );
-    }
-
+  if (!state.visible) {
     return (
-      <>
-        <BottomRight />
-        <TouchableOpacity
-          onPress={this.onPushPress}
-          testID={this.props.testID}
-          style={styles.tap}
-        >
-          {this.props.children}
-        </TouchableOpacity>
-      </>
+      <TouchableOpacity onPress={props.onPress} testID={props.testID}>
+        {props.children}
+      </TouchableOpacity>
     );
   }
-}
+
+  return (
+    <>
+      <BottomRight />
+      <TouchableOpacity
+        onPress={onPushPress}
+        testID={props.testID}
+        style={styles.tap}
+      >
+        {props.children}
+      </TouchableOpacity>
+    </>
+  );
+});
 
 const styles = EStyleSheet.create({
   tap: { padding: 5 },

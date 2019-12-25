@@ -25,7 +25,7 @@ import { deleteByItemId as deleteItemDetailByItemId } from '../../../lib/db/item
 import { deleteByItemId as deleteCalendarByItemId } from '../../../lib/db/calendar';
 import {
   Context as ItemsContext,
-  ContextProps,
+  ContextProps as ItemContextProps,
 } from '../../../containers/Items';
 import {
   Context as ThemeContext,
@@ -49,7 +49,10 @@ type State = {
   mask: boolean;
 };
 
-export type PlanProps = Pick<ContextProps, 'items' | 'about' | 'refreshData'> &
+export type PlanProps = Pick<
+  ItemContextProps,
+  'items' | 'about' | 'refreshData'
+> &
   Pick<ThemeContextProps, 'rerendering' | 'onFinishRerendering'> & {
     loading: boolean;
     refresh: string;
@@ -154,9 +157,7 @@ export type HomeScreenPlanType = {
 
 const HomeScreenPlan = memo((props: PlanProps) => {
   const { navigate } = useNavigation();
-  const navigation = useContext(NavigationContext);
   const [state, setState] = useState<PlanState>({ refresh: '' });
-  console.log(navigation);
 
   useDidMount(() => {
     if (props.rerendering) {

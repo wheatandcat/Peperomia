@@ -72,9 +72,7 @@ class Connected extends Component<ConnectedProps> {
   };
 
   saveUser = async () => {
-    console.log('saveUser');
     const response = await this.props.post('CreateUser', {});
-    console.log(response);
 
     if (!response.ok) {
       Alert.alert('ユーザーの保存に失敗しました。');

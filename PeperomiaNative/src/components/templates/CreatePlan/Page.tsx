@@ -8,8 +8,6 @@ import {
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Divider, Button } from 'react-native-elements';
-import * as Permissions from 'expo-permissions';
-import * as ImagePicker from 'expo-image-picker';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import 'dayjs/locale/ja';
@@ -46,7 +44,6 @@ type PropsBase = {
   onImage: (image: string) => void;
   onSave: () => void;
   onIcons: () => void;
-  onCamera: () => void;
   onHome: () => void;
 };
 
@@ -113,27 +110,6 @@ class Page extends Component<Props> {
         }
       }
     );
-  };
-
-  _pickImage = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({
-      hasCameraPermission: status === 'granted',
-    });
-
-    await Promise.all([
-      Permissions.askAsync(Permissions.CAMERA),
-      Permissions.askAsync(Permissions.CAMERA_ROLL),
-    ]);
-
-    let result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      aspect: [4, 3],
-    });
-
-    if (!result.cancelled) {
-      this.props.onImage(result.uri);
-    }
   };
 
   onSave = () => {

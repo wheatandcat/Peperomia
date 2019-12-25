@@ -1,35 +1,27 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { ItemDetail } from '../../../lib/db/itemDetail';
 import Page from '../../templates/SortableSchedule/Page';
 
-export interface SortableItemDetail extends ItemDetail {
+export type SortableItemDetail = ItemDetail & {
   tmpId?: number;
-}
+};
 
-interface Props {
+type Props = {
   items: SortableItemDetail[];
   onChangeItems: (data: ItemDetail[]) => void;
-}
+};
 
-export interface State {
+export type State = {
   items: ItemDetail[];
   ready: boolean;
-}
+};
 
-export default class extends Component<Props, State> {
-  state = { items: this.props.items, ready: true };
+export default (props: Props) => {
+  const items = props.items.map(item => ({
+    ...item,
+    tmpId: item.id,
+    id: item.priority,
+  }));
 
-  componentDidMount() {
-    const items = this.state.items.map(item => ({
-      ...item,
-      tmpId: item.id,
-      id: item.priority,
-    }));
-
-    this.setState({ ready: false, items });
-  }
-
-  render() {
-    return <Page data={this.state.items} onChange={this.props.onChangeItems} />;
-  }
-}
+  return <Page data={items} onChange={props.onChangeItems} />;
+};
