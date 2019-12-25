@@ -1,12 +1,24 @@
 import * as SQLite from 'expo-sqlite';
-import React, { Component } from 'react';
-import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
+import React, {
+  useState,
+  memo,
+  useCallback,
+  useEffect,
+  useContext,
+} from 'react';
+import {
+  NavigationScreenProp,
+  NavigationRoute,
+  NavigationContext,
+} from 'react-navigation';
+import { useNavigation } from 'react-navigation-hooks';
 import { db, ResultError } from '../../../lib/db';
 import {
   selectByItemId,
   ItemDetail,
   update as updateItemDetail,
 } from '../../../lib/db/itemDetail';
+import { useDidMount } from '../../../hooks/index';
 import Page from './Page';
 
 type Props = {
@@ -21,87 +33,107 @@ type State = {
   refresh: string;
 };
 
-export default class extends Component<Props, State> {
-  state = { items: [], refresh: '' };
+export default memo((props: Props) => {
+  const [state, setState] = useState<State>({ items: [], refresh: '' });
+  const navigation = useContext(NavigationContext);
+  const { navigate } = useNavigation();
 
-  componentDidMount() {
-    const itemId = this.props.navigation.getParam('itemId', '1');
+  const save = useCallback(() => {}, []);
 
-    this.getData(itemId);
-  }
+  const setItems = useCallback(
+    (data: ItemDetail[], error: ResultError) => {
+      if (error) {
+        return;
+      }
 
-  componentDidUpdate() {
-    const refresh = this.props.navigation.getParam('refresh', '');
-    const itemId = this.props.navigation.getParam('itemId', '1');
+      const prioritys = data.map(item => item.priority);
+      const uniquePrioritys = prioritys.filter(
+        (x: number, i: number, self: number[]) => self.indexOf(x) === i
+      );
 
-    if (this.state.refresh === refresh) {
-      return;
-    }
+      // priorityが重複していない
+      if (prioritys.length === uniquePrioritys.length) {
+        navigation.setParams({
+          items: data,
+        });
+        setState(s => ({
+          ...s,
+          items: data,
+        }));
+      }
 
-    this.setState({ refresh: refresh });
-    this.getData(itemId);
-  }
+      // priorityが重複している場合はid順でpriorityをupdateする
+      const items: ItemDetail[] = data.map(
+        (item: ItemDetail, index: number) => ({
+          ...item,
+          priority: index + 1,
+        })
+      );
 
-  getData = (itemId: string) => {
-    db.transaction((tx: SQLite.Transaction) => {
-      selectByItemId(tx, itemId, this.setItems);
-    });
-  };
-
-  setItems = (data: ItemDetail[], error: ResultError) => {
-    if (error) {
-      return;
-    }
-
-    const prioritys = data.map(item => item.priority);
-    const uniquePrioritys = prioritys.filter(
-      (x: number, i: number, self: number[]) => self.indexOf(x) === i
-    );
-
-    // priorityが重複していない
-    if (prioritys.length === uniquePrioritys.length) {
-      this.props.navigation.setParams({
-        items: data,
+      db.transaction((tx: SQLite.Transaction) => {
+        items.forEach(async (item, index) => {
+          item.priority = index + 1;
+          await updateItemDetail(tx, item, save);
+        });
       });
-      this.setState({ items: data });
+
+      setState(s => ({
+        ...s,
+        items: items,
+      }));
+    },
+    [navigation, save]
+  );
+
+  const getData = useCallback(
+    (itemId: string) => {
+      db.transaction((tx: SQLite.Transaction) => {
+        selectByItemId(tx, itemId, setItems);
+      });
+    },
+    [setItems]
+  );
+
+  useDidMount(() => {
+    const itemId = props.navigation.getParam('itemId', '1');
+    getData(String(itemId));
+  });
+
+  useEffect(() => {
+    const refresh = props.navigation.getParam('refresh', '');
+    const itemId = props.navigation.getParam('itemId', '1');
+
+    if (state.refresh === refresh) {
+      return;
     }
 
-    // priorityが重複している場合はid順でpriorityをupdateする
-    const items: ItemDetail[] = data.map((item: ItemDetail, index: number) => ({
-      ...item,
-      priority: index + 1,
+    setState(s => ({
+      ...s,
+      refresh,
     }));
 
-    db.transaction((tx: SQLite.Transaction) => {
-      items.forEach(async (item, index) => {
-        item.priority = index + 1;
-        await updateItemDetail(tx, item, this.save);
+    getData(String(itemId));
+  }, [getData, props.navigation, state]);
+
+  const onScheduleDetail = useCallback(
+    (id: string) => {
+      const itemId = props.navigation.getParam('itemId', '1');
+
+      navigate('ScheduleDetail', {
+        scheduleDetailId: id,
+        refreshData: () => getData(String(itemId)),
       });
-    });
+    },
+    [getData, navigate, props.navigation]
+  );
 
-    this.setState({ items: items });
-  };
-
-  save = () => {};
-
-  onScheduleDetail = (id: string) => {
-    const itemId = this.props.navigation.getParam('itemId', '1');
-
-    this.props.navigation.navigate('ScheduleDetail', {
-      scheduleDetailId: id,
-      refreshData: () => this.getData(itemId),
-    });
-  };
-
-  render() {
-    return (
-      <Page
-        data={this.state.items}
-        onScheduleDetail={this.onScheduleDetail}
-        onAdd={() => this.props.onAdd(this.state.items)}
-        onSort={() => this.props.onSort(this.state.items)}
-        onDelete={this.props.onDelete}
-      />
-    );
-  }
-}
+  return (
+    <Page
+      data={state.items}
+      onScheduleDetail={onScheduleDetail}
+      onAdd={() => props.onAdd(state.items)}
+      onSort={() => props.onSort(state.items)}
+      onDelete={props.onDelete}
+    />
+  );
+});
