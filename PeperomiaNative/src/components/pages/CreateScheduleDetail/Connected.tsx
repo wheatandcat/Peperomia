@@ -1,5 +1,11 @@
 import * as SQLite from 'expo-sqlite';
-import React, { Component } from 'react';
+import React, {
+  useContext,
+  useState,
+  memo,
+  useEffect,
+  useCallback,
+} from 'react';
 import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import uuidv1 from 'uuid/v1';
 import { db, ResultError } from '../../../lib/db';
@@ -12,168 +18,174 @@ import {
 import { SuggestItem } from '../../../lib/suggest';
 import getKind from '../../../lib/getKind';
 import {
-  Consumer as ItemsConsumer,
-  ContextProps,
+  Context as ItemsContext,
+  ContextProps as ItemContextProps,
 } from '../../../containers/Items';
+import { useDidMount } from '../../../hooks/index';
 import Page from '../../templates/CreateScheduleDetail/Page';
 
-export interface State extends ItemDetailParam {
+type State = ItemDetailParam & {
   iconSelected: boolean;
   priority: number;
   suggestList: SuggestItem[];
-}
+};
 
-interface Props extends ItemDetailParam {
+type Props = ItemDetailParam & {
   navigation: NavigationScreenProp<NavigationRoute>;
-}
+};
 
-type PlanProps = Props & Pick<ContextProps, 'itemDetails' | 'refreshData'>;
+type PlanProps = Props & Pick<ItemContextProps, 'itemDetails' | 'refreshData'>;
 
-export default class extends Component<Props> {
-  render() {
-    return (
-      <ItemsConsumer>
-        {({ refreshData, itemDetails }: ContextProps) => (
-          <Plan
-            {...this.props}
-            refreshData={refreshData}
-            itemDetails={itemDetails}
-          />
-        )}
-      </ItemsConsumer>
-    );
-  }
-}
+export default (props: Props) => {
+  const { refreshData, itemDetails } = useContext(ItemsContext);
 
-class Plan extends Component<PlanProps, State> {
-  state = {
-    title: this.props.title || '',
-    kind: this.props.kind || '',
-    place: this.props.place || '',
-    url: this.props.url || '',
-    memo: this.props.memo || '',
-    moveMinutes: this.props.moveMinutes || 0,
+  return (
+    <Plan {...props} refreshData={refreshData} itemDetails={itemDetails} />
+  );
+};
+
+const Plan = memo((props: PlanProps) => {
+  const [state, setState] = useState<State>({
+    title: props.title || '',
+    kind: props.kind || '',
+    place: props.place || '',
+    url: props.url || '',
+    memo: props.memo || '',
+    moveMinutes: props.moveMinutes || 0,
     iconSelected: false,
     priority: 1,
     suggestList: [],
-  };
+  });
 
-  componentDidMount() {
-    const suggestList = (this.props.itemDetails || []).map(itemDetail => ({
+  const getCount = useCallback((count: number, error: ResultError) => {
+    if (error) {
+      return;
+    }
+
+    setState(s => ({
+      ...s,
+      priority: count + 1,
+    }));
+  }, []);
+
+  useDidMount(() => {
+    const suggestList = (props.itemDetails || []).map(itemDetail => ({
       title: itemDetail.title,
       kind: itemDetail.kind,
     }));
 
-    this.setState({
+    setState(s => ({
+      ...s,
       suggestList,
-    });
+    }));
 
-    const itemId = this.props.navigation.getParam('itemId', '1');
+    const itemId = props.navigation.getParam('itemId', '1');
 
     db.transaction((tx: SQLite.Transaction) => {
-      countByItemId(tx, itemId, this.getCount);
+      countByItemId(tx, itemId, getCount);
     });
-  }
+  });
 
-  componentDidUpdate() {
-    const kind = this.props.navigation.getParam('kind', '');
+  useEffect(() => {
+    const kind = props.navigation.getParam('kind', '');
 
     if (!kind) {
       return;
     }
 
-    if (this.state.kind !== kind) {
-      this.setState({ kind, iconSelected: true });
-    }
-  }
-
-  getCount = (count: number, error: ResultError) => {
-    if (error) {
-      return;
-    }
-
-    this.setState({
-      priority: count + 1,
-    });
-  };
-
-  onDismiss = () => {
-    this.props.navigation.goBack();
-  };
-
-  onSave = (
-    title: string,
-    kind: string,
-    place: string,
-    url: string,
-    memo: string,
-    time: number
-  ) => {
-    const itemId = this.props.navigation.getParam('itemId', '1');
-
-    db.transaction((tx: SQLite.Transaction) => {
-      const itemDetail: ItemDetail = {
-        itemId,
-        title,
+    if (state.kind !== kind) {
+      setState(s => ({
+        ...s,
         kind,
-        place,
-        url,
-        memo,
-        moveMinutes: time,
-        priority: this.state.priority,
-      };
-
-      insertItemDetail(tx, itemDetail, this.save);
-    });
-  };
-
-  save = (_: number, error: ResultError) => {
-    if (error) {
-      return;
+        iconSelected: true,
+      }));
     }
+  }, [props.navigation, state.kind]);
 
-    const itemId = this.props.navigation.getParam('itemId', '1');
+  const onDismiss = useCallback(() => {
+    props.navigation.goBack();
+  }, [props.navigation]);
 
-    this.props.navigation.navigate('CreateSchedule', {
-      itemId,
-      refresh: uuidv1(),
-    });
+  const save = useCallback(
+    (_: number, error: ResultError) => {
+      if (error) {
+        return;
+      }
 
-    if (this.props.refreshData) {
-      this.props.refreshData();
-    }
-  };
+      const itemId = props.navigation.getParam('itemId', '1');
 
-  onIcons = (title: string) => {
-    this.props.navigation.navigate('Icons', {
-      kind: getKind(title),
-      onSelectIcon: (kind: string) => {
-        this.props.navigation.navigate('CreateScheduleDetail', {
-          kind: kind,
-        });
-      },
-      onDismiss: () => {
-        this.props.navigation.navigate('CreateScheduleDetail');
-      },
-      photo: false,
-    });
-  };
+      props.navigation.navigate('CreateSchedule', {
+        itemId,
+        refresh: uuidv1(),
+      });
 
-  render() {
-    return (
-      <Page
-        title={this.state.title}
-        kind={this.state.kind}
-        place={this.state.place}
-        url={this.state.url}
-        memo={this.state.memo}
-        time={this.state.moveMinutes}
-        suggestList={this.state.suggestList}
-        iconSelected={this.state.iconSelected}
-        onDismiss={this.onDismiss}
-        onSave={this.onSave}
-        onIcons={this.onIcons}
-      />
-    );
-  }
-}
+      if (props.refreshData) {
+        props.refreshData();
+      }
+    },
+    [props]
+  );
+
+  const onSave = useCallback(
+    (
+      title: string,
+      kind: string,
+      place: string,
+      url: string,
+      m: string,
+      time: number
+    ) => {
+      const itemId = props.navigation.getParam('itemId', '1');
+
+      db.transaction((tx: SQLite.Transaction) => {
+        const itemDetail: ItemDetail = {
+          itemId,
+          title,
+          kind,
+          place,
+          url,
+          memo: m,
+          moveMinutes: time,
+          priority: state.priority,
+        };
+
+        insertItemDetail(tx, itemDetail, save);
+      });
+    },
+    [props.navigation, save, state.priority]
+  );
+
+  const onIcons = useCallback(
+    (title: string) => {
+      props.navigation.navigate('Icons', {
+        kind: getKind(title),
+        onSelectIcon: (kind: string) => {
+          props.navigation.navigate('CreateScheduleDetail', {
+            kind: kind,
+          });
+        },
+        onDismiss: () => {
+          props.navigation.navigate('CreateScheduleDetail');
+        },
+        photo: false,
+      });
+    },
+    [props.navigation]
+  );
+
+  return (
+    <Page
+      title={state.title}
+      kind={state.kind}
+      place={state.place}
+      url={state.url}
+      memo={state.memo}
+      time={state.moveMinutes}
+      suggestList={state.suggestList}
+      iconSelected={state.iconSelected}
+      onDismiss={onDismiss}
+      onSave={onSave}
+      onIcons={onIcons}
+    />
+  );
+});

@@ -6,13 +6,13 @@ import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 import theme from '../../../config/theme';
 
-export interface Props {
+export type Props = {
   onPicture: (image: string) => void;
-}
+};
 
-export interface State {
+export type State = {
   hasCameraPermission: boolean | null;
-}
+};
 
 export default class extends Component<Props, State> {
   state = {
