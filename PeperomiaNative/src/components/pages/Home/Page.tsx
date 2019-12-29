@@ -1,10 +1,13 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import Cards, { Props as CardsProps } from '../../organisms/Home/Cards';
-import { HomeScreenPlanType } from './Connected';
+import Cards from '../../organisms/Home/Cards';
+import { HomeScreenPlanType, ItemProps } from './Connected';
 
-type Props = CardsProps & HomeScreenPlanType;
+type Props = HomeScreenPlanType & {
+  data: ItemProps[];
+  loading: boolean;
+};
 
 export default ({ loading, data, onSchedule, onDelete }: Props) => (
   <View style={styles.root}>

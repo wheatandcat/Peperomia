@@ -53,9 +53,9 @@ type PropsBase = Pick<
   ) => void;
 };
 
-export type Props = PropsBase & ActionSheetProps;
+type Props = PropsBase & ActionSheetProps;
 
-export type State = Pick<
+type State = Pick<
   ItemDetail,
   'title' | 'kind' | 'memo' | 'place' | 'url' | 'moveMinutes'
 > & {

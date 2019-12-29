@@ -6,14 +6,9 @@ export type SortableItemDetail = ItemDetail & {
   tmpId?: number;
 };
 
-export type Props = {
+type Props = {
   items: SortableItemDetail[];
   onChangeItems: (data: ItemDetail[]) => void;
-};
-
-type State = {
-  items: ItemDetail[];
-  ready: boolean;
 };
 
 export default (props: Props) => {

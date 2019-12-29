@@ -45,16 +45,16 @@ type PropsBase = ItemParam & {
   onHome: () => void;
 };
 
-export type Props = PropsBase & ActionSheetProps;
+type Props = PropsBase & ActionSheetProps;
 
-export type State = {
+type State = {
   image: string;
   titleFocusCount: number;
   suggest: boolean;
   keyboard: boolean;
 };
 
-class Page extends Component<Props> {
+class Page extends Component<Props, State> {
   state = {
     image: this.props.image,
     titleFocusCount: 0,

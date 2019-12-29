@@ -14,10 +14,6 @@ type Props = ActionSheetProps & {
 };
 
 class Page extends Component<Props> {
-  state = {
-    search: '',
-  };
-
   onOpenActionSheet = () => {
     this.props.showActionSheetWithOptions(
       {

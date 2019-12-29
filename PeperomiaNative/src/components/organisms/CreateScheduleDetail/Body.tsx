@@ -7,7 +7,7 @@ import { ItemDetail } from '../../../domain/itemDetail';
 import theme from '../../../config/theme';
 import Memo from './Memo';
 
-export type Props = Pick<
+type Props = Pick<
   ItemDetail,
   'title' | 'place' | 'url' | 'memo' | 'moveMinutes'
 > & {
