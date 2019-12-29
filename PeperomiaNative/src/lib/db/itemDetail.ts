@@ -1,20 +1,11 @@
 import * as SQLite from 'expo-sqlite';
+import { ItemDetail as ItemDetailParam } from '../../domain/itemDetail';
 import { success, error, ResultError } from './';
 
-export interface ItemDetailParam {
-  title: string;
-  kind: string;
-  memo: string;
-  place: string;
-  url: string;
-  moveMinutes: number;
-  priority: number;
-}
-
-export interface ItemDetail extends ItemDetailParam {
+export type ItemDetail = ItemDetailParam & {
   id?: number;
   itemId: number;
-}
+};
 
 export const create = async (
   tx: SQLite.Transaction,

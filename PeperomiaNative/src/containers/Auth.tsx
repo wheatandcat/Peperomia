@@ -1,7 +1,7 @@
 import * as GoogleSignIn from 'expo-google-sign-in';
 import * as Google from 'expo-google-app-auth';
 import { AsyncStorage, Platform } from 'react-native';
-import React, { createContext, ReactNode, useState, useCallback } from 'react';
+import React, { createContext, FC, useState, useCallback } from 'react';
 import Constants from 'expo-constants';
 import * as Sentry from 'sentry-expo';
 import * as firebase from 'firebase';
@@ -10,9 +10,7 @@ import { useDidMount } from '../hooks/index';
 export const Context = createContext<ContextProps>({});
 const { Provider } = Context;
 
-type Props = {
-  children: ReactNode;
-};
+type Props = {};
 
 type State = {
   uid: string;
@@ -32,7 +30,7 @@ const isStandaloneAndAndroid = () => {
   return Platform.OS === 'android' && Constants.appOwnership !== 'expo';
 };
 
-export default (props: Props) => {
+const Auth: FC<Props> = props => {
   const [state, setState] = useState<State>({
     email: '',
     uid: '',
@@ -202,3 +200,4 @@ const logout = async () => {
 };
 
 export const Consumer = Context.Consumer;
+export default Auth;

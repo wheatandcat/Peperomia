@@ -25,7 +25,6 @@ import {
   ItemDetail,
   deleteByItemId as deleteItemDetailByItemId,
 } from '../../../lib/db/itemDetail';
-
 import {
   save as saveFirestore,
   isShare,
@@ -37,29 +36,29 @@ import {
   Consumer as ItemsConsumer,
   ContextProps,
 } from '../../../containers/Items';
+import { Item as ItemParam } from '../../../domain/item';
 import SortableSchedule from '../SortableSchedule/Connected';
 import Schedule from './Connected';
 import HeaderLeft from './HeaderLeft';
 import HeaderRight from './HeaderRight';
 
-interface State {
+type State = Pick<ItemParam, 'title'> & {
   item: Item;
   itemId: number;
-  title: string;
   items: ItemDetail[];
   saveItems: ItemDetail[];
   mode: string;
-}
+};
 
 type Props = ActionSheetProps & {
   navigation: NavigationScreenProp<NavigationRoute>;
 };
 
 type PlanProps = Props &
+  Pick<ItemParam, 'title'> &
   Pick<ContextProps, 'refreshData'> & {
     item: Item;
     itemId: number;
-    title: string;
     items: ItemDetail[];
     saveItems: ItemDetail[];
     mode: string;
@@ -370,7 +369,7 @@ class Switch extends Component<Props, State> {
   }
 }
 
-class Plan extends Component<PlanProps> {
+export class Plan extends Component<PlanProps> {
   onDelete = () => {
     const itemId = this.props.navigation.getParam('itemId', '1');
 

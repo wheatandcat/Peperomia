@@ -1,10 +1,10 @@
 import * as SQLite from 'expo-sqlite';
 import { success, error, ResultError } from './';
 
-export interface User {
+export type User = {
   id?: number;
   uuid: string;
-}
+};
 
 export const create = async (
   tx: SQLite.Transaction,

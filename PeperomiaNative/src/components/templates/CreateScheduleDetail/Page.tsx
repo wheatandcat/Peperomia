@@ -25,6 +25,7 @@ import getKind, { KINDS, KIND_DEFAULT } from '../../../lib/getKind';
 import { SuggestItem } from '../../../lib/suggest';
 import s from '../../../config/style';
 import theme from '../../../config/theme';
+import { ItemDetail } from '../../../domain/itemDetail';
 import Header from '../../molecules/Header';
 import HeaderImage from '../../molecules/ScheduleHeader/Header';
 import TimeDialog from '../../organisms/CreateScheduleDetail/TimeDialog';
@@ -34,13 +35,10 @@ import Suggest from '../../organisms/Suggest/List';
 const top =
   Platform.OS === 'android' ? StatusBar.currentHeight : getStatusBarHeight();
 
-type PropsBase = {
-  title: string;
-  kind: string;
-  place: string;
-  url: string;
-  memo: string;
-  time: number;
+type PropsBase = Pick<
+  ItemDetail,
+  'title' | 'kind' | 'place' | 'url' | 'memo' | 'moveMinutes'
+> & {
   iconSelected: boolean;
   suggestList: SuggestItem[];
   onDismiss: () => void;
@@ -51,31 +49,28 @@ type PropsBase = {
     place: string,
     url: string,
     memo: string,
-    time: number
+    moveMinutes: number
   ) => void;
 };
 
 export type Props = PropsBase & ActionSheetProps;
 
-export interface State {
-  title: string;
-  kind: string;
-  place: string;
-  url: string;
-  memo: string;
-  time: number;
+export type State = Pick<
+  ItemDetail,
+  'title' | 'kind' | 'memo' | 'place' | 'url' | 'moveMinutes'
+> & {
   titleFocusCount: number;
   manualTime: boolean;
   manualTimeValue: number;
   keyboard: boolean;
   suggest: boolean;
   imageHeader: boolean;
-}
+};
 
-interface Item {
+type Item = {
   value: number | null;
   label: string;
-}
+};
 
 const times: Item[] = [
   {
@@ -114,7 +109,7 @@ class App extends Component<Props, State> {
     memo: this.props.memo,
     place: this.props.place,
     url: this.props.url,
-    time: this.props.time,
+    moveMinutes: this.props.moveMinutes,
     titleFocusCount: 0,
     manualTimeValue: 0,
     manualTime: false,
@@ -159,7 +154,7 @@ class App extends Component<Props, State> {
     const options = times.map(val => val.label);
 
     let destructiveButtonIndex = times.findIndex(
-      val => this.state.time === val.value
+      val => this.state.moveMinutes === val.value
     );
     if (destructiveButtonIndex === null) {
       destructiveButtonIndex = manualButtonIndex;
@@ -184,7 +179,7 @@ class App extends Component<Props, State> {
 
         const value = times[buttonIndex].value || 0;
 
-        this.setState({ time: value });
+        this.setState({ moveMinutes: value });
       }
     );
   };
@@ -197,12 +192,17 @@ class App extends Component<Props, State> {
     }
   };
 
-  onDismiss = (title: string, kind: string, memo: string, time: number) => {
+  onDismiss = (
+    title: string,
+    kind: string,
+    memo: string,
+    moveMinutes: number
+  ) => {
     if (
       this.props.title !== title ||
       this.props.kind !== kind ||
       this.props.memo !== memo ||
-      this.props.time !== time
+      this.props.moveMinutes !== moveMinutes
     ) {
       Alert.alert(
         '保存されていない変更があります',
@@ -231,15 +231,15 @@ class App extends Component<Props, State> {
       Alert.alert('タイトルが入力されていません');
     } else {
       const kind = this.props.iconSelected ? this.props.kind : this.state.kind;
-      const { title, url, place, memo, time } = this.state;
+      const { title, url, place, memo, moveMinutes } = this.state;
 
-      this.props.onSave(title, kind, place, url, memo, time);
+      this.props.onSave(title, kind, place, url, memo, moveMinutes);
     }
   };
 
   onSetManualTime = () => {
     this.setState({
-      time: this.state.manualTimeValue,
+      moveMinutes: this.state.manualTimeValue,
       manualTime: false,
     });
   };
@@ -357,7 +357,7 @@ class App extends Component<Props, State> {
               this.state.title,
               this.state.kind,
               this.state.memo,
-              this.state.time
+              this.state.moveMinutes
             )
           }
         />
@@ -417,7 +417,7 @@ class App extends Component<Props, State> {
                   place={this.state.place}
                   url={this.state.url}
                   memo={this.state.memo}
-                  time={this.state.time}
+                  moveMinutes={this.state.moveMinutes}
                   scrollView={this.scrollView}
                   onIcons={this.props.onIcons}
                   onChangeMemoInput={this.onChangeMemoInput}

@@ -19,11 +19,11 @@ type PropsBase = {
   onSelectIcon: (kind: string) => void;
 };
 
-export type Props = PropsBase & ActionSheetProps;
+type Props = PropsBase & ActionSheetProps;
 
-export interface State {
+type State = {
   search: string;
-}
+};
 
 class Page extends Component<Props, State> {
   state = {

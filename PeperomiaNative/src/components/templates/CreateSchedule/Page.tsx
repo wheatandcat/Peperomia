@@ -19,26 +19,26 @@ import getKind, { KINDS } from '../../../lib/getKind';
 import theme from '../../../config/theme';
 import s from '../../../config/style';
 import { whenIPhoneSE } from '../../../lib/responsive';
+import { Item as ItemParam } from '../../../domain/item';
 import IconImage from '../../organisms/CreatePlan/IconImage';
-import List, { Props as CardsProps } from '../../organisms/Schedule/List';
+import List from '../../organisms/Schedule/List';
 import Header from '../../molecules/Header';
+import { ConnectedType } from '../../pages/Schedule/Connected';
 
 const top =
   Platform.OS === 'android' ? StatusBar.currentHeight : getStatusBarHeight();
 
-interface State {
+type State = {
   imageHeader: boolean;
-}
+};
 
-interface Props extends CardsProps {
-  kind: string;
-  image: string;
-  title: string;
-  data: ItemDetail[];
-  onFinish: () => void;
-  onGoBack: () => void;
-  onCreateScheduleDetail: () => void;
-}
+type Props = Pick<ConnectedType, 'onScheduleDetail'> &
+  ItemParam & {
+    data: ItemDetail[];
+    onFinish: () => void;
+    onGoBack: () => void;
+    onCreateScheduleDetail: () => void;
+  };
 
 export default class extends Component<Props, State> {
   state = {

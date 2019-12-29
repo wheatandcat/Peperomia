@@ -4,14 +4,14 @@ import { Alert } from 'react-native';
 import theme from '../../../config/theme';
 import Page from './Page';
 
-interface Props {
+type Props = {
   navigation: NavigationScreenProp<NavigationRoute>;
-}
+};
 
-interface State {
+type State = {
   isOpen: boolean;
   loading: boolean;
-}
+};
 
 export default class extends Component<Props, State> {
   static navigationOptions = () => {

@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import SortableList from 'react-native-sortable-list';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { ItemDetail } from '../../../lib/db/itemDetail';
+import { Plan } from '../../pages/Schedule/Switch';
 import { SortableItemDetail } from '../../pages/SortableSchedule/Connected';
 import Card from '../../molecules/Schedule/Card';
 import Row from './Row';
 
 type DataKey = string | number;
 
-export type Props = {
+type Props = Pick<Plan, 'onChangeItems'> & {
   data: SortableItemDetail[];
-  onChange: (data: any) => void;
 };
 
 export default class extends Component<Props> {
@@ -21,14 +22,17 @@ export default class extends Component<Props> {
     );
   }
 
-  onChange = (nextOrder: DataKey[]) => {
+  onChangeItems = (nextOrder: DataKey[]) => {
     const data = nextOrder.map(id => {
       return this.props.data.find(item => Number(item.id) === Number(id));
     });
 
-    const result = data.map(item => ({ ...item, id: item && item.tmpId }));
+    const result = data.map(item => ({
+      ...item,
+      id: item && item.tmpId,
+    }));
 
-    this.props.onChange(result);
+    this.props.onChangeItems(result as ItemDetail[]);
   };
 
   render() {
@@ -42,7 +46,7 @@ export default class extends Component<Props> {
         data={obj}
         renderRow={this.renderItem}
         style={styles.root}
-        onChangeOrder={this.onChange}
+        onChangeOrder={this.onChangeItems}
       />
     );
   }

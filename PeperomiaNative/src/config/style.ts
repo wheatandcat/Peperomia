@@ -1,4 +1,4 @@
-interface Config {
+type Config = {
   home: {
     borderWidth: number;
     borderColorAlpha: number;
@@ -9,7 +9,7 @@ interface Config {
     borderColorAlpha: number;
     backgroundColorAlpha: number;
   };
-}
+};
 
 const config: Config = {
   home: {

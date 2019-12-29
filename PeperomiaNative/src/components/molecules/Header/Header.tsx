@@ -14,13 +14,13 @@ import theme from '../../../config/theme';
 const top =
   Platform.OS === 'android' ? StatusBar.currentHeight : getStatusBarHeight();
 
-export interface Props {
+type Props = {
   title: string;
   right: any;
   color: string;
   position?: string;
   onClose: () => void;
-}
+};
 
 export default (props: Props) => {
   let style: any = {

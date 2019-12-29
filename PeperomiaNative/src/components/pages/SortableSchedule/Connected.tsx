@@ -6,12 +6,12 @@ export type SortableItemDetail = ItemDetail & {
   tmpId?: number;
 };
 
-type Props = {
+export type Props = {
   items: SortableItemDetail[];
   onChangeItems: (data: ItemDetail[]) => void;
 };
 
-export type State = {
+type State = {
   items: ItemDetail[];
   ready: boolean;
 };
@@ -23,5 +23,5 @@ export default (props: Props) => {
     id: item.priority,
   }));
 
-  return <Page data={items} onChange={props.onChangeItems} />;
+  return <Page data={items} onChangeItems={props.onChangeItems} />;
 };

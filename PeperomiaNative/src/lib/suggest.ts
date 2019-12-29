@@ -1,7 +1,7 @@
-export interface SuggestItem {
+export type SuggestItem = {
   title: string;
   kind: string;
-}
+};
 
 export const uniqueSuggests = (suggests: SuggestItem[]) => {
   return suggests.filter((v1, i1, a1) => {

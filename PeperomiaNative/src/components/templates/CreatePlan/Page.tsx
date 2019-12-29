@@ -27,17 +27,15 @@ import { whenIPhoneSE } from '../../../lib/responsive';
 import { SuggestItem } from '../../../lib/suggest';
 import theme from '../../../config/theme';
 import s from '../../../config/style';
+import { Item as ItemParam } from '../../../domain/item';
 import Suggest from '../../organisms/Suggest/List';
 import IconImage from '../../organisms/CreatePlan/IconImage';
 import Header from '../../molecules/Header';
 
 dayjs.extend(advancedFormat);
 
-type PropsBase = {
+type PropsBase = ItemParam & {
   mode: string;
-  title: string;
-  image: string;
-  kind: string;
   date: string;
   suggestList: SuggestItem[];
   onInput: (name: string, value: any) => void;

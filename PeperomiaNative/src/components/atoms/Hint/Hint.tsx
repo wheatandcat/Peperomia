@@ -1,4 +1,4 @@
-import React, { ReactNode, memo, useState, useCallback } from 'react';
+import React, { FC, memo, useState, useCallback } from 'react';
 import { TouchableOpacity, AsyncStorage } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useDidMount } from '../../../hooks/index';
@@ -7,14 +7,13 @@ import BottomRight from './BottomRight';
 type Props = {
   onPress: () => void;
   testID: string;
-  children: ReactNode;
 };
 
 type State = {
   visible: boolean;
 };
 
-export default memo((props: Props) => {
+const Hint: FC<Props> = memo(props => {
   const [state, setState] = useState<State>({
     visible: false,
   });
@@ -65,3 +64,5 @@ export default memo((props: Props) => {
 const styles = EStyleSheet.create({
   tap: { padding: 5 },
 });
+
+export default Hint;

@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { ItemDetail } from '../../../lib/db/itemDetail';
 import Card from '../../molecules/Schedule/TouchableCard';
+import { ConnectedType } from '../../pages/Schedule/Connected';
 
-export interface ItemProps extends ItemDetail {}
-
-export interface Props {
-  data: ItemProps[];
-  onScheduleDetail: (id: string) => void;
-}
+type Props = Pick<ConnectedType, 'onScheduleDetail'> & {
+  data: ItemDetail[];
+};
 
 export default class extends Component<Props> {
   render() {

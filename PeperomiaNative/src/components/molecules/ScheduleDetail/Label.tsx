@@ -4,11 +4,11 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import theme from '../../../config/theme';
 
-export interface Props {
+type Props = {
   text: string;
   width: number;
   icon: string;
-}
+};
 
 export default (props: Props) => (
   <View

@@ -10,15 +10,16 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import theme from '../../../config/theme';
 import { HomeScreenPlanType } from '../../pages/Home/Connected';
-import Card, { ItemProps as CardProps } from '../../molecules/Home/Card';
+import Card from '../../molecules/Home/Card';
+import { ItemProps } from '../../pages/Home/Connected';
 
 export type Props = HomeScreenPlanType & {
-  data: CardProps[];
+  data: ItemProps[];
   loading: boolean;
 };
 
 export default ({ loading, data, onSchedule, onDelete }: Props) => {
-  const onDeleteAlert = ({ id }: CardProps) => {
+  const onDeleteAlert = ({ id }: ItemProps) => {
     Alert.alert(
       '削除しますか？',
       '',
@@ -47,13 +48,13 @@ export default ({ loading, data, onSchedule, onDelete }: Props) => {
         contentContainerStyle={styles.swipeContentContainer}
         data={data}
         keyExtractor={item => String(item.id)}
-        renderHiddenItem={({ item }: { item: CardProps }) => (
+        renderHiddenItem={({ item }: { item: ItemProps }) => (
           <View style={styles.deleteContainer}>
             <View />
             <DeleteButton onPress={() => onDeleteAlert(item)} />
           </View>
         )}
-        renderItem={({ item }: { item: CardProps }) => (
+        renderItem={({ item }: { item: ItemProps }) => (
           <Card
             {...item}
             onPress={() => {

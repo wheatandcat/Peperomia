@@ -9,7 +9,6 @@ import {
   ItemDetail,
   update as updateItemDetail,
 } from '../../../lib/db/itemDetail';
-import { ItemProps } from '../../organisms/Schedule/Cards';
 import { useDidMount } from '../../../hooks/index';
 import Page from '../../templates/CreateSchedule/Page';
 
@@ -19,7 +18,7 @@ type Props = {
 
 type State = {
   item: Item;
-  items: ItemProps[];
+  items: ItemDetail[];
   refresh: string;
 };
 

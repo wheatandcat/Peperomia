@@ -4,12 +4,12 @@ import { Entypo } from '@expo/vector-icons';
 import theme from '../../../config/theme';
 import { RightText } from '../../atoms/Header';
 
-interface Props {
+type Props = {
   mode: string;
   onSave: () => void;
   onShare: () => void;
   onOpenActionSheet: () => void;
-}
+};
 
 export default (props: Props) => {
   if (props.mode === 'edit') {

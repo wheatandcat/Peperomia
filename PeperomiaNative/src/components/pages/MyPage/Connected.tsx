@@ -23,9 +23,9 @@ import Page from './Page';
 
 dayjs.extend(advancedFormat);
 
-interface Props {
+type Props = {
   navigation: NavigationScreenProp<NavigationRoute>;
-}
+};
 
 export default class extends Component<Props> {
   static navigationOptions = () => {
@@ -73,10 +73,10 @@ type ConnectedProps = Pick<ItemsContextProps, 'refreshData'> &
     navigation: NavigationScreenProp<NavigationRoute>;
   };
 
-interface State {
+type State = {
   loading: boolean;
   LoadingText: string;
-}
+};
 
 class Connected extends Component<ConnectedProps, State> {
   state = {

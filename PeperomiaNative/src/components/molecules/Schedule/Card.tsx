@@ -7,9 +7,9 @@ import { KINDS } from '../../../lib/getKind';
 import s from '../../../config/style';
 import { IconImage } from 'primitive';
 
-export interface Props extends ItemDetail {
+type Props = ItemDetail & {
   kind: string;
-}
+};
 
 export default (props: Props) => {
   const config = KINDS[props.kind];

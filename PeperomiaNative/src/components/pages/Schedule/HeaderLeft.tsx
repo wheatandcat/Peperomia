@@ -6,11 +6,11 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import theme from '../../../config/theme';
 import { LeftText } from '../../atoms/Header';
 
-interface Props {
+type Props = {
   mode: string;
   onShow: () => void;
   navigation: NavigationScreenProp<NavigationRoute>;
-}
+};
 
 export default (props: Props) => {
   if (props.mode === 'edit') {
