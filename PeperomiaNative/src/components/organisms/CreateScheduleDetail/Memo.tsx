@@ -10,43 +10,38 @@ import {
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import theme, { darkMode } from '../../../config/theme';
+import { ItemDetail } from '../../../domain/itemDetail';
 import InputLabel from '../../molecules/ScheduleDetail/Label';
 
 let y = [0, 0, 0];
 
-interface Props {
-  place: string;
-  url: string;
-  memo: string;
+type Props = Pick<ItemDetail, 'place' | 'url' | 'memo'> & {
   scrollViewRef: ScrollView;
   onChangeInputText: (name: string, value: string) => void;
-}
+};
 
-interface State {
-  place: string;
+type State = Pick<ItemDetail, 'place' | 'url' | 'memo'> & {
   placeInput: boolean;
-  url: string;
   urlInput: boolean;
-  memo: string;
   memoInput: boolean;
   focus: string;
-}
+};
 
-interface Label {
+type Label = {
   value: 'memoInput' | 'placeInput' | 'urlInput';
   label: string;
   icon: string;
   width: number;
-}
+};
 
-interface LabelInput {
+type LabelInput = {
   value: 'memo' | 'place' | 'url';
   defaultValue: string;
   label: string;
   icon: string;
   width: number;
   multiline: boolean;
-}
+};
 
 export default class extends Component<Props, State> {
   state = {

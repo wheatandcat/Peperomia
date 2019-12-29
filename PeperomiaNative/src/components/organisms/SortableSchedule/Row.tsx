@@ -2,10 +2,10 @@ import React, { Component, ReactNode } from 'react';
 import { Animated, Easing, Platform, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-export interface RowProps {
+type RowProps = {
   active: boolean;
   children: ReactNode;
-}
+};
 
 export default class extends Component<RowProps> {
   _active: any;

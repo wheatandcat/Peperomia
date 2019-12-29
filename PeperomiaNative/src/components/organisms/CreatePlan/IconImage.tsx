@@ -5,14 +5,14 @@ import { Feather } from '@expo/vector-icons';
 import { IconImage } from 'primitive';
 import { whenIPhoneSE } from '../../../lib/responsive';
 
-interface Props {
+type Props = {
   image: string;
   imageSrc: string;
   imageSize: number;
   backgroundColor: string;
   onSave: () => void;
   onOpenActionSheet: () => void;
-}
+};
 
 export default (props: Props) => {
   return (

@@ -10,7 +10,6 @@ import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import uuidv1 from 'uuid/v1';
 import { db, ResultError } from '../../../lib/db';
 import {
-  ItemDetailParam,
   insert as insertItemDetail,
   countByItemId,
   ItemDetail,
@@ -21,6 +20,7 @@ import {
   Context as ItemsContext,
   ContextProps as ItemContextProps,
 } from '../../../containers/Items';
+import { ItemDetail as ItemDetailParam } from '../../../domain/itemDetail';
 import { useDidMount } from '../../../hooks/index';
 import Page from '../../templates/CreateScheduleDetail/Page';
 
@@ -133,7 +133,7 @@ const Plan = memo((props: PlanProps) => {
       place: string,
       url: string,
       m: string,
-      time: number
+      moveMinutes: number
     ) => {
       const itemId = props.navigation.getParam('itemId', '1');
 
@@ -145,7 +145,7 @@ const Plan = memo((props: PlanProps) => {
           place,
           url,
           memo: m,
-          moveMinutes: time,
+          moveMinutes,
           priority: state.priority,
         };
 
@@ -180,7 +180,7 @@ const Plan = memo((props: PlanProps) => {
       place={state.place}
       url={state.url}
       memo={state.memo}
-      time={state.moveMinutes}
+      moveMinutes={state.moveMinutes}
       suggestList={state.suggestList}
       iconSelected={state.iconSelected}
       onDismiss={onDismiss}

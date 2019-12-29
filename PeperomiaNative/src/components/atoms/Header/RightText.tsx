@@ -2,11 +2,11 @@ import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-interface Props {
+type Props = {
   label: string;
   testID?: string;
   onPress: () => void;
-}
+};
 
 export default (props: Props) => (
   <TouchableOpacity

@@ -24,11 +24,11 @@ import { findByUID as findItemByUID } from './firestore/item';
 import { findByUID as findItemDetailByUID } from './firestore/itemDetail';
 import { findByUID as findCalendarByUID } from './firestore/calendar';
 
-interface Backup {
+type Backup = {
   items: Item[];
   itemDetails: ItemDetail[];
   calendars: Calendar[];
-}
+};
 
 export const backup = (): Promise<Backup> => {
   return new Promise(function(

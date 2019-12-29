@@ -26,9 +26,19 @@ const items = [
   }
 ];
 
-storiesOf("templates/CreateScheduleDetail", module)
-  .add("入力なし", () => (<Page kind="" title="葛西臨海公園" place="" memo=""  url="" time={60} suggestList={[]} />))
-  .add("入力有り", () => (
+storiesOf('templates/CreateScheduleDetail', module)
+  .add('入力なし', () => (
+    <Page
+      kind=""
+      title="葛西臨海公園"
+      place=""
+      memo=""
+      url=""
+      moveMinutes={60}
+      suggestList={[]}
+    />
+  ))
+  .add('入力有り', () => (
     <Page
       title="葛西臨海公園"
       kind={KIND_PARK}
@@ -36,9 +46,10 @@ storiesOf("templates/CreateScheduleDetail", module)
       place="テスト1"
       url="テスト1"
       suggestList={[]}
-      time={60}
+      moveMinutes={60}
     />
-  )).add("候補リスト", () => (
+  ))
+  .add('候補リスト', () => (
     <Page
       title="葛西臨海公園"
       kind={KIND_PARK}
@@ -46,6 +57,6 @@ storiesOf("templates/CreateScheduleDetail", module)
       place=""
       url=""
       suggestList={items}
-      time={60}
+      moveMinutes={60}
     />
   ));

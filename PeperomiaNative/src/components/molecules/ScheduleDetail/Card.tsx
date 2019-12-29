@@ -16,13 +16,10 @@ import { ItemDetail } from '../../../lib/db/itemDetail';
 import theme from '../../../config/theme';
 import Label from './Label';
 
-export interface ItemProps extends ItemDetail {
+type Props = ItemDetail & {
   onDismiss: () => void;
-}
-
-export interface Props extends ItemProps {
   onOpenActionSheet: () => void;
-}
+};
 
 const handleClick = (url: string) => {
   Linking.canOpenURL(url).then(supported => {

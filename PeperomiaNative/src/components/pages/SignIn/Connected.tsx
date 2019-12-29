@@ -6,9 +6,9 @@ import { Consumer as AuthConsumer } from '../../../containers/Auth';
 import { Consumer as FetchConsumer } from '../../../containers/Fetch';
 import Page from './Page';
 
-interface Props {
+type Props = {
   navigation: NavigationScreenProp<NavigationRoute>;
-}
+};
 
 export default class extends Component<Props> {
   static navigationOptions = () => {
@@ -45,12 +45,12 @@ export default class extends Component<Props> {
   }
 }
 
-interface ConnectedProps {
+type ConnectedProps = {
   navigation: NavigationScreenProp<NavigationRoute>;
   onGoogleLogin: () => void;
   logout: () => void;
   post: (url: string, param: any) => Promise<Response>;
-}
+};
 
 class Connected extends Component<ConnectedProps> {
   onGoogleLogin = async () => {

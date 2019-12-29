@@ -10,12 +10,12 @@ import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import uuidv1 from 'uuid/v1';
 import { db } from '../../../lib/db';
 import {
-  ItemDetailParam,
   insert as insertItemDetail,
   ItemDetail,
 } from '../../../lib/db/itemDetail';
 import getKind from '../../../lib/getKind';
 import { SuggestItem } from '../../../lib/suggest';
+import { ItemDetail as ItemDetailParam } from '../../../domain/itemDetail';
 import { useDidMount } from '../../../hooks/index';
 import {
   Context as ItemsContext,
@@ -107,7 +107,7 @@ const Plan = memo((props: PlanProps) => {
       place: string,
       url: string,
       m: string,
-      time: number
+      moveMinutes: number
     ) => {
       const itemId = props.navigation.getParam('itemId', '1');
       const priority = props.navigation.getParam('priority', '1');
@@ -120,7 +120,7 @@ const Plan = memo((props: PlanProps) => {
           url,
           memo: m,
           kind,
-          moveMinutes: time,
+          moveMinutes,
           priority: Number(priority),
         };
 
@@ -155,7 +155,7 @@ const Plan = memo((props: PlanProps) => {
       place={state.place}
       url={state.url}
       memo={state.memo}
-      time={state.moveMinutes}
+      moveMinutes={state.moveMinutes}
       suggestList={state.suggestList}
       iconSelected={state.iconSelected}
       onDismiss={onDismiss}

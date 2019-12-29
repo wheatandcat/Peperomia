@@ -6,12 +6,7 @@ import { IconImage } from 'primitive';
 import s from '../../../config/style';
 import theme from '../../../config/theme';
 import { KINDS } from '../../../lib/getKind';
-import { Item } from '../../../domain/item';
-
-export type ItemProps = Item & {
-  id: string;
-  about: string;
-};
+import { ItemProps } from '../../pages/Home/Connected';
 
 type Props = ItemProps & {
   onPress: () => void;

@@ -3,16 +3,14 @@ import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { TouchableOpacity, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import Page, { Props as PageProps } from './Page';
+import Page from './Page';
 import theme from '../../../config/theme';
 
-interface Props extends PageProps {
+type Props = {
   navigation: NavigationScreenProp<NavigationRoute>;
-}
+};
 
-interface State {}
-
-export default class extends Component<Props, State> {
+export default class extends Component<Props> {
   static navigationOptions = ({
     navigation,
   }: {

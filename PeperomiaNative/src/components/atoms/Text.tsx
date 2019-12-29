@@ -1,5 +1,5 @@
 import * as Font from 'expo-font';
-import React, { useState, ReactNode } from 'react';
+import React, { useState, FC } from 'react';
 import { Text, TextProps } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useDidMount } from '../../hooks/index';
@@ -8,7 +8,7 @@ type State = {
   fontLoaded: boolean;
 };
 
-export default (props: TextProps & { children: ReactNode }) => {
+const AtomText: FC<TextProps> = props => {
   const [state, setState] = useState<State>({
     fontLoaded: false,
   });
@@ -43,3 +43,5 @@ const styles = EStyleSheet.create({
     fontFamily: 'Lato',
   },
 });
+
+export default AtomText;

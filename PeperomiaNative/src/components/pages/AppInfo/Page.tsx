@@ -6,9 +6,9 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { whenIPhoneSE } from '../../../lib/responsive';
 import theme from '../../../config/theme';
 
-interface Props {
+type Props = {
   onDone: () => void;
-}
+};
 
 const styles = EStyleSheet.create({
   buttonCircle: {

@@ -3,20 +3,19 @@ import { View, TouchableOpacity, Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Button, Divider } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
+import { ItemDetail } from '../../../domain/itemDetail';
 import theme from '../../../config/theme';
 import Memo from './Memo';
 
-export interface Props {
-  title: string;
-  place: string;
-  url: string;
-  memo: string;
-  time: number;
+type Props = Pick<
+  ItemDetail,
+  'title' | 'place' | 'url' | 'memo' | 'moveMinutes'
+> & {
   scrollView: any;
   onIcons: (title: string) => void;
   onChangeMemoInput: (name: string, value: string) => void;
   onOpenActionSheet: () => void;
-}
+};
 
 export default (props: Props) => (
   <>
@@ -29,7 +28,7 @@ export default (props: Props) => (
             size={25}
             style={styles.time}
           />
-          <Text style={styles.timeText}>{props.time}分</Text>
+          <Text style={styles.timeText}>{props.moveMinutes}分</Text>
         </View>
       </TouchableOpacity>
     </View>

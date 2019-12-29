@@ -1,12 +1,12 @@
 import React from 'react';
 import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-interface Props {
+type Props = {
   label: string;
   cancel?: boolean;
   testID?: string;
   onPress: () => void;
-}
+};
 
 export default (props: Props) => {
   const color = props.cancel ? 'red' : 'black';

@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { FC } from 'react';
 import { View } from 'react-native';
 import Color from 'color';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -6,12 +6,11 @@ import { IconImage } from 'primitive';
 import { KINDS, KIND_DEFAULT } from '../../../lib/getKind';
 import s from '../../../config/style';
 
-export interface Props {
+type Props = {
   kind: string;
-  children: ReactNode;
-}
+};
 
-export default (props: Props) => {
+const Header: FC<Props> = props => {
   const kind = props.kind || KIND_DEFAULT;
   const config = KINDS[kind];
   const ss = s.schedule;
@@ -70,3 +69,5 @@ const styles = EStyleSheet.create({
     right: 30,
   },
 });
+
+export default Header;

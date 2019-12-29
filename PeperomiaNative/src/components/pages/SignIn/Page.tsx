@@ -1,32 +1,28 @@
-import React, { Component } from 'react';
+import React, { FC } from 'react';
 import { View, Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Button } from 'react-native-elements';
 import theme from '../../../config/theme';
 
-export interface Props {
+type Props = {
   onGoogleLogin: () => void;
-}
+};
 
-export default class extends Component<Props> {
-  render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>ユーザー登録 / ログインする</Text>
-        </View>
-        <View style={styles.buttonContainer}>
-          <Button
-            title="Googleアカウントでログイン"
-            titleStyle={styles.buttonTitleStyle}
-            buttonStyle={styles.buttonStyle}
-            onPress={this.props.onGoogleLogin}
-          />
-        </View>
-      </View>
-    );
-  }
-}
+const SignInPage: FC<Props> = props => (
+  <View style={styles.container}>
+    <View style={styles.titleContainer}>
+      <Text style={styles.title}>ユーザー登録 / ログインする</Text>
+    </View>
+    <View style={styles.buttonContainer}>
+      <Button
+        title="Googleアカウントでログイン"
+        titleStyle={styles.buttonTitleStyle}
+        buttonStyle={styles.buttonStyle}
+        onPress={props.onGoogleLogin}
+      />
+    </View>
+  </View>
+);
 
 const styles = EStyleSheet.create({
   container: {
@@ -52,3 +48,5 @@ const styles = EStyleSheet.create({
     borderColor: 'transparent',
   },
 });
+
+export default SignInPage;

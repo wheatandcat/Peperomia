@@ -1,24 +1,20 @@
-import React, { Component } from 'react';
+import React, { FC } from 'react';
 import { View, Dimensions, TouchableOpacity, StyleSheet } from 'react-native';
 import theme from '../../../config/theme';
 
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
 
-interface Props {
+type Props = {
   visible?: boolean;
   onPress: () => void;
-}
+};
 
-export default class extends Component<Props> {
-  render() {
-    return (
-      <TouchableOpacity onPress={this.props.onPress}>
-        <View style={styles.root}>{this.props.children}</View>
-      </TouchableOpacity>
-    );
-  }
-}
+const Mask: FC<Props> = props => (
+  <TouchableOpacity onPress={props.onPress}>
+    <View style={styles.root}>{props.children}</View>
+  </TouchableOpacity>
+);
 
 const styles = StyleSheet.create({
   root: {
@@ -31,3 +27,5 @@ const styles = StyleSheet.create({
     zIndex: 50,
   },
 });
+
+export default Mask;

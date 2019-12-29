@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { FC } from 'react';
 import {
   View,
   ScrollView,
@@ -13,7 +13,7 @@ import Constants from 'expo-constants';
 import theme from '../../../config/theme';
 import app from '../../../../app.json';
 
-export interface Props {
+type Props = {
   login: boolean;
   loading: boolean;
   onResetSQL: () => void;
@@ -30,169 +30,154 @@ export interface Props {
   onMigrationV100: () => void;
   onScreenSetting: () => void;
   onLoginWithAmazon: () => void;
-}
+};
 
-export default class extends Component<Props> {
-  render() {
-    return (
-      <View style={styles.root}>
-        <ScrollView>
-          <ListItem
-            title="お問い合わせ"
-            rightIcon={{ name: 'chevron-right', color: theme().mode.text }}
-            containerStyle={styles.menu}
-            titleStyle={styles.menuText}
-            bottomDivider
-            onPress={this.props.onFeedback}
-          />
-          <ListItem
-            title="画面表示"
-            rightIcon={{ name: 'chevron-right', color: theme().mode.text }}
-            containerStyle={styles.menu}
-            titleStyle={styles.menuText}
-            onPress={this.props.onScreenSetting}
-          />
-          <View style={styles.menuSpace} />
-          <ListItem
-            title="利用規約"
-            rightIcon={{ name: 'chevron-right', color: theme().mode.text }}
-            containerStyle={styles.menu}
-            titleStyle={styles.menuText}
-            bottomDivider
-            onPress={this.props.onTos}
-          />
-          <ListItem
-            title="プライバシーポリシー"
-            rightIcon={{ name: 'chevron-right', color: theme().mode.text }}
-            containerStyle={styles.menu}
-            titleStyle={styles.menuText}
-            onPress={this.props.onPolicy}
-          />
+const SettingPage: FC<Props> = props => (
+  <View style={styles.root}>
+    <ScrollView>
+      <ListItem
+        title="お問い合わせ"
+        rightIcon={{ name: 'chevron-right', color: theme().mode.text }}
+        containerStyle={styles.menu}
+        titleStyle={styles.menuText}
+        bottomDivider
+        onPress={props.onFeedback}
+      />
+      <ListItem
+        title="画面表示"
+        rightIcon={{ name: 'chevron-right', color: theme().mode.text }}
+        containerStyle={styles.menu}
+        titleStyle={styles.menuText}
+        onPress={props.onScreenSetting}
+      />
+      <View style={styles.menuSpace} />
+      <ListItem
+        title="利用規約"
+        rightIcon={{ name: 'chevron-right', color: theme().mode.text }}
+        containerStyle={styles.menu}
+        titleStyle={styles.menuText}
+        bottomDivider
+        onPress={props.onTos}
+      />
+      <ListItem
+        title="プライバシーポリシー"
+        rightIcon={{ name: 'chevron-right', color: theme().mode.text }}
+        containerStyle={styles.menu}
+        titleStyle={styles.menuText}
+        onPress={props.onPolicy}
+      />
 
-          <View style={styles.menuSpace} />
+      <View style={styles.menuSpace} />
 
-          {(() => {
-            if (this.props.loading) {
-              return (
-                <View style={[styles.menu, styles.loginMenu]}>
-                  <ActivityIndicator size="large" color={theme().mode.text} />
-                </View>
-              );
-            }
+      {(() => {
+        if (props.loading) {
+          return (
+            <View style={[styles.menu, styles.loginMenu]}>
+              <ActivityIndicator size="large" color={theme().mode.text} />
+            </View>
+          );
+        }
 
-            if (this.props.login) {
-              return (
-                <>
-                  <ListItem
-                    title="マイページ"
-                    onPress={this.props.onMyPage}
-                    rightIcon={{
-                      name: 'chevron-right',
-                      color: theme().mode.text,
-                    }}
-                    containerStyle={styles.menu}
-                    titleStyle={styles.menuText}
-                    bottomDivider
-                  />
-                  <ListItem
-                    title="ログアウト"
-                    containerStyle={styles.menu}
-                    titleStyle={{ color: theme().color.red }}
-                    onPress={this.props.onLogout}
-                    bottomDivider
-                  />
-                </>
-              );
-            }
-
-            return (
+        if (props.login) {
+          return (
+            <>
               <ListItem
-                title="ユーザー登録 / ログイン"
+                title="マイページ"
+                onPress={props.onMyPage}
                 rightIcon={{
                   name: 'chevron-right',
                   color: theme().mode.text,
                 }}
                 containerStyle={styles.menu}
                 titleStyle={styles.menuText}
-                onPress={this.props.onSignIn}
                 bottomDivider
               />
-            );
-          })()}
+              <ListItem
+                title="ログアウト"
+                containerStyle={styles.menu}
+                titleStyle={{ color: theme().color.red }}
+                onPress={props.onLogout}
+                bottomDivider
+              />
+            </>
+          );
+        }
 
-          {!Constants.isDevice && (
-            <ListItem
-              title="Alexa連携を設定する(β版)"
-              rightIcon={{
-                name: 'chevron-right',
-                color: theme().mode.text,
-              }}
-              containerStyle={styles.menu}
-              titleStyle={styles.menuText}
-              onPress={this.props.onLoginWithAmazon}
-            />
-          )}
-
-          <View style={styles.menuSpace} />
+        return (
           <ListItem
-            title="バージョン情報"
-            rightTitle={
-              <Text style={{ color: theme().mode.text }}>
-                {app.expo.version}{' '}
-              </Text>
-            }
+            title="ユーザー登録 / ログイン"
+            rightIcon={{
+              name: 'chevron-right',
+              color: theme().mode.text,
+            }}
             containerStyle={styles.menu}
             titleStyle={styles.menuText}
+            onPress={props.onSignIn}
+            bottomDivider
           />
-          {!Constants.isDevice && (
-            <>
-              <View style={styles.debugSpace} />
-              <Divider />
-              <Text style={styles.debug}>デバッグ機能</Text>
-              <Divider />
-              <ListItem
-                title="初期データ投入"
-                onPress={this.props.onResetSQL}
-              />
-              <Divider />
-              <ListItem
-                title="ユーザー初期化"
-                onPress={this.props.onDeleteUser}
-              />
-              <Divider />
-              <ListItem
-                title="v1.0.0の状態にする"
-                onPress={this.props.onMigrationV100}
-              />
-              <Divider />
-              <ListItem
-                title="アイテムを削除"
-                onPress={this.props.onDeleteSQL}
-              />
-              <Divider />
-              <ListItem title="DBのデータを表示" onPress={this.props.onData} />
-              <Divider />
-              <ListItem
-                title="最初のプラン作成キャッシュの削除"
-                onPress={() => {
-                  AsyncStorage.removeItem('FIRST_CRAEATE_ITEM');
-                }}
-              />
-              <Divider />
-              <ListItem
-                title="アプリを再起動する"
-                onPress={() => {
-                  Updates.reload();
-                }}
-              />
-              <Divider style={styles.debugSpace} />
-            </>
-          )}
-        </ScrollView>
-      </View>
-    );
-  }
-}
+        );
+      })()}
+
+      {!Constants.isDevice && (
+        <ListItem
+          title="Alexa連携を設定する(β版)"
+          rightIcon={{
+            name: 'chevron-right',
+            color: theme().mode.text,
+          }}
+          containerStyle={styles.menu}
+          titleStyle={styles.menuText}
+          onPress={props.onLoginWithAmazon}
+        />
+      )}
+
+      <View style={styles.menuSpace} />
+      <ListItem
+        title="バージョン情報"
+        rightTitle={
+          <Text style={{ color: theme().mode.text }}>{app.expo.version} </Text>
+        }
+        containerStyle={styles.menu}
+        titleStyle={styles.menuText}
+      />
+      {!Constants.isDevice && (
+        <>
+          <View style={styles.debugSpace} />
+          <Divider />
+          <Text style={styles.debug}>デバッグ機能</Text>
+          <Divider />
+          <ListItem title="初期データ投入" onPress={props.onResetSQL} />
+          <Divider />
+          <ListItem title="ユーザー初期化" onPress={props.onDeleteUser} />
+          <Divider />
+          <ListItem
+            title="v1.0.0の状態にする"
+            onPress={props.onMigrationV100}
+          />
+          <Divider />
+          <ListItem title="アイテムを削除" onPress={props.onDeleteSQL} />
+          <Divider />
+          <ListItem title="DBのデータを表示" onPress={props.onData} />
+          <Divider />
+          <ListItem
+            title="最初のプラン作成キャッシュの削除"
+            onPress={() => {
+              AsyncStorage.removeItem('FIRST_CRAEATE_ITEM');
+            }}
+          />
+          <Divider />
+          <ListItem
+            title="アプリを再起動する"
+            onPress={() => {
+              Updates.reload();
+            }}
+          />
+          <Divider style={styles.debugSpace} />
+        </>
+      )}
+    </ScrollView>
+  </View>
+);
 
 const styles = EStyleSheet.create({
   root: {
@@ -225,3 +210,5 @@ const styles = EStyleSheet.create({
     fontSize: 20,
   },
 });
+
+export default SettingPage;

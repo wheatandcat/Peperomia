@@ -14,8 +14,6 @@ type Props = {
   navigation: NavigationScreenProp<NavigationRoute>;
 };
 
-export type PlanProps = Pick<ContextProps, 'calendars' | 'itemsLoading'>;
-
 class Container extends Component<Props> {
   static navigationOptions = () => {
     return {

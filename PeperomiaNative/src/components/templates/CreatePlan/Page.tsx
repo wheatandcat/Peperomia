@@ -27,17 +27,15 @@ import { whenIPhoneSE } from '../../../lib/responsive';
 import { SuggestItem } from '../../../lib/suggest';
 import theme from '../../../config/theme';
 import s from '../../../config/style';
+import { Item as ItemParam } from '../../../domain/item';
 import Suggest from '../../organisms/Suggest/List';
 import IconImage from '../../organisms/CreatePlan/IconImage';
 import Header from '../../molecules/Header';
 
 dayjs.extend(advancedFormat);
 
-type PropsBase = {
+type PropsBase = ItemParam & {
   mode: string;
-  title: string;
-  image: string;
-  kind: string;
   date: string;
   suggestList: SuggestItem[];
   onInput: (name: string, value: any) => void;
@@ -47,16 +45,16 @@ type PropsBase = {
   onHome: () => void;
 };
 
-export type Props = PropsBase & ActionSheetProps;
+type Props = PropsBase & ActionSheetProps;
 
-export type State = {
+type State = {
   image: string;
   titleFocusCount: number;
   suggest: boolean;
   keyboard: boolean;
 };
 
-class Page extends Component<Props> {
+class Page extends Component<Props, State> {
   state = {
     image: this.props.image,
     titleFocusCount: 0,

@@ -1,52 +1,48 @@
-import React, { Component } from 'react';
+import React, { FC } from 'react';
 import { View, ScrollView, Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { ListItem } from 'react-native-elements';
 import Spinner from 'react-native-loading-spinner-overlay';
 import theme from '../../../config/theme';
 
-export interface Props {
+type Props = {
   loading: boolean;
   LoadingText: string;
   email: string;
   onBackup: () => void;
   onRestore: () => void;
-}
+};
 
-export default class extends Component<Props> {
-  render() {
-    return (
-      <View style={styles.root}>
-        <Spinner
-          visible={this.props.loading}
-          textContent={this.props.LoadingText}
-          textStyle={{ color: theme().color.white }}
-        />
-        <ScrollView>
-          <View style={styles.contents}>
-            <View style={styles.emailContainer}>
-              <Text style={styles.emialTitle}>メールアドレス:</Text>
-              <Text style={styles.emial}>{this.props.email}</Text>
-            </View>
-          </View>
-          <ListItem
-            title="バックアップを作成する"
-            titleStyle={styles.menuText}
-            containerStyle={styles.menuContainer}
-            onPress={this.props.onBackup}
-            bottomDivider
-          />
-          <ListItem
-            title="バックアップから復元する"
-            titleStyle={styles.menuText}
-            containerStyle={styles.menuContainer}
-            onPress={this.props.onRestore}
-          />
-        </ScrollView>
+const MyPage: FC<Props> = props => (
+  <View style={styles.root}>
+    <Spinner
+      visible={props.loading}
+      textContent={props.LoadingText}
+      textStyle={{ color: theme().color.white }}
+    />
+    <ScrollView>
+      <View style={styles.contents}>
+        <View style={styles.emailContainer}>
+          <Text style={styles.emialTitle}>メールアドレス:</Text>
+          <Text style={styles.emial}>{props.email}</Text>
+        </View>
       </View>
-    );
-  }
-}
+      <ListItem
+        title="バックアップを作成する"
+        titleStyle={styles.menuText}
+        containerStyle={styles.menuContainer}
+        onPress={props.onBackup}
+        bottomDivider
+      />
+      <ListItem
+        title="バックアップから復元する"
+        titleStyle={styles.menuText}
+        containerStyle={styles.menuContainer}
+        onPress={props.onRestore}
+      />
+    </ScrollView>
+  </View>
+);
 
 const styles = EStyleSheet.create({
   root: {
@@ -79,3 +75,5 @@ const styles = EStyleSheet.create({
     marginHorizontal: 10,
   },
 });
+
+export default MyPage;

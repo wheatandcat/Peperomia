@@ -31,6 +31,7 @@ import {
   Context as ThemeContext,
   ContextProps as ThemeContextProps,
 } from '../../../containers/Theme';
+import { Item as ItemParam } from '../../../domain/item';
 import { useDidMount } from '../../../hooks/index';
 import Hint from '../../atoms/Hint/Hint';
 import Schedule from '../Schedule/Switch';
@@ -153,6 +154,11 @@ HomeScreen.navigationOptions = ({ navigation }: NavigationOptions) => {
 export type HomeScreenPlanType = {
   onSchedule: (itemId: string, title: string) => void;
   onDelete: (itemId: string) => void;
+};
+
+export type ItemProps = ItemParam & {
+  id: string;
+  about: string;
 };
 
 const HomeScreenPlan = memo((props: PlanProps) => {

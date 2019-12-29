@@ -63,10 +63,10 @@ type ConnectedProps = Pick<AuthContextProps, 'uid'> &
     navigation: NavigationScreenProp<NavigationRoute>;
   };
 
-interface State {
+type State = {
   loading: boolean;
   linked: boolean;
-}
+};
 
 class Connected extends Component<ConnectedProps, State> {
   state = {

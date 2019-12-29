@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Col, Grid } from 'react-native-easy-grid';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import theme from '../../../config/theme';
 
-export interface Props {
+type Props = {
   title: string;
   rightTitle: string;
   onPress: () => void;
-}
+};
 
-export default (props: Props) => (
+const Nav: FC<Props> = props => (
   <View style={styles.root}>
     <Grid>
       <Col size={10} style={styles.close}>
@@ -57,3 +57,5 @@ const styles = EStyleSheet.create({
     fontSize: 18,
   },
 });
+
+export default Nav;

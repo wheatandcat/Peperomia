@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import { View, Alert } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import Cards, { Props as CardsProps } from '../../organisms/Schedule/Cards';
+import { ItemDetail } from '../../../lib/db/itemDetail';
+import Cards from '../../organisms/Schedule/Cards';
 import ActionButton from '../../molecules/Schedule/ActionButton';
+import { ConnectedType } from './Connected';
 
-export interface Props extends CardsProps {
+type Props = Pick<ConnectedType, 'onScheduleDetail'> & {
+  data: ItemDetail[];
   onAdd: () => void;
   onSort: () => void;
   onDelete: () => void;
-}
+};
 
 export default class extends Component<Props> {
   onDelete = () => {

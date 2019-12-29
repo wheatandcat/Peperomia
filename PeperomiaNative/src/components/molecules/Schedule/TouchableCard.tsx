@@ -4,13 +4,10 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Card from './Card';
 import { ItemDetail } from '../../../lib/db/itemDetail';
 
-export interface ItemProps extends ItemDetail {
+type Props = ItemDetail & {
   end: boolean;
-}
-
-export interface Props extends ItemProps {
   onPress: () => void;
-}
+};
 
 export default (props: Props) => {
   return (

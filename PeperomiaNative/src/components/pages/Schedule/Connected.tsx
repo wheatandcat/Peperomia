@@ -33,6 +33,10 @@ type State = {
   refresh: string;
 };
 
+export type ConnectedType = {
+  onScheduleDetail: (id: string) => void;
+};
+
 export default memo((props: Props) => {
   const [state, setState] = useState<State>({ items: [], refresh: '' });
   const navigation = useContext(NavigationContext);

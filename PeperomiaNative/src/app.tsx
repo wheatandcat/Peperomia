@@ -212,9 +212,9 @@ const Navigator = createStackNavigator(
 
 const AppContainer = createAppContainer(Navigator);
 
-interface Props {}
+type Props = {}
 
-interface State {
+type State = {
   guide: boolean;
   loading: boolean;
 }

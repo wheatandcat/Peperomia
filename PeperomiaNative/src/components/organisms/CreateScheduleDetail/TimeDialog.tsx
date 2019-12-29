@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { View, TextInput, Text, Platform } from 'react-native';
 import { Button, Overlay } from 'react-native-elements';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import theme, { darkMode } from '../../../config/theme';
 
-interface Props {
+type Props = {
   open: boolean;
   onChange: (value: number) => void;
   onSetManualTime: () => void;
   onCloseManualTime: () => void;
-}
+};
 
-export default (props: Props) => (
+const TimeDialog: FC<Props> = props => (
   <Overlay
     isVisible={props.open}
     height={Platform.OS === 'ios' ? 220 : 245}
@@ -137,3 +137,5 @@ const styles = EStyleSheet.create({
     width: 120,
   },
 });
+
+export default TimeDialog;

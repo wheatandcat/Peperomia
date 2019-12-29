@@ -13,16 +13,16 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { Button, Overlay } from 'react-native-elements';
 import theme, { darkMode } from '../../../config/theme';
 
-interface Props {
+type Props = {
   isOpen: boolean;
   loading: boolean;
   onFeedback: (message: string) => void;
   onClose: () => void;
-}
+};
 
-interface State {
+type State = {
   message: string;
-}
+};
 
 export default class extends Component<Props, State> {
   state = {

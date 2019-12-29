@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { WebView } from 'react-native-webview';
 import theme from '../../../config/theme';
 
-interface Props {}
+type Props = {};
 
 export default class extends Component<Props> {
   static navigationOptions = () => {

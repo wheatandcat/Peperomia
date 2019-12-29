@@ -11,11 +11,6 @@ type Props = {
   onChangeItems: (data: ItemDetail[]) => void;
 };
 
-export type State = {
-  items: ItemDetail[];
-  ready: boolean;
-};
-
 export default (props: Props) => {
   const items = props.items.map(item => ({
     ...item,
@@ -23,5 +18,5 @@ export default (props: Props) => {
     id: item.priority,
   }));
 
-  return <Page data={items} onChange={props.onChangeItems} />;
+  return <Page data={items} onChangeItems={props.onChangeItems} />;
 };

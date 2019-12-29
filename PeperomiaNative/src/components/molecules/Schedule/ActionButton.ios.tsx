@@ -5,11 +5,11 @@ import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import theme from '../../../config/theme';
 
-interface Props {
+type Props = {
   onAdd: () => void;
   onSort: () => void;
   onDelete: () => void;
-}
+};
 
 const right = Platform.OS === 'ios' ? 50 : 100;
 

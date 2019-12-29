@@ -9,12 +9,12 @@ import React, {
 import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import { db } from '../../../lib/db';
 import {
-  ItemDetailParam,
   update as updateItemDetail,
   ItemDetail,
 } from '../../../lib/db/itemDetail';
 import getKind from '../../../lib/getKind';
 import { SuggestItem } from '../../../lib/suggest';
+import { ItemDetail as ItemDetailParam } from '../../../domain/itemDetail';
 import {
   Context as ItemsContext,
   ContextProps as ItemContextProps,
@@ -104,7 +104,7 @@ const Plan = memo((props: PlanProps) => {
       place: string,
       url: string,
       memoText: string,
-      time: number
+      moveMinutes: number
     ) => {
       db.transaction((tx: SQLite.Transaction) => {
         const itemDetail: ItemDetail = {
@@ -114,7 +114,7 @@ const Plan = memo((props: PlanProps) => {
           url,
           memo: memoText,
           kind,
-          moveMinutes: time,
+          moveMinutes,
           priority: props.priority,
           itemId: 0,
         };
@@ -151,7 +151,7 @@ const Plan = memo((props: PlanProps) => {
       place={state.place}
       url={state.url}
       memo={state.memo}
-      time={state.moveMinutes}
+      moveMinutes={state.moveMinutes}
       suggestList={state.suggestList}
       iconSelected={state.iconSelected}
       onDismiss={onDismiss}

@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useState, useCallback } from 'react';
+import React, { createContext, useState, useCallback, FC } from 'react';
 import { AsyncStorage, StatusBar } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Appearance, useColorScheme } from 'react-native-appearance';
@@ -8,9 +8,7 @@ import { setMode, darkMode } from '../config/theme';
 export const Context = createContext<ContextProps>({});
 const { Provider } = Context;
 
-type Props = {
-  children: ReactNode;
-};
+type Props = {};
 
 type State = {
   rerendering: boolean;
@@ -28,7 +26,7 @@ export type ContextProps = Partial<
 
 Appearance.getColorScheme();
 
-export default (props: Props) => {
+const Theme: FC<Props> = props => {
   const colorScheme = useColorScheme();
 
   const [state, setState] = useState<State>({
@@ -128,3 +126,4 @@ export default (props: Props) => {
 };
 
 export const Consumer = Context.Consumer;
+export default Theme;

@@ -4,18 +4,18 @@ import {
   Consumer as ItemsConsumer,
   ContextProps,
 } from '../../../containers/Items';
-import { ItemDetailParam } from '../../../lib/db/itemDetail';
+import { ItemDetail as ItemDetailParam } from '../../../domain/itemDetail';
 import ScheduleDetail from './Connected';
 import EditScheduleDetail from '../EditScheduleDetail/Connected';
 
-interface State extends ItemDetailParam {
+type State = ItemDetailParam & {
   scheduleDetailId: number;
   mode: string;
-}
+};
 
-interface Props {
+type Props = {
   navigation: NavigationScreenProp<NavigationRoute>;
-}
+};
 
 type PlanProps = Props & Pick<ContextProps, 'refreshData'>;
 
