@@ -30,7 +30,7 @@ paths:
   /CreateItem:
     post:
       tags:
-        - 未実装
+        - 実装済み
       description: |
         - 予定を作成
       requestBody:
@@ -47,7 +47,7 @@ paths:
   /UpdateItem:
     post:
       tags:
-        - 未実装
+        - 実装済み
       description: |
         - 予定を更新
       requestBody:
@@ -61,7 +61,7 @@ paths:
   /DeleteItem:
     post:
       tags:
-        - 未実装
+        - 実装済み
       description: |
         - 予定を削除
         - 詳細な予定も削除
@@ -76,7 +76,7 @@ paths:
   /CreateItemDetail:
     post:
       tags:
-        - 未実装
+        - 実装済み
       description: |
         - 予定詳細を作成
       requestBody:
@@ -93,7 +93,7 @@ paths:
   /UpdateItemDetail:
     post:
       tags:
-        - 未実装
+        - 実装済み
       description: |
         - 予定詳細を更新
       requestBody:
@@ -106,7 +106,7 @@ paths:
   /DeleteItemDetail:
     post:
       tags:
-        - 未実装
+        - 実装済み
       description: |
         - 予定詳細を削除
       requestBody:
@@ -119,7 +119,7 @@ paths:
   /CreateCalendar:
     post:
       tags:
-        - 未実装
+        - 実装済み
       description: |
         - カレンダーを作成
       requestBody:
@@ -132,7 +132,7 @@ paths:
   /UpdateCalendar:
     post:
       tags:
-        - 未実装
+        - 実装済み
       description: |
         - カレンダーを更新
       requestBody:
@@ -145,7 +145,7 @@ paths:
   /DeleteCalendar:
     post:
       tags:
-        - 未実装
+        - 実装済み
       description: |
         - カレンダーを削除
       requestBody:
