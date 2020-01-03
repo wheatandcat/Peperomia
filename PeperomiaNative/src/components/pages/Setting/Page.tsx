@@ -30,6 +30,8 @@ type Props = {
   onMigrationV100: () => void;
   onScreenSetting: () => void;
   onLoginWithAmazon: () => void;
+  onFirestoreResetQuery: () => void;
+  onFirestoreSelect: () => void;
 };
 
 const SettingPage: FC<Props> = props => (
@@ -158,6 +160,16 @@ const SettingPage: FC<Props> = props => (
           <ListItem title="アイテムを削除" onPress={props.onDeleteSQL} />
           <Divider />
           <ListItem title="DBのデータを表示" onPress={props.onData} />
+          <Divider />
+          <ListItem
+            title="firestoreをデータリセット"
+            onPress={props.onFirestoreResetQuery}
+          />
+          <Divider />
+          <ListItem
+            title="firestoreをデータを確認"
+            onPress={props.onFirestoreSelect}
+          />
           <Divider />
           <ListItem
             title="最初のプラン作成キャッシュの削除"

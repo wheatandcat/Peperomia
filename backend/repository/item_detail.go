@@ -2,7 +2,6 @@ package repository
 
 import (
 	"context"
-	"strconv"
 
 	"cloud.google.com/go/firestore"
 )
@@ -13,9 +12,9 @@ type ItemDetailRepository struct {
 
 // ItemDetailRecord is itemDetail data
 type ItemDetailRecord struct {
-	ID          int32  `json:"id" firestore:"id" binding:"required"`
+	ID          string `json:"id" firestore:"id" binding:"required"`
 	UID         string `json:"uid" firestore:"uid"`
-	ItemID      int32  `json:"itemId" firestore:"itemId" binding:"required"`
+	ItemID      string `json:"itemId" firestore:"itemId" binding:"required"`
 	Title       string `json:"title" firestore:"title" binding:"required"`
 	Kind        string `json:"kind" firestore:"kind" binding:"required"`
 	MoveMinutes int32  `json:"moveMinutes" firestore:"moveMinutes"`
@@ -30,19 +29,35 @@ func NewItemDetailRepository() *ItemDetailRepository {
 	return &ItemDetailRepository{}
 }
 
-func getItemDetailDocID(uID string, itemID int32, itemDetailID int32) string {
-	id := strconv.Itoa(int(itemID))
-	did := strconv.Itoa(int(itemDetailID))
-	doc := uID + "_" + id + "_" + did
+func getItemDetailDocID(uID string, itemID string, itemDetailID string) string {
+	doc := uID + "_" + itemID + "_" + itemDetailID
 
 	return doc
 }
 
-// CreateItemDetail アイテム詳細を作成する
-func (re *ItemDetailRepository) CreateItemDetail(ctx context.Context, f *firestore.Client, i ItemDetailRecord) error {
+// Create アイテム詳細を作成する
+func (re *ItemDetailRepository) Create(ctx context.Context, f *firestore.Client, i ItemDetailRecord) error {
 	idDoc := getItemDetailDocID(i.UID, i.ItemID, i.ID)
 
 	_, err := f.Collection("itemDetails").Doc(idDoc).Set(ctx, i)
+
+	return err
+}
+
+// Update アイテム詳細を更新する
+func (re *ItemDetailRepository) Update(ctx context.Context, f *firestore.Client, i ItemDetailRecord) error {
+	idDoc := getItemDetailDocID(i.UID, i.ItemID, i.ID)
+
+	_, err := f.Collection("itemDetails").Doc(idDoc).Set(ctx, i)
+
+	return err
+}
+
+// Delete アイテム詳細を削除する
+func (re *ItemDetailRepository) Delete(ctx context.Context, f *firestore.Client, i ItemDetailRecord) error {
+	idDoc := getItemDetailDocID(i.UID, i.ItemID, i.ID)
+
+	_, err := f.Collection("itemDetails").Doc(idDoc).Delete(ctx)
 
 	return err
 }

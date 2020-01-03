@@ -11,11 +11,13 @@ import (
 	"github.com/wheatandcat/Peperomia/backend/domain"
 )
 
+// Handler is Handler type
 type Handler struct {
 	FirebaseApp     *firebase.App
 	FirestoreClient *firestore.Client
 }
 
+// ErrorResponse is Error Response
 type ErrorResponse struct {
 	StatusCode int    `json:"-"`
 	ErrorCode  string `json:"code"`
@@ -23,6 +25,7 @@ type ErrorResponse struct {
 	Error      error  `json:"-"`
 }
 
+// NewHandler is Craeate Handler
 func NewHandler(ctx context.Context, f *firebase.App) (*Handler, error) {
 	fc, err := f.Firestore(ctx)
 	if err != nil {
@@ -77,6 +80,7 @@ func NewErrorResponse(err error) *ErrorResponse {
 	return e
 }
 
+// Render 書き込み
 func (e *ErrorResponse) Render(gc *gin.Context) {
 	gc.JSON(e.StatusCode, e)
 }

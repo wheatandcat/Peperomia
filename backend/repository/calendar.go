@@ -2,7 +2,6 @@ package repository
 
 import (
 	"context"
-	"strconv"
 	"time"
 
 	"cloud.google.com/go/firestore"
@@ -14,9 +13,9 @@ type CalendarRepository struct {
 
 // CalendarRecord is Calendar data
 type CalendarRecord struct {
-	ID     int32      `json:"id" firestore:"id" binding:"required"`
+	ID     string     `json:"id" firestore:"id" binding:"required"`
 	UID    string     `json:"uid" firestore:"uid"`
-	ItemID int32      `json:"itemId" firestore:"itemId" binding:"required"`
+	ItemID string     `json:"itemId" firestore:"itemId" binding:"required"`
 	Date   *time.Time `json:"date" firestore:"date" binding:"required"`
 }
 
@@ -25,18 +24,35 @@ func NewCalendarRepository() *CalendarRepository {
 	return &CalendarRepository{}
 }
 
-func getCalendarDocID(uID string, itemID int32, calendarID int32) string {
-	id := strconv.Itoa(int(calendarID))
-	did := strconv.Itoa(int(itemID))
-	doc := uID + "_" + id + "_" + did
+func getCalendarDocID(uID string, itemID string, calendarID string) string {
+
+	doc := uID + "_" + calendarID + "_" + itemID
 	return doc
 }
 
-// CreateCalendar アイテム詳細を作成する
-func (re *CalendarRepository) CreateCalendar(ctx context.Context, f *firestore.Client, i CalendarRecord) error {
+// Create カレンダーを作成する
+func (re *CalendarRepository) Create(ctx context.Context, f *firestore.Client, i CalendarRecord) error {
 	idDoc := getCalendarDocID(i.UID, i.ItemID, i.ID)
 
 	_, err := f.Collection("calendars").Doc(idDoc).Set(ctx, i)
+
+	return err
+}
+
+// Update カレンダーを更新する
+func (re *CalendarRepository) Update(ctx context.Context, f *firestore.Client, i CalendarRecord) error {
+	idDoc := getCalendarDocID(i.UID, i.ItemID, i.ID)
+
+	_, err := f.Collection("calendars").Doc(idDoc).Set(ctx, i)
+
+	return err
+}
+
+// Delete カレンダーを削除する
+func (re *CalendarRepository) Delete(ctx context.Context, f *firestore.Client, i CalendarRecord) error {
+	idDoc := getCalendarDocID(i.UID, i.ItemID, i.ID)
+
+	_, err := f.Collection("calendars").Doc(idDoc).Delete(ctx)
 
 	return err
 }
