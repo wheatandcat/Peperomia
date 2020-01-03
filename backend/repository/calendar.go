@@ -39,6 +39,24 @@ func (re *CalendarRepository) Create(ctx context.Context, f *firestore.Client, i
 	return err
 }
 
+// Update カレンダーを更新する
+func (re *CalendarRepository) Update(ctx context.Context, f *firestore.Client, i CalendarRecord) error {
+	idDoc := getCalendarDocID(i.UID, i.ItemID, i.ID)
+
+	_, err := f.Collection("calendars").Doc(idDoc).Set(ctx, i)
+
+	return err
+}
+
+// Delete カレンダーを削除する
+func (re *CalendarRepository) Delete(ctx context.Context, f *firestore.Client, i CalendarRecord) error {
+	idDoc := getCalendarDocID(i.UID, i.ItemID, i.ID)
+
+	_, err := f.Collection("calendars").Doc(idDoc).Delete(ctx)
+
+	return err
+}
+
 // DeleteByUID ユーザーIDから削除する
 func (re *CalendarRepository) DeleteByUID(ctx context.Context, f *firestore.Client, uid string) error {
 	matchItem := f.Collection("calendars").Where("uid", "==", uid).Documents(ctx)

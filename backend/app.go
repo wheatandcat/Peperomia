@@ -59,6 +59,9 @@ func main() {
 		app.POST("/CreateItemDetail", h.CreateItemDetail)
 		app.POST("/UpdateItemDetail", h.UpdateItemDetail)
 		app.POST("/DeleteItemDetail", h.DeleteItemDetail)
+		app.POST("/CreateCalendar", h.CreateCalendar)
+		app.POST("/UpdateCalendar", h.UpdateCalendar)
+		app.POST("/DeleteCalendar", h.DeleteCalendar)
 
 		app.POST("/SyncItems", h.SyncItems)
 		app.POST("/LoginWithAmazon", h.LoginWithAmazon)
