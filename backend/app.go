@@ -53,6 +53,13 @@ func main() {
 		}
 
 		app.POST("/CreateUser", h.CreateUser)
+		app.POST("/CreateItem", h.CreateItem)
+		app.POST("/UpdateItem", h.UpdateItem)
+		app.POST("/DeleteItem", h.DeleteItem)
+		app.POST("/CreateItemDetail", h.CreateItemDetail)
+		app.POST("/UpdateItemDetail", h.UpdateItemDetail)
+		app.POST("/DeleteItemDetail", h.DeleteItemDetail)
+
 		app.POST("/SyncItems", h.SyncItems)
 		app.POST("/LoginWithAmazon", h.LoginWithAmazon)
 	}

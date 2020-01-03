@@ -23,6 +23,9 @@ import {
   ContextProps as FetchContextProps,
 } from '../../../containers/Fetch';
 import { useDidMount } from '../../../hooks/index';
+import { getFireStore } from '../../../lib/firebase';
+import { resetQuery } from '../../../lib/firestore/debug';
+import { findByUID } from '../../../lib/firestore/item';
 import Tos from '../Tos/Page';
 import Policy from '../Policy/Page';
 import Feedback from '../Feedback/Connected';
@@ -33,10 +36,12 @@ import LoginWithAmazon from '../LoginWithAmazon/Connected';
 import Page from './Page';
 
 const Container = () => {
-  const { loggedIn, logout } = useContext(AuthContext);
+  const { loggedIn, logout, uid } = useContext(AuthContext);
   const { post } = useContext(FetchContext);
 
-  return <Connected loggedIn={loggedIn} logout={logout} post={post} />;
+  return (
+    <Connected loggedIn={loggedIn} logout={logout} post={post} uid={uid} />
+  );
 };
 
 Container.navigationOptions = {
@@ -51,7 +56,7 @@ Container.navigationOptions = {
 };
 
 type ConnectedProps = Pick<FetchContextProps, 'post'> &
-  Pick<AuthContextProps, 'loggedIn' | 'logout'>;
+  Pick<AuthContextProps, 'loggedIn' | 'logout' | 'uid'>;
 
 type State = {
   login: boolean;
@@ -179,6 +184,28 @@ const Connected = memo((props: ConnectedProps) => {
     AsyncStorage.setItem('APP_VERSION', '1.0.0');
   }, []);
 
+  const onFirestoreResetQuery = useCallback(() => {
+    if (!props.uid) {
+      return;
+    }
+
+    const firestore = getFireStore();
+    resetQuery(firestore, props.uid);
+  }, [props.uid]);
+
+  const onFirestoreSelect = useCallback(async () => {
+    if (!props.uid) {
+      return;
+    }
+
+    // デバッグ時はオフラインにする
+    // await settingNetwork(false);
+
+    const firestore = getFireStore();
+    const r = await findByUID(firestore, props.uid);
+    console.log(r);
+  }, [props.uid]);
+
   return (
     <Page
       loading={state.loading}
@@ -197,6 +224,8 @@ const Connected = memo((props: ConnectedProps) => {
       onMigrationV100={onMigrationV100}
       onScreenSetting={onScreenSetting}
       onLoginWithAmazon={onLoginWithAmazon}
+      onFirestoreResetQuery={onFirestoreResetQuery}
+      onFirestoreSelect={onFirestoreSelect}
     />
   );
 });

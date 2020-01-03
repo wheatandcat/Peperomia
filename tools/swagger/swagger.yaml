@@ -27,6 +27,133 @@ paths:
           description: |
             - 既に作成済だった
 
+  /CreateItem:
+    post:
+      tags:
+        - 未実装
+      description: |
+        - 予定を作成
+      requestBody:
+        $ref: '#/components/requestBodies/CreateItemRequest'
+      responses:
+        '201':
+          description: |
+            - 作成した
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+
+  /UpdateItem:
+    post:
+      tags:
+        - 未実装
+      description: |
+        - 予定を更新
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateItemRequest'
+      responses:
+        '200':
+          description: |
+            - 更新した
+
+
+  /DeleteItem:
+    post:
+      tags:
+        - 未実装
+      description: |
+        - 予定を削除
+        - 詳細な予定も削除
+      requestBody:
+        $ref: '#/components/requestBodies/DeleteItemRequest'
+      responses:
+        '200':
+          description: |
+            - 削除した
+
+
+  /CreateItemDetail:
+    post:
+      tags:
+        - 未実装
+      description: |
+        - 予定詳細を作成
+      requestBody:
+        $ref: '#/components/requestBodies/CreateItemDetailRequest'
+      responses:
+        '201':
+          description: |
+            - 作成した
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemDetail'
+
+  /UpdateItemDetail:
+    post:
+      tags:
+        - 未実装
+      description: |
+        - 予定詳細を更新
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateItemDetailRequest'
+      responses:
+        '200':
+          description: |
+            - 更新した
+
+  /DeleteItemDetail:
+    post:
+      tags:
+        - 未実装
+      description: |
+        - 予定詳細を削除
+      requestBody:
+        $ref: '#/components/requestBodies/DeleteItemDetailRequest'
+      responses:
+        '200':
+          description: |
+            - 削除した
+
+  /CreateCalendar:
+    post:
+      tags:
+        - 未実装
+      description: |
+        - カレンダーを作成
+      requestBody:
+        $ref: '#/components/requestBodies/CreateCalendarRequest'
+      responses:
+        '201':
+          description: |
+            - 作成した
+
+  /UpdateCalendar:
+    post:
+      tags:
+        - 未実装
+      description: |
+        - カレンダーを更新
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateCalendarRequest'
+      responses:
+        '200':
+          description: |
+            - 更新した
+
+  /DeleteCalendar:
+    post:
+      tags:
+        - 未実装
+      description: |
+        - カレンダーを削除
+      requestBody:
+        $ref: '#/components/requestBodies/DeleteCalendarRequest'
+      responses:
+        '200':
+          description: |
+            - 削除した
 
   /SyncItems:
     post:
@@ -40,6 +167,7 @@ paths:
         '200':
           description: |
             - 同期成功した
+
 
   /LognWithAmazon:
     post:
@@ -74,6 +202,97 @@ components:
       scheme: bearer
       bearerFormat: JWT
   requestBodies:
+    CreateItemRequest:
+      description: 予定作成のRequest
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              item:
+                $ref: '#/components/schemas/CraeteItem'
+
+    UpdateItemRequest:
+      description: 予定更新のRequest
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              item:
+                $ref: '#/components/schemas/Item'
+
+    DeleteItemRequest:
+      description: 予定削除のRequest
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              item:
+                $ref: '#/components/schemas/DeleteItem'
+
+    CreateItemDetailRequest:
+      description: 予定詳細作成のRequest
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              itemDetail:
+                $ref: '#/components/schemas/CreateItemDetail'
+
+    UpdateItemDetailRequest:
+      description: 予定詳細更新のRequest
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              itemDetail:
+                $ref: '#/components/schemas/ItemDetail'
+
+    DeleteItemDetailRequest:
+      description: 予定詳細削除のRequest
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              itemDetail:
+                $ref: '#/components/schemas/DeleteItemDetail'
+
+    CreateCalendarRequest:
+      description: Calendar作成のRequest
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              calendar:
+                $ref: '#/components/schemas/CraeteCalendar'
+
+    UpdateCalendarRequest:
+      description: Calendar更新のRequest
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              calendar:
+                $ref: '#/components/schemas/Calendar'
+
+    DeleteCalendarRequest:
+      description: Calendar削除のRequest
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              calendar:
+                $ref: '#/components/schemas/DeleteCalendar'
+
+
     SyncItemsRequest:
         description: アイテム同期のRequest
         content:
@@ -94,6 +313,7 @@ components:
                   type: array
                   items:
                     $ref: '#/components/schemas/Calendar'
+
     AmazonWithLoginRequest:
         description: amazonアカウントに連携する
         content:
@@ -107,6 +327,7 @@ components:
                   pattern: "qawaqwsedrftgyhujiko"
                   example: ""
                   description: アクセスToken
+
     AlexaRegisterItemRequest:
         description: Alexa経由で予定を登録Request
         content:
@@ -123,15 +344,28 @@ components:
                     $ref: '#/components/schemas/AlexaItemDetail'
 
   schemas:
+    CraeteItem:
+      type: object
+      description: スケジュールアイテム
+      properties:
+        title:
+          type: string
+          pattern: string
+          example: 葛西臨海公園
+          description: タイトル
+        kind:
+          type: string
+          example: fishing
+          description: アイコンの種類
+
     Item:
       type: object
       description: スケジュールアイテム
       properties:
         id:
-          type: integer
-          format: int32
-          pattern: "1"
-          example: 1
+          type: string
+          pattern: string
+          example: "1"
           description: ID
           required:
             - id
@@ -144,29 +378,27 @@ components:
           type: string
           example: fishing
           description: アイコンの種類
-        image:
+
+    DeleteItem:
+      type: object
+      description: スケジュールアイテム
+      properties:
+        id:
           type: string
-          example: ""
-          description: 画像のBase64エンコード
-        imagePath:
-          type: string
-          example: ""
-          description: 画像のパス
-    ItemDetail:
+          pattern: string
+          example: "1"
+          description: ID
+          required:
+            - id
+
+    CreateItemDetail:
       type: object
       description: スケジュールアイテム詳細
       properties:
-        id:
-          type: integer
-          format: int32
-          pattern: "1"
-          example: 1
-          description: ID
         itemId:
-          type: integer
-          format: int32
-          pattern: "1"
-          example: 1
+          type: string
+          pattern: string
+          example: "1"
           description: アイテムID
         title:
           type: string
@@ -199,27 +431,110 @@ components:
           pattern: "1"
           example: 1
           description: 表示順
-    Calendar:
+
+    ItemDetail:
+      type: object
+      description: スケジュールアイテム詳細
+      properties:
+        id:
+          type: string
+          pattern: string
+          example: "1"
+          description: ID
+        itemId:
+          type: string
+          pattern: string
+          example: "1"
+          description: アイテムID
+        title:
+          type: string
+          pattern: string
+          example: 葛西臨海公園
+          description: タイトル
+        kind:
+          type: string
+          example: fishing
+          description: アイコンの種類
+        memo:
+          type: string
+          example: ""
+          description: メモ内容
+        url:
+          type: string
+          example: ""
+          description: リンク
+        place:
+          type: string
+          example: ""
+          description: 集合場所
+        moveMinutes:
+          type: integer
+          pattern: "1"
+          example: 30
+          description: 移動時間（分）
+        priority:
+          type: integer
+          pattern: "1"
+          example: 1
+          description: 表示順
+          
+    DeleteItemDetail:
+      type: object
+      description: スケジュールアイテム詳細
+      properties:
+        id:
+          type: string
+          pattern: string
+          example: "1"
+          description: ID
+          required:
+            - id
+
+    CraeteCalendar:
       type: object
       description: スケジュールアイテム日付
       properties:
-        id:
-          type: integer
-          format: int32
-          pattern: "1"
-          example: 1
-          description: ID
         itemId:
-          type: integer
-          format: int32
-          pattern: "1"
-          example: 1
+          type: string
+          pattern: string
+          example: "1"
           description: アイテムID
         date:
           type: string
           pattern: string
           example: "2018-01-01T00:00:00Z"
           description: 日付
+          
+    Calendar:
+      type: object
+      description: スケジュールアイテム日付
+      properties:
+        id:
+          type: string
+          pattern: string
+          example: "1"
+          description: ID
+        itemId:
+          type: string
+          pattern: string
+          example: "1"
+          description: アイテムID
+        date:
+          type: string
+          pattern: string
+          example: "2018-01-01T00:00:00Z"
+          description: 日付
+
+    DeleteCalendar:
+      type: object
+      description: スケジュールアイテム日付
+      properties:
+        id:
+          type: string
+          pattern: string
+          example: "1"
+          description: ID
+
     AlexaItem:
       type: object
       description: Alexa経由の予定

@@ -2,7 +2,6 @@ package repository
 
 import (
 	"context"
-	"strconv"
 
 	"cloud.google.com/go/firestore"
 )
@@ -13,12 +12,10 @@ type ItemRepository struct {
 
 // ItemRecord is item data
 type ItemRecord struct {
-	ID        int32  `json:"id" firestore:"id" binding:"required"`
-	UID       string `json:"uid" firestore:"uid"`
-	Title     string `json:"title" firestore:"title" binding:"required"`
-	Kind      string `json:"kind" firestore:"kind" binding:"required"`
-	Image     string `json:"image" firestore:"image"`
-	ImagePath string `json:"imagePath" firestore:"imagePath"`
+	ID    string `json:"id" firestore:"id" binding:"required"`
+	UID   string `json:"uid" firestore:"uid"`
+	Title string `json:"title" firestore:"title" binding:"required"`
+	Kind  string `json:"kind" firestore:"kind" binding:"required"`
 }
 
 // NewItemRepository is Create new ItemRepository
@@ -26,9 +23,8 @@ func NewItemRepository() *ItemRepository {
 	return &ItemRepository{}
 }
 
-func getItemDocID(uID string, itemID int32) string {
-	id := strconv.Itoa(int(itemID))
-	doc := uID + "_" + id
+func getItemDocID(uID string, itemID string) string {
+	doc := uID + "_" + itemID
 
 	return doc
 }
@@ -38,6 +34,24 @@ func (re *ItemRepository) Create(ctx context.Context, f *firestore.Client, i Ite
 	iDoc := getItemDocID(i.UID, i.ID)
 
 	_, err := f.Collection("items").Doc(iDoc).Set(ctx, i)
+
+	return err
+}
+
+// Update アイテムを更新する
+func (re *ItemRepository) Update(ctx context.Context, f *firestore.Client, i ItemRecord) error {
+	iDoc := getItemDocID(i.UID, i.ID)
+
+	_, err := f.Collection("items").Doc(iDoc).Set(ctx, i)
+
+	return err
+}
+
+// Delete アイテムを削除する
+func (re *ItemRepository) Delete(ctx context.Context, f *firestore.Client, i ItemRecord) error {
+	iDoc := getItemDocID(i.UID, i.ID)
+
+	_, err := f.Collection("items").Doc(iDoc).Delete(ctx)
 
 	return err
 }
