@@ -1,4 +1,4 @@
-package client
+package amazonclient
 
 import (
 	"encoding/json"

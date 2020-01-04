@@ -5,13 +5,13 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
+	domain "github.com/wheatandcat/Peperomia/backend/domain"
 	repository "github.com/wheatandcat/Peperomia/backend/repository"
 )
 
 // SyncItemsRequest is SyncItemsRequest request
 type SyncItemsRequest struct {
-	Items       []repository.ItemRecord       `json:"items" binding:"required"`
+	Items       []domain.ItemRecord           `json:"items" binding:"required"`
 	ItemDetails []repository.ItemDetailRecord `json:"itemDetails" binding:"required"`
 	Calendars   []repository.CalendarRecord   `json:"calendars"`
 }
@@ -64,22 +64,19 @@ func (h *Handler) CreateItem(gc *gin.Context) {
 		return
 	}
 
-	ir := repository.NewItemRepository()
-
-	u, err := uuid.NewRandom()
 	if err != nil {
 		NewErrorResponse(err).Render(gc)
 		return
 	}
 
-	item := repository.ItemRecord{
-		ID:    u.String(),
+	item := domain.ItemRecord{
+		ID:    h.Client.UUID.Get(),
 		Title: req.Item.Title,
 		Kind:  req.Item.Kind,
 		UID:   uid,
 	}
 
-	if err := ir.Create(ctx, h.FirestoreClient, item); err != nil {
+	if err := h.App.ItemRepository.Create(ctx, h.FirestoreClient, item); err != nil {
 		NewErrorResponse(err).Render(gc)
 		return
 	}
@@ -104,7 +101,7 @@ func (h *Handler) UpdateItem(gc *gin.Context) {
 
 	ir := repository.NewItemRepository()
 
-	item := repository.ItemRecord{
+	item := domain.ItemRecord{
 		ID:    req.Item.ID,
 		Title: req.Item.Title,
 		Kind:  req.Item.Kind,
@@ -136,7 +133,7 @@ func (h *Handler) DeleteItem(gc *gin.Context) {
 
 	ir := repository.NewItemRepository()
 
-	item := repository.ItemRecord{
+	item := domain.ItemRecord{
 		ID:  req.Item.ID,
 		UID: uid,
 	}

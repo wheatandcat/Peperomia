@@ -19,6 +19,11 @@ $ go mod tidy
 $ dev_appserver.py app.yaml
 ```
 
+## テスト
+
+```
+$ go test ./handler
+```
 
 ## デプロイ
 

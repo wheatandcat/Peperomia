@@ -4,22 +4,16 @@ import (
 	"context"
 
 	"cloud.google.com/go/firestore"
+
+	"github.com/wheatandcat/Peperomia/backend/domain"
 )
 
 // ItemRepository is repository for item
 type ItemRepository struct {
 }
 
-// ItemRecord is item data
-type ItemRecord struct {
-	ID    string `json:"id" firestore:"id" binding:"required"`
-	UID   string `json:"uid" firestore:"uid"`
-	Title string `json:"title" firestore:"title" binding:"required"`
-	Kind  string `json:"kind" firestore:"kind" binding:"required"`
-}
-
 // NewItemRepository is Create new ItemRepository
-func NewItemRepository() *ItemRepository {
+func NewItemRepository() domain.ItemRepository {
 	return &ItemRepository{}
 }
 
@@ -30,7 +24,7 @@ func getItemDocID(uID string, itemID string) string {
 }
 
 // Create アイテムを作成する
-func (re *ItemRepository) Create(ctx context.Context, f *firestore.Client, i ItemRecord) error {
+func (re *ItemRepository) Create(ctx context.Context, f *firestore.Client, i domain.ItemRecord) error {
 	iDoc := getItemDocID(i.UID, i.ID)
 
 	_, err := f.Collection("items").Doc(iDoc).Set(ctx, i)
@@ -39,7 +33,7 @@ func (re *ItemRepository) Create(ctx context.Context, f *firestore.Client, i Ite
 }
 
 // Update アイテムを更新する
-func (re *ItemRepository) Update(ctx context.Context, f *firestore.Client, i ItemRecord) error {
+func (re *ItemRepository) Update(ctx context.Context, f *firestore.Client, i domain.ItemRecord) error {
 	iDoc := getItemDocID(i.UID, i.ID)
 
 	_, err := f.Collection("items").Doc(iDoc).Set(ctx, i)
@@ -48,7 +42,7 @@ func (re *ItemRepository) Update(ctx context.Context, f *firestore.Client, i Ite
 }
 
 // Delete アイテムを削除する
-func (re *ItemRepository) Delete(ctx context.Context, f *firestore.Client, i ItemRecord) error {
+func (re *ItemRepository) Delete(ctx context.Context, f *firestore.Client, i domain.ItemRecord) error {
 	iDoc := getItemDocID(i.UID, i.ID)
 
 	_, err := f.Collection("items").Doc(iDoc).Delete(ctx)
@@ -57,8 +51,8 @@ func (re *ItemRepository) Delete(ctx context.Context, f *firestore.Client, i Ite
 }
 
 // FindByUID ユーザーIDから取得する
-func (re *ItemRepository) FindByUID(ctx context.Context, f *firestore.Client, uid string) ([]ItemRecord, error) {
-	var items []ItemRecord
+func (re *ItemRepository) FindByUID(ctx context.Context, f *firestore.Client, uid string) ([]domain.ItemRecord, error) {
+	var items []domain.ItemRecord
 	matchItem := f.Collection("items").Where("uid", "==", uid).Documents(ctx)
 	docs, err := matchItem.GetAll()
 	if err != nil {
@@ -66,7 +60,7 @@ func (re *ItemRepository) FindByUID(ctx context.Context, f *firestore.Client, ui
 	}
 
 	for _, doc := range docs {
-		var item ItemRecord
+		var item domain.ItemRecord
 		doc.DataTo(&item)
 		items = append(items, item)
 	}
