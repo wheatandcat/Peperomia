@@ -2,7 +2,6 @@ package handler
 
 import (
 	"context"
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -61,7 +60,6 @@ func (h *Handler) CreateItem(gc *gin.Context) {
 
 	uid, err := GetSelfUID(gc)
 	if err != nil {
-		log.Printf("OUT")
 		NewErrorResponse(err).Render(gc)
 		return
 	}
