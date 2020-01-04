@@ -5,14 +5,14 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	client "github.com/wheatandcat/Peperomia/backend/client"
+	amazonclient "github.com/wheatandcat/Peperomia/backend/client/amazon"
 )
 
 // AmazonAuthMiddleWare Amazon Auth Middleware
 func (m *Middleware) AmazonAuthMiddleWare(gc *gin.Context) {
 	idToken := strings.Replace(gc.GetHeader("Authorization"), "Bearer ", "", 1)
 
-	ac := client.NewAmazonClient(idToken)
+	ac := amazonclient.NewAmazonClient(idToken)
 	aUID, err := ac.GetUserID()
 	if err != nil {
 		gc.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": err.Error()})

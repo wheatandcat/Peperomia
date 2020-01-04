@@ -5,16 +5,30 @@ import (
 	"errors"
 	"net/http"
 
+	"github.com/wheatandcat/Peperomia/backend/client/uuidgen"
+
 	"cloud.google.com/go/firestore"
 	firebase "firebase.google.com/go"
 	"github.com/gin-gonic/gin"
 	"github.com/wheatandcat/Peperomia/backend/domain"
 )
 
+// Application is app interface
+type Application struct {
+	ItemRepository domain.ItemRepository
+}
+
+// Client is Client type
+type Client struct {
+	UUID uuidgen.UUIDGenerator
+}
+
 // Handler is Handler type
 type Handler struct {
 	FirebaseApp     *firebase.App
 	FirestoreClient *firestore.Client
+	App             *Application
+	Client          *Client
 }
 
 // ErrorResponse is Error Response
@@ -25,17 +39,30 @@ type ErrorResponse struct {
 	Error      error  `json:"-"`
 }
 
+// NewApplication アプリケーションを作成する
+func NewApplication(itemRepository domain.ItemRepository) *Application {
+	return &Application{
+		ItemRepository: itemRepository,
+	}
+}
+
 // NewHandler is Craeate Handler
-func NewHandler(ctx context.Context, f *firebase.App) (*Handler, error) {
+func NewHandler(ctx context.Context, f *firebase.App, app *Application) (*Handler, error) {
 	fc, err := f.Firestore(ctx)
 	if err != nil {
 		h := &Handler{}
 		return h, nil
 	}
 
+	client := &Client{
+		UUID: &uuidgen.UUID{},
+	}
+
 	return &Handler{
 		FirebaseApp:     f,
 		FirestoreClient: fc,
+		App:             app,
+		Client:          client,
 	}, nil
 }
 

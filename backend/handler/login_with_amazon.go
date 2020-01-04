@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	client "github.com/wheatandcat/Peperomia/backend/client"
+	amazonclient "github.com/wheatandcat/Peperomia/backend/client/amazon"
 	repository "github.com/wheatandcat/Peperomia/backend/repository"
 )
 
@@ -29,7 +29,7 @@ func (h *Handler) LoginWithAmazon(gc *gin.Context) {
 		return
 	}
 
-	ac := client.NewAmazonClient(req.AccessToken)
+	ac := amazonclient.NewAmazonClient(req.AccessToken)
 
 	aUID, err := ac.GetUserID()
 	if err != nil {
