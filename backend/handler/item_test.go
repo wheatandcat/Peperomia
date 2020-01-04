@@ -2,25 +2,23 @@ package handler_test
 
 import (
 	"context"
-	"net/http/httptest"
+	"net/http"
 	"testing"
 
-	firebase "firebase.google.com/go"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
-	mock_uuidgen "github.com/wheatandcat/Peperomia/backend/client/uuidgen/mocks"
+	"github.com/stretchr/testify/assert"
 	"github.com/wheatandcat/Peperomia/backend/domain"
 	mock_domain "github.com/wheatandcat/Peperomia/backend/domain/mocks"
 	handler "github.com/wheatandcat/Peperomia/backend/handler"
 )
 
 func TestCreate(t *testing.T) {
-	res := httptest.NewRecorder()
 	gin.SetMode(gin.TestMode)
+
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	ctx := context.Background()
-	f, _ := firebase.NewApp(ctx, nil)
 
 	mock := mock_domain.NewMockItemRepository(ctrl)
 	i := domain.ItemRecord{
@@ -30,45 +28,35 @@ func TestCreate(t *testing.T) {
 		Kind:  "test",
 	}
 
-	mock.EXPECT().Create(gomock.Any(), gomock.Any(), i).Return(nil).AnyTimes()
+	mock.EXPECT().Create(gomock.Any(), gomock.Any(), i).Return(nil)
 
-	//a := handler.NewApplication(mock)
-	//h, _ := handler.NewHandler(ctx, f, a)
 	app := &handler.Application{
 		ItemRepository: mock,
 	}
 
-	fc, _ := f.Firestore(ctx)
+	h := NewTestHandler(ctx, app)
 
-	client := &handler.Client{
-		UUID: &mock_uuidgen.UUID{},
+	tests := []struct {
+		name       string
+		request    handler.CreateItemRequest
+		statusCode int
+	}{
+		{
+			name: "ok",
+			request: handler.CreateItemRequest{
+				Item: handler.CreateItem{
+					Title: "test",
+					Kind:  "test",
+				},
+			},
+			statusCode: http.StatusCreated,
+		},
 	}
 
-	h := handler.Handler{
-		FirebaseApp:     f,
-		FirestoreClient: fc,
-		App:             app,
-		Client:          client,
+	for _, td := range tests {
+		t.Run(td.name, func(t *testing.T) {
+			res := Execute(h.CreateItem, NewRequest(JsonEncode(td.request)))
+			assert.Equal(t, td.statusCode, res.Code)
+		})
 	}
-
-	c, r := gin.CreateTestContext(res)
-
-	ci := handler.CreateItem{
-		Title: "test",
-		Kind:  "test",
-	}
-
-	r.Use(func(gc *gin.Context) {
-		gc.Set("firebaseUID", "test")
-		gc.Next()
-	})
-	req := handler.CreateItemRequest{
-		Item: ci,
-	}
-	r.POST("/", h.CreateItem)
-
-	c.Request = NewRequest(JsonEncode(req))
-
-	r.ServeHTTP(res, c.Request)
-
 }

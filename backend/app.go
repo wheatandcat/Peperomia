@@ -42,13 +42,12 @@ func main() {
 	}
 
 	m := middleware.NewMiddleware(f)
-	a := handler.NewApplication(repository.NewItemRepository())
 
 	app := r.Group("")
 	{
 		app.Use(m.FirebaseAuthMiddleWare)
 
-		h, err := handler.NewHandler(ctx, f, a)
+		h, err := handler.NewHandler(ctx, f)
 		if err != nil {
 			panic(err)
 		}
@@ -71,7 +70,7 @@ func main() {
 	am := r.Group("/amazon")
 	{
 		am.Use(m.AmazonAuthMiddleWare)
-		h, err := handler.NewHandler(ctx, f, a)
+		h, err := handler.NewHandler(ctx, f)
 		if err != nil {
 			panic(err)
 		}

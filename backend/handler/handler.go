@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/wheatandcat/Peperomia/backend/client/uuidgen"
+	repository "github.com/wheatandcat/Peperomia/backend/repository"
 
 	"cloud.google.com/go/firestore"
 	firebase "firebase.google.com/go"
@@ -40,14 +41,14 @@ type ErrorResponse struct {
 }
 
 // NewApplication アプリケーションを作成する
-func NewApplication(itemRepository domain.ItemRepository) *Application {
+func newApplication() *Application {
 	return &Application{
-		ItemRepository: itemRepository,
+		ItemRepository: repository.NewItemRepository(),
 	}
 }
 
 // NewHandler is Craeate Handler
-func NewHandler(ctx context.Context, f *firebase.App, app *Application) (*Handler, error) {
+func NewHandler(ctx context.Context, f *firebase.App) (*Handler, error) {
 	fc, err := f.Firestore(ctx)
 	if err != nil {
 		h := &Handler{}
@@ -57,6 +58,8 @@ func NewHandler(ctx context.Context, f *firebase.App, app *Application) (*Handle
 	client := &Client{
 		UUID: &uuidgen.UUID{},
 	}
+
+	app := newApplication()
 
 	return &Handler{
 		FirebaseApp:     f,

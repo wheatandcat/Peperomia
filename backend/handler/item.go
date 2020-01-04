@@ -79,7 +79,6 @@ func (h *Handler) CreateItem(gc *gin.Context) {
 	}
 
 	if err := h.App.ItemRepository.Create(ctx, h.FirestoreClient, item); err != nil {
-		log.Printf("error")
 		NewErrorResponse(err).Render(gc)
 		return
 	}
