@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 	"testing"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
@@ -13,37 +14,39 @@ import (
 	handler "github.com/wheatandcat/Peperomia/backend/handler"
 )
 
-func TestCreateItem(t *testing.T) {
+func TestCreateCalendar(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	ctx := context.Background()
 
-	mock := mock_domain.NewMockItemRepository(ctrl)
-	i := domain.ItemRecord{
-		ID:    "sample-uuid-string",
-		UID:   "test",
-		Title: "test",
-		Kind:  "test",
+	mock := mock_domain.NewMockCalendarRepository(ctrl)
+	date, _ := time.Parse("2006-01-02", "2019-01-01")
+
+	i := domain.CalendarRecord{
+		ID:     "sample-uuid-string",
+		ItemID: "test",
+		UID:    "test",
+		Date:   &date,
 	}
 
 	mock.EXPECT().Create(gomock.Any(), gomock.Any(), i).Return(nil)
 
 	h := NewTestHandler(ctx)
-	h.App.ItemRepository = mock
+	h.App.CalendarRepository = mock
 
 	tests := []struct {
 		name       string
-		request    handler.CreateItemRequest
+		request    handler.CreateCalendarRequest
 		statusCode int
 	}{
 		{
 			name: "ok",
-			request: handler.CreateItemRequest{
-				Item: handler.CreateItem{
-					Title: "test",
-					Kind:  "test",
+			request: handler.CreateCalendarRequest{
+				Calendar: handler.CreateCalendar{
+					ItemID: "test",
+					Date:   &date,
 				},
 			},
 			statusCode: http.StatusCreated,
@@ -52,44 +55,45 @@ func TestCreateItem(t *testing.T) {
 
 	for _, td := range tests {
 		t.Run(td.name, func(t *testing.T) {
-			res := Execute(h.CreateItem, NewRequest(JsonEncode(td.request)))
+			res := Execute(h.CreateCalendar, NewRequest(JsonEncode(td.request)))
 			assert.Equal(t, td.statusCode, res.Code)
 		})
 	}
 }
 
-func TestUpdateItem(t *testing.T) {
+func TestUpdateCalendar(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	ctx := context.Background()
+	date, _ := time.Parse("2006-01-02", "2019-01-01")
 
-	mock := mock_domain.NewMockItemRepository(ctrl)
-	i := domain.ItemRecord{
-		ID:    "test",
-		UID:   "test",
-		Title: "test",
-		Kind:  "test",
+	mock := mock_domain.NewMockCalendarRepository(ctrl)
+	i := domain.CalendarRecord{
+		ID:     "test",
+		ItemID: "test",
+		UID:    "test",
+		Date:   &date,
 	}
 
 	mock.EXPECT().Update(gomock.Any(), gomock.Any(), i).Return(nil)
 
 	h := NewTestHandler(ctx)
-	h.App.ItemRepository = mock
+	h.App.CalendarRepository = mock
 
 	tests := []struct {
 		name       string
-		request    handler.UpdateItemRequest
+		request    handler.UpdateCalendarRequest
 		statusCode int
 	}{
 		{
 			name: "ok",
-			request: handler.UpdateItemRequest{
-				Item: handler.UpdateItem{
-					ID:    "test",
-					Title: "test",
-					Kind:  "test",
+			request: handler.UpdateCalendarRequest{
+				Calendar: handler.UpdateCalendar{
+					ID:     "test",
+					ItemID: "test",
+					Date:   &date,
 				},
 			},
 			statusCode: http.StatusOK,
@@ -98,40 +102,42 @@ func TestUpdateItem(t *testing.T) {
 
 	for _, td := range tests {
 		t.Run(td.name, func(t *testing.T) {
-			res := Execute(h.UpdateItem, NewRequest(JsonEncode(td.request)))
+			res := Execute(h.UpdateCalendar, NewRequest(JsonEncode(td.request)))
 			assert.Equal(t, td.statusCode, res.Code)
 		})
 	}
 }
 
-func TestDeleteItem(t *testing.T) {
+func TestDeleteCalendar(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	ctx := context.Background()
 
-	mock := mock_domain.NewMockItemRepository(ctrl)
-	i := domain.ItemRecord{
-		ID:  "test",
-		UID: "test",
+	mock := mock_domain.NewMockCalendarRepository(ctrl)
+	i := domain.CalendarRecord{
+		ID:     "test",
+		ItemID: "test",
+		UID:    "test",
 	}
 
 	mock.EXPECT().Delete(gomock.Any(), gomock.Any(), i).Return(nil)
 
 	h := NewTestHandler(ctx)
-	h.App.ItemRepository = mock
+	h.App.CalendarRepository = mock
 
 	tests := []struct {
 		name       string
-		request    handler.DeleteItemRequest
+		request    handler.DeleteCalendarRequest
 		statusCode int
 	}{
 		{
 			name: "ok",
-			request: handler.DeleteItemRequest{
-				Item: handler.DeleteItem{
-					ID: "test",
+			request: handler.DeleteCalendarRequest{
+				Calendar: handler.DeleteCalendar{
+					ID:     "test",
+					ItemID: "test",
 				},
 			},
 			statusCode: http.StatusOK,
@@ -140,7 +146,7 @@ func TestDeleteItem(t *testing.T) {
 
 	for _, td := range tests {
 		t.Run(td.name, func(t *testing.T) {
-			res := Execute(h.DeleteItem, NewRequest(JsonEncode(td.request)))
+			res := Execute(h.DeleteCalendar, NewRequest(JsonEncode(td.request)))
 			assert.Equal(t, td.statusCode, res.Code)
 		})
 	}

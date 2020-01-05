@@ -16,7 +16,9 @@ import (
 
 // Application is app interface
 type Application struct {
-	ItemRepository domain.ItemRepository
+	ItemRepository       domain.ItemRepository
+	ItemDetailRepository domain.ItemDetailRepository
+	CalendarRepository   domain.CalendarRepository
 }
 
 // Client is Client type
@@ -43,7 +45,9 @@ type ErrorResponse struct {
 // NewApplication アプリケーションを作成する
 func newApplication() *Application {
 	return &Application{
-		ItemRepository: repository.NewItemRepository(),
+		ItemRepository:       repository.NewItemRepository(),
+		ItemDetailRepository: repository.NewItemDetailRepository(),
+		CalendarRepository:   repository.NewCalendarRepository(),
 	}
 }
 

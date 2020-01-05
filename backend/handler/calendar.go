@@ -6,8 +6,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
-	repository "github.com/wheatandcat/Peperomia/backend/repository"
+	"github.com/wheatandcat/Peperomia/backend/domain"
 )
 
 // CreateCalendarRequest is CreateCalendar request
@@ -59,22 +58,14 @@ func (h *Handler) CreateCalendar(gc *gin.Context) {
 		return
 	}
 
-	cr := repository.NewCalendarRepository()
-
-	u, err := uuid.NewRandom()
-	if err != nil {
-		NewErrorResponse(err).Render(gc)
-		return
-	}
-
-	item := repository.CalendarRecord{
-		ID:     u.String(),
+	item := domain.CalendarRecord{
+		ID:     h.Client.UUID.Get(),
 		ItemID: req.Calendar.ItemID,
 		UID:    uid,
 		Date:   req.Calendar.Date,
 	}
 
-	if err := cr.Create(ctx, h.FirestoreClient, item); err != nil {
+	if err := h.App.CalendarRepository.Create(ctx, h.FirestoreClient, item); err != nil {
 		NewErrorResponse(err).Render(gc)
 		return
 	}
@@ -97,21 +88,19 @@ func (h *Handler) UpdateCalendar(gc *gin.Context) {
 		return
 	}
 
-	cr := repository.NewCalendarRepository()
-
-	item := repository.CalendarRecord{
+	item := domain.CalendarRecord{
 		ID:     req.Calendar.ID,
 		ItemID: req.Calendar.ItemID,
 		Date:   req.Calendar.Date,
 		UID:    uid,
 	}
 
-	if err := cr.Update(ctx, h.FirestoreClient, item); err != nil {
+	if err := h.App.CalendarRepository.Update(ctx, h.FirestoreClient, item); err != nil {
 		NewErrorResponse(err).Render(gc)
 		return
 	}
 
-	gc.JSON(http.StatusCreated, nil)
+	gc.JSON(http.StatusOK, nil)
 }
 
 // DeleteCalendar 予定の詳細を削除する
@@ -129,18 +118,16 @@ func (h *Handler) DeleteCalendar(gc *gin.Context) {
 		return
 	}
 
-	cr := repository.NewCalendarRepository()
-
-	item := repository.CalendarRecord{
+	item := domain.CalendarRecord{
 		ID:     req.Calendar.ID,
 		ItemID: req.Calendar.ItemID,
 		UID:    uid,
 	}
 
-	if err := cr.Delete(ctx, h.FirestoreClient, item); err != nil {
+	if err := h.App.CalendarRepository.Delete(ctx, h.FirestoreClient, item); err != nil {
 		NewErrorResponse(err).Render(gc)
 		return
 	}
 
-	gc.JSON(http.StatusCreated, nil)
+	gc.JSON(http.StatusOK, nil)
 }

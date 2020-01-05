@@ -5,8 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
-	repository "github.com/wheatandcat/Peperomia/backend/repository"
+	"github.com/wheatandcat/Peperomia/backend/domain"
 )
 
 // CreateItemDetailRequest is CreateItemDetail request
@@ -22,8 +21,8 @@ type CreateItemDetail struct {
 	Memo        string `json:"memo"`
 	URL         string `json:"url"`
 	Place       string `json:"place"`
-	MoveMinutes int32  `json:"moveMinutes"`
-	Priority    int32  `json:"priority" binding:"required"`
+	MoveMinutes int    `json:"moveMinutes"`
+	Priority    int    `json:"priority"`
 }
 
 // UpdateItemDetailRequest is UpdateItemDetail request
@@ -40,8 +39,8 @@ type UpdateItemDetail struct {
 	Memo        string `json:"memo"`
 	URL         string `json:"url"`
 	Place       string `json:"place"`
-	MoveMinutes int32  `json:"moveMinutes"`
-	Priority    int32  `json:"priority" binding:"required"`
+	MoveMinutes int    `json:"moveMinutes"`
+	Priority    int    `json:"priority"`
 }
 
 // DeleteItemDetailRequest is DeleteItemDetail request
@@ -70,16 +69,8 @@ func (h *Handler) CreateItemDetail(gc *gin.Context) {
 		return
 	}
 
-	idr := repository.NewItemDetailRepository()
-
-	u, err := uuid.NewRandom()
-	if err != nil {
-		NewErrorResponse(err).Render(gc)
-		return
-	}
-
-	item := repository.ItemDetailRecord{
-		ID:          u.String(),
+	item := domain.ItemDetailRecord{
+		ID:          h.Client.UUID.Get(),
 		ItemID:      req.ItemDetail.ItemID,
 		Title:       req.ItemDetail.Title,
 		Kind:        req.ItemDetail.Kind,
@@ -91,7 +82,7 @@ func (h *Handler) CreateItemDetail(gc *gin.Context) {
 		Priority:    req.ItemDetail.Priority,
 	}
 
-	if err := idr.Create(ctx, h.FirestoreClient, item); err != nil {
+	if err := h.App.ItemDetailRepository.Create(ctx, h.FirestoreClient, item); err != nil {
 		NewErrorResponse(err).Render(gc)
 		return
 	}
@@ -114,9 +105,7 @@ func (h *Handler) UpdateItemDetail(gc *gin.Context) {
 		return
 	}
 
-	idr := repository.NewItemDetailRepository()
-
-	item := repository.ItemDetailRecord{
+	item := domain.ItemDetailRecord{
 		ID:          req.ItemDetail.ID,
 		ItemID:      req.ItemDetail.ItemID,
 		Title:       req.ItemDetail.Title,
@@ -129,12 +118,12 @@ func (h *Handler) UpdateItemDetail(gc *gin.Context) {
 		Priority:    req.ItemDetail.Priority,
 	}
 
-	if err := idr.Update(ctx, h.FirestoreClient, item); err != nil {
+	if err := h.App.ItemDetailRepository.Update(ctx, h.FirestoreClient, item); err != nil {
 		NewErrorResponse(err).Render(gc)
 		return
 	}
 
-	gc.JSON(http.StatusCreated, nil)
+	gc.JSON(http.StatusOK, nil)
 }
 
 // DeleteItemDetail 予定の詳細を削除する
@@ -152,18 +141,16 @@ func (h *Handler) DeleteItemDetail(gc *gin.Context) {
 		return
 	}
 
-	idr := repository.NewItemDetailRepository()
-
-	item := repository.ItemDetailRecord{
+	item := domain.ItemDetailRecord{
 		ID:     req.ItemDetail.ID,
 		ItemID: req.ItemDetail.ItemID,
 		UID:    uid,
 	}
 
-	if err := idr.Delete(ctx, h.FirestoreClient, item); err != nil {
+	if err := h.App.ItemDetailRepository.Delete(ctx, h.FirestoreClient, item); err != nil {
 		NewErrorResponse(err).Render(gc)
 		return
 	}
 
-	gc.JSON(http.StatusCreated, nil)
+	gc.JSON(http.StatusOK, nil)
 }

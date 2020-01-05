@@ -11,9 +11,9 @@ import (
 
 // SyncItemsRequest is SyncItemsRequest request
 type SyncItemsRequest struct {
-	Items       []domain.ItemRecord           `json:"items" binding:"required"`
-	ItemDetails []repository.ItemDetailRecord `json:"itemDetails" binding:"required"`
-	Calendars   []repository.CalendarRecord   `json:"calendars"`
+	Items       []domain.ItemRecord       `json:"items" binding:"required"`
+	ItemDetails []domain.ItemDetailRecord `json:"itemDetails" binding:"required"`
+	Calendars   []domain.CalendarRecord   `json:"calendars"`
 }
 
 // CreateItemRequest is CreateItem request
@@ -99,8 +99,6 @@ func (h *Handler) UpdateItem(gc *gin.Context) {
 		return
 	}
 
-	ir := repository.NewItemRepository()
-
 	item := domain.ItemRecord{
 		ID:    req.Item.ID,
 		Title: req.Item.Title,
@@ -108,7 +106,7 @@ func (h *Handler) UpdateItem(gc *gin.Context) {
 		UID:   uid,
 	}
 
-	if err := ir.Update(ctx, h.FirestoreClient, item); err != nil {
+	if err := h.App.ItemRepository.Update(ctx, h.FirestoreClient, item); err != nil {
 		NewErrorResponse(err).Render(gc)
 		return
 	}
@@ -131,14 +129,12 @@ func (h *Handler) DeleteItem(gc *gin.Context) {
 		return
 	}
 
-	ir := repository.NewItemRepository()
-
 	item := domain.ItemRecord{
 		ID:  req.Item.ID,
 		UID: uid,
 	}
 
-	if err := ir.Delete(ctx, h.FirestoreClient, item); err != nil {
+	if err := h.App.ItemRepository.Delete(ctx, h.FirestoreClient, item); err != nil {
 		NewErrorResponse(err).Render(gc)
 		return
 	}
