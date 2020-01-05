@@ -11,6 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 	mock_uuidgen "github.com/wheatandcat/Peperomia/backend/client/uuidgen/mocks"
 	handler "github.com/wheatandcat/Peperomia/backend/handler"
+	repository "github.com/wheatandcat/Peperomia/backend/repository"
 )
 
 func JsonEncode(v interface{}) string {
@@ -47,9 +48,14 @@ func Execute(hf gin.HandlerFunc, req *http.Request) *httptest.ResponseRecorder {
 	return res
 }
 
-func NewTestHandler(ctx context.Context, app *handler.Application) handler.Handler {
+func NewTestHandler(ctx context.Context) handler.Handler {
 	f, _ := firebase.NewApp(ctx, nil)
 	fc, _ := f.Firestore(ctx)
+
+	app := &handler.Application{
+		ItemRepository:       repository.NewItemRepository(),
+		ItemDetailRepository: repository.NewItemDetailRepository(),
+	}
 
 	client := &handler.Client{
 		UUID: &mock_uuidgen.UUID{},

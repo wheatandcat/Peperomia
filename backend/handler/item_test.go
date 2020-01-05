@@ -13,7 +13,7 @@ import (
 	handler "github.com/wheatandcat/Peperomia/backend/handler"
 )
 
-func TestCreate(t *testing.T) {
+func TestCreateItem(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 
 	ctrl := gomock.NewController(t)
@@ -30,11 +30,8 @@ func TestCreate(t *testing.T) {
 
 	mock.EXPECT().Create(gomock.Any(), gomock.Any(), i).Return(nil)
 
-	app := &handler.Application{
-		ItemRepository: mock,
-	}
-
-	h := NewTestHandler(ctx, app)
+	h := NewTestHandler(ctx)
+	h.App.ItemRepository = mock
 
 	tests := []struct {
 		name       string
@@ -56,6 +53,94 @@ func TestCreate(t *testing.T) {
 	for _, td := range tests {
 		t.Run(td.name, func(t *testing.T) {
 			res := Execute(h.CreateItem, NewRequest(JsonEncode(td.request)))
+			assert.Equal(t, td.statusCode, res.Code)
+		})
+	}
+}
+
+func TestUpdateItem(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	ctx := context.Background()
+
+	mock := mock_domain.NewMockItemRepository(ctrl)
+	i := domain.ItemRecord{
+		ID:    "test",
+		UID:   "test",
+		Title: "test",
+		Kind:  "test",
+	}
+
+	mock.EXPECT().Update(gomock.Any(), gomock.Any(), i).Return(nil)
+
+	h := NewTestHandler(ctx)
+	h.App.ItemRepository = mock
+
+	tests := []struct {
+		name       string
+		request    handler.UpdateItemRequest
+		statusCode int
+	}{
+		{
+			name: "ok",
+			request: handler.UpdateItemRequest{
+				Item: handler.UpdateItem{
+					ID:    "test",
+					Title: "test",
+					Kind:  "test",
+				},
+			},
+			statusCode: http.StatusOK,
+		},
+	}
+
+	for _, td := range tests {
+		t.Run(td.name, func(t *testing.T) {
+			res := Execute(h.UpdateItem, NewRequest(JsonEncode(td.request)))
+			assert.Equal(t, td.statusCode, res.Code)
+		})
+	}
+}
+
+func TestDeleteItem(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	ctx := context.Background()
+
+	mock := mock_domain.NewMockItemRepository(ctrl)
+	i := domain.ItemRecord{
+		ID:  "test",
+		UID: "test",
+	}
+
+	mock.EXPECT().Delete(gomock.Any(), gomock.Any(), i).Return(nil)
+
+	h := NewTestHandler(ctx)
+	h.App.ItemRepository = mock
+
+	tests := []struct {
+		name       string
+		request    handler.DeleteItemRequest
+		statusCode int
+	}{
+		{
+			name: "ok",
+			request: handler.DeleteItemRequest{
+				Item: handler.DeleteItem{
+					ID: "test",
+				},
+			},
+			statusCode: http.StatusOK,
+		},
+	}
+
+	for _, td := range tests {
+		t.Run(td.name, func(t *testing.T) {
+			res := Execute(h.DeleteItem, NewRequest(JsonEncode(td.request)))
 			assert.Equal(t, td.statusCode, res.Code)
 		})
 	}
