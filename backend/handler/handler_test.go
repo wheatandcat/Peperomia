@@ -55,6 +55,7 @@ func NewTestHandler(ctx context.Context) handler.Handler {
 	app := &handler.Application{
 		ItemRepository:       repository.NewItemRepository(),
 		ItemDetailRepository: repository.NewItemDetailRepository(),
+		CalendarRepository:   repository.NewCalendarRepository(),
 	}
 
 	client := &handler.Client{

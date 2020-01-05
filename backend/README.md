@@ -25,6 +25,13 @@ $ dev_appserver.py app.yaml
 $ go test ./handler
 ```
 
+
+カバレッジ確認
+
+```
+$ go test -coverprofile=cover.out ./handler
+```
+
 ## デプロイ
 
 ```

@@ -11,9 +11,9 @@ import (
 
 // SyncItemsRequest is SyncItemsRequest request
 type SyncItemsRequest struct {
-	Items       []domain.ItemRecord         `json:"items" binding:"required"`
-	ItemDetails []domain.ItemDetailRecord   `json:"itemDetails" binding:"required"`
-	Calendars   []repository.CalendarRecord `json:"calendars"`
+	Items       []domain.ItemRecord       `json:"items" binding:"required"`
+	ItemDetails []domain.ItemDetailRecord `json:"itemDetails" binding:"required"`
+	Calendars   []domain.CalendarRecord   `json:"calendars"`
 }
 
 // CreateItemRequest is CreateItem request
