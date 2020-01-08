@@ -2,7 +2,7 @@ import * as SQLite from 'expo-sqlite';
 import React, { Component } from 'react';
 import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import uuidv1 from 'uuid/v1';
-import { db, ResultError } from '../../../lib/db';
+import { db } from '../../../lib/db';
 import { Item, select1st as selectItem1st } from '../../../lib/db/item';
 import {
   ItemDetail,
@@ -58,11 +58,11 @@ export default class extends Component<Props, State> {
       'scheduleDetailId',
       '1'
     );
-    db.transaction((tx: SQLite.Transaction) => {
+    db.transaction((tx: SQLite.SQLTransaction) => {
       select1st(
         tx,
         scheduleDetailId,
-        (data: ItemDetail, error: ResultError) => {
+        (data: ItemDetail, error: SQLite.SQLError | null) => {
           if (error) {
             return;
           }
@@ -74,7 +74,7 @@ export default class extends Component<Props, State> {
     });
   }
 
-  setItem = (data: Item, error: ResultError) => {
+  setItem = (data: Item, error: SQLite.SQLError | null) => {
     if (error) {
       return;
     }
@@ -100,11 +100,11 @@ export default class extends Component<Props, State> {
   };
 
   onDelete = () => {
-    db.transaction((tx: SQLite.Transaction) => {
+    db.transaction((tx: SQLite.SQLTransaction) => {
       delete1st(
         tx,
         String(this.state.itemDetail.id),
-        (_, error: ResultError) => {
+        (_, error: SQLite.SQLError | null) => {
           if (error) {
             return;
           }
@@ -124,7 +124,7 @@ export default class extends Component<Props, State> {
     });
   };
 
-  onPushSchedule = (_: ItemDetail[], error: ResultError) => {
+  onPushSchedule = (_: ItemDetail[], error: SQLite.SQLError | null) => {
     if (error) {
       return;
     }

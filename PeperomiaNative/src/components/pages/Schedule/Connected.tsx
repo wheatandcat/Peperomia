@@ -12,7 +12,7 @@ import {
   NavigationContext,
 } from 'react-navigation';
 import { useNavigation } from 'react-navigation-hooks';
-import { db, ResultError } from '../../../lib/db';
+import { db } from '../../../lib/db';
 import {
   selectByItemId,
   ItemDetail,
@@ -45,7 +45,7 @@ export default memo((props: Props) => {
   const save = useCallback(() => {}, []);
 
   const setItems = useCallback(
-    (data: ItemDetail[], error: ResultError) => {
+    (data: ItemDetail[], error: SQLite.SQLError | null) => {
       if (error) {
         return;
       }
@@ -74,7 +74,7 @@ export default memo((props: Props) => {
         })
       );
 
-      db.transaction((tx: SQLite.Transaction) => {
+      db.transaction((tx: SQLite.SQLTransaction) => {
         items.forEach(async (item, index) => {
           item.priority = index + 1;
           await updateItemDetail(tx, item, save);
@@ -91,7 +91,7 @@ export default memo((props: Props) => {
 
   const getData = useCallback(
     (itemId: string) => {
-      db.transaction((tx: SQLite.Transaction) => {
+      db.transaction((tx: SQLite.SQLTransaction) => {
         selectByItemId(tx, itemId, setItems);
       });
     },

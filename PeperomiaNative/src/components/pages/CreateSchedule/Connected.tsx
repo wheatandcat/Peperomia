@@ -2,7 +2,7 @@ import * as SQLite from 'expo-sqlite';
 import React, { useState, memo, useEffect, useCallback } from 'react';
 import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import { Alert } from 'react-native';
-import { db, ResultError } from '../../../lib/db';
+import { db } from '../../../lib/db';
 import { Item, select1st } from '../../../lib/db/item';
 import {
   selectByItemId,
@@ -32,7 +32,7 @@ export default memo((props: Props) => {
   const save = useCallback(() => {}, []);
 
   const setItems = useCallback(
-    (data: ItemDetail[], error: ResultError) => {
+    (data: ItemDetail[], error: SQLite.SQLError | null) => {
       if (error) {
         return;
       }
@@ -61,7 +61,7 @@ export default memo((props: Props) => {
         })
       );
 
-      db.transaction((tx: SQLite.Transaction) => {
+      db.transaction((tx: SQLite.SQLTransaction) => {
         items.forEach(async (item, index) => {
           item.priority = index + 1;
           await updateItemDetail(tx, item, save);
@@ -76,7 +76,7 @@ export default memo((props: Props) => {
     [props.navigation, save]
   );
 
-  const setItem = useCallback((data: Item, error: ResultError) => {
+  const setItem = useCallback((data: Item, error: SQLite.SQLError | null) => {
     if (error) {
       return;
     }
@@ -94,7 +94,7 @@ export default memo((props: Props) => {
   useDidMount(() => {
     const itemId = props.navigation.getParam('itemId', '1');
 
-    db.transaction((tx: SQLite.Transaction) => {
+    db.transaction((tx: SQLite.SQLTransaction) => {
       select1st(tx, itemId, setItem);
       selectByItemId(tx, itemId, setItems);
     });
@@ -105,7 +105,7 @@ export default memo((props: Props) => {
 
     if (refresh !== state.refresh) {
       const itemId = props.navigation.getParam('itemId', '1');
-      db.transaction((tx: SQLite.Transaction) => {
+      db.transaction((tx: SQLite.SQLTransaction) => {
         selectByItemId(tx, itemId, setItems);
       });
 

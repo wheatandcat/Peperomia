@@ -23,5 +23,5 @@ export const findByUID = async (
   return records.map((record: any) => ({
     ...record,
     date: dayjs(record.date.seconds * 1000).format('YYYY-MM-DD'),
-  }));
+  })) as Calendar[];
 };

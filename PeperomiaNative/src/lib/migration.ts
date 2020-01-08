@@ -9,7 +9,7 @@ import { db } from './db';
 
 export const migrationV104 = async (): Promise<boolean> => {
   try {
-    await db.transaction(async (tx: SQLite.Transaction) => {
+    await db.transaction(async (tx: SQLite.SQLTransaction) => {
       await v1040(tx);
       await v1041(tx);
     });
@@ -23,7 +23,7 @@ export const migrationV104 = async (): Promise<boolean> => {
 
 export const migrationV201 = async (): Promise<boolean> => {
   try {
-    await db.transaction(async (tx: SQLite.Transaction) => {
+    await db.transaction(async (tx: SQLite.SQLTransaction) => {
       await createCalendar(tx);
     });
 

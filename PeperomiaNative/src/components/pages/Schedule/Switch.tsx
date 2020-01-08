@@ -18,7 +18,7 @@ import Toast from 'react-native-root-toast';
 import uuidv1 from 'uuid/v1';
 import { Button } from 'react-native-elements';
 import theme from '../../../config/theme';
-import { db, ResultError } from '../../../lib/db';
+import { db } from '../../../lib/db';
 import { deleteByItemId as deleteCalendarByItemId } from '../../../lib/db/calendar';
 import {
   update as updateItemDetail,
@@ -130,7 +130,7 @@ class Switch extends Component<Props, State> {
   async componentDidMount() {
     const itemId = this.props.navigation.getParam('itemId', '1');
 
-    db.transaction((tx: SQLite.Transaction) => {
+    db.transaction((tx: SQLite.SQLTransaction) => {
       select1st(tx, itemId, this.setItem);
     });
 
@@ -146,7 +146,7 @@ class Switch extends Component<Props, State> {
     });
   }
 
-  setItem = (data: Item, error: ResultError) => {
+  setItem = (data: Item, error: SQLite.SQLError | null) => {
     if (error) {
       return;
     }
@@ -373,8 +373,8 @@ export class Plan extends Component<PlanProps> {
   onDelete = () => {
     const itemId = this.props.navigation.getParam('itemId', '1');
 
-    db.transaction((tx: SQLite.Transaction) => {
-      delete1st(tx, itemId, (_: Item, error: ResultError) => {
+    db.transaction((tx: SQLite.SQLTransaction) => {
+      delete1st(tx, itemId, (_: Item, error: SQLite.SQLError | null) => {
         if (error) {
           return;
         }
@@ -384,7 +384,7 @@ export class Plan extends Component<PlanProps> {
     });
   };
 
-  onDeleteRefresh = (_: ItemDetail[], error: ResultError) => {
+  onDeleteRefresh = (_: ItemDetail[], error: SQLite.SQLError | null) => {
     if (error) {
       return;
     }
@@ -396,7 +396,7 @@ export class Plan extends Component<PlanProps> {
   };
 
   onChangeItems = (data: ItemDetail[]): void => {
-    db.transaction((tx: SQLite.Transaction) => {
+    db.transaction((tx: SQLite.SQLTransaction) => {
       data.forEach(async (item, index) => {
         item.priority = index + 1;
         await updateItemDetail(tx, item, () => {});

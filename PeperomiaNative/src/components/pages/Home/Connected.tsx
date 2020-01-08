@@ -18,7 +18,7 @@ import { Dimensions, View, Image, AsyncStorage } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import uuidv1 from 'uuid/v1';
 import theme, { darkMode } from '../../../config/theme';
-import { db, ResultError } from '../../../lib/db';
+import { db } from '../../../lib/db';
 import { Item } from '../../../lib/db/item';
 import { delete1st } from '../../../lib/db/item';
 import { deleteByItemId as deleteItemDetailByItemId } from '../../../lib/db/itemDetail';
@@ -189,8 +189,8 @@ const HomeScreenPlan = memo((props: PlanProps) => {
 
   const onDelete = useCallback(
     (itemId: string) => {
-      db.transaction((tx: SQLite.Transaction) => {
-        delete1st(tx, itemId, (_: Item, error: ResultError) => {
+      db.transaction((tx: SQLite.SQLTransaction) => {
+        delete1st(tx, itemId, (_: Item, error: SQLite.SQLError | null) => {
           if (error) {
             return;
           }

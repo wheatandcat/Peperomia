@@ -1,6 +1,6 @@
 import * as SQLite from 'expo-sqlite';
 import * as Sentry from 'sentry-expo';
-import { db, ResultError } from './db';
+import { db } from './db';
 import {
   select as selectItems,
   deleteAll as deleteItemAll,
@@ -36,7 +36,7 @@ export const backup = (): Promise<Backup> => {
     reject: (error: Error) => void
   ) {
     try {
-      db.transaction(async (tx: SQLite.Transaction) => {
+      db.transaction(async (tx: SQLite.SQLTransaction) => {
         Promise.all([
           getItemAll(tx),
           getItemDetailAll(tx),
@@ -56,10 +56,10 @@ export const backup = (): Promise<Backup> => {
   });
 };
 
-const getItemAll = (tx: SQLite.Transaction): Promise<Item[]> => {
+const getItemAll = (tx: SQLite.SQLTransaction): Promise<Item[]> => {
   // アイテムを取得
   return new Promise(function(resolve, reject) {
-    selectItems(tx, (data: Item[], error: ResultError) => {
+    selectItems(tx, (data: Item[], error: SQLite.SQLError | null) => {
       if (error) {
         reject(error);
         return;
@@ -71,7 +71,7 @@ const getItemAll = (tx: SQLite.Transaction): Promise<Item[]> => {
   });
 };
 
-const getItemDetailAll = (tx: SQLite.Transaction): Promise<ItemDetail[]> => {
+const getItemDetailAll = (tx: SQLite.SQLTransaction): Promise<ItemDetail[]> => {
   // アイテム詳細を取得
   return new Promise(function(resolve, reject) {
     selectItemDetails(tx, (data: ItemDetail[], err: any) => {
@@ -87,7 +87,7 @@ const getItemDetailAll = (tx: SQLite.Transaction): Promise<ItemDetail[]> => {
   });
 };
 
-const getCalendarAll = (tx: SQLite.Transaction): Promise<Calendar[]> => {
+const getCalendarAll = (tx: SQLite.SQLTransaction): Promise<Calendar[]> => {
   // アイテム詳細を取得
   return new Promise(function(resolve, reject) {
     selectCalendars(tx, (data: Calendar[], err: any) => {
@@ -105,7 +105,10 @@ const getCalendarAll = (tx: SQLite.Transaction): Promise<Calendar[]> => {
 
 export const restore = async (uid: string): Promise<any> => {
   const firestore = getFireStore();
-  const items = await findItemByUID(firestore, uid);
+  const items = await (await findItemByUID(firestore, uid)).map(item => ({
+    ...item,
+    id: Number(item.id),
+  }));
   const itemDetails = await findItemDetailByUID(firestore, uid);
   const calendars = await findCalendarByUID(firestore, uid);
 
@@ -113,16 +116,25 @@ export const restore = async (uid: string): Promise<any> => {
     throw new Error('バックアップデータがありません。');
   }
 
-  await db.transaction(async (tx: SQLite.Transaction) => {
+  await db.transaction(async (tx: SQLite.SQLTransaction) => {
     await deleteAll(tx);
   });
 
-  await db.transaction(async (tx: SQLite.Transaction) => {
-    await importAll(tx, items, itemDetails, calendars);
+  await db.transaction(async (tx: SQLite.SQLTransaction) => {
+    await importAll(
+      tx,
+      items,
+      itemDetails.map(itemDetail => ({
+        ...itemDetail,
+        id: Number(itemDetail.id),
+        itemId: Number(itemDetail.itemId),
+      })),
+      calendars
+    );
   });
 };
 
-const truncateItems = (tx: SQLite.Transaction): Promise<any> => {
+const truncateItems = (tx: SQLite.SQLTransaction): Promise<any> => {
   // アイテムを削除
   return new Promise(function(resolve, reject) {
     deleteItemAll(tx, (data: Item, err: any) => {
@@ -138,7 +150,7 @@ const truncateItems = (tx: SQLite.Transaction): Promise<any> => {
   });
 };
 
-const truncateItemDetails = (tx: SQLite.Transaction): Promise<any> => {
+const truncateItemDetails = (tx: SQLite.SQLTransaction): Promise<any> => {
   // アイテム詳細を削除
   return new Promise(function(resolve, reject) {
     deleteItemDetailAll(tx, (data: ItemDetail[], err: any) => {
@@ -154,7 +166,7 @@ const truncateItemDetails = (tx: SQLite.Transaction): Promise<any> => {
   });
 };
 
-const truncateCalendars = (tx: SQLite.Transaction): Promise<any> => {
+const truncateCalendars = (tx: SQLite.SQLTransaction): Promise<any> => {
   // アイテム詳細を削除
   return new Promise(function(resolve, reject) {
     deleteCalendarAll(tx, (data: Calendar, err: any) => {
@@ -170,7 +182,7 @@ const truncateCalendars = (tx: SQLite.Transaction): Promise<any> => {
   });
 };
 
-const deleteAll = (tx: SQLite.Transaction): Promise<any> => {
+const deleteAll = (tx: SQLite.SQLTransaction): Promise<any> => {
   return new Promise(function(
     resolve: () => void,
     reject: (error: Error) => void
@@ -190,7 +202,10 @@ const deleteAll = (tx: SQLite.Transaction): Promise<any> => {
   });
 };
 
-const importItems = (tx: SQLite.Transaction, items: Item[]): Promise<any> => {
+const importItems = (
+  tx: SQLite.SQLTransaction,
+  items: Item[]
+): Promise<any> => {
   // アイテムを作成
   return new Promise(function(resolve, reject) {
     bulkInsertItem(tx, items, (data: Item[], err: any) => {
@@ -207,7 +222,7 @@ const importItems = (tx: SQLite.Transaction, items: Item[]): Promise<any> => {
 };
 
 const importItemDetails = (
-  tx: SQLite.Transaction,
+  tx: SQLite.SQLTransaction,
   itemDetail: ItemDetail[]
 ): Promise<any> => {
   // アイテム詳細を作成
@@ -226,7 +241,7 @@ const importItemDetails = (
 };
 
 const importCalendars = (
-  tx: SQLite.Transaction,
+  tx: SQLite.SQLTransaction,
   calendars: Calendar[]
 ): Promise<any> => {
   // アイテム詳細を作成
@@ -245,7 +260,7 @@ const importCalendars = (
 };
 
 const importAll = (
-  tx: SQLite.Transaction,
+  tx: SQLite.SQLTransaction,
   items: Item[],
   itemDetail: ItemDetail[],
   calendars: Calendar[]

@@ -106,7 +106,7 @@ const Plan = memo((props: PlanProps) => {
       memoText: string,
       moveMinutes: number
     ) => {
-      db.transaction((tx: SQLite.Transaction) => {
+      db.transaction((tx: SQLite.SQLTransaction) => {
         const itemDetail: ItemDetail = {
           id: props.id,
           title,
