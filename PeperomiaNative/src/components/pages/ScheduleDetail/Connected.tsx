@@ -3,14 +3,15 @@ import React, { Component } from 'react';
 import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import uuidv1 from 'uuid/v1';
 import { db } from '../../../lib/db';
-import { Item, select1st as selectItem1st } from '../../../lib/db/item';
+import { Item } from '../../../lib/db/item';
 import {
   ItemDetail,
-  select1st,
   delete1st,
   selectByItemId,
   sortItemDetail,
 } from '../../../lib/db/itemDetail';
+import { getItemByID } from '../../../lib/item';
+import { getItemDetailByID } from '../../../lib/itemDetail';
 import { ContextProps } from '../../../containers/Items';
 import Page from './Page';
 
@@ -53,34 +54,20 @@ export default class extends Component<Props, State> {
     },
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     const scheduleDetailId = this.props.navigation.getParam(
       'scheduleDetailId',
       '1'
     );
-    db.transaction((tx: SQLite.SQLTransaction) => {
-      select1st(
-        tx,
-        scheduleDetailId,
-        (data: ItemDetail, error: SQLite.SQLError | null) => {
-          if (error) {
-            return;
-          }
+    const itemDetail = await getItemDetailByID<ItemDetail>(
+      null,
+      String(scheduleDetailId)
+    );
 
-          this.setState({ itemDetail: data });
-          selectItem1st(tx, String(this.state.itemDetail.itemId), this.setItem);
-        }
-      );
-    });
+    const item = await getItemByID<Item>(null, String(itemDetail?.id));
+
+    this.setState({ item, itemDetail });
   }
-
-  setItem = (data: Item, error: SQLite.SQLError | null) => {
-    if (error) {
-      return;
-    }
-
-    this.setState({ item: data });
-  };
 
   onDismiss = () => {
     this.props.navigation.goBack();

@@ -1,6 +1,6 @@
 import * as SQLite from 'expo-sqlite';
-import { select, Item } from './db/item';
-import { findByUID } from './firestore/item';
+import { select, select1st } from './db/item';
+import { findByUID, findByID } from './firestore/item';
 import { getFireStore } from './firebase';
 import { db } from '../lib/db/';
 
@@ -11,9 +11,33 @@ export async function getItems<T>(uid: string | null): Promise<T> {
   } else {
     return new Promise(function(resolve, reject) {
       db.transaction((tx: SQLite.SQLTransaction) => {
-        select(tx, (data: Item[], err: SQLite.SQLError | null) => {
+        select(tx, (data, err) => {
           if (err) {
             reject([]);
+            return;
+          }
+
+          resolve(data as any);
+          return;
+        });
+      });
+    });
+  }
+}
+
+export async function getItemByID<T>(
+  uid: string | null,
+  id: string
+): Promise<T> {
+  if (uid) {
+    const firestore = getFireStore();
+    return (await findByID(firestore, uid, id)) as any;
+  } else {
+    return new Promise(function(resolve, reject) {
+      db.transaction((tx: SQLite.SQLTransaction) => {
+        select1st(tx, id, (data, err) => {
+          if (err) {
+            reject({});
             return;
           }
 

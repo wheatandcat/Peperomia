@@ -44,3 +44,22 @@ export const findByItemID = async (
 
   return records as ItemDetail[];
 };
+
+export const findByID = async (
+  db: firebase.firestore.Firestore,
+  uid: string,
+  id: string
+): Promise<ItemDetail> => {
+  const qs = await db
+    .collection(collectionName)
+    .where('uid', '==', uid)
+    .where('id', '==', id)
+    .limit(1)
+    .get();
+
+  const records = qs.docs.map(elem => {
+    return elem.data();
+  });
+
+  return records[0] as ItemDetail;
+};

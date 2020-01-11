@@ -1,12 +1,10 @@
-import * as SQLite from 'expo-sqlite';
 import React, { createContext, Component } from 'react';
-import { db } from '../lib/db';
 import { Item } from '../lib/db/item';
-import { select as selectcalendars, SelectCalendar } from '../lib/db/calendar';
+import { SelectCalendar } from '../lib/db/calendar';
+import { ItemDetail } from '../lib/db/itemDetail';
 import { getItems } from '../lib/item';
 import { getItemDetails } from '../lib/itemDetail';
-
-import { ItemDetail } from '../lib/db/itemDetail';
+import { getCalendars } from '../lib/calendar';
 
 export const Context = createContext<ContextProps>({});
 const { Provider } = Context;
@@ -66,21 +64,10 @@ class Connected extends Component<Props, State> {
       this.setItemsDetail(itemDetails);
     });
 
-    db.transaction((tx: SQLite.SQLTransaction) => {
-      selectcalendars(tx, this.setCalendars);
-    });
-  };
-
-  setCalendars = (data: SelectCalendar[], error: SQLite.SQLError | null) => {
-    if (error || !data || data.length === 0) {
-      this.setState({
-        loading: false,
-      });
-      return;
-    }
+    const calendars = await getCalendars<SelectCalendar[]>(null);
 
     this.setState({
-      calendars: data,
+      calendars,
     });
   };
 
@@ -121,4 +108,5 @@ class Connected extends Component<Props, State> {
 }
 
 export default Connected;
+
 export const Consumer = Context.Consumer;

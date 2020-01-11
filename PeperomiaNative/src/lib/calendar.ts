@@ -1,8 +1,8 @@
 import * as SQLite from 'expo-sqlite';
-import { select, Calendar } from './db/calendar';
+import { db } from '../lib/db/';
+import { select } from './db/calendar';
 import { findByUID } from './firestore/calendar';
 import { getFireStore } from './firebase';
-import { db } from '../lib/db/';
 
 export async function getCalendars<T>(uid: string | null): Promise<T> {
   if (uid) {
@@ -11,7 +11,7 @@ export async function getCalendars<T>(uid: string | null): Promise<T> {
   } else {
     return new Promise(function(resolve, reject) {
       db.transaction((tx: SQLite.SQLTransaction) => {
-        select(tx, (data: Calendar[], err: SQLite.SQLError | null) => {
+        select(tx, (data, err) => {
           if (err) {
             reject([]);
             return;
