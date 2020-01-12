@@ -7,11 +7,10 @@ import { Item } from '../../../lib/db/item';
 import {
   ItemDetail,
   delete1st,
-  selectByItemId,
   sortItemDetail,
 } from '../../../lib/db/itemDetail';
 import { getItemByID } from '../../../lib/item';
-import { getItemDetailByID } from '../../../lib/itemDetail';
+import { getItemDetailByID, getItemDetails } from '../../../lib/itemDetail';
 import { ContextProps } from '../../../containers/Items';
 import Page from './Page';
 
@@ -91,21 +90,21 @@ export default class extends Component<Props, State> {
       delete1st(
         tx,
         String(this.state.itemDetail.id),
-        (_, error: SQLite.SQLError | null) => {
+        async (_, error: SQLite.SQLError | null) => {
           if (error) {
             return;
           }
-          selectByItemId(
-            tx,
-            String(this.state.itemDetail.itemId),
-            itemDetails => {
-              if (itemDetails.length === 0) {
-                this.onPushSchedule([], null);
-              } else {
-                sortItemDetail(tx, itemDetails, this.onPushSchedule);
-              }
-            }
+
+          const itemDetails = await getItemDetails<ItemDetail[]>(
+            null,
+            String(this.state.itemDetail.itemId)
           );
+
+          if (itemDetails.length === 0) {
+            this.onPushSchedule([], null);
+          } else {
+            sortItemDetail(tx, itemDetails, this.onPushSchedule);
+          }
         }
       );
     });

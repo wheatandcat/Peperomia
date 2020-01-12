@@ -30,13 +30,14 @@ import {
   isShare,
   updateShare,
 } from '../../../lib/firestore/plan';
-import { select1st, delete1st, Item } from '../../../lib/db/item';
+import { delete1st, Item } from '../../../lib/db/item';
 import getShareText from '../../../lib/getShareText';
 import {
   Consumer as ItemsConsumer,
   ContextProps,
 } from '../../../containers/Items';
 import { Item as ItemParam } from '../../../domain/item';
+import { getItemByID } from '../../../lib/item';
 import SortableSchedule from '../SortableSchedule/Connected';
 import Schedule from './Connected';
 import HeaderLeft from './HeaderLeft';
@@ -129,9 +130,10 @@ class Switch extends Component<Props, State> {
 
   async componentDidMount() {
     const itemId = this.props.navigation.getParam('itemId', '1');
+    const item = await getItemByID<Item>(null, String(itemId));
 
-    db.transaction((tx: SQLite.SQLTransaction) => {
-      select1st(tx, itemId, this.setItem);
+    this.setState({
+      item,
     });
 
     this.props.navigation.setParams({
@@ -145,16 +147,6 @@ class Switch extends Component<Props, State> {
       mode: 'show',
     });
   }
-
-  setItem = (data: Item, error: SQLite.SQLError | null) => {
-    if (error) {
-      return;
-    }
-
-    this.setState({
-      item: data,
-    });
-  };
 
   onOpenActionSheet = async (
     itemId: string,

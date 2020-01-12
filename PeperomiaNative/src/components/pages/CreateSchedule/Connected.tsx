@@ -3,13 +3,14 @@ import React, { useState, memo, useEffect, useCallback } from 'react';
 import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import { Alert } from 'react-native';
 import { db } from '../../../lib/db';
-import { Item, select1st } from '../../../lib/db/item';
+import { Item } from '../../../lib/db/item';
 import {
-  selectByItemId,
   ItemDetail,
   update as updateItemDetail,
 } from '../../../lib/db/itemDetail';
 import { useDidMount } from '../../../hooks/index';
+import { getItemByID } from '../../../lib/item';
+import { getItemDetails } from '../../../lib/itemDetail';
 import Page from '../../templates/CreateSchedule/Page';
 
 type Props = {
@@ -31,12 +32,8 @@ export default memo((props: Props) => {
 
   const save = useCallback(() => {}, []);
 
-  const setItems = useCallback(
-    (data: ItemDetail[], error: SQLite.SQLError | null) => {
-      if (error) {
-        return;
-      }
-
+  const setItemDetails = useCallback(
+    (data: ItemDetail[]) => {
       const prioritys = data.map(item => item.priority);
       const uniquePrioritys = prioritys.filter(
         (x: number, i: number, self: number[]) => self.indexOf(x) === i
@@ -76,11 +73,7 @@ export default memo((props: Props) => {
     [props.navigation, save]
   );
 
-  const setItem = useCallback((data: Item, error: SQLite.SQLError | null) => {
-    if (error) {
-      return;
-    }
-
+  const setItem = useCallback((data: Item) => {
     setState(s => ({
       ...s,
       item: {
@@ -94,24 +87,35 @@ export default memo((props: Props) => {
   useDidMount(() => {
     const itemId = props.navigation.getParam('itemId', '1');
 
-    db.transaction((tx: SQLite.SQLTransaction) => {
-      select1st(tx, itemId, setItem);
-      selectByItemId(tx, itemId, setItems);
-    });
+    const setItemByItemID = async () => {
+      const item = await getItemByID<Item>(null, itemId);
+      setItem(item);
+    };
+
+    const setItemDetailsByItemID = async () => {
+      const itemDetails = await getItemDetails<ItemDetail[]>(null, itemId);
+      setItemDetails(itemDetails);
+    };
+
+    setItemByItemID();
+    setItemDetailsByItemID();
   });
 
   useEffect(() => {
     const refresh = props.navigation.getParam('refresh', '0');
 
+    const setItemDetailsByItemID = async (itemId: string) => {
+      const itemDetails = await getItemDetails<ItemDetail[]>(null, itemId);
+      setItemDetails(itemDetails);
+    };
+
     if (refresh !== state.refresh) {
       const itemId = props.navigation.getParam('itemId', '1');
-      db.transaction((tx: SQLite.SQLTransaction) => {
-        selectByItemId(tx, itemId, setItems);
+      setItemDetailsByItemID(itemId).then(() => {
+        setState(s => ({ ...s, refresh }));
       });
-
-      setState(s => ({ ...s, refresh }));
     }
-  }, [props.navigation, setItems, state.refresh]);
+  }, [props.navigation, setItemDetails, state.refresh]);
 
   const onCreateScheduleDetail = useCallback(() => {
     const itemId = props.navigation.getParam('itemId', '1');
