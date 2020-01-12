@@ -26,7 +26,7 @@ import AddScheduleDetail from "./components/pages/AddScheduleDetail/Connected";
 import CreateScheduleDetail from "./components/pages/CreateScheduleDetail/Connected";
 import Icons from "./components/pages/Icons/Connected";
 import AppInfo from "./components/pages/AppInfo/Page";
-import { db, init, ResultError } from "./lib/db";
+import { db, init} from "./lib/db";
 import "./lib/firebase";
 import {
   select1st as selectUser1st,
@@ -226,13 +226,13 @@ export default class App extends Component<Props, State> {
   };
 
   componentDidMount() {
-    db.transaction((tx: SQLite.Transaction) => {
+    db.transaction((tx: SQLite.SQLTransaction) => {
       init(tx);
       selectUser1st(tx, this.checkUser);
     });
   }
 
-  checkUser = (data: User | null, error: ResultError) => {
+  checkUser = (data: User | null, error: SQLite.SQLError | null) => {
     if (error) {
       return;
     }
@@ -242,7 +242,7 @@ export default class App extends Component<Props, State> {
       const user: User = {
         uuid
       };
-      db.transaction((tx: SQLite.Transaction) => {
+      db.transaction((tx: SQLite.SQLTransaction) => {
         insertUser(tx, user, this.setUser);
       });
 
@@ -257,7 +257,7 @@ export default class App extends Component<Props, State> {
     }
   };
 
-  setUser = (_: number, error: ResultError) => {
+  setUser = (_: number, error: SQLite.SQLError | null) => {
     if (error) {
       return;
     }

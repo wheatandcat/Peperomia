@@ -86,19 +86,19 @@ const Connected = memo((props: ConnectedProps) => {
   });
 
   const onDeleteSQL = useCallback(() => {
-    db.transaction((tx: SQLite.Transaction) => {
+    db.transaction((tx: SQLite.SQLTransaction) => {
       deleteSql(tx);
     });
   }, []);
 
   const onResetSQL = useCallback(() => {
-    db.transaction((tx: SQLite.Transaction) => {
+    db.transaction((tx: SQLite.SQLTransaction) => {
       resetSql(tx);
     });
   }, []);
 
   const onData = useCallback(() => {
-    db.transaction((tx: SQLite.Transaction) => {
+    db.transaction((tx: SQLite.SQLTransaction) => {
       selectItems(tx, console.log);
       selectItemDetailds(tx, console.log);
       sqliteMaster(tx);
@@ -106,7 +106,7 @@ const Connected = memo((props: ConnectedProps) => {
   }, []);
 
   const onDeleteUser = useCallback(() => {
-    db.transaction((tx: SQLite.Transaction) => {
+    db.transaction((tx: SQLite.SQLTransaction) => {
       deleteUserSql(tx);
     });
 
@@ -177,7 +177,7 @@ const Connected = memo((props: ConnectedProps) => {
   }, [navigate]);
 
   const onMigrationV100 = useCallback(() => {
-    db.transaction((tx: SQLite.Transaction) => {
+    db.transaction((tx: SQLite.SQLTransaction) => {
       resetSqlV100(tx);
     });
 

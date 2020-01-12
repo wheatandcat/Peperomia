@@ -2,15 +2,15 @@ import * as SQLite from 'expo-sqlite';
 import React, { Component } from 'react';
 import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import uuidv1 from 'uuid/v1';
-import { db, ResultError } from '../../../lib/db';
-import { Item, select1st as selectItem1st } from '../../../lib/db/item';
+import { db } from '../../../lib/db';
+import { Item } from '../../../lib/db/item';
 import {
   ItemDetail,
-  select1st,
   delete1st,
-  selectByItemId,
   sortItemDetail,
 } from '../../../lib/db/itemDetail';
+import { getItemByID } from '../../../lib/item';
+import { getItemDetailByID, getItemDetails } from '../../../lib/itemDetail';
 import { ContextProps } from '../../../containers/Items';
 import Page from './Page';
 
@@ -53,34 +53,20 @@ export default class extends Component<Props, State> {
     },
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     const scheduleDetailId = this.props.navigation.getParam(
       'scheduleDetailId',
       '1'
     );
-    db.transaction((tx: SQLite.Transaction) => {
-      select1st(
-        tx,
-        scheduleDetailId,
-        (data: ItemDetail, error: ResultError) => {
-          if (error) {
-            return;
-          }
+    const itemDetail = await getItemDetailByID<ItemDetail>(
+      null,
+      String(scheduleDetailId)
+    );
 
-          this.setState({ itemDetail: data });
-          selectItem1st(tx, String(this.state.itemDetail.itemId), this.setItem);
-        }
-      );
-    });
+    const item = await getItemByID<Item>(null, String(itemDetail?.id));
+
+    this.setState({ item, itemDetail });
   }
-
-  setItem = (data: Item, error: ResultError) => {
-    if (error) {
-      return;
-    }
-
-    this.setState({ item: data });
-  };
 
   onDismiss = () => {
     this.props.navigation.goBack();
@@ -100,31 +86,31 @@ export default class extends Component<Props, State> {
   };
 
   onDelete = () => {
-    db.transaction((tx: SQLite.Transaction) => {
+    db.transaction((tx: SQLite.SQLTransaction) => {
       delete1st(
         tx,
         String(this.state.itemDetail.id),
-        (_, error: ResultError) => {
+        async (_, error: SQLite.SQLError | null) => {
           if (error) {
             return;
           }
-          selectByItemId(
-            tx,
-            String(this.state.itemDetail.itemId),
-            itemDetails => {
-              if (itemDetails.length === 0) {
-                this.onPushSchedule([], null);
-              } else {
-                sortItemDetail(tx, itemDetails, this.onPushSchedule);
-              }
-            }
+
+          const itemDetails = await getItemDetails<ItemDetail[]>(
+            null,
+            String(this.state.itemDetail.itemId)
           );
+
+          if (itemDetails.length === 0) {
+            this.onPushSchedule([], null);
+          } else {
+            sortItemDetail(tx, itemDetails, this.onPushSchedule);
+          }
         }
       );
     });
   };
 
-  onPushSchedule = (_: ItemDetail[], error: ResultError) => {
+  onPushSchedule = (_: ItemDetail[], error: SQLite.SQLError | null) => {
     if (error) {
       return;
     }

@@ -112,7 +112,7 @@ const Plan = memo((props: PlanProps) => {
       const itemId = props.navigation.getParam('itemId', '1');
       const priority = props.navigation.getParam('priority', '1');
 
-      db.transaction((tx: SQLite.Transaction) => {
+      db.transaction((tx: SQLite.SQLTransaction) => {
         const itemDetail: ItemDetail = {
           itemId,
           title,

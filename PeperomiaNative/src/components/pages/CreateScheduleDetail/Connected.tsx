@@ -8,7 +8,7 @@ import React, {
 } from 'react';
 import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import uuidv1 from 'uuid/v1';
-import { db, ResultError } from '../../../lib/db';
+import { db } from '../../../lib/db';
 import {
   insert as insertItemDetail,
   countByItemId,
@@ -57,16 +57,19 @@ const Plan = memo((props: PlanProps) => {
     suggestList: [],
   });
 
-  const getCount = useCallback((count: number, error: ResultError) => {
-    if (error) {
-      return;
-    }
+  const getCount = useCallback(
+    (count: number, error: SQLite.SQLError | null) => {
+      if (error) {
+        return;
+      }
 
-    setState(s => ({
-      ...s,
-      priority: count + 1,
-    }));
-  }, []);
+      setState(s => ({
+        ...s,
+        priority: count + 1,
+      }));
+    },
+    []
+  );
 
   useDidMount(() => {
     const suggestList = (props.itemDetails || []).map(itemDetail => ({
@@ -81,7 +84,7 @@ const Plan = memo((props: PlanProps) => {
 
     const itemId = props.navigation.getParam('itemId', '1');
 
-    db.transaction((tx: SQLite.Transaction) => {
+    db.transaction((tx: SQLite.SQLTransaction) => {
       countByItemId(tx, itemId, getCount);
     });
   });
@@ -107,7 +110,7 @@ const Plan = memo((props: PlanProps) => {
   }, [props.navigation]);
 
   const save = useCallback(
-    (_: number, error: ResultError) => {
+    (_: number, error: SQLite.SQLError | null) => {
       if (error) {
         return;
       }
@@ -137,7 +140,7 @@ const Plan = memo((props: PlanProps) => {
     ) => {
       const itemId = props.navigation.getParam('itemId', '1');
 
-      db.transaction((tx: SQLite.Transaction) => {
+      db.transaction((tx: SQLite.SQLTransaction) => {
         const itemDetail: ItemDetail = {
           itemId,
           title,

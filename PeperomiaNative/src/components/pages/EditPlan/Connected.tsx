@@ -12,7 +12,7 @@ import {
   Context as ItemsContext,
   ContextProps as ItemContextProps,
 } from '../../../containers/Items';
-import { db, ResultError } from '../../../lib/db';
+import { db } from '../../../lib/db';
 import { update as updateItem, Item } from '../../../lib/db/item';
 import {
   update as updateCalendar,
@@ -168,7 +168,7 @@ const Connected = memo((props: ConnectedProps) => {
   );
 
   const save = useCallback(
-    (_: Item[], error: ResultError) => {
+    (_: Item[], error: SQLite.SQLError | null) => {
       if (error) {
         Alert.alert('保存に失敗しました');
         return;
@@ -185,7 +185,7 @@ const Connected = memo((props: ConnectedProps) => {
   );
 
   const saveCalendar = useCallback(
-    (_: Calendar | number, error: ResultError) => {
+    (_: Calendar | number, error: SQLite.SQLError | null) => {
       if (error) {
         return;
       }
@@ -209,7 +209,7 @@ const Connected = memo((props: ConnectedProps) => {
       }
     }
 
-    db.transaction((tx: SQLite.Transaction) => {
+    db.transaction((tx: SQLite.SQLTransaction) => {
       const id = props.navigation.getParam('id', 0);
 
       const item: Item = {

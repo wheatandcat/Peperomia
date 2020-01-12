@@ -12,12 +12,12 @@ import {
   NavigationContext,
 } from 'react-navigation';
 import { useNavigation } from 'react-navigation-hooks';
-import { db, ResultError } from '../../../lib/db';
+import { db } from '../../../lib/db';
 import {
-  selectByItemId,
   ItemDetail,
   update as updateItemDetail,
 } from '../../../lib/db/itemDetail';
+import { getItemDetails } from '../../../lib/itemDetail';
 import { useDidMount } from '../../../hooks/index';
 import Page from './Page';
 
@@ -45,11 +45,7 @@ export default memo((props: Props) => {
   const save = useCallback(() => {}, []);
 
   const setItems = useCallback(
-    (data: ItemDetail[], error: ResultError) => {
-      if (error) {
-        return;
-      }
-
+    (data: ItemDetail[]) => {
       const prioritys = data.map(item => item.priority);
       const uniquePrioritys = prioritys.filter(
         (x: number, i: number, self: number[]) => self.indexOf(x) === i
@@ -74,7 +70,7 @@ export default memo((props: Props) => {
         })
       );
 
-      db.transaction((tx: SQLite.Transaction) => {
+      db.transaction((tx: SQLite.SQLTransaction) => {
         items.forEach(async (item, index) => {
           item.priority = index + 1;
           await updateItemDetail(tx, item, save);
@@ -90,10 +86,13 @@ export default memo((props: Props) => {
   );
 
   const getData = useCallback(
-    (itemId: string) => {
-      db.transaction((tx: SQLite.Transaction) => {
-        selectByItemId(tx, itemId, setItems);
-      });
+    async (itemId: string) => {
+      const itemDetails = await getItemDetails<ItemDetail[]>(
+        null,
+        String(itemId)
+      );
+
+      setItems(itemDetails);
     },
     [setItems]
   );

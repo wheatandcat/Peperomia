@@ -1,13 +1,10 @@
-import * as SQLite from 'expo-sqlite';
 import React, { createContext, Component } from 'react';
-import { db, ResultError } from '../lib/db';
-import { select as selectItems, Item } from '../lib/db/item';
-import { select as selectcalendars, SelectCalendar } from '../lib/db/calendar';
-
-import {
-  selectByItemId as selectItemDetailByItemId,
-  ItemDetail,
-} from '../lib/db/itemDetail';
+import { Item } from '../lib/db/item';
+import { SelectCalendar } from '../lib/db/calendar';
+import { ItemDetail } from '../lib/db/itemDetail';
+import { getItems } from '../lib/item';
+import { getItemDetails } from '../lib/itemDetail';
+import { getCalendars } from '../lib/calendar';
 
 export const Context = createContext<ContextProps>({});
 const { Provider } = Context;
@@ -48,58 +45,33 @@ class Connected extends Component<Props, State> {
     this.getData();
   }
 
-  getData = () => {
+  getData = async () => {
     this.setState({
       loading: true,
     });
-
-    db.transaction((tx: SQLite.Transaction) => {
-      selectItems(tx, this.setItems);
-      selectcalendars(tx, this.setCalendars);
-    });
-  };
-
-  setItems = (data: Item[], error: ResultError) => {
-    if (error || !data || data.length === 0) {
-      this.setState({
-        loading: false,
-      });
-      return;
-    }
+    const items = await getItems<Item[]>(null);
 
     this.setState({
-      items: data,
+      items: items,
       about: [],
     });
 
-    data.map((val: Item) => {
-      db.transaction((tx: SQLite.Transaction) => {
-        selectItemDetailByItemId(tx, String(val.id), this.setItemsDetail);
-      });
+    items.map(async (val: Item) => {
+      const itemDetails = await getItemDetails<ItemDetail[]>(
+        null,
+        String(val.id)
+      );
+      this.setItemsDetail(itemDetails);
     });
-  };
 
-  setCalendars = (data: SelectCalendar[], error: ResultError) => {
-    if (error || !data || data.length === 0) {
-      this.setState({
-        loading: false,
-      });
-      return;
-    }
+    const calendars = await getCalendars<SelectCalendar[]>(null);
 
     this.setState({
-      calendars: data,
+      calendars,
     });
   };
 
-  setItemsDetail = (data: ItemDetail[], error: ResultError) => {
-    if (error || !data || data.length === 0) {
-      this.setState({
-        loading: false,
-      });
-      return;
-    }
-
+  setItemsDetail = (data: ItemDetail[]) => {
     const names = data.map((val: ItemDetail) => val.title).join(' → ');
     const itemId = data[0].itemId;
     const about = [
@@ -136,4 +108,5 @@ class Connected extends Component<Props, State> {
 }
 
 export default Connected;
+
 export const Consumer = Context.Consumer;

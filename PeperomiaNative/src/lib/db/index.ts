@@ -5,11 +5,10 @@ import { create as createUser } from './user';
 import { create as createCalendar } from './calendar';
 
 export const db: any = SQLite.openDatabase('db.db');
-export type ResultError = Error | null;
 
 export const success = (
   data: any,
-  callback?: (data: any, error: ResultError) => void
+  callback?: (data: any, error: SQLite.SQLError | null) => void
 ) => {
   if (!callback) {
     return;
@@ -18,19 +17,30 @@ export const success = (
 };
 
 export const error = (
-  err: ResultError,
-  callback?: (data: any, err: ResultError) => void
+  err: SQLite.SQLError,
+  callback?: (data: any, err: SQLite.SQLError | null) => void
 ) => {
   console.log(err);
   if (!callback) {
-    return;
+    return false;
   }
   callback(null, err);
+
+  return true;
 };
 
-export const init = (tx: SQLite.Transaction) => {
+export const init = (tx: SQLite.SQLTransaction) => {
   createItem(tx);
   createItemDetail(tx);
   createUser(tx);
   createCalendar(tx);
+};
+
+export const list = (rows: SQLite.SQLResultSetRowList) => {
+  let rec = [];
+  for (let i = 0; i < rows.length; i++) {
+    rec.push(rows.item(i));
+  }
+
+  return rec;
 };

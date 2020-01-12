@@ -26,9 +26,9 @@ import {
   KIND_CHERRY_BLOSSOM,
   KIND_SHIP,
 } from '../getKind';
-import { success, error, ResultError } from './';
+import { success, error, list } from './';
 
-export const deleteSql = (tx: SQLite.Transaction) => {
+export const deleteSql = (tx: SQLite.SQLTransaction) => {
   tx.executeSql('drop table calendars');
   tx.executeSql('drop table items');
   tx.executeSql('drop table item_details');
@@ -38,13 +38,13 @@ export const deleteSql = (tx: SQLite.Transaction) => {
   createCalendar(tx);
 };
 
-export const deleteUserSql = (tx: SQLite.Transaction) => {
+export const deleteUserSql = (tx: SQLite.SQLTransaction) => {
   tx.executeSql('drop table users');
 
   createUser(tx);
 };
 
-export const resetSql = (tx: SQLite.Transaction) => {
+export const resetSql = (tx: SQLite.SQLTransaction) => {
   deleteSql(tx);
 
   const items: Item[] = [
@@ -265,7 +265,7 @@ export const resetSql = (tx: SQLite.Transaction) => {
   calendars.map(calendar => insertCalendar(tx, calendar));
 };
 
-export const resetSqlV100 = (tx: SQLite.Transaction) => {
+export const resetSqlV100 = (tx: SQLite.SQLTransaction) => {
   tx.executeSql('drop table items');
   tx.executeSql('drop table item_details');
 
@@ -274,8 +274,8 @@ export const resetSqlV100 = (tx: SQLite.Transaction) => {
 };
 
 export const createItemDetailV100 = async (
-  tx: SQLite.Transaction,
-  callback?: (data: any, error: ResultError) => void
+  tx: SQLite.SQLTransaction,
+  callback?: (data: any, error: SQLite.SQLError | null) => void
 ) => {
   return tx.executeSql(
     'create table if not exists item_details (' +
@@ -288,21 +288,21 @@ export const createItemDetailV100 = async (
       'priority integer' +
       ');',
     [],
-    (_: SQLite.Transaction, props: SQLite.ResultSet) =>
-      success(props.rows._array, callback),
-    (_: SQLite.Transaction, err: ResultError) => error(err, callback)
+    (_, props) => success(list(props.rows), callback),
+    (_, err) => error(err, callback)
   );
 };
 
-export const sqliteMaster = async (tx: SQLite.Transaction) => {
+export const sqliteMaster = async (tx: SQLite.SQLTransaction) => {
   return tx.executeSql(
     'select * from sqlite_master;',
     [],
-    (_: SQLite.Transaction, props: SQLite.ResultSet) => {
-      console.log(props.rows._array);
+    (_, props) => {
+      console.log(list(props.rows));
     },
-    (_: SQLite.Transaction, err: ResultError) => {
+    (_, err) => {
       console.log(err);
+      return false;
     }
   );
 };

@@ -13,7 +13,7 @@ import {
   Context as ItemsContext,
   ContextProps as ItemContextProps,
 } from '../../../containers/Items';
-import { db, ResultError } from '../../../lib/db';
+import { db } from '../../../lib/db';
 import { insert as insertItem, Item } from '../../../lib/db/item';
 import { insert as insertCalendar, Calendar } from '../../../lib/db/calendar';
 import { SuggestItem } from '../../../lib/suggest';
@@ -143,7 +143,7 @@ const Connect = memo((props: ConnectProps) => {
   }, []);
 
   const save = useCallback(
-    (insertId: number, error: ResultError) => {
+    (insertId: number, error: SQLite.SQLError | null) => {
       if (error) {
         Alert.alert('保存に失敗しました');
         return;
@@ -151,13 +151,13 @@ const Connect = memo((props: ConnectProps) => {
 
       if (state.input.date) {
         // 日付のデータがある場合ははcalendarに登録する
-        db.transaction((tx: SQLite.Transaction) => {
+        db.transaction((tx: SQLite.SQLTransaction) => {
           const item: Calendar = {
             itemId: insertId,
             date: state.input.date,
           };
 
-          insertCalendar(tx, item, (_, err: ResultError) => {
+          insertCalendar(tx, item, (_, err: SQLite.SQLError | null) => {
             if (err) {
               return;
             }
@@ -195,7 +195,7 @@ const Connect = memo((props: ConnectProps) => {
       image = manipResult.base64 || '';
     }
 
-    db.transaction((tx: SQLite.Transaction) => {
+    db.transaction((tx: SQLite.SQLTransaction) => {
       const item: Item = {
         title: state.input.title,
         kind: state.kind || getKind(state.input.title),
