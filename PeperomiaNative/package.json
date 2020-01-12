@@ -106,7 +106,7 @@
     "@typescript-eslint/parser": "^2.13.0",
     "babel-plugin-inline-dotenv": "^1.5.0",
     "babel-preset-expo": "^8.0.0",
-    "detox": "^14.9.1",
+    "detox": "^15.0.0",
     "detox-expo-helpers": "^0.6.0",
     "emotion-theming": "^10.0.27",
     "eslint": "^6.8.0",
