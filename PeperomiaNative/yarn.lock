@@ -12623,10 +12623,10 @@ react-native-storybook-loader@^1.8.1:
     glob "^7.1.1"
     yargs "^14.0.0"
 
-react-native-svg@9.13.6:
-  version "9.13.6"
-  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-9.13.6.tgz#5365fba2bc460054b90851e71f2a71006a5d373f"
-  integrity sha512-vjjuJhEhQCwWjqsgWyGy6/C/LIBM2REDxB40FU1PMhi8T3zQUwUHnA6M15pJKlQG8vaZyA+QnLyIVhjtujRgig==
+react-native-svg@10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-10.0.0.tgz#085072f492a06a8ad40f1277c89293308d7efa61"
+  integrity sha512-7x56ji3oP8+Bh1jVuBtrq/JGxqLBAVf43BCuAbPMKaBlq78TXCMuln7fiBxCUOD4Z5hoZZaVkILhrJPPszfENA==
   dependencies:
     css-select "^2.0.2"
     css-tree "^1.0.0-alpha.37"
