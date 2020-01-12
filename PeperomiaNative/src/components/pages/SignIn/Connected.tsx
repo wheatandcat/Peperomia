@@ -2,8 +2,14 @@ import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import theme from '../../../config/theme';
-import { Consumer as AuthConsumer } from '../../../containers/Auth';
-import { Consumer as FetchConsumer } from '../../../containers/Fetch';
+import {
+  Consumer as AuthConsumer,
+  ContextProps as AuthContextProps,
+} from '../../../containers/Auth';
+import {
+  Consumer as FetchConsumer,
+  ContextProps as FetchContextProps,
+} from '../../../containers/Fetch';
 import Page from './Page';
 
 type Props = {
@@ -28,9 +34,9 @@ export default class extends Component<Props> {
   render() {
     return (
       <AuthConsumer>
-        {({ onGoogleLogin, logout }: any) => (
+        {({ onGoogleLogin, logout }: AuthContextProps) => (
           <FetchConsumer>
-            {({ post }: any) => (
+            {({ post }: FetchContextProps) => (
               <Connected
                 {...this.props}
                 onGoogleLogin={onGoogleLogin}
@@ -45,15 +51,17 @@ export default class extends Component<Props> {
   }
 }
 
-type ConnectedProps = {
-  navigation: NavigationScreenProp<NavigationRoute>;
-  onGoogleLogin: () => void;
-  logout: () => void;
-  post: (url: string, param: any) => Promise<Response>;
-};
+type ConnectedProps = Pick<AuthContextProps, 'onGoogleLogin' | 'logout'> &
+  Pick<FetchContextProps, 'post'> & {
+    navigation: NavigationScreenProp<NavigationRoute>;
+  };
 
 class Connected extends Component<ConnectedProps> {
   onGoogleLogin = async () => {
+    if (!this.props.onGoogleLogin) {
+      return;
+    }
+
     try {
       await this.props.onGoogleLogin();
       const ok = await this.saveUser();
@@ -64,7 +72,9 @@ class Connected extends Component<ConnectedProps> {
         this.props.navigation.goBack();
       } else {
         // 保存に失敗した時はログアウトさせる
-        this.props.logout();
+        if (this.props.logout) {
+          this.props.logout();
+        }
       }
     } catch (err) {
       console.log('err:', err);
@@ -72,9 +82,13 @@ class Connected extends Component<ConnectedProps> {
   };
 
   saveUser = async () => {
-    const response = await this.props.post('CreateUser', {});
+    if (!this.props.post) {
+      return;
+    }
 
-    if (!response.ok) {
+    const response = await this.props.post('CreateUser', null);
+
+    if (response.error) {
       Alert.alert('ユーザーの保存に失敗しました。');
       return false;
     }

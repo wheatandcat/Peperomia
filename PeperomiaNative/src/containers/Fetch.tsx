@@ -1,9 +1,16 @@
 import React, { createContext, Component, useContext, FC } from 'react';
-import Constants from 'expo-constants';
+import Client, { Request, Response } from '@specter/client';
 import {
   Context as AuthContext,
   ContextProps as AuthContextProps,
 } from './Auth';
+
+const client = new Client({
+  // Specter Endpoint
+  base: process.env.API_HOST,
+  // fetch options
+  fetchOption: {},
+});
 
 export const Context = createContext<ContextProps>({});
 const { Provider } = Context;
@@ -23,32 +30,29 @@ export default Fetch;
 type ConnectedProps = Pick<AuthContextProps, 'getIdToken'>;
 
 class Connected extends Component<ConnectedProps> {
-  post = async (url: string, param: any): Promise<Response> => {
+  post = async <TRequest, TResponse>(
+    url: string,
+    body: TRequest
+  ): Promise<Response<{ status: string }, TResponse>> => {
     const idToken = this.props.getIdToken ? await this.props.getIdToken() : '';
-    const apiHost = process.env.API_HOST;
-    const init = {
-      ...param,
-      method: 'POST',
+
+    const request = new Request<{}, {}, TRequest>(url, {
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${idToken}`,
+        authorization: `Bearer ${idToken}`,
       },
-    };
+      query: {},
+      body,
+    });
 
-    if (!Constants.isDevice) {
-      console.info(init);
+    const data = await client.create<Response<{ status: string }, TResponse>>(
+      request
+    );
+
+    if (Number(data.header.status) >= 400 && Number(data.header.status) < 600) {
+      data.setError(`http status code: ${data.header.status}`);
     }
 
-    console.info(`Bearer ${idToken}`);
-
-    const response = await fetch(`${apiHost}/${url}`, init);
-
-    if (!Constants.isDevice) {
-      const result = await response.json();
-      console.info(result);
-    }
-
-    return response;
+    return data;
   };
 
   render() {
