@@ -2643,7 +2643,7 @@
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.7.0.tgz#9a06f4f137ee84d7df0460c1fdb1135ffa6c50fd"
 
-"@storybook/addon-actions@^5.2.4":
+"@storybook/addon-actions@^5.3.0":
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/@storybook/addon-actions/-/addon-actions-5.3.0.tgz#04927681118469f7db0c8cde7c21ba01c4486640"
   integrity sha512-vt1yzMeP8rtNqmxo3Ix/uqRQf45sAzgbHJ2celO8Fw8rDf3yaBdgquSK5JmDUNb5yk8dj/YkTao+IGQfBMLCNQ==
@@ -2663,7 +2663,7 @@
     react-inspector "^4.0.0"
     uuid "^3.3.2"
 
-"@storybook/addon-knobs@^5.2.8":
+"@storybook/addon-knobs@^5.3.0":
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/@storybook/addon-knobs/-/addon-knobs-5.3.0.tgz#a3ffd6459d9090c3ace247aeb67cf301deecd43c"
   integrity sha512-UamwIv8c+7VW4T7QUsa+FbcOh2cc7EE1RsW3nQGNhQXGlRxQN6/AURBCsHtBthul44nZ9jZxEkbzFrdEnw0d2w==
@@ -2687,7 +2687,7 @@
     react-lifecycles-compat "^3.0.4"
     react-select "^3.0.8"
 
-"@storybook/addon-links@^5.2.4":
+"@storybook/addon-links@^5.3.0":
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/@storybook/addon-links/-/addon-links-5.3.0.tgz#8b559ea793b5a4fe932c9b92152b5be6d08ca168"
   integrity sha512-SNvjff/p31V4uN+rVtQhbZ+5yQHUpQzMK+N922GU434mbluGbDVv0mgtxuiWgSXPy/HI0c3titfMrsveMSUmhw==
@@ -2703,7 +2703,7 @@
     qs "^6.6.0"
     ts-dedent "^1.1.0"
 
-"@storybook/addon-ondevice-knobs@^5.2.8":
+"@storybook/addon-ondevice-knobs@^5.3.0":
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/@storybook/addon-ondevice-knobs/-/addon-ondevice-knobs-5.3.0.tgz#082b0da60c15d56e0a3710ccdab8e5d2c8d72fbb"
   integrity sha512-RMStnWqPRAQ/uRAlW+PhiA/AKrAqVHDpk7J77oKrYMi1wDY4vrkYjqdCH3ZDrYJh/JBowrJfRWNNoSCMCVeQ1g==
@@ -2719,7 +2719,7 @@
     react-native-modal-selector "^1.0.2"
     react-native-switch "^1.5.0"
 
-"@storybook/addon-ondevice-notes@^5.2.4":
+"@storybook/addon-ondevice-notes@^5.3.0":
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/@storybook/addon-ondevice-notes/-/addon-ondevice-notes-5.3.0.tgz#83b1a22715856531bd516ae8af25aaa92f6919b3"
   integrity sha512-0UWrPasbJ2q5XqZKar7quZokZX5tD5Eb92FFPQMDRd5b8ne7J09rMCHSgDZ5Y08texWWPzrt0mfyx9LLckRTIA==
@@ -2734,7 +2734,7 @@
     prop-types "^15.7.2"
     react-native-simple-markdown "^1.1.0"
 
-"@storybook/addons@5.3.0", "@storybook/addons@^5.2.4":
+"@storybook/addons@5.3.0", "@storybook/addons@^5.3.0":
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/@storybook/addons/-/addons-5.3.0.tgz#93e57742085acd69f2b82b35ec4890420beae0e4"
   integrity sha512-++/dIpvf6dzcGBHUMIf+juFvMiffexmAFilHZRGOvV8FuU8X2dKrQ1zIoyPVtHintx6HPgXA7KClbLm9r/wC8Q==
@@ -2961,7 +2961,7 @@
     pretty-hrtime "^1.0.3"
     regenerator-runtime "^0.13.3"
 
-"@storybook/react-native-server@^5.2.8":
+"@storybook/react-native-server@^5.3.0":
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/@storybook/react-native-server/-/react-native-server-5.3.0.tgz#7659c13305df503a8c9eb3651070dee9b4f25492"
   integrity sha512-eKdYTeXrFuQ4JsSNGvkq4UEvErHKVeoF5Ecybb88eTQDqUdh1DgZ2Zl1FFIRfRSI5rku6hxWTStBv30nnjnkBA==
@@ -2981,7 +2981,7 @@
     webpack "^4.33.0"
     ws "^7.1.2"
 
-"@storybook/react-native@^5.2.8":
+"@storybook/react-native@^5.3.0":
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/@storybook/react-native/-/react-native-5.3.0.tgz#1673c7af628aeb2d4933e1ed9666359019a1da7e"
   integrity sha512-WkjMHmRPx9N0t1+sWmIsvj8Oe/3yL+FObwB/DFhQafeanaWcOrhBoCEGfXSnNEoBuJCHnmQRjrkFfJlOxT4/Rg==
@@ -3012,7 +3012,7 @@
     qs "^6.6.0"
     util-deprecate "^1.0.2"
 
-"@storybook/theming@5.3.0", "@storybook/theming@^5.2.4":
+"@storybook/theming@5.3.0", "@storybook/theming@^5.3.0":
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/@storybook/theming/-/theming-5.3.0.tgz#d6431399b07126c78c9e023759aa34bda9137f8e"
   integrity sha512-pOxtQz2uZCfxIlCAg+3kQJE3VbQ0x0GB6vzpg2UoiNm9b3UA/lY8Avw0Zv0tWsaQRtVZctCKP6/q5m+nF6QRFA==
