@@ -14,14 +14,11 @@ import {
 } from '../../../containers/Items';
 import { db } from '../../../lib/db';
 import { update as updateItem, Item } from '../../../lib/db/item';
-import {
-  update as updateCalendar,
-  insert as insertCalendar,
-  Calendar,
-} from '../../../lib/db/calendar';
+import { update as updateCalendar, Calendar } from '../../../lib/db/calendar';
 import getKind from '../../../lib/getKind';
 import { SuggestItem } from '../../../lib/suggest';
 import { useDidMount } from '../../../hooks/index';
+import { createCalendar } from '../../../lib/calendar';
 import Page from '../../templates/CreatePlan/Page';
 
 type Props = {
@@ -192,7 +189,7 @@ const Connected = memo((props: ConnectedProps) => {
       }
     }
 
-    db.transaction((tx: SQLite.SQLTransaction) => {
+    db.transaction(async (tx: SQLite.SQLTransaction) => {
       const id = props.navigation.getParam('id', 0);
 
       const item = {
@@ -217,19 +214,23 @@ const Connected = memo((props: ConnectedProps) => {
           saveCalendar
         );
       } else {
-        insertCalendar(
-          tx,
-          {
-            itemId: id,
-            date: state.input.date,
-          },
-          saveCalendar
-        );
+        const calendar = {
+          itemId: id,
+          date: state.input.date,
+        };
+        const insertID = await createCalendar(null, calendar);
+        if (!insertID) {
+          Alert.alert('保存に失敗しました');
+          return;
+        }
+
+        if (props.refreshData) {
+          props.refreshData();
+        }
       }
     });
   }, [
-    props.calendars,
-    props.navigation,
+    props,
     save,
     saveCalendar,
     state.calendar,

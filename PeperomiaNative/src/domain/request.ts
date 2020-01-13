@@ -1,5 +1,6 @@
 import { Item } from './item';
 import { ItemDetail } from './itemDetail';
+import { Calendar } from './calendar';
 
 export type CreateItemRequest = {
   item: Item;
@@ -16,6 +17,17 @@ export type CreateItemDetailRequest = {
 };
 
 export type CreateItemDetailResponse = ItemDetail & {
+  id: string;
+  itemId: string;
+};
+
+export type CreateCalendarRequest = {
+  calendar: Calendar & {
+    itemId: string;
+  };
+};
+
+export type CreateCalendarResponse = Calendar & {
   id: string;
   itemId: string;
 };

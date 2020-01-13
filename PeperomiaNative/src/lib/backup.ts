@@ -129,7 +129,11 @@ export const restore = async (uid: string): Promise<any> => {
         id: Number(itemDetail.id),
         itemId: Number(itemDetail.itemId),
       })),
-      calendars
+      calendars.map(calendar => ({
+        ...calendar,
+        id: Number(calendar.id),
+        itemId: Number(calendar.itemId),
+      }))
     );
   });
 };
