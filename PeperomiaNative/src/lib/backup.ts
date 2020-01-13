@@ -44,7 +44,7 @@ export const backup = (): Promise<Backup> => {
         ]).then(function(values) {
           resolve({
             items: values[0],
-            itemDetails: values[1],
+            itemDetails: values[1] as ItemDetail[],
             calendars: values[2],
           });
         });

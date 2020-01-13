@@ -1,12 +1,11 @@
 import React from 'react';
-import { View, Image, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Feather } from '@expo/vector-icons';
 import { IconImage } from 'primitive';
 import { whenIPhoneSE } from '../../../lib/responsive';
 
 type Props = {
-  image: string;
   imageSrc: string;
   imageSize: number;
   backgroundColor: string;
@@ -18,26 +17,13 @@ export default (props: Props) => {
   return (
     <>
       <View style={styles.root}>
-        {props.image ? (
-          <Image
-            style={[
-              styles.image,
-              {
-                width: props.imageSize,
-                height: props.imageSize,
-              },
-            ]}
-            source={{ uri: props.image }}
-          />
-        ) : (
-          <IconImage
-            src={props.imageSrc}
-            name=""
-            size={whenIPhoneSE(60, 100)}
-            opacity={0.85}
-            defaultIcon
-          />
-        )}
+        <IconImage
+          src={props.imageSrc}
+          name=""
+          size={whenIPhoneSE(60, 100)}
+          opacity={0.85}
+          defaultIcon
+        />
       </View>
       <View style={styles.camera}>
         <View>

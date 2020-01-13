@@ -25,7 +25,7 @@ type State = {
 
 export default memo((props: Props) => {
   const [state, setState] = useState<State>({
-    item: { title: '', kind: '', image: '' },
+    item: { title: '', kind: '' },
     items: [],
     refresh: '0',
   });
@@ -79,7 +79,6 @@ export default memo((props: Props) => {
       item: {
         title: data.title,
         kind: data.kind,
-        image: data.image,
       },
     }));
   }, []);
@@ -187,7 +186,6 @@ export default memo((props: Props) => {
     <Page
       title={state.item.title}
       kind={state.item.kind}
-      image={state.item.image}
       data={state.items}
       onScheduleDetail={onScheduleDetail}
       onCreateScheduleDetail={onCreateScheduleDetail}

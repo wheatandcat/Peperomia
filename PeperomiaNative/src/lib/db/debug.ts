@@ -48,26 +48,22 @@ export const resetSql = (tx: SQLite.SQLTransaction) => {
   deleteSql(tx);
 
   const items: Item[] = [
-    { title: '葛西臨海公園', kind: KIND_PARK, image: '' },
+    { title: '葛西臨海公園', kind: KIND_PARK },
     {
       title: '市ヶ谷フィッシュセンター',
       kind: KIND_FISHING,
-      image: '',
     },
     {
       title: 'TOHOシネマズ 新宿',
       kind: KIND_MOVIE,
-      image: '',
     },
     {
       title: 'お花見',
       kind: KIND_CHERRY_BLOSSOM,
-      image: '',
     },
     {
       title: '上野動物園',
       kind: KIND_ZOO,
-      image: '',
     },
   ];
 

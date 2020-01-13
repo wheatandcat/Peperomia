@@ -10,9 +10,7 @@ export const resetQuery = async (
   // デバッグ時はオフラインにする
   // await settingNetwork(false);
 
-  const items: Item[] = [
-    { title: '葛西臨海公園', kind: KIND_PARK, image: '', uid },
-  ];
+  const items: Item[] = [{ title: '葛西臨海公園', kind: KIND_PARK, uid }];
 
   items.map(item => insertItem(db, item));
 };

@@ -1,8 +1,12 @@
 import * as SQLite from 'expo-sqlite';
-import { select, select1st } from './db/item';
+import { select, select1st, insert } from './db/item';
+import { Item } from '../domain/item';
+import { CreateItemRequest, CreateItemResponse } from '../domain/request';
+import { db } from '../lib/db/';
 import { findByUID, findByID } from './firestore/item';
 import { getFireStore } from './firebase';
-import { db } from '../lib/db/';
+import { getIdToken } from './auth';
+import { post } from './fetch';
 
 export async function getItems<T>(uid: string | null): Promise<T> {
   if (uid) {
@@ -42,6 +46,41 @@ export async function getItemByID<T>(
           }
 
           resolve(data as any);
+          return;
+        });
+      });
+    });
+  }
+}
+
+export async function createItem(
+  uid: string | null,
+  item: Item
+): Promise<number | string | null | undefined> {
+  if (uid) {
+    const idToken = (await getIdToken()) || '';
+    const response = await post<CreateItemRequest, CreateItemResponse>(
+      'CreateItem',
+      {
+        item,
+      },
+      idToken
+    );
+    if (response.error) {
+      return null;
+    }
+
+    return response.body.id;
+  } else {
+    return new Promise(function(resolve, reject) {
+      db.transaction((tx: SQLite.SQLTransaction) => {
+        insert(tx, item, (insertId, err) => {
+          if (err) {
+            reject(null);
+            return;
+          }
+
+          resolve(insertId as any);
           return;
         });
       });

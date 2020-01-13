@@ -81,7 +81,6 @@ export default class extends Component<Props, State> {
   };
 
   render() {
-    let { image } = this.props;
     const kind = this.props.kind || getKind(this.props.title);
     const config = KINDS[kind];
     const ss = s.schedule;
@@ -139,7 +138,6 @@ export default class extends Component<Props, State> {
             ]}
           >
             <IconImage
-              image={image}
               imageSrc={config.src}
               imageSize={imageSize}
               backgroundColor={theme().mode.background}

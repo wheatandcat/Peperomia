@@ -1,16 +1,10 @@
 import React, { createContext, Component, useContext, FC } from 'react';
-import Client, { Request, Response } from '@specter/client';
+import { Response } from '@specter/client';
+import { post } from '../lib/fetch';
 import {
   Context as AuthContext,
   ContextProps as AuthContextProps,
 } from './Auth';
-
-const client = new Client({
-  // Specter Endpoint
-  base: process.env.API_HOST,
-  // fetch options
-  fetchOption: {},
-});
 
 export const Context = createContext<ContextProps>({});
 const { Provider } = Context;
@@ -35,22 +29,7 @@ class Connected extends Component<ConnectedProps> {
     body: TRequest
   ): Promise<Response<{ status: string }, TResponse>> => {
     const idToken = this.props.getIdToken ? await this.props.getIdToken() : '';
-
-    const request = new Request<{}, {}, TRequest>(url, {
-      headers: {
-        authorization: `Bearer ${idToken}`,
-      },
-      query: {},
-      body,
-    });
-
-    const data = await client.create<Response<{ status: string }, TResponse>>(
-      request
-    );
-
-    if (Number(data.header.status) >= 400 && Number(data.header.status) < 600) {
-      data.setError(`http status code: ${data.header.status}`);
-    }
+    const data = post<TRequest, TResponse>(url, body, idToken || '');
 
     return data;
   };

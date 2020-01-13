@@ -39,7 +39,6 @@ type PropsBase = ItemParam & {
   date: string;
   suggestList: SuggestItem[];
   onInput: (name: string, value: any) => void;
-  onImage: (image: string) => void;
   onSave: () => void;
   onIcons: () => void;
   onHome: () => void;
@@ -48,7 +47,6 @@ type PropsBase = ItemParam & {
 type Props = PropsBase & ActionSheetProps;
 
 type State = {
-  image: string;
   titleFocusCount: number;
   suggest: boolean;
   keyboard: boolean;
@@ -56,7 +54,6 @@ type State = {
 
 class Page extends Component<Props, State> {
   state = {
-    image: this.props.image,
     titleFocusCount: 0,
     suggest: false,
     keyboard: false,
@@ -151,7 +148,6 @@ class Page extends Component<Props, State> {
   };
 
   render() {
-    let { image } = this.props;
     const kind = this.props.kind || getKind(this.props.title);
     const config = KINDS[kind];
     const ss = s.schedule;
@@ -255,7 +251,6 @@ class Page extends Component<Props, State> {
                   />
                 ) : (
                   <IconImage
-                    image={image}
                     imageSrc={config.src}
                     imageSize={imageSize}
                     backgroundColor={theme().mode.background}

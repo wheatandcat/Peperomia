@@ -41,10 +41,8 @@ type PlanProps = Pick<ItemContextProps, 'items' | 'refreshData'> & {
     title: string;
     date: string;
   };
-  image: string;
   kind: string;
   onInput: (name: string, value: any) => void;
-  onImage: (image: string) => void;
   onSave: () => void;
   onIcons: () => void;
   onHome: () => void;
@@ -128,14 +126,6 @@ const Connected = memo((props: ConnectedProps) => {
   });
 
   useEffect(() => {
-    const image = props.navigation.getParam('image', '');
-    if (image && image !== state.image) {
-      setState(s => ({
-        ...s,
-        image,
-      }));
-    }
-
     const kind = props.navigation.getParam('kind', '');
     if (kind && kind !== state.kind) {
       setState(s => ({
@@ -144,13 +134,6 @@ const Connected = memo((props: ConnectedProps) => {
       }));
     }
   }, [props.navigation, state]);
-
-  const onImage = useCallback((image: string) => {
-    setState(s => ({
-      ...s,
-      image,
-    }));
-  }, []);
 
   const onInput = useCallback(
     (name: string, value: any) => {
@@ -212,11 +195,10 @@ const Connected = memo((props: ConnectedProps) => {
     db.transaction((tx: SQLite.SQLTransaction) => {
       const id = props.navigation.getParam('id', 0);
 
-      const item: Item = {
+      const item = {
         id,
         title: state.input.title,
         kind: state.kind || getKind(state.input.title),
-        image: '',
       };
 
       updateItem(tx, item, save);
@@ -281,12 +263,10 @@ const Connected = memo((props: ConnectedProps) => {
     <Plan
       navigation={props.navigation}
       input={state.input}
-      image={state.image}
       kind={state.kind}
       items={props.items}
       refreshData={props.refreshData}
       onInput={onInput}
-      onImage={onImage}
       onSave={onSave}
       onIcons={onIcons}
       onHome={onHome}
@@ -328,11 +308,9 @@ const Plan = memo((props: PlanProps) => {
       mode="edit"
       title={props.input.title}
       date={props.input.date}
-      image={props.image}
       kind={props.kind}
       suggestList={state.suggestList}
       onInput={props.onInput}
-      onImage={props.onImage}
       onSave={onSave}
       onIcons={props.onIcons}
       onHome={props.onHome}

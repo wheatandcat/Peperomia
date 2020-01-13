@@ -29,8 +29,8 @@ export const insert = async (
   callback?: (insertId: number, error: SQLite.SQLError | null) => void
 ) => {
   return tx.executeSql(
-    'insert into items (title, kind, image) values (?, ?, ?)',
-    [item.title, item.kind, item.image],
+    'insert into items (title, kind) values (?, ?, ?)',
+    [item.title, item.kind],
     (_, props) => success(props.insertId, callback),
     (_, err) => error(err, callback)
   );
@@ -42,8 +42,8 @@ export const update = async (
   callback?: (data: Item[], error: SQLite.SQLError | null) => void
 ) => {
   return tx.executeSql(
-    'update items set title = ?, kind = ?, image = ? where id = ?',
-    [item.title, item.kind, item.image, String(item.id)],
+    'update items set title = ?, kind = ? where id = ?',
+    [item.title, item.kind, String(item.id)],
     (_, props) => success(list(props.rows), callback),
     (_, err) => error(err, callback)
   );
@@ -106,7 +106,7 @@ export const bulkInsert = async (
 ) => {
   const param = items
     .map(item => {
-      return [String(item.id), item.title, item.kind, item.image];
+      return [String(item.id), item.title, item.kind];
     })
     .reduce((pre, current) => {
       pre.push(...current);
