@@ -7,3 +7,8 @@ export type ItemDetail = {
   moveMinutes: number;
   priority: number;
 };
+
+export type UpdateItemDetail = ItemDetail & {
+  id: string | number;
+  itemId: string | number;
+};

@@ -1,16 +1,11 @@
-import * as SQLite from 'expo-sqlite';
 import React, { useState, memo, useEffect, useCallback } from 'react';
 import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import { Alert } from 'react-native';
-import { db } from '../../../lib/db';
 import { Item } from '../../../lib/db/item';
-import {
-  ItemDetail,
-  update as updateItemDetail,
-} from '../../../lib/db/itemDetail';
+import { ItemDetail } from '../../../lib/db/itemDetail';
 import { useDidMount } from '../../../hooks/index';
 import { getItemByID } from '../../../lib/item';
-import { getItemDetails } from '../../../lib/itemDetail';
+import { getItemDetails, updateItemDetail } from '../../../lib/itemDetail';
 import Page from '../../templates/CreateSchedule/Page';
 
 type Props = {
@@ -19,18 +14,16 @@ type Props = {
 
 type State = {
   item: Item;
-  items: ItemDetail[];
+  itemDetails: ItemDetail[];
   refresh: string;
 };
 
 export default memo((props: Props) => {
   const [state, setState] = useState<State>({
     item: { title: '', kind: '' },
-    items: [],
+    itemDetails: [],
     refresh: '0',
   });
-
-  const save = useCallback(() => {}, []);
 
   const setItemDetails = useCallback(
     (data: ItemDetail[]) => {
@@ -42,35 +35,42 @@ export default memo((props: Props) => {
       // priorityが重複していない
       if (prioritys.length === uniquePrioritys.length) {
         props.navigation.setParams({
-          items: data,
+          itemDetails: data,
         });
         setState(s => ({
           ...s,
-          items: data,
+          itemDetails: data,
         }));
       }
 
       // priorityが重複している場合はid順でpriorityをupdateする
-      const items: ItemDetail[] = data.map(
-        (item: ItemDetail, index: number) => ({
-          ...item,
+      const itemDetails: ItemDetail[] = data.map(
+        (itemDetail: ItemDetail, index: number) => ({
+          ...itemDetail,
           priority: index + 1,
         })
       );
 
-      db.transaction((tx: SQLite.SQLTransaction) => {
-        items.forEach(async (item, index) => {
-          item.priority = index + 1;
-          await updateItemDetail(tx, item, save);
-        });
+      itemDetails.forEach(async (itemDetail, index) => {
+        const v = {
+          ...itemDetail,
+          id: itemDetail.id || '',
+          priority: index + 1,
+        };
+
+        const ok = await updateItemDetail(null, v);
+        if (!ok) {
+          Alert.alert('保存に失敗しました');
+          return;
+        }
       });
 
       setState(s => ({
         ...s,
-        items: items,
+        itemDetails: itemDetails,
       }));
     },
-    [props.navigation, save]
+    [props.navigation]
   );
 
   const setItem = useCallback((data: Item) => {
@@ -128,14 +128,14 @@ export default memo((props: Props) => {
     (id: string) => {
       props.navigation.navigate('ScheduleDetail', {
         scheduleDetailId: id,
-        priority: state.items.length + 1,
+        priority: state.itemDetails.length + 1,
       });
     },
-    [props.navigation, state.items.length]
+    [props.navigation, state.itemDetails.length]
   );
 
   const onFinish = useCallback(() => {
-    if (state.items.length === 0) {
+    if (state.itemDetails.length === 0) {
       Alert.alert(
         'まだ予定の設定がありません',
         '本当に完了しますか？',
@@ -156,10 +156,10 @@ export default memo((props: Props) => {
     } else {
       props.navigation.navigate('Home', { refresh: true });
     }
-  }, [props.navigation, state.items.length]);
+  }, [props.navigation, state.itemDetails.length]);
 
   const onGoBack = useCallback(() => {
-    if (state.items.length === 0) {
+    if (state.itemDetails.length === 0) {
       Alert.alert(
         'まだ予定の設定がありません',
         '本当に閉じますか？',
@@ -180,13 +180,13 @@ export default memo((props: Props) => {
     } else {
       props.navigation.navigate('Home', { refresh: true });
     }
-  }, [props.navigation, state.items.length]);
+  }, [props.navigation, state.itemDetails.length]);
 
   return (
     <Page
       title={state.item.title}
       kind={state.item.kind}
-      data={state.items}
+      data={state.itemDetails}
       onScheduleDetail={onScheduleDetail}
       onCreateScheduleDetail={onCreateScheduleDetail}
       onFinish={onFinish}

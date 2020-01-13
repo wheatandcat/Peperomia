@@ -21,10 +21,10 @@ import theme from '../../../config/theme';
 import { db } from '../../../lib/db';
 import { deleteByItemId as deleteCalendarByItemId } from '../../../lib/db/calendar';
 import {
-  update as updateItemDetail,
   ItemDetail,
   deleteByItemId as deleteItemDetailByItemId,
 } from '../../../lib/db/itemDetail';
+import { updateItemDetail } from '../../../lib/itemDetail';
 import {
   save as saveFirestore,
   isShare,
@@ -388,11 +388,18 @@ export class Plan extends Component<PlanProps> {
   };
 
   onChangeItems = (data: ItemDetail[]): void => {
-    db.transaction((tx: SQLite.SQLTransaction) => {
-      data.forEach(async (item, index) => {
-        item.priority = index + 1;
-        await updateItemDetail(tx, item, () => {});
-      });
+    data.forEach(async (itemDetail, index) => {
+      const v = {
+        ...itemDetail,
+        id: itemDetail.id || '',
+        priority: index + 1,
+      };
+
+      const ok = await updateItemDetail(null, v);
+      if (!ok) {
+        Alert.alert('保存に失敗しました');
+        return;
+      }
     });
   };
 

@@ -13,11 +13,11 @@ import {
   ContextProps as ItemContextProps,
 } from '../../../containers/Items';
 import { db } from '../../../lib/db';
-import { update as updateItem, Item } from '../../../lib/db/item';
 import { update as updateCalendar, Calendar } from '../../../lib/db/calendar';
 import getKind from '../../../lib/getKind';
 import { SuggestItem } from '../../../lib/suggest';
 import { useDidMount } from '../../../hooks/index';
+import { updateItem } from '../../../lib/item';
 import { createCalendar } from '../../../lib/calendar';
 import Page from '../../templates/CreatePlan/Page';
 
@@ -147,22 +147,14 @@ const Connected = memo((props: ConnectedProps) => {
     [state]
   );
 
-  const save = useCallback(
-    (_: Item[], error: SQLite.SQLError | null) => {
-      if (error) {
-        Alert.alert('保存に失敗しました');
-        return;
-      }
+  const save = useCallback(() => {
+    const id = props.navigation.getParam('id', 0);
 
-      const id = props.navigation.getParam('id', 0);
-
-      props.navigation.navigate('Schedule', {
-        itemId: id,
-        title: state.input.title,
-      });
-    },
-    [props.navigation, state.input.title]
-  );
+    props.navigation.navigate('Schedule', {
+      itemId: id,
+      title: state.input.title,
+    });
+  }, [props.navigation, state.input.title]);
 
   const saveCalendar = useCallback(
     (_: Calendar | number, error: SQLite.SQLError | null) => {
@@ -189,21 +181,27 @@ const Connected = memo((props: ConnectedProps) => {
       }
     }
 
+    const id = props.navigation.getParam('id', 0);
+
+    const item = {
+      id,
+      title: state.input.title,
+      kind: state.kind || getKind(state.input.title),
+    };
+
+    const ok = await updateItem(null, item);
+    if (!ok) {
+      Alert.alert('保存に失敗しました');
+      return;
+    }
+
+    save();
+
+    if (!state.input.date) {
+      return;
+    }
+
     db.transaction(async (tx: SQLite.SQLTransaction) => {
-      const id = props.navigation.getParam('id', 0);
-
-      const item = {
-        id,
-        title: state.input.title,
-        kind: state.kind || getKind(state.input.title),
-      };
-
-      updateItem(tx, item, save);
-
-      if (!state.input.date) {
-        return;
-      }
-
       if (state.calendar.id) {
         updateCalendar(
           tx,

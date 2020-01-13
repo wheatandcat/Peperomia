@@ -1,4 +1,3 @@
-import * as SQLite from 'expo-sqlite';
 import React, {
   useState,
   memo,
@@ -6,30 +5,27 @@ import React, {
   useEffect,
   useContext,
 } from 'react';
+import { Alert } from 'react-native';
 import {
   NavigationScreenProp,
   NavigationRoute,
   NavigationContext,
 } from 'react-navigation';
 import { useNavigation } from 'react-navigation-hooks';
-import { db } from '../../../lib/db';
-import {
-  ItemDetail,
-  update as updateItemDetail,
-} from '../../../lib/db/itemDetail';
-import { getItemDetails } from '../../../lib/itemDetail';
+import { ItemDetail } from '../../../lib/db/itemDetail';
+import { getItemDetails, updateItemDetail } from '../../../lib/itemDetail';
 import { useDidMount } from '../../../hooks/index';
 import Page from './Page';
 
 type Props = {
   navigation: NavigationScreenProp<NavigationRoute>;
-  onAdd: (items: ItemDetail[]) => void;
-  onSort: (items: ItemDetail[]) => void;
+  onAdd: (itemDetails: ItemDetail[]) => void;
+  onSort: (itemDetails: ItemDetail[]) => void;
   onDelete: () => void;
 };
 
 type State = {
-  items: ItemDetail[];
+  itemDetails: ItemDetail[];
   refresh: string;
 };
 
@@ -38,13 +34,11 @@ export type ConnectedType = {
 };
 
 export default memo((props: Props) => {
-  const [state, setState] = useState<State>({ items: [], refresh: '' });
+  const [state, setState] = useState<State>({ itemDetails: [], refresh: '' });
   const navigation = useContext(NavigationContext);
   const { navigate } = useNavigation();
 
-  const save = useCallback(() => {}, []);
-
-  const setItems = useCallback(
+  const setitemDetails = useCallback(
     (data: ItemDetail[]) => {
       const prioritys = data.map(item => item.priority);
       const uniquePrioritys = prioritys.filter(
@@ -54,35 +48,42 @@ export default memo((props: Props) => {
       // priorityが重複していない
       if (prioritys.length === uniquePrioritys.length) {
         navigation.setParams({
-          items: data,
+          itemDetails: data,
         });
         setState(s => ({
           ...s,
-          items: data,
+          itemDetails: data,
         }));
       }
 
       // priorityが重複している場合はid順でpriorityをupdateする
-      const items: ItemDetail[] = data.map(
+      const itemDetails: ItemDetail[] = data.map(
         (item: ItemDetail, index: number) => ({
           ...item,
           priority: index + 1,
         })
       );
 
-      db.transaction((tx: SQLite.SQLTransaction) => {
-        items.forEach(async (item, index) => {
-          item.priority = index + 1;
-          await updateItemDetail(tx, item, save);
-        });
+      itemDetails.forEach(async (itemDetail, index) => {
+        const v = {
+          ...itemDetail,
+          id: itemDetail.id || '',
+          priority: index + 1,
+        };
+
+        const ok = await updateItemDetail(null, v);
+        if (!ok) {
+          Alert.alert('保存に失敗しました');
+          return;
+        }
       });
 
       setState(s => ({
         ...s,
-        items: items,
+        itemDetails: itemDetails,
       }));
     },
-    [navigation, save]
+    [navigation]
   );
 
   const getData = useCallback(
@@ -92,9 +93,9 @@ export default memo((props: Props) => {
         String(itemId)
       );
 
-      setItems(itemDetails);
+      setitemDetails(itemDetails);
     },
-    [setItems]
+    [setitemDetails]
   );
 
   useDidMount(() => {
@@ -132,10 +133,10 @@ export default memo((props: Props) => {
 
   return (
     <Page
-      data={state.items}
+      data={state.itemDetails}
       onScheduleDetail={onScheduleDetail}
-      onAdd={() => props.onAdd(state.items)}
-      onSort={() => props.onSort(state.items)}
+      onAdd={() => props.onAdd(state.itemDetails)}
+      onSort={() => props.onSort(state.itemDetails)}
       onDelete={props.onDelete}
     />
   );

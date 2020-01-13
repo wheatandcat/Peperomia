@@ -1,10 +1,12 @@
 import * as SQLite from 'expo-sqlite';
-import { selectByItemId, select1st, insert } from './db/itemDetail';
+import { selectByItemId, select1st, insert, update } from './db/itemDetail';
 import {
   CreateItemDetailRequest,
   CreateItemDetailResponse,
+  UpdateItemDetailRequest,
+  UpdateItemDetailResponse,
 } from '../domain/request';
-import { ItemDetail } from '../domain/itemDetail';
+import { ItemDetail, UpdateItemDetail } from '../domain/itemDetail';
 import { db } from '../lib/db/';
 import { findByItemID, findByID } from './firestore/itemDetail';
 import { getFireStore } from './firebase';
@@ -95,6 +97,50 @@ export async function createItemDetail(
           }
 
           resolve(insertId as any);
+          return;
+        });
+      });
+    });
+  }
+}
+
+export async function updateItemDetail(
+  uid: string | null,
+  itemDetail: UpdateItemDetail
+): Promise<boolean> {
+  if (uid) {
+    const idToken = (await getIdToken()) || '';
+    const response = await post<
+      UpdateItemDetailRequest,
+      UpdateItemDetailResponse
+    >(
+      '/UpdateItemDetail',
+      {
+        itemDetail,
+      },
+      idToken
+    );
+    if (response.error) {
+      return false;
+    }
+
+    return true;
+  } else {
+    return new Promise(function(resolve, reject) {
+      db.transaction((tx: SQLite.SQLTransaction) => {
+        const v = {
+          ...itemDetail,
+          id: Number(itemDetail.id),
+          itemId: Number(itemDetail.itemId),
+        };
+
+        update(tx, v, (_, err) => {
+          if (err) {
+            reject(false);
+            return;
+          }
+
+          resolve(true);
           return;
         });
       });
