@@ -1,4 +1,3 @@
-import * as SQLite from 'expo-sqlite';
 import React, {
   memo,
   useContext,
@@ -6,16 +5,14 @@ import React, {
   useCallback,
   useEffect,
 } from 'react';
+import { Alert } from 'react-native';
 import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import uuidv1 from 'uuid/v1';
-import { db } from '../../../lib/db';
-import {
-  insert as insertItemDetail,
-  ItemDetail,
-} from '../../../lib/db/itemDetail';
+import { ItemDetail } from '../../../lib/db/itemDetail';
 import getKind from '../../../lib/getKind';
 import { SuggestItem } from '../../../lib/suggest';
 import { ItemDetail as ItemDetailParam } from '../../../domain/itemDetail';
+import { createItemDetail } from '../../../lib/itemDetail';
 import { useDidMount } from '../../../hooks/index';
 import {
   Context as ItemsContext,
@@ -101,7 +98,7 @@ const Plan = memo((props: PlanProps) => {
   }, [props]);
 
   const onSave = useCallback(
-    (
+    async (
       title: string,
       kind: string,
       place: string,
@@ -112,20 +109,24 @@ const Plan = memo((props: PlanProps) => {
       const itemId = props.navigation.getParam('itemId', '1');
       const priority = props.navigation.getParam('priority', '1');
 
-      db.transaction((tx: SQLite.SQLTransaction) => {
-        const itemDetail: ItemDetail = {
-          itemId,
-          title,
-          place,
-          url,
-          memo: m,
-          kind,
-          moveMinutes,
-          priority: Number(priority),
-        };
+      const itemDetail: ItemDetail = {
+        itemId,
+        title,
+        place,
+        url,
+        memo: m,
+        kind,
+        moveMinutes,
+        priority: Number(priority),
+      };
 
-        insertItemDetail(tx, itemDetail, save);
-      });
+      const insertID = await createItemDetail(null, itemDetail);
+      if (!insertID) {
+        Alert.alert('保存に失敗しました');
+        return;
+      }
+
+      save();
     },
     [props.navigation, save]
   );

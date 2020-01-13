@@ -176,13 +176,13 @@ const Connect = memo((props: ConnectProps) => {
       kind: state.kind || getKind(state.input.title),
     };
 
-    const inserID = await createItem(null, item);
-    if (!inserID) {
+    const insertID = await createItem(null, item);
+    if (!insertID) {
       Alert.alert('保存に失敗しました');
       return;
     }
 
-    save(Number(inserID));
+    save(Number(insertID));
   }, [props.calendars, save, state.input.date, state.input.title, state.kind]);
 
   const onHome = useCallback(() => {
