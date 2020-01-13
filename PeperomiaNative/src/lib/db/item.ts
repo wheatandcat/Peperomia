@@ -29,7 +29,7 @@ export const insert = async (
   callback?: (insertId: number, error: SQLite.SQLError | null) => void
 ) => {
   return tx.executeSql(
-    'insert into items (title, kind) values (?, ?, ?)',
+    'insert into items (title, kind) values (?, ?)',
     [item.title, item.kind],
     (_, props) => success(props.insertId, callback),
     (_, err) => error(err, callback)
@@ -115,11 +115,11 @@ export const bulkInsert = async (
 
   const q = items
     .map(() => {
-      return '(?, ?, ?, ?)';
+      return '(?, ?, ?)';
     })
     .join(',');
 
-  const query = `insert into items (id, title, kind, image) values ${q};`;
+  const query = `insert into items (id, title, kind) values ${q};`;
 
   return tx.executeSql(
     query,
