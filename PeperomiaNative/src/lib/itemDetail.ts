@@ -1,12 +1,24 @@
 import * as SQLite from 'expo-sqlite';
-import { selectByItemId, select1st, insert, update } from './db/itemDetail';
+import {
+  selectByItemId,
+  select1st,
+  insert,
+  update,
+  delete1st,
+} from './db/itemDetail';
 import {
   CreateItemDetailRequest,
   CreateItemDetailResponse,
   UpdateItemDetailRequest,
   UpdateItemDetailResponse,
+  DeleteItemDetailRequest,
+  DeleteItemDetailResponse,
 } from '../domain/request';
-import { ItemDetail, UpdateItemDetail } from '../domain/itemDetail';
+import {
+  ItemDetail,
+  UpdateItemDetail,
+  DeleteItemDetail,
+} from '../domain/itemDetail';
 import { db } from '../lib/db/';
 import { findByItemID, findByID } from './firestore/itemDetail';
 import { getFireStore } from './firebase';
@@ -135,6 +147,44 @@ export async function updateItemDetail(
         };
 
         update(tx, v, (_, err) => {
+          if (err) {
+            reject(false);
+            return;
+          }
+
+          resolve(true);
+          return;
+        });
+      });
+    });
+  }
+}
+
+export async function deleteItemDetail(
+  uid: string | null,
+  itemDetail: DeleteItemDetail
+): Promise<boolean> {
+  if (uid) {
+    const idToken = (await getIdToken()) || '';
+    const response = await post<
+      DeleteItemDetailRequest,
+      DeleteItemDetailResponse
+    >(
+      'DeleteItemDetail',
+      {
+        itemDetail,
+      },
+      idToken
+    );
+    if (response.error) {
+      return false;
+    }
+
+    return true;
+  } else {
+    return new Promise(function(resolve, reject) {
+      db.transaction((tx: SQLite.SQLTransaction) => {
+        delete1st(tx, String(itemDetail.id), (_, err) => {
           if (err) {
             reject(false);
             return;

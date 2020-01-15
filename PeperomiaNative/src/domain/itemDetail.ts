@@ -12,3 +12,7 @@ export type UpdateItemDetail = ItemDetail & {
   id: string | number;
   itemId: string | number;
 };
+
+export type DeleteItemDetail = {
+  id: string | number;
+};

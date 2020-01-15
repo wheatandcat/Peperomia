@@ -1,11 +1,13 @@
 import * as SQLite from 'expo-sqlite';
-import { select, select1st, insert, update } from './db/item';
-import { Item, UpdateItem } from '../domain/item';
+import { select, select1st, insert, update, delete1st } from './db/item';
+import { Item, UpdateItem, DeleteItem } from '../domain/item';
 import {
   CreateItemRequest,
   CreateItemResponse,
   UpdateItemRequest,
   UpdateItemResponse,
+  DeleteItemRequest,
+  DeleteItemResponse,
 } from '../domain/request';
 import { db } from '../lib/db/';
 import { findByUID, findByID } from './firestore/item';
@@ -115,6 +117,41 @@ export async function updateItem(
     return new Promise(function(resolve, reject) {
       db.transaction((tx: SQLite.SQLTransaction) => {
         update(tx, { ...item, id: Number(item.id) }, (_, err) => {
+          if (err) {
+            reject(false);
+            return;
+          }
+
+          resolve(true);
+          return;
+        });
+      });
+    });
+  }
+}
+
+export async function deleteItem(
+  uid: string | null,
+  item: DeleteItem
+): Promise<boolean> {
+  if (uid) {
+    const idToken = (await getIdToken()) || '';
+    const response = await post<DeleteItemRequest, DeleteItemResponse>(
+      'DeleteItem',
+      {
+        item,
+      },
+      idToken
+    );
+    if (response.error) {
+      return false;
+    }
+
+    return true;
+  } else {
+    return new Promise(function(resolve, reject) {
+      db.transaction((tx: SQLite.SQLTransaction) => {
+        delete1st(tx, String(item.id), (_, err) => {
           if (err) {
             reject(false);
             return;

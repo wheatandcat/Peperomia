@@ -17,6 +17,13 @@ func NewItemRepository() domain.ItemRepository {
 	return &ItemRepository{}
 }
 
+// GetItemCollection アイテムのコレクションを取得する
+func GetItemCollection(f *firestore.Client, uID string, itemID string) *firestore.DocumentRef {
+	iDoc := getItemDocID(uID, itemID)
+
+	return f.Collection("items").Doc(iDoc)
+}
+
 func getItemDocID(uID string, itemID string) string {
 	doc := uID + "_" + itemID
 

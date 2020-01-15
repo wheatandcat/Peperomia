@@ -6,6 +6,7 @@ import React, {
   useCallback,
   useEffect,
 } from 'react';
+import { Alert } from 'react-native';
 import {
   NavigationScreenProp,
   NavigationRoute,
@@ -20,7 +21,7 @@ import uuidv1 from 'uuid/v1';
 import theme, { darkMode } from '../../../config/theme';
 import { db } from '../../../lib/db';
 import { Item } from '../../../lib/db/item';
-import { delete1st } from '../../../lib/db/item';
+import { deleteItem } from '../../../lib/item';
 import { deleteByItemId as deleteItemDetailByItemId } from '../../../lib/db/itemDetail';
 import { deleteByItemId as deleteCalendarByItemId } from '../../../lib/db/calendar';
 import {
@@ -188,15 +189,16 @@ const HomeScreenPlan = memo((props: PlanProps) => {
   }, []);
 
   const onDelete = useCallback(
-    (itemId: string) => {
+    async (itemId: string) => {
+      const ok = await deleteItem(null, { id: itemId });
+      if (!ok) {
+        Alert.alert('削除に失敗しました');
+        return;
+      }
+
       db.transaction((tx: SQLite.SQLTransaction) => {
-        delete1st(tx, itemId, (_: Item, error: SQLite.SQLError | null) => {
-          if (error) {
-            return;
-          }
-          deleteCalendarByItemId(tx, Number(itemId), () => null);
-          deleteItemDetailByItemId(tx, itemId, onRefresh);
-        });
+        deleteCalendarByItemId(tx, Number(itemId), () => null);
+        deleteItemDetailByItemId(tx, itemId, onRefresh);
       });
     },
     [onRefresh]

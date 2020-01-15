@@ -1,16 +1,17 @@
 import * as SQLite from 'expo-sqlite';
 import React, { Component } from 'react';
+import { Alert } from 'react-native';
 import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import uuidv1 from 'uuid/v1';
 import { db } from '../../../lib/db';
 import { Item } from '../../../lib/db/item';
-import {
-  ItemDetail,
-  delete1st,
-  sortItemDetail,
-} from '../../../lib/db/itemDetail';
+import { ItemDetail, sortItemDetail } from '../../../lib/db/itemDetail';
 import { getItemByID } from '../../../lib/item';
-import { getItemDetailByID, getItemDetails } from '../../../lib/itemDetail';
+import {
+  getItemDetailByID,
+  getItemDetails,
+  deleteItemDetail,
+} from '../../../lib/itemDetail';
 import { ContextProps } from '../../../containers/Items';
 import Page from './Page';
 
@@ -85,29 +86,28 @@ export default class extends Component<Props, State> {
     this.props.onEdit(title, kind, place, url, memo, moveMinutes, priority);
   };
 
-  onDelete = () => {
-    db.transaction((tx: SQLite.SQLTransaction) => {
-      delete1st(
-        tx,
-        String(this.state.itemDetail.id),
-        async (_, error: SQLite.SQLError | null) => {
-          if (error) {
-            return;
-          }
-
-          const itemDetails = await getItemDetails<ItemDetail[]>(
-            null,
-            String(this.state.itemDetail.itemId)
-          );
-
-          if (itemDetails.length === 0) {
-            this.onPushSchedule([], null);
-          } else {
-            sortItemDetail(tx, itemDetails, this.onPushSchedule);
-          }
-        }
-      );
+  onDelete = async () => {
+    const ok = await deleteItemDetail(null, {
+      id: String(this.state.itemDetail.id),
     });
+
+    if (!ok) {
+      Alert.alert('保存に失敗しました');
+      return;
+    }
+
+    const itemDetails = await getItemDetails<ItemDetail[]>(
+      null,
+      String(this.state.itemDetail.itemId)
+    );
+
+    if (itemDetails.length === 0) {
+      this.onPushSchedule([], null);
+    } else {
+      db.transaction((tx: SQLite.SQLTransaction) => {
+        sortItemDetail(tx, itemDetails, this.onPushSchedule);
+      });
+    }
   };
 
   onPushSchedule = (_: ItemDetail[], error: SQLite.SQLError | null) => {

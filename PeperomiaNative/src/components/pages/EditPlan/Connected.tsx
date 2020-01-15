@@ -1,4 +1,3 @@
-import * as SQLite from 'expo-sqlite';
 import React, {
   useContext,
   useState,
@@ -12,13 +11,12 @@ import {
   Context as ItemsContext,
   ContextProps as ItemContextProps,
 } from '../../../containers/Items';
-import { db } from '../../../lib/db';
-import { update as updateCalendar, Calendar } from '../../../lib/db/calendar';
+import { Calendar } from '../../../lib/db/calendar';
 import getKind from '../../../lib/getKind';
 import { SuggestItem } from '../../../lib/suggest';
 import { useDidMount } from '../../../hooks/index';
 import { updateItem } from '../../../lib/item';
-import { createCalendar } from '../../../lib/calendar';
+import { createCalendar, updateCalendar } from '../../../lib/calendar';
 import Page from '../../templates/CreatePlan/Page';
 
 type Props = {
@@ -156,19 +154,6 @@ const Connected = memo((props: ConnectedProps) => {
     });
   }, [props.navigation, state.input.title]);
 
-  const saveCalendar = useCallback(
-    (_: Calendar | number, error: SQLite.SQLError | null) => {
-      if (error) {
-        return;
-      }
-
-      if (props.refreshData) {
-        props.refreshData();
-      }
-    },
-    [props]
-  );
-
   const onSave = useCallback(async () => {
     if (state.input.date) {
       const check = (props.calendars || []).find(
@@ -201,36 +186,35 @@ const Connected = memo((props: ConnectedProps) => {
       return;
     }
 
-    db.transaction(async (tx: SQLite.SQLTransaction) => {
-      if (state.calendar.id) {
-        updateCalendar(
-          tx,
-          {
-            ...state.calendar,
-            date: state.input.date,
-          },
-          saveCalendar
-        );
-      } else {
-        const calendar = {
-          itemId: id,
-          date: state.input.date,
-        };
-        const insertID = await createCalendar(null, calendar);
-        if (!insertID) {
-          Alert.alert('保存に失敗しました');
-          return;
-        }
-
-        if (props.refreshData) {
-          props.refreshData();
-        }
+    if (state.calendar.id) {
+      const calendar = {
+        ...state.calendar,
+        id: state.calendar.id || '',
+        date: state.input.date,
+      };
+      const ok2 = await updateCalendar(null, calendar);
+      if (!ok2) {
+        Alert.alert('保存に失敗しました');
+        return;
       }
-    });
+    } else {
+      const calendar = {
+        itemId: id,
+        date: state.input.date,
+      };
+      const insertID = await createCalendar(null, calendar);
+      if (!insertID) {
+        Alert.alert('保存に失敗しました');
+        return;
+      }
+    }
+
+    if (props.refreshData) {
+      props.refreshData();
+    }
   }, [
     props,
     save,
-    saveCalendar,
     state.calendar,
     state.input.date,
     state.input.title,

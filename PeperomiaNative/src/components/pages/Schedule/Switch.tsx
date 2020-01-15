@@ -30,7 +30,8 @@ import {
   isShare,
   updateShare,
 } from '../../../lib/firestore/plan';
-import { delete1st, Item } from '../../../lib/db/item';
+import { deleteItem } from '../../../lib/item';
+import { Item } from '../../../lib/db/item';
 import getShareText from '../../../lib/getShareText';
 import {
   Consumer as ItemsConsumer,
@@ -362,17 +363,18 @@ class Switch extends Component<Props, State> {
 }
 
 export class Plan extends Component<PlanProps> {
-  onDelete = () => {
+  onDelete = async () => {
     const itemId = this.props.navigation.getParam('itemId', '1');
 
+    const ok = await deleteItem(null, { id: itemId });
+    if (!ok) {
+      Alert.alert('削除に失敗しました');
+      return;
+    }
+
     db.transaction((tx: SQLite.SQLTransaction) => {
-      delete1st(tx, itemId, (_: Item, error: SQLite.SQLError | null) => {
-        if (error) {
-          return;
-        }
-        deleteCalendarByItemId(tx, Number(itemId), () => null);
-        deleteItemDetailByItemId(tx, itemId, this.onDeleteRefresh);
-      });
+      deleteCalendarByItemId(tx, Number(itemId), () => null);
+      deleteItemDetailByItemId(tx, itemId, this.onDeleteRefresh);
     });
   };
 
@@ -424,7 +426,7 @@ export class Plan extends Component<PlanProps> {
         navigation={this.props.navigation}
         onAdd={this.props.onAdd}
         onSort={this.props.onSort}
-        onDelete={() => this.onDelete()}
+        onDelete={this.onDelete}
       />
     );
   }
