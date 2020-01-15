@@ -128,7 +128,10 @@ paths:
         '201':
           description: |
             - 作成した
-
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Calendar'
   /UpdateCalendar:
     post:
       tags:

@@ -6,14 +6,11 @@ import React, {
   useEffect,
   useCallback,
 } from 'react';
+import { Alert } from 'react-native';
 import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import uuidv1 from 'uuid/v1';
 import { db } from '../../../lib/db';
-import {
-  insert as insertItemDetail,
-  countByItemId,
-  ItemDetail,
-} from '../../../lib/db/itemDetail';
+import { countByItemId, ItemDetail } from '../../../lib/db/itemDetail';
 import { SuggestItem } from '../../../lib/suggest';
 import getKind from '../../../lib/getKind';
 import {
@@ -21,6 +18,7 @@ import {
   ContextProps as ItemContextProps,
 } from '../../../containers/Items';
 import { ItemDetail as ItemDetailParam } from '../../../domain/itemDetail';
+import { createItemDetail } from '../../../lib/itemDetail';
 import { useDidMount } from '../../../hooks/index';
 import Page from '../../templates/CreateScheduleDetail/Page';
 
@@ -109,28 +107,21 @@ const Plan = memo((props: PlanProps) => {
     props.navigation.goBack();
   }, [props.navigation]);
 
-  const save = useCallback(
-    (_: number, error: SQLite.SQLError | null) => {
-      if (error) {
-        return;
-      }
+  const save = useCallback(() => {
+    const itemId = props.navigation.getParam('itemId', '1');
 
-      const itemId = props.navigation.getParam('itemId', '1');
+    props.navigation.navigate('CreateSchedule', {
+      itemId,
+      refresh: uuidv1(),
+    });
 
-      props.navigation.navigate('CreateSchedule', {
-        itemId,
-        refresh: uuidv1(),
-      });
-
-      if (props.refreshData) {
-        props.refreshData();
-      }
-    },
-    [props]
-  );
+    if (props.refreshData) {
+      props.refreshData();
+    }
+  }, [props]);
 
   const onSave = useCallback(
-    (
+    async (
       title: string,
       kind: string,
       place: string,
@@ -140,20 +131,24 @@ const Plan = memo((props: PlanProps) => {
     ) => {
       const itemId = props.navigation.getParam('itemId', '1');
 
-      db.transaction((tx: SQLite.SQLTransaction) => {
-        const itemDetail: ItemDetail = {
-          itemId,
-          title,
-          kind,
-          place,
-          url,
-          memo: m,
-          moveMinutes,
-          priority: state.priority,
-        };
+      const itemDetail: ItemDetail = {
+        itemId,
+        title,
+        kind,
+        place,
+        url,
+        memo: m,
+        moveMinutes,
+        priority: state.priority,
+      };
 
-        insertItemDetail(tx, itemDetail, save);
-      });
+      const insertID = await createItemDetail(null, itemDetail);
+      if (!insertID) {
+        Alert.alert('保存に失敗しました');
+        return;
+      }
+
+      save();
     },
     [props.navigation, save, state.priority]
   );

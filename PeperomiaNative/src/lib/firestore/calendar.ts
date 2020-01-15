@@ -3,7 +3,13 @@ import 'firebase/firestore';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import 'dayjs/locale/ja';
-import { Calendar } from '../db/calendar';
+import { Calendar as CalendarParam } from '../../domain/calendar';
+
+export type Calendar = CalendarParam & {
+  id?: string;
+  itemId: string;
+  uid: string;
+};
 
 dayjs.extend(advancedFormat);
 

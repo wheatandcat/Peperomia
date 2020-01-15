@@ -97,11 +97,9 @@ class Connected extends Component<ConnectedProps, State> {
         accessToken: result.accessToken.split('?')[0],
       };
 
-      const response = await this.props.post('LoginWithAmazon', {
-        body: JSON.stringify(request),
-      });
+      const response = await this.props.post('LoginWithAmazon', request);
 
-      if (!response.ok) {
+      if (response.error) {
         Alert.alert('連携の登録に失敗しました');
         this.setState({
           loading: false,

@@ -1,11 +1,11 @@
 import * as SQLite from 'expo-sqlite';
+import { Calendar as CalendarParam } from '../../domain/calendar';
 import { Item } from './item';
 import { success, error, list } from './';
 
-export type Calendar = {
+export type Calendar = CalendarParam & {
   id?: number;
   itemId: number;
-  date: string;
 };
 
 export type SelectCalendar = Item & Calendar;

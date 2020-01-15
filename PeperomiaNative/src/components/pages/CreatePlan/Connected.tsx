@@ -1,5 +1,3 @@
-import * as ImageManipulator from 'expo-image-manipulator';
-import * as SQLite from 'expo-sqlite';
 import React, {
   useState,
   memo,
@@ -13,12 +11,11 @@ import {
   Context as ItemsContext,
   ContextProps as ItemContextProps,
 } from '../../../containers/Items';
-import { db } from '../../../lib/db';
-import { insert as insertItem, Item } from '../../../lib/db/item';
-import { insert as insertCalendar, Calendar } from '../../../lib/db/calendar';
 import { SuggestItem } from '../../../lib/suggest';
 import getKind from '../../../lib/getKind';
 import { useDidMount } from '../../../hooks/index';
+import { createItem } from '../../../lib/item';
+import { createCalendar } from '../../../lib/calendar';
 import Page from '../../templates/CreatePlan/Page';
 
 type Props = {
@@ -96,13 +93,6 @@ const Connect = memo((props: ConnectProps) => {
     }
   }, [props.navigation, state.image, state.kind]);
 
-  const onImage = useCallback((image: string) => {
-    setState(s => ({
-      ...s,
-      image,
-    }));
-  }, []);
-
   const onIcons = useCallback(() => {
     props.navigation.navigate('Icons', {
       kind: getKind(state.input.title),
@@ -143,28 +133,21 @@ const Connect = memo((props: ConnectProps) => {
   }, []);
 
   const save = useCallback(
-    (insertId: number, error: SQLite.SQLError | null) => {
-      if (error) {
-        Alert.alert('保存に失敗しました');
-        return;
-      }
-
+    async (insertId: number) => {
       if (state.input.date) {
         // 日付のデータがある場合ははcalendarに登録する
-        db.transaction((tx: SQLite.SQLTransaction) => {
-          const item: Calendar = {
-            itemId: insertId,
-            date: state.input.date,
-          };
+        const calendar = {
+          itemId: insertId,
+          date: state.input.date,
+        };
 
-          insertCalendar(tx, item, (_, err: SQLite.SQLError | null) => {
-            if (err) {
-              return;
-            }
+        const insertID = await createCalendar(null, calendar);
+        if (!insertID) {
+          Alert.alert('保存に失敗しました');
+          return;
+        }
 
-            pushCreateSchedule(insertId);
-          });
-        });
+        pushCreateSchedule(insertId);
       } else {
         pushCreateSchedule(insertId);
       }
@@ -184,34 +167,19 @@ const Connect = memo((props: ConnectProps) => {
       }
     }
 
-    let image = '';
-    if (state.image) {
-      const manipResult = await ImageManipulator.manipulateAsync(
-        state.image,
-        [{ rotate: 0 }, { flip: ImageManipulator.FlipType.Vertical }],
-        { compress: 1, format: ImageManipulator.SaveFormat.PNG, base64: true }
-      );
+    const item = {
+      title: state.input.title,
+      kind: state.kind || getKind(state.input.title),
+    };
 
-      image = manipResult.base64 || '';
+    const insertID = await createItem(null, item);
+    if (!insertID) {
+      Alert.alert('保存に失敗しました');
+      return;
     }
 
-    db.transaction((tx: SQLite.SQLTransaction) => {
-      const item: Item = {
-        title: state.input.title,
-        kind: state.kind || getKind(state.input.title),
-        image,
-      };
-
-      insertItem(tx, item, save);
-    });
-  }, [
-    props.calendars,
-    save,
-    state.image,
-    state.input.date,
-    state.input.title,
-    state.kind,
-  ]);
+    save(Number(insertID));
+  }, [props.calendars, save, state.input.date, state.input.title, state.kind]);
 
   const onHome = useCallback(() => {
     props.navigation.goBack(null);
@@ -222,11 +190,9 @@ const Connect = memo((props: ConnectProps) => {
       mode="new"
       title={state.input.title}
       date={state.input.date}
-      image={state.image}
       kind={state.kind}
       suggestList={state.suggestList}
       onInput={onInput}
-      onImage={onImage}
       onSave={onSave}
       onIcons={onIcons}
       onHome={onHome}

@@ -23,6 +23,8 @@
   },
   "dependencies": {
     "@expo/react-native-action-sheet": "^1.1.2",
+    "@specter/client": "^0.0.22",
+    "@specter/specter": "^0.0.22",
     "@types/color": "^3.0.0",
     "@types/compare-versions": "^3.3.0",
     "@types/expo": "^33.0.1",

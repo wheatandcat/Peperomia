@@ -125,11 +125,11 @@ class Connected extends Component<ConnectedProps, State> {
           date: dayjs(calendar.date).format(),
         })),
       };
-      const response = await this.props.post('SyncItems', {
-        body: JSON.stringify(request),
-      });
+      const response = await this.props.post('SyncItems', request);
 
-      if (!response.ok) {
+      console.log(response);
+
+      if (response.error) {
         Alert.alert('バックアップに失敗しました');
         this.setState({
           loading: false,

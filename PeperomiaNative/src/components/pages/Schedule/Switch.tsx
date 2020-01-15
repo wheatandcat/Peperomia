@@ -21,16 +21,17 @@ import theme from '../../../config/theme';
 import { db } from '../../../lib/db';
 import { deleteByItemId as deleteCalendarByItemId } from '../../../lib/db/calendar';
 import {
-  update as updateItemDetail,
   ItemDetail,
   deleteByItemId as deleteItemDetailByItemId,
 } from '../../../lib/db/itemDetail';
+import { updateItemDetail } from '../../../lib/itemDetail';
 import {
   save as saveFirestore,
   isShare,
   updateShare,
 } from '../../../lib/firestore/plan';
-import { delete1st, Item } from '../../../lib/db/item';
+import { deleteItem } from '../../../lib/item';
+import { Item } from '../../../lib/db/item';
 import getShareText from '../../../lib/getShareText';
 import {
   Consumer as ItemsConsumer,
@@ -362,17 +363,18 @@ class Switch extends Component<Props, State> {
 }
 
 export class Plan extends Component<PlanProps> {
-  onDelete = () => {
+  onDelete = async () => {
     const itemId = this.props.navigation.getParam('itemId', '1');
 
+    const ok = await deleteItem(null, { id: itemId });
+    if (!ok) {
+      Alert.alert('削除に失敗しました');
+      return;
+    }
+
     db.transaction((tx: SQLite.SQLTransaction) => {
-      delete1st(tx, itemId, (_: Item, error: SQLite.SQLError | null) => {
-        if (error) {
-          return;
-        }
-        deleteCalendarByItemId(tx, Number(itemId), () => null);
-        deleteItemDetailByItemId(tx, itemId, this.onDeleteRefresh);
-      });
+      deleteCalendarByItemId(tx, Number(itemId), () => null);
+      deleteItemDetailByItemId(tx, itemId, this.onDeleteRefresh);
     });
   };
 
@@ -388,11 +390,18 @@ export class Plan extends Component<PlanProps> {
   };
 
   onChangeItems = (data: ItemDetail[]): void => {
-    db.transaction((tx: SQLite.SQLTransaction) => {
-      data.forEach(async (item, index) => {
-        item.priority = index + 1;
-        await updateItemDetail(tx, item, () => {});
-      });
+    data.forEach(async (itemDetail, index) => {
+      const v = {
+        ...itemDetail,
+        id: itemDetail.id || '',
+        priority: index + 1,
+      };
+
+      const ok = await updateItemDetail(null, v);
+      if (!ok) {
+        Alert.alert('保存に失敗しました');
+        return;
+      }
     });
   };
 
@@ -417,7 +426,7 @@ export class Plan extends Component<PlanProps> {
         navigation={this.props.navigation}
         onAdd={this.props.onAdd}
         onSort={this.props.onSort}
-        onDelete={() => this.onDelete()}
+        onDelete={this.onDelete}
       />
     );
   }

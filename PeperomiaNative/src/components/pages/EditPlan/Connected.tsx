@@ -1,4 +1,3 @@
-import * as SQLite from 'expo-sqlite';
 import React, {
   useContext,
   useState,
@@ -12,16 +11,12 @@ import {
   Context as ItemsContext,
   ContextProps as ItemContextProps,
 } from '../../../containers/Items';
-import { db } from '../../../lib/db';
-import { update as updateItem, Item } from '../../../lib/db/item';
-import {
-  update as updateCalendar,
-  insert as insertCalendar,
-  Calendar,
-} from '../../../lib/db/calendar';
+import { Calendar } from '../../../lib/db/calendar';
 import getKind from '../../../lib/getKind';
 import { SuggestItem } from '../../../lib/suggest';
 import { useDidMount } from '../../../hooks/index';
+import { updateItem } from '../../../lib/item';
+import { createCalendar, updateCalendar } from '../../../lib/calendar';
 import Page from '../../templates/CreatePlan/Page';
 
 type Props = {
@@ -41,10 +36,8 @@ type PlanProps = Pick<ItemContextProps, 'items' | 'refreshData'> & {
     title: string;
     date: string;
   };
-  image: string;
   kind: string;
   onInput: (name: string, value: any) => void;
-  onImage: (image: string) => void;
   onSave: () => void;
   onIcons: () => void;
   onHome: () => void;
@@ -128,14 +121,6 @@ const Connected = memo((props: ConnectedProps) => {
   });
 
   useEffect(() => {
-    const image = props.navigation.getParam('image', '');
-    if (image && image !== state.image) {
-      setState(s => ({
-        ...s,
-        image,
-      }));
-    }
-
     const kind = props.navigation.getParam('kind', '');
     if (kind && kind !== state.kind) {
       setState(s => ({
@@ -144,13 +129,6 @@ const Connected = memo((props: ConnectedProps) => {
       }));
     }
   }, [props.navigation, state]);
-
-  const onImage = useCallback((image: string) => {
-    setState(s => ({
-      ...s,
-      image,
-    }));
-  }, []);
 
   const onInput = useCallback(
     (name: string, value: any) => {
@@ -167,35 +145,14 @@ const Connected = memo((props: ConnectedProps) => {
     [state]
   );
 
-  const save = useCallback(
-    (_: Item[], error: SQLite.SQLError | null) => {
-      if (error) {
-        Alert.alert('保存に失敗しました');
-        return;
-      }
+  const save = useCallback(() => {
+    const id = props.navigation.getParam('id', 0);
 
-      const id = props.navigation.getParam('id', 0);
-
-      props.navigation.navigate('Schedule', {
-        itemId: id,
-        title: state.input.title,
-      });
-    },
-    [props.navigation, state.input.title]
-  );
-
-  const saveCalendar = useCallback(
-    (_: Calendar | number, error: SQLite.SQLError | null) => {
-      if (error) {
-        return;
-      }
-
-      if (props.refreshData) {
-        props.refreshData();
-      }
-    },
-    [props]
-  );
+    props.navigation.navigate('Schedule', {
+      itemId: id,
+      title: state.input.title,
+    });
+  }, [props.navigation, state.input.title]);
 
   const onSave = useCallback(async () => {
     if (state.input.date) {
@@ -209,47 +166,55 @@ const Connected = memo((props: ConnectedProps) => {
       }
     }
 
-    db.transaction((tx: SQLite.SQLTransaction) => {
-      const id = props.navigation.getParam('id', 0);
+    const id = props.navigation.getParam('id', 0);
 
-      const item: Item = {
-        id,
-        title: state.input.title,
-        kind: state.kind || getKind(state.input.title),
-        image: '',
+    const item = {
+      id,
+      title: state.input.title,
+      kind: state.kind || getKind(state.input.title),
+    };
+
+    const ok = await updateItem(null, item);
+    if (!ok) {
+      Alert.alert('保存に失敗しました');
+      return;
+    }
+
+    save();
+
+    if (!state.input.date) {
+      return;
+    }
+
+    if (state.calendar.id) {
+      const calendar = {
+        ...state.calendar,
+        id: state.calendar.id || '',
+        date: state.input.date,
       };
-
-      updateItem(tx, item, save);
-
-      if (!state.input.date) {
+      const ok2 = await updateCalendar(null, calendar);
+      if (!ok2) {
+        Alert.alert('保存に失敗しました');
         return;
       }
-
-      if (state.calendar.id) {
-        updateCalendar(
-          tx,
-          {
-            ...state.calendar,
-            date: state.input.date,
-          },
-          saveCalendar
-        );
-      } else {
-        insertCalendar(
-          tx,
-          {
-            itemId: id,
-            date: state.input.date,
-          },
-          saveCalendar
-        );
+    } else {
+      const calendar = {
+        itemId: id,
+        date: state.input.date,
+      };
+      const insertID = await createCalendar(null, calendar);
+      if (!insertID) {
+        Alert.alert('保存に失敗しました');
+        return;
       }
-    });
+    }
+
+    if (props.refreshData) {
+      props.refreshData();
+    }
   }, [
-    props.calendars,
-    props.navigation,
+    props,
     save,
-    saveCalendar,
     state.calendar,
     state.input.date,
     state.input.title,
@@ -281,12 +246,10 @@ const Connected = memo((props: ConnectedProps) => {
     <Plan
       navigation={props.navigation}
       input={state.input}
-      image={state.image}
       kind={state.kind}
       items={props.items}
       refreshData={props.refreshData}
       onInput={onInput}
-      onImage={onImage}
       onSave={onSave}
       onIcons={onIcons}
       onHome={onHome}
@@ -328,11 +291,9 @@ const Plan = memo((props: PlanProps) => {
       mode="edit"
       title={props.input.title}
       date={props.input.date}
-      image={props.image}
       kind={props.kind}
       suggestList={state.suggestList}
       onInput={props.onInput}
-      onImage={props.onImage}
       onSave={onSave}
       onIcons={props.onIcons}
       onHome={props.onHome}

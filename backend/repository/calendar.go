@@ -17,7 +17,6 @@ func NewCalendarRepository() domain.CalendarRepository {
 }
 
 func getCalendarDocID(uID string, itemID string, calendarID string) string {
-
 	doc := uID + "_" + calendarID + "_" + itemID
 	return doc
 }
