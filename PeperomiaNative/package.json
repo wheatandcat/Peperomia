@@ -118,7 +118,7 @@
     "eslint-plugin-react": "^7.16.0",
     "eslint-plugin-react-native": "^3.8.1",
     "expo-detox-hook": "^1.0.10",
-    "husky": "^3.1.0",
+    "husky": "^4.0.7",
     "jest": "^24.9.0",
     "jest-circus": "^24.9.0",
     "lint-staged": "^9.2.5",
