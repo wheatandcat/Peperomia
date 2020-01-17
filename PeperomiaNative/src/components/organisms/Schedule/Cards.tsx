@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { ItemDetail } from '../../../lib/db/itemDetail';
+import { SelectItemDetail } from '../../../domain/itemDetail';
 import Card from '../../molecules/Schedule/TouchableCard';
 import { ConnectedType } from '../../pages/Schedule/Connected';
 
 type Props = Pick<ConnectedType, 'onScheduleDetail'> & {
-  data: ItemDetail[];
+  data: SelectItemDetail[];
 };
 
 export default class extends Component<Props> {
-  renderItem({ item, index }: { item: ItemDetail; index: number }) {
+  renderItem({ item, index }: { item: SelectItemDetail; index: number }) {
     return (
       <Card
         {...item}

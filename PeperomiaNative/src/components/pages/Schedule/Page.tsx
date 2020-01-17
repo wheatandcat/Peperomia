@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { View, Alert } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { ItemDetail } from '../../../lib/db/itemDetail';
+import { SelectItemDetail } from '../../../domain/itemDetail';
 import Cards from '../../organisms/Schedule/Cards';
 import ActionButton from '../../molecules/Schedule/ActionButton';
 import { ConnectedType } from './Connected';
 
 type Props = Pick<ConnectedType, 'onScheduleDetail'> & {
-  data: ItemDetail[];
+  data: SelectItemDetail[];
   onAdd: () => void;
   onSort: () => void;
   onDelete: () => void;

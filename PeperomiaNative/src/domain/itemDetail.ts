@@ -8,6 +8,11 @@ export type ItemDetail = {
   priority: number;
 };
 
+export type SelectItemDetail = ItemDetail & {
+  id?: string | number;
+  itemId: string | number;
+};
+
 export type UpdateItemDetail = ItemDetail & {
   id: string | number;
   itemId: string | number;

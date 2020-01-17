@@ -12,11 +12,11 @@ import Toast from 'react-native-root-toast';
 import { Ionicons } from '@expo/vector-icons';
 import { Divider } from 'react-native-elements';
 import Header from '../ScheduleHeader/Header';
-import { ItemDetail } from '../../../lib/db/itemDetail';
+import { SelectItemDetail } from '../../../domain/itemDetail';
 import theme from '../../../config/theme';
 import Label from './Label';
 
-type Props = ItemDetail & {
+type Props = SelectItemDetail & {
   onDismiss: () => void;
   onOpenActionSheet: () => void;
 };

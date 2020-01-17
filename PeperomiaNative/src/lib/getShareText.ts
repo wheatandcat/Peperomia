@@ -1,6 +1,6 @@
-import { ItemDetail } from './db/itemDetail';
+import { SelectItemDetail } from '../domain/itemDetail';
 
-export default (itemDetails: ItemDetail[]): string => {
+export default (itemDetails: SelectItemDetail[]): string => {
   const results = itemDetails
     .map(itemDetail => {
       const { title, moveMinutes } = itemDetail;

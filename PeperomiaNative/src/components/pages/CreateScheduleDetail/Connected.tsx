@@ -22,7 +22,7 @@ import { createItemDetail } from '../../../lib/itemDetail';
 import { useDidMount } from '../../../hooks/index';
 import Page from '../../templates/CreateScheduleDetail/Page';
 
-type State = ItemDetailParam & {
+export type State = ItemDetailParam & {
   iconSelected: boolean;
   priority: number;
   suggestList: SuggestItem[];
@@ -40,6 +40,19 @@ export default (props: Props) => {
   return (
     <Plan {...props} refreshData={refreshData} itemDetails={itemDetails} />
   );
+};
+
+export type PlanType = {
+  onSave: (
+    title: string,
+    kind: string,
+    place: string,
+    url: string,
+    memo: string,
+    moveMinutes: number
+  ) => void;
+  onIcons: (title: string) => void;
+  onDismiss: () => void;
 };
 
 const Plan = memo((props: PlanProps) => {
@@ -107,19 +120,6 @@ const Plan = memo((props: PlanProps) => {
     props.navigation.goBack();
   }, [props.navigation]);
 
-  const save = useCallback(() => {
-    const itemId = props.navigation.getParam('itemId', '1');
-
-    props.navigation.navigate('CreateSchedule', {
-      itemId,
-      refresh: uuidv1(),
-    });
-
-    if (props.refreshData) {
-      props.refreshData();
-    }
-  }, [props]);
-
   const onSave = useCallback(
     async (
       title: string,
@@ -148,9 +148,16 @@ const Plan = memo((props: PlanProps) => {
         return;
       }
 
-      save();
+      props.navigation.navigate('CreateSchedule', {
+        itemId,
+        refresh: uuidv1(),
+      });
+
+      if (props.refreshData) {
+        props.refreshData();
+      }
     },
-    [props.navigation, save, state.priority]
+    [props, state.priority]
   );
 
   const onIcons = useCallback(

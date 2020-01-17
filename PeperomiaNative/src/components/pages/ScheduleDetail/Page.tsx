@@ -8,14 +8,14 @@ import {
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Color from 'color';
 import GlobalStyles from '../../../GlobalStyles';
-import { ItemDetail } from '../../../lib/db/itemDetail';
+import { SelectItemDetail } from '../../../domain/itemDetail';
 import { KINDS, KIND_DEFAULT } from '../../../lib/getKind';
 import s from '../../../config/style';
 import theme from '../../../config/theme';
 import Card from '../../molecules/ScheduleDetail/Card';
 import Header from '../../molecules/Header';
 
-type PropsBase = ItemDetail & {
+type PropsBase = SelectItemDetail & {
   onDismiss: () => void;
   onDelete: () => void;
   onCreateScheduleDetail: () => void;

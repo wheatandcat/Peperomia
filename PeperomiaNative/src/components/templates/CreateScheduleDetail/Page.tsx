@@ -22,41 +22,33 @@ import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import GlobalStyles from '../../../GlobalStyles';
 import getKind, { KINDS, KIND_DEFAULT } from '../../../lib/getKind';
-import { SuggestItem } from '../../../lib/suggest';
 import s from '../../../config/style';
 import theme from '../../../config/theme';
-import { ItemDetail } from '../../../domain/itemDetail';
+import { SelectItemDetail } from '../../../domain/itemDetail';
 import Header from '../../molecules/Header';
 import HeaderImage from '../../molecules/ScheduleHeader/Header';
 import TimeDialog from '../../organisms/CreateScheduleDetail/TimeDialog';
 import Body from '../../organisms/CreateScheduleDetail/Body';
 import Suggest from '../../organisms/Suggest/List';
+import {
+  PlanType,
+  State as PlanState,
+} from '../../pages/CreateScheduleDetail/Connected';
 
 const top =
   Platform.OS === 'android' ? StatusBar.currentHeight : getStatusBarHeight();
 
 type PropsBase = Pick<
-  ItemDetail,
+  SelectItemDetail,
   'title' | 'kind' | 'place' | 'url' | 'memo' | 'moveMinutes'
-> & {
-  iconSelected: boolean;
-  suggestList: SuggestItem[];
-  onDismiss: () => void;
-  onIcons: (title: string) => void;
-  onSave: (
-    title: string,
-    kind: string,
-    place: string,
-    url: string,
-    memo: string,
-    moveMinutes: number
-  ) => void;
-};
+> &
+  Pick<PlanType, 'onSave' | 'onIcons' | 'onDismiss'> &
+  Pick<PlanState, 'iconSelected' | 'suggestList'>;
 
 type Props = PropsBase & ActionSheetProps;
 
 type State = Pick<
-  ItemDetail,
+  SelectItemDetail,
   'title' | 'kind' | 'memo' | 'place' | 'url' | 'moveMinutes'
 > & {
   titleFocusCount: number;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import SortableList from 'react-native-sortable-list';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { ItemDetail } from '../../../lib/db/itemDetail';
+import { SelectItemDetail } from '../../../domain/itemDetail';
 import { Plan } from '../../pages/Schedule/Switch';
 import { SortableItemDetail } from '../../pages/SortableSchedule/Connected';
 import Card from '../../molecules/Schedule/Card';
@@ -32,7 +32,7 @@ export default class extends Component<Props> {
       id: item && item.tmpId,
     }));
 
-    this.props.onChangeItems(result as ItemDetail[]);
+    this.props.onChangeItems(result as SelectItemDetail[]);
   };
 
   render() {

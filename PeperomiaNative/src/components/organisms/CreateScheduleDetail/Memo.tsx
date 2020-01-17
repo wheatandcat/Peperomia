@@ -10,17 +10,17 @@ import {
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import theme, { darkMode } from '../../../config/theme';
-import { ItemDetail } from '../../../domain/itemDetail';
+import { SelectItemDetail } from '../../../domain/itemDetail';
 import InputLabel from '../../molecules/ScheduleDetail/Label';
 
 let y = [0, 0, 0];
 
-type Props = Pick<ItemDetail, 'place' | 'url' | 'memo'> & {
+type Props = Pick<SelectItemDetail, 'place' | 'url' | 'memo'> & {
   scrollViewRef: ScrollView;
   onChangeInputText: (name: string, value: string) => void;
 };
 
-type State = Pick<ItemDetail, 'place' | 'url' | 'memo'> & {
+type State = Pick<SelectItemDetail, 'place' | 'url' | 'memo'> & {
   placeInput: boolean;
   urlInput: boolean;
   memoInput: boolean;
