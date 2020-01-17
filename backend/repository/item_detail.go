@@ -65,3 +65,20 @@ func (re *ItemDetailRepository) DeleteByUID(ctx context.Context, f *firestore.Cl
 
 	return nil
 }
+
+// DeleteByItemID ItemIDから削除する
+func (re *ItemDetailRepository) DeleteByItemID(ctx context.Context, f *firestore.Client, itemID string) error {
+	matchItem := f.Collection("itemDetails").Where("itemId", "==", itemID).Documents(ctx)
+	docs, err := matchItem.GetAll()
+	if err != nil {
+		return err
+	}
+
+	for _, doc := range docs {
+		if _, err := doc.Ref.Delete(ctx); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}

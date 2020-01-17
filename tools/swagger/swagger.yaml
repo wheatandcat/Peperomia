@@ -65,6 +65,7 @@ paths:
       description: |
         - 予定を削除
         - 詳細な予定も削除
+        - カレンダーも削除
       requestBody:
         $ref: '#/components/requestBodies/DeleteItemRequest'
       responses:

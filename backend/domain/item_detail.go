@@ -26,4 +26,5 @@ type ItemDetailRepository interface {
 	Update(ctx context.Context, f *firestore.Client, i ItemDetailRecord) error
 	Delete(ctx context.Context, f *firestore.Client, i ItemDetailRecord) error
 	DeleteByUID(ctx context.Context, f *firestore.Client, uid string) error
+	DeleteByItemID(ctx context.Context, f *firestore.Client, itemID string) error
 }

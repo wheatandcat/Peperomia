@@ -139,6 +139,16 @@ func (h *Handler) DeleteItem(gc *gin.Context) {
 		return
 	}
 
+	if err := h.App.ItemDetailRepository.DeleteByItemID(ctx, h.FirestoreClient, item.ID); err != nil {
+		NewErrorResponse(err).Render(gc)
+		return
+	}
+
+	if err := h.App.CalendarRepository.DeleteByItemID(ctx, h.FirestoreClient, item.ID); err != nil {
+		NewErrorResponse(err).Render(gc)
+		return
+	}
+
 	gc.JSON(http.StatusOK, nil)
 }
 
