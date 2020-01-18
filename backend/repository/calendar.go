@@ -64,3 +64,20 @@ func (re *CalendarRepository) DeleteByUID(ctx context.Context, f *firestore.Clie
 
 	return nil
 }
+
+// DeleteByItemID ItemIDから削除する
+func (re *CalendarRepository) DeleteByItemID(ctx context.Context, f *firestore.Client, itemID string) error {
+	matchItem := f.Collection("calendars").Where("itemId", "==", itemID).Documents(ctx)
+	docs, err := matchItem.GetAll()
+	if err != nil {
+		return err
+	}
+
+	for _, doc := range docs {
+		if _, err := doc.Ref.Delete(ctx); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}

@@ -90,3 +90,17 @@ func (mr *MockCalendarRepositoryMockRecorder) DeleteByUID(ctx, f, uid interface{
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteByUID", reflect.TypeOf((*MockCalendarRepository)(nil).DeleteByUID), ctx, f, uid)
 }
+
+// DeleteByItemID mocks base method
+func (m *MockCalendarRepository) DeleteByItemID(ctx context.Context, f *firestore.Client, itemID string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteByItemID", ctx, f, itemID)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteByItemID indicates an expected call of DeleteByItemID
+func (mr *MockCalendarRepositoryMockRecorder) DeleteByItemID(ctx, f, itemID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteByItemID", reflect.TypeOf((*MockCalendarRepository)(nil).DeleteByItemID), ctx, f, itemID)
+}

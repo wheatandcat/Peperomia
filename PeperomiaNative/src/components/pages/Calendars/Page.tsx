@@ -18,10 +18,11 @@ import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import 'dayjs/locale/ja';
 import Color from 'color';
-import { SelectCalendar } from '../../../lib/db/calendar';
+import { SelectCalendar } from '../../../domain/calendar';
 import theme from '../../../config/theme';
 import GlobalStyles from '../../../GlobalStyles';
 import ImageDay from '../../organisms/Calendars/Image';
+import { Container } from './Connected';
 
 dayjs.extend(advancedFormat);
 
@@ -77,11 +78,9 @@ const images = [
   require('../../../img/months/december.png'),
 ];
 
-type Props = {
+type Props = Pick<Container, 'onCreate' | 'onSchedule'> & {
   loading: boolean;
   calendars: SelectCalendar[];
-  onCreate: (date: string) => void;
-  onSchedule: (id: number, title: string) => void;
 };
 
 type State = {

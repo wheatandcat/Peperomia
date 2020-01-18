@@ -1,5 +1,7 @@
 import * as SQLite from 'expo-sqlite';
 import { select, select1st, insert, update, delete1st } from './db/item';
+import { deleteByItemId as deleteItenDetailByItemId } from './db/itemDetail';
+import { deleteByItemId as deleteCalendarByItemId } from './db/calendar';
 import { Item, UpdateItem, DeleteItem } from '../domain/item';
 import {
   CreateItemRequest,
@@ -150,17 +152,61 @@ export async function deleteItem(
     return true;
   } else {
     return new Promise(function(resolve, reject) {
-      db.transaction((tx: SQLite.SQLTransaction) => {
-        delete1st(tx, String(item.id), (_, err) => {
-          if (err) {
-            reject(false);
-            return;
-          }
-
-          resolve(true);
-          return;
+      try {
+        db.transaction((tx: SQLite.SQLTransaction) => {
+          Promise.all([
+            deleteDBItem(tx, String(item.id)),
+            deleteItemDBDetail(tx, String(item.id)),
+            deleteCalendarDBDetail(tx, String(item.id)),
+          ]).then(function(_) {
+            resolve(true);
+          });
         });
-      });
+      } catch (_) {
+        reject(false);
+      }
     });
   }
 }
+
+const deleteDBItem = (tx: SQLite.SQLTransaction, id: string) => {
+  return new Promise(function(resolve, reject) {
+    delete1st(tx, id, (_, err) => {
+      if (err) {
+        reject(false);
+        return;
+      }
+
+      resolve(true);
+      return;
+    });
+  });
+};
+
+const deleteItemDBDetail = (tx: SQLite.SQLTransaction, id: string) => {
+  return new Promise(function(resolve, reject) {
+    deleteItenDetailByItemId(tx, id, (_, err) => {
+      if (err) {
+        reject(false);
+        return;
+      }
+
+      resolve(true);
+      return;
+    });
+  });
+};
+
+const deleteCalendarDBDetail = (tx: SQLite.SQLTransaction, id: string) => {
+  return new Promise(function(resolve, reject) {
+    deleteCalendarByItemId(tx, id, (_, err) => {
+      if (err) {
+        reject(false);
+        return;
+      }
+
+      resolve(true);
+      return;
+    });
+  });
+};

@@ -14,7 +14,7 @@ type Props = {
   navigation: NavigationScreenProp<NavigationRoute>;
 };
 
-class Container extends Component<Props> {
+export class Container extends Component<Props> {
   static navigationOptions = () => {
     return {
       header: null,
@@ -27,7 +27,7 @@ class Container extends Component<Props> {
     });
   };
 
-  onSchedule = (id: number, title: string) => {
+  onSchedule = (id: string | number, title: string) => {
     this.props.navigation.navigate('Schedule', { itemId: id, title });
   };
 

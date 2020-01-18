@@ -11,7 +11,7 @@ import {
   Context as ItemsContext,
   ContextProps as ItemContextProps,
 } from '../../../containers/Items';
-import { Calendar } from '../../../lib/db/calendar';
+import { UpdateCalendar } from '../../../domain/calendar';
 import getKind from '../../../lib/getKind';
 import { SuggestItem } from '../../../lib/suggest';
 import { useDidMount } from '../../../hooks/index';
@@ -50,7 +50,7 @@ type State = {
   };
   image: string;
   kind: string;
-  calendar: Calendar;
+  calendar: UpdateCalendar;
 };
 
 export default (props: Props) => {

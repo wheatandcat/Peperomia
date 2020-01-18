@@ -1,11 +1,11 @@
 import { Item } from '../db/item';
-import { ItemDetail } from '../db/itemDetail';
+import { SelectItemDetail } from '../../domain/itemDetail';
 import { getFireStore } from '../firebase';
 
 export const save = async (
   userID: string,
   item: Item,
-  itemDetails: ItemDetail[]
+  itemDetails: SelectItemDetail[]
 ) => {
   const uuid = userID + item.id;
   const db = getFireStore();

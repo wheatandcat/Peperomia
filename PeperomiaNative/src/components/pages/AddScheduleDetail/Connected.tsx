@@ -8,10 +8,9 @@ import React, {
 import { Alert } from 'react-native';
 import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import uuidv1 from 'uuid/v1';
-import { ItemDetail } from '../../../lib/db/itemDetail';
 import getKind from '../../../lib/getKind';
 import { SuggestItem } from '../../../lib/suggest';
-import { ItemDetail as ItemDetailParam } from '../../../domain/itemDetail';
+import { ItemDetail, SelectItemDetail } from '../../../domain/itemDetail';
 import { createItemDetail } from '../../../lib/itemDetail';
 import { useDidMount } from '../../../hooks/index';
 import {
@@ -20,12 +19,12 @@ import {
 } from '../../../containers/Items';
 import Page from '../../templates/CreateScheduleDetail/Page';
 
-type State = ItemDetailParam & {
+type State = ItemDetail & {
   iconSelected: boolean;
   suggestList: SuggestItem[];
 };
 
-type Props = ItemDetailParam & {
+type Props = ItemDetail & {
   navigation: NavigationScreenProp<NavigationRoute>;
 };
 
@@ -109,7 +108,7 @@ const Plan = memo((props: PlanProps) => {
       const itemId = props.navigation.getParam('itemId', '1');
       const priority = props.navigation.getParam('priority', '1');
 
-      const itemDetail: ItemDetail = {
+      const itemDetail: SelectItemDetail = {
         itemId,
         title,
         place,

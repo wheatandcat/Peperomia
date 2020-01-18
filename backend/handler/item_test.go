@@ -111,16 +111,22 @@ func TestDeleteItem(t *testing.T) {
 	defer ctrl.Finish()
 	ctx := context.Background()
 
-	mock := mock_domain.NewMockItemRepository(ctrl)
+	mock1 := mock_domain.NewMockItemRepository(ctrl)
 	i := domain.ItemRecord{
 		ID:  "test",
 		UID: "test",
 	}
+	mock2 := mock_domain.NewMockItemDetailRepository(ctrl)
+	mock3 := mock_domain.NewMockCalendarRepository(ctrl)
 
-	mock.EXPECT().Delete(gomock.Any(), gomock.Any(), i).Return(nil)
+	mock1.EXPECT().Delete(gomock.Any(), gomock.Any(), i).Return(nil)
+	mock2.EXPECT().DeleteByItemID(gomock.Any(), gomock.Any(), i.ID).Return(nil)
+	mock3.EXPECT().DeleteByItemID(gomock.Any(), gomock.Any(), i.ID).Return(nil)
 
 	h := NewTestHandler(ctx)
-	h.App.ItemRepository = mock
+	h.App.ItemRepository = mock1
+	h.App.ItemDetailRepository = mock2
+	h.App.CalendarRepository = mock3
 
 	tests := []struct {
 		name       string

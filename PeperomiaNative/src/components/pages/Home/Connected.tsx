@@ -1,4 +1,3 @@
-import * as SQLite from 'expo-sqlite';
 import React, {
   memo,
   useContext,
@@ -19,11 +18,7 @@ import { Dimensions, View, Image, AsyncStorage } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import uuidv1 from 'uuid/v1';
 import theme, { darkMode } from '../../../config/theme';
-import { db } from '../../../lib/db';
-import { Item } from '../../../lib/db/item';
 import { deleteItem } from '../../../lib/item';
-import { deleteByItemId as deleteItemDetailByItemId } from '../../../lib/db/itemDetail';
-import { deleteByItemId as deleteCalendarByItemId } from '../../../lib/db/calendar';
 import {
   Context as ItemsContext,
   ContextProps as ItemContextProps,
@@ -32,7 +27,7 @@ import {
   Context as ThemeContext,
   ContextProps as ThemeContextProps,
 } from '../../../containers/Theme';
-import { Item as ItemParam } from '../../../domain/item';
+import { SelectItem } from '../../../domain/item';
 import { useDidMount } from '../../../hooks/index';
 import Hint from '../../atoms/Hint/Hint';
 import Schedule from '../Schedule/Switch';
@@ -157,7 +152,7 @@ export type HomeScreenPlanType = {
   onDelete: (itemId: string) => void;
 };
 
-export type ItemProps = ItemParam & {
+export type ItemProps = SelectItem & {
   id: string;
   about: string;
 };
@@ -184,25 +179,15 @@ const HomeScreenPlan = memo((props: PlanProps) => {
     }
   }, [props, props.refresh, state.refresh]);
 
-  const onRefresh = useCallback(() => {
+  const onDelete = useCallback(async (itemId: string) => {
+    const ok = await deleteItem(null, { id: itemId });
+    if (!ok) {
+      Alert.alert('削除に失敗しました');
+      return;
+    }
+
     setState({ refresh: uuidv1() });
   }, []);
-
-  const onDelete = useCallback(
-    async (itemId: string) => {
-      const ok = await deleteItem(null, { id: itemId });
-      if (!ok) {
-        Alert.alert('削除に失敗しました');
-        return;
-      }
-
-      db.transaction((tx: SQLite.SQLTransaction) => {
-        deleteCalendarByItemId(tx, Number(itemId), () => null);
-        deleteItemDetailByItemId(tx, itemId, onRefresh);
-      });
-    },
-    [onRefresh]
-  );
 
   const onSchedule = useCallback(
     (id: string, title: string) => {
@@ -211,7 +196,7 @@ const HomeScreenPlan = memo((props: PlanProps) => {
     [navigate]
   );
 
-  const items = (props.items || []).map((item: Item) => {
+  const items = (props.items || []).map(item => {
     const about = (props.about || []).find(val => val.itemId === item.id);
 
     return {

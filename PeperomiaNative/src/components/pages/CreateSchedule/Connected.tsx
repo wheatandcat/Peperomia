@@ -1,8 +1,8 @@
 import React, { useState, memo, useEffect, useCallback } from 'react';
 import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import { Alert } from 'react-native';
-import { Item } from '../../../lib/db/item';
-import { ItemDetail } from '../../../lib/db/itemDetail';
+import { Item } from '../../../domain/item';
+import { SelectItemDetail } from '../../../domain/itemDetail';
 import { useDidMount } from '../../../hooks/index';
 import { getItemByID } from '../../../lib/item';
 import { getItemDetails, updateItemDetail } from '../../../lib/itemDetail';
@@ -14,7 +14,7 @@ type Props = {
 
 type State = {
   item: Item;
-  itemDetails: ItemDetail[];
+  itemDetails: SelectItemDetail[];
   refresh: string;
 };
 
@@ -26,7 +26,7 @@ export default memo((props: Props) => {
   });
 
   const setItemDetails = useCallback(
-    (data: ItemDetail[]) => {
+    (data: SelectItemDetail[]) => {
       const prioritys = data.map(item => item.priority);
       const uniquePrioritys = prioritys.filter(
         (x: number, i: number, self: number[]) => self.indexOf(x) === i
@@ -44,12 +44,10 @@ export default memo((props: Props) => {
       }
 
       // priorityが重複している場合はid順でpriorityをupdateする
-      const itemDetails: ItemDetail[] = data.map(
-        (itemDetail: ItemDetail, index: number) => ({
-          ...itemDetail,
-          priority: index + 1,
-        })
-      );
+      const itemDetails: SelectItemDetail[] = data.map((itemDetail, index) => ({
+        ...itemDetail,
+        priority: index + 1,
+      }));
 
       itemDetails.forEach(async (itemDetail, index) => {
         const v = {
@@ -92,7 +90,10 @@ export default memo((props: Props) => {
     };
 
     const setItemDetailsByItemID = async () => {
-      const itemDetails = await getItemDetails<ItemDetail[]>(null, itemId);
+      const itemDetails = await getItemDetails<SelectItemDetail[]>(
+        null,
+        itemId
+      );
       setItemDetails(itemDetails);
     };
 
@@ -104,7 +105,10 @@ export default memo((props: Props) => {
     const refresh = props.navigation.getParam('refresh', '0');
 
     const setItemDetailsByItemID = async (itemId: string) => {
-      const itemDetails = await getItemDetails<ItemDetail[]>(null, itemId);
+      const itemDetails = await getItemDetails<SelectItemDetail[]>(
+        null,
+        itemId
+      );
       setItemDetails(itemDetails);
     };
 

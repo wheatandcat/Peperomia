@@ -1,14 +1,14 @@
 import React from 'react';
-import { ItemDetail } from '../../../lib/db/itemDetail';
+import { SelectItemDetail } from '../../../domain/itemDetail';
 import Page from '../../templates/SortableSchedule/Page';
+import { Plan } from '../Schedule/Switch';
 
-export type SortableItemDetail = ItemDetail & {
-  tmpId?: number;
+export type SortableItemDetail = SelectItemDetail & {
+  tmpId?: number | string;
 };
 
-type Props = {
+type Props = Pick<Plan, 'onChangeItems'> & {
   items: SortableItemDetail[];
-  onChangeItems: (data: ItemDetail[]) => void;
 };
 
 export default (props: Props) => {

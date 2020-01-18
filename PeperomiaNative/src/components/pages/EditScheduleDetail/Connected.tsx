@@ -10,7 +10,7 @@ import { Alert } from 'react-native';
 import { updateItemDetail } from '../../../lib/itemDetail';
 import getKind from '../../../lib/getKind';
 import { SuggestItem } from '../../../lib/suggest';
-import { ItemDetail as ItemDetailParam } from '../../../domain/itemDetail';
+import { ItemDetail } from '../../../domain/itemDetail';
 import {
   Context as ItemsContext,
   ContextProps as ItemContextProps,
@@ -18,12 +18,12 @@ import {
 import { useDidMount } from '../../../hooks/index';
 import Page from '../../templates/CreateScheduleDetail/Page';
 
-type State = ItemDetailParam & {
+type State = ItemDetail & {
   iconSelected: boolean;
   suggestList: SuggestItem[];
 };
 
-type Props = ItemDetailParam & {
+type Props = ItemDetail & {
   id: number;
   navigation: NavigationScreenProp<NavigationRoute>;
   onShow: (reload: boolean) => void;

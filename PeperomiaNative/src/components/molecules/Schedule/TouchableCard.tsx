@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { SelectItemDetail } from '../../../domain/itemDetail';
 import Card from './Card';
-import { ItemDetail } from '../../../lib/db/itemDetail';
 
-type Props = ItemDetail & {
+type Props = SelectItemDetail & {
   end: boolean;
   onPress: () => void;
 };

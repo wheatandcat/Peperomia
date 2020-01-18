@@ -45,6 +45,21 @@ export const findByItemID = async (
   return records as ItemDetail[];
 };
 
+export const countByItemID = async (
+  db: firebase.firestore.Firestore,
+  uid: string,
+  itemID: string
+): Promise<number> => {
+  const qs = await db
+    .collection(collectionName)
+    .where('uid', '==', uid)
+    .where('itemId', '==', itemID)
+    .orderBy('priority')
+    .get();
+
+  return qs.size;
+};
+
 export const findByID = async (
   db: firebase.firestore.Firestore,
   uid: string,

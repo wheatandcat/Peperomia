@@ -111,6 +111,7 @@ export const select1st = async (
   );
 };
 
+/*
 export const sortItemDetail = (
   tx: SQLite.SQLTransaction,
   itemDetails: ItemDetail[],
@@ -121,6 +122,7 @@ export const sortItemDetail = (
     update(tx, item, callback);
   });
 };
+*/
 
 export const countByItemId = async (
   tx: SQLite.SQLTransaction,

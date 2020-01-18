@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
-import { ItemDetail } from '../../../lib/db/itemDetail';
+import { SelectItemDetail } from '../../../domain/itemDetail';
 import Card from '../../molecules/Schedule/TouchableCard';
 import { ConnectedType } from '../../pages/Schedule/Connected';
 
 type Props = Pick<ConnectedType, 'onScheduleDetail'> & {
-  data: ItemDetail[];
+  data: SelectItemDetail[];
 };
 
 const List: FC<Props> = props => (

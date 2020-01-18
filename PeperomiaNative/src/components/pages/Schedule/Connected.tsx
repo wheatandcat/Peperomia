@@ -12,20 +12,20 @@ import {
   NavigationContext,
 } from 'react-navigation';
 import { useNavigation } from 'react-navigation-hooks';
-import { ItemDetail } from '../../../lib/db/itemDetail';
+import { SelectItemDetail } from '../../../domain/itemDetail';
 import { getItemDetails, updateItemDetail } from '../../../lib/itemDetail';
 import { useDidMount } from '../../../hooks/index';
 import Page from './Page';
 
 type Props = {
   navigation: NavigationScreenProp<NavigationRoute>;
-  onAdd: (itemDetails: ItemDetail[]) => void;
-  onSort: (itemDetails: ItemDetail[]) => void;
+  onAdd: (itemDetails: SelectItemDetail[]) => void;
+  onSort: (itemDetails: SelectItemDetail[]) => void;
   onDelete: () => void;
 };
 
 type State = {
-  itemDetails: ItemDetail[];
+  itemDetails: SelectItemDetail[];
   refresh: string;
 };
 
@@ -39,7 +39,7 @@ export default memo((props: Props) => {
   const { navigate } = useNavigation();
 
   const setitemDetails = useCallback(
-    (data: ItemDetail[]) => {
+    (data: SelectItemDetail[]) => {
       const prioritys = data.map(item => item.priority);
       const uniquePrioritys = prioritys.filter(
         (x: number, i: number, self: number[]) => self.indexOf(x) === i
@@ -57,12 +57,10 @@ export default memo((props: Props) => {
       }
 
       // priorityが重複している場合はid順でpriorityをupdateする
-      const itemDetails: ItemDetail[] = data.map(
-        (item: ItemDetail, index: number) => ({
-          ...item,
-          priority: index + 1,
-        })
-      );
+      const itemDetails: SelectItemDetail[] = data.map((item, index) => ({
+        ...item,
+        priority: index + 1,
+      }));
 
       itemDetails.forEach(async (itemDetail, index) => {
         const v = {
@@ -88,7 +86,7 @@ export default memo((props: Props) => {
 
   const getData = useCallback(
     async (itemId: string) => {
-      const itemDetails = await getItemDetails<ItemDetail[]>(
+      const itemDetails = await getItemDetails<SelectItemDetail[]>(
         null,
         String(itemId)
       );

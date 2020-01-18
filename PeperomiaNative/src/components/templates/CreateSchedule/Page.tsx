@@ -14,7 +14,7 @@ import { Icon } from 'react-native-elements';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { MaterialIcons } from '@expo/vector-icons';
 import Color from 'color';
-import { ItemDetail } from '../../../lib/db/itemDetail';
+import { SelectItemDetail } from '../../../domain/itemDetail';
 import getKind, { KINDS } from '../../../lib/getKind';
 import theme from '../../../config/theme';
 import s from '../../../config/style';
@@ -34,7 +34,7 @@ type State = {
 
 type Props = Pick<ConnectedType, 'onScheduleDetail'> &
   ItemParam & {
-    data: ItemDetail[];
+    data: SelectItemDetail[];
     onFinish: () => void;
     onGoBack: () => void;
     onCreateScheduleDetail: () => void;

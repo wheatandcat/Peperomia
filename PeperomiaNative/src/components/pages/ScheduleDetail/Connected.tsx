@@ -1,13 +1,12 @@
-import * as SQLite from 'expo-sqlite';
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import uuidv1 from 'uuid/v1';
-import { db } from '../../../lib/db';
-import { Item } from '../../../lib/db/item';
-import { ItemDetail, sortItemDetail } from '../../../lib/db/itemDetail';
+import { Item } from '../../../domain/item';
+import { SelectItemDetail } from '../../../domain/itemDetail';
 import { getItemByID } from '../../../lib/item';
 import {
+  sortItemDetail,
   getItemDetailByID,
   getItemDetails,
   deleteItemDetail,
@@ -17,7 +16,7 @@ import Page from './Page';
 
 type State = {
   item: Item;
-  itemDetail: ItemDetail;
+  itemDetail: SelectItemDetail;
 };
 
 type Props = Pick<ContextProps, 'refreshData'> & {
@@ -59,7 +58,7 @@ export default class extends Component<Props, State> {
       'scheduleDetailId',
       '1'
     );
-    const itemDetail = await getItemDetailByID<ItemDetail>(
+    const itemDetail = await getItemDetailByID<SelectItemDetail>(
       null,
       String(scheduleDetailId)
     );
@@ -96,23 +95,19 @@ export default class extends Component<Props, State> {
       return;
     }
 
-    const itemDetails = await getItemDetails<ItemDetail[]>(
+    const itemDetails = await getItemDetails<SelectItemDetail[]>(
       null,
       String(this.state.itemDetail.itemId)
     );
 
-    if (itemDetails.length === 0) {
-      this.onPushSchedule([], null);
-    } else {
-      db.transaction((tx: SQLite.SQLTransaction) => {
-        sortItemDetail(tx, itemDetails, this.onPushSchedule);
-      });
-    }
-  };
-
-  onPushSchedule = (_: ItemDetail[], error: SQLite.SQLError | null) => {
-    if (error) {
-      return;
+    if (itemDetails.length > 0) {
+      await sortItemDetail(
+        null,
+        itemDetails.map(itemDetail => ({
+          ...itemDetail,
+          id: String(itemDetail.id),
+        }))
+      );
     }
 
     if (this.props.refreshData) {

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import * as SQLite from 'expo-sqlite';
 import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import {
   View,
@@ -18,37 +17,30 @@ import Toast from 'react-native-root-toast';
 import uuidv1 from 'uuid/v1';
 import { Button } from 'react-native-elements';
 import theme from '../../../config/theme';
-import { db } from '../../../lib/db';
-import { deleteByItemId as deleteCalendarByItemId } from '../../../lib/db/calendar';
-import {
-  ItemDetail,
-  deleteByItemId as deleteItemDetailByItemId,
-} from '../../../lib/db/itemDetail';
+import { Item } from '../../../domain/item';
+import { SelectItemDetail } from '../../../domain/itemDetail';
 import { updateItemDetail } from '../../../lib/itemDetail';
+import { deleteItem, getItemByID } from '../../../lib/item';
 import {
   save as saveFirestore,
   isShare,
   updateShare,
 } from '../../../lib/firestore/plan';
-import { deleteItem } from '../../../lib/item';
-import { Item } from '../../../lib/db/item';
 import getShareText from '../../../lib/getShareText';
 import {
   Consumer as ItemsConsumer,
   ContextProps,
 } from '../../../containers/Items';
-import { Item as ItemParam } from '../../../domain/item';
-import { getItemByID } from '../../../lib/item';
 import SortableSchedule from '../SortableSchedule/Connected';
 import Schedule from './Connected';
 import HeaderLeft from './HeaderLeft';
 import HeaderRight from './HeaderRight';
 
-type State = Pick<ItemParam, 'title'> & {
+type State = Pick<Item, 'title'> & {
   item: Item;
   itemId: number;
-  items: ItemDetail[];
-  saveItems: ItemDetail[];
+  items: SelectItemDetail[];
+  saveItems: SelectItemDetail[];
   mode: string;
 };
 
@@ -57,19 +49,11 @@ type Props = ActionSheetProps & {
 };
 
 type PlanProps = Props &
-  Pick<ItemParam, 'title'> &
-  Pick<ContextProps, 'refreshData'> & {
-    item: Item;
-    itemId: number;
-    items: ItemDetail[];
-    saveItems: ItemDetail[];
-    mode: string;
-    onShow: () => void;
-    onAdd: (items: ItemDetail[]) => void;
-    onSort: (items: ItemDetail[]) => void;
-  };
+  State &
+  Pick<ContextProps, 'refreshData'> &
+  Pick<Switch, 'onShow' | 'onAdd' | 'onSort'>;
 
-class Switch extends Component<Props, State> {
+export class Switch extends Component<Props, State> {
   static navigationOptions = ({ navigation }: { navigation: any }) => {
     const { params = {} } = navigation.state;
     return {
@@ -99,9 +83,7 @@ class Switch extends Component<Props, State> {
           <HeaderRight
             mode={params.mode}
             onSave={params.onSave}
-            onShare={() =>
-              params.onShare(params.itemId, params.title, params.items)
-            }
+            onShare={() => params.onShare(params.title, params.items)}
             onOpenActionSheet={() =>
               params.onOpenActionSheet(
                 params.itemId,
@@ -152,7 +134,7 @@ class Switch extends Component<Props, State> {
   onOpenActionSheet = async (
     itemId: string,
     title: string,
-    items: ItemDetail[]
+    items: SelectItemDetail[]
   ) => {
     const userID = await AsyncStorage.getItem('userID');
     if (userID) {
@@ -176,7 +158,7 @@ class Switch extends Component<Props, State> {
             } else if (buttonIndex === 1) {
               this.onCloseShareLink(uuid);
             } else if (buttonIndex === 2) {
-              this.onShare(itemId, title, items);
+              this.onShare(title, items);
             }
           }
         );
@@ -209,13 +191,13 @@ class Switch extends Component<Props, State> {
             { cancelable: false }
           );
         } else if (buttonIndex === 1) {
-          this.onShare(itemId, title, items);
+          this.onShare(title, items);
         }
       }
     );
   };
 
-  onCrateShareLink = async (items: ItemDetail[]) => {
+  onCrateShareLink = async (items: SelectItemDetail[]) => {
     if (!this.state.item.id) {
       return;
     }
@@ -275,7 +257,7 @@ class Switch extends Component<Props, State> {
     }
   };
 
-  onAdd = (items: ItemDetail[]) => {
+  onAdd = (items: SelectItemDetail[]) => {
     const itemId = this.props.navigation.getParam('itemId', '1');
     this.props.navigation.navigate('AddScheduleDetail', {
       itemId,
@@ -297,7 +279,7 @@ class Switch extends Component<Props, State> {
     });
   };
 
-  onSort = (items: ItemDetail[]): void => {
+  onSort = (items: SelectItemDetail[]): void => {
     this.setState({ mode: 'sort', items });
 
     this.props.navigation.setParams({
@@ -312,7 +294,7 @@ class Switch extends Component<Props, State> {
     this.onShow();
   };
 
-  onShare = async (itemId: string, title: string, items: ItemDetail[]) => {
+  onShare = async (title: string, items: SelectItemDetail[]) => {
     try {
       const message = getShareText(items);
 
@@ -372,24 +354,13 @@ export class Plan extends Component<PlanProps> {
       return;
     }
 
-    db.transaction((tx: SQLite.SQLTransaction) => {
-      deleteCalendarByItemId(tx, Number(itemId), () => null);
-      deleteItemDetailByItemId(tx, itemId, this.onDeleteRefresh);
-    });
-  };
-
-  onDeleteRefresh = (_: ItemDetail[], error: SQLite.SQLError | null) => {
-    if (error) {
-      return;
-    }
-
     if (this.props.refreshData) {
       this.props.refreshData();
       this.props.navigation.goBack();
     }
   };
 
-  onChangeItems = (data: ItemDetail[]): void => {
+  onChangeItems = (data: SelectItemDetail[]) => {
     data.forEach(async (itemDetail, index) => {
       const v = {
         ...itemDetail,
