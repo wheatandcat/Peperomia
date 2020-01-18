@@ -1,4 +1,3 @@
-import * as SQLite from 'expo-sqlite';
 import React, {
   useContext,
   useState,
@@ -9,26 +8,24 @@ import React, {
 import { Alert } from 'react-native';
 import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import uuidv1 from 'uuid/v1';
-import { db } from '../../../lib/db';
-import { countByItemId, ItemDetail } from '../../../lib/db/itemDetail';
 import { SuggestItem } from '../../../lib/suggest';
 import getKind from '../../../lib/getKind';
 import {
   Context as ItemsContext,
   ContextProps as ItemContextProps,
 } from '../../../containers/Items';
-import { ItemDetail as ItemDetailParam } from '../../../domain/itemDetail';
-import { createItemDetail } from '../../../lib/itemDetail';
+import { ItemDetail } from '../../../domain/itemDetail';
+import { createItemDetail, countItemDetail } from '../../../lib/itemDetail';
 import { useDidMount } from '../../../hooks/index';
 import Page from '../../templates/CreateScheduleDetail/Page';
 
-export type State = ItemDetailParam & {
+export type State = ItemDetail & {
   iconSelected: boolean;
   priority: number;
   suggestList: SuggestItem[];
 };
 
-type Props = ItemDetailParam & {
+type Props = ItemDetail & {
   navigation: NavigationScreenProp<NavigationRoute>;
 };
 
@@ -68,20 +65,6 @@ const Plan = memo((props: PlanProps) => {
     suggestList: [],
   });
 
-  const getCount = useCallback(
-    (count: number, error: SQLite.SQLError | null) => {
-      if (error) {
-        return;
-      }
-
-      setState(s => ({
-        ...s,
-        priority: count + 1,
-      }));
-    },
-    []
-  );
-
   useDidMount(() => {
     const suggestList = (props.itemDetails || []).map(itemDetail => ({
       title: itemDetail.title,
@@ -93,11 +76,17 @@ const Plan = memo((props: PlanProps) => {
       suggestList,
     }));
 
-    const itemId = props.navigation.getParam('itemId', '1');
+    const setCount = async () => {
+      const itemId = props.navigation.getParam('itemId', '1');
+      const count = await countItemDetail(null, itemId);
 
-    db.transaction((tx: SQLite.SQLTransaction) => {
-      countByItemId(tx, itemId, getCount);
-    });
+      setState(s => ({
+        ...s,
+        priority: count + 1,
+      }));
+    };
+
+    setCount();
   });
 
   useEffect(() => {
@@ -131,7 +120,7 @@ const Plan = memo((props: PlanProps) => {
     ) => {
       const itemId = props.navigation.getParam('itemId', '1');
 
-      const itemDetail: ItemDetail = {
+      const itemDetail = {
         itemId,
         title,
         kind,

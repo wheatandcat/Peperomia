@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import * as SQLite from 'expo-sqlite';
 import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import {
   View,
@@ -18,31 +17,26 @@ import Toast from 'react-native-root-toast';
 import uuidv1 from 'uuid/v1';
 import { Button } from 'react-native-elements';
 import theme from '../../../config/theme';
-import { db } from '../../../lib/db';
-import { deleteByItemId as deleteCalendarByItemId } from '../../../lib/db/calendar';
-import { deleteByItemId as deleteItemDetailByItemId } from '../../../lib/db/itemDetail';
+import { Item } from '../../../domain/item';
 import { SelectItemDetail } from '../../../domain/itemDetail';
 import { updateItemDetail } from '../../../lib/itemDetail';
+import { deleteItem, getItemByID } from '../../../lib/item';
 import {
   save as saveFirestore,
   isShare,
   updateShare,
 } from '../../../lib/firestore/plan';
-import { deleteItem } from '../../../lib/item';
-import { Item } from '../../../lib/db/item';
 import getShareText from '../../../lib/getShareText';
 import {
   Consumer as ItemsConsumer,
   ContextProps,
 } from '../../../containers/Items';
-import { Item as ItemParam } from '../../../domain/item';
-import { getItemByID } from '../../../lib/item';
 import SortableSchedule from '../SortableSchedule/Connected';
 import Schedule from './Connected';
 import HeaderLeft from './HeaderLeft';
 import HeaderRight from './HeaderRight';
 
-type State = Pick<ItemParam, 'title'> & {
+type State = Pick<Item, 'title'> & {
   item: Item;
   itemId: number;
   items: SelectItemDetail[];
@@ -55,19 +49,11 @@ type Props = ActionSheetProps & {
 };
 
 type PlanProps = Props &
-  Pick<ItemParam, 'title'> &
-  Pick<ContextProps, 'refreshData'> & {
-    item: Item;
-    itemId: number;
-    items: SelectItemDetail[];
-    saveItems: SelectItemDetail[];
-    mode: string;
-    onShow: () => void;
-    onAdd: (items: SelectItemDetail[]) => void;
-    onSort: (items: SelectItemDetail[]) => void;
-  };
+  State &
+  Pick<ContextProps, 'refreshData'> &
+  Pick<Switch, 'onShow' | 'onAdd' | 'onSort'>;
 
-class Switch extends Component<Props, State> {
+export class Switch extends Component<Props, State> {
   static navigationOptions = ({ navigation }: { navigation: any }) => {
     const { params = {} } = navigation.state;
     return {
@@ -365,17 +351,6 @@ export class Plan extends Component<PlanProps> {
     const ok = await deleteItem(null, { id: itemId });
     if (!ok) {
       Alert.alert('削除に失敗しました');
-      return;
-    }
-
-    db.transaction((tx: SQLite.SQLTransaction) => {
-      deleteCalendarByItemId(tx, Number(itemId), () => null);
-      deleteItemDetailByItemId(tx, itemId, this.onDeleteRefresh);
-    });
-  };
-
-  onDeleteRefresh = (_: any, error: SQLite.SQLError | null) => {
-    if (error) {
       return;
     }
 

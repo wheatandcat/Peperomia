@@ -1,6 +1,6 @@
 import React, { createContext, Component } from 'react';
-import { Item } from '../lib/db/item';
-import { SelectCalendar } from '../lib/db/calendar';
+import { SelectItem } from '../domain/item';
+import { SelectCalendar } from '../domain/calendar';
 import { SelectItemDetail } from '../domain/itemDetail';
 import { getItems } from '../lib/item';
 import { getItemDetails } from '../lib/itemDetail';
@@ -18,7 +18,7 @@ type Props = {};
 
 type State = {
   loading: boolean;
-  items: Item[];
+  items: SelectItem[];
   itemDetails: SelectItemDetail[];
   about: ItemAbout[];
   calendars: SelectCalendar[];
@@ -49,18 +49,22 @@ class Connected extends Component<Props, State> {
     this.setState({
       loading: true,
     });
-    const items = await getItems<Item[]>(null);
+    const items = await getItems<SelectItem[]>(null);
 
     this.setState({
       items: items,
       about: [],
     });
 
-    items.map(async (val: Item) => {
+    items.map(async (val: SelectItem) => {
       const itemDetails = await getItemDetails<SelectItemDetail[]>(
         null,
         String(val.id)
       );
+      if (!itemDetails || itemDetails.length === 0) {
+        return;
+      }
+
       this.setItemsDetail(itemDetails);
     });
 
@@ -74,10 +78,11 @@ class Connected extends Component<Props, State> {
   setItemsDetail = (data: SelectItemDetail[]) => {
     const names = data.map((val: SelectItemDetail) => val.title).join(' → ');
     const itemId = data[0].itemId;
+
     const about = [
       ...this.state.about,
       {
-        itemId: itemId,
+        itemId,
         about: names,
       },
     ];

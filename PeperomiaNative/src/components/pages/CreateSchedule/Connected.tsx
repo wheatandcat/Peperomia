@@ -1,7 +1,7 @@
 import React, { useState, memo, useEffect, useCallback } from 'react';
 import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import { Alert } from 'react-native';
-import { Item } from '../../../lib/db/item';
+import { Item } from '../../../domain/item';
 import { SelectItemDetail } from '../../../domain/itemDetail';
 import { useDidMount } from '../../../hooks/index';
 import { getItemByID } from '../../../lib/item';

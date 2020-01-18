@@ -5,6 +5,7 @@ import {
   insert,
   update,
   delete1st,
+  countByItemId,
 } from './db/itemDetail';
 import {
   CreateItemDetailRequest,
@@ -20,7 +21,7 @@ import {
   DeleteItemDetail,
 } from '../domain/itemDetail';
 import { db } from '../lib/db/';
-import { findByItemID, findByID } from './firestore/itemDetail';
+import { findByItemID, findByID, countByItemID } from './firestore/itemDetail';
 import { getFireStore } from './firebase';
 import { getIdToken } from './auth';
 import { post } from './fetch';
@@ -47,6 +48,46 @@ export async function getItemDetails<T>(
       });
     });
   }
+}
+
+export async function countItemDetail(
+  uid: string | null,
+  itemID: string
+): Promise<number> {
+  if (uid) {
+    const firestore = getFireStore();
+    const count = await countByItemID(firestore, uid, itemID);
+    return count;
+  } else {
+    return new Promise(function(resolve, reject) {
+      db.transaction((tx: SQLite.SQLTransaction) => {
+        countByItemId(tx, itemID, (count, err) => {
+          if (err) {
+            reject(count);
+            return;
+          }
+
+          resolve(0);
+          return;
+        });
+      });
+    });
+  }
+}
+
+export async function sortItemDetail(
+  uid: string | null,
+  itemDetails: UpdateItemDetail[]
+): Promise<boolean> {
+  for (let i = 0; i < itemDetails.length; i++) {
+    itemDetails[i].priority = i + 1;
+    const resut = await updateItemDetail(uid, itemDetails[i]);
+    if (!resut) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 export async function getItemDetailByID<T>(
