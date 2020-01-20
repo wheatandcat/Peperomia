@@ -12,16 +12,15 @@ import {
   NavigationContext,
 } from 'react-navigation';
 import { useNavigation } from 'react-navigation-hooks';
+import { Context as AuthContext } from '../../../containers/Auth';
 import { SelectItemDetail } from '../../../domain/itemDetail';
 import { getItemDetails, updateItemDetail } from '../../../lib/itemDetail';
 import { useDidMount } from '../../../hooks/index';
+import { SwitchType } from './Switch';
 import Page from './Page';
 
-type Props = {
+type Props = Pick<SwitchType, 'onAdd' | 'onSort' | 'onDelete'> & {
   navigation: NavigationScreenProp<NavigationRoute>;
-  onAdd: (itemDetails: SelectItemDetail[]) => void;
-  onSort: (itemDetails: SelectItemDetail[]) => void;
-  onDelete: () => void;
 };
 
 type State = {
@@ -36,6 +35,7 @@ export type ConnectedType = {
 export default memo((props: Props) => {
   const [state, setState] = useState<State>({ itemDetails: [], refresh: '' });
   const navigation = useContext(NavigationContext);
+  const { uid } = useContext(AuthContext);
   const { navigate } = useNavigation();
 
   const setitemDetails = useCallback(
@@ -69,11 +69,15 @@ export default memo((props: Props) => {
           priority: index + 1,
         };
 
-        const ok = await updateItemDetail(null, v);
+        const ok = await updateItemDetail(uid, v);
         if (!ok) {
           Alert.alert('保存に失敗しました');
           return;
         }
+      });
+
+      props.navigation.setParams({
+        itemDetails,
       });
 
       setState(s => ({
@@ -81,19 +85,16 @@ export default memo((props: Props) => {
         itemDetails: itemDetails,
       }));
     },
-    [navigation]
+    [navigation, props.navigation, uid]
   );
 
   const getData = useCallback(
     async (itemId: string) => {
-      const itemDetails = await getItemDetails<SelectItemDetail[]>(
-        null,
-        String(itemId)
-      );
+      const itemDetails = await getItemDetails(uid, String(itemId));
 
       setitemDetails(itemDetails);
     },
-    [setitemDetails]
+    [setitemDetails, uid]
   );
 
   useDidMount(() => {

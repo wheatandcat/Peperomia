@@ -15,6 +15,7 @@ import {
   Context as ItemsContext,
   ContextProps as ItemContextProps,
 } from '../../../containers/Items';
+import { Context as AuthContext } from '../../../containers/Auth';
 import { useDidMount } from '../../../hooks/index';
 import Page from '../../templates/CreateScheduleDetail/Page';
 
@@ -39,6 +40,7 @@ export default (props: Props) => {
 };
 
 const Plan = memo((props: PlanProps) => {
+  const { uid } = useContext(AuthContext);
   const [state, setState] = useState<State>({
     title: props.title || '',
     place: props.place || '',
@@ -114,7 +116,7 @@ const Plan = memo((props: PlanProps) => {
         itemId: 0,
       };
 
-      const ok = await updateItemDetail(null, itemDetail);
+      const ok = await updateItemDetail(uid, itemDetail);
       if (!ok) {
         Alert.alert('保存に失敗しました');
         return;
@@ -122,7 +124,7 @@ const Plan = memo((props: PlanProps) => {
 
       save();
     },
-    [props.id, props.priority, save]
+    [props.id, props.priority, save, uid]
   );
 
   const onIcons = useCallback(

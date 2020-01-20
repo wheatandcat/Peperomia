@@ -2,7 +2,8 @@ import * as SQLite from 'expo-sqlite';
 import { select, select1st, insert, update, delete1st } from './db/item';
 import { deleteByItemId as deleteItenDetailByItemId } from './db/itemDetail';
 import { deleteByItemId as deleteCalendarByItemId } from './db/calendar';
-import { Item, UpdateItem, DeleteItem } from '../domain/item';
+import { Item, UpdateItem, DeleteItem, SelectItem } from '../domain/item';
+import { UID } from '../domain/user';
 import {
   CreateItemRequest,
   CreateItemResponse,
@@ -17,7 +18,7 @@ import { getFireStore } from './firebase';
 import { getIdToken } from './auth';
 import { post } from './fetch';
 
-export async function getItems<T>(uid: string | null): Promise<T> {
+export async function getItems(uid: UID): Promise<SelectItem[]> {
   if (uid) {
     const firestore = getFireStore();
     return (await findByUID(firestore, uid)) as any;
@@ -38,10 +39,7 @@ export async function getItems<T>(uid: string | null): Promise<T> {
   }
 }
 
-export async function getItemByID<T>(
-  uid: string | null,
-  id: string
-): Promise<T> {
+export async function getItemByID(uid: UID, id: string): Promise<SelectItem> {
   if (uid) {
     const firestore = getFireStore();
     return (await findByID(firestore, uid, id)) as any;
@@ -63,7 +61,7 @@ export async function getItemByID<T>(
 }
 
 export async function createItem(
-  uid: string | null,
+  uid: UID,
   item: Item
 ): Promise<number | string | null | undefined> {
   if (uid) {
@@ -97,10 +95,7 @@ export async function createItem(
   }
 }
 
-export async function updateItem(
-  uid: string | null,
-  item: UpdateItem
-): Promise<boolean> {
+export async function updateItem(uid: UID, item: UpdateItem): Promise<boolean> {
   if (uid) {
     const idToken = (await getIdToken()) || '';
     const response = await post<UpdateItemRequest, UpdateItemResponse>(
@@ -132,10 +127,7 @@ export async function updateItem(
   }
 }
 
-export async function deleteItem(
-  uid: string | null,
-  item: DeleteItem
-): Promise<boolean> {
+export async function deleteItem(uid: UID, item: DeleteItem): Promise<boolean> {
   if (uid) {
     const idToken = (await getIdToken()) || '';
     const response = await post<DeleteItemRequest, DeleteItemResponse>(

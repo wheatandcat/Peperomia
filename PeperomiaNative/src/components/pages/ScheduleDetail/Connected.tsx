@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { FC, useState, memo, useCallback, useContext } from 'react';
 import { Alert } from 'react-native';
 import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import uuidv1 from 'uuid/v1';
@@ -11,7 +11,9 @@ import {
   getItemDetails,
   deleteItemDetail,
 } from '../../../lib/itemDetail';
-import { ContextProps } from '../../../containers/Items';
+import { ContextProps as ItemContextProps } from '../../../containers/Items';
+import { Context as AuthContext } from '../../../containers/Auth';
+import { useDidMount } from '../../../hooks/index';
 import Page from './Page';
 
 type State = {
@@ -19,7 +21,7 @@ type State = {
   itemDetail: SelectItemDetail;
 };
 
-type Props = Pick<ContextProps, 'refreshData'> & {
+type Props = Pick<ItemContextProps, 'refreshData'> & {
   navigation: NavigationScreenProp<NavigationRoute>;
   onEdit: (
     title: string,
@@ -32,62 +34,70 @@ type Props = Pick<ContextProps, 'refreshData'> & {
   ) => void;
 };
 
-export default class extends Component<Props, State> {
-  state = {
-    item: {
-      id: 0,
-      title: '',
-      image: '',
-      kind: '',
-    },
-    itemDetail: {
-      id: 0,
-      itemId: 0,
-      kind: '',
-      title: '',
-      memo: '',
-      place: '',
-      url: '',
-      moveMinutes: 0,
-      priority: 0,
-    },
-  };
+const initState = {
+  item: {
+    id: 0,
+    title: '',
+    image: '',
+    kind: '',
+  },
+  itemDetail: {
+    id: 0,
+    itemId: 0,
+    kind: '',
+    title: '',
+    memo: '',
+    place: '',
+    url: '',
+    moveMinutes: 0,
+    priority: 0,
+  },
+};
 
-  async componentDidMount() {
-    const scheduleDetailId = this.props.navigation.getParam(
-      'scheduleDetailId',
-      '1'
-    );
-    const itemDetail = await getItemDetailByID<SelectItemDetail>(
-      null,
-      String(scheduleDetailId)
-    );
+const ScheduleDetailConnected: FC<Props> = memo(props => {
+  const { uid } = useContext(AuthContext);
+  const [state, setState] = useState<State>(initState);
 
-    const item = await getItemByID<Item>(null, String(itemDetail?.id));
+  useDidMount(() => {
+    const getData = async () => {
+      const scheduleDetailId = props.navigation.getParam(
+        'scheduleDetailId',
+        '1'
+      );
 
-    this.setState({ item, itemDetail });
-  }
+      const itemDetail = await getItemDetailByID(uid, String(scheduleDetailId));
+      const item = await getItemByID(uid, String(itemDetail?.itemId));
 
-  onDismiss = () => {
-    this.props.navigation.goBack();
-  };
+      setState(s => ({
+        ...s,
+        item,
+        itemDetail,
+      }));
+    };
 
-  onCreateScheduleDetail = () => {
-    const {
+    getData();
+  });
+
+  const onDismiss = useCallback(() => {
+    props.navigation.goBack();
+  }, [props.navigation]);
+
+  const onCreateScheduleDetail = useCallback(() => {
+    const { title, kind, place, url, moveMinutes, priority } = state.itemDetail;
+    props.onEdit(
       title,
       kind,
       place,
       url,
-      memo,
+      state.itemDetail.memo,
       moveMinutes,
-      priority,
-    } = this.state.itemDetail;
-    this.props.onEdit(title, kind, place, url, memo, moveMinutes, priority);
-  };
+      priority
+    );
+  }, [props, state.itemDetail]);
 
-  onDelete = async () => {
-    const ok = await deleteItemDetail(null, {
-      id: String(this.state.itemDetail.id),
+  const onDelete = useCallback(async () => {
+    const ok = await deleteItemDetail(uid, {
+      id: String(state.itemDetail.id),
     });
 
     if (!ok) {
@@ -95,14 +105,14 @@ export default class extends Component<Props, State> {
       return;
     }
 
-    const itemDetails = await getItemDetails<SelectItemDetail[]>(
+    const itemDetails = await getItemDetails(
       null,
-      String(this.state.itemDetail.itemId)
+      String(state.itemDetail.itemId)
     );
 
     if (itemDetails.length > 0) {
       await sortItemDetail(
-        null,
+        uid,
         itemDetails.map(itemDetail => ({
           ...itemDetail,
           id: String(itemDetail.id),
@@ -110,27 +120,34 @@ export default class extends Component<Props, State> {
       );
     }
 
-    if (this.props.refreshData) {
-      this.props.refreshData();
-      this.props.navigation.navigate('Schedule', {
-        itemId: this.state.itemDetail.itemId,
-        title: this.state.item.title,
+    if (props.refreshData) {
+      props.refreshData();
+      props.navigation.navigate('Schedule', {
+        itemId: state.itemDetail.itemId,
+        title: state.item.title,
         refresh: uuidv1(),
       });
     }
-  };
+  }, [
+    props,
+    state.item.title,
+    state.itemDetail.id,
+    state.itemDetail.itemId,
+    uid,
+  ]);
 
-  render() {
-    if (this.state.itemDetail.id === 0) {
-      return null;
-    }
-    return (
-      <Page
-        {...this.state.itemDetail}
-        onDismiss={this.onDismiss}
-        onDelete={this.onDelete}
-        onCreateScheduleDetail={this.onCreateScheduleDetail.bind(this)}
-      />
-    );
+  if (state.itemDetail.id === 0) {
+    return null;
   }
-}
+
+  return (
+    <Page
+      {...state.itemDetail}
+      onDismiss={onDismiss}
+      onDelete={onDelete}
+      onCreateScheduleDetail={onCreateScheduleDetail}
+    />
+  );
+});
+
+export default ScheduleDetailConnected;

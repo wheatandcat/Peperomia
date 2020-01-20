@@ -1,10 +1,19 @@
-import React, { createContext, Component } from 'react';
+import React, {
+  FC,
+  createContext,
+  memo,
+  useState,
+  useCallback,
+  useContext,
+} from 'react';
 import { SelectItem } from '../domain/item';
 import { SelectCalendar } from '../domain/calendar';
 import { SelectItemDetail } from '../domain/itemDetail';
 import { getItems } from '../lib/item';
 import { getItemDetails } from '../lib/itemDetail';
 import { getCalendars } from '../lib/calendar';
+import { useDidMount } from '../hooks/index';
+import { Context as AuthContext } from './Auth';
 
 export const Context = createContext<ContextProps>({});
 const { Provider } = Context;
@@ -31,86 +40,92 @@ export type ContextProps = Partial<
   }
 >;
 
-class Connected extends Component<Props, State> {
-  state = {
-    loading: true,
-    calendarsLoading: true,
-    items: [],
-    itemDetails: [],
-    about: [],
-    calendars: [],
-  };
+const initState = {
+  loading: true,
+  calendarsLoading: true,
+  items: [],
+  itemDetails: [],
+  about: [],
+  calendars: [],
+};
 
-  componentDidMount() {
-    this.getData();
-  }
+const Connected: FC<Props> = memo(props => {
+  const [state, setState] = useState<State>(initState);
+  const { uid } = useContext(AuthContext);
 
-  getData = async () => {
-    this.setState({
+  const setItemsDetail = useCallback(
+    (data: SelectItemDetail[]) => {
+      const names = data.map((val: SelectItemDetail) => val.title).join(' → ');
+      const itemId = data[0].itemId;
+
+      const about = [
+        ...state.about,
+        {
+          itemId,
+          about: names,
+        },
+      ];
+
+      setState(s => ({
+        ...s,
+        about,
+        loading: false,
+        itemDetails: [...state.itemDetails, ...data],
+      }));
+    },
+    [state]
+  );
+
+  const getData = useCallback(async () => {
+    setState(s => ({
+      ...s,
       loading: true,
-    });
-    const items = await getItems<SelectItem[]>(null);
+    }));
 
-    this.setState({
+    const items = await getItems(uid);
+
+    setState(s => ({
+      ...s,
       items: items,
       about: [],
-    });
+    }));
 
     items.map(async (val: SelectItem) => {
-      const itemDetails = await getItemDetails<SelectItemDetail[]>(
-        null,
-        String(val.id)
-      );
+      const itemDetails = await getItemDetails(uid, String(val.id));
       if (!itemDetails || itemDetails.length === 0) {
         return;
       }
 
-      this.setItemsDetail(itemDetails);
+      setItemsDetail(itemDetails);
     });
 
-    const calendars = await getCalendars<SelectCalendar[]>(null);
+    const calendars = await getCalendars(uid);
 
-    this.setState({
+    setState(s => ({
+      ...s,
       calendars,
-    });
-  };
+    }));
+  }, [setItemsDetail, uid]);
 
-  setItemsDetail = (data: SelectItemDetail[]) => {
-    const names = data.map((val: SelectItemDetail) => val.title).join(' → ');
-    const itemId = data[0].itemId;
+  useDidMount(() => {
+    getData();
+  });
 
-    const about = [
-      ...this.state.about,
-      {
-        itemId,
-        about: names,
-      },
-    ];
-
-    this.setState({
-      about,
-      loading: false,
-      itemDetails: [...this.state.itemDetails, ...data],
-    });
-  };
-
-  render() {
-    return (
-      <Provider
-        value={{
-          items: this.state.items,
-          itemDetails: this.state.itemDetails,
-          calendars: this.state.calendars,
-          about: this.state.about,
-          refreshData: this.getData,
-          itemsLoading: this.state.loading,
-        }}
-      >
-        {this.props.children}
-      </Provider>
-    );
-  }
-}
+  return (
+    <Provider
+      value={{
+        items: state.items,
+        itemDetails: state.itemDetails,
+        calendars: state.calendars,
+        about: state.about,
+        refreshData: getData,
+        itemsLoading: state.loading,
+      }}
+    >
+      {props.children}
+    </Provider>
+  );
+});
 
 export default Connected;
 

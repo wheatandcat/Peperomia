@@ -14,6 +14,7 @@ import {
   Context as ItemsContext,
   ContextProps as ItemContextProps,
 } from '../../../containers/Items';
+import { Context as AuthContext } from '../../../containers/Auth';
 import { ItemDetail } from '../../../domain/itemDetail';
 import { createItemDetail, countItemDetail } from '../../../lib/itemDetail';
 import { useDidMount } from '../../../hooks/index';
@@ -53,6 +54,7 @@ export type PlanType = {
 };
 
 const Plan = memo((props: PlanProps) => {
+  const { uid } = useContext(AuthContext);
   const [state, setState] = useState<State>({
     title: props.title || '',
     kind: props.kind || '',
@@ -78,7 +80,7 @@ const Plan = memo((props: PlanProps) => {
 
     const setCount = async () => {
       const itemId = props.navigation.getParam('itemId', '1');
-      const count = await countItemDetail(null, itemId);
+      const count = await countItemDetail(uid, itemId);
 
       setState(s => ({
         ...s,
@@ -131,7 +133,7 @@ const Plan = memo((props: PlanProps) => {
         priority: state.priority,
       };
 
-      const insertID = await createItemDetail(null, itemDetail);
+      const insertID = await createItemDetail(uid, itemDetail);
       if (!insertID) {
         Alert.alert('保存に失敗しました');
         return;
@@ -146,7 +148,7 @@ const Plan = memo((props: PlanProps) => {
         props.refreshData();
       }
     },
-    [props, state.priority]
+    [props, state.priority, uid]
   );
 
   const onIcons = useCallback(

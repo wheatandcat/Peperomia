@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import SortableList from 'react-native-sortable-list';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { SelectItemDetail } from '../../../domain/itemDetail';
-import { Plan } from '../../pages/Schedule/Switch';
+import { SwitchType } from '../../pages/Schedule/Switch';
 import { SortableItemDetail } from '../../pages/SortableSchedule/Connected';
 import Card from '../../molecules/Schedule/Card';
 import Row from './Row';
 
 type DataKey = string | number;
 
-type Props = Pick<Plan, 'onChangeItems'> & {
+type Props = Pick<SwitchType, 'onChangeItems'> & {
   data: SortableItemDetail[];
 };
 

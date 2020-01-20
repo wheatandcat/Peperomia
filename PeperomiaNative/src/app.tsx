@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import uuidv1 from "uuid/v1";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { AppearanceProvider } from "react-native-appearance";
-import {  createAppContainer } from "react-navigation";
+import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator, BottomTabBar } from "react-navigation-tabs";
 import { AsyncStorage, StatusBar, Text } from "react-native";

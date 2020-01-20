@@ -1,4 +1,10 @@
-import React, { useState, memo, useEffect, useCallback } from 'react';
+import React, {
+  useState,
+  memo,
+  useEffect,
+  useCallback,
+  useContext,
+} from 'react';
 import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import { Alert } from 'react-native';
 import { Item } from '../../../domain/item';
@@ -6,6 +12,7 @@ import { SelectItemDetail } from '../../../domain/itemDetail';
 import { useDidMount } from '../../../hooks/index';
 import { getItemByID } from '../../../lib/item';
 import { getItemDetails, updateItemDetail } from '../../../lib/itemDetail';
+import { Context as AuthContext } from '../../../containers/Auth';
 import Page from '../../templates/CreateSchedule/Page';
 
 type Props = {
@@ -19,6 +26,8 @@ type State = {
 };
 
 export default memo((props: Props) => {
+  const { uid } = useContext(AuthContext);
+
   const [state, setState] = useState<State>({
     item: { title: '', kind: '' },
     itemDetails: [],
@@ -56,7 +65,7 @@ export default memo((props: Props) => {
           priority: index + 1,
         };
 
-        const ok = await updateItemDetail(null, v);
+        const ok = await updateItemDetail(uid, v);
         if (!ok) {
           Alert.alert('保存に失敗しました');
           return;
@@ -68,7 +77,7 @@ export default memo((props: Props) => {
         itemDetails: itemDetails,
       }));
     },
-    [props.navigation]
+    [props.navigation, uid]
   );
 
   const setItem = useCallback((data: Item) => {
@@ -85,15 +94,12 @@ export default memo((props: Props) => {
     const itemId = props.navigation.getParam('itemId', '1');
 
     const setItemByItemID = async () => {
-      const item = await getItemByID<Item>(null, itemId);
+      const item = await getItemByID(uid, itemId);
       setItem(item);
     };
 
     const setItemDetailsByItemID = async () => {
-      const itemDetails = await getItemDetails<SelectItemDetail[]>(
-        null,
-        itemId
-      );
+      const itemDetails = await getItemDetails(uid, itemId);
       setItemDetails(itemDetails);
     };
 
@@ -105,10 +111,7 @@ export default memo((props: Props) => {
     const refresh = props.navigation.getParam('refresh', '0');
 
     const setItemDetailsByItemID = async (itemId: string) => {
-      const itemDetails = await getItemDetails<SelectItemDetail[]>(
-        null,
-        itemId
-      );
+      const itemDetails = await getItemDetails(uid, itemId);
       setItemDetails(itemDetails);
     };
 
@@ -118,7 +121,7 @@ export default memo((props: Props) => {
         setState(s => ({ ...s, refresh }));
       });
     }
-  }, [props.navigation, setItemDetails, state.refresh]);
+  }, [props.navigation, setItemDetails, state.refresh, uid]);
 
   const onCreateScheduleDetail = useCallback(() => {
     const itemId = props.navigation.getParam('itemId', '1');

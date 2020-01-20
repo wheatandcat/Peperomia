@@ -7,6 +7,7 @@ import {
   delete1st,
   countByItemId,
 } from './db/itemDetail';
+import { UID } from '../domain/user';
 import {
   CreateItemDetailRequest,
   CreateItemDetailResponse,
@@ -19,6 +20,7 @@ import {
   ItemDetail,
   UpdateItemDetail,
   DeleteItemDetail,
+  SelectItemDetail,
 } from '../domain/itemDetail';
 import { db } from '../lib/db/';
 import { findByItemID, findByID, countByItemID } from './firestore/itemDetail';
@@ -26,10 +28,10 @@ import { getFireStore } from './firebase';
 import { getIdToken } from './auth';
 import { post } from './fetch';
 
-export async function getItemDetails<T>(
-  uid: string | null,
+export async function getItemDetails(
+  uid: UID,
   itemID: string
-): Promise<T> {
+): Promise<SelectItemDetail[]> {
   if (uid) {
     const firestore = getFireStore();
     return (await findByItemID(firestore, uid, itemID)) as any;
@@ -51,7 +53,7 @@ export async function getItemDetails<T>(
 }
 
 export async function countItemDetail(
-  uid: string | null,
+  uid: UID,
   itemID: string
 ): Promise<number> {
   if (uid) {
@@ -76,7 +78,7 @@ export async function countItemDetail(
 }
 
 export async function sortItemDetail(
-  uid: string | null,
+  uid: UID,
   itemDetails: UpdateItemDetail[]
 ): Promise<boolean> {
   for (let i = 0; i < itemDetails.length; i++) {
@@ -90,10 +92,10 @@ export async function sortItemDetail(
   return true;
 }
 
-export async function getItemDetailByID<T>(
-  uid: string | null,
+export async function getItemDetailByID(
+  uid: UID,
   id: string
-): Promise<T> {
+): Promise<SelectItemDetail> {
   if (uid) {
     const firestore = getFireStore();
     return (await findByID(firestore, uid, id)) as any;
@@ -115,7 +117,7 @@ export async function getItemDetailByID<T>(
 }
 
 export async function createItemDetail(
-  uid: string | null,
+  uid: UID,
   itemDetail: ItemDetail & { itemId: string | number }
 ): Promise<number | string | null | undefined> {
   if (uid) {
@@ -158,7 +160,7 @@ export async function createItemDetail(
 }
 
 export async function updateItemDetail(
-  uid: string | null,
+  uid: UID,
   itemDetail: UpdateItemDetail
 ): Promise<boolean> {
   if (uid) {
@@ -202,7 +204,7 @@ export async function updateItemDetail(
 }
 
 export async function deleteItemDetail(
-  uid: string | null,
+  uid: UID,
   itemDetail: DeleteItemDetail
 ): Promise<boolean> {
   if (uid) {

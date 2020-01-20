@@ -17,6 +17,7 @@ import {
   Context as ItemsContext,
   ContextProps as ItemContextProps,
 } from '../../../containers/Items';
+import { Context as AuthContext } from '../../../containers/Auth';
 import Page from '../../templates/CreateScheduleDetail/Page';
 
 type State = ItemDetail & {
@@ -50,6 +51,8 @@ const Plan = memo((props: PlanProps) => {
     iconSelected: false,
     suggestList: [],
   });
+
+  const { uid } = useContext(AuthContext);
 
   useDidMount(() => {
     const suggestList = (props.itemDetails || []).map(itemDetail => ({
@@ -119,7 +122,7 @@ const Plan = memo((props: PlanProps) => {
         priority: Number(priority),
       };
 
-      const insertID = await createItemDetail(null, itemDetail);
+      const insertID = await createItemDetail(uid, itemDetail);
       if (!insertID) {
         Alert.alert('保存に失敗しました');
         return;
@@ -127,7 +130,7 @@ const Plan = memo((props: PlanProps) => {
 
       save();
     },
-    [props.navigation, save]
+    [props.navigation, save, uid]
   );
 
   const onIcons = useCallback(

@@ -11,6 +11,7 @@ import {
   Context as ItemsContext,
   ContextProps as ItemContextProps,
 } from '../../../containers/Items';
+import { Context as AuthContext } from '../../../containers/Auth';
 import { SuggestItem } from '../../../lib/suggest';
 import getKind from '../../../lib/getKind';
 import { useDidMount } from '../../../hooks/index';
@@ -49,6 +50,7 @@ type ConnectProps = Props &
   Pick<ItemContextProps, 'items' | 'refreshData' | 'calendars'>;
 
 const Connect = memo((props: ConnectProps) => {
+  const { uid } = useContext(AuthContext);
   const [state, setState] = useState<State>({
     input: { title: '', date: '' },
     image: '',
@@ -141,7 +143,7 @@ const Connect = memo((props: ConnectProps) => {
           date: state.input.date,
         };
 
-        const insertID = await createCalendar(null, calendar);
+        const insertID = await createCalendar(uid, calendar);
         if (!insertID) {
           Alert.alert('保存に失敗しました');
           return;
@@ -152,7 +154,7 @@ const Connect = memo((props: ConnectProps) => {
         pushCreateSchedule(insertId);
       }
     },
-    [pushCreateSchedule, state.input.date]
+    [pushCreateSchedule, state.input.date, uid]
   );
 
   const onSave = useCallback(async () => {
@@ -172,14 +174,21 @@ const Connect = memo((props: ConnectProps) => {
       kind: state.kind || getKind(state.input.title),
     };
 
-    const insertID = await createItem(null, item);
+    const insertID = await createItem(uid, item);
     if (!insertID) {
       Alert.alert('保存に失敗しました');
       return;
     }
 
     save(Number(insertID));
-  }, [props.calendars, save, state.input.date, state.input.title, state.kind]);
+  }, [
+    props.calendars,
+    save,
+    state.input.date,
+    state.input.title,
+    state.kind,
+    uid,
+  ]);
 
   const onHome = useCallback(() => {
     props.navigation.goBack(null);
