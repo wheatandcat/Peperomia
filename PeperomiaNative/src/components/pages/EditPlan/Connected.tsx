@@ -22,14 +22,15 @@ import Page from '../../templates/CreatePlan/Page';
 
 type Props = {
   navigation: NavigationScreenProp<NavigationRoute>;
+  title: string;
+  kind: string;
 };
 
 type ConnectedProps = Pick<
   ItemContextProps,
   'items' | 'refreshData' | 'calendars'
-> & {
-  navigation: NavigationScreenProp<NavigationRoute>;
-};
+> &
+  Props;
 
 type PlanProps = Pick<ItemContextProps, 'items' | 'refreshData'> & {
   navigation: NavigationScreenProp<NavigationRoute>;
@@ -49,7 +50,6 @@ type State = {
     title: string;
     date: string;
   };
-  image: string;
   kind: string;
   calendar: UpdateCalendar;
 };
@@ -59,7 +59,7 @@ export default (props: Props) => {
 
   return (
     <Connected
-      navigation={props.navigation}
+      {...props}
       items={items}
       refreshData={refreshData}
       calendars={calendars}
@@ -72,7 +72,6 @@ const Connected = memo((props: ConnectedProps) => {
 
   const [state, setState] = useState<State>({
     input: { title: '', date: '' },
-    image: '',
     kind: '',
     calendar: {
       id: 0,
@@ -83,6 +82,7 @@ const Connected = memo((props: ConnectedProps) => {
 
   useDidMount(() => {
     const id = props.navigation.getParam('id', 0);
+
     let input: {
       date: string;
       title: string;
@@ -243,8 +243,6 @@ const Connected = memo((props: ConnectedProps) => {
   const onHome = useCallback(() => {
     props.navigation.goBack();
   }, [props.navigation]);
-
-  console.log(state);
 
   return (
     <Plan

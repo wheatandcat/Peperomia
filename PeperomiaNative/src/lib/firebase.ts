@@ -3,6 +3,7 @@ import 'firebase/firestore';
 import { firebaseConfig } from '../config/firebase';
 
 firebase.initializeApp(firebaseConfig);
+
 const db = firebase.firestore();
 let offline: boolean = false;
 

@@ -118,10 +118,19 @@ class Connected extends Component<ConnectedProps, State> {
       const { items, itemDetails, calendars } = await backup();
 
       const request = {
-        items,
-        itemDetails,
+        items: items.map(item => ({
+          ...item,
+          id: String(item.id),
+        })),
+        itemDetails: itemDetails.map(itemDetail => ({
+          ...itemDetail,
+          id: String(itemDetail.id),
+          itemId: String(itemDetail.itemId),
+        })),
         calendars: calendars.map(calendar => ({
           ...calendar,
+          id: String(calendar.id),
+          itemId: String(calendar.itemId),
           date: dayjs(calendar.date).format(),
         })),
       };

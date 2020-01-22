@@ -34,6 +34,7 @@ export async function getItemDetails(
 ): Promise<SelectItemDetail[]> {
   if (uid) {
     const firestore = getFireStore();
+
     return (await findByItemID(firestore, uid, itemID)) as any;
   } else {
     return new Promise(function(resolve, reject) {

@@ -111,7 +111,7 @@ const Connect = memo((props: ConnectProps) => {
   }, [props.navigation, state.input.title]);
 
   const pushCreateSchedule = useCallback(
-    (itemId: number) => {
+    (itemId: number | string) => {
       if (props.refreshData) {
         props.refreshData();
       }
@@ -135,7 +135,7 @@ const Connect = memo((props: ConnectProps) => {
   }, []);
 
   const save = useCallback(
-    async (insertId: number) => {
+    async (insertId: number | string) => {
       if (state.input.date) {
         // 日付のデータがある場合ははcalendarに登録する
         const calendar = {
@@ -144,6 +144,7 @@ const Connect = memo((props: ConnectProps) => {
         };
 
         const insertID = await createCalendar(uid, calendar);
+
         if (!insertID) {
           Alert.alert('保存に失敗しました');
           return;
@@ -180,7 +181,7 @@ const Connect = memo((props: ConnectProps) => {
       return;
     }
 
-    save(Number(insertID));
+    save(insertID);
   }, [
     props.calendars,
     save,

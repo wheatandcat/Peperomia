@@ -83,6 +83,7 @@ const Connected: FC<Props> = memo(props => {
     }));
 
     const items = await getItems(uid);
+    console.log(items);
 
     setState(s => ({
       ...s,
@@ -90,8 +91,9 @@ const Connected: FC<Props> = memo(props => {
       about: [],
     }));
 
-    items.map(async (val: SelectItem) => {
+    items.map(async val => {
       const itemDetails = await getItemDetails(uid, String(val.id));
+
       if (!itemDetails || itemDetails.length === 0) {
         return;
       }

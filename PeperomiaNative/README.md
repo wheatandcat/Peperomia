@@ -103,8 +103,15 @@ $ yarn storybook:copy
 $ expo-cli publish --config storybook/app.json
 ```
 
- ## React Native Debugger
+## React Native Debugger
+
+### 初期設定
 
 ```
-$ open ‘rndebugger://set-debugger-loc?host=localhost&port=19001’
+$ open ./node_modules/react-native/Libraries/Core/setUpDeveloperTools.js
 ```
+
+```
+$ open "rndebugger://set-debugger-loc?host=localhost&port=19001"
+```
+

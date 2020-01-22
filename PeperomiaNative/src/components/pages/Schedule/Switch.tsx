@@ -84,11 +84,14 @@ const Connected = memo((props: Props) => {
   const { refreshData } = useContext(ItemsContext);
   const [state, setState] = useState<State>(initState);
 
-  const onEditPlan = useCallback(() => {
-    props.navigation.navigate('EditPlan', {
-      ...state.item,
-    });
-  }, [props.navigation, state.item]);
+  const onEditPlan = useCallback(
+    (item: SelectItem) => {
+      props.navigation.navigate('EditPlan', {
+        ...item,
+      });
+    },
+    [props.navigation]
+  );
 
   const onShare = useCallback(
     async (title: string, items: SelectItemDetail[]) => {
@@ -330,6 +333,14 @@ const Connected = memo((props: Props) => {
   );
 
   useDidMount(() => {
+    props.navigation.setParams({
+      onShow: onShow,
+      onSave: onSave,
+      onShare: onShare,
+      onOpenActionSheet: onOpenActionSheet,
+      mode: 'show',
+    });
+
     const getData = async () => {
       const itemId = props.navigation.getParam('itemId', '1');
       const item = await getItemByID(uid, String(itemId));
@@ -338,18 +349,13 @@ const Connected = memo((props: Props) => {
         ...s,
         item,
       }));
+
+      props.navigation.setParams({
+        onEditPlan: () => onEditPlan(item),
+      });
     };
 
     getData();
-
-    props.navigation.setParams({
-      onShow: onShow,
-      onSave: onSave,
-      onShare: onShare,
-      onEditPlan: onEditPlan,
-      onOpenActionSheet: onOpenActionSheet,
-      mode: 'show',
-    });
   });
 
   if (state.mode === 'sort') {
