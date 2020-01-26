@@ -108,10 +108,6 @@ $ expo-cli publish --config storybook/app.json
 ### 初期設定
 
 ```
-$ open ./node_modules/react-native/Libraries/Core/setUpDeveloperTools.js
-```
-
-```
 $ open "rndebugger://set-debugger-loc?host=localhost&port=19001"
 ```
 

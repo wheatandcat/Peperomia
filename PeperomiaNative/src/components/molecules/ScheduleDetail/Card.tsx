@@ -46,6 +46,8 @@ const handleClick = (url: string) => {
 };
 
 export default (props: Props) => {
+  console.log(props);
+
   return (
     <View style={styles.root}>
       <Header kind={props.kind}>
@@ -63,7 +65,7 @@ export default (props: Props) => {
               <View style={styles.timeContainer}>
                 <Ionicons
                   name="md-time"
-                  color={theme().color.lightGreen}
+                  color={theme().mode.text}
                   size={24}
                   style={styles.icon}
                 />
@@ -128,8 +130,7 @@ const styles = EStyleSheet.create({
   timeContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    width: 80,
-    height: 30,
+    height: 60,
     paddingHorizontal: 20,
     paddingVertical: 15,
   },

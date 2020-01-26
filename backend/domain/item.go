@@ -2,16 +2,19 @@ package domain
 
 import (
 	"context"
+	"time"
 
 	"cloud.google.com/go/firestore"
 )
 
 // ItemRecord is item data
 type ItemRecord struct {
-	ID    string `json:"id" firestore:"id" binding:"required"`
-	UID   string `json:"uid" firestore:"uid"`
-	Title string `json:"title" firestore:"title" binding:"required"`
-	Kind  string `json:"kind" firestore:"kind" binding:"required"`
+	ID        string    `json:"id" firestore:"id" binding:"required"`
+	UID       string    `json:"uid" firestore:"uid"`
+	Title     string    `json:"title" firestore:"title" binding:"required"`
+	Kind      string    `json:"kind" firestore:"kind" binding:"required"`
+	CreatedAt time.Time `json:"-" firestore:"createdAt"`
+	UpdatedAt time.Time `json:"-" firestore:"updatedAt"`
 }
 
 // ItemRepository is repository interface

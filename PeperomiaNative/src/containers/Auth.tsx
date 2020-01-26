@@ -69,19 +69,19 @@ const Auth: FC<Props> = memo(props => {
 
   const getIdToken = useCallback(async () => {
     const idToken = await AsyncStorage.getItem('id_token');
+
     if (!idToken) {
       return null;
     }
 
     const expiration = await AsyncStorage.getItem('expiration');
-    /**
+    /*
     console.log(expiration);
     console.log(dayjs(new Date(Number(expiration) * 1000)).format());
     console.log(dayjs().format());
-    console.log(dayjs(new Date(Number(expiration) * 1000)).isBefore(dayjs()));
-    **/
-
-    if (dayjs(new Date(Number(expiration) * 1000)).isBefore(dayjs())) {
+    console.log(dayjs(new Date(Number(expiration) * 1000)).isAfter(dayjs()));
+    */
+    if (dayjs(new Date(Number(expiration) * 1000)).isAfter(dayjs())) {
       return idToken;
     }
 

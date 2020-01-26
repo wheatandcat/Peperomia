@@ -83,7 +83,6 @@ const Connected: FC<Props> = memo(props => {
     }));
 
     const items = await getItems(uid);
-    console.log(items);
 
     setState(s => ({
       ...s,
