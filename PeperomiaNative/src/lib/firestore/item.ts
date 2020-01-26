@@ -30,8 +30,6 @@ export const findByUID = async (
   db: firebase.firestore.Firestore,
   uid: string
 ): Promise<Item[]> => {
-  console.log(uid);
-
   const qs = await db
     .collection(collectionName)
     .where('uid', '==', uid)
@@ -41,8 +39,6 @@ export const findByUID = async (
   const records = qs.docs.map(elem => {
     return elem.data();
   });
-
-  console.log(records);
 
   return records as Item[];
 };
