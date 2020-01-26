@@ -6,7 +6,7 @@
 取り敢えず、ローカル環境を作りたい人は以下のコマンドで初期設定が済むようになっています。
 
 ```
-sh localInit.sh
+$ sh localInit.sh
 yes
 ```
 
@@ -38,19 +38,19 @@ FIRE_BASE_MESSAGING_SENDER_ID=""
 # start
 
 ```
-yarn start
+$ yarn start
 ```
 
 ## android
 
 ```
-avdmanager create avd -n Nexus -k "system-images;android-28;google_apis;x86" -b x86 -c 100M -d 7 -f --device 'Nexus 5X'
-emulator -avd Nexus
+$ avdmanager create avd -n Nexus -k "system-images;android-28;google_apis;x86" -b x86 -c 100M -d 7 -f --device 'Nexus 5X'
+$ emulator -avd Nexus
 ```
 
 ```
-avdmanager create avd -n Pixel -k "system-images;android-28;google_apis;x86" -b x86 -c 100M -d 7 -f --device 'Pixel XL'
-emulator -avd Pixel
+$ avdmanager create avd -n Pixel -k "system-images;android-28;google_apis;x86" -b x86 -c 100M -d 7 -f --device 'Pixel XL'
+$ emulator -avd Pixel
 ```
 
 
@@ -60,14 +60,14 @@ emulator -avd Pixel
 ## ios
 
 ```
-yarn build:ios
+$ yarn build:ios
 ```
 
 ## android
 
 
 ```
-yarn build:android
+$ yarn build:android
 ```
 
 
@@ -84,21 +84,30 @@ https://expo.io/tools#client
 ### テスト実行
 
 ```
-yarn start
-yarn e2e
+$ yarn start
+$ yarn e2e
 ```
 
 ## storybook 
 
 ```
-yarn storybook 
-yarn storybook-server
+$ yarn storybook 
+$ yarn storybook-server
 ```
 
 
 ## storybook deploy 
 
 ```
-yarn storybook:copy
-expo-cli publish --config storybook/app.json
+$ yarn storybook:copy
+$ expo-cli publish --config storybook/app.json
 ```
+
+## React Native Debugger
+
+### 初期設定
+
+```
+$ open "rndebugger://set-debugger-loc?host=localhost&port=19001"
+```
+

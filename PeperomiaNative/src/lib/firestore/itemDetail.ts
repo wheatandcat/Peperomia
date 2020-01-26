@@ -35,7 +35,7 @@ export const findByItemID = async (
     .collection(collectionName)
     .where('uid', '==', uid)
     .where('itemId', '==', itemID)
-    .orderBy('priority')
+    .orderBy('priority', 'asc')
     .get();
 
   const records = qs.docs.map(elem => {

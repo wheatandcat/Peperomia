@@ -27,6 +27,7 @@ import {
   Context as ThemeContext,
   ContextProps as ThemeContextProps,
 } from '../../../containers/Theme';
+import { Context as AuthContext } from '../../../containers/Auth';
 import { SelectItem } from '../../../domain/item';
 import { useDidMount } from '../../../hooks/index';
 import Hint from '../../atoms/Hint/Hint';
@@ -36,15 +37,6 @@ import Page from './Page';
 
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
-
-type Props = {
-  navigation: NavigationScreenProp<NavigationRoute>;
-};
-
-type State = {
-  refresh: string;
-  mask: boolean;
-};
 
 export type PlanProps = Pick<
   ItemContextProps,
@@ -159,6 +151,7 @@ export type ItemProps = SelectItem & {
 
 const HomeScreenPlan = memo((props: PlanProps) => {
   const { navigate } = useNavigation();
+  const { uid } = useContext(AuthContext);
   const [state, setState] = useState<PlanState>({ refresh: '' });
 
   useDidMount(() => {
@@ -179,15 +172,18 @@ const HomeScreenPlan = memo((props: PlanProps) => {
     }
   }, [props, props.refresh, state.refresh]);
 
-  const onDelete = useCallback(async (itemId: string) => {
-    const ok = await deleteItem(null, { id: itemId });
-    if (!ok) {
-      Alert.alert('削除に失敗しました');
-      return;
-    }
+  const onDelete = useCallback(
+    async (itemId: string) => {
+      const ok = await deleteItem(uid, { id: itemId });
+      if (!ok) {
+        Alert.alert('削除に失敗しました');
+        return;
+      }
 
-    setState({ refresh: uuidv1() });
-  }, []);
+      setState({ refresh: uuidv1() });
+    },
+    [uid]
+  );
 
   const onSchedule = useCallback(
     (id: string, title: string) => {

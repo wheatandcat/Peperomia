@@ -1,13 +1,13 @@
 import React from 'react';
 import { SelectItemDetail } from '../../../domain/itemDetail';
 import Page from '../../templates/SortableSchedule/Page';
-import { Plan } from '../Schedule/Switch';
+import { SwitchType } from '../Schedule/Switch';
 
 export type SortableItemDetail = SelectItemDetail & {
   tmpId?: number | string;
 };
 
-type Props = Pick<Plan, 'onChangeItems'> & {
+type Props = Pick<SwitchType, 'onChangeItems'> & {
   items: SortableItemDetail[];
 };
 

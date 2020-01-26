@@ -18,5 +18,20 @@ service cloud.firestore {
                      && request.resource.data.item.title.size() <= 256
                      && request.resource.data.itemDetails is list;
     }
+    match /users/{user} {
+      allow read;
+    }
+    match /items/{item} {
+      allow read: if request.auth != null;
+    }
+    match /itemDetails/{itemDetail} {
+      allow read: if request.auth != null;
+    }
+    match /calendars/{calendar} {
+      allow read: if request.auth != null;
+    }
+    match /userIntegrations/{userIntegration} {
+      allow read: if request.auth != null;
+    }  
   }
 }

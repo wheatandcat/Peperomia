@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"time"
 
 	"cloud.google.com/go/firestore"
 
@@ -33,6 +34,8 @@ func getItemDocID(uID string, itemID string) string {
 // Create アイテムを作成する
 func (re *ItemRepository) Create(ctx context.Context, f *firestore.Client, i domain.ItemRecord) error {
 	iDoc := getItemDocID(i.UID, i.ID)
+	i.CreatedAt = time.Now()
+	i.UpdatedAt = time.Now()
 
 	_, err := f.Collection("items").Doc(iDoc).Set(ctx, i)
 
@@ -42,6 +45,7 @@ func (re *ItemRepository) Create(ctx context.Context, f *firestore.Client, i dom
 // Update アイテムを更新する
 func (re *ItemRepository) Update(ctx context.Context, f *firestore.Client, i domain.ItemRecord) error {
 	iDoc := getItemDocID(i.UID, i.ID)
+	i.UpdatedAt = time.Now()
 
 	_, err := f.Collection("items").Doc(iDoc).Set(ctx, i)
 

@@ -183,7 +183,11 @@ class Page extends Component<Props, State> {
                 },
               }}
               locale="ja"
-              onDateChange={date => this.props.onInput('date', date)}
+              onDateChange={(_: string, date: Date) => {
+                const r = dayjs(date).format('YYYY-MM-DD');
+
+                return this.props.onInput('date', r);
+              }}
             />
             <Header
               title=""
@@ -291,10 +295,9 @@ class Page extends Component<Props, State> {
                         }}
                         placeholder="日付を設定する"
                         onDateChange={(_: string, date: Date) => {
-                          return this.props.onInput(
-                            'date',
-                            dayjs(date).format('YYYY-MM-DD')
-                          );
+                          const r = dayjs(date).format('YYYY-MM-DD');
+
+                          return this.props.onInput('date', r);
                         }}
                       />
                     </View>

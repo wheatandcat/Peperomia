@@ -11,6 +11,7 @@ import {
   Context as ItemsContext,
   ContextProps as ItemContextProps,
 } from '../../../containers/Items';
+import { Context as AuthContext } from '../../../containers/Auth';
 import { SuggestItem } from '../../../lib/suggest';
 import getKind from '../../../lib/getKind';
 import { useDidMount } from '../../../hooks/index';
@@ -49,6 +50,7 @@ type ConnectProps = Props &
   Pick<ItemContextProps, 'items' | 'refreshData' | 'calendars'>;
 
 const Connect = memo((props: ConnectProps) => {
+  const { uid } = useContext(AuthContext);
   const [state, setState] = useState<State>({
     input: { title: '', date: '' },
     image: '',
@@ -109,7 +111,7 @@ const Connect = memo((props: ConnectProps) => {
   }, [props.navigation, state.input.title]);
 
   const pushCreateSchedule = useCallback(
-    (itemId: number) => {
+    (itemId: number | string) => {
       if (props.refreshData) {
         props.refreshData();
       }
@@ -133,7 +135,7 @@ const Connect = memo((props: ConnectProps) => {
   }, []);
 
   const save = useCallback(
-    async (insertId: number) => {
+    async (insertId: number | string) => {
       if (state.input.date) {
         // 日付のデータがある場合ははcalendarに登録する
         const calendar = {
@@ -141,7 +143,8 @@ const Connect = memo((props: ConnectProps) => {
           date: state.input.date,
         };
 
-        const insertID = await createCalendar(null, calendar);
+        const insertID = await createCalendar(uid, calendar);
+
         if (!insertID) {
           Alert.alert('保存に失敗しました');
           return;
@@ -152,7 +155,7 @@ const Connect = memo((props: ConnectProps) => {
         pushCreateSchedule(insertId);
       }
     },
-    [pushCreateSchedule, state.input.date]
+    [pushCreateSchedule, state.input.date, uid]
   );
 
   const onSave = useCallback(async () => {
@@ -172,14 +175,21 @@ const Connect = memo((props: ConnectProps) => {
       kind: state.kind || getKind(state.input.title),
     };
 
-    const insertID = await createItem(null, item);
+    const insertID = await createItem(uid, item);
     if (!insertID) {
       Alert.alert('保存に失敗しました');
       return;
     }
 
-    save(Number(insertID));
-  }, [props.calendars, save, state.input.date, state.input.title, state.kind]);
+    save(insertID);
+  }, [
+    props.calendars,
+    save,
+    state.input.date,
+    state.input.title,
+    state.kind,
+    uid,
+  ]);
 
   const onHome = useCallback(() => {
     props.navigation.goBack(null);

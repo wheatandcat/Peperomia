@@ -33,6 +33,7 @@ export const findByUID = async (
   const qs = await db
     .collection(collectionName)
     .where('uid', '==', uid)
+    .orderBy('createdAt', 'desc')
     .get();
 
   const records = qs.docs.map(elem => {

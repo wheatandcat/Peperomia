@@ -1,4 +1,7 @@
 import * as SQLite from 'expo-sqlite';
+import dayjs from 'dayjs';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
+import 'dayjs/locale/ja';
 import { db } from '../lib/db/';
 import {
   CreateCalendarRequest,
@@ -6,7 +9,8 @@ import {
   UpdateCalendarlRequest,
   UpdateCalendarResponse,
 } from '../domain/request';
-import { Calendar, UpdateCalendar } from '../domain/calendar';
+import { Calendar, UpdateCalendar, SelectCalendar } from '../domain/calendar';
+import { UID } from '../domain/user';
 import { select, insert, update } from './db/calendar';
 import { findByUID, Calendar as CalendarFirestore } from './firestore/calendar';
 import { findInID as findItemInID } from './firestore/item';
@@ -14,13 +18,16 @@ import { getFireStore } from './firebase';
 import { getIdToken } from './auth';
 import { post } from './fetch';
 
-export async function getCalendars<T>(uid: string | null): Promise<T> {
+dayjs.extend(advancedFormat);
+
+export async function getCalendars(uid: UID): Promise<SelectCalendar[]> {
   if (uid) {
     const firestore = getFireStore();
     const calendars = (await findByUID(firestore, uid)) as CalendarFirestore[];
     if (calendars.length === 0) {
       return [] as any;
     }
+
     const ids = calendars.map(calendar => String(calendar.id));
     const items = await findItemInID(firestore, uid, ids);
     const result = calendars.map(calendar => {
@@ -51,16 +58,18 @@ export async function getCalendars<T>(uid: string | null): Promise<T> {
 }
 
 export async function createCalendar(
-  uid: string | null,
+  uid: UID,
   calendar: Calendar & { itemId: string | number }
 ): Promise<number | string | null | undefined> {
   if (uid) {
     const idToken = (await getIdToken()) || '';
+
     const response = await post<CreateCalendarRequest, CreateCalendarResponse>(
       'CreateCalendar',
       {
         calendar: {
           ...calendar,
+          date: dayjs(calendar.date).format('YYYY-MM-DDT00:00:00Z'),
           itemId: String(calendar.itemId),
         },
       },
@@ -91,7 +100,7 @@ export async function createCalendar(
 }
 
 export async function updateCalendar(
-  uid: string | null,
+  uid: UID,
   calendar: UpdateCalendar
 ): Promise<boolean> {
   if (uid) {
@@ -101,6 +110,7 @@ export async function updateCalendar(
       {
         calendar: {
           ...calendar,
+          date: dayjs(calendar.date).format('YYYY-MM-DDT00:00:00Z'),
           id: String(calendar.id),
           itemId: String(calendar.itemId),
         },

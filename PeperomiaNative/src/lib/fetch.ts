@@ -25,7 +25,7 @@ export const post = async <TRequest, TResponse>(
   );
 
   if (Number(data.header.status) >= 400 && Number(data.header.status) < 600) {
-    data.setError(`http status code: ${data.header.status}`);
+    data.error = `http status code: ${data.header.status}`;
   }
 
   return data;

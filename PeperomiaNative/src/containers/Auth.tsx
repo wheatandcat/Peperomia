@@ -1,11 +1,13 @@
 import * as GoogleSignIn from 'expo-google-sign-in';
 import * as Google from 'expo-google-app-auth';
 import { AsyncStorage, Platform } from 'react-native';
-import React, { createContext, FC, useState, useCallback } from 'react';
+import dayjs from 'dayjs';
+import React, { memo, createContext, FC, useState, useCallback } from 'react';
 import Constants from 'expo-constants';
 import * as Sentry from 'sentry-expo';
 import * as firebase from 'firebase';
 import { useDidMount } from '../hooks/index';
+import { UID } from '../domain/user';
 
 export const Context = createContext<ContextProps>({});
 const { Provider } = Context;
@@ -13,7 +15,8 @@ const { Provider } = Context;
 type Props = {};
 
 type State = {
-  uid: string;
+  uid: UID;
+  setup: boolean;
   email: string;
 };
 
@@ -30,10 +33,11 @@ const isStandaloneAndAndroid = () => {
   return Platform.OS === 'android' && Constants.appOwnership !== 'expo';
 };
 
-const Auth: FC<Props> = props => {
+const Auth: FC<Props> = memo(props => {
   const [state, setState] = useState<State>({
     email: '',
-    uid: '',
+    uid: null,
+    setup: false,
   });
 
   const setSession = useCallback(async (refresh = false) => {
@@ -45,34 +49,43 @@ const Auth: FC<Props> = props => {
     if (user.email) {
       await AsyncStorage.setItem('email', user.email);
       await AsyncStorage.setItem('uid', user.uid);
-      setState({
-        email: user.email,
-        uid: user.uid,
-      });
+      setState(s => ({
+        ...s,
+        email: user.email || '',
+        uid: user.uid || '',
+      }));
     }
 
     const idToken = await user.getIdToken(refresh);
     await AsyncStorage.setItem('id_token', idToken);
-    await AsyncStorage.setItem(
-      'expiration',
-      String(new Date().getTime() + 60 * 60)
-    );
+    const expiration = dayjs()
+      .add(1, 'hour')
+      .unix();
+
+    await AsyncStorage.setItem('expiration', String(expiration));
 
     return idToken;
   }, []);
 
   const getIdToken = useCallback(async () => {
     const idToken = await AsyncStorage.getItem('id_token');
+
     if (!idToken) {
       return null;
     }
 
     const expiration = await AsyncStorage.getItem('expiration');
-    if (Number(expiration) > new Date().getTime()) {
+    /*
+    console.log(expiration);
+    console.log(dayjs(new Date(Number(expiration) * 1000)).format());
+    console.log(dayjs().format());
+    console.log(dayjs(new Date(Number(expiration) * 1000)).isAfter(dayjs()));
+    */
+    if (dayjs(new Date(Number(expiration) * 1000)).isAfter(dayjs())) {
       return idToken;
     }
 
-    return setSession(true);
+    return await setSession(true);
   }, [setSession]);
 
   const loggedIn = useCallback(async () => {
@@ -125,7 +138,6 @@ const Auth: FC<Props> = props => {
         androidClientId,
         scopes: ['profile', 'email'],
       });
-      console.log(result);
 
       if (result.type === 'success') {
         const { idToken, accessToken } = result;
@@ -153,12 +165,19 @@ const Auth: FC<Props> = props => {
 
       if (login && !state.uid) {
         const uid = await AsyncStorage.getItem('uid');
+
         if (uid) {
           setState(s => ({
             ...s,
             uid,
+            setup: true,
           }));
         }
+      } else {
+        setState(s => ({
+          ...s,
+          setup: true,
+        }));
       }
 
       if (login && !state.email) {
@@ -172,8 +191,14 @@ const Auth: FC<Props> = props => {
       }
     };
 
-    checkLogin();
+    firebase.auth().onAuthStateChanged(() => {
+      checkLogin();
+    });
   });
+
+  if (!state.setup) {
+    return null;
+  }
 
   return (
     <Provider
@@ -189,7 +214,7 @@ const Auth: FC<Props> = props => {
       {props.children}
     </Provider>
   );
-};
+});
 
 const logout = async () => {
   await firebase.auth().signOut();
