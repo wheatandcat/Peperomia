@@ -13,4 +13,6 @@ const props = {
   moveMinutes: 60
 };
 
-storiesOf("pages", module).add("ScheduleDetail", () => <Page {...props} />);
+storiesOf('pages/ScheduleDetail', module)
+  .add('画面', () => <Page {...props} />)
+  .add('ローディング', () => <Page {...props} loading/>);

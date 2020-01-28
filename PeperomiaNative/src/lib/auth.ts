@@ -1,5 +1,6 @@
 import * as firebase from 'firebase';
 import { AsyncStorage } from 'react-native';
+import { UID } from '../domain/user';
 
 const setSession = async (refresh = false) => {
   const user = firebase.auth().currentUser;
@@ -29,4 +30,12 @@ export const getIdToken = async () => {
   }
 
   return setSession(true);
+};
+
+export const isLogin = (uid: UID): boolean => {
+  if (uid) {
+    return true;
+  }
+
+  return false;
 };

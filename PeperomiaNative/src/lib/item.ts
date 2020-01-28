@@ -15,11 +15,11 @@ import {
 import { db } from '../lib/db/';
 import { findByUID, findByID } from './firestore/item';
 import { getFireStore } from './firebase';
-import { getIdToken } from './auth';
+import { getIdToken, isLogin } from './auth';
 import { post } from './fetch';
 
 export async function getItems(uid: UID): Promise<SelectItem[]> {
-  if (uid) {
+  if (uid && isLogin(uid)) {
     const firestore = getFireStore();
     return (await findByUID(firestore, uid)) as any;
   } else {
@@ -40,7 +40,7 @@ export async function getItems(uid: UID): Promise<SelectItem[]> {
 }
 
 export async function getItemByID(uid: UID, id: string): Promise<SelectItem> {
-  if (uid) {
+  if (uid && isLogin(uid)) {
     const firestore = getFireStore();
     return (await findByID(firestore, uid, id)) as any;
   } else {
@@ -64,7 +64,7 @@ export async function createItem(
   uid: UID,
   item: Item
 ): Promise<number | string | null | undefined> {
-  if (uid) {
+  if (uid && isLogin(uid)) {
     const idToken = (await getIdToken()) || '';
     const response = await post<CreateItemRequest, CreateItemResponse>(
       'CreateItem',
@@ -96,7 +96,7 @@ export async function createItem(
 }
 
 export async function updateItem(uid: UID, item: UpdateItem): Promise<boolean> {
-  if (uid) {
+  if (uid && isLogin(uid)) {
     const idToken = (await getIdToken()) || '';
     const response = await post<UpdateItemRequest, UpdateItemResponse>(
       'UpdateItem',
@@ -128,7 +128,7 @@ export async function updateItem(uid: UID, item: UpdateItem): Promise<boolean> {
 }
 
 export async function deleteItem(uid: UID, item: DeleteItem): Promise<boolean> {
-  if (uid) {
+  if (uid && isLogin(uid)) {
     const idToken = (await getIdToken()) || '';
     const response = await post<DeleteItemRequest, DeleteItemResponse>(
       'DeleteItem',

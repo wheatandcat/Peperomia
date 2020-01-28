@@ -40,6 +40,10 @@ type ThemeColor = {
       backgroundColor: string;
       text: string;
     };
+    loading: {
+      primaryColor: string;
+      secondaryColor: string;
+    };
   };
 };
 
@@ -102,7 +106,7 @@ const theme: Theme = {
   light: {
     color: baseColor,
     mode: {
-      background: baseColor.white,
+      background: baseColor.highLightGray,
       secondaryBackground: baseColor.lightGray,
       icon: baseColor.black,
       text: baseColor.black,
@@ -115,6 +119,10 @@ const theme: Theme = {
       header: {
         backgroundColor: baseColor.main,
         text: baseColor.lightGreen,
+      },
+      loading: {
+        primaryColor: '#eee',
+        secondaryColor: '#ddd',
       },
     },
   },
@@ -134,6 +142,10 @@ const theme: Theme = {
       header: {
         backgroundColor: baseColor.black,
         text: baseColor.highLightGray,
+      },
+      loading: {
+        primaryColor: '#555',
+        secondaryColor: '#666',
       },
     },
   },

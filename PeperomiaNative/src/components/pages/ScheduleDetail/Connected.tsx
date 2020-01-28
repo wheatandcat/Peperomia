@@ -136,13 +136,10 @@ const ScheduleDetailConnected: FC<Props> = memo(props => {
     uid,
   ]);
 
-  if (state.itemDetail.id === 0) {
-    return null;
-  }
-
   return (
     <Page
       {...state.itemDetail}
+      loading={state.itemDetail.id === 0}
       onDismiss={onDismiss}
       onDelete={onDelete}
       onCreateScheduleDetail={onCreateScheduleDetail}

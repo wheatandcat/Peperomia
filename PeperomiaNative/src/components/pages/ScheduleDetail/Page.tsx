@@ -14,8 +14,10 @@ import s from '../../../config/style';
 import theme from '../../../config/theme';
 import Card from '../../molecules/ScheduleDetail/Card';
 import Header from '../../molecules/Header';
+import Loading from '../../molecules/ScheduleDetail/Loading';
 
 type PropsBase = SelectItemDetail & {
+  loading: boolean;
   onDismiss: () => void;
   onDelete: () => void;
   onCreateScheduleDetail: () => void;
@@ -66,6 +68,10 @@ class Page extends Component<Props> {
     const bc = Color(config.backgroundColor)
       .lighten(ss.backgroundColorAlpha)
       .toString();
+
+    if (this.props.loading) {
+      return <Loading />;
+    }
 
     return (
       <>

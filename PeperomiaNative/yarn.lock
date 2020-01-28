@@ -6183,6 +6183,18 @@ cyclist@^1.0.1:
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.1.tgz#596e9698fd0c80e12038c2b82d6eb1b35b6224d9"
   integrity sha1-WW6WmP0MgOEgOMK4LW6xs1tiJNk=
 
+d3-color@1:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/d3-color/-/d3-color-1.4.0.tgz#89c45a995ed773b13314f06460df26d60ba0ecaf"
+  integrity sha512-TzNPeJy2+iEepfiL92LAAB7fvnp/dV2YwANPVHdDWmYMm23qIJBYww3qT8I8C1wXrmrg4UWs7BKc2tKIgyjzHg==
+
+d3-interpolate@^1.1.5:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/d3-interpolate/-/d3-interpolate-1.4.0.tgz#526e79e2d80daa383f9e0c1c1c7dcc0f0583e987"
+  integrity sha512-V9znK0zc3jOPV4VD2zZn0sDhZU3WAE2bmlxdIwwQPPzPjvyLkd8B3JUVdS1IDUFDkWZ72c9qnv1GK2ZagTZ8EA==
+  dependencies:
+    d3-color "1"
+
 dashdash@^1.12.0:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/dashdash/-/dashdash-1.14.1.tgz#853cfa0f7cbe2fed5de20326b8dd581035f6e2f0"
@@ -13361,6 +13373,13 @@ react-native-storybook-loader@^1.8.1:
     findup "^0.1.5"
     glob "^7.1.1"
     yargs "^14.0.0"
+
+react-native-svg-animated-linear-gradient@^0.3.3:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/react-native-svg-animated-linear-gradient/-/react-native-svg-animated-linear-gradient-0.3.3.tgz#7177d46bb3bcdcfd1037b3f0731ec56f03a30432"
+  integrity sha512-oTA6snOJ7zCcQHzQM9SMRVp1f8m2s99VT9zNobO3PvsRHyhbtc5Cpwbs3tkX8FKpclHIXguqoy+fGA/HpHLKyQ==
+  dependencies:
+    d3-interpolate "^1.1.5"
 
 react-native-svg@9.13.3:
   version "9.13.3"

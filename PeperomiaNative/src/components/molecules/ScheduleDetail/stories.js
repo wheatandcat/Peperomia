@@ -2,6 +2,8 @@ import React from "react";
 import { storiesOf } from "@storybook/react-native";
 import { KIND_PARK } from "../../../lib/getKind";
 import Card from "./Card";
+import Loading from './Loading';
+
 
 const props = {
   id: "1",
@@ -13,6 +15,6 @@ const props = {
   moveMinutes: 5
 };
 
-storiesOf("molecules/ScheduleDetail", module).add("Card", () => (
-  <Card {...props} />
-));
+storiesOf('molecules/ScheduleDetail', module)
+  .add('Card', () => <Card {...props} />)
+  .add('Loading', () => <Loading />);
