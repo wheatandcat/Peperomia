@@ -46,8 +46,6 @@ const handleClick = (url: string) => {
 };
 
 export default (props: Props) => {
-  console.log(props);
-
   return (
     <View style={styles.root}>
       <Header kind={props.kind}>

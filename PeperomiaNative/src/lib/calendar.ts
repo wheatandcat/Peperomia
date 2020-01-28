@@ -15,13 +15,13 @@ import { select, insert, update } from './db/calendar';
 import { findByUID, Calendar as CalendarFirestore } from './firestore/calendar';
 import { findInID as findItemInID } from './firestore/item';
 import { getFireStore } from './firebase';
-import { getIdToken } from './auth';
+import { getIdToken, isLogin } from './auth';
 import { post } from './fetch';
 
 dayjs.extend(advancedFormat);
 
 export async function getCalendars(uid: UID): Promise<SelectCalendar[]> {
-  if (uid) {
+  if (uid && isLogin(uid)) {
     const firestore = getFireStore();
     const calendars = (await findByUID(firestore, uid)) as CalendarFirestore[];
     if (calendars.length === 0) {
@@ -61,7 +61,7 @@ export async function createCalendar(
   uid: UID,
   calendar: Calendar & { itemId: string | number }
 ): Promise<number | string | null | undefined> {
-  if (uid) {
+  if (uid && isLogin(uid)) {
     const idToken = (await getIdToken()) || '';
 
     const response = await post<CreateCalendarRequest, CreateCalendarResponse>(
@@ -103,7 +103,7 @@ export async function updateCalendar(
   uid: UID,
   calendar: UpdateCalendar
 ): Promise<boolean> {
-  if (uid) {
+  if (uid && isLogin(uid)) {
     const idToken = (await getIdToken()) || '';
     const response = await post<UpdateCalendarlRequest, UpdateCalendarResponse>(
       'UpdateCalendar',
