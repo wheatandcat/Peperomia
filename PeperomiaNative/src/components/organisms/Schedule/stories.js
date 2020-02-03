@@ -3,6 +3,7 @@ import { storiesOf } from "@storybook/react-native";
 import { View } from "react-native";
 import { KIND_PARK } from "../../../lib/getKind";
 import Cards from "./Cards";
+import Loading from './Loading';
 
 const props = [
   {
@@ -30,8 +31,15 @@ const props = [
   }
 ];
 
-storiesOf("organisms/Schedule", module).add("Cards", () => (
-  <View style={{ paddingTop: 60 }}>
-    <Cards data={props} />
-  </View>
-));
+storiesOf('organisms/Schedule/Cards', module)
+  .add('カード一覧', () => (
+    <View style={{ paddingTop: 60 }}>
+      <Cards data={props} />
+    </View>
+  ))
+  .add('ローディング', () => (
+    <View style={{ paddingTop: 60 }}>
+      <Loading />
+    </View>
+  ));
+

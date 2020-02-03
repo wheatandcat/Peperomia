@@ -26,6 +26,7 @@ type Props = Pick<SwitchType, 'onAdd' | 'onSort' | 'onDelete'> & {
 type State = {
   itemDetails: SelectItemDetail[];
   refresh: string;
+  loading: boolean;
 };
 
 export type ConnectedType = {
@@ -33,7 +34,11 @@ export type ConnectedType = {
 };
 
 export default memo((props: Props) => {
-  const [state, setState] = useState<State>({ itemDetails: [], refresh: '' });
+  const [state, setState] = useState<State>({
+    itemDetails: [],
+    refresh: '',
+    loading: true,
+  });
   const navigation = useContext(NavigationContext);
   const { uid } = useContext(AuthContext);
   const { navigate } = useNavigation();
@@ -83,6 +88,7 @@ export default memo((props: Props) => {
       setState(s => ({
         ...s,
         itemDetails: itemDetails,
+        loading: false,
       }));
     },
     [navigation, props.navigation, uid]
@@ -132,6 +138,7 @@ export default memo((props: Props) => {
 
   return (
     <Page
+      loading={state.loading}
       data={state.itemDetails}
       onScheduleDetail={onScheduleDetail}
       onAdd={() => props.onAdd(state.itemDetails)}
