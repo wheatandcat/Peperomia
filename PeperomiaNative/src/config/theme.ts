@@ -121,8 +121,8 @@ const theme: Theme = {
         text: baseColor.lightGreen,
       },
       loading: {
-        primaryColor: '#eee',
-        secondaryColor: '#ddd',
+        primaryColor: '#ccc',
+        secondaryColor: '#bbb',
       },
     },
   },

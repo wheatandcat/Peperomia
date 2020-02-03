@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { FC, memo, useCallback } from 'react';
 import { View, Alert } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { SelectItemDetail } from '../../../domain/itemDetail';
@@ -8,13 +8,14 @@ import { ConnectedType } from './Connected';
 
 type Props = Pick<ConnectedType, 'onScheduleDetail'> & {
   data: SelectItemDetail[];
+  loading: boolean;
   onAdd: () => void;
   onSort: () => void;
   onDelete: () => void;
 };
 
-export default class extends Component<Props> {
-  onDelete = () => {
+const SchedulePage: FC<Props> = memo(props => {
+  const onDelete = useCallback(() => {
     Alert.alert(
       '本当に削除しますか？',
       '',
@@ -26,32 +27,33 @@ export default class extends Component<Props> {
         {
           text: '削除する',
           onPress: () => {
-            this.props.onDelete();
+            props.onDelete();
           },
         },
       ],
       { cancelable: false }
     );
-  };
+  }, [props]);
 
-  render() {
-    return (
-      <View style={styles.root}>
-        <Cards
-          data={this.props.data}
-          onScheduleDetail={this.props.onScheduleDetail}
+  return (
+    <View style={styles.root}>
+      <Cards
+        data={props.data}
+        onScheduleDetail={props.onScheduleDetail}
+        loading={props.loading}
+      />
+      <View style={styles.footer}>
+        <ActionButton
+          onAdd={props.onAdd}
+          onSort={props.onSort}
+          onDelete={onDelete}
         />
-        <View style={styles.footer}>
-          <ActionButton
-            onAdd={this.props.onAdd}
-            onSort={this.props.onSort}
-            onDelete={this.onDelete}
-          />
-        </View>
       </View>
-    );
-  }
-}
+    </View>
+  );
+});
+
+export default SchedulePage;
 
 const styles = EStyleSheet.create({
   root: {

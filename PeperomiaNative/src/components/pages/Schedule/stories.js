@@ -31,8 +31,15 @@ const data = [
   }
 ];
 
-storiesOf("pages", module).add("Schedule", () => (
-  <View style={{ paddingTop: 60 }}>
-    <Page data={data} />
-  </View>
-));
+storiesOf('pages/Schedule', module)
+  .add('画面', () => (
+    <View style={{ paddingTop: 60 }}>
+      <Page data={data} />
+    </View>
+  ))
+  .add('ローディング', () => (
+    <View style={{ paddingTop: 60 }}>
+      <Page data={data} loading/>
+    </View>
+  ));
+
