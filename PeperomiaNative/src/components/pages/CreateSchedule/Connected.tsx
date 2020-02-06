@@ -50,6 +50,8 @@ export default memo((props: Props) => {
           ...s,
           itemDetails: data,
         }));
+
+        return;
       }
 
       // priorityが重複している場合はid順でpriorityをupdateする

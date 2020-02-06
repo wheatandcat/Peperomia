@@ -21,6 +21,7 @@ import Page from './Page';
 
 type Props = Pick<SwitchType, 'onAdd' | 'onSort' | 'onDelete'> & {
   navigation: NavigationScreenProp<NavigationRoute>;
+  itemDetails: SelectItemDetail[];
 };
 
 type State = {
@@ -55,10 +56,14 @@ export default memo((props: Props) => {
         navigation.setParams({
           itemDetails: data,
         });
+
         setState(s => ({
           ...s,
           itemDetails: data,
+          loading: false,
         }));
+
+        return;
       }
 
       // priorityが重複している場合はid順でpriorityをupdateする
@@ -105,7 +110,11 @@ export default memo((props: Props) => {
 
   useDidMount(() => {
     const itemId = props.navigation.getParam('itemId', '1');
-    getData(String(itemId));
+    if (props.itemDetails.length > 0) {
+      setitemDetails(props.itemDetails);
+    } else {
+      getData(String(itemId));
+    }
   });
 
   useEffect(() => {
@@ -142,7 +151,7 @@ export default memo((props: Props) => {
       data={state.itemDetails}
       onScheduleDetail={onScheduleDetail}
       onAdd={() => props.onAdd(state.itemDetails)}
-      onSort={() => props.onSort(state.itemDetails)}
+      onSort={() => props.onSort()}
       onDelete={props.onDelete}
     />
   );

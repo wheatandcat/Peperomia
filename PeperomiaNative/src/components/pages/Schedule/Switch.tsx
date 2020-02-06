@@ -1,4 +1,4 @@
-import React, { useState, memo, useCallback, useContext } from 'react';
+import React, { useState, memo, useCallback, useContext, useMemo } from 'react';
 import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import {
   View,
@@ -19,7 +19,7 @@ import { Button } from 'react-native-elements';
 import theme from '../../../config/theme';
 import { Item, SelectItem } from '../../../domain/item';
 import { SelectItemDetail } from '../../../domain/itemDetail';
-import { updateItemDetail } from '../../../lib/itemDetail';
+import { updateItemDetail, getItemDetails } from '../../../lib/itemDetail';
 import { deleteItem, getItemByID } from '../../../lib/item';
 import {
   save as saveFirestore,
@@ -38,8 +38,7 @@ import HeaderRight from './HeaderRight';
 type State = Pick<Item, 'title'> & {
   item: SelectItem;
   itemId: number;
-  items: SelectItemDetail[];
-  saveItems: SelectItemDetail[];
+  itemDetails: SelectItemDetail[];
   mode: string;
 };
 
@@ -51,7 +50,7 @@ export type SwitchType = {
   onShow: () => void;
   onAdd: (items: SelectItemDetail[]) => void;
   onCloseShareLink: (doc: string) => void;
-  onSort: (items: SelectItemDetail[]) => void;
+  onSort: () => void;
   onDelete: () => void;
   onChangeItems: (data: SelectItemDetail[]) => void;
   onOpenActionSheet: (
@@ -70,10 +69,12 @@ const initState = {
   },
   itemId: 0,
   title: '',
-  items: [],
-  saveItems: [],
+  itemDetails: [],
   mode: 'show',
 };
+
+// TODO: 再描画せずにnavigationOptionsに並び替えの情報を渡せなかったのでグローバル変数で管理する
+var saveItems: SelectItemDetail[] = [];
 
 const Switch = (props: Props) => {
   return <Connected {...props} />;
@@ -94,9 +95,9 @@ const Connected = memo((props: Props) => {
   );
 
   const onShare = useCallback(
-    async (title: string, items: SelectItemDetail[]) => {
+    async (title: string, itemDetails: SelectItemDetail[]) => {
       try {
-        const message = getShareText(items);
+        const message = getShareText(itemDetails);
 
         const result = await Share.share({
           title,
@@ -119,20 +120,22 @@ const Connected = memo((props: Props) => {
     []
   );
 
-  const onSort = useCallback(
-    (items: SelectItemDetail[]) => {
-      setState(s => ({
-        ...s,
-        mode: 'sort',
-        items,
-      }));
+  const onSort = useCallback(async () => {
+    const itemId = props.navigation.getParam('itemId', '1');
+    const itemDetails = await getItemDetails(uid, String(itemId));
 
-      props.navigation.setParams({
-        mode: 'sort',
-      });
-    },
-    [props.navigation]
-  );
+    saveItems = itemDetails;
+
+    setState(s => ({
+      ...s,
+      mode: 'sort',
+      itemDetails,
+    }));
+
+    props.navigation.setParams({
+      mode: 'sort',
+    });
+  }, [props.navigation, uid]);
 
   const onShow = useCallback(() => {
     setState(s => ({
@@ -146,19 +149,34 @@ const Connected = memo((props: Props) => {
   }, [props.navigation]);
 
   const onSave = useCallback(() => {
+    saveItems.forEach(async (itemDetail, index) => {
+      const v = {
+        ...itemDetail,
+        id: itemDetail.id || '',
+        priority: index + 1,
+      };
+
+      const ok = await updateItemDetail(uid, v);
+      if (!ok) {
+        Alert.alert('保存に失敗しました');
+        return;
+      }
+    });
+
     setState(s => ({
       ...s,
-      items: state.saveItems,
+      itemDetails: saveItems,
     }));
+
     onShow();
-  }, [onShow, state.saveItems]);
+  }, [onShow, uid]);
 
   const onAdd = useCallback(
-    (items: SelectItemDetail[]) => {
+    (itemDetails: SelectItemDetail[]) => {
       const itemId = props.navigation.getParam('itemId', '1');
       props.navigation.navigate('AddScheduleDetail', {
         itemId,
-        priority: items.length + 1,
+        priority: itemDetails.length + 1,
         onSave: () => {
           props.navigation.navigate('Schedule', {
             itemId: itemId,
@@ -177,7 +195,6 @@ const Connected = memo((props: Props) => {
 
       let toast = Toast.show('リンクを非公開にしました', {
         duration: Toast.durations.LONG,
-        //textColor: "red",
         position: height - 150,
         shadow: true,
         animation: true,
@@ -193,7 +210,7 @@ const Connected = memo((props: Props) => {
   }, []);
 
   const onCrateShareLink = useCallback(
-    async (items: SelectItemDetail[]) => {
+    async (itemDetails: SelectItemDetail[]) => {
       if (!state.item.id) {
         return;
       }
@@ -203,7 +220,7 @@ const Connected = memo((props: Props) => {
         return;
       }
 
-      const linkID = await saveFirestore(userID, state.item, items);
+      const linkID = await saveFirestore(userID, state.item, itemDetails);
       if (!linkID) {
         Alert.alert('保存に失敗しました');
         return;
@@ -234,7 +251,7 @@ const Connected = memo((props: Props) => {
   );
 
   const onOpenActionSheet = useCallback(
-    async (itemId: string, title: string, items: SelectItemDetail[]) => {
+    async (itemId: string, title: string, itemDetails: SelectItemDetail[]) => {
       const userID = await AsyncStorage.getItem('userID');
       if (userID) {
         const uuid = userID + itemId;
@@ -253,11 +270,11 @@ const Connected = memo((props: Props) => {
             },
             buttonIndex => {
               if (buttonIndex === 0) {
-                onCrateShareLink(items);
+                onCrateShareLink(itemDetails);
               } else if (buttonIndex === 1) {
                 onCloseShareLink(uuid);
               } else if (buttonIndex === 2) {
-                onShare(title, items);
+                onShare(title, itemDetails);
               }
             }
           );
@@ -283,14 +300,14 @@ const Connected = memo((props: Props) => {
                 {
                   text: '公開する',
                   onPress: () => {
-                    onCrateShareLink(items);
+                    onCrateShareLink(itemDetails);
                   },
                 },
               ],
               { cancelable: false }
             );
           } else if (buttonIndex === 1) {
-            onShare(title, items);
+            onShare(title, itemDetails);
           }
         }
       );
@@ -313,24 +330,9 @@ const Connected = memo((props: Props) => {
     }
   }, [props.navigation, refreshData, uid]);
 
-  const onChangeItems = useCallback(
-    (data: SelectItemDetail[]) => {
-      data.forEach(async (itemDetail, index) => {
-        const v = {
-          ...itemDetail,
-          id: itemDetail.id || '',
-          priority: index + 1,
-        };
-
-        const ok = await updateItemDetail(uid, v);
-        if (!ok) {
-          Alert.alert('保存に失敗しました');
-          return;
-        }
-      });
-    },
-    [uid]
-  );
+  const onChangeItems = useCallback((data: SelectItemDetail[]) => {
+    saveItems = data;
+  }, []);
 
   useDidMount(() => {
     props.navigation.setParams({
@@ -358,15 +360,24 @@ const Connected = memo((props: Props) => {
     getData();
   });
 
+  const child1 = useMemo(
+    () => (
+      <SortableSchedule
+        items={state.itemDetails}
+        onChangeItems={onChangeItems}
+      />
+    ),
+    [onChangeItems, state.itemDetails]
+  );
+
   if (state.mode === 'sort') {
-    return (
-      <SortableSchedule items={state.items} onChangeItems={onChangeItems} />
-    );
+    return <>{child1}</>;
   }
 
   return (
     <Schedule
       navigation={props.navigation}
+      itemDetails={state.itemDetails}
       onAdd={onAdd}
       onSort={onSort}
       onDelete={onDelete}
