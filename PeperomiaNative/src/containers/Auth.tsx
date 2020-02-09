@@ -75,12 +75,7 @@ const Auth: FC<Props> = memo(props => {
     }
 
     const expiration = await AsyncStorage.getItem('expiration');
-    /*
-    console.log(expiration);
-    console.log(dayjs(new Date(Number(expiration) * 1000)).format());
-    console.log(dayjs().format());
-    console.log(dayjs(new Date(Number(expiration) * 1000)).isAfter(dayjs()));
-    */
+
     if (dayjs(new Date(Number(expiration) * 1000)).isAfter(dayjs())) {
       return idToken;
     }
