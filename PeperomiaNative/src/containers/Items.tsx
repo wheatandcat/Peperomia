@@ -13,6 +13,7 @@ import { getItems } from '../lib/item';
 import { getItemDetails } from '../lib/itemDetail';
 import { getCalendars } from '../lib/calendar';
 import { useDidMount } from '../hooks/index';
+import { UID } from '../domain/user';
 import { Context as AuthContext } from './Auth';
 
 export const Context = createContext<ContextProps>({});
@@ -35,7 +36,7 @@ type State = {
 
 export type ContextProps = Partial<
   Pick<State, 'items' | 'itemDetails' | 'about' | 'calendars'> & {
-    refreshData: () => void;
+    refreshData: (targetUid?: UID | false) => void;
     itemsLoading: boolean;
   }
 >;
@@ -76,37 +77,42 @@ const Connected: FC<Props> = memo(props => {
     [state]
   );
 
-  const getData = useCallback(async () => {
-    setState(s => ({
-      ...s,
-      loading: true,
-    }));
+  const getData = useCallback(
+    async (targetUid: UID | false = false) => {
+      setState(s => ({
+        ...s,
+        loading: true,
+      }));
 
-    const items = await getItems(uid);
+      let uid2 = targetUid === false ? uid : targetUid;
 
-    setState(s => ({
-      ...s,
-      items: items,
-      about: [],
-    }));
+      const items = await getItems(uid2);
 
-    items.map(async val => {
-      const itemDetails = await getItemDetails(uid, String(val.id));
+      setState(s => ({
+        ...s,
+        items: items,
+        about: [],
+      }));
 
-      if (!itemDetails || itemDetails.length === 0) {
-        return;
-      }
+      items.map(async val => {
+        const itemDetails = await getItemDetails(uid2, String(val.id));
 
-      setItemsDetail(itemDetails);
-    });
+        if (!itemDetails || itemDetails.length === 0) {
+          return;
+        }
 
-    const calendars = await getCalendars(uid);
+        setItemsDetail(itemDetails);
+      });
 
-    setState(s => ({
-      ...s,
-      calendars,
-    }));
-  }, [setItemsDetail, uid]);
+      const calendars = await getCalendars(uid2);
+
+      setState(s => ({
+        ...s,
+        calendars,
+      }));
+    },
+    [setItemsDetail, uid]
+  );
 
   useDidMount(() => {
     getData();

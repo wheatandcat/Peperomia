@@ -22,7 +22,7 @@ type State = {
 
 export type ContextProps = Partial<
   Pick<State, 'email' | 'uid'> & {
-    onGoogleLogin: () => Promise<void>;
+    onGoogleLogin: () => Promise<string | null>;
     getIdToken: () => Promise<string | null>;
     loggedIn: () => Promise<boolean>;
     logout: () => Promise<void>;
@@ -104,7 +104,7 @@ const Auth: FC<Props> = memo(props => {
         });
       console.log(data);
 
-      await setSession(true);
+      return await setSession(true);
     },
     [setSession]
   );
@@ -120,8 +120,10 @@ const Auth: FC<Props> = memo(props => {
       if (result.type === 'success' && result.user && result.user.auth) {
         const { idToken, accessToken } = result.user.auth;
         await firebaseLogin(idToken || '', accessToken || '');
+        return await AsyncStorage.getItem('uid');
       } else {
         Sentry.captureMessage(JSON.stringify(result));
+        return null;
       }
     } else {
       const androidClientId = process.env.GOOGLE_LOGIN_ANDROID_CLIENT_ID;
@@ -137,8 +139,10 @@ const Auth: FC<Props> = memo(props => {
       if (result.type === 'success') {
         const { idToken, accessToken } = result;
         await firebaseLogin(idToken || '', accessToken || '');
+        return await AsyncStorage.getItem('uid');
       } else {
         Sentry.captureMessage(JSON.stringify(result));
+        return null;
       }
     }
   }, [firebaseLogin]);
@@ -191,6 +195,15 @@ const Auth: FC<Props> = memo(props => {
     });
   });
 
+  const onLogout = useCallback(async () => {
+    await logout();
+    setState(s => ({
+      ...s,
+      email: '',
+      uid: null,
+    }));
+  }, []);
+
   if (!state.setup) {
     return null;
   }
@@ -201,7 +214,7 @@ const Auth: FC<Props> = memo(props => {
         onGoogleLogin: onGoogleLogin,
         getIdToken: getIdToken,
         loggedIn: loggedIn,
-        logout: logout,
+        logout: onLogout,
         email: state.email,
         uid: state.uid,
       }}

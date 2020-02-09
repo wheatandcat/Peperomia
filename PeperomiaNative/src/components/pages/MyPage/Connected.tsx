@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useContext } from 'react';
 import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import { Alert, Dimensions } from 'react-native';
 import Toast from 'react-native-root-toast';
@@ -8,15 +8,15 @@ import 'dayjs/locale/ja';
 import { backup, restore } from '../../../lib/backup';
 import theme from '../../../config/theme';
 import {
-  Consumer as FetchConsumer,
+  Context as FetchContext,
   ContextProps as FetchContextProps,
 } from '../../../containers/Fetch';
 import {
-  Consumer as AuthConsumer,
+  Context as AuthContext,
   ContextProps as AuthContextProps,
 } from '../../../containers/Auth';
 import {
-  Consumer as ItemsConsumer,
+  Context as ItemsContext,
   ContextProps as ItemsContextProps,
 } from '../../../containers/Items';
 import Page from './Page';
@@ -27,45 +27,37 @@ type Props = {
   navigation: NavigationScreenProp<NavigationRoute>;
 };
 
-export default class extends Component<Props> {
-  static navigationOptions = () => {
-    return {
-      title: 'マイページ',
-      headerBackTitle: '',
-      headerTitleStyle: {
-        color: theme().mode.header.text,
-      },
-      headerTintColor: theme().mode.header.text,
-      headerStyle: {
-        backgroundColor: theme().mode.header.backgroundColor,
-      },
-    };
-  };
+const MyPageScreen = (props: Props) => {
+  const { email, uid } = useContext(AuthContext);
+  const { post } = useContext(FetchContext);
+  const { refreshData } = useContext(ItemsContext);
 
-  render() {
-    return (
-      <AuthConsumer>
-        {({ email, uid }: AuthContextProps) => (
-          <FetchConsumer>
-            {({ post }: FetchContextProps) => (
-              <ItemsConsumer>
-                {({ refreshData }: ItemsContextProps) => (
-                  <Connected
-                    {...this.props}
-                    post={post}
-                    email={email}
-                    uid={uid}
-                    refreshData={refreshData}
-                  />
-                )}
-              </ItemsConsumer>
-            )}
-          </FetchConsumer>
-        )}
-      </AuthConsumer>
-    );
-  }
-}
+  return (
+    <Connected
+      {...props}
+      post={post}
+      email={email}
+      uid={uid}
+      refreshData={refreshData}
+    />
+  );
+};
+
+MyPageScreen.navigationOptions = () => {
+  return {
+    title: 'マイページ',
+    headerBackTitle: '',
+    headerTitleStyle: {
+      color: theme().mode.header.text,
+    },
+    headerTintColor: theme().mode.header.text,
+    headerStyle: {
+      backgroundColor: theme().mode.header.backgroundColor,
+    },
+  };
+};
+
+export default MyPageScreen;
 
 type ConnectedProps = Pick<ItemsContextProps, 'refreshData'> &
   Pick<AuthContextProps, 'uid' | 'email'> &

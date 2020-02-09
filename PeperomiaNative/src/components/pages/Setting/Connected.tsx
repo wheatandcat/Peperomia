@@ -22,6 +22,10 @@ import {
   Context as FetchContext,
   ContextProps as FetchContextProps,
 } from '../../../containers/Fetch';
+import {
+  Context as ItemsContext,
+  ContextProps as ItemsContextProps,
+} from '../../../containers/Items';
 import { useDidMount } from '../../../hooks/index';
 import { getFireStore } from '../../../lib/firebase';
 import { resetQuery } from '../../../lib/firestore/debug';
@@ -39,9 +43,16 @@ import Page from './Page';
 const Container = () => {
   const { loggedIn, logout, uid } = useContext(AuthContext);
   const { post } = useContext(FetchContext);
+  const { refreshData } = useContext(ItemsContext);
 
   return (
-    <Connected loggedIn={loggedIn} logout={logout} post={post} uid={uid} />
+    <Connected
+      loggedIn={loggedIn}
+      logout={logout}
+      post={post}
+      uid={uid}
+      refreshData={refreshData}
+    />
   );
 };
 
@@ -56,12 +67,14 @@ Container.navigationOptions = {
   },
 };
 
-type ConnectedProps = Pick<FetchContextProps, 'post'> &
+type ConnectedProps = Pick<ItemsContextProps, 'refreshData'> &
+  Pick<FetchContextProps, 'post'> &
   Pick<AuthContextProps, 'loggedIn' | 'logout' | 'uid'>;
 
 type State = {
   login: boolean;
   loading: boolean;
+  restoreLoading: boolean;
   debugMode: boolean;
 };
 
@@ -70,6 +83,7 @@ const Connected = memo((props: ConnectedProps) => {
   const [state, setState] = useState<State>({
     loading: true,
     login: false,
+    restoreLoading: false,
     debugMode: false,
   });
 
@@ -156,6 +170,28 @@ const Connected = memo((props: ConnectedProps) => {
     navigate('ScreenSetting');
   }, [navigate]);
 
+  /*
+  const restoreItem = useCallback(async () => {
+    if (!props.uid || !props.refreshData) {
+      return false;
+    }
+
+    setState(s => ({
+      ...s,
+      restoreLoading: true,
+    }));
+
+    await restore(props.uid);
+
+    await props.refreshData();
+
+    setState(s => ({
+      ...s,
+      restoreLoading: false,
+    }));
+  }, [props]);
+  */
+
   const onLogout = useCallback(() => {
     Alert.alert(
       'ログアウトしますか',
@@ -168,10 +204,27 @@ const Connected = memo((props: ConnectedProps) => {
         {
           text: 'ログアウト',
           onPress: async () => {
-            if (props.logout) {
-              await props.logout();
+            try {
+              if (props.logout && props.refreshData) {
+                setState(s => ({
+                  ...s,
+                  restoreLoading: true,
+                }));
+
+                // await restoreItem();
+                await props.logout();
+                await props.refreshData(null);
+
+                setState(s => ({
+                  ...s,
+                  restoreLoading: false,
+                  login: false,
+                }));
+              }
+            } catch (err) {
               setState(s => ({
                 ...s,
+                restoreLoading: false,
                 login: false,
               }));
             }
@@ -227,6 +280,7 @@ const Connected = memo((props: ConnectedProps) => {
   return (
     <Page
       loading={state.loading}
+      restoreLoading={state.restoreLoading}
       login={state.login}
       debugMode={state.debugMode}
       onResetSQL={onResetSQL}

@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import Spinner from 'react-native-loading-spinner-overlay';
 import { Updates } from 'expo';
 import { ListItem, Divider } from 'react-native-elements';
 import Constants from 'expo-constants';
@@ -15,6 +16,7 @@ import app from '../../../../app.json';
 
 type Props = {
   login: boolean;
+  restoreLoading: boolean;
   loading: boolean;
   debugMode: boolean;
   onResetSQL: () => void;
@@ -38,6 +40,11 @@ type Props = {
 
 const SettingPage: FC<Props> = props => (
   <View style={styles.root}>
+    <Spinner
+      visible={props.restoreLoading}
+      textContent="ログアウト中"
+      textStyle={{ color: theme().color.white }}
+    />
     <ScrollView>
       <ListItem
         title="お問い合わせ"
