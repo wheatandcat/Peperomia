@@ -1,92 +1,83 @@
-import React, { Component } from 'react';
+import React, { memo, useState, useCallback, useContext } from 'react';
 import { Alert } from 'react-native';
+import dayjs from 'dayjs';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
+import 'dayjs/locale/ja';
 import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
+import { backup } from '../../../lib/backup';
 import theme from '../../../config/theme';
 import {
-  Consumer as AuthConsumer,
+  Context as AuthContext,
   ContextProps as AuthContextProps,
 } from '../../../containers/Auth';
 import {
-  Consumer as FetchConsumer,
+  Context as FetchContext,
   ContextProps as FetchContextProps,
 } from '../../../containers/Fetch';
+import {
+  Context as ItemsContext,
+  ContextProps as ItemsContextProps,
+} from '../../../containers/Items';
 import Page from './Page';
+
+dayjs.extend(advancedFormat);
 
 type Props = {
   navigation: NavigationScreenProp<NavigationRoute>;
 };
 
-export default class extends Component<Props> {
-  static navigationOptions = () => {
-    return {
-      title: 'ユーザー登録 / ログイン',
-      headerBackTitle: '',
-      headerTitleStyle: {
-        color: theme().mode.header.text,
-      },
-      headerTintColor: theme().mode.header.text,
-      headerStyle: {
-        backgroundColor: theme().mode.header.backgroundColor,
-      },
-    };
+const SignInScreen = (props: Props) => {
+  const { onGoogleLogin, logout, uid } = useContext(AuthContext);
+  const { post } = useContext(FetchContext);
+  const { refreshData } = useContext(ItemsContext);
+
+  return (
+    <Connected
+      {...props}
+      uid={uid}
+      post={post}
+      logout={logout}
+      refreshData={refreshData}
+      onGoogleLogin={onGoogleLogin}
+    />
+  );
+};
+
+SignInScreen.navigationOptions = () => {
+  return {
+    title: 'ユーザー登録 / ログイン',
+    headerBackTitle: '',
+    headerTitleStyle: {
+      color: theme().mode.header.text,
+    },
+    headerTintColor: theme().mode.header.text,
+    headerStyle: {
+      backgroundColor: theme().mode.header.backgroundColor,
+    },
   };
+};
 
-  render() {
-    return (
-      <AuthConsumer>
-        {({ onGoogleLogin, logout }: AuthContextProps) => (
-          <FetchConsumer>
-            {({ post }: FetchContextProps) => (
-              <Connected
-                {...this.props}
-                onGoogleLogin={onGoogleLogin}
-                logout={logout}
-                post={post}
-              />
-            )}
-          </FetchConsumer>
-        )}
-      </AuthConsumer>
-    );
-  }
-}
+export default SignInScreen;
 
-type ConnectedProps = Pick<AuthContextProps, 'onGoogleLogin' | 'logout'> &
+type ConnectedProps = Pick<ItemsContextProps, 'refreshData'> &
+  Pick<AuthContextProps, 'onGoogleLogin' | 'logout' | 'uid'> &
   Pick<FetchContextProps, 'post'> & {
     navigation: NavigationScreenProp<NavigationRoute>;
   };
 
-class Connected extends Component<ConnectedProps> {
-  onGoogleLogin = async () => {
-    if (!this.props.onGoogleLogin) {
-      return;
+type ConnectedState = {
+  loading: boolean;
+};
+
+const Connected = memo((props: ConnectedProps) => {
+  const [state, setState] = useState<ConnectedState>({ loading: false });
+
+  const saveUser = useCallback(async () => {
+    if (!props.post) {
+      return false;
     }
 
-    try {
-      await this.props.onGoogleLogin();
-      const ok = await this.saveUser();
-      if (ok) {
-        const onLogin = this.props.navigation.getParam('onLogin', () => {});
-        onLogin();
-
-        this.props.navigation.goBack();
-      } else {
-        // 保存に失敗した時はログアウトさせる
-        if (this.props.logout) {
-          this.props.logout();
-        }
-      }
-    } catch (err) {
-      console.log('err:', err);
-    }
-  };
-
-  saveUser = async () => {
-    if (!this.props.post) {
-      return;
-    }
-
-    const response = await this.props.post('CreateUser', null);
+    const response = await props.post('CreateUser', null);
 
     if (response.error) {
       Alert.alert('ユーザーの保存に失敗しました。');
@@ -94,9 +85,75 @@ class Connected extends Component<ConnectedProps> {
     }
 
     return true;
-  };
+  }, [props]);
 
-  render() {
-    return <Page onGoogleLogin={this.onGoogleLogin} />;
-  }
-}
+  const backupItem = useCallback(async () => {
+    if (!props.post) {
+      return false;
+    }
+
+    const { items, itemDetails, calendars } = await backup();
+
+    const request = {
+      items: items.map(item => ({
+        ...item,
+        id: String(item.id),
+      })),
+      itemDetails: itemDetails.map(itemDetail => ({
+        ...itemDetail,
+        id: String(itemDetail.id),
+        itemId: String(itemDetail.itemId),
+      })),
+      calendars: calendars.map(calendar => ({
+        ...calendar,
+        id: String(calendar.id),
+        itemId: String(calendar.itemId),
+        date: dayjs(calendar.date).format(),
+      })),
+    };
+    const response = await props.post('SyncItems', request);
+
+    if (response.error) {
+      Alert.alert('バックアップに失敗しました');
+      return false;
+    }
+
+    return true;
+  }, [props]);
+
+  const onGoogleLogin = useCallback(async () => {
+    if (!props.onGoogleLogin || !props.refreshData) {
+      return;
+    }
+
+    try {
+      const uid = await props.onGoogleLogin();
+      setState({
+        loading: true,
+      });
+
+      const ok1 = await saveUser();
+      const ok2 = await backupItem();
+      if (ok1 && ok2) {
+        await props.refreshData(uid);
+        const onLogin = props.navigation.getParam('onLogin', () => {});
+        onLogin();
+
+        props.navigation.goBack();
+      } else {
+        // 保存に失敗した時はログアウトさせる
+        if (props.logout) {
+          props.logout();
+        }
+      }
+    } catch (err) {
+      console.log('err:', err);
+    }
+
+    setState({
+      loading: false,
+    });
+  }, [backupItem, props, saveUser]);
+
+  return <Page loading={state.loading} onGoogleLogin={onGoogleLogin} />;
+});

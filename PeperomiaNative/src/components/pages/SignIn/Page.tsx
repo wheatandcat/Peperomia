@@ -2,14 +2,22 @@ import React, { FC } from 'react';
 import { View, Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Button } from 'react-native-elements';
+import Spinner from 'react-native-loading-spinner-overlay';
 import theme from '../../../config/theme';
 
 type Props = {
+  loading: boolean;
   onGoogleLogin: () => void;
 };
 
 const SignInPage: FC<Props> = props => (
   <View style={styles.container}>
+    <Spinner
+      visible={props.loading}
+      textContent="ログイン中"
+      textStyle={{ color: theme().color.white }}
+    />
+
     <View style={styles.titleContainer}>
       <Text style={styles.title}>ユーザー登録 / ログインする</Text>
     </View>
