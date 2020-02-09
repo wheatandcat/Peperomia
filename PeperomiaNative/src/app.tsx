@@ -27,6 +27,7 @@ import CreateScheduleDetail from "./components/pages/CreateScheduleDetail/Connec
 import Icons from "./components/pages/Icons/Connected";
 import AppInfo from "./components/pages/AppInfo/Page";
 import { db, init} from "./lib/db";
+import { setDebugMode } from "./lib/auth";
 import "./lib/firebase";
 import {
   select1st as selectUser1st,
@@ -225,11 +226,16 @@ export default class App extends Component<Props, State> {
     loading: true
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     db.transaction((tx: SQLite.SQLTransaction) => {
       init(tx);
       selectUser1st(tx, this.checkUser);
     });
+    
+    if (!Constants.isDevice) {
+      const debugMode = await AsyncStorage.getItem('DEBUG_MODE');
+      await setDebugMode(Boolean(debugMode))
+    }
   }
 
   checkUser = (data: User | null, error: SQLite.SQLError | null) => {

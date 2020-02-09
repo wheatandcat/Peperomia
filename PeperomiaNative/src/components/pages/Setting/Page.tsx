@@ -16,6 +16,7 @@ import app from '../../../../app.json';
 type Props = {
   login: boolean;
   loading: boolean;
+  debugMode: boolean;
   onResetSQL: () => void;
   onDeleteSQL: () => void;
   onShowSQL: () => void;
@@ -32,6 +33,7 @@ type Props = {
   onLoginWithAmazon: () => void;
   onFirestoreResetQuery: () => void;
   onFirestoreSelect: () => void;
+  onChangeDebugMode: (val: boolean) => void;
 };
 
 const SettingPage: FC<Props> = props => (
@@ -178,6 +180,15 @@ const SettingPage: FC<Props> = props => (
             }}
           />
           <Divider />
+          <ListItem
+            title="使用DBをSQLiteにする"
+            switch={{
+              value: props.debugMode,
+              onValueChange: props.onChangeDebugMode,
+            }}
+            bottomDivider
+          />
+
           <ListItem
             title="アプリを再起動する"
             onPress={() => {

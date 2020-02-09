@@ -26,6 +26,7 @@ import { useDidMount } from '../../../hooks/index';
 import { getFireStore } from '../../../lib/firebase';
 import { resetQuery } from '../../../lib/firestore/debug';
 import { findByUID } from '../../../lib/firestore/item';
+import { setDebugMode, getDebugMode } from '../../../lib/auth';
 import Tos from '../Tos/Page';
 import Policy from '../Policy/Page';
 import Feedback from '../Feedback/Connected';
@@ -61,6 +62,7 @@ type ConnectedProps = Pick<FetchContextProps, 'post'> &
 type State = {
   login: boolean;
   loading: boolean;
+  debugMode: boolean;
 };
 
 const Connected = memo((props: ConnectedProps) => {
@@ -68,6 +70,7 @@ const Connected = memo((props: ConnectedProps) => {
   const [state, setState] = useState<State>({
     loading: true,
     login: false,
+    debugMode: false,
   });
 
   useDidMount(() => {
@@ -75,11 +78,17 @@ const Connected = memo((props: ConnectedProps) => {
       if (props.loggedIn) {
         const loggedIn = await props.loggedIn();
 
-        setState({
+        setState(s => ({
+          ...s,
           login: loggedIn,
           loading: false,
-        });
+        }));
       }
+      const debugMode = await getDebugMode();
+      setState(s => ({
+        ...s,
+        debugMode,
+      }));
     };
 
     check();
@@ -130,10 +139,11 @@ const Connected = memo((props: ConnectedProps) => {
   const onSignIn = useCallback(() => {
     navigate('SignIn', {
       onLogin: () => {
-        setState({
+        setState(s => ({
+          ...s,
           login: true,
           loading: false,
-        });
+        }));
       },
     });
   }, [navigate]);
@@ -206,10 +216,19 @@ const Connected = memo((props: ConnectedProps) => {
     console.log(r);
   }, [props.uid]);
 
+  const onChangeDebugMode = useCallback(async (val: boolean) => {
+    await setDebugMode(val);
+    setState(s => ({
+      ...s,
+      debugMode: val,
+    }));
+  }, []);
+
   return (
     <Page
       loading={state.loading}
       login={state.login}
+      debugMode={state.debugMode}
       onResetSQL={onResetSQL}
       onData={onData}
       onDeleteSQL={onDeleteSQL}
@@ -226,6 +245,7 @@ const Connected = memo((props: ConnectedProps) => {
       onLoginWithAmazon={onLoginWithAmazon}
       onFirestoreResetQuery={onFirestoreResetQuery}
       onFirestoreSelect={onFirestoreSelect}
+      onChangeDebugMode={onChangeDebugMode}
     />
   );
 });

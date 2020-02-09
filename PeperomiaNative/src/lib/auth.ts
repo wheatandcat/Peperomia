@@ -2,6 +2,22 @@ import * as firebase from 'firebase';
 import { AsyncStorage } from 'react-native';
 import { UID } from '../domain/user';
 
+var isDebugMode: boolean = false;
+
+export const setDebugMode = async (debugMode: boolean) => {
+  if (debugMode) {
+    await AsyncStorage.setItem('DEBUG_MODE', 'true');
+  } else {
+    await AsyncStorage.removeItem('DEBUG_MODE');
+  }
+
+  isDebugMode = debugMode;
+};
+
+export const getDebugMode = () => {
+  return isDebugMode;
+};
+
 const setSession = async (refresh = false) => {
   const user = firebase.auth().currentUser;
   if (!user) {
@@ -33,6 +49,11 @@ export const getIdToken = async () => {
 };
 
 export const isLogin = (uid: UID): boolean => {
+  if (isDebugMode) {
+    // デバッグモード:ONの場合は強制的にSQLiteの値を見る
+    return false;
+  }
+
   if (uid) {
     return true;
   }
