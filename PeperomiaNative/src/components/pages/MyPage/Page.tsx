@@ -1,8 +1,10 @@
 import React, { FC } from 'react';
-import { View, ScrollView, Text } from 'react-native';
+import { View, ScrollView, Text, Linking } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { ListItem } from 'react-native-elements';
+import { ListItem, Button } from 'react-native-elements';
+import { MaterialIcons } from '@expo/vector-icons';
 import Spinner from 'react-native-loading-spinner-overlay';
+import Constants from 'expo-constants';
 import theme from '../../../config/theme';
 
 type Props = {
@@ -12,6 +14,8 @@ type Props = {
   onBackup: () => void;
   onRestore: () => void;
 };
+
+const url = 'https://amazing-hawking-a280c3.netlify.com/general/account/';
 
 const MyPage: FC<Props> = props => (
   <View style={styles.root}>
@@ -27,18 +31,37 @@ const MyPage: FC<Props> = props => (
           <Text style={styles.emial}>{props.email}</Text>
         </View>
       </View>
-      <ListItem
-        title="バックアップを作成する"
-        titleStyle={styles.menuText}
-        containerStyle={styles.menuContainer}
-        onPress={props.onBackup}
-        bottomDivider
-      />
-      <ListItem
-        title="バックアップから復元する"
-        titleStyle={styles.menuText}
-        containerStyle={styles.menuContainer}
-        onPress={props.onRestore}
+
+      {!Constants.isDevice && (
+        <>
+          <ListItem
+            title="バックアップを作成する"
+            titleStyle={styles.menuText}
+            containerStyle={styles.menuContainer}
+            onPress={props.onBackup}
+            bottomDivider
+          />
+          <ListItem
+            title="バックアップから復元する"
+            titleStyle={styles.menuText}
+            containerStyle={styles.menuContainer}
+            onPress={props.onRestore}
+          />
+        </>
+      )}
+      <Button
+        title="会員登録するとできること"
+        type="clear"
+        titleStyle={styles.guide}
+        icon={
+          <MaterialIcons
+            name="chevron-right"
+            size={20}
+            color={theme().color.main}
+          />
+        }
+        iconRight
+        onPress={() => Linking.openURL(url)}
       />
     </ScrollView>
   </View>
@@ -73,6 +96,10 @@ const styles = EStyleSheet.create({
     height: 80,
     marginTop: 20,
     marginHorizontal: 10,
+  },
+  guide: {
+    fontSize: 14,
+    color: theme().color.main,
   },
 });
 

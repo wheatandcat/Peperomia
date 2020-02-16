@@ -9,6 +9,7 @@ import {
   Animated,
   SafeAreaView,
   ScrollView,
+  StatusBar,
 } from 'react-native';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -67,9 +68,9 @@ const images = [
   require('../../../img/months/january.png'),
   require('../../../img/months/february.png'),
   require('../../../img/months/march.png'),
-  require('../../../img/months/october.png'),
-  require('../../../img/months/october.png'),
-  require('../../../img/months/october.png'),
+  require('../../../img/months/april.png'),
+  require('../../../img/months/may.png'),
+  require('../../../img/months/jun.png'),
   require('../../../img/months/october.png'),
   require('../../../img/months/october.png'),
   require('../../../img/months/october.png'),
@@ -94,8 +95,8 @@ const backgroundColors = [
   '#FBEDF2',
   '#DCF6FA',
   '#fdeff2',
-  '#badcad',
-  theme().color.dodgerBlue,
+  '#FFE8AE',
+  '#7BB07D',
   '#a0d8ef',
   '#f2f2b0',
   theme().color.beige,
@@ -126,10 +127,6 @@ export default class extends Component<Props, State> {
   }
 
   onNextMonth = () => {
-    if (this.state.count === 3) {
-      return;
-    }
-
     const count = this.state.count + 1;
     const currentMonth = dayjs(this.state.currentDate)
       .add(count, 'month')
@@ -158,10 +155,6 @@ export default class extends Component<Props, State> {
   };
 
   onPrevMonth = () => {
-    if (this.state.count === -3) {
-      return;
-    }
-
     const count = this.state.count - 1;
     const currentMonth = dayjs(this.state.currentDate)
       .add(count, 'month')
@@ -216,6 +209,10 @@ export default class extends Component<Props, State> {
           },
         ]}
       >
+        <StatusBar
+          backgroundColor={theme().color.white}
+          barStyle={'dark-content'}
+        />
         <AnimatedSafeAreaView
           style={[GlobalStyles.droidSafeArea, styles.safeArea, animationStyle]}
         />
@@ -226,17 +223,13 @@ export default class extends Component<Props, State> {
         >
           <AnimatedSafeAreaView style={[styles.root, animationStyle]}>
             <View style={styles.headerContainer}>
-              {this.state.count === -2 ? (
-                <View />
-              ) : (
-                <TouchableOpacity onPress={this.onPrevMonth}>
-                  <MaterialCommunityIcons
-                    name="chevron-left"
-                    size={30}
-                    color={theme().color.main}
-                  />
-                </TouchableOpacity>
-              )}
+              <TouchableOpacity onPress={this.onPrevMonth}>
+                <MaterialCommunityIcons
+                  name="chevron-left"
+                  size={30}
+                  color={theme().color.main}
+                />
+              </TouchableOpacity>
 
               <View style={styles.yearContainer}>
                 <Text style={styles.year}>
@@ -246,17 +239,13 @@ export default class extends Component<Props, State> {
                 </Text>
               </View>
 
-              {this.state.count === 3 ? (
-                <View />
-              ) : (
-                <TouchableOpacity onPress={this.onNextMonth}>
-                  <MaterialCommunityIcons
-                    name="chevron-right"
-                    size={30}
-                    color={theme().color.main}
-                  />
-                </TouchableOpacity>
-              )}
+              <TouchableOpacity onPress={this.onNextMonth}>
+                <MaterialCommunityIcons
+                  name="chevron-right"
+                  size={30}
+                  color={theme().color.main}
+                />
+              </TouchableOpacity>
             </View>
             <View style={styles.imageContainer}>
               <Image source={images[currentMonth]} style={styles.image} />
@@ -283,8 +272,6 @@ export default class extends Component<Props, State> {
                   backgroundColor: backgroundColors[currentMonth],
                 }}
                 monthFormat={''}
-                minDate={'2019-10-01'}
-                maxDate={'2019-12-31'}
                 hideDayNames
                 hideArrows
                 theme={{
@@ -426,6 +413,6 @@ const styles = EStyleSheet.create({
     flex: 0,
   },
   image: {
-    width: '100%',
+    width: '95%',
   },
 });
