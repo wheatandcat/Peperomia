@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Linking } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Button } from 'react-native-elements';
+import { MaterialIcons } from '@expo/vector-icons';
 import Spinner from 'react-native-loading-spinner-overlay';
 import theme from '../../../config/theme';
 
@@ -9,6 +10,8 @@ type Props = {
   loading: boolean;
   onGoogleLogin: () => void;
 };
+
+const url = 'https://amazing-hawking-a280c3.netlify.com/general/account/';
 
 const SignInPage: FC<Props> = props => (
   <View style={styles.container}>
@@ -19,7 +22,7 @@ const SignInPage: FC<Props> = props => (
     />
 
     <View style={styles.titleContainer}>
-      <Text style={styles.title}>ユーザー登録 / ログインする</Text>
+      <Text style={styles.title}>会員登録 / ログインする</Text>
     </View>
     <View style={styles.buttonContainer}>
       <Button
@@ -29,6 +32,20 @@ const SignInPage: FC<Props> = props => (
         onPress={props.onGoogleLogin}
       />
     </View>
+    <Button
+      title="会員登録するとできること"
+      type="clear"
+      titleStyle={styles.guide}
+      icon={
+        <MaterialIcons
+          name="chevron-right"
+          size={20}
+          color={theme().color.main}
+        />
+      }
+      iconRight
+      onPress={() => Linking.openURL(url)}
+    />
   </View>
 );
 
@@ -54,6 +71,10 @@ const styles = EStyleSheet.create({
   buttonStyle: {
     backgroundColor: theme().color.red,
     borderColor: 'transparent',
+  },
+  guide: {
+    fontSize: 14,
+    color: theme().color.main,
   },
 });
 
