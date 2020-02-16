@@ -2,16 +2,29 @@
 ## [Peperomia]
 
 
-<a name="v2.0.2"></a>
-## [v2.0.2] - 2019-12-13
+<a name="v2.0.3"></a>
+## [v2.0.3] - 2020-02-17
 ### Add
-- image ([#252](https://github.com/wheatandcat/Peperomia/issues/252))
+- デバッグモードにSQLlite使用とFirestore使用の切り替えトグルを追加 ([#424](https://github.com/wheatandcat/Peperomia/issues/424))
+- loadingを実装 1 ([#419](https://github.com/wheatandcat/Peperomia/issues/419))
+- loadingを実装 2 ([#404](https://github.com/wheatandcat/Peperomia/issues/404))
+- Specter導入してみる ([#323](https://github.com/wheatandcat/Peperomia/issues/323))
+- ログイン時にSQLiteのローカル情報をfirestoreに保存する ([#425](https://github.com/wheatandcat/Peperomia/issues/425))
+- React Hooks対応 and ESLint対応 ([#269](https://github.com/wheatandcat/Peperomia/issues/269))
+
 
 ### Update
-- package ([#276](https://github.com/wheatandcat/Peperomia/issues/276))
-- version ([#275](https://github.com/wheatandcat/Peperomia/issues/275))
-- components ([#268](https://github.com/wheatandcat/Peperomia/issues/268))
-- react-navgation v4 ([#234](https://github.com/wheatandcat/Peperomia/issues/234))
+- gomockでhandlerのテストコードを書く ([#326](https://github.com/wheatandcat/Peperomia/issues/326))
+
+
+<a name="v2.0.2"></a>
+## [v2.0.2] - 2019-12-13
+
+### Update
+- カレンダー1月〜3月まで追加 ([#251](https://github.com/wheatandcat/Peperomia/issues/251))
+- Expo SDK36にバージョンアップ ([#273](https://github.com/wheatandcat/Peperomia/issues/273))
+- react-navigation v4バージョンアップ ([#234](https://github.com/wheatandcat/Peperomia/issues/234))
+- Alexaスキル作成（途中まで）([#204](https://github.com/wheatandcat/Peperomia/issues/204))
 
 
 <a name="v2.0.1"></a>
@@ -65,7 +78,8 @@
 - iPhoneSEのサイズに対応
 - ボトムタブのアクティブカラー変更
 
-[Unreleased]: https://github.com/wheatandcat/Peperomia/compare/v2.0.2...HEAD
+[Unreleased]: https://github.com/wheatandcat/Peperomia/compare/v2.0.3...HEAD
+[v2.0.3]: https://github.com/wheatandcat/Peperomia/compare/v2.0.2...v2.0.3
 [v2.0.2]: https://github.com/wheatandcat/Peperomia/compare/v2.0.1...v2.0.2
 [v2.0.1]: https://github.com/wheatandcat/Peperomia/compare/v2.0.0...v2.0.1
 [v2.0.0]: https://github.com/wheatandcat/Peperomia/compare/v1.0.5...v2.0.0
