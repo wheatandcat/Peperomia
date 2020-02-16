@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import { whenIPhoneSE } from '../../../lib/responsive';
 import theme from '../../../config/theme';
 
@@ -10,7 +9,7 @@ type Props = {
   onDone: () => void;
 };
 
-const styles = EStyleSheet.create({
+const styles = StyleSheet.create({
   buttonCircle: {
     width: 40,
     height: 40,
