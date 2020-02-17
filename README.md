@@ -1,6 +1,7 @@
 # ペペロミア
 
-[![Build Status](https://travis-ci.org/wheatandcat/Peperomia.svg?branch=master)](https://travis-ci.org/wheatandcat/Peperomia)
+[![Actions Status](https://github.com/wheatandcat/Peperomia
+/workflows/nodejs/badge.svg)](https://github.com/wheatandcat/Peperomia/actions)
 
 <div style="display:flex">
     <img src="./image/thumbnail/iphoneX_1.png" width="200" style="padding:3px"/>
