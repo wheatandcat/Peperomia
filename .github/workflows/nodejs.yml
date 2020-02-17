@@ -6,13 +6,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Cache node_modules primitive
+    - name: Cache node_modules
       uses: actions/cache@preview
       with:
         path: ~/.cache/yarn
-        key: ${{ runner.os }}-primitive-${{ hashFiles(format('{0}{1}', github.workspace, '/primitive/yarn.lock')) }}
+        key: ${{ runner.os }}-PeperomiaNative-${{ hashFiles(format('{0}{1}', github.workspace, '/PeperomiaNative/yarn.lock')) }}
         restore-keys:
-          ${{ runner.os }}-primitive-
+          ${{ runner.os }}-PeperomiaNative-
     - name: Install node_modules primitive
       if: steps.cache.outputs.cache-hit != 'true'
       run: yarn install
@@ -20,13 +20,6 @@ jobs:
     - name: tsc primitive
       run: yarn tsc
       working-directory: ./primitive
-    - name: Cache node_modules PeperomiaNative
-      uses: actions/cache@preview
-      with:
-        path: ~/.cache/yarn
-        key: ${{ runner.os }}-PeperomiaNative-${{ hashFiles(format('{0}{1}', github.workspace, '/PeperomiaNative/yarn.lock')) }}
-        restore-keys:
-          ${{ runner.os }}-PeperomiaNative-
     - name: Install node_modules PeperomiaNative
       if: steps.cache.outputs.cache-hit != 'true'
       run: yarn install
@@ -38,13 +31,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Cache node_modules primitive
+    - name: Cache node_modules
       uses: actions/cache@preview
       with:
         path: ~/.cache/yarn
-        key: ${{ runner.os }}-primitive-${{ hashFiles(format('{0}{1}', github.workspace, '/primitive/yarn.lock')) }}
+        key: ${{ runner.os }}-PeperomiaNative-${{ hashFiles(format('{0}{1}', github.workspace, '/PeperomiaNative/yarn.lock')) }}
         restore-keys:
-          ${{ runner.os }}-primitive-
+          ${{ runner.os }}-PeperomiaNative-
     - name: Install node_modules primitive
       if: steps.cache.outputs.cache-hit != 'true'
       run: yarn install
@@ -52,13 +45,6 @@ jobs:
     - name: tsc primitive
       run: yarn tsc
       working-directory: ./primitive
-    - name: Cache node_modules PeperomiaNative
-      uses: actions/cache@preview
-      with:
-        path: ~/.cache/yarn
-        key: ${{ runner.os }}-PeperomiaNative-${{ hashFiles(format('{0}{1}', github.workspace, '/PeperomiaNative/yarn.lock')) }}
-        restore-keys:
-          ${{ runner.os }}-PeperomiaNative-
     - name: Install node_modules PeperomiaNative
       if: steps.cache.outputs.cache-hit != 'true'
       run: yarn install
@@ -70,13 +56,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Cache node_modules primitive
+    - name: Cache node_modules
       uses: actions/cache@preview
       with:
         path: ~/.cache/yarn
-        key: ${{ runner.os }}-primitive-${{ hashFiles(format('{0}{1}', github.workspace, '/primitive/yarn.lock')) }}
+        key: ${{ runner.os }}-PeperomiaNative-${{ hashFiles(format('{0}{1}', github.workspace, '/PeperomiaNative/yarn.lock')) }}
         restore-keys:
-          ${{ runner.os }}-primitive-
+          ${{ runner.os }}-PeperomiaNative-
     - name: Install node_modules primitive
       if: steps.cache.outputs.cache-hit != 'true'
       run: yarn install
@@ -84,13 +70,6 @@ jobs:
     - name: tsc primitive
       run: yarn tsc
       working-directory: ./primitive
-    - name: Cache node_modules PeperomiaNative
-      uses: actions/cache@preview
-      with:
-        path: ~/.cache/yarn
-        key: ${{ runner.os }}-PeperomiaNative-${{ hashFiles(format('{0}{1}', github.workspace, '/PeperomiaNative/yarn.lock')) }}
-        restore-keys:
-          ${{ runner.os }}-PeperomiaNative-
     - name: Install node_modules PeperomiaNative
       if: steps.cache.outputs.cache-hit != 'true'
       run: yarn install
