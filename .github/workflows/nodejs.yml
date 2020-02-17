@@ -1,7 +1,7 @@
 name: CI
 on: [push]
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -9,10 +9,13 @@ jobs:
       uses: actions/cache@preview
       with:
         path: ~/.cache/yarn
-        key: ${{ runner.os }}-projectname-${{ hashFiles(format('{0}{1}', github.workspace, '/yarn.lock')) }}
+        key: ${{ runner.os }}-projectname-${{ hashFiles(format('{0}{1}', github.workspace, '/PeperomiaNative/yarn.lock')) }}
         restore-keys:
           ${{ runner.os }}-projectname-
     - name: Install node_modules
       if: steps.cache.outputs.cache-hit != 'true'
       run: yarn install
       working-directory: ./PeperomiaNative
+    - name: Lint
+      run: yarn eslint
+
