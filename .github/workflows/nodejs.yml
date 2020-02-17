@@ -1,6 +1,24 @@
 name: CI
 on: [push]
 jobs:
+  tsc:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Cache node_modules
+      uses: actions/cache@preview
+      with:
+        path: ~/.cache/yarn
+        key: ${{ runner.os }}-projectname-${{ hashFiles(format('{0}{1}', github.workspace, '/PeperomiaNative/yarn.lock')) }}
+        restore-keys:
+          ${{ runner.os }}-projectname-
+    - name: Install node_modules
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: yarn install
+      working-directory: ./PeperomiaNative
+    - name: tsc
+      run: yarn tsc
+      working-directory: ./PeperomiaNative
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -16,6 +34,24 @@ jobs:
       if: steps.cache.outputs.cache-hit != 'true'
       run: yarn install
       working-directory: ./PeperomiaNative
-    - name: Lint
+    - name: lint
       run: yarn eslint
+      working-directory: ./PeperomiaNative
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Cache node_modules
+      uses: actions/cache@preview
+      with:
+        path: ~/.cache/yarn
+        key: ${{ runner.os }}-projectname-${{ hashFiles(format('{0}{1}', github.workspace, '/PeperomiaNative/yarn.lock')) }}
+        restore-keys:
+          ${{ runner.os }}-projectname-
+    - name: Install node_modules
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: yarn install
+      working-directory: ./PeperomiaNative
+    - name: test
+      run: yarn test
       working-directory: ./PeperomiaNative
