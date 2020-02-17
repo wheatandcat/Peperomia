@@ -18,4 +18,4 @@ jobs:
       working-directory: ./PeperomiaNative
     - name: Lint
       run: yarn eslint
-
+      working-directory: ./PeperomiaNative
