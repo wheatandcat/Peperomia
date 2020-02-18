@@ -109,6 +109,7 @@ const Connected: FC<Props> = memo(props => {
       setState(s => ({
         ...s,
         calendars,
+        loading: false,
       }));
     },
     [setItemsDetail, uid]
@@ -117,6 +118,8 @@ const Connected: FC<Props> = memo(props => {
   useDidMount(() => {
     getData();
   });
+
+  console.log(state.loading);
 
   return (
     <Provider

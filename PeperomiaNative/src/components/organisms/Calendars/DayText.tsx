@@ -1,38 +1,34 @@
 import React from 'react';
 import { Text, View, Dimensions, StyleSheet } from 'react-native';
-import { IconImage } from 'primitive';
 import '@expo/match-media';
 import { useMediaQuery } from 'react-responsive';
-import { KINDS } from '../../../lib/getKind';
+import Color from 'color';
 import theme from '../../../config/theme';
 
 const width = Dimensions.get('window').width;
 
 type Props = {
-  kind: string;
-  day: string;
+  color: string;
+  day: number;
 };
 
 export default (props: Props) => {
-  const config = KINDS[props.kind];
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
 
   return (
     <View
       style={[
         styles.itemContainer,
-        { backgroundColor: config.backgroundColor },
+        {
+          backgroundColor: Color(props.color)
+            .lighten(0.4)
+            .toString(),
+        },
       ]}
     >
       <Text style={isTablet ? styles.dayTextForWide : styles.dayText}>
         {props.day}
       </Text>
-      <IconImage
-        src={config.src}
-        name={config.name}
-        opacity={0.8}
-        size={isTablet ? 60 : 30}
-      />
     </View>
   );
 };
@@ -44,22 +40,20 @@ const styles = StyleSheet.create({
     borderTopWidth: 0.5,
     borderRightWidth: 0.5,
     borderLeftWidth: 0.5,
-    borderColor: theme().color.gray,
+    borderColor: 'gray',
     alignItems: 'center',
     justifyContent: 'center',
   },
   dayText: {
     textAlign: 'center',
-    color: theme().color.black,
-    fontSize: 12,
+    color: theme().color.gray,
+    fontSize: 18,
     fontWeight: '600',
-    paddingBottom: 7,
   },
   dayTextForWide: {
     textAlign: 'center',
-    color: theme().color.black,
-    fontSize: 20,
+    color: theme().color.gray,
+    fontSize: 26,
     fontWeight: '600',
-    paddingBottom: 7,
   },
 });
