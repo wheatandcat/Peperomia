@@ -72,6 +72,20 @@ const TabNavigator = createBottomTabNavigator(
     }
   },
   {
+    tabBarOptions: {
+      style: {
+        backgroundColor: theme().mode.tabBar.background,
+        paddingVertical: 10
+      },
+      tabStyle: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center'
+      },
+      labelStyle: {
+        marginLeft: 0
+      }
+    }, 
     tabBarComponent: props => (
       <TabBarComponent
         {...props}
@@ -87,6 +101,7 @@ const TabNavigator = createBottomTabNavigator(
               fontSize: 12,
               fontWeight: "500",
               textAlign: "center",
+              marginLeft: 0,
               color: focused
                 ? theme().mode.tabBar.activeTint
                 : theme().mode.tabBar.inactiveTint

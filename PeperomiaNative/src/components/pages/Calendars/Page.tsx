@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import {
   Text,
   View,
-  Dimensions,
-  Image,
   TouchableOpacity,
   ActivityIndicator,
   Animated,
@@ -18,16 +16,16 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import 'dayjs/locale/ja';
-import Color from 'color';
 import { SelectCalendar } from '../../../domain/calendar';
 import theme from '../../../config/theme';
 import GlobalStyles from '../../../GlobalStyles';
 import ImageDay from '../../organisms/Calendars/Image';
+import DayText from '../../organisms/Calendars/DayText';
+import CalendarImage from '../../molecules/Calendar/Image';
 import { Container } from './Connected';
 
 dayjs.extend(advancedFormat);
 
-const width = Dimensions.get('window').width;
 const AnimatedSafeAreaView = Animated.createAnimatedComponent(SafeAreaView);
 
 LocaleConfig.locales.jp = {
@@ -247,9 +245,9 @@ export default class extends Component<Props, State> {
                 />
               </TouchableOpacity>
             </View>
-            <View style={styles.imageContainer}>
-              <Image source={images[currentMonth]} style={styles.image} />
-            </View>
+
+            <CalendarImage source={images[currentMonth]} />
+
             <View style={styles.weekNameContainer}>
               <Text style={[styles.weekText, { color: theme().color.red }]}>
                 日
@@ -317,20 +315,10 @@ export default class extends Component<Props, State> {
                     <TouchableOpacity
                       onPress={() => this.props.onCreate(date.dateString)}
                     >
-                      <View
-                        style={[
-                          styles.itemContainer,
-                          {
-                            backgroundColor: Color(
-                              backgroundColors[currentMonth]
-                            )
-                              .lighten(0.4)
-                              .toString(),
-                          },
-                        ]}
-                      >
-                        <Text style={styles.dayText}>{date.day}</Text>
-                      </View>
+                      <DayText
+                        color={backgroundColors[currentMonth]}
+                        day={date.day}
+                      />
                     </TouchableOpacity>
                   );
                 }}
@@ -365,22 +353,6 @@ const styles = EStyleSheet.create({
     fontSize: 25,
     fontWeight: '600',
   },
-  imageContainer: {
-    paddingTop: 15,
-    paddingBottom: 15,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  itemContainer: {
-    width: width / 7,
-    height: width / 7,
-    borderTopWidth: 0.5,
-    borderRightWidth: 0.5,
-    borderLeftWidth: 0.5,
-    borderColor: 'gray',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   weekNameContainer: {
     marginTop: 7,
     flexDirection: 'row',
@@ -399,20 +371,11 @@ const styles = EStyleSheet.create({
     marginHorizontal: 4,
     borderBottomWidth: 1,
   },
-  dayText: {
-    textAlign: 'center',
-    color: theme().color.gray,
-    fontSize: 18,
-    fontWeight: '600',
-  },
   scroll: {
     height: '100%',
     width: '100%',
   },
   safeArea: {
     flex: 0,
-  },
-  image: {
-    width: '95%',
   },
 });
