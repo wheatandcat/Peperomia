@@ -119,8 +119,6 @@ const Connected: FC<Props> = memo(props => {
     getData();
   });
 
-  console.log(state.loading);
-
   return (
     <Provider
       value={{
