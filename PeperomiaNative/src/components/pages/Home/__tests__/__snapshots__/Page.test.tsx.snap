@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/pages/Home/Page.tsx 正常に表示されている 1`] = `
+<View>
+  <View>
+    <_default
+      data={
+        Array [
+          Object {
+            "about": "水上バスで浅草から移動→そのまま海へ行って",
+            "id": "1",
+            "kind": "park",
+            "title": "葛西臨海公園",
+          },
+          Object {
+            "about": "水上バスで浅草から移動→そのまま海へ行って",
+            "id": "2",
+            "kind": "aquarium",
+            "title": "横浜",
+          },
+          Object {
+            "about": "水上バスで浅草から移動→そのまま海へ行って",
+            "id": "3",
+            "kind": "art_museum",
+            "title": "横須賀",
+          },
+        ]
+      }
+      loading={false}
+      onDelete={[MockFunction]}
+      onSchedule={[MockFunction]}
+    />
+  </View>
+</View>
+`;
