@@ -9,7 +9,7 @@
     "android": "npm run app:copy && expo start --android",
     "ios": "npm run app:copy && expo start --ios",
     "eject": "expo eject",
-    "test": "jest ./src/***/*.test.ts",
+    "test": "jest",
     "storybook": "npm run storybook:copy && npm run development:config && expo start --no-minify",
     "prestorybook": "rnstl",
     "storybook-server": "start-storybook",
@@ -105,17 +105,23 @@
     "@storybook/react-native-server": "^5.3.0",
     "@storybook/theming": "^5.3.0",
     "@types/detox": "^14.5.2",
+    "@types/enzyme": "^3.10.5",
     "@types/jasmine": "^3.5.1",
     "@types/jest": "^24.0.25",
+    "@types/jest-plugin-context": "^2.9.2",
     "@types/react-native-status-bar-height": "^2.1.0",
+    "@types/react-test-renderer": "^16.9.2",
     "@typescript-eslint/eslint-plugin": "^2.14.0",
     "@typescript-eslint/eslint-plugin-tslint": "^2.14.0",
     "@typescript-eslint/parser": "^2.14.0",
+    "babel-jest": "^25.1.0",
     "babel-plugin-inline-dotenv": "^1.5.0",
     "babel-preset-expo": "^8.0.0",
     "detox": "^15.0.0",
     "detox-expo-helpers": "^0.6.0",
     "emotion-theming": "^10.0.27",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.7.0",
     "eslint-plugin-prettier": "^3.1.0",
@@ -125,6 +131,8 @@
     "husky": "^4.0.7",
     "jest": "^24.9.0",
     "jest-circus": "^24.9.0",
+    "jest-enzyme": "^7.1.2",
+    "jest-plugin-context": "^2.9.0",
     "lint-staged": "^9.2.5",
     "pre-commit": "^1.2.2",
     "prettier": "^1.19.1",
@@ -132,6 +140,7 @@
     "react-dom": "16.9.0",
     "react-native-dotenv": "^0.2.0",
     "react-native-storybook-loader": "^1.8.1",
+    "react-test-renderer": "^16.12.0",
     "rimraf": "^3.0.0",
     "ts-jest": "^24.1.0"
   },
@@ -143,22 +152,6 @@
       "pattern": "**/stories.js",
       "outputFile": "./storybook/storyLoader.js"
     }
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "transformIgnorePatterns": [
-      "node_modules/(?!(expo)/)"
-    ],
-    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(tsx?|jsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "json",
-      "jsx"
-    ]
   },
   "lint-staged": {
     "*.{js,ts,tsx}": [
