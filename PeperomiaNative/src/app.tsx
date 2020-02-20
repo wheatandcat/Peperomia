@@ -2,12 +2,14 @@ import Constants from "expo-constants";
 import * as SQLite from "expo-sqlite";
 import React, { Component } from "react";
 import uuidv1 from "uuid/v1";
+import '@expo/match-media';
+import { useMediaQuery } from 'react-responsive';
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { AppearanceProvider } from "react-native-appearance";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator, BottomTabBar } from "react-navigation-tabs";
-import { AsyncStorage, StatusBar, Text } from "react-native";
+import { AsyncStorage, StatusBar, Text, StyleSheet } from "react-native";
 import * as Sentry from "sentry-expo";
 import { MaterialIcons } from "@expo/vector-icons";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
@@ -55,56 +57,58 @@ const TabNavigator = createBottomTabNavigator(
     マイプラン: {
       screen: Home,
       navigationOptions: {
-        tabBarTestID: "MyPlan"
-      }
+        tabBarTestID: 'MyPlan',
+      },
     },
     カレンダー: {
       screen: Calendars,
       navigationOptions: {
-        tabBarTestID: "Calendars"
-      }
+        tabBarTestID: 'Calendars',
+      },
     },
     設定: {
       screen: Setting,
       navigationOptions: {
-        tabBarTestID: "Setting"
-      }
-    }
+        tabBarTestID: 'Setting',
+      },
+    },
   },
   {
     tabBarOptions: {
       style: {
         backgroundColor: theme().mode.tabBar.background,
-        paddingVertical: 10
+        paddingVertical: 10,
+        height: 300,
       },
       tabStyle: {
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+
+        
       },
       labelStyle: {
-        marginLeft: 0
-      }
-    }, 
-    tabBarComponent: props => (
-      <TabBarComponent
-        {...props}
-        style={{ backgroundColor: theme().mode.tabBar.background }}
-      />
-    ),
+        margin: 0,
+      },
+    },
+    tabBarComponent: props => {
+      const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+
+      return <TabBarComponent {...props} style={isTablet ? styles.tabForWide : styles.tab} />;
+    },
     defaultNavigationOptions: ({ navigation }) => ({
-      tabBarLabel: ({ focused }:any ) => {
+      tabBarLabel: ({ focused }: any) => {
         const { routeName } = navigation.state;
         return (
           <Text
             style={{
               fontSize: 12,
-              fontWeight: "500",
-              textAlign: "center",
+              fontWeight: '500',
+              textAlign: 'center',
               marginLeft: 0,
               color: focused
                 ? theme().mode.tabBar.activeTint
-                : theme().mode.tabBar.inactiveTint
+                : theme().mode.tabBar.inactiveTint,
             }}
           >
             {routeName}
@@ -113,7 +117,7 @@ const TabNavigator = createBottomTabNavigator(
       },
       tabBarIcon: ({ focused }) => {
         const { routeName } = navigation.state;
-        if (routeName === "マイプラン") {
+        if (routeName === 'マイプラン') {
           return (
             <MaterialIcons
               name="create"
@@ -125,7 +129,7 @@ const TabNavigator = createBottomTabNavigator(
               }
             />
           );
-        } else if (routeName === "カレンダー") {
+        } else if (routeName === 'カレンダー') {
           return (
             <MaterialIcons
               name="date-range"
@@ -137,7 +141,7 @@ const TabNavigator = createBottomTabNavigator(
               }
             />
           );
-        } else if (routeName === "設定") {
+        } else if (routeName === '設定') {
           return (
             <MaterialCommunityIcons
               name="settings-outline"
@@ -152,8 +156,8 @@ const TabNavigator = createBottomTabNavigator(
         }
 
         return null;
-      }
-    })
+      },
+    }),
   }
 );
 
@@ -323,3 +327,12 @@ export default class App extends Component<Props, State> {
     );
   }
 }
+const styles = StyleSheet.create({
+  tab: {
+    backgroundColor: theme().mode.tabBar.background,
+  },
+  tabForWide: {
+    height: 100,
+    backgroundColor: theme().mode.tabBar.background,
+  },
+});
