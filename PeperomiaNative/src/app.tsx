@@ -5,11 +5,12 @@ import uuidv1 from "uuid/v1";
 import '@expo/match-media';
 import { useMediaQuery } from 'react-responsive';
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { AppearanceProvider } from "react-native-appearance";
+import { Appearance, AppearanceProvider } from 'react-native-appearance';
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator, BottomTabBar } from "react-navigation-tabs";
-import { AsyncStorage, StatusBar, Text, StyleSheet } from "react-native";
+import { AsyncStorage, StatusBar, Text } from "react-native";
+import EStyleSheet from 'react-native-extended-stylesheet';
 import * as Sentry from "sentry-expo";
 import { MaterialIcons } from "@expo/vector-icons";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
@@ -47,6 +48,9 @@ if (process.env.SENTRY_URL) {
   });
 }
 
+Appearance.getColorScheme();
+
+
 StatusBar.setBarStyle("light-content", true);
 StatusBar.setBackgroundColor(theme().color.white, true);
 
@@ -76,7 +80,6 @@ const TabNavigator = createBottomTabNavigator(
   {
     tabBarOptions: {
       style: {
-        backgroundColor: theme().mode.tabBar.background,
         paddingVertical: 10,
         height: 300,
       },
@@ -327,12 +330,12 @@ export default class App extends Component<Props, State> {
     );
   }
 }
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   tab: {
-    backgroundColor: theme().mode.tabBar.background,
+    backgroundColor: '$background',
   },
   tabForWide: {
     height: 100,
-    backgroundColor: theme().mode.tabBar.background,
+    backgroundColor: '$background',
   },
 });

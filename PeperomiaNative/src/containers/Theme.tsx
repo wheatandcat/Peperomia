@@ -28,7 +28,6 @@ Appearance.getColorScheme();
 
 const Theme: FC<Props> = props => {
   const colorScheme = useColorScheme();
-
   const [state, setState] = useState<State>({
     rerendering: false,
     mode: 'light',
@@ -53,6 +52,7 @@ const Theme: FC<Props> = props => {
       }
 
       setState(s => ({
+        ...s,
         rerendering: s.rerendering,
         mode: String(mode),
         render: true,
@@ -63,19 +63,21 @@ const Theme: FC<Props> = props => {
   });
 
   const setUnRender = useCallback(() => {
-    setState({
+    setState(s => ({
+      ...s,
       mode: darkMode() ? 'dark' : 'light',
       rerendering: true,
       render: false,
-    });
+    }));
   }, []);
 
   const setRender = useCallback(() => {
-    setState({
+    setState(s => ({
+      ...s,
       mode: darkMode() ? 'dark' : 'light',
       rerendering: true,
       render: true,
-    });
+    }));
   }, []);
 
   const onModeChange = useCallback(
