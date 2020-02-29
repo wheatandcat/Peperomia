@@ -21,7 +21,8 @@
     "release:config": "sh ./setupRelease.sh",
     "build:ios": "npm run release:config && expo build:ios",
     "build:android": "npm run release:config && expo build:android",
-    "danger": "danger local"
+    "danger": "danger local",
+    "danger:ci": "danger ci"
   },
   "dependencies": {
     "@expo/match-media": "^0.0.0-alpha.5",
