@@ -10,6 +10,7 @@
     "ios": "npm run app:copy && expo start --ios",
     "eject": "expo eject",
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "storybook": "npm run storybook:copy && npm run development:config && expo start --no-minify",
     "prestorybook": "rnstl",
     "storybook-server": "start-storybook",
@@ -19,7 +20,8 @@
     "development:config": "sh ./setupDevelopment.sh",
     "release:config": "sh ./setupRelease.sh",
     "build:ios": "npm run release:config && expo build:ios",
-    "build:android": "npm run release:config && expo build:android"
+    "build:android": "npm run release:config && expo build:android",
+    "danger": "danger local"
   },
   "dependencies": {
     "@expo/match-media": "^0.0.0-alpha.5",
@@ -117,6 +119,8 @@
     "babel-jest": "^25.1.0",
     "babel-plugin-inline-dotenv": "^1.5.0",
     "babel-preset-expo": "^8.0.0",
+    "danger": "^9.2.10",
+    "danger-plugin-istanbul-coverage": "^1.6.2",
     "detox": "^15.0.0",
     "detox-expo-helpers": "^0.6.0",
     "emotion-theming": "^10.0.27",
