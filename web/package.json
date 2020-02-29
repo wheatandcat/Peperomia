@@ -19,7 +19,7 @@
     "react": "^16.12.0",
     "react-art": "^16.8.4",
     "react-dom": "^16.10.2",
-    "react-native-web": "^0.12.0",
+    "react-native-web": "^0.12.2",
     "react-router-dom": "^5.1.0",
     "react-scripts": "3.4.0",
     "styled-components": "^4.3.2",
