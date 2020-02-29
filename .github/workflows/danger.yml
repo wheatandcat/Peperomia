@@ -2,7 +2,7 @@ name: danger
 on: [pull_request]
 
 jobs:
-  jest:
+  danger:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
