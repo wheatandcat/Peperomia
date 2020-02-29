@@ -159,7 +159,7 @@ class Page extends Component<Props, State> {
 
     return (
       <ThemeConsumer>
-        {({ colorScheme }: ThemeContextProps) => (
+        {({ mode }: ThemeContextProps) => (
           <>
             <DatePicker
               style={styles.datePicker}
@@ -176,10 +176,10 @@ class Page extends Component<Props, State> {
                   color: theme().mode.text,
                 },
                 datePicker: {
-                  backgroundColor: colorScheme === 'dark' ? '#222' : 'white',
+                  backgroundColor: mode === 'dark' ? '#222' : 'white',
                 },
                 datePickerCon: {
-                  backgroundColor: colorScheme === 'dark' ? '#333' : 'white',
+                  backgroundColor: mode === 'dark' ? '#333' : 'white',
                 },
               }}
               locale="ja"
@@ -285,12 +285,10 @@ class Page extends Component<Props, State> {
                             color: theme().mode.text,
                           },
                           datePicker: {
-                            backgroundColor:
-                              colorScheme === 'dark' ? '#222' : 'white',
+                            backgroundColor: mode === 'dark' ? '#222' : 'white',
                           },
                           datePickerCon: {
-                            backgroundColor:
-                              colorScheme === 'dark' ? '#333' : 'white',
+                            backgroundColor: mode === 'dark' ? '#333' : 'white',
                           },
                         }}
                         placeholder="日付を設定する"
