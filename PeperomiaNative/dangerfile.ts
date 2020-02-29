@@ -1,7 +1,5 @@
-import { schedule, message } from 'danger';
+import { schedule } from 'danger';
 import { istanbulCoverage } from 'danger-plugin-istanbul-coverage';
-
-message('hello danger');
 
 const successCoveRage = 80;
 

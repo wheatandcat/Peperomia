@@ -9,8 +9,6 @@ type Props = HomeScreenPlanType & {
   loading: boolean;
 };
 
-// testです
-
 export default ({ loading, data, onSchedule, onDelete }: Props) => (
   <View style={styles.root}>
     <View style={styles.content}>
