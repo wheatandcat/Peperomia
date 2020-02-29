@@ -8,6 +8,8 @@ import theme from '../../../config/theme';
 import { KINDS } from '../../../lib/getKind';
 import { ItemProps } from '../../pages/Home/Connected';
 
+// testです
+
 type Props = ItemProps & {
   onPress: () => void;
   testID: string;

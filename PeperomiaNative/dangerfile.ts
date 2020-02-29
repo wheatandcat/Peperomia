@@ -3,19 +3,22 @@ import { istanbulCoverage } from 'danger-plugin-istanbul-coverage';
 
 message('hello danger');
 
+const successCoveRage = 80;
+
 schedule(
   istanbulCoverage({
     reportFileSet: 'createdOrModified',
-
+    customSuccessMessage: `テストカバレッジ${successCoveRage}%以上を達成しました`,
+    customFailureMessage: `テストカバレッジが${successCoveRage}%以下です`,
     coveragePath: { path: './coverage/lcov.info', type: 'lcov' },
 
     reportMode: 'warn',
 
     threshold: {
-      statements: 80,
-      branches: 80,
-      functions: 80,
-      lines: 80,
+      statements: successCoveRage,
+      branches: successCoveRage,
+      functions: successCoveRage,
+      lines: successCoveRage,
     },
   })
 );
