@@ -102,7 +102,7 @@ const Switch = (props: Props) => {
   );
 };
 
-const Connected = memo((props: Props) => {
+export const Connected = memo((props: Props) => {
   const [state, setState] = useState<State>(initState);
 
   const onEditPlan = useCallback(
