@@ -1,15 +1,11 @@
 module.exports = {
-  preset: 'react-native',
-  transform: {
-    '^.+\\.js$': '<rootDir>/node_modules/react-native/jest/preprocessor.js',
-  },
+  preset: 'jest-expo',
   testRegex: '(spec|test)\\.[jt]sx?$',
   testPathIgnorePatterns: ['/node_modules/', '/e2e/'],
 
   transformIgnorePatterns: [
-    'node_modules/(?!(react-native|(react-native-).*|static-container|@react-native-community|(rn-).*|(concat-).*|@sentry)/)',
+    'node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base)',
   ],
-
   moduleNameMapper: {
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
       'empty/object',

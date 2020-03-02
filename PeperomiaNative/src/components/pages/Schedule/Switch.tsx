@@ -10,8 +10,8 @@ import {
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {
-  ActionSheetProps,
-  connectActionSheet,
+  useActionSheet,
+  ActionSheetOptions,
 } from '@expo/react-native-action-sheet';
 import Toast from 'react-native-root-toast';
 import uuidv1 from 'uuid/v1';
@@ -27,8 +27,14 @@ import {
   updateShare,
 } from '../../../lib/firestore/plan';
 import getShareText from '../../../lib/getShareText';
-import { Context as ItemsContext } from '../../../containers/Items';
-import { Context as AuthContext } from '../../../containers/Auth';
+import {
+  Context as ItemsContext,
+  ContextProps as ItemsContextProps,
+} from '../../../containers/Items';
+import {
+  Context as AuthContext,
+  ContextProps as AuthContextProps,
+} from '../../../containers/Auth';
 import { useDidMount } from '../../../hooks/index';
 import SortableSchedule from '../SortableSchedule/Connected';
 import Schedule from './Connected';
@@ -42,9 +48,14 @@ type State = Pick<Item, 'title'> & {
   mode: string;
 };
 
-type Props = ActionSheetProps & {
-  navigation: NavigationScreenProp<NavigationRoute>;
-};
+type Props = Pick<AuthContextProps, 'uid'> &
+  Pick<ItemsContextProps, 'refreshData'> & {
+    showActionSheetWithOptions: (
+      options: ActionSheetOptions,
+      callback: (i: number) => void
+    ) => void;
+    navigation: NavigationScreenProp<NavigationRoute>;
+  };
 
 export type SwitchType = {
   onShow: () => void;
@@ -77,12 +88,21 @@ const initState = {
 var saveItems: SelectItemDetail[] = [];
 
 const Switch = (props: Props) => {
-  return <Connected {...props} />;
+  const { uid } = useContext(AuthContext);
+  const { refreshData } = useContext(ItemsContext);
+  const { showActionSheetWithOptions } = useActionSheet();
+
+  return (
+    <Connected
+      {...props}
+      uid={uid}
+      refreshData={refreshData}
+      showActionSheetWithOptions={showActionSheetWithOptions}
+    />
+  );
 };
 
 const Connected = memo((props: Props) => {
-  const { uid } = useContext(AuthContext);
-  const { refreshData } = useContext(ItemsContext);
   const [state, setState] = useState<State>(initState);
 
   const onEditPlan = useCallback(
@@ -122,7 +142,7 @@ const Connected = memo((props: Props) => {
 
   const onSort = useCallback(async () => {
     const itemId = props.navigation.getParam('itemId', '1');
-    const itemDetails = await getItemDetails(uid, String(itemId));
+    const itemDetails = await getItemDetails(props.uid, String(itemId));
 
     saveItems = itemDetails;
 
@@ -135,7 +155,7 @@ const Connected = memo((props: Props) => {
     props.navigation.setParams({
       mode: 'sort',
     });
-  }, [props.navigation, uid]);
+  }, [props.navigation, props.uid]);
 
   const onShow = useCallback(() => {
     setState(s => ({
@@ -156,7 +176,7 @@ const Connected = memo((props: Props) => {
         priority: index + 1,
       };
 
-      const ok = await updateItemDetail(uid, v);
+      const ok = await updateItemDetail(props.uid, v);
       if (!ok) {
         Alert.alert('保存に失敗しました');
         return;
@@ -169,7 +189,7 @@ const Connected = memo((props: Props) => {
     }));
 
     onShow();
-  }, [onShow, uid]);
+  }, [onShow, props.uid]);
 
   const onAdd = useCallback(
     (itemDetails: SelectItemDetail[]) => {
@@ -318,17 +338,17 @@ const Connected = memo((props: Props) => {
   const onDelete = useCallback(async () => {
     const itemId = props.navigation.getParam('itemId', '1');
 
-    const ok = await deleteItem(uid, { id: itemId });
+    const ok = await deleteItem(props.uid, { id: itemId });
     if (!ok) {
       Alert.alert('削除に失敗しました');
       return;
     }
 
-    if (refreshData) {
-      refreshData();
+    if (props.refreshData) {
+      props.refreshData();
       props.navigation.goBack();
     }
-  }, [props.navigation, refreshData, uid]);
+  }, [props]);
 
   const onChangeItems = useCallback((data: SelectItemDetail[]) => {
     saveItems = data;
@@ -345,7 +365,7 @@ const Connected = memo((props: Props) => {
 
     const getData = async () => {
       const itemId = props.navigation.getParam('itemId', '1');
-      const item = await getItemByID(uid, String(itemId));
+      const item = await getItemByID(props.uid, String(itemId));
 
       setState(s => ({
         ...s,
@@ -433,7 +453,7 @@ Switch.navigationOptions = ({ navigation }: NavigationOptions) => {
   };
 };
 
-export default connectActionSheet(Switch);
+export default Switch;
 
 const styles = EStyleSheet.create({
   headerTitle: {

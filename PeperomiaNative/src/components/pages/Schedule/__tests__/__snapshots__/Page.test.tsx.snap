@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/pages/Schedule/Page.tsx 正常に表示されている 1`] = `
+<View>
+  <_default
+    data={
+      Array [
+        Object {
+          "id": "1",
+          "itemId": "1",
+          "kind": "park",
+          "memo": "",
+          "moveMinutes": 30,
+          "place": "",
+          "priority": 1,
+          "title": "新宿駅",
+          "url": "",
+        },
+      ]
+    }
+    loading={false}
+    onScheduleDetail={[MockFunction]}
+  />
+  <View>
+    <_default
+      onAdd={[MockFunction]}
+      onDelete={[Function]}
+      onSort={[MockFunction]}
+    />
+  </View>
+</View>
+`;
