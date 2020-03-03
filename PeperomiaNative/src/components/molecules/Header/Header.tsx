@@ -7,7 +7,7 @@ import {
   StatusBar,
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import theme from '../../../config/theme';
 

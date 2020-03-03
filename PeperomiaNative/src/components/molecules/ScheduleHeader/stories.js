@@ -1,7 +1,6 @@
 import React from "react";
 import { storiesOf } from "@storybook/react-native";
-import { View } from "react-native";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { KIND_PARK } from "../../../lib/getKind";
 import theme from "../../../config/theme";
 import Header from "./Header";

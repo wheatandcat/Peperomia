@@ -1,7 +1,6 @@
 import uuidv1 from 'uuid/v1';
 import Constants from 'expo-constants';
-import * as firebase from 'firebase';
-import 'firebase/firestore';
+import firebase from '../system/firebase';
 import { isOffline } from '../firebase';
 
 export const getUUID = (collection: string): string => {

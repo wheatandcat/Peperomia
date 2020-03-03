@@ -1,5 +1,4 @@
-import * as firebase from 'firebase';
-import 'firebase/firestore';
+import firebase from '../system/firebase';
 import { KIND_PARK } from '../getKind';
 import { Item, insert as insertItem } from './item';
 

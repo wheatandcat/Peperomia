@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/pages/Schedule/Switch.tsx Connected 正常に表示されている 1`] = `
+<Memo()
+  itemDetails={Array []}
+  navigation={
+    Object {
+      "getParam": [MockFunction] {
+        "calls": Array [
+          Array [
+            "itemId",
+            "1",
+          ],
+        ],
+        "results": Array [
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+        ],
+      },
+      "goBack": [MockFunction],
+      "navigate": [MockFunction],
+      "setParams": [MockFunction] {
+        "calls": Array [
+          Array [
+            Object {
+              "mode": "show",
+              "onOpenActionSheet": [Function],
+              "onSave": [Function],
+              "onShare": [Function],
+              "onShow": [Function],
+            },
+          ],
+        ],
+        "results": Array [
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+        ],
+      },
+    }
+  }
+  onAdd={[Function]}
+  onDelete={[Function]}
+  onSort={[Function]}
+/>
+`;
+
+exports[`components/pages/Schedule/Switch.tsx Switch 正常に表示されている 1`] = `
+<Memo()
+  navigation={
+    Object {
+      "getParam": [MockFunction],
+      "goBack": [MockFunction],
+      "navigate": [MockFunction],
+      "setParams": [MockFunction],
+    }
+  }
+  refreshData={[MockFunction]}
+  showActionSheetWithOptions={[Function]}
+  uid="1"
+/>
+`;

@@ -2,10 +2,17 @@ import * as GoogleSignIn from 'expo-google-sign-in';
 import * as Google from 'expo-google-app-auth';
 import { AsyncStorage, Platform } from 'react-native';
 import dayjs from 'dayjs';
-import React, { memo, createContext, FC, useState, useCallback } from 'react';
+import React, {
+  memo,
+  createContext,
+  FC,
+  useState,
+  useCallback,
+  useContext,
+} from 'react';
 import Constants from 'expo-constants';
 import * as Sentry from 'sentry-expo';
-import * as firebase from 'firebase';
+import firebase from '../lib/system/firebase';
 import { useDidMount } from '../hooks/index';
 import { UID } from '../domain/user';
 
@@ -99,7 +106,7 @@ const Auth: FC<Props> = memo(props => {
       const data = await firebase
         .auth()
         .signInWithCredential(credential)
-        .catch(error => {
+        .catch((error: any) => {
           Sentry.captureMessage(JSON.stringify(error));
         });
       console.log(data);
@@ -233,4 +240,6 @@ const logout = async () => {
 };
 
 export const Consumer = Context.Consumer;
+export const useAuth = () => useContext(Context);
+
 export default Auth;
