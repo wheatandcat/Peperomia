@@ -1,4 +1,4 @@
-import * as firebase from 'firebase';
+import firebase from '../lib/system/firebase';
 import { AsyncStorage } from 'react-native';
 import { UID } from '../domain/user';
 

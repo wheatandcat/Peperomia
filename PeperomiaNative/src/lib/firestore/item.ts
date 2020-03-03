@@ -1,5 +1,4 @@
-import * as firebase from 'firebase';
-import 'firebase/firestore';
+import firebase from '../system/firebase';
 import { Item as ItemParam } from '../../domain/item';
 import { getUUID } from './';
 

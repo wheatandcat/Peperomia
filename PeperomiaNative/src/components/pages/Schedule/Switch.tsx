@@ -1,19 +1,11 @@
-import React, { useState, memo, useCallback, useContext, useMemo } from 'react';
+import React, { useState, memo, useCallback, useMemo } from 'react';
 import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
-import {
-  View,
-  Share,
-  AsyncStorage,
-  Dimensions,
-  Clipboard,
-  Alert,
-} from 'react-native';
+import { View, Share, AsyncStorage, Alert } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {
   useActionSheet,
   ActionSheetOptions,
 } from '@expo/react-native-action-sheet';
-import Toast from 'react-native-root-toast';
 import uuidv1 from 'uuid/v1';
 import { Button } from 'react-native-elements';
 import theme from '../../../config/theme';
@@ -21,18 +13,15 @@ import { Item, SelectItem } from '../../../domain/item';
 import { SelectItemDetail } from '../../../domain/itemDetail';
 import { updateItemDetail, getItemDetails } from '../../../lib/itemDetail';
 import { deleteItem, getItemByID } from '../../../lib/item';
-import {
-  save as saveFirestore,
-  isShare,
-  updateShare,
-} from '../../../lib/firestore/plan';
+import { closeShareLink, crateShareLink } from '../../../lib/share';
+import { isShare } from '../../../lib/firestore/plan';
 import getShareText from '../../../lib/getShareText';
 import {
-  Context as ItemsContext,
+  useItems,
   ContextProps as ItemsContextProps,
 } from '../../../containers/Items';
 import {
-  Context as AuthContext,
+  useAuth,
   ContextProps as AuthContextProps,
 } from '../../../containers/Auth';
 import { useDidMount } from '../../../hooks/index';
@@ -48,13 +37,17 @@ type State = Pick<Item, 'title'> & {
   mode: string;
 };
 
-type Props = Pick<AuthContextProps, 'uid'> &
+type SwitchProps = {
+  navigation: NavigationScreenProp<NavigationRoute>;
+};
+
+type Props = SwitchProps &
+  Pick<AuthContextProps, 'uid'> &
   Pick<ItemsContextProps, 'refreshData'> & {
     showActionSheetWithOptions: (
       options: ActionSheetOptions,
       callback: (i: number) => void
     ) => void;
-    navigation: NavigationScreenProp<NavigationRoute>;
   };
 
 export type SwitchType = {
@@ -87,9 +80,9 @@ const initState = {
 // TODO: 再描画せずにnavigationOptionsに並び替えの情報を渡せなかったのでグローバル変数で管理する
 var saveItems: SelectItemDetail[] = [];
 
-const Switch = (props: Props) => {
-  const { uid } = useContext(AuthContext);
-  const { refreshData } = useContext(ItemsContext);
+const Switch = (props: SwitchProps) => {
+  const { uid } = useAuth();
+  const { refreshData } = useItems();
   const { showActionSheetWithOptions } = useActionSheet();
 
   return (
@@ -119,20 +112,10 @@ export const Connected = memo((props: Props) => {
       try {
         const message = getShareText(itemDetails);
 
-        const result = await Share.share({
+        await Share.share({
           title,
           message,
         });
-
-        if (result.action === Share.sharedAction) {
-          if (result.activityType) {
-            // shared with activity type of result.activityType
-          } else {
-            // shared
-          }
-        } else if (result.action === Share.dismissedAction) {
-          // dismissed
-        }
       } catch (error) {
         Alert.alert(error.message);
       }
@@ -208,64 +191,13 @@ export const Connected = memo((props: Props) => {
     [props.navigation]
   );
 
-  const onCloseShareLink = useCallback(async (doc: string) => {
-    const result = await updateShare(doc, false);
-    if (result) {
-      const { height } = Dimensions.get('window');
-
-      let toast = Toast.show('リンクを非公開にしました', {
-        duration: Toast.durations.LONG,
-        position: height - 150,
-        shadow: true,
-        animation: true,
-        hideOnPress: true,
-        delay: 0,
-      });
-
-      // You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
-      setTimeout(function() {
-        Toast.hide(toast);
-      }, 3000);
-    }
-  }, []);
-
   const onCrateShareLink = useCallback(
     async (itemDetails: SelectItemDetail[]) => {
       if (!state.item.id) {
         return;
       }
 
-      const userID = await AsyncStorage.getItem('userID');
-      if (userID === null) {
-        return;
-      }
-
-      const linkID = await saveFirestore(userID, state.item, itemDetails);
-      if (!linkID) {
-        Alert.alert('保存に失敗しました');
-        return;
-      }
-
-      const shareHost = 'https://peperomia.info';
-      console.log(`${shareHost}/${linkID}`);
-
-      Clipboard.setString(`${shareHost}/${linkID}`);
-
-      const { height } = Dimensions.get('window');
-
-      const toast = Toast.show('リンクがコピーされました！', {
-        duration: Toast.durations.LONG,
-        position: height - 150,
-        shadow: true,
-        animation: true,
-        hideOnPress: true,
-        delay: 0,
-      });
-
-      // You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
-      setTimeout(function() {
-        Toast.hide(toast);
-      }, 3000);
+      await crateShareLink(state.item, itemDetails);
     },
     [state.item]
   );
@@ -292,7 +224,7 @@ export const Connected = memo((props: Props) => {
               if (buttonIndex === 0) {
                 onCrateShareLink(itemDetails);
               } else if (buttonIndex === 1) {
-                onCloseShareLink(uuid);
+                closeShareLink(uuid);
               } else if (buttonIndex === 2) {
                 onShare(title, itemDetails);
               }
@@ -332,7 +264,7 @@ export const Connected = memo((props: Props) => {
         }
       );
     },
-    [onCloseShareLink, onCrateShareLink, onShare, props]
+    [onCrateShareLink, onShare, props]
   );
 
   const onDelete = useCallback(async () => {

@@ -137,4 +137,5 @@ const Connected: FC<Props> = memo(props => {
 
 export default Connected;
 
+export const useItems = () => useContext(Context);
 export const Consumer = Context.Consumer;

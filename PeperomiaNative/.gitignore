@@ -24,3 +24,5 @@ app.json
 config/development.json
 config/product.json
 coverage
+src/lib/system/firebase/index.ts
+App.tsx

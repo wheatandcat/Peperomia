@@ -1,5 +1,4 @@
-import * as firebase from 'firebase';
-import 'firebase/firestore';
+import firebase from '../system/firebase';
 
 export const existsByUID = async (
   db: firebase.firestore.Firestore,
