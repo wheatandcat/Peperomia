@@ -141,7 +141,7 @@
     "firebase-mock": "^2.3.2",
     "husky": "^4.0.7",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^24.9.0",
+    "jest": "^25.1.0",
     "jest-circus": "^24.9.0",
     "jest-enzyme": "^7.1.2",
     "jest-expo": "^36.0.1",
