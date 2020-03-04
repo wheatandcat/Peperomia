@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/pages/ScheduleDetail/Page.tsx 正常に表示されている 1`] = `
+<Fragment>
+  <_default
+    color="none"
+    onClose={[MockFunction]}
+    right={
+      <TouchableOpacity
+        activeOpacity={0.2}
+        onPress={[Function]}
+        testID="ScheduleDetailMenu"
+      >
+        <Icon
+          allowFontScaling={false}
+          color="#006835"
+          name="dots-horizontal"
+          size={30}
+        />
+      </TouchableOpacity>
+    }
+    title=""
+  />
+  <StatusBar
+    animated={false}
+    backgroundColor="#fff"
+    barStyle="dark-content"
+    showHideTransition="fade"
+  />
+  <SafeAreaView
+    style={
+      Array [
+        Object {
+          "paddingTop": 0,
+        },
+        undefined,
+        Object {
+          "backgroundColor": "hsl(102.80000000000001, 46.5%, 69.6%)",
+        },
+      ]
+    }
+  />
+  <SafeAreaView>
+    <_default
+      id="1"
+      itemId="1"
+      kind="park"
+      loading={false}
+      memo=""
+      moveMinutes={30}
+      onCreateScheduleDetail={[MockFunction]}
+      onDelete={[MockFunction]}
+      onDismiss={[MockFunction]}
+      onOpenActionSheet={[Function]}
+      place=""
+      priority={1}
+      title="新宿駅"
+      url=""
+    />
+  </SafeAreaView>
+</Fragment>
+`;
