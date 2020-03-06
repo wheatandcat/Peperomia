@@ -1,33 +1,53 @@
-import React, { Component } from 'react';
+import React, { FC, memo } from 'react';
 import { SafeAreaView, Alert, StatusBar, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {
-  ActionSheetProps,
-  connectActionSheet,
+  useActionSheet,
+  ActionSheetOptions,
 } from '@expo/react-native-action-sheet';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Color from 'color';
 import GlobalStyles from '../../../GlobalStyles';
 import { SelectItemDetail } from '../../../domain/itemDetail';
-import { KINDS, KIND_DEFAULT } from '../../../lib/getKind';
+import { KINDS } from '../../../lib/getKind';
 import s from '../../../config/style';
 import theme from '../../../config/theme';
 import Card from '../../molecules/ScheduleDetail/Card';
 import Header from '../../molecules/Header';
 import Loading from '../../molecules/ScheduleDetail/Loading';
 
-type PropsBase = SelectItemDetail & {
+type ConnectedProps = SelectItemDetail & {
   loading: boolean;
   onDismiss: () => void;
   onDelete: () => void;
   onCreateScheduleDetail: () => void;
 };
 
-type Props = PropsBase & ActionSheetProps;
+type Props = ConnectedProps & {
+  showActionSheetWithOptions: (
+    options: ActionSheetOptions,
+    callback: (i: number) => void
+  ) => void;
+};
 
-class Page extends Component<Props> {
-  onOpenActionSheet = () => {
-    this.props.showActionSheetWithOptions(
+export type ScheduleDetailType = {
+  onOpenActionSheet: () => void;
+};
+
+const Connected: FC<ConnectedProps> = props => {
+  const { showActionSheetWithOptions } = useActionSheet();
+
+  return (
+    <ScheduleDetailPage
+      {...props}
+      showActionSheetWithOptions={showActionSheetWithOptions}
+    />
+  );
+};
+
+export const ScheduleDetailPage: FC<Props> = memo(props => {
+  const onOpenActionSheet = () => {
+    props.showActionSheetWithOptions(
       {
         options: ['編集', '削除', 'キャンセル'],
         destructiveButtonIndex: 1,
@@ -35,7 +55,7 @@ class Page extends Component<Props> {
       },
       buttonIndex => {
         if (buttonIndex === 0) {
-          this.props.onCreateScheduleDetail();
+          props.onCreateScheduleDetail();
         }
         if (buttonIndex === 1) {
           Alert.alert(
@@ -44,13 +64,12 @@ class Page extends Component<Props> {
             [
               {
                 text: 'キャンセル',
-                onPress: () => {},
                 style: 'cancel',
               },
               {
                 text: '削除する',
                 onPress: () => {
-                  this.props.onDelete();
+                  props.onDelete();
                 },
               },
             ],
@@ -61,59 +80,57 @@ class Page extends Component<Props> {
     );
   };
 
-  render() {
-    const kind = this.props.kind || KIND_DEFAULT;
-    const config = KINDS[kind];
-    const ss = s.schedule;
-    const bc = Color(config.backgroundColor)
-      .lighten(ss.backgroundColorAlpha)
-      .toString();
+  const kind = props.kind;
+  const config = KINDS[kind];
+  const ss = s.schedule;
+  const bc = Color(config.backgroundColor)
+    .lighten(ss.backgroundColorAlpha)
+    .toString();
 
-    if (this.props.loading) {
-      return <Loading />;
-    }
-
-    return (
-      <>
-        <Header
-          title=""
-          color={'none'}
-          right={
-            <TouchableOpacity
-              onPress={this.onOpenActionSheet}
-              testID="ScheduleDetailMenu"
-            >
-              <MaterialCommunityIcons
-                name="dots-horizontal"
-                size={30}
-                color={theme().color.main}
-                style={styles.icon}
-              />
-            </TouchableOpacity>
-          }
-          onClose={this.props.onDismiss}
-        />
-
-        <StatusBar
-          backgroundColor={theme().color.white}
-          barStyle="dark-content"
-        />
-        <SafeAreaView
-          style={[
-            GlobalStyles.droidSafeArea,
-            styles.header,
-            { backgroundColor: bc },
-          ]}
-        />
-        <SafeAreaView style={styles.contents}>
-          <Card {...this.props} onOpenActionSheet={this.onOpenActionSheet} />
-        </SafeAreaView>
-      </>
-    );
+  if (props.loading) {
+    return <Loading />;
   }
-}
 
-export default connectActionSheet<PropsBase>(Page);
+  return (
+    <>
+      <Header
+        title=""
+        color={'none'}
+        right={
+          <TouchableOpacity
+            onPress={onOpenActionSheet}
+            testID="ScheduleDetailMenu"
+          >
+            <MaterialCommunityIcons
+              name="dots-horizontal"
+              size={30}
+              color={theme().color.main}
+              style={styles.icon}
+            />
+          </TouchableOpacity>
+        }
+        onClose={props.onDismiss}
+      />
+
+      <StatusBar
+        backgroundColor={theme().color.white}
+        barStyle="dark-content"
+      />
+      <SafeAreaView
+        style={[
+          GlobalStyles.droidSafeArea,
+          styles.header,
+          { backgroundColor: bc },
+        ]}
+      />
+      <SafeAreaView style={styles.contents}>
+        <Card {...props} onOpenActionSheet={onOpenActionSheet} />
+      </SafeAreaView>
+    </>
+  );
+});
+
+export default Connected;
 
 const styles = EStyleSheet.create({
   contents: {

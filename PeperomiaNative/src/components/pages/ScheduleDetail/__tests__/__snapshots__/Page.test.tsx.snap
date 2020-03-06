@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/pages/ScheduleDetail/Page.tsx Connected 正常に表示されている 1`] = `
+<Memo()
+  id="1"
+  itemId="1"
+  kind="park"
+  loading={false}
+  memo=""
+  moveMinutes={30}
+  onCreateScheduleDetail={[MockFunction]}
+  onDelete={[MockFunction]}
+  onDismiss={[MockFunction]}
+  place=""
+  priority={1}
+  showActionSheetWithOptions={[Function]}
+  title="新宿駅"
+  url=""
+/>
+`;
+
+exports[`components/pages/ScheduleDetail/Page.tsx ScheduleDetailPage 正常に表示されている 1`] = `
+<Fragment>
+  <_default
+    color="none"
+    onClose={[MockFunction]}
+    right={
+      <TouchableOpacity
+        activeOpacity={0.2}
+        onPress={[Function]}
+        testID="ScheduleDetailMenu"
+      >
+        <Icon
+          allowFontScaling={false}
+          color="#006835"
+          name="dots-horizontal"
+          size={30}
+        />
+      </TouchableOpacity>
+    }
+    title=""
+  />
+  <StatusBar
+    animated={false}
+    backgroundColor="#fff"
+    barStyle="dark-content"
+    showHideTransition="fade"
+  />
+  <SafeAreaView
+    style={
+      Array [
+        Object {
+          "paddingTop": 0,
+        },
+        undefined,
+        Object {
+          "backgroundColor": "hsl(102.80000000000001, 46.5%, 69.6%)",
+        },
+      ]
+    }
+  />
+  <SafeAreaView>
+    <_default
+      id="1"
+      itemId="1"
+      kind="park"
+      loading={false}
+      memo=""
+      moveMinutes={30}
+      onCreateScheduleDetail={[MockFunction]}
+      onDelete={[MockFunction]}
+      onDismiss={[MockFunction]}
+      onOpenActionSheet={[Function]}
+      place=""
+      priority={1}
+      showActionSheetWithOptions={
+        [MockFunction] {
+          "calls": Array [
+            Array [
+              Object {
+                "cancelButtonIndex": 2,
+                "destructiveButtonIndex": 1,
+                "options": Array [
+                  "編集",
+                  "削除",
+                  "キャンセル",
+                ],
+              },
+              [Function],
+            ],
+          ],
+          "results": Array [
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+          ],
+        }
+      }
+      title="新宿駅"
+      url=""
+    />
+  </SafeAreaView>
+</Fragment>
+`;

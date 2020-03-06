@@ -18,4 +18,11 @@ module.exports = {
     '<rootDir>setupTests.js',
     '<rootDir>/node_modules/jest-plugin-context/setup',
   ],
+
+  collectCoverageFrom: [
+    'src/**/*.{js,jsx,ts,tsx}',
+    'src/**/*.!{d.ts}',
+    '!**/(node_modules|src/@types|src/queries)/**',
+    '!**/mockData.ts',
+  ],
 };
