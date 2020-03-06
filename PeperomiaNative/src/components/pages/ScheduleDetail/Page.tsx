@@ -1,30 +1,53 @@
 import React, { FC, memo } from 'react';
 import { SafeAreaView, Alert, StatusBar, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { useActionSheet } from '@expo/react-native-action-sheet';
+import {
+  useActionSheet,
+  ActionSheetOptions,
+} from '@expo/react-native-action-sheet';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Color from 'color';
 import GlobalStyles from '../../../GlobalStyles';
 import { SelectItemDetail } from '../../../domain/itemDetail';
-import { KINDS, KIND_DEFAULT } from '../../../lib/getKind';
+import { KINDS } from '../../../lib/getKind';
 import s from '../../../config/style';
 import theme from '../../../config/theme';
 import Card from '../../molecules/ScheduleDetail/Card';
 import Header from '../../molecules/Header';
 import Loading from '../../molecules/ScheduleDetail/Loading';
 
-type Props = SelectItemDetail & {
+type ConnectedProps = SelectItemDetail & {
   loading: boolean;
   onDismiss: () => void;
   onDelete: () => void;
   onCreateScheduleDetail: () => void;
 };
 
-const ScheduleDetailPage: FC<Props> = memo(props => {
+type Props = ConnectedProps & {
+  showActionSheetWithOptions: (
+    options: ActionSheetOptions,
+    callback: (i: number) => void
+  ) => void;
+};
+
+export type ScheduleDetailType = {
+  onOpenActionSheet: () => void;
+};
+
+const Connected: FC<ConnectedProps> = props => {
   const { showActionSheetWithOptions } = useActionSheet();
 
+  return (
+    <ScheduleDetailPage
+      {...props}
+      showActionSheetWithOptions={showActionSheetWithOptions}
+    />
+  );
+};
+
+export const ScheduleDetailPage: FC<Props> = memo(props => {
   const onOpenActionSheet = () => {
-    showActionSheetWithOptions(
+    props.showActionSheetWithOptions(
       {
         options: ['編集', '削除', 'キャンセル'],
         destructiveButtonIndex: 1,
@@ -57,7 +80,7 @@ const ScheduleDetailPage: FC<Props> = memo(props => {
     );
   };
 
-  const kind = props.kind || KIND_DEFAULT;
+  const kind = props.kind;
   const config = KINDS[kind];
   const ss = s.schedule;
   const bc = Color(config.backgroundColor)
@@ -107,7 +130,7 @@ const ScheduleDetailPage: FC<Props> = memo(props => {
   );
 });
 
-export default ScheduleDetailPage;
+export default Connected;
 
 const styles = EStyleSheet.create({
   contents: {
