@@ -142,7 +142,7 @@
     "husky": "^4.0.7",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.9.0",
-    "jest-circus": "^24.9.0",
+    "jest-circus": "^25.2.4",
     "jest-enzyme": "^7.1.2",
     "jest-expo": "^36.0.1",
     "jest-expo-enzyme": "^1.0.0",
