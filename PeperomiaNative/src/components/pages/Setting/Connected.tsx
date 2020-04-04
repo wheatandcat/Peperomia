@@ -1,7 +1,10 @@
 import * as SQLite from 'expo-sqlite';
 import React, { useContext, useState, memo, useCallback } from 'react';
-import { useNavigation } from 'react-navigation-hooks';
-import { createStackNavigator } from 'react-navigation-stack';
+import { RouteProp, useNavigation } from '@react-navigation/native';
+import {
+  createStackNavigator,
+  StackNavigationProp,
+} from '@react-navigation/stack';
 import { AsyncStorage, Alert } from 'react-native';
 import theme from '../../../config/theme';
 import { db } from '../../../lib/db';
@@ -170,28 +173,6 @@ const Connected = memo((props: ConnectedProps) => {
     navigate('ScreenSetting');
   }, [navigate]);
 
-  /*
-  const restoreItem = useCallback(async () => {
-    if (!props.uid || !props.refreshData) {
-      return false;
-    }
-
-    setState(s => ({
-      ...s,
-      restoreLoading: true,
-    }));
-
-    await restore(props.uid);
-
-    await props.refreshData();
-
-    setState(s => ({
-      ...s,
-      restoreLoading: false,
-    }));
-  }, [props]);
-  */
-
   const onLogout = useCallback(() => {
     Alert.alert(
       'ログアウトしますか',
@@ -211,7 +192,6 @@ const Connected = memo((props: ConnectedProps) => {
                   restoreLoading: true,
                 }));
 
-                // await restoreItem();
                 await props.logout();
                 await props.refreshData(null);
 
@@ -304,26 +284,27 @@ const Connected = memo((props: ConnectedProps) => {
   );
 });
 
-export default createStackNavigator(
-  {
-    Setting: Container,
-    Tos: Tos,
-    Policy: Policy,
-    Feedback: Feedback,
-    SignIn: SignIn,
-    MyPage: MyPage,
-    ScreenSetting: ScreenSetting,
-    LoginWithAmazon: LoginWithAmazon,
-  },
-  {
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: theme().mode.header.backgroundColor,
-      },
-      headerTitleStyle: {
-        color: theme().mode.header.text,
-      },
-      headerTintColor: theme().mode.header.text,
-    },
-  }
-);
+const Stack = createStackNavigator();
+
+const RootStack = () => {
+  return (
+    <Stack.Navigator initialRouteName="Setting">
+      <Stack.Screen
+        name="Setting"
+        component={Container}
+        options={{
+          title: '設定',
+          headerTitleStyle: {
+            color: theme().mode.header.text,
+          },
+          headerTintColor: theme().mode.header.text,
+          headerStyle: {
+            backgroundColor: theme().mode.header.backgroundColor,
+          },
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+export default RootStack;

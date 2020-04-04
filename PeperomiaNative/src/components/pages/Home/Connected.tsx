@@ -5,26 +5,31 @@ import React, {
   useCallback,
   useEffect,
 } from 'react';
-import { Alert } from 'react-native';
+import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
+import { RouteProp, useNavigation } from '@react-navigation/native';
 import {
-  NavigationScreenProp,
-  NavigationRoute,
-  NavigationContext,
-} from 'react-navigation';
-import { useNavigation, useNavigationParam } from 'react-navigation-hooks';
-import { createStackNavigator } from 'react-navigation-stack';
+  createStackNavigator,
+  StackNavigationProp,
+} from '@react-navigation/stack';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Dimensions, View, Image, AsyncStorage } from 'react-native';
+import {
+  Dimensions,
+  Alert,
+  Text,
+  View,
+  Image,
+  AsyncStorage,
+} from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import uuidv1 from 'uuid/v1';
 import theme, { darkMode } from '../../../config/theme';
 import { deleteItem } from '../../../lib/item';
 import {
-  Context as ItemsContext,
+  useItems,
   ContextProps as ItemContextProps,
 } from '../../../containers/Items';
 import {
-  Context as ThemeContext,
+  useTheme,
   ContextProps as ThemeContextProps,
 } from '../../../containers/Theme';
 import { Context as AuthContext } from '../../../containers/Auth';
@@ -67,23 +72,37 @@ type HomeScreeState = {
   mask: boolean;
 };
 
-const HomeScreen = () => {
-  const navigation = useContext(NavigationContext);
-  const { items, about, refreshData, itemsLoading } = useContext(ItemsContext);
-  const { rerendering, onFinishRerendering } = useContext(ThemeContext);
+type RootStackParamList = {
+  Home: { refresh: boolean; onPushCreatePlan: () => Promise<void> };
+  CreatePlan: undefined;
+  ScreenSetting: undefined;
+  Schedule: { itemId: string | number; title: string };
+};
+
+type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
+type HomeScreenRouteProp = RouteProp<RootStackParamList, 'Home'>;
+
+type Props = {
+  navigation: HomeScreenNavigationProp;
+  route: HomeScreenRouteProp;
+};
+
+const HomeScreen = ({ navigation, route }: Props) => {
+  const { items, about, refreshData, itemsLoading } = useItems();
+  const { rerendering, onFinishRerendering } = useTheme();
   const [state, setState] = useState<HomeScreeState>({ mask: false });
 
-  const refresh = useNavigationParam('refresh') || '';
+  const refresh = route?.params?.refresh || '';
 
   useDidMount(() => {
-    navigation.setParams({
-      onPushCreatePlan: async () => {
-        setState({ mask: false });
+    const onPushCreatePlan = async () => {
+      setState({ mask: false });
 
-        await AsyncStorage.setItem('FIRST_CRAEATE_ITEM', 'true');
-        navigation.navigate('CreatePlan');
-      },
-    });
+      await AsyncStorage.setItem('FIRST_CRAEATE_ITEM', 'true');
+      navigation.navigate('CreatePlan');
+    };
+
+    navigation.setParams({ onPushCreatePlan });
 
     const checkMask = async () => {
       const m = await AsyncStorage.getItem('FIRST_CRAEATE_ITEM');
@@ -93,6 +112,8 @@ const HomeScreen = () => {
     checkMask();
   });
 
+  console.log(items);
+
   return (
     <View>
       <HomeScreenPlan
@@ -100,43 +121,13 @@ const HomeScreen = () => {
         rerendering={rerendering}
         items={items}
         about={about}
-        refresh={refresh}
+        refresh={String(refresh)}
         refreshData={refreshData}
         onFinishRerendering={onFinishRerendering}
       />
       {state.mask && <View style={styles.mask} />}
     </View>
   );
-};
-
-type NavigationOptions = {
-  navigation: NavigationScreenProp<NavigationRoute>;
-};
-
-HomeScreen.navigationOptions = ({ navigation }: NavigationOptions) => {
-  const { params = {} } = navigation.state;
-
-  return {
-    headerTitle: <LogoTitle />,
-    headerStyle: {
-      backgroundColor: theme().mode.header.backgroundColor,
-    },
-    headerRight: (
-      <View style={styles.headerRight}>
-        <Hint onPress={params.onPushCreatePlan} testID="ScheduleAdd">
-          <Feather
-            name="plus"
-            size={28}
-            color={
-              darkMode()
-                ? theme().color.highLightGray
-                : theme().color.lightGreen
-            }
-          />
-        </Hint>
-      </View>
-    ),
-  };
 };
 
 export type HomeScreenPlanType = {
@@ -212,42 +203,37 @@ const HomeScreenPlan = memo((props: PlanProps) => {
   );
 });
 
-const MainCardNavigator = createStackNavigator(
-  {
-    Home: {
-      screen: HomeScreen,
-    },
-    Schedule: {
-      screen: Schedule,
-    },
-  },
-  {
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: theme().mode.header.backgroundColor,
-      },
-      headerTitleStyle: {
-        color: theme().mode.header.text,
-      },
-      headerTintColor: theme().mode.header.text,
-    },
-  }
-);
+const Stack = createStackNavigator();
+/*
+const MainStack = () => {
+  return (
+    <Stack.Navigator initialRouteName="Home">
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Schedule" component={Schedule} />
+    </Stack.Navigator>
+  );
+};
 
-export default createStackNavigator(
-  {
-    MainCardNavigator: {
-      screen: MainCardNavigator,
-    },
-    EditPlan: {
-      screen: EditPlan,
-    },
-  },
-  {
-    initialRouteName: 'MainCardNavigator',
-    headerMode: 'none',
-  }
-);
+
+const RootStack = () => {
+  return (
+    <Stack.Navigator initialRouteName="MainStack">
+      <Stack.Screen name="MainStack" component={MainStack} />
+      <Stack.Screen name="EditPlan" component={EditPlan} />
+    </Stack.Navigator>
+  );
+};
+*/
+
+const RootStack = () => {
+  return (
+    <Stack.Navigator initialRouteName="Home">
+      <Stack.Screen name="Home" component={HomeScreen} />
+    </Stack.Navigator>
+  );
+};
+
+export default RootStack;
 
 const styles = EStyleSheet.create({
   logo: {

@@ -10,6 +10,29 @@
     "allowJs": true,
     "jsx": "react-native",
     "baseUrl": "./",
+    "paths": {
+      "components/*": [
+        "src/components/*"
+      ],
+      "containers/*": [
+        "src/containers/*"
+      ],
+      "lib/*": [
+        "src/lib/*"
+      ],
+      "img/*": [
+        "src/img/*"
+      ],
+      "hooks/*": [
+        "src/hooks/*"
+      ],
+      "domain/*": [
+        "src/domain/*"
+      ],
+      "config/*": [
+        "src/config/*"
+      ],
+    },
     "lib": [
       "es2015"
     ],
