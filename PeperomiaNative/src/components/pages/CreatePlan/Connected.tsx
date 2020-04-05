@@ -1,26 +1,26 @@
-import React, {
-  useState,
-  memo,
-  useEffect,
-  useCallback,
-  useContext,
-} from 'react';
+import React, { useState, memo, useEffect, useCallback } from 'react';
 import { Alert } from 'react-native';
-import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
-import {
-  Context as ItemsContext,
-  ContextProps as ItemContextProps,
-} from '../../../containers/Items';
-import { Context as AuthContext } from '../../../containers/Auth';
-import { SuggestItem } from '../../../lib/suggest';
-import getKind from '../../../lib/getKind';
-import { useDidMount } from '../../../hooks/index';
-import { createItem } from '../../../lib/item';
-import { createCalendar } from '../../../lib/calendar';
+import { RouteProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from 'lib/navigation';
+import { useItems, ContextProps as ItemContextProps } from 'containers/Items';
+import { useAuth } from 'containers/Auth';
+import { SuggestItem } from 'lib/suggest';
+import getKind from 'lib/getKind';
+import { useDidMount } from 'hooks/index';
+import { createItem } from 'lib/item';
+import { createCalendar } from 'lib/calendar';
 import Page from '../../templates/CreatePlan/Page';
 
+type ScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'CreatePlan'
+>;
+type ScreenRouteProp = RouteProp<RootStackParamList, 'CreatePlan'>;
+
 type Props = {
-  navigation: NavigationScreenProp<NavigationRoute>;
+  navigation: ScreenNavigationProp;
+  route: ScreenRouteProp;
 };
 
 type State = {
@@ -28,13 +28,12 @@ type State = {
     title: string;
     date: string;
   };
-  image: string;
   kind: string;
   suggestList: SuggestItem[];
 };
 
 export default (props: Props) => {
-  const { items, refreshData, calendars } = useContext(ItemsContext);
+  const { items, refreshData, calendars } = useItems();
 
   return (
     <Connect
@@ -50,17 +49,17 @@ type ConnectProps = Props &
   Pick<ItemContextProps, 'items' | 'refreshData' | 'calendars'>;
 
 const Connect = memo((props: ConnectProps) => {
-  const { uid } = useContext(AuthContext);
+  const { uid } = useAuth();
   const [state, setState] = useState<State>({
     input: { title: '', date: '' },
-    image: '',
     kind: '',
     suggestList: [],
   });
 
-  useDidMount(() => {
-    const date = props.navigation.getParam('date', '');
+  const date = props.route?.params?.date || '';
+  const kind = props.route?.params?.kind || '';
 
+  useDidMount(() => {
     const suggestList = (props.items || []).map(item => ({
       title: item.title,
       kind: item.kind,
@@ -77,30 +76,20 @@ const Connect = memo((props: ConnectProps) => {
   });
 
   useEffect(() => {
-    const image = props.navigation.getParam('image', '');
-    if (image && image !== state.image) {
-      setState(s => ({
-        ...s,
-        image,
-      }));
-    }
-
-    const kind = props.navigation.getParam('kind', '');
-
     if (kind && kind !== state.kind) {
       setState(s => ({
         ...s,
         kind,
       }));
     }
-  }, [props.navigation, state.image, state.kind]);
+  }, [kind, state.kind]);
 
   const onIcons = useCallback(() => {
     props.navigation.navigate('Icons', {
       kind: getKind(state.input.title),
-      onSelectIcon: (kind: string) => {
+      onSelectIcon: (selectedKind: string) => {
         props.navigation.navigate('CreatePlan', {
-          kind: kind,
+          kind: selectedKind,
         });
       },
       onDismiss: () => {
@@ -192,7 +181,7 @@ const Connect = memo((props: ConnectProps) => {
   ]);
 
   const onHome = useCallback(() => {
-    props.navigation.goBack(null);
+    props.navigation.goBack();
   }, [props.navigation]);
 
   return (

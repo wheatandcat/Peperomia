@@ -1,39 +1,37 @@
 import React, { Component } from 'react';
-import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
-import {
-  Consumer as ItemsConsumer,
-  ContextProps,
-} from '../../../containers/Items';
-import { ItemDetail as ItemDetailParam } from '../../../domain/itemDetail';
+import { RouteProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from 'lib/navigation';
+import { ContextProps as ItemsContextProps, useItems } from 'containers/Items';
+import { ItemDetail as ItemDetailParam } from 'domain/itemDetail';
 import ScheduleDetail from './Connected';
 import EditScheduleDetail from '../EditScheduleDetail/Connected';
 
+type ScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'ScheduleDetail'
+>;
+export type ScreenRouteProp = RouteProp<RootStackParamList, 'ScheduleDetail'>;
+
 type State = ItemDetailParam & {
-  scheduleDetailId: number;
+  scheduleDetailId: string | number;
   mode: string;
 };
 
-type Props = {
-  navigation: NavigationScreenProp<NavigationRoute>;
+type SwitchProps = {
+  navigation: ScreenNavigationProp;
+  route: ScreenRouteProp;
 };
 
-type PlanProps = Props & Pick<ContextProps, 'refreshData'>;
+type Props = SwitchProps & Pick<ItemsContextProps, 'refreshData'>;
 
-export default class extends Component<Props> {
-  render() {
-    return (
-      <ItemsConsumer>
-        {({ refreshData }: ContextProps) => (
-          <Plan {...this.props} refreshData={refreshData} />
-        )}
-      </ItemsConsumer>
-    );
-  }
-}
+const Switch = (props: SwitchProps) => {
+  const { refreshData } = useItems();
 
-class Plan extends Component<PlanProps, State> {
-  static navigationOptions = { header: null };
+  return <Plan {...props} refreshData={refreshData} />;
+};
 
+class Plan extends Component<Props, State> {
   state = {
     title: '',
     memo: '',
@@ -55,10 +53,7 @@ class Plan extends Component<PlanProps, State> {
     moveMinutes: number,
     priority: number
   ): void => {
-    const scheduleDetailId = this.props.navigation.getParam(
-      'scheduleDetailId',
-      '1'
-    );
+    const scheduleDetailId = this.props.route.params.scheduleDetailId || '1';
 
     this.setState({
       title,
@@ -89,7 +84,6 @@ class Plan extends Component<PlanProps, State> {
           memo={this.state.memo}
           moveMinutes={this.state.moveMinutes}
           priority={this.state.priority}
-          navigation={this.props.navigation}
           onShow={this.onShow}
         />
       );
@@ -98,9 +92,12 @@ class Plan extends Component<PlanProps, State> {
     return (
       <ScheduleDetail
         navigation={this.props.navigation}
+        route={this.props.route}
         refreshData={this.props.refreshData}
         onEdit={this.onEdit}
       />
     );
   }
 }
+
+export default Switch;

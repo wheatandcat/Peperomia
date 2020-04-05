@@ -1,10 +1,4 @@
-import React, {
-  memo,
-  useContext,
-  useState,
-  useCallback,
-  useEffect,
-} from 'react';
+import React, { memo, useState, useCallback, useEffect } from 'react';
 import { RouteProp, useNavigation } from '@react-navigation/native';
 import {
   createStackNavigator,
@@ -19,12 +13,11 @@ import { deleteItem } from 'lib/item';
 import { RootStackParamList } from 'lib/navigation';
 import { useItems, ContextProps as ItemContextProps } from 'containers/Items';
 import { useTheme, ContextProps as ThemeContextProps } from 'containers/Theme';
-import { Context as AuthContext } from 'containers/Auth';
+import { useAuth } from 'containers/Auth';
 import { SelectItem } from 'domain/item';
 import { useDidMount } from 'hooks/index';
 import Hint from '../../atoms/Hint/Hint';
-import Schedule from '../Schedule/Switch';
-import EditPlan from '../EditPlan/Connected';
+import Schedule, { ScheduleNavigationOptions } from '../Schedule/Switch';
 import Page from './Page';
 
 const deviceHeight = Dimensions.get('window').height;
@@ -57,12 +50,12 @@ type HomeScreeState = {
   mask: boolean;
 };
 
-type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
-type HomeScreenRouteProp = RouteProp<RootStackParamList, 'Home'>;
+type ScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
+type ScreenRouteProp = RouteProp<RootStackParamList, 'Home'>;
 
 type Props = {
-  navigation: HomeScreenNavigationProp;
-  route: HomeScreenRouteProp;
+  navigation: ScreenNavigationProp;
+  route: ScreenRouteProp;
 };
 
 const HomeScreen = ({ navigation, route }: Props) => {
@@ -118,7 +111,7 @@ export type ItemProps = SelectItem & {
 
 const HomeScreenPlan = memo((props: PlanProps) => {
   const { navigate } = useNavigation();
-  const { uid } = useContext(AuthContext);
+  const { uid } = useAuth();
   const [state, setState] = useState<PlanState>({ refresh: '' });
 
   useDidMount(() => {
@@ -208,12 +201,12 @@ const HomeNavigationOptions = ({ route }: NavigationOptions) => {
   };
 };
 
-const Stack = createStackNavigator();
+const RootStack = createStackNavigator();
 
-const RootStack = () => {
+const RootStackScreen = () => {
   return (
-    <Stack.Navigator initialRouteName="Home">
-      <Stack.Screen
+    <RootStack.Navigator initialRouteName="Home">
+      <RootStack.Screen
         name="Home"
         component={HomeScreen}
         options={HomeNavigationOptions}
@@ -222,13 +215,16 @@ const RootStack = () => {
           refresh: false,
         }}
       />
-      <Stack.Screen name="Schedule" component={Schedule} />
-      <Stack.Screen name="EditPlan" component={EditPlan} />
-    </Stack.Navigator>
+      <RootStack.Screen
+        name="Schedule"
+        component={Schedule}
+        options={ScheduleNavigationOptions}
+      />
+    </RootStack.Navigator>
   );
 };
 
-export default RootStack;
+export default RootStackScreen;
 
 const styles = EStyleSheet.create({
   logo: {

@@ -5,19 +5,21 @@ import React, {
   useEffect,
   useCallback,
 } from 'react';
-import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
+import { useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { Alert } from 'react-native';
-import { updateItemDetail } from '../../../lib/itemDetail';
-import getKind from '../../../lib/getKind';
-import { SuggestItem } from '../../../lib/suggest';
-import { ItemDetail } from '../../../domain/itemDetail';
+import { updateItemDetail } from 'lib/itemDetail';
+import getKind from 'lib/getKind';
+import { SuggestItem } from 'lib/suggest';
+import { ItemDetail } from 'domain/itemDetail';
 import {
   Context as ItemsContext,
   ContextProps as ItemContextProps,
-} from '../../../containers/Items';
-import { Context as AuthContext } from '../../../containers/Auth';
-import { useDidMount } from '../../../hooks/index';
+} from 'containers/Items';
+import { Context as AuthContext } from 'containers/Auth';
+import { useDidMount } from 'hooks/index';
 import Page from '../../templates/CreateScheduleDetail/Page';
+import { ScreenRouteProp } from '../../pages/ScheduleDetail/Switch';
 
 type State = ItemDetail & {
   iconSelected: boolean;
@@ -26,7 +28,6 @@ type State = ItemDetail & {
 
 type Props = ItemDetail & {
   id: number;
-  navigation: NavigationScreenProp<NavigationRoute>;
   onShow: (reload: boolean) => void;
 };
 
@@ -53,6 +54,9 @@ const Plan = memo((props: PlanProps) => {
     suggestList: [],
   });
 
+  const route = useRoute<ScreenRouteProp>();
+  const { navigate } = useNavigation();
+
   useDidMount(() => {
     const suggestList = (props.itemDetails || []).map(itemDetail => ({
       title: itemDetail.title,
@@ -66,7 +70,7 @@ const Plan = memo((props: PlanProps) => {
   });
 
   useEffect(() => {
-    const kind = props.navigation.getParam('kind', '');
+    const kind = route.params.kind;
 
     if (!kind) {
       return;
@@ -79,21 +83,24 @@ const Plan = memo((props: PlanProps) => {
         iconSelected: true,
       }));
     }
-  }, [props.navigation, state]);
+  }, [route, state]);
 
   const onDismiss = useCallback(() => {
     props.onShow(false);
   }, [props]);
 
   const save = useCallback(async () => {
-    const refreshData = props.navigation.getParam('refreshData', () => {});
+    const refreshData = route.params.refreshData;
+    if (!refreshData) {
+      return;
+    }
     await refreshData();
 
     if (props.refreshData) {
       props.refreshData();
       props.onShow(true);
     }
-  }, [props]);
+  }, [props, route]);
 
   const onSave = useCallback(
     async (
@@ -129,21 +136,21 @@ const Plan = memo((props: PlanProps) => {
 
   const onIcons = useCallback(
     (title: string) => {
-      props.navigation.navigate('Icons', {
+      navigate('Icons', {
         kind: getKind(title),
         defaultIcon: false,
         onSelectIcon: (kind: string) => {
-          props.navigation.navigate('ScheduleDetail', {
+          navigate('ScheduleDetail', {
             kind: kind,
           });
         },
         onDismiss: () => {
-          props.navigation.navigate('ScheduleDetail');
+          navigate('ScheduleDetail');
         },
         photo: false,
       });
     },
-    [props.navigation]
+    [navigate]
   );
 
   return (

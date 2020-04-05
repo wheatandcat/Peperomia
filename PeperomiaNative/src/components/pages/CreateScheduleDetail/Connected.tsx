@@ -1,24 +1,23 @@
-import React, {
-  useContext,
-  useState,
-  memo,
-  useEffect,
-  useCallback,
-} from 'react';
+import React, { useState, memo, useEffect, useCallback } from 'react';
 import { Alert } from 'react-native';
-import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
+import { RouteProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import uuidv1 from 'uuid/v1';
-import { SuggestItem } from '../../../lib/suggest';
-import getKind from '../../../lib/getKind';
-import {
-  Context as ItemsContext,
-  ContextProps as ItemContextProps,
-} from '../../../containers/Items';
-import { Context as AuthContext } from '../../../containers/Auth';
-import { ItemDetail } from '../../../domain/itemDetail';
-import { createItemDetail, countItemDetail } from '../../../lib/itemDetail';
-import { useDidMount } from '../../../hooks/index';
+import { RootStackParamList } from 'lib/navigation';
+import { SuggestItem } from 'lib/suggest';
+import getKind from 'lib/getKind';
+import { useItems, ContextProps as ItemContextProps } from 'containers/Items';
+import { useAuth } from 'containers/Auth';
+import { ItemDetail } from 'domain/itemDetail';
+import { createItemDetail, countItemDetail } from 'lib/itemDetail';
+import { useDidMount } from 'hooks/index';
 import Page from '../../templates/CreateScheduleDetail/Page';
+
+type ScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'CreateScheduleDetail'
+>;
+type ScreenRouteProp = RouteProp<RootStackParamList, 'CreateScheduleDetail'>;
 
 export type State = ItemDetail & {
   iconSelected: boolean;
@@ -27,13 +26,14 @@ export type State = ItemDetail & {
 };
 
 type Props = ItemDetail & {
-  navigation: NavigationScreenProp<NavigationRoute>;
+  navigation: ScreenNavigationProp;
+  route: ScreenRouteProp;
 };
 
 type PlanProps = Props & Pick<ItemContextProps, 'itemDetails' | 'refreshData'>;
 
 export default (props: Props) => {
-  const { refreshData, itemDetails } = useContext(ItemsContext);
+  const { refreshData, itemDetails } = useItems();
 
   return (
     <Plan {...props} refreshData={refreshData} itemDetails={itemDetails} />
@@ -54,7 +54,7 @@ export type PlanType = {
 };
 
 const Plan = memo((props: PlanProps) => {
-  const { uid } = useContext(AuthContext);
+  const { uid } = useAuth();
   const [state, setState] = useState<State>({
     title: props.title || '',
     kind: props.kind || '',
@@ -66,6 +66,8 @@ const Plan = memo((props: PlanProps) => {
     priority: 1,
     suggestList: [],
   });
+  const kind = props.route?.params?.kind || '';
+  const itemId = String(props.route?.params?.itemId) || '1';
 
   useDidMount(() => {
     const suggestList = (props.itemDetails || []).map(itemDetail => ({
@@ -79,7 +81,6 @@ const Plan = memo((props: PlanProps) => {
     }));
 
     const setCount = async () => {
-      const itemId = props.navigation.getParam('itemId', '1');
       const count = await countItemDetail(uid, itemId);
 
       setState(s => ({
@@ -92,8 +93,6 @@ const Plan = memo((props: PlanProps) => {
   });
 
   useEffect(() => {
-    const kind = props.navigation.getParam('kind', '');
-
     if (!kind) {
       return;
     }
@@ -105,7 +104,7 @@ const Plan = memo((props: PlanProps) => {
         iconSelected: true,
       }));
     }
-  }, [props.navigation, state.kind]);
+  }, [kind, state.kind]);
 
   const onDismiss = useCallback(() => {
     props.navigation.goBack();
@@ -114,18 +113,16 @@ const Plan = memo((props: PlanProps) => {
   const onSave = useCallback(
     async (
       title: string,
-      kind: string,
+      selectedKind: string,
       place: string,
       url: string,
       m: string,
       moveMinutes: number
     ) => {
-      const itemId = props.navigation.getParam('itemId', '1');
-
       const itemDetail = {
         itemId,
         title,
-        kind,
+        kind: selectedKind,
         place,
         url,
         memo: m,
@@ -148,16 +145,16 @@ const Plan = memo((props: PlanProps) => {
         props.refreshData();
       }
     },
-    [props, state.priority, uid]
+    [props, state.priority, uid, itemId]
   );
 
   const onIcons = useCallback(
     (title: string) => {
       props.navigation.navigate('Icons', {
         kind: getKind(title),
-        onSelectIcon: (kind: string) => {
+        onSelectIcon: (selectedKind: string) => {
           props.navigation.navigate('CreateScheduleDetail', {
-            kind: kind,
+            kind: selectedKind,
           });
         },
         onDismiss: () => {

@@ -1,22 +1,25 @@
-import React, {
-  useState,
-  memo,
-  useEffect,
-  useCallback,
-  useContext,
-} from 'react';
-import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
+import React, { useState, memo, useEffect, useCallback } from 'react';
 import { Alert } from 'react-native';
-import { Item } from '../../../domain/item';
-import { SelectItemDetail } from '../../../domain/itemDetail';
-import { useDidMount } from '../../../hooks/index';
-import { getItemByID } from '../../../lib/item';
-import { getItemDetails, updateItemDetail } from '../../../lib/itemDetail';
-import { Context as AuthContext } from '../../../containers/Auth';
+import { RouteProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from 'lib/navigation';
+import { Item } from 'domain/item';
+import { SelectItemDetail } from 'domain/itemDetail';
+import { useDidMount } from 'hooks/index';
+import { getItemByID } from 'lib/item';
+import { getItemDetails, updateItemDetail } from 'lib/itemDetail';
+import { useAuth } from 'containers/Auth';
 import Page from '../../templates/CreateSchedule/Page';
 
+type ScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'CreateSchedule'
+>;
+type ScreenRouteProp = RouteProp<RootStackParamList, 'CreateSchedule'>;
+
 type Props = {
-  navigation: NavigationScreenProp<NavigationRoute>;
+  navigation: ScreenNavigationProp;
+  route: ScreenRouteProp;
 };
 
 type State = {
@@ -26,7 +29,9 @@ type State = {
 };
 
 export default memo((props: Props) => {
-  const { uid } = useContext(AuthContext);
+  const { uid } = useAuth();
+  const itemId = String(props.route?.params?.itemId) || '1';
+  const refresh = props.route?.params?.refresh || '';
 
   const [state, setState] = useState<State>({
     item: { title: '', kind: '' },
@@ -93,15 +98,13 @@ export default memo((props: Props) => {
   }, []);
 
   useDidMount(() => {
-    const itemId = props.navigation.getParam('itemId', '1');
-
     const setItemByItemID = async () => {
-      const item = await getItemByID(uid, itemId);
+      const item = await getItemByID(uid, String(itemId));
       setItem(item);
     };
 
     const setItemDetailsByItemID = async () => {
-      const itemDetails = await getItemDetails(uid, itemId);
+      const itemDetails = await getItemDetails(uid, String(itemId));
       setItemDetails(itemDetails);
     };
 
@@ -110,28 +113,23 @@ export default memo((props: Props) => {
   });
 
   useEffect(() => {
-    const refresh = props.navigation.getParam('refresh', '0');
-
-    const setItemDetailsByItemID = async (itemId: string) => {
+    const setItemDetailsByItemID = async () => {
       const itemDetails = await getItemDetails(uid, itemId);
       setItemDetails(itemDetails);
     };
 
     if (refresh !== state.refresh) {
-      const itemId = props.navigation.getParam('itemId', '1');
-      setItemDetailsByItemID(itemId).then(() => {
+      setItemDetailsByItemID().then(() => {
         setState(s => ({ ...s, refresh }));
       });
     }
-  }, [props.navigation, setItemDetails, state.refresh, uid]);
+  }, [setItemDetails, state.refresh, refresh, uid, itemId]);
 
   const onCreateScheduleDetail = useCallback(() => {
-    const itemId = props.navigation.getParam('itemId', '1');
-
     props.navigation.navigate('CreateScheduleDetail', {
       itemId,
     });
-  }, [props.navigation]);
+  }, [props.navigation, itemId]);
 
   const onScheduleDetail = useCallback(
     (id: string) => {

@@ -1,6 +1,7 @@
 import Constants from 'expo-constants';
 import * as SQLite from 'expo-sqlite';
 import React, { Component } from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Appearance, AppearanceProvider } from 'react-native-appearance';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
@@ -33,6 +34,15 @@ import {
   insert as insertUser,
   User,
 } from './lib/db/user';
+import EditPlan from './components/pages/EditPlan/Connected';
+import CreatePlan from './components/pages/CreatePlan/Connected';
+import CreateSchedule from './components/pages/CreateSchedule/Connected';
+import ScheduleDetail from './components/pages/ScheduleDetail/Switch';
+import AddScheduleDetail from './components/pages/AddScheduleDetail/Connected';
+import CreateScheduleDetail from './components/pages/CreateScheduleDetail/Connected';
+import Icons, {
+  IconsNavigationOptions,
+} from './components/pages/Icons/Connected';
 
 if (process.env.SENTRY_URL) {
   Sentry.setRelease(String(Constants.manifest.revisionId));
@@ -139,6 +149,63 @@ const tabNavigationOptions = ({
   },
 });
 
+const RootStack = createStackNavigator();
+
+const RootStackScreen = () => {
+  return (
+    <RootStack.Navigator initialRouteName="Main" mode="modal">
+      <RootStack.Screen
+        name="Main"
+        component={MainStackScreen}
+        options={{ headerShown: false }}
+      />
+      <RootStack.Screen
+        name="EditPlan"
+        component={EditPlan}
+        options={{ headerShown: false }}
+      />
+      <RootStack.Screen
+        name="ScheduleDetail"
+        component={ScheduleDetail}
+        options={{ headerShown: false }}
+      />
+      <RootStack.Screen
+        name="CreatePlan"
+        component={CreatePlan}
+        options={{ headerShown: false }}
+      />
+      <RootStack.Screen
+        name="AddScheduleDetail"
+        component={AddScheduleDetail}
+        options={{ headerShown: false }}
+      />
+      <RootStack.Screen
+        name="CreateScheduleDetail"
+        component={CreateScheduleDetail}
+        options={{ headerShown: false }}
+      />
+      <RootStack.Screen
+        name="Icons"
+        component={Icons}
+        options={IconsNavigationOptions}
+      />
+      <RootStack.Screen
+        name="CreateSchedule"
+        component={CreateSchedule}
+        options={{ headerShown: false }}
+      />
+    </RootStack.Navigator>
+  );
+};
+
+const MainStackScreen = () => (
+  <Tab.Navigator screenOptions={tabNavigationOptions}>
+    <Tab.Screen name="Home" component={Home} options={tabOption} />
+    <Tab.Screen name="Calendars" component={Calendars} options={tabOption} />
+    <Tab.Screen name="Setting" component={Setting} options={tabOption} />
+  </Tab.Navigator>
+);
+
 export default class App extends Component<Props, State> {
   state = {
     guide: false,
@@ -217,23 +284,7 @@ export default class App extends Component<Props, State> {
                 <FetchProvider>
                   <ItemsProvider>
                     <ThemeProvider>
-                      <Tab.Navigator screenOptions={tabNavigationOptions}>
-                        <Tab.Screen
-                          name="Home"
-                          component={Home}
-                          options={tabOption}
-                        />
-                        <Tab.Screen
-                          name="Calendars"
-                          component={Calendars}
-                          options={tabOption}
-                        />
-                        <Tab.Screen
-                          name="Setting"
-                          component={Setting}
-                          options={tabOption}
-                        />
-                      </Tab.Navigator>
+                      <RootStackScreen />
                     </ThemeProvider>
                   </ItemsProvider>
                 </FetchProvider>

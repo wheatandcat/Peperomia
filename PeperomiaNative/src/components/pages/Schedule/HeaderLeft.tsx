@@ -1,18 +1,22 @@
 import React from 'react';
-import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import theme from '../../../config/theme';
 import { LeftText } from '../../atoms/Header';
 
 type Props = {
-  mode: string;
-  onShow: () => void;
-  navigation: NavigationScreenProp<NavigationRoute>;
+  mode?: string;
+  onShow?: () => void;
 };
 
 export default (props: Props) => {
+  const navigation = useNavigation();
+  if (!props.onShow || !props.mode) {
+    return null;
+  }
+
   if (props.mode === 'edit') {
     return <LeftText label="キャンセル" cancel onPress={props.onShow} />;
   }
@@ -22,10 +26,7 @@ export default (props: Props) => {
   }
 
   return (
-    <TouchableOpacity
-      onPress={() => props.navigation.goBack()}
-      style={styles.root}
-    >
+    <TouchableOpacity onPress={() => navigation.goBack()} style={styles.root}>
       <MaterialCommunityIcons
         name="chevron-left"
         size={30}

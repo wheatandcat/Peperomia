@@ -1,27 +1,24 @@
-import React, {
-  useContext,
-  useState,
-  memo,
-  useEffect,
-  useCallback,
-} from 'react';
-import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
+import React, { useState, memo, useEffect, useCallback } from 'react';
 import { Alert } from 'react-native';
-import {
-  Context as ItemsContext,
-  ContextProps as ItemContextProps,
-} from '../../../containers/Items';
-import { Context as AuthContext } from '../../../containers/Auth';
-import { UpdateCalendar } from '../../../domain/calendar';
-import getKind from '../../../lib/getKind';
-import { SuggestItem } from '../../../lib/suggest';
-import { useDidMount } from '../../../hooks/index';
-import { updateItem } from '../../../lib/item';
-import { createCalendar, updateCalendar } from '../../../lib/calendar';
+import { RouteProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from 'lib/navigation';
+import { useItems, ContextProps as ItemContextProps } from 'containers/Items';
+import { useAuth } from 'containers/Auth';
+import { UpdateCalendar } from 'domain/calendar';
+import getKind from 'lib/getKind';
+import { SuggestItem } from 'lib/suggest';
+import { useDidMount } from 'hooks/index';
+import { updateItem } from 'lib/item';
+import { createCalendar, updateCalendar } from 'lib/calendar';
 import Page from '../../templates/CreatePlan/Page';
 
+type ScreenNavigationProp = StackNavigationProp<RootStackParamList, 'EditPlan'>;
+type ScreenRouteProp = RouteProp<RootStackParamList, 'EditPlan'>;
+
 type Props = {
-  navigation: NavigationScreenProp<NavigationRoute>;
+  navigation: ScreenNavigationProp;
+  route: ScreenRouteProp;
   title: string;
   kind: string;
 };
@@ -32,18 +29,18 @@ type ConnectedProps = Pick<
 > &
   Props;
 
-type PlanProps = Pick<ItemContextProps, 'items' | 'refreshData'> & {
-  navigation: NavigationScreenProp<NavigationRoute>;
-  input: {
-    title: string;
-    date: string;
+type PlanProps = Props &
+  Pick<ItemContextProps, 'items' | 'refreshData'> & {
+    input: {
+      title: string;
+      date: string;
+    };
+    kind: string;
+    onInput: (name: string, value: any) => void;
+    onSave: () => void;
+    onIcons: () => void;
+    onHome: () => void;
   };
-  kind: string;
-  onInput: (name: string, value: any) => void;
-  onSave: () => void;
-  onIcons: () => void;
-  onHome: () => void;
-};
 
 type State = {
   input: {
@@ -55,7 +52,7 @@ type State = {
 };
 
 export default (props: Props) => {
-  const { refreshData, items, calendars } = useContext(ItemsContext);
+  const { refreshData, items, calendars } = useItems();
 
   return (
     <Connected
@@ -68,7 +65,9 @@ export default (props: Props) => {
 };
 
 const Connected = memo((props: ConnectedProps) => {
-  const { uid } = useContext(AuthContext);
+  const { uid } = useAuth();
+  const id = props.route?.params?.id || 0;
+  const kind = props.route?.params?.kind || '';
 
   const [state, setState] = useState<State>({
     input: { title: '', date: '' },
@@ -81,8 +80,6 @@ const Connected = memo((props: ConnectedProps) => {
   });
 
   useDidMount(() => {
-    const id = props.navigation.getParam('id', 0);
-
     let input: {
       date: string;
       title: string;
@@ -112,26 +109,22 @@ const Connected = memo((props: ConnectedProps) => {
       input.title = schedule.title;
     }
 
-    const image = props.navigation.getParam('image', '');
-    const kind = props.navigation.getParam('kind', '');
-
     setState(s => ({
       ...s,
       input,
-      image,
+
       kind,
     }));
   });
 
   useEffect(() => {
-    const kind = props.navigation.getParam('kind', '');
-    if (kind && kind !== state.kind) {
+    if (kind !== state.kind) {
       setState(s => ({
         ...s,
         kind,
       }));
     }
-  }, [props.navigation, state]);
+  }, [kind, state]);
 
   const onInput = useCallback(
     (name: string, value: any) => {
@@ -149,13 +142,11 @@ const Connected = memo((props: ConnectedProps) => {
   );
 
   const save = useCallback(() => {
-    const id = props.navigation.getParam('id', 0);
-
     props.navigation.navigate('Schedule', {
       itemId: id,
       title: state.input.title,
     });
-  }, [props.navigation, state.input.title]);
+  }, [props.navigation, id, state.input.title]);
 
   const onSave = useCallback(async () => {
     if (state.input.date) {
@@ -168,8 +159,6 @@ const Connected = memo((props: ConnectedProps) => {
         return;
       }
     }
-
-    const id = props.navigation.getParam('id', 0);
 
     const item = {
       id,
@@ -217,6 +206,7 @@ const Connected = memo((props: ConnectedProps) => {
     }
   }, [
     props,
+    id,
     save,
     state.calendar,
     state.input.date,
@@ -228,9 +218,9 @@ const Connected = memo((props: ConnectedProps) => {
   const onIcons = useCallback(() => {
     props.navigation.navigate('Icons', {
       kind: getKind(state.input.title),
-      onSelectIcon: (kind: string) => {
+      onSelectIcon: (selectedKind: string) => {
         props.navigation.navigate('EditPlan', {
-          kind: kind,
+          kind: selectedKind,
         });
       },
       onDismiss: () => {
@@ -246,7 +236,7 @@ const Connected = memo((props: ConnectedProps) => {
 
   return (
     <Plan
-      navigation={props.navigation}
+      {...props}
       input={state.input}
       kind={state.kind}
       items={props.items}
