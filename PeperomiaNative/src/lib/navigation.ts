@@ -65,4 +65,9 @@ export type RootStackParamList = {
     itemId?: number | string;
     kind?: string;
   };
+  Feedback: undefined;
+  SignIn: {
+    onLogin?: () => void;
+  };
+  MyPage: undefined;
 };

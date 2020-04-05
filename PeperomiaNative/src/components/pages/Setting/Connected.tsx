@@ -1,8 +1,8 @@
 import * as SQLite from 'expo-sqlite';
 import React, { useContext, useState, memo, useCallback } from 'react';
+import { AsyncStorage, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { AsyncStorage, Alert } from 'react-native';
 import { navigationOption } from 'lib/navigation';
 import { db } from 'lib/db';
 import {
@@ -33,10 +33,11 @@ import { findByUID } from 'lib/firestore/item';
 import { setDebugMode, getDebugMode } from 'lib/auth';
 import Tos from '../Tos/Page';
 import Policy from '../Policy/Page';
-/*
 import Feedback from '../Feedback/Connected';
 import SignIn from '../SignIn/Connected';
 import MyPage from '../MyPage/Connected';
+/*
+
 import ScreenSetting from '../ScreenSetting/Connected';
 import LoginWithAmazon from '../LoginWithAmazon/Connected';
 */
@@ -282,12 +283,27 @@ const RootStack = () => {
       <Stack.Screen
         name="Tos"
         component={Tos}
-        options={navigationOption('設定')}
+        options={navigationOption('利用規約')}
       />
       <Stack.Screen
         name="Policy"
         component={Policy}
-        options={navigationOption('設定')}
+        options={navigationOption('プライバシーポリシー')}
+      />
+      <Stack.Screen
+        name="Feedback"
+        component={Feedback}
+        options={navigationOption('フィードバック')}
+      />
+      <Stack.Screen
+        name="SignIn"
+        component={SignIn}
+        options={navigationOption('ユーザー登録 / ログイン')}
+      />
+      <Stack.Screen
+        name="MyPage"
+        component={MyPage}
+        options={navigationOption('マイページ')}
       />
     </Stack.Navigator>
   );

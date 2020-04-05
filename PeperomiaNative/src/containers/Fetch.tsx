@@ -46,5 +46,5 @@ class Connected extends Component<ConnectedProps> {
     );
   }
 }
-
+export const useFetch = () => useContext(Context);
 export const Consumer = Context.Consumer;

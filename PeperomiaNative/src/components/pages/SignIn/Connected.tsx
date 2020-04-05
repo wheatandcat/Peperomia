@@ -1,35 +1,31 @@
-import React, { memo, useState, useCallback, useContext } from 'react';
+import React, { memo, useState, useCallback } from 'react';
 import { Alert } from 'react-native';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import 'dayjs/locale/ja';
-import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
-import { backup } from '../../../lib/backup';
-import theme from '../../../config/theme';
-import {
-  Context as AuthContext,
-  ContextProps as AuthContextProps,
-} from '../../../containers/Auth';
-import {
-  Context as FetchContext,
-  ContextProps as FetchContextProps,
-} from '../../../containers/Fetch';
-import {
-  Context as ItemsContext,
-  ContextProps as ItemsContextProps,
-} from '../../../containers/Items';
+import { RouteProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from 'lib/navigation';
+import { backup } from 'lib/backup';
+import { useAuth, ContextProps as AuthContextProps } from 'containers/Auth';
+import { useFetch, ContextProps as FetchContextProps } from 'containers/Fetch';
+import { useItems, ContextProps as ItemsContextProps } from 'containers/Items';
 import Page from './Page';
 
 dayjs.extend(advancedFormat);
 
+type ScreenNavigationProp = StackNavigationProp<RootStackParamList, 'SignIn'>;
+type ScreenRouteProp = RouteProp<RootStackParamList, 'SignIn'>;
+
 type Props = {
-  navigation: NavigationScreenProp<NavigationRoute>;
+  navigation: ScreenNavigationProp;
+  route: ScreenRouteProp;
 };
 
 const SignInScreen = (props: Props) => {
-  const { onGoogleLogin, logout, uid } = useContext(AuthContext);
-  const { post } = useContext(FetchContext);
-  const { refreshData } = useContext(ItemsContext);
+  const { onGoogleLogin, logout, uid } = useAuth();
+  const { post } = useFetch();
+  const { refreshData } = useItems();
 
   return (
     <Connected
@@ -43,27 +39,12 @@ const SignInScreen = (props: Props) => {
   );
 };
 
-SignInScreen.navigationOptions = () => {
-  return {
-    title: 'ユーザー登録 / ログイン',
-    headerBackTitle: '',
-    headerTitleStyle: {
-      color: theme().mode.header.text,
-    },
-    headerTintColor: theme().mode.header.text,
-    headerStyle: {
-      backgroundColor: theme().mode.header.backgroundColor,
-    },
-  };
-};
-
 export default SignInScreen;
 
-type ConnectedProps = Pick<ItemsContextProps, 'refreshData'> &
+type ConnectedProps = Props &
+  Pick<ItemsContextProps, 'refreshData'> &
   Pick<AuthContextProps, 'onGoogleLogin' | 'logout' | 'uid'> &
-  Pick<FetchContextProps, 'post'> & {
-    navigation: NavigationScreenProp<NavigationRoute>;
-  };
+  Pick<FetchContextProps, 'post'>;
 
 type ConnectedState = {
   loading: boolean;
@@ -71,6 +52,7 @@ type ConnectedState = {
 
 const Connected = memo((props: ConnectedProps) => {
   const [state, setState] = useState<ConnectedState>({ loading: false });
+  const onLogin = props.route?.params?.onLogin;
 
   const saveUser = useCallback(async () => {
     if (!props.post) {
@@ -136,8 +118,9 @@ const Connected = memo((props: ConnectedProps) => {
       const ok2 = await backupItem();
       if (ok1 && ok2) {
         await props.refreshData(uid);
-        const onLogin = props.navigation.getParam('onLogin', () => {});
-        onLogin();
+        if (onLogin) {
+          onLogin();
+        }
 
         props.navigation.goBack();
       } else {
@@ -153,7 +136,7 @@ const Connected = memo((props: ConnectedProps) => {
     setState({
       loading: false,
     });
-  }, [backupItem, props, saveUser]);
+  }, [backupItem, props, saveUser, onLogin]);
 
   return <Page loading={state.loading} onGoogleLogin={onGoogleLogin} />;
 });
