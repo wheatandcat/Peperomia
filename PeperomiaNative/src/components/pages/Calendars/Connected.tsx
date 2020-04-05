@@ -1,26 +1,24 @@
 import React, { Component } from 'react';
-import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
 import {
-  Consumer as ItemsConsumer,
-  ContextProps,
-} from '../../../containers/Items';
-import theme from '../../../config/theme';
+  createStackNavigator,
+  StackNavigationProp,
+} from '@react-navigation/stack';
+import { RootStackParamList } from 'lib/navigation';
+import { Consumer as ItemsConsumer, ContextProps } from 'containers/Items';
 import Schedule from '../Schedule/Switch';
 import EditPlan from '../EditPlan/Connected';
 import Page from './Page';
 
+type CalendarsScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'Calendars'
+>;
+
 type Props = {
-  navigation: NavigationScreenProp<NavigationRoute>;
+  navigation: CalendarsScreenNavigationProp;
 };
 
 export class Container extends Component<Props> {
-  static navigationOptions = () => {
-    return {
-      header: null,
-    };
-  };
-
   onCreate = (date: string) => {
     this.props.navigation.navigate('CreatePlan', {
       date,
@@ -46,40 +44,20 @@ export class Container extends Component<Props> {
     );
   }
 }
+const Stack = createStackNavigator();
 
-const MainCardNavigator = createStackNavigator(
-  {
-    Container: {
-      screen: Container,
-    },
-    Schedule: {
-      screen: Schedule,
-    },
-  },
-  {
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: theme().mode.header.backgroundColor,
-      },
-      headerTitleStyle: {
-        color: theme().mode.header.text,
-      },
-      headerTintColor: theme().mode.header.text,
-    },
-  }
-);
+const RootStack = () => {
+  return (
+    <Stack.Navigator initialRouteName="Calendars">
+      <Stack.Screen
+        name="Calendars"
+        component={Container}
+        options={{ header: () => null }}
+      />
+      <Stack.Screen name="Schedule" component={Schedule} />
+      <Stack.Screen name="EditPlan" component={EditPlan} />
+    </Stack.Navigator>
+  );
+};
 
-export default createStackNavigator(
-  {
-    MainCardNavigator: {
-      screen: MainCardNavigator,
-    },
-    EditPlan: {
-      screen: EditPlan,
-    },
-  },
-  {
-    initialRouteName: 'MainCardNavigator',
-    headerMode: 'none',
-  }
-);
+export default RootStack;

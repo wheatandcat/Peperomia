@@ -1,46 +1,45 @@
 import * as SQLite from 'expo-sqlite';
 import React, { useContext, useState, memo, useCallback } from 'react';
-import { RouteProp, useNavigation } from '@react-navigation/native';
-import {
-  createStackNavigator,
-  StackNavigationProp,
-} from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { AsyncStorage, Alert } from 'react-native';
-import theme from '../../../config/theme';
-import { db } from '../../../lib/db';
+import { navigationOption } from 'lib/navigation';
+import { db } from 'lib/db';
 import {
   deleteSql,
   resetSql,
   resetSqlV100,
   deleteUserSql,
   sqliteMaster,
-} from '../../../lib/db/debug';
-import { select as selectItems } from '../../../lib/db/item';
-import { select as selectItemDetailds } from '../../../lib/db/itemDetail';
+} from 'lib/db/debug';
+import { select as selectItems } from 'lib/db/item';
+import { select as selectItemDetailds } from 'lib/db/itemDetail';
 import {
   Context as AuthContext,
   ContextProps as AuthContextProps,
-} from '../../../containers/Auth';
+} from 'containers/Auth';
 import {
   Context as FetchContext,
   ContextProps as FetchContextProps,
-} from '../../../containers/Fetch';
+} from 'containers/Fetch';
 import {
   Context as ItemsContext,
   ContextProps as ItemsContextProps,
-} from '../../../containers/Items';
-import { useDidMount } from '../../../hooks/index';
-import { getFireStore } from '../../../lib/firebase';
-import { resetQuery } from '../../../lib/firestore/debug';
-import { findByUID } from '../../../lib/firestore/item';
-import { setDebugMode, getDebugMode } from '../../../lib/auth';
+} from 'containers/Items';
+import { useDidMount } from 'hooks/index';
+import { getFireStore } from 'lib/firebase';
+import { resetQuery } from 'lib/firestore/debug';
+import { findByUID } from 'lib/firestore/item';
+import { setDebugMode, getDebugMode } from 'lib/auth';
 import Tos from '../Tos/Page';
 import Policy from '../Policy/Page';
+/*
 import Feedback from '../Feedback/Connected';
 import SignIn from '../SignIn/Connected';
 import MyPage from '../MyPage/Connected';
 import ScreenSetting from '../ScreenSetting/Connected';
 import LoginWithAmazon from '../LoginWithAmazon/Connected';
+*/
 import Page from './Page';
 
 const Container = () => {
@@ -57,17 +56,6 @@ const Container = () => {
       refreshData={refreshData}
     />
   );
-};
-
-Container.navigationOptions = {
-  title: '設定',
-  headerTitleStyle: {
-    color: theme().mode.header.text,
-  },
-  headerTintColor: theme().mode.header.text,
-  headerStyle: {
-    backgroundColor: theme().mode.header.backgroundColor,
-  },
 };
 
 type ConnectedProps = Pick<ItemsContextProps, 'refreshData'> &
@@ -241,9 +229,6 @@ const Connected = memo((props: ConnectedProps) => {
       return;
     }
 
-    // デバッグ時はオフラインにする
-    // await settingNetwork(false);
-
     const firestore = getFireStore();
     const r = await findByUID(firestore, props.uid);
     console.log(r);
@@ -292,16 +277,17 @@ const RootStack = () => {
       <Stack.Screen
         name="Setting"
         component={Container}
-        options={{
-          title: '設定',
-          headerTitleStyle: {
-            color: theme().mode.header.text,
-          },
-          headerTintColor: theme().mode.header.text,
-          headerStyle: {
-            backgroundColor: theme().mode.header.backgroundColor,
-          },
-        }}
+        options={navigationOption('設定')}
+      />
+      <Stack.Screen
+        name="Tos"
+        component={Tos}
+        options={navigationOption('設定')}
+      />
+      <Stack.Screen
+        name="Policy"
+        component={Policy}
+        options={navigationOption('設定')}
       />
     </Stack.Navigator>
   );
