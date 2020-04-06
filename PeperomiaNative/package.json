@@ -47,7 +47,7 @@
     "@types/react-native-sortable-list": "0.0.8",
     "@types/react-native-swipe-gestures": "^1.0.0",
     "@types/react-responsive": "^8.0.2",
-    "@types/styled-components": "^4.1.18",
+    "@types/styled-components": "^5.0.1",
     "@types/uuid": "^3.4.6",
     "color": "^3.1.0",
     "compare-versions": "^3.5.0",
