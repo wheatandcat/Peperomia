@@ -1,5 +1,5 @@
 import * as SQLite from 'expo-sqlite';
-import React, { useContext, useState, memo, useCallback } from 'react';
+import React, { useState, memo, useCallback } from 'react';
 import { AsyncStorage, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -14,18 +14,10 @@ import {
 } from 'lib/db/debug';
 import { select as selectItems } from 'lib/db/item';
 import { select as selectItemDetailds } from 'lib/db/itemDetail';
-import {
-  Context as AuthContext,
-  ContextProps as AuthContextProps,
-} from 'containers/Auth';
-import {
-  Context as FetchContext,
-  ContextProps as FetchContextProps,
-} from 'containers/Fetch';
-import {
-  Context as ItemsContext,
-  ContextProps as ItemsContextProps,
-} from 'containers/Items';
+import { useTheme } from 'containers/Theme';
+import { useAuth, ContextProps as AuthContextProps } from 'containers/Auth';
+import { useFetch, ContextProps as FetchContextProps } from 'containers/Fetch';
+import { useItems, ContextProps as ItemsContextProps } from 'containers/Items';
 import { useDidMount } from 'hooks/index';
 import { getFireStore } from 'lib/firebase';
 import { resetQuery } from 'lib/firestore/debug';
@@ -36,17 +28,14 @@ import Policy from '../Policy/Page';
 import Feedback from '../Feedback/Connected';
 import SignIn from '../SignIn/Connected';
 import MyPage from '../MyPage/Connected';
-/*
-
 import ScreenSetting from '../ScreenSetting/Connected';
 import LoginWithAmazon from '../LoginWithAmazon/Connected';
-*/
 import Page from './Page';
 
 const Container = () => {
-  const { loggedIn, logout, uid } = useContext(AuthContext);
-  const { post } = useContext(FetchContext);
-  const { refreshData } = useContext(ItemsContext);
+  const { loggedIn, logout, uid } = useAuth();
+  const { post } = useFetch();
+  const { refreshData } = useItems();
 
   return (
     <Connected
@@ -72,6 +61,7 @@ type State = {
 
 const Connected = memo((props: ConnectedProps) => {
   const { navigate } = useNavigation();
+  const { rerendering, onFinishRerendering } = useTheme();
   const [state, setState] = useState<State>({
     loading: true,
     login: false,
@@ -80,6 +70,11 @@ const Connected = memo((props: ConnectedProps) => {
   });
 
   useDidMount(() => {
+    if (rerendering) {
+      navigate('ScreenSetting');
+      if (onFinishRerendering) onFinishRerendering();
+    }
+
     const check = async () => {
       if (props.loggedIn) {
         const loggedIn = await props.loggedIn();
@@ -304,6 +299,16 @@ const RootStack = () => {
         name="MyPage"
         component={MyPage}
         options={navigationOption('マイページ')}
+      />
+      <Stack.Screen
+        name="ScreenSetting"
+        component={ScreenSetting}
+        options={navigationOption('画面設定')}
+      />
+      <Stack.Screen
+        name="LoginWithAmazon"
+        component={LoginWithAmazon}
+        options={navigationOption('Amazonアカウント連携')}
       />
     </Stack.Navigator>
   );

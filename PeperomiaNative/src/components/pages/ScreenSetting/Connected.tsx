@@ -1,52 +1,36 @@
 import React, { Component } from 'react';
-import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
-import {
-  Consumer as ThemeConsumer,
-  ContextProps as ThemeContextProps,
-} from '../../../containers/Theme';
-import theme from '../../../config/theme';
+import { RouteProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from 'lib/navigation';
+import { useTheme, ContextProps as ThemeContextProps } from 'containers/Theme';
 import Page from './Page';
 
+type ScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'ScreenSetting'
+>;
+type ScreenRouteProp = RouteProp<RootStackParamList, 'ScreenSetting'>;
+
 type Props = {
-  navigation: NavigationScreenProp<NavigationRoute>;
+  navigation: ScreenNavigationProp;
+  route: ScreenRouteProp;
 };
 
 type State = {
-  loading: boolean;
   darkMode: boolean;
 };
 
-export default class extends Component<Props> {
-  static navigationOptions = () => {
-    return {
-      title: '画面設定',
-      headerTitleStyle: {
-        color: theme().mode.header.text,
-      },
-      headerTintColor: theme().mode.header.text,
-      headerStyle: {
-        backgroundColor: theme().mode.header.backgroundColor,
-      },
-    };
-  };
+const Root = (props: Props) => {
+  const { onModeChange, mode } = useTheme();
 
-  render() {
-    return (
-      <ThemeConsumer>
-        {({ onModeChange, mode }: ThemeContextProps) => (
-          <Connected {...this.props} mode={mode} onModeChange={onModeChange} />
-        )}
-      </ThemeConsumer>
-    );
-  }
-}
+  return <Connected {...props} mode={mode} onModeChange={onModeChange} />;
+};
 
 type ConnectedProps = Props & Pick<ThemeContextProps, 'mode' | 'onModeChange'>;
 
 class Connected extends Component<ConnectedProps, State> {
   state = {
     darkMode: this.props.mode === 'dark' ? true : false,
-    loading: false,
   };
 
   onChange = (darkMode: boolean) => {
@@ -60,12 +44,8 @@ class Connected extends Component<ConnectedProps, State> {
   };
 
   render() {
-    return (
-      <Page
-        darkMode={this.state.darkMode}
-        loading={this.state.loading}
-        onChange={this.onChange}
-      />
-    );
+    return <Page darkMode={this.state.darkMode} onChange={this.onChange} />;
   }
 }
+
+export default Root;

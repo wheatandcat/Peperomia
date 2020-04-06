@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
 import { Linking, Alert, Dimensions } from 'react-native';
 import Constants from 'expo-constants';
 import Toast from 'react-native-root-toast';
@@ -7,61 +6,42 @@ import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import 'dayjs/locale/ja';
 import queryString from 'query-string';
-import theme from '../../../config/theme';
-import {
-  Consumer as FetchConsumer,
-  ContextProps as FetchContextProps,
-} from '../../../containers/Fetch';
-import {
-  Consumer as AuthConsumer,
-  ContextProps as AuthContextProps,
-} from '../../../containers/Auth';
+import { RouteProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from 'lib/navigation';
+import { useFetch, ContextProps as FetchContextProps } from 'containers/Fetch';
+import { useAuth, ContextProps as AuthContextProps } from 'containers/Auth';
 import Page from './Page';
 
 dayjs.extend(advancedFormat);
 
+type ScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'LoginWithAmazon'
+>;
+type ScreenRouteProp = RouteProp<RootStackParamList, 'LoginWithAmazon'>;
+
 type Props = {
-  navigation: NavigationScreenProp<NavigationRoute>;
+  navigation: ScreenNavigationProp;
+  route: ScreenRouteProp;
 };
 
 type WebPageResponse = {
   accessToken: string;
 };
 
-export default class extends Component<Props> {
-  static navigationOptions = () => {
-    return {
-      title: 'Amazonアカウント連携',
-      headerBackTitle: '',
-      headerTitleStyle: {
-        color: theme().mode.header.text,
-      },
-      headerTintColor: theme().mode.header.text,
-      headerStyle: {
-        backgroundColor: theme().mode.header.backgroundColor,
-      },
-    };
-  };
+const Root = (props: Props) => {
+  const { uid } = useAuth();
+  const { post } = useFetch();
 
-  render() {
-    return (
-      <AuthConsumer>
-        {({ uid }: AuthContextProps) => (
-          <FetchConsumer>
-            {({ post }: FetchContextProps) => (
-              <Connected {...this.props} post={post} uid={uid} />
-            )}
-          </FetchConsumer>
-        )}
-      </AuthConsumer>
-    );
-  }
-}
+  return <Connected {...props} post={post} uid={uid} />;
+};
 
-type ConnectedProps = Pick<AuthContextProps, 'uid'> &
-  Pick<FetchContextProps, 'post'> & {
-    navigation: NavigationScreenProp<NavigationRoute>;
-  };
+export default Root;
+
+type ConnectedProps = Props &
+  Pick<AuthContextProps, 'uid'> &
+  Pick<FetchContextProps, 'post'>;
 
 type State = {
   loading: boolean;

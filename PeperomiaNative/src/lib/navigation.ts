@@ -70,4 +70,5 @@ export type RootStackParamList = {
     onLogin?: () => void;
   };
   MyPage: undefined;
+  LoginWithAmazon: undefined;
 };
