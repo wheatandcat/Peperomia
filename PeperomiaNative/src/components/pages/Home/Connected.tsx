@@ -1,38 +1,23 @@
-import React, {
-  memo,
-  useContext,
-  useState,
-  useCallback,
-  useEffect,
-} from 'react';
-import { Alert } from 'react-native';
+import React, { memo, useState, useCallback, useEffect } from 'react';
+import { RouteProp, useNavigation } from '@react-navigation/native';
 import {
-  NavigationScreenProp,
-  NavigationRoute,
-  NavigationContext,
-} from 'react-navigation';
-import { useNavigation, useNavigationParam } from 'react-navigation-hooks';
-import { createStackNavigator } from 'react-navigation-stack';
+  createStackNavigator,
+  StackNavigationProp,
+} from '@react-navigation/stack';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Dimensions, View, Image, AsyncStorage } from 'react-native';
+import { Dimensions, Alert, View, Image, AsyncStorage } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import uuidv1 from 'uuid/v1';
-import theme, { darkMode } from '../../../config/theme';
-import { deleteItem } from '../../../lib/item';
-import {
-  Context as ItemsContext,
-  ContextProps as ItemContextProps,
-} from '../../../containers/Items';
-import {
-  Context as ThemeContext,
-  ContextProps as ThemeContextProps,
-} from '../../../containers/Theme';
-import { Context as AuthContext } from '../../../containers/Auth';
-import { SelectItem } from '../../../domain/item';
-import { useDidMount } from '../../../hooks/index';
+import theme, { darkMode } from 'config/theme';
+import { deleteItem } from 'lib/item';
+import { RootStackParamList } from 'lib/navigation';
+import { useItems, ContextProps as ItemContextProps } from 'containers/Items';
+import { useTheme, ContextProps as ThemeContextProps } from 'containers/Theme';
+import { useAuth } from 'containers/Auth';
+import { SelectItem } from 'domain/item';
+import { useDidMount } from 'hooks/index';
 import Hint from '../../atoms/Hint/Hint';
-import Schedule from '../Schedule/Switch';
-import EditPlan from '../EditPlan/Connected';
+import Schedule, { ScheduleNavigationOptions } from '../Schedule/Switch';
 import Page from './Page';
 
 const deviceHeight = Dimensions.get('window').height;
@@ -54,9 +39,7 @@ type PlanState = {
 const LogoTitle = () => (
   <Image
     source={
-      darkMode()
-        ? require('../../../img/header_dark.png')
-        : require('../../../img/header.png')
+      darkMode() ? require('img/header_dark.png') : require('img/header.png')
     }
     style={styles.logo}
     resizeMode="contain"
@@ -67,23 +50,30 @@ type HomeScreeState = {
   mask: boolean;
 };
 
-const HomeScreen = () => {
-  const navigation = useContext(NavigationContext);
-  const { items, about, refreshData, itemsLoading } = useContext(ItemsContext);
-  const { rerendering, onFinishRerendering } = useContext(ThemeContext);
+type ScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
+type ScreenRouteProp = RouteProp<RootStackParamList, 'Home'>;
+
+type Props = {
+  navigation: ScreenNavigationProp;
+  route: ScreenRouteProp;
+};
+
+const HomeScreen = ({ navigation, route }: Props) => {
+  const { items, about, refreshData, itemsLoading } = useItems();
+  const { rerendering, onFinishRerendering } = useTheme();
   const [state, setState] = useState<HomeScreeState>({ mask: false });
 
-  const refresh = useNavigationParam('refresh') || '';
+  const refresh = route?.params?.refresh || '';
 
   useDidMount(() => {
-    navigation.setParams({
-      onPushCreatePlan: async () => {
-        setState({ mask: false });
+    const onPushCreatePlan = async () => {
+      setState({ mask: false });
 
-        await AsyncStorage.setItem('FIRST_CRAEATE_ITEM', 'true');
-        navigation.navigate('CreatePlan');
-      },
-    });
+      await AsyncStorage.setItem('FIRST_CRAEATE_ITEM', 'true');
+      navigation.navigate('CreatePlan');
+    };
+
+    navigation.setParams({ onPushCreatePlan });
 
     const checkMask = async () => {
       const m = await AsyncStorage.getItem('FIRST_CRAEATE_ITEM');
@@ -100,43 +90,13 @@ const HomeScreen = () => {
         rerendering={rerendering}
         items={items}
         about={about}
-        refresh={refresh}
+        refresh={String(refresh)}
         refreshData={refreshData}
         onFinishRerendering={onFinishRerendering}
       />
       {state.mask && <View style={styles.mask} />}
     </View>
   );
-};
-
-type NavigationOptions = {
-  navigation: NavigationScreenProp<NavigationRoute>;
-};
-
-HomeScreen.navigationOptions = ({ navigation }: NavigationOptions) => {
-  const { params = {} } = navigation.state;
-
-  return {
-    headerTitle: <LogoTitle />,
-    headerStyle: {
-      backgroundColor: theme().mode.header.backgroundColor,
-    },
-    headerRight: (
-      <View style={styles.headerRight}>
-        <Hint onPress={params.onPushCreatePlan} testID="ScheduleAdd">
-          <Feather
-            name="plus"
-            size={28}
-            color={
-              darkMode()
-                ? theme().color.highLightGray
-                : theme().color.lightGreen
-            }
-          />
-        </Hint>
-      </View>
-    ),
-  };
 };
 
 export type HomeScreenPlanType = {
@@ -151,7 +111,7 @@ export type ItemProps = SelectItem & {
 
 const HomeScreenPlan = memo((props: PlanProps) => {
   const { navigate } = useNavigation();
-  const { uid } = useContext(AuthContext);
+  const { uid } = useAuth();
   const [state, setState] = useState<PlanState>({ refresh: '' });
 
   useDidMount(() => {
@@ -212,42 +172,59 @@ const HomeScreenPlan = memo((props: PlanProps) => {
   );
 });
 
-const MainCardNavigator = createStackNavigator(
-  {
-    Home: {
-      screen: HomeScreen,
-    },
-    Schedule: {
-      screen: Schedule,
-    },
-  },
-  {
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: theme().mode.header.backgroundColor,
-      },
-      headerTitleStyle: {
-        color: theme().mode.header.text,
-      },
-      headerTintColor: theme().mode.header.text,
-    },
-  }
-);
+type NavigationOptions = {
+  route: any;
+  navigation: any;
+};
 
-export default createStackNavigator(
-  {
-    MainCardNavigator: {
-      screen: MainCardNavigator,
+const HomeNavigationOptions = ({ route }: NavigationOptions) => {
+  return {
+    headerTitle: () => <LogoTitle />,
+    headerStyle: {
+      backgroundColor: theme().mode.header.backgroundColor,
     },
-    EditPlan: {
-      screen: EditPlan,
-    },
-  },
-  {
-    initialRouteName: 'MainCardNavigator',
-    headerMode: 'none',
-  }
-);
+    headerRight: () => (
+      <View style={styles.headerRight}>
+        <Hint onPress={route.params.onPushCreatePlan} testID="ScheduleAdd">
+          <Feather
+            name="plus"
+            size={28}
+            color={
+              darkMode()
+                ? theme().color.highLightGray
+                : theme().color.lightGreen
+            }
+          />
+        </Hint>
+      </View>
+    ),
+  };
+};
+
+const RootStack = createStackNavigator();
+
+const RootStackScreen = () => {
+  return (
+    <RootStack.Navigator initialRouteName="Home">
+      <RootStack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={HomeNavigationOptions}
+        initialParams={{
+          onPushCreatePlan: () => null,
+          refresh: false,
+        }}
+      />
+      <RootStack.Screen
+        name="Schedule"
+        component={Schedule}
+        options={ScheduleNavigationOptions}
+      />
+    </RootStack.Navigator>
+  );
+};
+
+export default RootStackScreen;
 
 const styles = EStyleSheet.create({
   logo: {

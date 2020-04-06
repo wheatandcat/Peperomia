@@ -1,4 +1,10 @@
-import React, { createContext, useState, useCallback, FC } from 'react';
+import React, {
+  createContext,
+  useState,
+  useCallback,
+  FC,
+  useContext,
+} from 'react';
 import { AsyncStorage, StatusBar } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Appearance, useColorScheme } from 'react-native-appearance';
@@ -128,4 +134,5 @@ const Theme: FC<Props> = props => {
 };
 
 export const Consumer = Context.Consumer;
+export const useTheme = () => useContext(Context);
 export default Theme;

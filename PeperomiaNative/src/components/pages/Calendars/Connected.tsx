@@ -1,85 +1,76 @@
-import React, { Component } from 'react';
-import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
+import React, { memo, useCallback } from 'react';
+import { RouteProp } from '@react-navigation/native';
 import {
-  Consumer as ItemsConsumer,
-  ContextProps,
-} from '../../../containers/Items';
-import theme from '../../../config/theme';
-import Schedule from '../Schedule/Switch';
-import EditPlan from '../EditPlan/Connected';
+  createStackNavigator,
+  StackNavigationProp,
+} from '@react-navigation/stack';
+import { RootStackParamList } from 'lib/navigation';
+import { useItems } from 'containers/Items';
+import Schedule, { ScheduleNavigationOptions } from '../Schedule/Switch';
 import Page from './Page';
 
+type CalendarsScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'Calendars'
+>;
+type ScreenRouteProp = RouteProp<RootStackParamList, 'Calendars'>;
+
 type Props = {
-  navigation: NavigationScreenProp<NavigationRoute>;
+  navigation: CalendarsScreenNavigationProp;
+  route: ScreenRouteProp;
 };
 
-export class Container extends Component<Props> {
-  static navigationOptions = () => {
-    return {
-      header: null,
-    };
-  };
+export type ConnectedType = {
+  onCreate: (date: string) => void;
+  onSchedule: (id: string | number, title: string) => void;
+};
 
-  onCreate = (date: string) => {
-    this.props.navigation.navigate('CreatePlan', {
-      date,
-    });
-  };
+export const Container = memo((props: Props) => {
+  const { calendars, itemsLoading } = useItems();
 
-  onSchedule = (id: string | number, title: string) => {
-    this.props.navigation.navigate('Schedule', { itemId: id, title });
-  };
+  const onCreate = useCallback(
+    (date: string) => {
+      props.navigation.navigate('CreatePlan', {
+        date,
+      });
+    },
+    [props.navigation]
+  );
 
-  render() {
-    return (
-      <ItemsConsumer>
-        {({ calendars, itemsLoading }: ContextProps) => (
-          <Page
-            calendars={calendars || []}
-            loading={itemsLoading || false}
-            onCreate={this.onCreate}
-            onSchedule={this.onSchedule}
-          />
-        )}
-      </ItemsConsumer>
-    );
-  }
-}
+  const onSchedule = useCallback(
+    (id: string | number, title: string) => {
+      props.navigation.navigate('Schedule', { itemId: id, title });
+    },
+    [props.navigation]
+  );
 
-const MainCardNavigator = createStackNavigator(
-  {
-    Container: {
-      screen: Container,
-    },
-    Schedule: {
-      screen: Schedule,
-    },
-  },
-  {
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: theme().mode.header.backgroundColor,
-      },
-      headerTitleStyle: {
-        color: theme().mode.header.text,
-      },
-      headerTintColor: theme().mode.header.text,
-    },
-  }
-);
+  return (
+    <Page
+      calendars={calendars || []}
+      loading={itemsLoading || false}
+      onCreate={onCreate}
+      onSchedule={onSchedule}
+    />
+  );
+});
 
-export default createStackNavigator(
-  {
-    MainCardNavigator: {
-      screen: MainCardNavigator,
-    },
-    EditPlan: {
-      screen: EditPlan,
-    },
-  },
-  {
-    initialRouteName: 'MainCardNavigator',
-    headerMode: 'none',
-  }
-);
+const Stack = createStackNavigator();
+
+const RootStack = () => {
+  return (
+    <Stack.Navigator initialRouteName="Calendars">
+      <Stack.Screen
+        name="Calendars"
+        component={Container}
+        options={{ header: () => null }}
+      />
+      <Stack.Screen
+        name="Schedule"
+        component={Schedule}
+        options={ScheduleNavigationOptions}
+      />
+    </Stack.Navigator>
+  );
+};
+
+export default RootStack;

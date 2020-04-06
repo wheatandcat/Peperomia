@@ -6,7 +6,7 @@
     "app:copy": "cp -r App.app.tsx App.tsx && cp -r src/lib/system/firebase/_product.ts src/lib/system/firebase/index.ts",
     "storybook:copy": "cp -r App.storybook.tsx App.tsx && cp -r src/lib/system/firebase/_product.ts src/lib/system/firebase/index.t",
     "test:copy": "cp -r src/lib/system/firebase/_mock.ts src/lib/system/firebase/index.ts",
-    "start": "npm run app:copy && npm run development:config && expo start --no-minify",
+    "start": "npm run app:copy && npm run development:config && expo start --no-minify -c",
     "android": "npm run app:copy && expo start --android",
     "ios": "npm run app:copy && expo start --ios",
     "eject": "expo eject",
@@ -29,8 +29,9 @@
     "@expo/match-media": "^0.0.0-alpha.5",
     "@expo/react-native-action-sheet": "^3.5.0",
     "@react-native-community/masked-view": "0.1.5",
-    "@react-navigation/native": "^5.0.9",
-    "@react-navigation/stack": "^5.1.1",
+    "@react-navigation/bottom-tabs": "^5.2.5",
+    "@react-navigation/native": "^5.1.4",
+    "@react-navigation/stack": "^5.2.9",
     "@specter/client": "^0.0.22",
     "@specter/specter": "^0.0.22",
     "@types/color": "^3.0.0",
@@ -45,7 +46,6 @@
     "@types/react-native-loading-spinner-overlay": "^0.5.1",
     "@types/react-native-sortable-list": "0.0.8",
     "@types/react-native-swipe-gestures": "^1.0.0",
-    "@types/react-navigation": "^3.4.0",
     "@types/react-responsive": "^8.0.2",
     "@types/styled-components": "^4.1.18",
     "@types/uuid": "^3.4.6",
@@ -89,10 +89,6 @@
     "react-native-swipe-list-view": "^2.1.3",
     "react-native-typescript-transformer": "^1.2.10",
     "react-native-webview": "7.4.3",
-    "react-navigation": "^4.0.10",
-    "react-navigation-hooks": "^1.1.0",
-    "react-navigation-stack": "^1.10.3",
-    "react-navigation-tabs": "^2.7.0",
     "react-responsive": "^8.0.3",
     "sentry-expo": "^2.0.1",
     "styled-components": "^4.1.3",
@@ -124,6 +120,7 @@
     "@typescript-eslint/parser": "^2.14.0",
     "babel-jest": "^25.1.0",
     "babel-plugin-inline-dotenv": "^1.5.0",
+    "babel-plugin-module-resolver": "^4.0.0",
     "babel-preset-expo": "^8.0.0",
     "danger": "^9.2.10",
     "danger-plugin-istanbul-coverage": "^1.6.2",
@@ -172,11 +169,6 @@
       "eslint --fix",
       "git add"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "detox": {
     "test-runner": "jest",

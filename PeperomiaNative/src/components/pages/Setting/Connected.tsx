@@ -1,36 +1,28 @@
 import * as SQLite from 'expo-sqlite';
-import React, { useContext, useState, memo, useCallback } from 'react';
-import { useNavigation } from 'react-navigation-hooks';
-import { createStackNavigator } from 'react-navigation-stack';
+import React, { useState, memo, useCallback } from 'react';
 import { AsyncStorage, Alert } from 'react-native';
-import theme from '../../../config/theme';
-import { db } from '../../../lib/db';
+import { useNavigation } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { navigationOption } from 'lib/navigation';
+import { db } from 'lib/db';
 import {
   deleteSql,
   resetSql,
   resetSqlV100,
   deleteUserSql,
   sqliteMaster,
-} from '../../../lib/db/debug';
-import { select as selectItems } from '../../../lib/db/item';
-import { select as selectItemDetailds } from '../../../lib/db/itemDetail';
-import {
-  Context as AuthContext,
-  ContextProps as AuthContextProps,
-} from '../../../containers/Auth';
-import {
-  Context as FetchContext,
-  ContextProps as FetchContextProps,
-} from '../../../containers/Fetch';
-import {
-  Context as ItemsContext,
-  ContextProps as ItemsContextProps,
-} from '../../../containers/Items';
-import { useDidMount } from '../../../hooks/index';
-import { getFireStore } from '../../../lib/firebase';
-import { resetQuery } from '../../../lib/firestore/debug';
-import { findByUID } from '../../../lib/firestore/item';
-import { setDebugMode, getDebugMode } from '../../../lib/auth';
+} from 'lib/db/debug';
+import { select as selectItems } from 'lib/db/item';
+import { select as selectItemDetailds } from 'lib/db/itemDetail';
+import { useTheme } from 'containers/Theme';
+import { useAuth, ContextProps as AuthContextProps } from 'containers/Auth';
+import { useFetch, ContextProps as FetchContextProps } from 'containers/Fetch';
+import { useItems, ContextProps as ItemsContextProps } from 'containers/Items';
+import { useDidMount } from 'hooks/index';
+import { getFireStore } from 'lib/firebase';
+import { resetQuery } from 'lib/firestore/debug';
+import { findByUID } from 'lib/firestore/item';
+import { setDebugMode, getDebugMode } from 'lib/auth';
 import Tos from '../Tos/Page';
 import Policy from '../Policy/Page';
 import Feedback from '../Feedback/Connected';
@@ -41,9 +33,9 @@ import LoginWithAmazon from '../LoginWithAmazon/Connected';
 import Page from './Page';
 
 const Container = () => {
-  const { loggedIn, logout, uid } = useContext(AuthContext);
-  const { post } = useContext(FetchContext);
-  const { refreshData } = useContext(ItemsContext);
+  const { loggedIn, logout, uid } = useAuth();
+  const { post } = useFetch();
+  const { refreshData } = useItems();
 
   return (
     <Connected
@@ -54,17 +46,6 @@ const Container = () => {
       refreshData={refreshData}
     />
   );
-};
-
-Container.navigationOptions = {
-  title: '設定',
-  headerTitleStyle: {
-    color: theme().mode.header.text,
-  },
-  headerTintColor: theme().mode.header.text,
-  headerStyle: {
-    backgroundColor: theme().mode.header.backgroundColor,
-  },
 };
 
 type ConnectedProps = Pick<ItemsContextProps, 'refreshData'> &
@@ -80,6 +61,7 @@ type State = {
 
 const Connected = memo((props: ConnectedProps) => {
   const { navigate } = useNavigation();
+  const { rerendering, onFinishRerendering } = useTheme();
   const [state, setState] = useState<State>({
     loading: true,
     login: false,
@@ -88,6 +70,11 @@ const Connected = memo((props: ConnectedProps) => {
   });
 
   useDidMount(() => {
+    if (rerendering) {
+      navigate('ScreenSetting');
+      if (onFinishRerendering) onFinishRerendering();
+    }
+
     const check = async () => {
       if (props.loggedIn) {
         const loggedIn = await props.loggedIn();
@@ -170,28 +157,6 @@ const Connected = memo((props: ConnectedProps) => {
     navigate('ScreenSetting');
   }, [navigate]);
 
-  /*
-  const restoreItem = useCallback(async () => {
-    if (!props.uid || !props.refreshData) {
-      return false;
-    }
-
-    setState(s => ({
-      ...s,
-      restoreLoading: true,
-    }));
-
-    await restore(props.uid);
-
-    await props.refreshData();
-
-    setState(s => ({
-      ...s,
-      restoreLoading: false,
-    }));
-  }, [props]);
-  */
-
   const onLogout = useCallback(() => {
     Alert.alert(
       'ログアウトしますか',
@@ -211,7 +176,6 @@ const Connected = memo((props: ConnectedProps) => {
                   restoreLoading: true,
                 }));
 
-                // await restoreItem();
                 await props.logout();
                 await props.refreshData(null);
 
@@ -261,9 +225,6 @@ const Connected = memo((props: ConnectedProps) => {
       return;
     }
 
-    // デバッグ時はオフラインにする
-    // await settingNetwork(false);
-
     const firestore = getFireStore();
     const r = await findByUID(firestore, props.uid);
     console.log(r);
@@ -304,26 +265,53 @@ const Connected = memo((props: ConnectedProps) => {
   );
 });
 
-export default createStackNavigator(
-  {
-    Setting: Container,
-    Tos: Tos,
-    Policy: Policy,
-    Feedback: Feedback,
-    SignIn: SignIn,
-    MyPage: MyPage,
-    ScreenSetting: ScreenSetting,
-    LoginWithAmazon: LoginWithAmazon,
-  },
-  {
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: theme().mode.header.backgroundColor,
-      },
-      headerTitleStyle: {
-        color: theme().mode.header.text,
-      },
-      headerTintColor: theme().mode.header.text,
-    },
-  }
-);
+const Stack = createStackNavigator();
+
+const RootStack = () => {
+  return (
+    <Stack.Navigator initialRouteName="Setting">
+      <Stack.Screen
+        name="Setting"
+        component={Container}
+        options={navigationOption('設定')}
+      />
+      <Stack.Screen
+        name="Tos"
+        component={Tos}
+        options={navigationOption('利用規約')}
+      />
+      <Stack.Screen
+        name="Policy"
+        component={Policy}
+        options={navigationOption('プライバシーポリシー')}
+      />
+      <Stack.Screen
+        name="Feedback"
+        component={Feedback}
+        options={navigationOption('フィードバック')}
+      />
+      <Stack.Screen
+        name="SignIn"
+        component={SignIn}
+        options={navigationOption('ユーザー登録 / ログイン')}
+      />
+      <Stack.Screen
+        name="MyPage"
+        component={MyPage}
+        options={navigationOption('マイページ')}
+      />
+      <Stack.Screen
+        name="ScreenSetting"
+        component={ScreenSetting}
+        options={navigationOption('画面設定')}
+      />
+      <Stack.Screen
+        name="LoginWithAmazon"
+        component={LoginWithAmazon}
+        options={navigationOption('Amazonアカウント連携')}
+      />
+    </Stack.Navigator>
+  );
+};
+
+export default RootStack;

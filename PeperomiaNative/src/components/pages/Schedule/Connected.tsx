@@ -1,28 +1,17 @@
-import React, {
-  useState,
-  memo,
-  useCallback,
-  useEffect,
-  useContext,
-} from 'react';
+import React, { useState, memo, useCallback, useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { Alert } from 'react-native';
-import {
-  NavigationScreenProp,
-  NavigationRoute,
-  NavigationContext,
-} from 'react-navigation';
-import { useNavigation } from 'react-navigation-hooks';
-import { Context as AuthContext } from '../../../containers/Auth';
-import { SelectItemDetail } from '../../../domain/itemDetail';
-import { getItemDetails, updateItemDetail } from '../../../lib/itemDetail';
-import { useDidMount } from '../../../hooks/index';
-import { SwitchType } from './Switch';
+import { useAuth } from 'containers/Auth';
+import { SelectItemDetail } from 'domain/itemDetail';
+import { getItemDetails, updateItemDetail } from 'lib/itemDetail';
+import { useDidMount } from 'hooks/index';
+import { SwitchType, SwitchProps } from './Switch';
 import Page from './Page';
 
-type Props = Pick<SwitchType, 'onAdd' | 'onSort' | 'onDelete'> & {
-  navigation: NavigationScreenProp<NavigationRoute>;
-  itemDetails: SelectItemDetail[];
-};
+type Props = Pick<SwitchType, 'onAdd' | 'onSort' | 'onDelete'> &
+  SwitchProps & {
+    itemDetails: SelectItemDetail[];
+  };
 
 type State = {
   itemDetails: SelectItemDetail[];
@@ -40,8 +29,9 @@ export default memo((props: Props) => {
     refresh: '',
     loading: true,
   });
-  const navigation = useContext(NavigationContext);
-  const { uid } = useContext(AuthContext);
+  const itemId = props.route.params.itemId || '1';
+  const refresh = props.route.params.refresh || '';
+  const { uid } = useAuth();
   const { navigate } = useNavigation();
 
   const setitemDetails = useCallback(
@@ -53,7 +43,7 @@ export default memo((props: Props) => {
 
       // priorityが重複していない
       if (prioritys.length === uniquePrioritys.length) {
-        navigation.setParams({
+        props.navigation.setParams({
           itemDetails: data,
         });
 
@@ -96,12 +86,12 @@ export default memo((props: Props) => {
         loading: false,
       }));
     },
-    [navigation, props.navigation, uid]
+    [props.navigation, uid]
   );
 
   const getData = useCallback(
-    async (itemId: string) => {
-      const itemDetails = await getItemDetails(uid, String(itemId));
+    async (tmpItemId: string) => {
+      const itemDetails = await getItemDetails(uid, String(tmpItemId));
 
       setitemDetails(itemDetails);
     },
@@ -109,7 +99,6 @@ export default memo((props: Props) => {
   );
 
   useDidMount(() => {
-    const itemId = props.navigation.getParam('itemId', '1');
     if (props.itemDetails.length > 0) {
       setitemDetails(props.itemDetails);
     } else {
@@ -118,9 +107,6 @@ export default memo((props: Props) => {
   });
 
   useEffect(() => {
-    const refresh = props.navigation.getParam('refresh', '');
-    const itemId = props.navigation.getParam('itemId', '1');
-
     if (state.refresh === refresh) {
       return;
     }
@@ -131,18 +117,16 @@ export default memo((props: Props) => {
     }));
 
     getData(String(itemId));
-  }, [getData, props.navigation, state]);
+  }, [getData, props.navigation, state, itemId, refresh]);
 
   const onScheduleDetail = useCallback(
     (id: string) => {
-      const itemId = props.navigation.getParam('itemId', '1');
-
       navigate('ScheduleDetail', {
         scheduleDetailId: id,
         refreshData: () => getData(String(itemId)),
       });
     },
-    [getData, navigate, props.navigation]
+    [getData, navigate, itemId]
   );
 
   return (

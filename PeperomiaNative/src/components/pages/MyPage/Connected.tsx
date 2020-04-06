@@ -1,36 +1,32 @@
-import React, { Component, useContext } from 'react';
-import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
+import React, { Component } from 'react';
 import { Alert, Dimensions } from 'react-native';
 import Toast from 'react-native-root-toast';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import 'dayjs/locale/ja';
-import { backup, restore } from '../../../lib/backup';
-import theme from '../../../config/theme';
-import {
-  Context as FetchContext,
-  ContextProps as FetchContextProps,
-} from '../../../containers/Fetch';
-import {
-  Context as AuthContext,
-  ContextProps as AuthContextProps,
-} from '../../../containers/Auth';
-import {
-  Context as ItemsContext,
-  ContextProps as ItemsContextProps,
-} from '../../../containers/Items';
+import { RouteProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from 'lib/navigation';
+import { backup, restore } from 'lib/backup';
+import { useFetch, ContextProps as FetchContextProps } from 'containers/Fetch';
+import { useAuth, ContextProps as AuthContextProps } from 'containers/Auth';
+import { useItems, ContextProps as ItemsContextProps } from 'containers/Items';
 import Page from './Page';
 
 dayjs.extend(advancedFormat);
 
+type ScreenNavigationProp = StackNavigationProp<RootStackParamList, 'MyPage'>;
+type ScreenRouteProp = RouteProp<RootStackParamList, 'MyPage'>;
+
 type Props = {
-  navigation: NavigationScreenProp<NavigationRoute>;
+  navigation: ScreenNavigationProp;
+  route: ScreenRouteProp;
 };
 
 const MyPageScreen = (props: Props) => {
-  const { email, uid } = useContext(AuthContext);
-  const { post } = useContext(FetchContext);
-  const { refreshData } = useContext(ItemsContext);
+  const { email, uid } = useAuth();
+  const { post } = useFetch();
+  const { refreshData } = useItems();
 
   return (
     <Connected
@@ -43,27 +39,12 @@ const MyPageScreen = (props: Props) => {
   );
 };
 
-MyPageScreen.navigationOptions = () => {
-  return {
-    title: 'マイページ',
-    headerBackTitle: '',
-    headerTitleStyle: {
-      color: theme().mode.header.text,
-    },
-    headerTintColor: theme().mode.header.text,
-    headerStyle: {
-      backgroundColor: theme().mode.header.backgroundColor,
-    },
-  };
-};
-
 export default MyPageScreen;
 
-type ConnectedProps = Pick<ItemsContextProps, 'refreshData'> &
+type ConnectedProps = Props &
+  Pick<ItemsContextProps, 'refreshData'> &
   Pick<AuthContextProps, 'uid' | 'email'> &
-  Pick<FetchContextProps, 'post'> & {
-    navigation: NavigationScreenProp<NavigationRoute>;
-  };
+  Pick<FetchContextProps, 'post'>;
 
 type State = {
   loading: boolean;

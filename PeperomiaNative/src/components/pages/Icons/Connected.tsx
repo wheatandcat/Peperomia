@@ -1,79 +1,85 @@
-import React, { Component } from 'react';
-import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
+import React, { memo, useCallback } from 'react';
+import { RouteProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from 'lib/navigation';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { TouchableOpacity, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import theme from 'config/theme';
+import { useDidMount } from 'hooks/index';
 import Page from './Page';
-import theme from '../../../config/theme';
+
+type ScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Icons'>;
+type ScreenRouteProp = RouteProp<RootStackParamList, 'Icons'>;
 
 type Props = {
-  navigation: NavigationScreenProp<NavigationRoute>;
+  navigation: ScreenNavigationProp;
+  route: ScreenRouteProp;
 };
 
-export default class extends Component<Props> {
-  static navigationOptions = ({
-    navigation,
-  }: {
-    navigation: NavigationScreenProp<NavigationRoute>;
-  }) => {
-    const { params = {} } = navigation.state;
+const Connected = (props: Props) => {
+  const onDismiss = props.route?.params?.onDismiss;
+  const onSelectIcon = props.route?.params?.onSelectIcon;
+  const kind = props.route?.params?.kind || '';
+  const defaultIcon = props.route?.params?.defaultIcon || false;
+  const photo = props.route?.params?.photo || false;
 
-    return {
-      title: 'アイコン設定',
-      headerStyle: {
-        borderBottomWidth: 0,
-        backgroundColor: theme().mode.header.backgroundColor,
-      },
-      headerTintColor: theme().mode.header.text,
-      headerTitleStyle: {
-        color: theme().mode.header.text,
-      },
-      headerLeft: (
-        <View style={styles.headerLeft}>
-          <TouchableOpacity onPress={params.onDismiss}>
-            <MaterialCommunityIcons
-              name="close"
-              size={25}
-              color={theme().mode.text}
-            />
-          </TouchableOpacity>
-        </View>
-      ),
-    };
-  };
-
-  componentDidMount() {
-    const onDismiss = this.props.navigation.getParam('onDismiss', () => {});
-
-    this.props.navigation.setParams({
-      onDismiss: onDismiss,
+  useDidMount(() => {
+    props.navigation.setParams({
+      onDismiss,
     });
-  }
+  });
 
-  onSelectIcon = (kind: string) => {
-    const onSelectIcon = this.props.navigation.getParam(
-      'onSelectIcon',
-      () => {}
-    );
+  const onSelectIconItem = useCallback(
+    (selectedKind: string) => {
+      if (onSelectIcon) {
+        onSelectIcon(selectedKind);
+      }
+    },
+    [onSelectIcon]
+  );
 
-    onSelectIcon(kind);
+  return (
+    <Page
+      kind={kind}
+      defaultIcon={defaultIcon}
+      photo={photo}
+      onSelectIcon={onSelectIconItem}
+    />
+  );
+};
+
+export default memo(Connected);
+
+type NavigationOptions = {
+  route: any;
+  navigation: any;
+};
+
+export const IconsNavigationOptions = ({ route }: NavigationOptions) => {
+  return {
+    title: 'アイコン設定',
+    headerStyle: {
+      borderBottomWidth: 0,
+      backgroundColor: theme().mode.header.backgroundColor,
+    },
+    headerTintColor: theme().mode.header.text,
+    headerTitleStyle: {
+      color: theme().mode.header.text,
+    },
+    headerLeft: () => (
+      <View style={styles.headerLeft}>
+        <TouchableOpacity onPress={route.params.onDismiss}>
+          <MaterialCommunityIcons
+            name="close"
+            size={25}
+            color={theme().mode.text}
+          />
+        </TouchableOpacity>
+      </View>
+    ),
   };
-
-  render() {
-    const kind = this.props.navigation.getParam('kind', null);
-    const defaultIcon = this.props.navigation.getParam('defaultIcon', false);
-    const photo = this.props.navigation.getParam('photo', false);
-
-    return (
-      <Page
-        kind={kind}
-        defaultIcon={defaultIcon}
-        photo={photo}
-        onSelectIcon={this.onSelectIcon}
-      />
-    );
-  }
-}
+};
 
 const styles = EStyleSheet.create({
   headerLeft: {

@@ -80,16 +80,16 @@ export const ScheduleDetailPage: FC<Props> = memo(props => {
     );
   };
 
+  if (props.loading) {
+    return <Loading />;
+  }
+
   const kind = props.kind;
   const config = KINDS[kind];
   const ss = s.schedule;
   const bc = Color(config.backgroundColor)
     .lighten(ss.backgroundColorAlpha)
     .toString();
-
-  if (props.loading) {
-    return <Loading />;
-  }
 
   return (
     <>

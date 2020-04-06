@@ -1,5 +1,5 @@
 import React from 'react';
-import { SelectItemDetail } from '../../../domain/itemDetail';
+import { SelectItemDetail } from 'domain/itemDetail';
 import Page from '../../templates/SortableSchedule/Page';
 import { SwitchType } from '../Schedule/Switch';
 

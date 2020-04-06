@@ -1,6 +1,7 @@
 import React, { useState, memo, useCallback, useMemo } from 'react';
-import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
-import { View, Share, AsyncStorage, Alert } from 'react-native';
+import { RouteProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { Share, AsyncStorage, Alert, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {
   useActionSheet,
@@ -8,23 +9,18 @@ import {
 } from '@expo/react-native-action-sheet';
 import uuidv1 from 'uuid/v1';
 import { Button } from 'react-native-elements';
-import theme from '../../../config/theme';
-import { Item, SelectItem } from '../../../domain/item';
-import { SelectItemDetail } from '../../../domain/itemDetail';
-import { updateItemDetail, getItemDetails } from '../../../lib/itemDetail';
-import { deleteItem, getItemByID } from '../../../lib/item';
-import { closeShareLink, crateShareLink } from '../../../lib/share';
-import { isShare } from '../../../lib/firestore/plan';
-import getShareText from '../../../lib/getShareText';
-import {
-  useItems,
-  ContextProps as ItemsContextProps,
-} from '../../../containers/Items';
-import {
-  useAuth,
-  ContextProps as AuthContextProps,
-} from '../../../containers/Auth';
-import { useDidMount } from '../../../hooks/index';
+import { Item, SelectItem } from 'domain/item';
+import { SelectItemDetail } from 'domain/itemDetail';
+import { updateItemDetail, getItemDetails } from 'lib/itemDetail';
+import { RootStackParamList } from 'lib/navigation';
+import { deleteItem, getItemByID } from 'lib/item';
+import { closeShareLink, crateShareLink } from 'lib/share';
+import { isShare } from 'lib/firestore/plan';
+import getShareText from 'lib/getShareText';
+import { useItems, ContextProps as ItemsContextProps } from 'containers/Items';
+import { useAuth, ContextProps as AuthContextProps } from 'containers/Auth';
+import { useDidMount } from 'hooks/index';
+import theme from 'config/theme';
 import SortableSchedule from '../SortableSchedule/Connected';
 import Schedule from './Connected';
 import HeaderLeft from './HeaderLeft';
@@ -37,8 +33,12 @@ type State = Pick<Item, 'title'> & {
   mode: string;
 };
 
-type SwitchProps = {
-  navigation: NavigationScreenProp<NavigationRoute>;
+type ScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Schedule'>;
+export type ScreenRouteProp = RouteProp<RootStackParamList, 'Schedule'>;
+
+export type SwitchProps = {
+  navigation: ScreenNavigationProp;
+  route: ScreenRouteProp;
 };
 
 type Props = SwitchProps &
@@ -97,6 +97,7 @@ const Switch = (props: SwitchProps) => {
 
 export const Connected = memo((props: Props) => {
   const [state, setState] = useState<State>(initState);
+  const itemId = props.route.params.itemId || '1';
 
   const onEditPlan = useCallback(
     (item: SelectItem) => {
@@ -108,7 +109,11 @@ export const Connected = memo((props: Props) => {
   );
 
   const onShare = useCallback(
-    async (title: string, itemDetails: SelectItemDetail[]) => {
+    async (title?: string, itemDetails?: SelectItemDetail[]) => {
+      if (!title || !itemDetails) {
+        return;
+      }
+
       try {
         const message = getShareText(itemDetails);
 
@@ -124,7 +129,6 @@ export const Connected = memo((props: Props) => {
   );
 
   const onSort = useCallback(async () => {
-    const itemId = props.navigation.getParam('itemId', '1');
     const itemDetails = await getItemDetails(props.uid, String(itemId));
 
     saveItems = itemDetails;
@@ -138,7 +142,7 @@ export const Connected = memo((props: Props) => {
     props.navigation.setParams({
       mode: 'sort',
     });
-  }, [props.navigation, props.uid]);
+  }, [props.navigation, props.uid, itemId]);
 
   const onShow = useCallback(() => {
     setState(s => ({
@@ -176,7 +180,6 @@ export const Connected = memo((props: Props) => {
 
   const onAdd = useCallback(
     (itemDetails: SelectItemDetail[]) => {
-      const itemId = props.navigation.getParam('itemId', '1');
       props.navigation.navigate('AddScheduleDetail', {
         itemId,
         priority: itemDetails.length + 1,
@@ -188,7 +191,7 @@ export const Connected = memo((props: Props) => {
         },
       });
     },
-    [props.navigation]
+    [props.navigation, itemId]
   );
 
   const onCrateShareLink = useCallback(
@@ -203,7 +206,11 @@ export const Connected = memo((props: Props) => {
   );
 
   const onOpenActionSheet = useCallback(
-    async (itemId: string, title: string, itemDetails: SelectItemDetail[]) => {
+    async (title?: string, itemDetails?: SelectItemDetail[]) => {
+      if (!title || !itemDetails) {
+        return;
+      }
+
       const userID = await AsyncStorage.getItem('userID');
       if (userID) {
         const uuid = userID + itemId;
@@ -264,12 +271,10 @@ export const Connected = memo((props: Props) => {
         }
       );
     },
-    [onCrateShareLink, onShare, props]
+    [onCrateShareLink, onShare, props, itemId]
   );
 
   const onDelete = useCallback(async () => {
-    const itemId = props.navigation.getParam('itemId', '1');
-
     const ok = await deleteItem(props.uid, { id: itemId });
     if (!ok) {
       Alert.alert('削除に失敗しました');
@@ -280,7 +285,7 @@ export const Connected = memo((props: Props) => {
       props.refreshData();
       props.navigation.goBack();
     }
-  }, [props]);
+  }, [itemId, props]);
 
   const onChangeItems = useCallback((data: SelectItemDetail[]) => {
     saveItems = data;
@@ -296,7 +301,6 @@ export const Connected = memo((props: Props) => {
     });
 
     const getData = async () => {
-      const itemId = props.navigation.getParam('itemId', '1');
       const item = await getItemByID(props.uid, String(itemId));
 
       setState(s => ({
@@ -329,6 +333,7 @@ export const Connected = memo((props: Props) => {
   return (
     <Schedule
       navigation={props.navigation}
+      route={props.route}
       itemDetails={state.itemDetails}
       onAdd={onAdd}
       onSort={onSort}
@@ -337,19 +342,20 @@ export const Connected = memo((props: Props) => {
   );
 });
 
+export default Switch;
+
 type NavigationOptions = {
-  navigation: NavigationScreenProp<NavigationRoute>;
+  route: any;
+  navigation: any;
 };
 
-Switch.navigationOptions = ({ navigation }: NavigationOptions) => {
-  const { params = {} } = navigation.state;
-
+export const ScheduleNavigationOptions = ({ route }: NavigationOptions) => {
   return {
-    headerTitle: (
+    headerTitle: () => (
       <Button
         type="clear"
-        title={params.title}
-        onPress={params.onEditPlan}
+        title={route.params.title}
+        onPress={route.params.onEditPlan}
         testID="ScheduleTitleUpdate"
         titleStyle={styles.headerTitle}
       />
@@ -357,35 +363,37 @@ Switch.navigationOptions = ({ navigation }: NavigationOptions) => {
     headerStyle: {
       backgroundColor: theme().mode.header.backgroundColor,
     },
-    headerLeft: (
+    headerLeft: () => (
       <View style={styles.headerLeft}>
-        <HeaderLeft
-          mode={params.mode}
-          onShow={params.onShow}
-          navigation={navigation}
-        />
+        <HeaderLeft mode={route.params.mode} onShow={route.params.onShow} />
       </View>
     ),
-    headerRight: (
+    headerRight: () => (
       <View style={styles.headerRight}>
         <HeaderRight
-          mode={params.mode}
-          onSave={params.onSave}
-          onShare={() => params.onShare(params.title, params.itemDetails)}
-          onOpenActionSheet={() =>
-            params.onOpenActionSheet(
-              params.itemId,
-              params.title,
-              params.itemDetails
-            )
-          }
+          mode={route.params.mode}
+          onSave={route.params.onSave}
+          onShare={() => {
+            if (route.params.onShare) {
+              route.params.onShare(
+                route.params.title,
+                route.params.itemDetails
+              );
+            }
+          }}
+          onOpenActionSheet={() => {
+            if (route.params.onOpenActionSheet) {
+              route.params.onOpenActionSheet(
+                route.params.title,
+                route.params.itemDetails
+              );
+            }
+          }}
         />
       </View>
     ),
   };
 };
-
-export default Switch;
 
 const styles = EStyleSheet.create({
   headerTitle: {

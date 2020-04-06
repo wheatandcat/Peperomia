@@ -5,13 +5,22 @@ import theme from '../../../config/theme';
 import { RightText } from '../../atoms/Header';
 
 type Props = {
-  mode: string;
-  onSave: () => void;
-  onShare: () => void;
-  onOpenActionSheet: () => void;
+  mode?: string;
+  onSave?: () => void;
+  onShare?: () => void;
+  onOpenActionSheet?: () => void;
 };
 
 export default (props: Props) => {
+  if (
+    !props.onSave ||
+    !props.onShare ||
+    !props.onOpenActionSheet ||
+    !props.mode
+  ) {
+    return null;
+  }
+
   if (props.mode === 'edit') {
     return null;
   }

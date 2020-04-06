@@ -5,20 +5,7 @@ exports[`components/pages/Schedule/Switch.tsx Connected 正常に表示されて
   itemDetails={Array []}
   navigation={
     Object {
-      "getParam": [MockFunction] {
-        "calls": Array [
-          Array [
-            "itemId",
-            "1",
-          ],
-        ],
-        "results": Array [
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
-        ],
-      },
+      "getParam": [MockFunction],
       "goBack": [MockFunction],
       "navigate": [MockFunction],
       "setParams": [MockFunction] {
@@ -45,6 +32,14 @@ exports[`components/pages/Schedule/Switch.tsx Connected 正常に表示されて
   onAdd={[Function]}
   onDelete={[Function]}
   onSort={[Function]}
+  route={
+    Object {
+      "params": Object {
+        "itemId": 1,
+        "title": "test",
+      },
+    }
+  }
 />
 `;
 
@@ -59,6 +54,14 @@ exports[`components/pages/Schedule/Switch.tsx Switch 正常に表示されてい
     }
   }
   refreshData={[MockFunction]}
+  route={
+    Object {
+      "params": Object {
+        "itemId": 1,
+        "title": "test",
+      },
+    }
+  }
   showActionSheetWithOptions={[Function]}
   uid="1"
 />

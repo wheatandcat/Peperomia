@@ -15,10 +15,17 @@ describe('components/pages/Schedule/Switch.tsx', () => {
     let wrapper: ShallowWrapper;
 
     const navigate = jest.fn();
+    const route = {
+      params: {
+        itemId: 1,
+        title: 'test',
+      },
+    };
     const getParam = jest.fn();
     const setParams = jest.fn();
 
     const propsData: any = () => ({
+      route,
       navigation: {
         navigate,
         getParam,
@@ -58,10 +65,17 @@ describe('components/pages/Schedule/Switch.tsx', () => {
     const setParams = jest.fn();
     const showActionSheetWithOptions = jest.fn();
 
+    const route = {
+      params: {
+        itemId: 1,
+        title: 'test',
+      },
+    };
     const propsData: any = () => ({
       uid: '1',
       refreshData: jest.fn(),
       showActionSheetWithOptions,
+      route,
       navigation: {
         navigate,
         getParam,

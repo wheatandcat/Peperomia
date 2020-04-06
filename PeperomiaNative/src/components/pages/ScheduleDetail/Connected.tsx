@@ -1,20 +1,28 @@
-import React, { FC, useState, memo, useCallback, useContext } from 'react';
+import React, { FC, useState, memo, useCallback } from 'react';
 import { Alert } from 'react-native';
-import { NavigationScreenProp, NavigationRoute } from 'react-navigation';
+import { RouteProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import uuidv1 from 'uuid/v1';
-import { Item } from '../../../domain/item';
-import { SelectItemDetail } from '../../../domain/itemDetail';
-import { getItemByID } from '../../../lib/item';
+import { Item } from 'domain/item';
+import { SelectItemDetail } from 'domain/itemDetail';
+import { getItemByID } from 'lib/item';
 import {
   sortItemDetail,
   getItemDetailByID,
   getItemDetails,
   deleteItemDetail,
-} from '../../../lib/itemDetail';
-import { ContextProps as ItemContextProps } from '../../../containers/Items';
-import { Context as AuthContext } from '../../../containers/Auth';
-import { useDidMount } from '../../../hooks/index';
+} from 'lib/itemDetail';
+import { RootStackParamList } from 'lib/navigation';
+import { ContextProps as ItemContextProps } from 'containers/Items';
+import { useAuth } from 'containers/Auth';
+import { useDidMount } from 'hooks/index';
 import Page from './Page';
+
+type ScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'ScheduleDetail'
+>;
+type ScreenRouteProp = RouteProp<RootStackParamList, 'ScheduleDetail'>;
 
 type State = {
   item: Item;
@@ -22,7 +30,8 @@ type State = {
 };
 
 type Props = Pick<ItemContextProps, 'refreshData'> & {
-  navigation: NavigationScreenProp<NavigationRoute>;
+  navigation: ScreenNavigationProp;
+  route: ScreenRouteProp;
   onEdit: (
     title: string,
     kind: string,
@@ -55,16 +64,12 @@ const initState = {
 };
 
 const ScheduleDetailConnected: FC<Props> = memo(props => {
-  const { uid } = useContext(AuthContext);
+  const { uid } = useAuth();
   const [state, setState] = useState<State>(initState);
+  const scheduleDetailId = props.route.params.scheduleDetailId || '1';
 
   useDidMount(() => {
     const getData = async () => {
-      const scheduleDetailId = props.navigation.getParam(
-        'scheduleDetailId',
-        '1'
-      );
-
       const itemDetail = await getItemDetailByID(uid, String(scheduleDetailId));
       const item = await getItemByID(uid, String(itemDetail?.itemId));
 

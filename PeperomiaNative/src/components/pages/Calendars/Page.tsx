@@ -22,7 +22,7 @@ import GlobalStyles from '../../../GlobalStyles';
 import ImageDay from '../../organisms/Calendars/Image';
 import DayText from '../../organisms/Calendars/DayText';
 import CalendarImage from '../../molecules/Calendar/Image';
-import { Container } from './Connected';
+import { ConnectedType } from './Connected';
 
 dayjs.extend(advancedFormat);
 
@@ -77,7 +77,7 @@ const images = [
   require('../../../img/months/december.png'),
 ];
 
-type Props = Pick<Container, 'onCreate' | 'onSchedule'> & {
+type Props = ConnectedType & {
   loading: boolean;
   calendars: SelectCalendar[];
 };

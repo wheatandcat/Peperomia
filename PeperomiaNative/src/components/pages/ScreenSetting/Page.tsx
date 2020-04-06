@@ -5,7 +5,6 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 type Props = {
   darkMode: boolean;
-  loading: boolean;
   onChange: (val: boolean) => void;
 };
 
@@ -17,7 +16,6 @@ export default (props: Props) => {
         title="ダークモード"
         switch={{
           value: props.darkMode,
-          disabled: props.loading,
           onValueChange: props.onChange,
         }}
         containerStyle={styles.menu}
