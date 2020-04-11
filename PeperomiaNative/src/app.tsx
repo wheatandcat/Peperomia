@@ -23,6 +23,7 @@ import FetchProvider from './containers/Fetch';
 import ItemsProvider from './containers/Items';
 import ThemeProvider from './containers/Theme';
 import './lib/firebase';
+import { RootStackParamList } from './lib/navigation';
 import theme from './config/theme';
 import Home from './components/pages/Home/Connected';
 import Setting from './components/pages/Setting/Connected';
@@ -149,7 +150,7 @@ const tabNavigationOptions = ({
   },
 });
 
-const RootStack = createStackNavigator();
+const RootStack = createStackNavigator<RootStackParamList>();
 
 const RootStackScreen = () => {
   return (

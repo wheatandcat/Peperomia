@@ -54,7 +54,7 @@ export const Container = memo((props: Props) => {
   );
 });
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<RootStackParamList>();
 
 const RootStack = () => {
   return (

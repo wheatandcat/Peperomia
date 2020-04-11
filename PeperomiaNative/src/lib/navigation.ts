@@ -1,4 +1,5 @@
 import theme from 'config/theme';
+
 import { SelectItemDetail } from 'domain/itemDetail';
 
 export const navigationOption = (title: string) => ({
@@ -13,6 +14,7 @@ export const navigationOption = (title: string) => ({
 });
 
 export type RootStackParamList = {
+  Main: undefined;
   Home: { refresh: boolean; onPushCreatePlan?: () => Promise<void> };
   CreatePlan: {
     date?: string;
@@ -24,6 +26,9 @@ export type RootStackParamList = {
     priority?: number;
     onSave?: () => void;
   };
+  Setting: undefined;
+  Tos: undefined;
+  Policy: undefined;
   ScreenSetting: undefined;
   Schedule: {
     itemId: string | number;
@@ -50,8 +55,8 @@ export type RootStackParamList = {
   };
   Icons: {
     kind?: string;
-    onSelectIcon: (kind: string) => void;
-    onDismiss: () => void;
+    onSelectIcon?: (kind: string) => void;
+    onDismiss?: () => void;
     photo?: boolean;
     defaultIcon?: boolean;
   };
