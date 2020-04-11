@@ -2,7 +2,7 @@ import React, { FC, useCallback } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import '@expo/match-media';
+import 'react-native-match-media-polyfill';
 import { useMediaQuery } from 'react-responsive';
 import { whenIPhoneSE } from '../../../lib/responsive';
 import theme from '../../../config/theme';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, Dimensions, StyleSheet } from 'react-native';
-import '@expo/match-media';
+import 'react-native-match-media-polyfill';
 import { useMediaQuery } from 'react-responsive';
 import Color from 'color';
 import theme from '../../../config/theme';

@@ -1,5 +1,6 @@
 import Constants from 'expo-constants';
 import * as SQLite from 'expo-sqlite';
+import 'react-native-match-media-polyfill';
 import React, { Component } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import EStyleSheet from 'react-native-extended-stylesheet';

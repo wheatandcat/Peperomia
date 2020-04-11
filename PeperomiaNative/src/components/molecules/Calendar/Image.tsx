@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { View, Image, ImageSourcePropType } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import '@expo/match-media';
+import 'react-native-match-media-polyfill';
 import { useMediaQuery } from 'react-responsive';
 
 type Props = {
