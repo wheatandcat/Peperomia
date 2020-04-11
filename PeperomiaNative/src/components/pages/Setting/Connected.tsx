@@ -23,6 +23,7 @@ import { getFireStore } from 'lib/firebase';
 import { resetQuery } from 'lib/firestore/debug';
 import { findByUID } from 'lib/firestore/item';
 import { setDebugMode, getDebugMode } from 'lib/auth';
+import { RootStackParamList } from 'lib/navigation';
 import Tos from '../Tos/Page';
 import Policy from '../Policy/Page';
 import Feedback from '../Feedback/Connected';
@@ -265,7 +266,7 @@ const Connected = memo((props: ConnectedProps) => {
   );
 });
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<RootStackParamList>();
 
 const RootStack = () => {
   return (

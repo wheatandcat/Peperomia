@@ -51,12 +51,7 @@ const Connected = (props: Props) => {
 
 export default memo(Connected);
 
-type NavigationOptions = {
-  route: any;
-  navigation: any;
-};
-
-export const IconsNavigationOptions = ({ route }: NavigationOptions) => {
+export const IconsNavigationOptions = ({ route }: Props) => {
   return {
     title: 'アイコン設定',
     headerStyle: {

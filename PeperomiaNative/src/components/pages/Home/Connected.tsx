@@ -172,36 +172,37 @@ const HomeScreenPlan = memo((props: PlanProps) => {
   );
 });
 
-type NavigationOptions = {
-  route: any;
-  navigation: any;
-};
-
-const HomeNavigationOptions = ({ route }: NavigationOptions) => {
+const HomeNavigationOptions = ({ route }: Props) => {
   return {
     headerTitle: () => <LogoTitle />,
     headerStyle: {
       backgroundColor: theme().mode.header.backgroundColor,
     },
-    headerRight: () => (
-      <View style={styles.headerRight}>
-        <Hint onPress={route.params.onPushCreatePlan} testID="ScheduleAdd">
-          <Feather
-            name="plus"
-            size={28}
-            color={
-              darkMode()
-                ? theme().color.highLightGray
-                : theme().color.lightGreen
-            }
-          />
-        </Hint>
-      </View>
-    ),
+    headerRight: () => {
+      if (!route.params.onPushCreatePlan) {
+        return null;
+      }
+
+      return (
+        <View style={styles.headerRight}>
+          <Hint onPress={route.params.onPushCreatePlan} testID="ScheduleAdd">
+            <Feather
+              name="plus"
+              size={28}
+              color={
+                darkMode()
+                  ? theme().color.highLightGray
+                  : theme().color.lightGreen
+              }
+            />
+          </Hint>
+        </View>
+      );
+    },
   };
 };
 
-const RootStack = createStackNavigator();
+const RootStack = createStackNavigator<RootStackParamList>();
 
 const RootStackScreen = () => {
   return (
@@ -211,7 +212,6 @@ const RootStackScreen = () => {
         component={HomeScreen}
         options={HomeNavigationOptions}
         initialParams={{
-          onPushCreatePlan: () => null,
           refresh: false,
         }}
       />

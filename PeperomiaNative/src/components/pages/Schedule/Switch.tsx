@@ -344,12 +344,7 @@ export const Connected = memo((props: Props) => {
 
 export default Switch;
 
-type NavigationOptions = {
-  route: any;
-  navigation: any;
-};
-
-export const ScheduleNavigationOptions = ({ route }: NavigationOptions) => {
+export const ScheduleNavigationOptions = ({ route }: SwitchProps) => {
   return {
     headerTitle: () => (
       <Button
