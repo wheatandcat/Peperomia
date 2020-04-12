@@ -26,3 +26,4 @@ config/product.json
 coverage
 src/lib/system/firebase/index.ts
 App.tsx
+web-build

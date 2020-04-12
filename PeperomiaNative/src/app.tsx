@@ -273,7 +273,7 @@ export default class App extends Component<Props, State> {
       return null;
     }
 
-    if (this.state.guide) {
+    if (!this.state.guide) {
       return <AppInfo onDone={this.onDoneGuide} />;
     }
 
