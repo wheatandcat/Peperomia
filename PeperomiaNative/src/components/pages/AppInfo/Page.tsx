@@ -1,10 +1,8 @@
-import 'react-native-match-media-polyfill';
 import React, { FC, useCallback } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import AppIntroSlider, { AppIntroProps } from 'react-native-app-intro-slider';
-import { useMediaQuery } from 'react-responsive';
-import { whenIPhoneSE } from 'lib/responsive';
+import AppIntroSlider from 'react-native-app-intro-slider';
+import { whenIPhoneSE, isTablet } from 'lib/responsive';
 import theme from 'config/theme';
 
 type Props = {
@@ -12,8 +10,6 @@ type Props = {
 };
 
 const AppInfo: FC<Props> = props => {
-  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
-
   const slides: Slide[] = [
     {
       key: 'step1',
@@ -84,60 +80,55 @@ const AppInfo: FC<Props> = props => {
     );
   }, []);
 
-  const renderItem = useCallback(
-    ({ item }: { item: Slide }) => {
-      return (
+  const renderItem = useCallback(({ item }: { item: Slide }) => {
+    return (
+      <View
+        style={[
+          styles.root,
+          {
+            backgroundColor: item.backgroundColor,
+          },
+        ]}
+      >
+        <View style={styles.image}>
+          <Image
+            source={item.image}
+            style={{ width: item.imageWidth }}
+            resizeMode="contain"
+          />
+        </View>
         <View
-          style={[
-            styles.root,
-            {
-              backgroundColor: item.backgroundColor,
-            },
-          ]}
+          style={isTablet ? styles.textContainerForWide : styles.textContainer}
         >
-          <View style={styles.image}>
-            <Image
-              source={item.image}
-              style={{ width: item.imageWidth }}
-              resizeMode="contain"
-            />
-          </View>
-          <View
-            style={
-              isTablet ? styles.textContainerForWide : styles.textContainer
-            }
+          <Text
+            style={[
+              isTablet ? styles.textForWide : styles.text,
+              {
+                color: item.titleColor,
+              },
+            ]}
           >
+            {item.title}
+          </Text>
+        </View>
+        <View style={styles.container}>
+          {item.text.split('\n').map((val: string) => (
             <Text
               style={[
-                isTablet ? styles.textForWide : styles.text,
+                isTablet ? styles.subTextForWide : styles.subText,
                 {
-                  color: item.titleColor,
+                  color: item.textColor,
                 },
               ]}
+              key={val}
             >
-              {item.title}
+              {val}
             </Text>
-          </View>
-          <View style={styles.container}>
-            {item.text.split('\n').map((val: string) => (
-              <Text
-                style={[
-                  isTablet ? styles.subTextForWide : styles.subText,
-                  {
-                    color: item.textColor,
-                  },
-                ]}
-                key={val}
-              >
-                {val}
-              </Text>
-            ))}
-          </View>
+          ))}
         </View>
-      );
-    },
-    [isTablet]
-  );
+      </View>
+    );
+  }, []);
 
   const onDone = useCallback(() => {
     props.onDone();

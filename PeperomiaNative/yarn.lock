@@ -1415,6 +1415,12 @@
     util.promisify "^1.0.0"
     write-file-atomic "^2.3.0"
 
+"@expo/match-media@../../match-media":
+  version "0.0.0-alpha.5"
+  dependencies:
+    css-mediaquery "^0.1.2"
+    expo-screen-orientation "~1.0.0"
+
 "@expo/ngrok-bin-darwin-ia32@2.2.8":
   version "2.2.8"
   resolved "https://registry.yarnpkg.com/@expo/ngrok-bin-darwin-ia32/-/ngrok-bin-darwin-ia32-2.2.8.tgz#46ed6d485a87396acf4af317beeaab7a1f607315"
@@ -3462,6 +3468,14 @@
   integrity sha512-MX7n1wq3G/De15RGAAqnmidzhr2Y9O/ClxPxyqaNg96pGyeXUYPSvujgzEVpLo9oIP4Wn1UETl+rxTN02KEpBw==
   dependencies:
     "@types/react" "*"
+
+"@types/react-native-app-intro-slider@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@types/react-native-app-intro-slider/-/react-native-app-intro-slider-3.0.1.tgz#0b6421f9fbbb7668dba58ac5b56e6f532390cdcb"
+  integrity sha512-LEPIavQvydIUmuXGUhfsqI8IJXujsnfyD6sOFq3UPVlpI4NmJECD3ajYVW9w//X4EJajeti0Y4d5d97D1TOE3A==
+  dependencies:
+    "@types/react" "*"
+    "@types/react-native" "*"
 
 "@types/react-native-calendars@^1.20.7":
   version "1.20.7"
@@ -7862,6 +7876,13 @@ expo-detox-hook@^1.0.10:
     child-process-promise "^2.2.1"
     commander "^2.19.0"
     fs-extra "^7.0.0"
+
+expo-device@~2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/expo-device/-/expo-device-2.1.0.tgz#5ef036a3cf358d925d98cedad47d0e6ab1ed9d0f"
+  integrity sha512-qR3+IgX/KOEQQzJ5H76DUU4hL0lqcR3BxL7v2Dg3DEg+O43XxnsbC1105MnbJHUkCQoQJRnh4mSyMx2ADtf3xg==
+  dependencies:
+    ua-parser-js "^0.7.19"
 
 expo-error-recovery@~1.0.0:
   version "1.0.0"
@@ -14787,10 +14808,10 @@ react-native-animatable@1.3.3:
   dependencies:
     prop-types "^15.7.2"
 
-react-native-app-intro-slider@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-app-intro-slider/-/react-native-app-intro-slider-4.0.0.tgz#f11841ec96bd4ef949750d62c64284980bec8f04"
-  integrity sha512-aQucxBkRpGBDC3NJ85gcPRjlCrQ35l1i00RE7Ta5UIsbHFWkhcFYR0hPyGr9Q8j301A4Q0SqXDDMvF/eCGi+NA==
+react-native-app-intro-slider@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-app-intro-slider/-/react-native-app-intro-slider-3.0.0.tgz#c3620b967503ce410b3d767252392bb6fb2edf97"
+  integrity sha512-2XXUYnSeMYZTLhdRYHSwv8mhoyuEaYxmQfXrWQInH1QvjsnJtKgvORI3bJuJN+tNPg3aut6JYYCNOFsI5of32A==
 
 react-native-appearance@~0.3.3:
   version "0.3.3"

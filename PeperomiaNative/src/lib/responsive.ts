@@ -1,4 +1,5 @@
 import { Dimensions, PixelRatio } from 'react-native';
+import * as Device from 'expo-device';
 
 const devices = {
   iPhoneSe: { width: 640 },
@@ -14,4 +15,13 @@ const maxWidth = (max: number, yes: number, no: number) =>
 const whenIPhoneSE = (yes: number, no: number) =>
   maxWidth(devices.iPhoneSe.width, yes, no);
 
-export { whenIPhoneSE };
+var isTablet = false;
+
+const setDeviceType = async () => {
+  const tablet =
+    (await Device.getDeviceTypeAsync()) === Device.DeviceType.TABLET;
+
+  isTablet = fetchDeviceWidth() > 991 && tablet;
+};
+
+export { whenIPhoneSE, setDeviceType, isTablet };

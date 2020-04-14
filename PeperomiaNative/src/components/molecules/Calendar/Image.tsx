@@ -1,16 +1,15 @@
 import React, { FC } from 'react';
 import { View, Image, ImageSourcePropType } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import 'react-native-match-media-polyfill';
-import { useMediaQuery } from 'react-responsive';
+import { isTablet } from 'lib/responsive';
 
 type Props = {
   source: ImageSourcePropType;
 };
 
-const CalendarImage: FC<Props> = props => {
-  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+console.log(isTablet);
 
+const CalendarImage: FC<Props> = props => {
   return (
     <View style={styles.imageContainer}>
       <Image
@@ -34,9 +33,10 @@ const styles = EStyleSheet.create({
 
   image: {
     width: '95%',
+    height: 200,
   },
   imageForWide: {
-    height: 175,
-    width: 375,
+    width: '95%',
+    height: 200,
   },
 });
