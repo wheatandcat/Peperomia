@@ -1415,12 +1415,6 @@
     util.promisify "^1.0.0"
     write-file-atomic "^2.3.0"
 
-"@expo/match-media@../../match-media":
-  version "0.0.0-alpha.5"
-  dependencies:
-    css-mediaquery "^0.1.2"
-    expo-screen-orientation "~1.0.0"
-
 "@expo/ngrok-bin-darwin-ia32@2.2.8":
   version "2.2.8"
   resolved "https://registry.yarnpkg.com/@expo/ngrok-bin-darwin-ia32/-/ngrok-bin-darwin-ia32-2.2.8.tgz#46ed6d485a87396acf4af317beeaab7a1f607315"
@@ -14905,13 +14899,6 @@ react-native-loading-spinner-overlay@^1.0.1:
   dependencies:
     prop-types "^15.6.2"
 
-react-native-match-media-polyfill@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/react-native-match-media-polyfill/-/react-native-match-media-polyfill-1.0.3.tgz#bdf1b954495cc3a406772b6498490612d823c719"
-  integrity sha512-sSooGWJ42hnSCgp+S2ZNjJUf1d3qvtrKY3dLUaEmsFNw6bjCE+gG52PyfBEJs1Eib3P59E6iLp/4NhP7ysmpJw==
-  dependencies:
-    css-mediaquery "^0.1.2"
-
 react-native-modal-datetime-picker@^7.4.2:
   version "7.6.1"
   resolved "https://registry.yarnpkg.com/react-native-modal-datetime-picker/-/react-native-modal-datetime-picker-7.6.1.tgz#463eaece1af98aa0b2fce00dab6cd203f89b86da"
@@ -14970,10 +14957,10 @@ react-native-safe-area-context@0.7.3:
   resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-0.7.3.tgz#ad6bd4abbabe195332c53810e4ce5851eb21aa2a"
   integrity sha512-9Uqu1vlXPi+2cKW/CW6OnHxA76mWC4kF3wvlqzq4DY8hn37AeiXtLFs2WkxH4yXQRrnJdP6ivc65Lz+MqwRZAA==
 
-react-native-screens@~2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-2.2.0.tgz#cc4cdf17426fdda97ad93a5e812a1899390f1978"
-  integrity sha512-a0VzxOWot7F9B/GQyDSssBRd3jUJazFnTQS61IiyReWB6aHlFhf3Xz10jBRoURXy1EMCDCHgenmTVTkKHpKyqQ==
+react-native-screens@~2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-2.4.0.tgz#7706f24d942dee387626014ee4d96094a3d1b9ce"
+  integrity sha512-7GcXlaj7IIrM4l5Ub7BPTkNQJ2slHGt2bhmfWmW73NTXEv+7pjHlp+JpQO32Yn+O8UQGPFf0rsesfYUdER7ppQ==
   dependencies:
     debounce "^1.2.0"
 
