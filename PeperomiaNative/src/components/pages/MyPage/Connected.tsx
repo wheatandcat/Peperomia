@@ -91,16 +91,16 @@ class Connected extends Component<ConnectedProps, State> {
       const { items, itemDetails, calendars } = await backup();
 
       const request = {
-        items: items.map(item => ({
+        items: items.map((item) => ({
           ...item,
           id: String(item.id),
         })),
-        itemDetails: itemDetails.map(itemDetail => ({
+        itemDetails: itemDetails.map((itemDetail) => ({
           ...itemDetail,
           id: String(itemDetail.id),
           itemId: String(itemDetail.itemId),
         })),
-        calendars: calendars.map(calendar => ({
+        calendars: calendars.map((calendar) => ({
           ...calendar,
           id: String(calendar.id),
           itemId: String(calendar.itemId),
@@ -130,7 +130,7 @@ class Connected extends Component<ConnectedProps, State> {
         delay: 0,
       });
 
-      setTimeout(function() {
+      setTimeout(function () {
         Toast.hide(toast);
       }, 3000);
 
@@ -193,7 +193,7 @@ class Connected extends Component<ConnectedProps, State> {
       });
 
       // You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
-      setTimeout(function() {
+      setTimeout(function () {
         Toast.hide(toast);
       }, 3000);
 

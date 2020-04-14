@@ -77,16 +77,16 @@ const Connected = memo((props: ConnectedProps) => {
     const { items, itemDetails, calendars } = await backup();
 
     const request = {
-      items: items.map(item => ({
+      items: items.map((item) => ({
         ...item,
         id: String(item.id),
       })),
-      itemDetails: itemDetails.map(itemDetail => ({
+      itemDetails: itemDetails.map((itemDetail) => ({
         ...itemDetail,
         id: String(itemDetail.id),
         itemId: String(itemDetail.itemId),
       })),
-      calendars: calendars.map(calendar => ({
+      calendars: calendars.map((calendar) => ({
         ...calendar,
         id: String(calendar.id),
         itemId: String(calendar.itemId),

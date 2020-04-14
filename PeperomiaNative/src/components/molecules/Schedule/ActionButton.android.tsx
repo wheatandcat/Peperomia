@@ -20,7 +20,7 @@ class Page extends Component<Props> {
         options: ['予定を追加する', '予定の順番を変える', '予定を削除する'],
         cancelButtonIndex: 3,
       },
-      buttonIndex => {
+      (buttonIndex) => {
         if (buttonIndex === 0) {
           this.props.onAdd();
         }

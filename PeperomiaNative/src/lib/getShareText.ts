@@ -2,7 +2,7 @@ import { SelectItemDetail } from '../domain/itemDetail';
 
 export default (itemDetails: SelectItemDetail[]): string => {
   const results = itemDetails
-    .map(itemDetail => {
+    .map((itemDetail) => {
       const { title, moveMinutes } = itemDetail;
 
       const moveMinutesText = moveMinutes ? ` : ${moveMinutes}分` : '';

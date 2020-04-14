@@ -50,7 +50,7 @@ const initState = {
   calendars: [],
 };
 
-const Connected: FC<Props> = memo(props => {
+const Connected: FC<Props> = memo((props) => {
   const [state, setState] = useState<State>(initState);
   const { uid } = useContext(AuthContext);
 
@@ -67,7 +67,7 @@ const Connected: FC<Props> = memo(props => {
         },
       ];
 
-      setState(s => ({
+      setState((s) => ({
         ...s,
         about,
         loading: false,
@@ -79,7 +79,7 @@ const Connected: FC<Props> = memo(props => {
 
   const getData = useCallback(
     async (targetUid: UID | false = false) => {
-      setState(s => ({
+      setState((s) => ({
         ...s,
         loading: true,
       }));
@@ -88,13 +88,13 @@ const Connected: FC<Props> = memo(props => {
 
       const items = await getItems(uid2);
 
-      setState(s => ({
+      setState((s) => ({
         ...s,
         items: items,
         about: [],
       }));
 
-      items.map(async val => {
+      items.map(async (val) => {
         const itemDetails = await getItemDetails(uid2, String(val.id));
 
         if (!itemDetails || itemDetails.length === 0) {
@@ -106,7 +106,7 @@ const Connected: FC<Props> = memo(props => {
 
       const calendars = await getCalendars(uid2);
 
-      setState(s => ({
+      setState((s) => ({
         ...s,
         calendars,
         loading: false,

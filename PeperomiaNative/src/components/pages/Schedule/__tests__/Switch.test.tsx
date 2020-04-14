@@ -94,7 +94,7 @@ describe('components/pages/Schedule/Switch.tsx', () => {
           } as any)
       );
 
-      jest.spyOn(React, 'useEffect').mockImplementation(async f => await f());
+      jest.spyOn(React, 'useEffect').mockImplementation(async (f) => await f());
 
       wrapper = shallow(<Connected {...propsData()} />);
     });

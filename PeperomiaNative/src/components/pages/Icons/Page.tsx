@@ -68,7 +68,7 @@ class Page extends Component<Props, State> {
             inputContainerStyle={styles.searchInputContainer}
             leftIconContainerStyle={styles.inputLeftIconContainer}
             containerStyle={styles.inputContainer}
-            onChangeText={text => this.setState({ search: text })}
+            onChangeText={(text) => this.setState({ search: text })}
           />
         </View>
 

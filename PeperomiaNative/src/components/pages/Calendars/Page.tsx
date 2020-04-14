@@ -137,7 +137,7 @@ export default class extends Component<Props, State> {
     if (currentMonth === 0) {
       Animated.timing(this.state.backgroundColor, {
         toValue: 12,
-      }).start(props => {
+      }).start((props) => {
         if (props.finished) {
           this.setState({
             backgroundColor: new Animated.Value(0),
@@ -165,7 +165,7 @@ export default class extends Component<Props, State> {
     if (currentMonth === 11) {
       Animated.timing(this.state.backgroundColor, {
         toValue: -1,
-      }).start(props => {
+      }).start((props) => {
         if (props.finished) {
           this.setState({
             backgroundColor: new Animated.Value(12),
@@ -265,7 +265,7 @@ export default class extends Component<Props, State> {
               <ActivityIndicator size="large" color={theme().mode.text} />
             ) : (
               <Calendar
-                ref={ref => (this.calendar = ref)}
+                ref={(ref) => (this.calendar = ref)}
                 style={{
                   backgroundColor: backgroundColors[currentMonth],
                 }}
@@ -296,7 +296,7 @@ export default class extends Component<Props, State> {
                 }}
                 dayComponent={({ date }) => {
                   const schedule = this.props.calendars.find(
-                    item => item.date === date.dateString
+                    (item) => item.date === date.dateString
                   );
 
                   if (schedule) {

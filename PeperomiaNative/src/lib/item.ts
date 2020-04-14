@@ -23,7 +23,7 @@ export async function getItems(uid: UID): Promise<SelectItem[]> {
     const firestore = getFireStore();
     return (await findByUID(firestore, uid)) as any;
   } else {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       db.transaction((tx: SQLite.SQLTransaction) => {
         select(tx, (data, err) => {
           if (err) {
@@ -44,7 +44,7 @@ export async function getItemByID(uid: UID, id: string): Promise<SelectItem> {
     const firestore = getFireStore();
     return (await findByID(firestore, uid, id)) as any;
   } else {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       db.transaction((tx: SQLite.SQLTransaction) => {
         select1st(tx, id, (data, err) => {
           if (err) {
@@ -79,7 +79,7 @@ export async function createItem(
 
     return response.body.id;
   } else {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       db.transaction((tx: SQLite.SQLTransaction) => {
         insert(tx, item, (insertId, err) => {
           if (err) {
@@ -111,7 +111,7 @@ export async function updateItem(uid: UID, item: UpdateItem): Promise<boolean> {
 
     return true;
   } else {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       db.transaction((tx: SQLite.SQLTransaction) => {
         update(tx, { ...item, id: Number(item.id) }, (_, err) => {
           if (err) {
@@ -143,14 +143,14 @@ export async function deleteItem(uid: UID, item: DeleteItem): Promise<boolean> {
 
     return true;
   } else {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       try {
         db.transaction((tx: SQLite.SQLTransaction) => {
           Promise.all([
             deleteDBItem(tx, String(item.id)),
             deleteItemDBDetail(tx, String(item.id)),
             deleteCalendarDBDetail(tx, String(item.id)),
-          ]).then(function(_) {
+          ]).then(function (_) {
             resolve(true);
           });
         });
@@ -162,7 +162,7 @@ export async function deleteItem(uid: UID, item: DeleteItem): Promise<boolean> {
 }
 
 const deleteDBItem = (tx: SQLite.SQLTransaction, id: string) => {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     delete1st(tx, id, (_, err) => {
       if (err) {
         reject(false);
@@ -176,7 +176,7 @@ const deleteDBItem = (tx: SQLite.SQLTransaction, id: string) => {
 };
 
 const deleteItemDBDetail = (tx: SQLite.SQLTransaction, id: string) => {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     deleteItenDetailByItemId(tx, id, (_, err) => {
       if (err) {
         reject(false);
@@ -190,7 +190,7 @@ const deleteItemDBDetail = (tx: SQLite.SQLTransaction, id: string) => {
 };
 
 const deleteCalendarDBDetail = (tx: SQLite.SQLTransaction, id: string) => {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     deleteCalendarByItemId(tx, id, (_, err) => {
       if (err) {
         reject(false);

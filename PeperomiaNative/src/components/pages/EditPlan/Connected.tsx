@@ -89,12 +89,12 @@ const Connected = memo((props: ConnectedProps) => {
     };
 
     const calendar = (props.calendars || []).find(
-      item => Number(id) === Number(item.itemId)
+      (item) => Number(id) === Number(item.itemId)
     );
 
     if (calendar && calendar.date) {
       input.date = calendar.date;
-      setState(s => ({
+      setState((s) => ({
         ...s,
         ...state,
         calendar,
@@ -102,14 +102,14 @@ const Connected = memo((props: ConnectedProps) => {
     }
 
     const schedule = (props.items || []).find(
-      item => Number(id) === Number(item.id)
+      (item) => Number(id) === Number(item.id)
     );
 
     if (schedule && schedule.title) {
       input.title = schedule.title;
     }
 
-    setState(s => ({
+    setState((s) => ({
       ...s,
       input,
 
@@ -119,7 +119,7 @@ const Connected = memo((props: ConnectedProps) => {
 
   useEffect(() => {
     if (kind !== state.kind) {
-      setState(s => ({
+      setState((s) => ({
         ...s,
         kind,
       }));
@@ -133,7 +133,7 @@ const Connected = memo((props: ConnectedProps) => {
         [name]: value,
       };
 
-      setState(s => ({
+      setState((s) => ({
         ...s,
         input,
       }));
@@ -151,7 +151,7 @@ const Connected = memo((props: ConnectedProps) => {
   const onSave = useCallback(async () => {
     if (state.input.date) {
       const check = (props.calendars || []).find(
-        calendar => calendar.date === state.input.date
+        (calendar) => calendar.date === state.input.date
       );
 
       if (check) {
@@ -259,12 +259,12 @@ const Plan = memo((props: PlanProps) => {
   });
 
   useDidMount(() => {
-    const suggestList = (props.items || []).map(item => ({
+    const suggestList = (props.items || []).map((item) => ({
       title: item.title,
       kind: item.kind,
     }));
 
-    setState(s => ({
+    setState((s) => ({
       ...s,
       suggestList,
     }));

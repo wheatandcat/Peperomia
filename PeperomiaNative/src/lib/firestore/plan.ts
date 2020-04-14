@@ -50,10 +50,7 @@ export const updateShare = async (doc: string, share: boolean) => {
 export const isShare = async (doc: string): Promise<boolean> => {
   const db = getFireStore();
 
-  const documentSnapshot = await db
-    .collection('plans')
-    .doc(doc)
-    .get();
+  const documentSnapshot = await db.collection('plans').doc(doc).get();
 
   const result: any = documentSnapshot.data();
 

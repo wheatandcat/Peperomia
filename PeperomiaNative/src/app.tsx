@@ -96,7 +96,7 @@ const tabOption = ({
   tabBarLabel: ({ focused }) => {
     const routeName = route.name;
 
-    const item = tabNames.find(v => v.name === routeName);
+    const item = tabNames.find((v) => v.name === routeName);
     return (
       <Text style={focused ? styles.tabTitleFold : styles.tabTitle}>
         {item?.screenName || 'home'}

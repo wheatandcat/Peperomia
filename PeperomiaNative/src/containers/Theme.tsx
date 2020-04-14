@@ -32,7 +32,7 @@ export type ContextProps = Partial<
 
 Appearance.getColorScheme();
 
-const Theme: FC<Props> = props => {
+const Theme: FC<Props> = (props) => {
   const colorScheme = useColorScheme();
   const [state, setState] = useState<State>({
     rerendering: false,
@@ -57,7 +57,7 @@ const Theme: FC<Props> = props => {
         setMode(mode);
       }
 
-      setState(s => ({
+      setState((s) => ({
         ...s,
         rerendering: s.rerendering,
         mode: String(mode),
@@ -69,7 +69,7 @@ const Theme: FC<Props> = props => {
   });
 
   const setUnRender = useCallback(() => {
-    setState(s => ({
+    setState((s) => ({
       ...s,
       mode: darkMode() ? 'dark' : 'light',
       rerendering: true,
@@ -78,7 +78,7 @@ const Theme: FC<Props> = props => {
   }, []);
 
   const setRender = useCallback(() => {
-    setState(s => ({
+    setState((s) => ({
       ...s,
       mode: darkMode() ? 'dark' : 'light',
       rerendering: true,
@@ -88,7 +88,7 @@ const Theme: FC<Props> = props => {
 
   const onModeChange = useCallback(
     async (mode: 'light' | 'dark') => {
-      setState(s => ({
+      setState((s) => ({
         ...s,
         mode,
         rerendering: true,
@@ -106,7 +106,7 @@ const Theme: FC<Props> = props => {
   );
 
   const onFinishRerendering = useCallback(() => {
-    setState(s => ({
+    setState((s) => ({
       ...s,
       rerendering: false,
     }));

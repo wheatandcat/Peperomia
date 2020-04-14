@@ -13,12 +13,9 @@ export const findByUID = async (
   db: firebase.firestore.Firestore,
   uid: string
 ): Promise<ItemDetail[]> => {
-  const qs = await db
-    .collection(collectionName)
-    .where('uid', '==', uid)
-    .get();
+  const qs = await db.collection(collectionName).where('uid', '==', uid).get();
 
-  const records: any = qs.docs.map(elem => {
+  const records: any = qs.docs.map((elem) => {
     return elem.data();
   });
 
@@ -37,7 +34,7 @@ export const findByItemID = async (
     .orderBy('priority', 'asc')
     .get();
 
-  const records = qs.docs.map(elem => {
+  const records = qs.docs.map((elem) => {
     return elem.data();
   });
 
@@ -71,7 +68,7 @@ export const findByID = async (
     .limit(1)
     .get();
 
-  const records = qs.docs.map(elem => {
+  const records = qs.docs.map((elem) => {
     return elem.data();
   });
 

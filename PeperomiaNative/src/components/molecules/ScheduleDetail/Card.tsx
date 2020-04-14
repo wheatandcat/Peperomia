@@ -22,7 +22,7 @@ type Props = SelectItemDetail & {
 };
 
 const handleClick = (url: string) => {
-  Linking.canOpenURL(url).then(supported => {
+  Linking.canOpenURL(url).then((supported) => {
     if (supported) {
       Linking.openURL(url);
     } else {
@@ -38,7 +38,7 @@ const handleClick = (url: string) => {
         delay: 0,
       });
 
-      setTimeout(function() {
+      setTimeout(function () {
         Toast.hide(toast);
       }, 3000);
     }

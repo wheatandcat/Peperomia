@@ -133,7 +133,7 @@ export const Connected = memo((props: Props) => {
 
     saveItems = itemDetails;
 
-    setState(s => ({
+    setState((s) => ({
       ...s,
       mode: 'sort',
       itemDetails,
@@ -145,7 +145,7 @@ export const Connected = memo((props: Props) => {
   }, [props.navigation, props.uid, itemId]);
 
   const onShow = useCallback(() => {
-    setState(s => ({
+    setState((s) => ({
       ...s,
       mode: 'show',
     }));
@@ -170,7 +170,7 @@ export const Connected = memo((props: Props) => {
       }
     });
 
-    setState(s => ({
+    setState((s) => ({
       ...s,
       itemDetails: saveItems,
     }));
@@ -227,7 +227,7 @@ export const Connected = memo((props: Props) => {
               destructiveButtonIndex: 1,
               cancelButtonIndex: 3,
             },
-            buttonIndex => {
+            (buttonIndex) => {
               if (buttonIndex === 0) {
                 onCrateShareLink(itemDetails);
               } else if (buttonIndex === 1) {
@@ -246,7 +246,7 @@ export const Connected = memo((props: Props) => {
           options: ['リンクを取得する', 'その他', 'キャンセル'],
           cancelButtonIndex: 2,
         },
-        buttonIndex => {
+        (buttonIndex) => {
           if (buttonIndex === 0) {
             Alert.alert(
               'この予定がWebで公開されます',
@@ -303,7 +303,7 @@ export const Connected = memo((props: Props) => {
     const getData = async () => {
       const item = await getItemByID(props.uid, String(itemId));
 
-      setState(s => ({
+      setState((s) => ({
         ...s,
         item,
       }));

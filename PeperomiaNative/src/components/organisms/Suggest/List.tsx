@@ -15,14 +15,14 @@ type Props = {
 export default (props: Props) => (
   <View style={styles.root}>
     {uniqueSuggests(props.items)
-      .filter(item => {
+      .filter((item) => {
         if (!props.title) {
           return true;
         }
         return item.title.includes(props.title);
       })
       .slice(0, 8)
-      .map(item => (
+      .map((item) => (
         <TouchableOpacity
           style={styles.tap}
           onPress={() => props.onPress(item.kind, item.title)}

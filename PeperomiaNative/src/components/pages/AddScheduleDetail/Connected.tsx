@@ -58,12 +58,12 @@ const Plan = memo((props: PlanProps) => {
   const { uid } = useAuth();
 
   useDidMount(() => {
-    const suggestList = (props.itemDetails || []).map(itemDetail => ({
+    const suggestList = (props.itemDetails || []).map((itemDetail) => ({
       title: itemDetail.title,
       kind: itemDetail.kind,
     }));
 
-    setState(s => ({
+    setState((s) => ({
       ...s,
       suggestList,
     }));
@@ -75,7 +75,7 @@ const Plan = memo((props: PlanProps) => {
     }
 
     if (state.kind !== kind) {
-      setState(s => ({
+      setState((s) => ({
         ...s,
         kind,
         iconSelected: true,

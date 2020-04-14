@@ -13,7 +13,7 @@ type State = {
   visible: boolean;
 };
 
-const Hint: FC<Props> = memo(props => {
+const Hint: FC<Props> = memo((props) => {
   const [state, setState] = useState<State>({
     visible: false,
   });

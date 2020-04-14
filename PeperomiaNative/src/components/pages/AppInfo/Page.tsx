@@ -9,7 +9,7 @@ type Props = {
   onDone: () => void;
 };
 
-const AppInfo: FC<Props> = props => {
+const AppInfo: FC<Props> = (props) => {
   const slides: Slide[] = [
     {
       key: 'step1',

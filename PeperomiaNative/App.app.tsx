@@ -1,4 +1,3 @@
-import 'react-native-match-media-polyfill';
 import React from 'react';
 import App from './src';
 import StoryBookUI from './storybook';

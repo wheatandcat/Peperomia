@@ -23,11 +23,11 @@ export default class extends Component<Props> {
   }
 
   onChangeItems = (nextOrder: DataKey[]) => {
-    const data = nextOrder.map(id => {
-      return this.props.data.find(item => Number(item.id) === Number(id));
+    const data = nextOrder.map((id) => {
+      return this.props.data.find((item) => Number(item.id) === Number(id));
     });
 
-    const result = data.map(item => ({
+    const result = data.map((item) => ({
       ...item,
       id: item && item.tmpId,
     }));

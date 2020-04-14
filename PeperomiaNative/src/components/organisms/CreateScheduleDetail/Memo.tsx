@@ -172,7 +172,7 @@ export default class extends Component<Props, State> {
             <View
               style={styles.inputLabel}
               key={item.label}
-              onLayout={event => {
+              onLayout={(event) => {
                 y[index] = event.nativeEvent.layout.y;
               }}
             >
@@ -189,7 +189,7 @@ export default class extends Component<Props, State> {
                   }
                   multiline={item.multiline}
                   style={styles.memoInput}
-                  onChangeText={value => {
+                  onChangeText={(value) => {
                     this.props.onChangeInputText(item.value, value);
                   }}
                   testID={`inputTextScheduleDetail${item.label}`}
@@ -217,7 +217,7 @@ export default class extends Component<Props, State> {
                 size={28}
                 style={styles.plus}
               />
-              {this.getInputLabels().map(item => (
+              {this.getInputLabels().map((item) => (
                 <View style={styles.container} key={item.label}>
                   <TouchableOpacity onPress={() => this.onInputAdd(item.value)}>
                     <InputLabel

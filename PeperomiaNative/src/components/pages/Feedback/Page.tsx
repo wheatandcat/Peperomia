@@ -81,7 +81,7 @@ export default class extends Component<Props, State> {
                   placeholderTextColor={theme().mode.secondaryText}
                   multiline
                   style={styles.textInput}
-                  onChangeText={message => {
+                  onChangeText={(message) => {
                     this.setState({
                       message,
                     });

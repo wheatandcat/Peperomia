@@ -254,7 +254,7 @@ export default (keyword: string) => {
 
   const keys = Object.keys(config);
 
-  let result = keys.map(key => {
+  let result = keys.map((key) => {
     const items = config[key];
 
     return {
@@ -273,10 +273,10 @@ export default (keyword: string) => {
     },
   ];
 
-  const scores = result.map(item => item.score);
+  const scores = result.map((item) => item.score);
   const maxScore = Math.max(...scores);
 
-  const maxItem: any = result.find(item => item.score === maxScore);
+  const maxItem: any = result.find((item) => item.score === maxScore);
 
   return maxItem.kind;
 };

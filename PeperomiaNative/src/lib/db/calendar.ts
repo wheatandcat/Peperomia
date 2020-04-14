@@ -107,7 +107,7 @@ export const bulkInsert = async (
   callback?: (data: Calendar[], error: SQLite.SQLError | null) => void
 ) => {
   const param = calendars
-    .map(calendar => {
+    .map((calendar) => {
       return [String(calendar.id), calendar.itemId, calendar.date];
     })
     .reduce((pre, current) => {

@@ -120,7 +120,7 @@ export default class extends Component<Props, State> {
           onClose={this.props.onGoBack}
         />
         <ScrollView
-          ref={ref => {
+          ref={(ref) => {
             this.scrollView = ref;
           }}
           contentInsetAdjustmentBehavior="never"
