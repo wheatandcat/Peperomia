@@ -31,7 +31,7 @@ export default class extends Component<Props> {
     return (
       <FlatList
         data={this.props.data}
-        keyExtractor={item => String(item.id)}
+        keyExtractor={(item) => String(item.id)}
         renderItem={this.renderItem.bind(this)}
         contentContainerStyle={styles.root}
       />

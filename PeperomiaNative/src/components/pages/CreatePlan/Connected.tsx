@@ -60,12 +60,12 @@ const Connect = memo((props: ConnectProps) => {
   const kind = props.route?.params?.kind || '';
 
   useDidMount(() => {
-    const suggestList = (props.items || []).map(item => ({
+    const suggestList = (props.items || []).map((item) => ({
       title: item.title,
       kind: item.kind,
     }));
 
-    setState(s => ({
+    setState((s) => ({
       ...s,
       suggestList,
       input: {
@@ -77,7 +77,7 @@ const Connect = memo((props: ConnectProps) => {
 
   useEffect(() => {
     if (kind && kind !== state.kind) {
-      setState(s => ({
+      setState((s) => ({
         ...s,
         kind,
       }));
@@ -114,7 +114,7 @@ const Connect = memo((props: ConnectProps) => {
   );
 
   const onInput = useCallback((name: string, value: string) => {
-    setState(s => ({
+    setState((s) => ({
       ...s,
       input: {
         ...s.input,
@@ -150,7 +150,7 @@ const Connect = memo((props: ConnectProps) => {
   const onSave = useCallback(async () => {
     if (state.input.date) {
       const check = (props.calendars || []).find(
-        calendar => calendar.date === state.input.date
+        (calendar) => calendar.date === state.input.date
       );
 
       if (check) {

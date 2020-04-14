@@ -11,7 +11,7 @@ type Props = {
   onPress: () => void;
 };
 
-const Nav: FC<Props> = props => (
+const Nav: FC<Props> = (props) => (
   <View style={styles.root}>
     <Grid>
       <Col size={10} style={styles.close}>

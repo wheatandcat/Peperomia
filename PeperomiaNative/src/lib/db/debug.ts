@@ -256,9 +256,9 @@ export const resetSql = (tx: SQLite.SQLTransaction) => {
     },
   ];
 
-  items.map(item => insertItem(tx, item));
-  itemDetails.map(itemDetail => insertItemDetail(tx, itemDetail));
-  calendars.map(calendar => insertCalendar(tx, calendar));
+  items.map((item) => insertItem(tx, item));
+  itemDetails.map((itemDetail) => insertItemDetail(tx, itemDetail));
+  calendars.map((calendar) => insertCalendar(tx, calendar));
 };
 
 export const resetSqlV100 = (tx: SQLite.SQLTransaction) => {

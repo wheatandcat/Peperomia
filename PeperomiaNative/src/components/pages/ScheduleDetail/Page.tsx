@@ -34,7 +34,7 @@ export type ScheduleDetailType = {
   onOpenActionSheet: () => void;
 };
 
-const Connected: FC<ConnectedProps> = props => {
+const Connected: FC<ConnectedProps> = (props) => {
   const { showActionSheetWithOptions } = useActionSheet();
 
   return (
@@ -45,7 +45,7 @@ const Connected: FC<ConnectedProps> = props => {
   );
 };
 
-export const ScheduleDetailPage: FC<Props> = memo(props => {
+export const ScheduleDetailPage: FC<Props> = memo((props) => {
   const onOpenActionSheet = () => {
     props.showActionSheetWithOptions(
       {
@@ -53,7 +53,7 @@ export const ScheduleDetailPage: FC<Props> = memo(props => {
         destructiveButtonIndex: 1,
         cancelButtonIndex: 2,
       },
-      buttonIndex => {
+      (buttonIndex) => {
         if (buttonIndex === 0) {
           props.onCreateScheduleDetail();
         }

@@ -99,7 +99,7 @@ class Page extends Component<Props, State> {
         options: ['アイコンを変更する', 'キャンセル'],
         cancelButtonIndex: 1,
       },
-      buttonIndex => {
+      (buttonIndex) => {
         if (buttonIndex === 0) {
           this.props.onIcons();
         }
@@ -163,7 +163,7 @@ class Page extends Component<Props, State> {
           <>
             <DatePicker
               style={styles.datePicker}
-              ref={picker => {
+              ref={(picker) => {
                 this.datePicker = picker;
               }}
               mode="date"
@@ -238,7 +238,7 @@ class Page extends Component<Props, State> {
                   placeholder={this.props.title === '' ? 'タイトル' : ''}
                   placeholderTextColor={theme().color.gray}
                   style={styles.titleInput}
-                  onChangeText={text => this.props.onInput('title', text)}
+                  onChangeText={(text) => this.props.onInput('title', text)}
                   testID="ScheduleTitleInput"
                   defaultValue={this.props.title}
                   returnKeyType="done"

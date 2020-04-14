@@ -17,7 +17,7 @@ type Props = {
 
 const url = 'https://amazing-hawking-a280c3.netlify.com/general/account/';
 
-const MyPage: FC<Props> = props => (
+const MyPage: FC<Props> = (props) => (
   <View style={styles.root}>
     <Spinner
       visible={props.loading}

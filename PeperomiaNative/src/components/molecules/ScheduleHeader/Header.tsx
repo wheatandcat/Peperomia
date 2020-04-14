@@ -10,7 +10,7 @@ type Props = {
   kind: string;
 };
 
-const Header: FC<Props> = props => {
+const Header: FC<Props> = (props) => {
   const kind = props.kind || KIND_DEFAULT;
   const config = KINDS[kind];
   const ss = s.schedule;

@@ -14,7 +14,7 @@ type Props = Pick<ConnectedType, 'onScheduleDetail'> & {
   onDelete: () => void;
 };
 
-const SchedulePage: FC<Props> = memo(props => {
+const SchedulePage: FC<Props> = memo((props) => {
   const onDelete = useCallback(() => {
     Alert.alert(
       '本当に削除しますか？',

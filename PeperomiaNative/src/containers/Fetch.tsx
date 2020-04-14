@@ -13,7 +13,7 @@ export type ContextProps = Partial<Pick<Connected, 'post'>>;
 
 type Props = {};
 
-const Fetch: FC<Props> = props => {
+const Fetch: FC<Props> = (props) => {
   const { getIdToken } = useContext(AuthContext);
 
   return <Connected getIdToken={getIdToken}>{props.children}</Connected>;

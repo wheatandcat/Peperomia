@@ -40,7 +40,7 @@ const isStandaloneAndAndroid = () => {
   return Platform.OS === 'android' && Constants.appOwnership !== 'expo';
 };
 
-const Auth: FC<Props> = memo(props => {
+const Auth: FC<Props> = memo((props) => {
   const [state, setState] = useState<State>({
     email: '',
     uid: null,
@@ -56,7 +56,7 @@ const Auth: FC<Props> = memo(props => {
     if (user.email) {
       await AsyncStorage.setItem('email', user.email);
       await AsyncStorage.setItem('uid', user.uid);
-      setState(s => ({
+      setState((s) => ({
         ...s,
         email: user.email || '',
         uid: user.uid || '',
@@ -65,9 +65,7 @@ const Auth: FC<Props> = memo(props => {
 
     const idToken = await user.getIdToken(refresh);
     await AsyncStorage.setItem('id_token', idToken);
-    const expiration = dayjs()
-      .add(1, 'hour')
-      .unix();
+    const expiration = dayjs().add(1, 'hour').unix();
 
     await AsyncStorage.setItem('expiration', String(expiration));
 
@@ -173,14 +171,14 @@ const Auth: FC<Props> = memo(props => {
         const uid = await AsyncStorage.getItem('uid');
 
         if (uid) {
-          setState(s => ({
+          setState((s) => ({
             ...s,
             uid,
             setup: true,
           }));
         }
       } else {
-        setState(s => ({
+        setState((s) => ({
           ...s,
           setup: true,
         }));
@@ -189,7 +187,7 @@ const Auth: FC<Props> = memo(props => {
       if (login && !state.email) {
         const email = await AsyncStorage.getItem('email');
         if (email) {
-          setState(s => ({
+          setState((s) => ({
             ...s,
             email,
           }));
@@ -204,7 +202,7 @@ const Auth: FC<Props> = memo(props => {
 
   const onLogout = useCallback(async () => {
     await logout();
-    setState(s => ({
+    setState((s) => ({
       ...s,
       email: '',
       uid: null,

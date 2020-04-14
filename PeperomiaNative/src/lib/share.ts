@@ -20,7 +20,7 @@ export const closeShareLink = async (doc: string) => {
     });
 
     // You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
-    setTimeout(function() {
+    setTimeout(function () {
       Toast.hide(toast);
     }, 3000);
   }
@@ -58,7 +58,7 @@ export const crateShareLink = async (
   });
 
   // You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
-  setTimeout(function() {
+  setTimeout(function () {
     Toast.hide(toast);
   }, 3000);
 };

@@ -12,7 +12,7 @@ type Props = Pick<SwitchType, 'onChangeItems'> & {
 };
 
 export default (props: Props) => {
-  const items = props.items.map(item => ({
+  const items = props.items.map((item) => ({
     ...item,
     tmpId: item.id,
     id: item.priority,

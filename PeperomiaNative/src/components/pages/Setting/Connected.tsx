@@ -80,14 +80,14 @@ const Connected = memo((props: ConnectedProps) => {
       if (props.loggedIn) {
         const loggedIn = await props.loggedIn();
 
-        setState(s => ({
+        setState((s) => ({
           ...s,
           login: loggedIn,
           loading: false,
         }));
       }
       const debugMode = await getDebugMode();
-      setState(s => ({
+      setState((s) => ({
         ...s,
         debugMode,
       }));
@@ -141,7 +141,7 @@ const Connected = memo((props: ConnectedProps) => {
   const onSignIn = useCallback(() => {
     navigate('SignIn', {
       onLogin: () => {
-        setState(s => ({
+        setState((s) => ({
           ...s,
           login: true,
           loading: false,
@@ -172,7 +172,7 @@ const Connected = memo((props: ConnectedProps) => {
           onPress: async () => {
             try {
               if (props.logout && props.refreshData) {
-                setState(s => ({
+                setState((s) => ({
                   ...s,
                   restoreLoading: true,
                 }));
@@ -180,14 +180,14 @@ const Connected = memo((props: ConnectedProps) => {
                 await props.logout();
                 await props.refreshData(null);
 
-                setState(s => ({
+                setState((s) => ({
                   ...s,
                   restoreLoading: false,
                   login: false,
                 }));
               }
             } catch (err) {
-              setState(s => ({
+              setState((s) => ({
                 ...s,
                 restoreLoading: false,
                 login: false,
@@ -233,7 +233,7 @@ const Connected = memo((props: ConnectedProps) => {
 
   const onChangeDebugMode = useCallback(async (val: boolean) => {
     await setDebugMode(val);
-    setState(s => ({
+    setState((s) => ({
       ...s,
       debugMode: val,
     }));

@@ -55,14 +55,14 @@ class Connected extends Component<ConnectedProps, State> {
   };
 
   onAmazonLogin = () => {
-    Linking.addEventListener('url', event => this.redirect(event));
+    Linking.addEventListener('url', (event) => this.redirect(event));
     const url = `https://peperomia.info/login/amazon?aaa=aa12&redirect_uri=${Constants.linkingUri}`;
 
     Linking.openURL(url);
   };
 
   redirect = async (event: any) => {
-    Linking.removeEventListener('url', e => this.redirect(e));
+    Linking.removeEventListener('url', (e) => this.redirect(e));
 
     const result = (await queryString.parse(
       queryString.extract(event.url)
@@ -97,7 +97,7 @@ class Connected extends Component<ConnectedProps, State> {
         delay: 0,
       });
 
-      setTimeout(function() {
+      setTimeout(function () {
         Toast.hide(toast);
       }, 3000);
 

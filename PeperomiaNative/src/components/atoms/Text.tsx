@@ -8,7 +8,7 @@ type State = {
   fontLoaded: boolean;
 };
 
-const AtomText: FC<TextProps> = props => {
+const AtomText: FC<TextProps> = (props) => {
   const [state, setState] = useState<State>({
     fontLoaded: false,
   });

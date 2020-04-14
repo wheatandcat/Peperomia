@@ -16,12 +16,9 @@ export const findByUID = async (
   db: firebase.firestore.Firestore,
   uid: string
 ): Promise<Calendar[]> => {
-  const qs = await db
-    .collection('calendars')
-    .where('uid', '==', uid)
-    .get();
+  const qs = await db.collection('calendars').where('uid', '==', uid).get();
 
-  const records: any = qs.docs.map(elem => {
+  const records: any = qs.docs.map((elem) => {
     return elem.data();
   });
 

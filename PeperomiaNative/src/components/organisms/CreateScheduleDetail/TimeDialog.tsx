@@ -11,7 +11,7 @@ type Props = {
   onCloseManualTime: () => void;
 };
 
-const TimeDialog: FC<Props> = props => (
+const TimeDialog: FC<Props> = (props) => (
   <Overlay
     isVisible={props.open}
     height={Platform.OS === 'ios' ? 220 : 245}
@@ -32,7 +32,7 @@ const TimeDialog: FC<Props> = props => (
             keyboardType="numeric"
             style={styles.timeInput}
             defaultValue=""
-            onChangeText={value => props.onChange(Number(value))}
+            onChangeText={(value) => props.onChange(Number(value))}
             returnKeyType="done"
             maxLength={4}
             autoFocus

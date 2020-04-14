@@ -152,8 +152,8 @@ const HomeScreenPlan = memo((props: PlanProps) => {
     [navigate]
   );
 
-  const items = (props.items || []).map(item => {
-    const about = (props.about || []).find(val => val.itemId === item.id);
+  const items = (props.items || []).map((item) => {
+    const about = (props.about || []).find((val) => val.itemId === item.id);
 
     return {
       ...item,

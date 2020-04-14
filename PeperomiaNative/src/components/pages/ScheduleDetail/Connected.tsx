@@ -63,7 +63,7 @@ const initState = {
   },
 };
 
-const ScheduleDetailConnected: FC<Props> = memo(props => {
+const ScheduleDetailConnected: FC<Props> = memo((props) => {
   const { uid } = useAuth();
   const [state, setState] = useState<State>(initState);
   const scheduleDetailId = props.route.params.scheduleDetailId || '1';
@@ -73,7 +73,7 @@ const ScheduleDetailConnected: FC<Props> = memo(props => {
       const itemDetail = await getItemDetailByID(uid, String(scheduleDetailId));
       const item = await getItemByID(uid, String(itemDetail?.itemId));
 
-      setState(s => ({
+      setState((s) => ({
         ...s,
         item,
         itemDetail,
@@ -118,7 +118,7 @@ const ScheduleDetailConnected: FC<Props> = memo(props => {
     if (itemDetails.length > 0) {
       await sortItemDetail(
         uid,
-        itemDetails.map(itemDetail => ({
+        itemDetails.map((itemDetail) => ({
           ...itemDetail,
           id: String(itemDetail.id),
         }))

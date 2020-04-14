@@ -181,7 +181,7 @@ export const bulkInsert = async (
   callback?: (daat: ItemDetail[], error: SQLite.SQLError | null) => void
 ) => {
   const param = itemDetails
-    .map(itemDetail => {
+    .map((itemDetail) => {
       return [
         String(itemDetail.id),
         String(itemDetail.itemId),

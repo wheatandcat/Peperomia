@@ -35,7 +35,7 @@ export const findByUID = async (
     .orderBy('createdAt', 'desc')
     .get();
 
-  const records = qs.docs.map(elem => {
+  const records = qs.docs.map((elem) => {
     return elem.data();
   });
 
@@ -54,7 +54,7 @@ export const findByID = async (
     .limit(1)
     .get();
 
-  const records = qs.docs.map(elem => {
+  const records = qs.docs.map((elem) => {
     return elem.data();
   });
 
@@ -72,7 +72,7 @@ export const findInID = async (
     .where('id', 'in', idList)
     .get();
 
-  const records = qs.docs.map(elem => {
+  const records = qs.docs.map((elem) => {
     return elem.data();
   });
 

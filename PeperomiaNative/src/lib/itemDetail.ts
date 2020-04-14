@@ -37,7 +37,7 @@ export async function getItemDetails(
 
     return (await findByItemID(firestore, uid, itemID)) as any;
   } else {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       db.transaction((tx: SQLite.SQLTransaction) => {
         selectByItemId(tx, itemID, (data, err) => {
           if (err) {
@@ -62,7 +62,7 @@ export async function countItemDetail(
     const count = await countByItemID(firestore, uid, itemID);
     return count;
   } else {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       db.transaction((tx: SQLite.SQLTransaction) => {
         countByItemId(tx, itemID, (count, err) => {
           if (err) {
@@ -101,7 +101,7 @@ export async function getItemDetailByID(
     const firestore = getFireStore();
     return (await findByID(firestore, uid, id)) as any;
   } else {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       db.transaction((tx: SQLite.SQLTransaction) => {
         select1st(tx, id, (data, err) => {
           if (err) {
@@ -142,7 +142,7 @@ export async function createItemDetail(
 
     return response.body.id;
   } else {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       db.transaction((tx: SQLite.SQLTransaction) => {
         const v = { ...itemDetail, itemId: Number(itemDetail.itemId) };
 
@@ -182,7 +182,7 @@ export async function updateItemDetail(
 
     return true;
   } else {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       db.transaction((tx: SQLite.SQLTransaction) => {
         const v = {
           ...itemDetail,
@@ -226,7 +226,7 @@ export async function deleteItemDetail(
 
     return true;
   } else {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       db.transaction((tx: SQLite.SQLTransaction) => {
         delete1st(tx, String(itemDetail.id), (_, err) => {
           if (err) {

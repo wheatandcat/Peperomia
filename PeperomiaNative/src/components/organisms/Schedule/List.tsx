@@ -7,7 +7,7 @@ type Props = Pick<ConnectedType, 'onScheduleDetail'> & {
   data: SelectItemDetail[];
 };
 
-const List: FC<Props> = props => (
+const List: FC<Props> = (props) => (
   <>
     {props.data.map((item, index) => (
       <Card

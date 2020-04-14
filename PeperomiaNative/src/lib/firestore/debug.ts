@@ -11,5 +11,5 @@ export const resetQuery = async (
 
   const items: Item[] = [{ title: '葛西臨海公園', kind: KIND_PARK, uid }];
 
-  items.map(item => insertItem(db, item));
+  items.map((item) => insertItem(db, item));
 };

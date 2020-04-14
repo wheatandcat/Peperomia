@@ -1,5 +1,4 @@
 import React from 'react';
-import 'react-native-match-media-polyfill';
 import { AppRegistry } from 'react-native';
 import App from './src';
 import { STORY_BOOK_ENABLED } from 'react-native-dotenv';

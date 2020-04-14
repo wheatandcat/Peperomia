@@ -30,12 +30,9 @@ describe('components/pages/Home/Page.tsx', () => {
         loading: false,
       });
 
-      expect(
-        wrapper
-          .find(Text)
-          .first()
-          .prop('children')
-      ).toEqual('予定がありません');
+      expect(wrapper.find(Text).first().prop('children')).toEqual(
+        '予定がありません'
+      );
     });
   });
 });

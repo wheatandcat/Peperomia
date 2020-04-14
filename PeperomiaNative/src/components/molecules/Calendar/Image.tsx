@@ -9,7 +9,7 @@ type Props = {
 
 console.log(isTablet);
 
-const CalendarImage: FC<Props> = props => {
+const CalendarImage: FC<Props> = (props) => {
   return (
     <View style={styles.imageContainer}>
       <Image

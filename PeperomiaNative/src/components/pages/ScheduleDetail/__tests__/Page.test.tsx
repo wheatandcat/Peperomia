@@ -53,10 +53,7 @@ describe('components/pages/ScheduleDetail/Page.tsx', () => {
     describe('onOpenActionSheet', () => {
       wrapper = shallow(<ScheduleDetailPage {...propsData()} />);
 
-      wrapper
-        .find(Card)
-        .props()
-        .onOpenActionSheet();
+      wrapper.find(Card).props().onOpenActionSheet();
 
       it('編集', () => {
         showActionSheetWithOptions.mock.calls[0][1](0);

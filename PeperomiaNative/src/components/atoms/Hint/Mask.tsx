@@ -10,7 +10,7 @@ type Props = {
   onPress: () => void;
 };
 
-const Mask: FC<Props> = props => (
+const Mask: FC<Props> = (props) => (
   <TouchableOpacity onPress={props.onPress}>
     <View style={styles.root}>{props.children}</View>
   </TouchableOpacity>

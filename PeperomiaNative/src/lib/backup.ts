@@ -31,7 +31,7 @@ type Backup = {
 };
 
 export const backup = (): Promise<Backup> => {
-  return new Promise(function(
+  return new Promise(function (
     resolve: (result: Backup) => void,
     reject: (error: Error) => void
   ) {
@@ -41,7 +41,7 @@ export const backup = (): Promise<Backup> => {
           getItemAll(tx),
           getItemDetailAll(tx),
           getCalendarAll(tx),
-        ]).then(function(values) {
+        ]).then(function (values) {
           resolve({
             items: values[0],
             itemDetails: values[1] as ItemDetail[],
@@ -58,7 +58,7 @@ export const backup = (): Promise<Backup> => {
 
 const getItemAll = (tx: SQLite.SQLTransaction): Promise<Item[]> => {
   // アイテムを取得
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     selectItems(tx, (data: Item[], error: SQLite.SQLError | null) => {
       if (error) {
         reject(error);
@@ -73,7 +73,7 @@ const getItemAll = (tx: SQLite.SQLTransaction): Promise<Item[]> => {
 
 const getItemDetailAll = (tx: SQLite.SQLTransaction): Promise<ItemDetail[]> => {
   // アイテム詳細を取得
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     selectItemDetails(tx, (data: ItemDetail[], err: any) => {
       if (err) {
         Sentry.captureMessage(err);
@@ -89,7 +89,7 @@ const getItemDetailAll = (tx: SQLite.SQLTransaction): Promise<ItemDetail[]> => {
 
 const getCalendarAll = (tx: SQLite.SQLTransaction): Promise<Calendar[]> => {
   // アイテム詳細を取得
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     selectCalendars(tx, (data: Calendar[], err: any) => {
       if (err) {
         Sentry.captureMessage(err);
@@ -105,7 +105,7 @@ const getCalendarAll = (tx: SQLite.SQLTransaction): Promise<Calendar[]> => {
 
 export const restore = async (uid: string): Promise<any> => {
   const firestore = getFireStore();
-  const items = await (await findItemByUID(firestore, uid)).map(item => ({
+  const items = await (await findItemByUID(firestore, uid)).map((item) => ({
     ...item,
     id: Number(item.id),
   }));
@@ -124,12 +124,12 @@ export const restore = async (uid: string): Promise<any> => {
     await importAll(
       tx,
       items,
-      itemDetails.map(itemDetail => ({
+      itemDetails.map((itemDetail) => ({
         ...itemDetail,
         id: Number(itemDetail.id),
         itemId: Number(itemDetail.itemId),
       })),
-      calendars.map(calendar => ({
+      calendars.map((calendar) => ({
         ...calendar,
         id: Number(calendar.id),
         itemId: Number(calendar.itemId),
@@ -140,7 +140,7 @@ export const restore = async (uid: string): Promise<any> => {
 
 const truncateItems = (tx: SQLite.SQLTransaction): Promise<any> => {
   // アイテムを削除
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     deleteItemAll(tx, (data: Item, err: any) => {
       if (err) {
         Sentry.captureMessage(err);
@@ -156,7 +156,7 @@ const truncateItems = (tx: SQLite.SQLTransaction): Promise<any> => {
 
 const truncateItemDetails = (tx: SQLite.SQLTransaction): Promise<any> => {
   // アイテム詳細を削除
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     deleteItemDetailAll(tx, (data: ItemDetail[], err: any) => {
       if (err) {
         Sentry.captureMessage(err);
@@ -172,7 +172,7 @@ const truncateItemDetails = (tx: SQLite.SQLTransaction): Promise<any> => {
 
 const truncateCalendars = (tx: SQLite.SQLTransaction): Promise<any> => {
   // アイテム詳細を削除
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     deleteCalendarAll(tx, (data: Calendar, err: any) => {
       if (err) {
         Sentry.captureMessage(err);
@@ -187,7 +187,7 @@ const truncateCalendars = (tx: SQLite.SQLTransaction): Promise<any> => {
 };
 
 const deleteAll = (tx: SQLite.SQLTransaction): Promise<any> => {
-  return new Promise(function(
+  return new Promise(function (
     resolve: () => void,
     reject: (error: Error) => void
   ) {
@@ -196,7 +196,7 @@ const deleteAll = (tx: SQLite.SQLTransaction): Promise<any> => {
         truncateItems(tx),
         truncateItemDetails(tx),
         truncateCalendars(tx),
-      ]).then(function() {
+      ]).then(function () {
         resolve();
       });
     } catch (err) {
@@ -211,7 +211,7 @@ const importItems = (
   items: Item[]
 ): Promise<any> => {
   // アイテムを作成
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     bulkInsertItem(tx, items, (data: Item[], err: any) => {
       if (err) {
         Sentry.captureMessage(err);
@@ -230,7 +230,7 @@ const importItemDetails = (
   itemDetail: ItemDetail[]
 ): Promise<any> => {
   // アイテム詳細を作成
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     bulkInsertItemDetail(tx, itemDetail, (data: ItemDetail[], err: any) => {
       if (err) {
         Sentry.captureMessage(err);
@@ -249,7 +249,7 @@ const importCalendars = (
   calendars: Calendar[]
 ): Promise<any> => {
   // アイテム詳細を作成
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     bulkInsertCalendar(tx, calendars, (data: Calendar[], err: any) => {
       if (err) {
         Sentry.captureMessage(err);
@@ -269,7 +269,7 @@ const importAll = (
   itemDetail: ItemDetail[],
   calendars: Calendar[]
 ): Promise<any> => {
-  return new Promise(function(
+  return new Promise(function (
     resolve: () => void,
     reject: (error: Error) => void
   ) {
@@ -278,7 +278,7 @@ const importAll = (
         importItems(tx, items),
         importItemDetails(tx, itemDetail),
         importCalendars(tx, calendars),
-      ]).then(function() {
+      ]).then(function () {
         resolve();
       });
     } catch (err) {

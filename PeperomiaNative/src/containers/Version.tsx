@@ -10,7 +10,7 @@ type State = {
   loading: boolean;
 };
 
-const Version: React.FC<Props> = props => {
+const Version: React.FC<Props> = (props) => {
   const [state, setState] = useState<State>({ loading: false });
 
   useDidMount(() => {

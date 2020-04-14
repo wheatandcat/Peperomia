@@ -143,10 +143,10 @@ class App extends Component<Props, State> {
   }
 
   onOpenActionSheet = () => {
-    const options = times.map(val => val.label);
+    const options = times.map((val) => val.label);
 
     let destructiveButtonIndex = times.findIndex(
-      val => this.state.moveMinutes === val.value
+      (val) => this.state.moveMinutes === val.value
     );
     if (destructiveButtonIndex === null) {
       destructiveButtonIndex = manualButtonIndex;
@@ -158,7 +158,7 @@ class App extends Component<Props, State> {
         cancelButtonIndex,
         destructiveButtonIndex,
       },
-      buttonIndex => {
+      (buttonIndex) => {
         // Do something here depending on the button index selected
         if (buttonIndex === cancelButtonIndex) {
           return;
@@ -354,7 +354,7 @@ class App extends Component<Props, State> {
           }
         />
         <ScrollView
-          ref={ref => {
+          ref={(ref) => {
             this.scrollView = ref;
           }}
           contentInsetAdjustmentBehavior="never"
@@ -371,7 +371,7 @@ class App extends Component<Props, State> {
           <SafeAreaView style={styles.body}>
             <TimeDialog
               open={this.state.manualTime}
-              onChange={value => this.setState({ manualTimeValue: value })}
+              onChange={(value) => this.setState({ manualTimeValue: value })}
               onSetManualTime={this.onSetManualTime}
               onCloseManualTime={this.onCloseManualTime}
             />
@@ -385,7 +385,7 @@ class App extends Component<Props, State> {
                   placeholder="タイトルを入力"
                   placeholderTextColor={theme().color.gray}
                   style={styles.inputTitle}
-                  onChangeText={title =>
+                  onChangeText={(title) =>
                     this.setState({ title, kind: getKind(title) })
                   }
                   value={this.state.title}

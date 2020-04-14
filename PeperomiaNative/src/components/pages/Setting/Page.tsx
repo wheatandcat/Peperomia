@@ -38,7 +38,7 @@ type Props = {
   onChangeDebugMode: (val: boolean) => void;
 };
 
-const SettingPage: FC<Props> = props => (
+const SettingPage: FC<Props> = (props) => (
   <View style={styles.root}>
     <Spinner
       visible={props.restoreLoading}

@@ -9,7 +9,7 @@ type Props = Pick<SwitchType, 'onChangeItems'> & {
   data: SortableItemDetail[];
 };
 
-const SortableSchedule: FC<Props> = props => (
+const SortableSchedule: FC<Props> = (props) => (
   <View style={styles.root}>
     <View style={styles.contens}>
       <Cards data={props.data} onChangeItems={props.onChangeItems} />

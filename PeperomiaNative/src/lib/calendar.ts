@@ -28,10 +28,10 @@ export async function getCalendars(uid: UID): Promise<SelectCalendar[]> {
       return [] as any;
     }
 
-    const ids = calendars.map(calendar => String(calendar.id));
+    const ids = calendars.map((calendar) => String(calendar.id));
     const items = await findItemInID(firestore, uid, ids);
-    const result = calendars.map(calendar => {
-      const item = items.find(v => v.id === calendar.id);
+    const result = calendars.map((calendar) => {
+      const item = items.find((v) => v.id === calendar.id);
 
       return {
         ...calendar,
@@ -41,7 +41,7 @@ export async function getCalendars(uid: UID): Promise<SelectCalendar[]> {
 
     return result as any;
   } else {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       db.transaction((tx: SQLite.SQLTransaction) => {
         select(tx, (data, err) => {
           if (err) {
@@ -81,7 +81,7 @@ export async function createCalendar(
 
     return response.body.id;
   } else {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       db.transaction((tx: SQLite.SQLTransaction) => {
         const v = { ...calendar, itemId: Number(calendar.itemId) };
 
@@ -123,7 +123,7 @@ export async function updateCalendar(
 
     return true;
   } else {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       db.transaction((tx: SQLite.SQLTransaction) => {
         const v = {
           ...calendar,

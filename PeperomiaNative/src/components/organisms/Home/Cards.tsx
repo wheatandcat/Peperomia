@@ -46,7 +46,7 @@ export default ({ loading, data, onSchedule, onDelete }: Props) => {
         refreshing={loading}
         contentContainerStyle={styles.swipeContentContainer}
         data={data}
-        keyExtractor={item => String(item.id)}
+        keyExtractor={(item) => String(item.id)}
         renderHiddenItem={({ item }: { item: ItemProps }) => (
           <View style={styles.deleteContainer}>
             <View />

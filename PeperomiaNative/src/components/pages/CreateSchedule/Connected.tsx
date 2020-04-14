@@ -41,7 +41,7 @@ export default memo((props: Props) => {
 
   const setItemDetails = useCallback(
     (data: SelectItemDetail[]) => {
-      const prioritys = data.map(item => item.priority);
+      const prioritys = data.map((item) => item.priority);
       const uniquePrioritys = prioritys.filter(
         (x: number, i: number, self: number[]) => self.indexOf(x) === i
       );
@@ -51,7 +51,7 @@ export default memo((props: Props) => {
         props.navigation.setParams({
           itemDetails: data,
         });
-        setState(s => ({
+        setState((s) => ({
           ...s,
           itemDetails: data,
         }));
@@ -79,7 +79,7 @@ export default memo((props: Props) => {
         }
       });
 
-      setState(s => ({
+      setState((s) => ({
         ...s,
         itemDetails: itemDetails,
       }));
@@ -88,7 +88,7 @@ export default memo((props: Props) => {
   );
 
   const setItem = useCallback((data: Item) => {
-    setState(s => ({
+    setState((s) => ({
       ...s,
       item: {
         title: data.title,
@@ -120,7 +120,7 @@ export default memo((props: Props) => {
 
     if (refresh !== state.refresh) {
       setItemDetailsByItemID().then(() => {
-        setState(s => ({ ...s, refresh }));
+        setState((s) => ({ ...s, refresh }));
       });
     }
   }, [setItemDetails, state.refresh, refresh, uid, itemId]);
