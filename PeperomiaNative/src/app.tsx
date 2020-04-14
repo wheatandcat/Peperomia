@@ -31,7 +31,7 @@ import Home from './components/pages/Home/Connected';
 import Setting from './components/pages/Setting/Connected';
 import Calendars from './components/pages/Calendars/Connected';
 import { setDebugMode } from './lib/auth';
-import { setDeviceType, isTablet } from './lib/responsive';
+import { setDeviceType } from './lib/responsive';
 import './lib/firebase';
 import {
   select1st as selectUser1st,
