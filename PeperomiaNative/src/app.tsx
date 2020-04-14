@@ -10,6 +10,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import {
   createBottomTabNavigator,
   BottomTabNavigationOptions,
+  BottomTabBar,
+  BottomTabBarProps,
 } from '@react-navigation/bottom-tabs';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Sentry from 'sentry-expo';
@@ -29,6 +31,7 @@ import Home from './components/pages/Home/Connected';
 import Setting from './components/pages/Setting/Connected';
 import Calendars from './components/pages/Calendars/Connected';
 import { setDebugMode } from './lib/auth';
+import { setDeviceType } from './lib/responsive';
 import './lib/firebase';
 import {
   select1st as selectUser1st,
@@ -199,8 +202,12 @@ const RootStackScreen = () => {
   );
 };
 
+const MyTabBar = (props: BottomTabBarProps) => {
+  return <BottomTabBar {...props} labelPosition="below-icon" />;
+};
+
 const MainStackScreen = () => (
-  <Tab.Navigator screenOptions={tabNavigationOptions}>
+  <Tab.Navigator screenOptions={tabNavigationOptions} tabBar={MyTabBar}>
     <Tab.Screen name="Home" component={Home} options={tabOption} />
     <Tab.Screen name="Calendars" component={Calendars} options={tabOption} />
     <Tab.Screen name="Setting" component={Setting} options={tabOption} />
@@ -214,6 +221,8 @@ export default class App extends Component<Props, State> {
   };
 
   async componentDidMount() {
+    await setDeviceType();
+
     db.transaction((tx: SQLite.SQLTransaction) => {
       init(tx);
       selectUser1st(tx, this.checkUser);
@@ -312,7 +321,7 @@ const styles = EStyleSheet.create({
     backgroundColor: '$background',
   },
   tabForWide: {
-    height: 100,
+    height: 120,
     backgroundColor: '$background',
   },
 });

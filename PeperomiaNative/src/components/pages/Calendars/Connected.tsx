@@ -58,7 +58,7 @@ const Stack = createStackNavigator<RootStackParamList>();
 
 const RootStack = () => {
   return (
-    <Stack.Navigator initialRouteName="Calendars">
+    <Stack.Navigator initialRouteName="Calendars" mode="modal">
       <Stack.Screen
         name="Calendars"
         component={Container}

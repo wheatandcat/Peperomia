@@ -1,9 +1,9 @@
 import React, { FC, memo, useCallback } from 'react';
 import { View, Alert } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { SelectItemDetail } from '../../../domain/itemDetail';
-import Cards from '../../organisms/Schedule/Cards';
-import ActionButton from '../../molecules/Schedule/ActionButton';
+import { SelectItemDetail } from 'domain/itemDetail';
+import Cards from 'components/organisms/Schedule/Cards';
+import ActionButton from 'components/molecules/Schedule/ActionButton';
 import { ConnectedType } from './Connected';
 
 type Props = Pick<ConnectedType, 'onScheduleDetail'> & {

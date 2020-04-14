@@ -1,10 +1,9 @@
 import React from 'react';
 import { Text, View, Dimensions, StyleSheet } from 'react-native';
 import { IconImage } from 'primitive';
-import '@expo/match-media';
-import { useMediaQuery } from 'react-responsive';
-import { KINDS } from '../../../lib/getKind';
-import theme from '../../../config/theme';
+import { isTablet } from 'lib/responsive';
+import { KINDS } from 'lib/getKind';
+import theme from 'config/theme';
 
 const width = Dimensions.get('window').width;
 
@@ -15,7 +14,6 @@ type Props = {
 
 export default (props: Props) => {
   const config = KINDS[props.kind];
-  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
 
   return (
     <View

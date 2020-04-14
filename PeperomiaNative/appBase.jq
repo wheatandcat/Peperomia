@@ -3,7 +3,7 @@
     "name": "ペペロミア",
     "slug": "peperomia",
     "privacy": "public",
-    "sdkVersion": "36.0.0",
+    "sdkVersion": "37.0.0",
     "packagerOpts": {
       "sourceExts": ["js", "ts", "tsx"],
       "transformer": "node_modules/react-native-typescript-transformer/index.js"

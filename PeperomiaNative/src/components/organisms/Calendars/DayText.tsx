@@ -1,9 +1,7 @@
 import React from 'react';
 import { Text, View, Dimensions, StyleSheet } from 'react-native';
-import '@expo/match-media';
-import { useMediaQuery } from 'react-responsive';
-import Color from 'color';
-import theme from '../../../config/theme';
+import { isTablet } from 'lib/responsive';
+import theme from 'config/theme';
 
 const width = Dimensions.get('window').width;
 
@@ -13,19 +11,8 @@ type Props = {
 };
 
 export default (props: Props) => {
-  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
-
   return (
-    <View
-      style={[
-        styles.itemContainer,
-        {
-          backgroundColor: Color(props.color)
-            .lighten(0.4)
-            .toString(),
-        },
-      ]}
-    >
+    <View style={styles.itemContainer}>
       <Text style={isTablet ? styles.dayTextForWide : styles.dayText}>
         {props.day}
       </Text>

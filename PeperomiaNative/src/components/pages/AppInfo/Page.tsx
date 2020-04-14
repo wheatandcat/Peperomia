@@ -2,24 +2,20 @@ import React, { FC, useCallback } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import '@expo/match-media';
-import { useMediaQuery } from 'react-responsive';
-import { whenIPhoneSE } from '../../../lib/responsive';
-import theme from '../../../config/theme';
+import { whenIPhoneSE, isTablet } from 'lib/responsive';
+import theme from 'config/theme';
 
 type Props = {
   onDone: () => void;
 };
 
 const AppInfo: FC<Props> = props => {
-  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
-
   const slides: Slide[] = [
     {
       key: 'step1',
       title: '予定を管理',
       text: 'ペペロミアは予定管理アプリです\n簡単な操作で予定を作成',
-      image: require('../../../img/intro_home.png'),
+      image: require('img/intro_home.png'),
       imageWidth: isTablet ? 400 : 250,
       titleColor: theme().color.main,
       textColor: theme().color.main,
@@ -30,7 +26,7 @@ const AppInfo: FC<Props> = props => {
       title: '予定を整理',
       text:
         'タイトルをつけると自動でアイコンを設定\n見やすい予定表を作成しよう！',
-      image: require('../../../img/intro_plan2.png'),
+      image: require('img/intro_plan2.png'),
       imageWidth: isTablet ? 400 : 250,
       titleColor: theme().color.lightGreen,
       textColor: theme().color.lightGreen,
@@ -40,7 +36,7 @@ const AppInfo: FC<Props> = props => {
       key: 'step3',
       title: '予定を共有',
       text: '作成した予定は\nブラウザから誰にでも共有可能',
-      image: require('../../../img/intro_share.png'),
+      image: require('img/intro_share.png'),
       imageWidth: isTablet ? 500 : 300,
       titleColor: theme().color.main,
       textColor: theme().color.main,
@@ -50,7 +46,7 @@ const AppInfo: FC<Props> = props => {
       key: 'step4',
       title: 'ようこそ！！',
       text: 'ペペロミアを使って予定を作っていこう！',
-      image: require('../../../img/icon.png'),
+      image: require('img/icon.png'),
       imageWidth: isTablet ? 300 : 200,
       titleColor: theme().color.white,
       textColor: theme().color.highLightGray,
@@ -84,60 +80,55 @@ const AppInfo: FC<Props> = props => {
     );
   }, []);
 
-  const renderItem = useCallback(
-    ({ item }: { item: Slide }) => {
-      return (
+  const renderItem = useCallback(({ item }: { item: Slide }) => {
+    return (
+      <View
+        style={[
+          styles.root,
+          {
+            backgroundColor: item.backgroundColor,
+          },
+        ]}
+      >
+        <View style={styles.image}>
+          <Image
+            source={item.image}
+            style={{ width: item.imageWidth }}
+            resizeMode="contain"
+          />
+        </View>
         <View
-          style={[
-            styles.root,
-            {
-              backgroundColor: item.backgroundColor,
-            },
-          ]}
+          style={isTablet ? styles.textContainerForWide : styles.textContainer}
         >
-          <View style={styles.image}>
-            <Image
-              source={item.image}
-              style={{ width: item.imageWidth }}
-              resizeMode="contain"
-            />
-          </View>
-          <View
-            style={
-              isTablet ? styles.textContainerForWide : styles.textContainer
-            }
+          <Text
+            style={[
+              isTablet ? styles.textForWide : styles.text,
+              {
+                color: item.titleColor,
+              },
+            ]}
           >
+            {item.title}
+          </Text>
+        </View>
+        <View style={styles.container}>
+          {item.text.split('\n').map((val: string) => (
             <Text
               style={[
-                isTablet ? styles.textForWide : styles.text,
+                isTablet ? styles.subTextForWide : styles.subText,
                 {
-                  color: item.titleColor,
+                  color: item.textColor,
                 },
               ]}
+              key={val}
             >
-              {item.title}
+              {val}
             </Text>
-          </View>
-          <View style={styles.container}>
-            {item.text.split('\n').map((val: string) => (
-              <Text
-                style={[
-                  isTablet ? styles.subTextForWide : styles.subText,
-                  {
-                    color: item.textColor,
-                  },
-                ]}
-                key={val}
-              >
-                {val}
-              </Text>
-            ))}
-          </View>
+          ))}
         </View>
-      );
-    },
-    [isTablet]
-  );
+      </View>
+    );
+  }, []);
 
   const onDone = useCallback(() => {
     props.onDone();
