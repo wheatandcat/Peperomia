@@ -1,6 +1,8 @@
 # Peperomia
 
 
+[![codecov](https://codecov.io/gh/wheatandcat/Peperomia/branch/master/graph/badge.svg)](https://codecov.io/gh/wheatandcat/Peperomia)
+
 # ローカルでの実行手順
 
 取り敢えず、ローカル環境を作りたい人は以下のコマンドで初期設定が済むようになっています。
