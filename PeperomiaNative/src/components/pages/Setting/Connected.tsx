@@ -14,7 +14,6 @@ import {
 } from 'lib/db/debug';
 import { select as selectItems } from 'lib/db/item';
 import { select as selectItemDetailds } from 'lib/db/itemDetail';
-import { useTheme } from 'containers/Theme';
 import { useAuth, ContextProps as AuthContextProps } from 'containers/Auth';
 import { useFetch, ContextProps as FetchContextProps } from 'containers/Fetch';
 import { useItems, ContextProps as ItemsContextProps } from 'containers/Items';
@@ -83,7 +82,6 @@ type State = {
 
 const Connected = memo((props: ConnectedProps) => {
   const { navigate } = useNavigation();
-  const { rerendering, onFinishRerendering } = useTheme();
   const [state, setState] = useState<State>({
     loading: true,
     login: false,
@@ -92,11 +90,6 @@ const Connected = memo((props: ConnectedProps) => {
   });
 
   useDidMount(() => {
-    if (rerendering) {
-      navigate('ScreenSetting');
-      if (onFinishRerendering) onFinishRerendering();
-    }
-
     const check = async () => {
       if (props.loggedIn) {
         const loggedIn = await props.loggedIn();

@@ -4,10 +4,6 @@ import { SelectItemDetail } from 'domain/itemDetail';
 
 export const navigationOption = (title: string) => ({
   title,
-  headerTitleStyle: {
-    color: theme().mode.header.text,
-  },
-  headerTintColor: theme().mode.header.text,
   headerStyle: {
     backgroundColor: theme().mode.header.backgroundColor,
   },

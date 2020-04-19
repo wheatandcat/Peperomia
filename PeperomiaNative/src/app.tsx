@@ -1,9 +1,9 @@
 import Constants from 'expo-constants';
 import * as SQLite from 'expo-sqlite';
-import React, { Component } from 'react';
+import React, { useState, useCallback } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Appearance, AppearanceProvider } from 'react-native-appearance';
+import { AppearanceProvider, useColorScheme } from 'react-native-appearance';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { StatusBar, AsyncStorage, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -16,6 +16,7 @@ import {
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Sentry from 'sentry-expo';
 import uuidv1 from 'uuid/v1';
+import { useDidMount } from 'hooks/index';
 import app from '../app.json';
 import AppInfo from './components/pages/AppInfo/Page';
 import { db, init } from './lib/db';
@@ -26,7 +27,10 @@ import ItemsProvider from './containers/Items';
 import ThemeProvider from './containers/Theme';
 import './lib/firebase';
 import { RootStackParamList } from './lib/navigation';
-import theme from './config/theme';
+import theme, {
+  NavigationDefaultTheme,
+  NavigationDarkTheme,
+} from './config/theme';
 import Home from './components/pages/Home/Connected';
 import Setting from './components/pages/Setting/Connected';
 import Calendars from './components/pages/Calendars/Connected';
@@ -55,14 +59,10 @@ Sentry.init({
   enableInExpoDevelopment: Constants.appOwnership === 'expo',
 });
 
-Appearance.getColorScheme();
-
 StatusBar.setBarStyle('light-content', true);
 StatusBar.setBackgroundColor(theme().color.white, true);
 
 const Tab = createBottomTabNavigator();
-
-type Props = {};
 
 type State = {
   guide: boolean;
@@ -213,108 +213,130 @@ const MainStackScreen = () => (
   </Tab.Navigator>
 );
 
-export default class App extends Component<Props, State> {
-  state = {
-    guide: false,
-    loading: true,
-  };
+const initState = {
+  guide: false,
+  loading: true,
+};
 
-  async componentDidMount() {
-    await setDeviceType();
+const App = () => {
+  const [state, setState] = useState<State>(initState);
 
-    db.transaction((tx: SQLite.SQLTransaction) => {
-      init(tx);
-      selectUser1st(tx, this.checkUser);
-    });
-
-    if (!Constants.isDevice) {
-      const debugMode = await AsyncStorage.getItem('DEBUG_MODE');
-      await setDebugMode(Boolean(debugMode));
-    }
-  }
-
-  checkUser = (data: User | null, error: SQLite.SQLError | null) => {
+  const setUser = useCallback((_: number, error: SQLite.SQLError | null) => {
     if (error) {
       return;
     }
 
-    if (!data) {
-      const uuid = Constants.installationId + uuidv1();
-      const user: User = {
-        uuid,
-      };
-      db.transaction((tx: SQLite.SQLTransaction) => {
-        insertUser(tx, user, this.setUser);
-      });
-
-      AsyncStorage.setItem('userID', user.uuid);
-      // 現在のバージョンを設定
-      AsyncStorage.setItem('APP_VERSION', app.expo.version);
-    } else {
-      AsyncStorage.setItem('userID', data.uuid);
-      this.setState({
-        loading: false,
-      });
-    }
-  };
-
-  setUser = (_: number, error: SQLite.SQLError | null) => {
-    if (error) {
-      return;
-    }
-
-    this.setState({
+    setState((s) => ({
+      ...s,
       guide: true,
       loading: false,
-    });
-  };
+    }));
+  }, []);
 
-  onDoneGuide = () => {
-    this.setState({
+  const checkUser = useCallback(
+    (data: User | null, error: SQLite.SQLError | null) => {
+      if (error) {
+        return;
+      }
+
+      if (!data) {
+        const uuid = Constants.installationId + uuidv1();
+        const user: User = {
+          uuid,
+        };
+        db.transaction((tx: SQLite.SQLTransaction) => {
+          insertUser(tx, user, setUser);
+        });
+
+        AsyncStorage.setItem('userID', user.uuid);
+        // 現在のバージョンを設定
+        AsyncStorage.setItem('APP_VERSION', app.expo.version);
+      } else {
+        AsyncStorage.setItem('userID', data.uuid);
+        setState((s) => ({
+          ...s,
+          loading: false,
+        }));
+      }
+    },
+    [setUser]
+  );
+
+  const onDoneGuide = useCallback(() => {
+    setState((s) => ({
+      ...s,
       guide: false,
-    });
-  };
+    }));
+  }, []);
 
-  render() {
-    if (this.state.loading) {
-      return null;
-    }
+  useDidMount(() => {
+    const setup = async () => {
+      await setDeviceType();
 
-    if (this.state.guide) {
-      return <AppInfo onDone={this.onDoneGuide} />;
-    }
+      db.transaction((tx: SQLite.SQLTransaction) => {
+        init(tx);
+        selectUser1st(tx, checkUser);
+      });
 
-    return (
-      <NavigationContainer>
-        <AppearanceProvider>
-          <ActionSheetProvider>
-            <Version>
-              <AuthProvider>
-                <FetchProvider>
-                  <ItemsProvider>
-                    <ThemeProvider>
-                      <RootStackScreen />
-                    </ThemeProvider>
-                  </ItemsProvider>
-                </FetchProvider>
-              </AuthProvider>
-            </Version>
-          </ActionSheetProvider>
-        </AppearanceProvider>
-      </NavigationContainer>
-    );
+      if (!Constants.isDevice) {
+        const debugMode = await AsyncStorage.getItem('DEBUG_MODE');
+        await setDebugMode(Boolean(debugMode));
+      }
+    };
+
+    setup();
+  });
+
+  if (state.loading) {
+    return null;
   }
-}
+
+  if (state.guide) {
+    return <AppInfo onDone={onDoneGuide} />;
+  }
+
+  return (
+    <AppearanceProvider>
+      <Main />
+    </AppearanceProvider>
+  );
+};
+
+const Main = () => {
+  const scheme = useColorScheme();
+
+  return (
+    <NavigationContainer
+      theme={scheme === 'dark' ? NavigationDarkTheme : NavigationDefaultTheme}
+    >
+      <ActionSheetProvider>
+        <Version>
+          <AuthProvider>
+            <FetchProvider>
+              <ItemsProvider>
+                <ThemeProvider>
+                  <RootStackScreen />
+                </ThemeProvider>
+              </ItemsProvider>
+            </FetchProvider>
+          </AuthProvider>
+        </Version>
+      </ActionSheetProvider>
+    </NavigationContainer>
+  );
+};
+
+export default App;
 
 const styles = EStyleSheet.create({
   tabTitle: {
     fontSize: 12,
-    color: theme().color.darkGray,
+    color: '$tabTitleColor',
   },
   tabTitleFold: {
     fontSize: 12,
     fontWeight: '600',
-    color: theme().color.main,
+    color: '$tabTitleActiveColor',
   },
   tab: {
     backgroundColor: '$background',
