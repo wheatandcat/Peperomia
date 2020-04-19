@@ -4,11 +4,13 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { Button } from 'react-native-elements';
 import { MaterialIcons } from '@expo/vector-icons';
 import Spinner from 'react-native-loading-spinner-overlay';
-import theme from '../../../config/theme';
+import AppleAuthentication from 'components/organisms/SignIn/AppleAuthentication';
+import theme from 'config/theme';
 
 type Props = {
   loading: boolean;
   onGoogleLogin: () => void;
+  onAppleLogin: () => void;
 };
 
 const url = 'https://amazing-hawking-a280c3.netlify.com/general/account/';
@@ -32,6 +34,7 @@ const SignInPage: FC<Props> = (props) => (
         onPress={props.onGoogleLogin}
       />
     </View>
+    <AppleAuthentication onAppleLogin={props.onAppleLogin} />
     <Button
       title="会員登録するとできること"
       type="clear"

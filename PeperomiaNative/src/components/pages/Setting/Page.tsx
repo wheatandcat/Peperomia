@@ -11,32 +11,11 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { Updates } from 'expo';
 import { ListItem, Divider } from 'react-native-elements';
 import Constants from 'expo-constants';
-import theme from '../../../config/theme';
+import theme from 'config/theme';
+import { ConnectedType } from './Connected';
 import app from '../../../../app.json';
 
-type Props = {
-  login: boolean;
-  restoreLoading: boolean;
-  loading: boolean;
-  debugMode: boolean;
-  onResetSQL: () => void;
-  onDeleteSQL: () => void;
-  onShowSQL: () => void;
-  onData: () => void;
-  onDeleteUser: () => void;
-  onTos: () => void;
-  onPolicy: () => void;
-  onSignIn: () => void;
-  onLogout: () => void;
-  onFeedback: () => void;
-  onMyPage: () => void;
-  onMigrationV100: () => void;
-  onScreenSetting: () => void;
-  onLoginWithAmazon: () => void;
-  onFirestoreResetQuery: () => void;
-  onFirestoreSelect: () => void;
-  onChangeDebugMode: (val: boolean) => void;
-};
+type Props = ConnectedType;
 
 const SettingPage: FC<Props> = (props) => (
   <View style={styles.root}>
@@ -156,6 +135,8 @@ const SettingPage: FC<Props> = (props) => (
           <View style={styles.debugSpace} />
           <Divider />
           <Text style={styles.debug}>デバッグ機能</Text>
+          <Divider />
+          <ListItem title={`UID: ${props.uid || ''}`} />
           <Divider />
           <ListItem title="初期データ投入" onPress={props.onResetSQL} />
           <Divider />

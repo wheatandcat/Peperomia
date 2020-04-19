@@ -49,6 +49,27 @@ const Container = () => {
   );
 };
 
+export type ConnectedType = State &
+  Pick<AuthContextProps, 'uid'> & {
+    onResetSQL: () => void;
+    onDeleteSQL: () => void;
+    onShowSQL: () => void;
+    onData: () => void;
+    onDeleteUser: () => void;
+    onTos: () => void;
+    onPolicy: () => void;
+    onSignIn: () => void;
+    onLogout: () => void;
+    onFeedback: () => void;
+    onMyPage: () => void;
+    onMigrationV100: () => void;
+    onScreenSetting: () => void;
+    onLoginWithAmazon: () => void;
+    onFirestoreResetQuery: () => void;
+    onFirestoreSelect: () => void;
+    onChangeDebugMode: (val: boolean) => void;
+  };
+
 type ConnectedProps = Pick<ItemsContextProps, 'refreshData'> &
   Pick<FetchContextProps, 'post'> &
   Pick<AuthContextProps, 'loggedIn' | 'logout' | 'uid'>;
@@ -242,6 +263,7 @@ const Connected = memo((props: ConnectedProps) => {
   return (
     <Page
       loading={state.loading}
+      uid={props.uid}
       restoreLoading={state.restoreLoading}
       login={state.login}
       debugMode={state.debugMode}

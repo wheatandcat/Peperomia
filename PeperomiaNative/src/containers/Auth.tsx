@@ -1,6 +1,7 @@
 import * as GoogleSignIn from 'expo-google-sign-in';
 import * as Google from 'expo-google-app-auth';
 import { AsyncStorage, Platform } from 'react-native';
+import * as AppleAuthentication from 'expo-apple-authentication';
 import dayjs from 'dayjs';
 import React, {
   memo,
@@ -30,6 +31,7 @@ type State = {
 export type ContextProps = Partial<
   Pick<State, 'email' | 'uid'> & {
     onGoogleLogin: () => Promise<string | null>;
+    onAppleLogin: () => Promise<string | null>;
     getIdToken: () => Promise<string | null>;
     loggedIn: () => Promise<boolean>;
     logout: () => Promise<void>;
@@ -95,17 +97,12 @@ const Auth: FC<Props> = memo((props) => {
   }, [getIdToken]);
 
   const firebaseLogin = useCallback(
-    async (idToken: string, accessToken: string) => {
-      const credential = firebase.auth.GoogleAuthProvider.credential(
-        idToken,
-        accessToken
-      );
-
+    async (credential: firebase.auth.OAuthCredential) => {
       const data = await firebase
         .auth()
         .signInWithCredential(credential)
         .catch((error: any) => {
-          Sentry.captureMessage(JSON.stringify(error));
+          console.log(error);
         });
       console.log(data);
 
@@ -113,6 +110,43 @@ const Auth: FC<Props> = memo((props) => {
     },
     [setSession]
   );
+
+  const firebaseGoogleLogin = useCallback(
+    async (idToken: string, accessToken: string) => {
+      const credential = firebase.auth.GoogleAuthProvider.credential(
+        idToken,
+        accessToken
+      );
+
+      await firebaseLogin(credential);
+    },
+    [firebaseLogin]
+  );
+
+  const onAppleLogin = useCallback(async () => {
+    const nonceString = nonceGen(32);
+
+    try {
+      const result = await AppleAuthentication.signInAsync({
+        requestedScopes: [
+          AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+          AppleAuthentication.AppleAuthenticationScope.EMAIL,
+        ],
+        state: nonceString,
+      });
+      const provider = new firebase.auth.OAuthProvider('apple.com');
+      const credential = provider.credential({
+        idToken: result.identityToken || '',
+        rawNonce: nonceString,
+      });
+
+      await firebaseLogin(credential);
+      return await AsyncStorage.getItem('uid');
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
+  }, [firebaseLogin]);
 
   const onGoogleLogin = useCallback(async () => {
     if (isStandaloneAndAndroid()) {
@@ -124,7 +158,7 @@ const Auth: FC<Props> = memo((props) => {
 
       if (result.type === 'success' && result.user && result.user.auth) {
         const { idToken, accessToken } = result.user.auth;
-        await firebaseLogin(idToken || '', accessToken || '');
+        await firebaseGoogleLogin(idToken || '', accessToken || '');
         return await AsyncStorage.getItem('uid');
       } else {
         Sentry.captureMessage(JSON.stringify(result));
@@ -143,14 +177,14 @@ const Auth: FC<Props> = memo((props) => {
 
       if (result.type === 'success') {
         const { idToken, accessToken } = result;
-        await firebaseLogin(idToken || '', accessToken || '');
+        await firebaseGoogleLogin(idToken || '', accessToken || '');
         return await AsyncStorage.getItem('uid');
       } else {
         Sentry.captureMessage(JSON.stringify(result));
         return null;
       }
     }
-  }, [firebaseLogin]);
+  }, [firebaseGoogleLogin]);
 
   useDidMount(() => {
     if (isStandaloneAndAndroid()) {
@@ -217,6 +251,7 @@ const Auth: FC<Props> = memo((props) => {
     <Provider
       value={{
         onGoogleLogin: onGoogleLogin,
+        onAppleLogin: onAppleLogin,
         getIdToken: getIdToken,
         loggedIn: loggedIn,
         logout: onLogout,
@@ -241,3 +276,14 @@ export const Consumer = Context.Consumer;
 export const useAuth = () => useContext(Context);
 
 export default Auth;
+
+const nonceGen = (length: number) => {
+  let result = '';
+  let characters =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+};
