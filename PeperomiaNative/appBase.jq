@@ -22,6 +22,7 @@
     },
     "assetBundlePatterns": ["src/**/*"],
     "ios": {
+      "usesAppleSignIn": true,
       "supportsTablet": true,
       "buildNumber": "16",
       "bundleIdentifier": "com.wheatandcat.peperomia",

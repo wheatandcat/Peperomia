@@ -7849,6 +7849,11 @@ expo-app-loader-provider@~8.0.0:
   resolved "https://registry.yarnpkg.com/expo-app-loader-provider/-/expo-app-loader-provider-8.0.0.tgz#c18ef20a24153f5a0dbb297106ef0bcb5de57180"
   integrity sha512-uMEdstZdm14JW8jfWXBWItIjGPNBH7cLj2pNu5e0pYF21W4j759rGL17NTNWit4UdLZg/zJB/HHRidVwEINfxA==
 
+expo-apple-authentication@~2.1.0:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/expo-apple-authentication/-/expo-apple-authentication-2.1.1.tgz#ecba053fb6ae688f6a83553a192403e968eef931"
+  integrity sha512-E3k0Poo53N3pXimRVYpmxXhF+0PutQWYlQpfNFzRzZX+TjsHVehrTKmtd1KOimFpIs+u39MhsDQIIoMas12/dw==
+
 expo-asset@~8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/expo-asset/-/expo-asset-8.0.0.tgz#400c7cf8693711ddc87da02d20a7d47bd517afeb"
@@ -12710,6 +12715,11 @@ mkdirp@0.x, mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.1:
   dependencies:
     minimist "0.0.8"
 
+mkdirp@^1.0.3:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
+  integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
+
 moment@>=2.14.0, moment@^2.10.6, moment@^2.18.1, moment@^2.22.0:
   version "2.24.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
@@ -16056,16 +16066,16 @@ send@0.17.1:
     range-parser "~1.2.1"
     statuses "~1.5.0"
 
-sentry-expo@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/sentry-expo/-/sentry-expo-2.0.1.tgz#11e3e8c14f4c17e356f01f4c1b84474e3c880508"
-  integrity sha512-kfVBm1ezUROfHdqJyCi8cLNTvF2smcXE5fv+If68mgtRcH822qeyE6ACXbxOR+UT2FZFlPwXJATCr/vBMVujeg==
+sentry-expo@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/sentry-expo/-/sentry-expo-2.0.3.tgz#cea1794bdbb873bd72a0228e7a7971fd21c03fb3"
+  integrity sha512-9yi3W9wPyrpjgAUaFYi86he9iBtimTMSxgXsSDWDbTuMUmh/xRIoOvoUrf3L4Xb4zqbKFC3+mZWxLyfuc+hLpw==
   dependencies:
     "@expo/spawn-async" "^1.2.8"
     "@sentry/integrations" "^5.5.0"
     "@sentry/react-native" "^1.0.0"
     expo-constants "*"
-    mkdirp "^0.5.1"
+    mkdirp "^1.0.3"
     rimraf "^2.6.1"
 
 serialize-error@^2.1.0:

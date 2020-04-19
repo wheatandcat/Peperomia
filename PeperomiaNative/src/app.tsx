@@ -48,13 +48,12 @@ import Icons, {
   IconsNavigationOptions,
 } from './components/pages/Icons/Connected';
 
-if (process.env.SENTRY_URL) {
-  Sentry.setRelease(String(Constants.manifest.revisionId));
-  Sentry.init({
-    dsn: String(process.env.SENTRY_URL),
-    debug: true,
-  });
-}
+Sentry.setRelease(String(Constants.manifest.revisionId));
+Sentry.init({
+  dsn: String(process.env.SENTRY_URL),
+  debug: true,
+  enableInExpoDevelopment: true,
+});
 
 Appearance.getColorScheme();
 

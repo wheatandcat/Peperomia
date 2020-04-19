@@ -23,7 +23,7 @@ type Props = {
 };
 
 const SignInScreen = (props: Props) => {
-  const { onGoogleLogin, logout, uid } = useAuth();
+  const { onGoogleLogin, onAppleLogin, logout, uid } = useAuth();
   const { post } = useFetch();
   const { refreshData } = useItems();
 
@@ -35,6 +35,7 @@ const SignInScreen = (props: Props) => {
       logout={logout}
       refreshData={refreshData}
       onGoogleLogin={onGoogleLogin}
+      onAppleLogin={onAppleLogin}
     />
   );
 };
@@ -43,7 +44,7 @@ export default SignInScreen;
 
 type ConnectedProps = Props &
   Pick<ItemsContextProps, 'refreshData'> &
-  Pick<AuthContextProps, 'onGoogleLogin' | 'logout' | 'uid'> &
+  Pick<AuthContextProps, 'onGoogleLogin' | 'onAppleLogin' | 'logout' | 'uid'> &
   Pick<FetchContextProps, 'post'>;
 
 type ConnectedState = {
@@ -103,16 +104,11 @@ const Connected = memo((props: ConnectedProps) => {
     return true;
   }, [props]);
 
-  const onGoogleLogin = useCallback(async () => {
-    if (!props.onGoogleLogin || !props.refreshData) {
-      return;
-    }
-
-    try {
-      const uid = await props.onGoogleLogin();
-      setState({
-        loading: true,
-      });
+  const backupData = useCallback(
+    async (uid: string) => {
+      if (!props.refreshData) {
+        return;
+      }
 
       const ok1 = await saveUser();
       const ok2 = await backupItem();
@@ -129,6 +125,24 @@ const Connected = memo((props: ConnectedProps) => {
           props.logout();
         }
       }
+    },
+    [backupItem, props, saveUser, onLogin]
+  );
+
+  const onAppleLogin = useCallback(async () => {
+    if (!props.onAppleLogin || !props.refreshData) {
+      return;
+    }
+    try {
+      const uid = await props.onAppleLogin();
+
+      if (uid) {
+        setState({
+          loading: true,
+        });
+
+        await backupData(uid);
+      }
     } catch (err) {
       console.log('err:', err);
     }
@@ -136,7 +150,36 @@ const Connected = memo((props: ConnectedProps) => {
     setState({
       loading: false,
     });
-  }, [backupItem, props, saveUser, onLogin]);
+  }, [props, backupData]);
 
-  return <Page loading={state.loading} onGoogleLogin={onGoogleLogin} />;
+  const onGoogleLogin = useCallback(async () => {
+    if (!props.onGoogleLogin || !props.refreshData) {
+      return;
+    }
+
+    try {
+      const uid = await props.onGoogleLogin();
+      if (uid) {
+        setState({
+          loading: true,
+        });
+
+        await backupData(uid);
+      }
+    } catch (err) {
+      console.log('err:', err);
+    }
+
+    setState({
+      loading: false,
+    });
+  }, [props, backupData]);
+
+  return (
+    <Page
+      loading={state.loading}
+      onGoogleLogin={onGoogleLogin}
+      onAppleLogin={onAppleLogin}
+    />
+  );
 });
