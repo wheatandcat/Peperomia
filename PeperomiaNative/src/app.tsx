@@ -52,7 +52,7 @@ Sentry.setRelease(String(Constants.manifest.revisionId));
 Sentry.init({
   dsn: String(process.env.SENTRY_URL),
   debug: true,
-  enableInExpoDevelopment: true,
+  enableInExpoDevelopment: Constants.appOwnership === 'expo',
 });
 
 Appearance.getColorScheme();
