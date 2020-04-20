@@ -21,7 +21,9 @@
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": ["src/**/*"],
+    "userInterfaceStyle": "automatic",
     "ios": {
+      "userInterfaceStyle": "automatic",
       "usesAppleSignIn": true,
       "supportsTablet": true,
       "buildNumber": "16",
@@ -38,6 +40,7 @@
       }
     },
     "android": {
+      "userInterfaceStyle": "automatic",
       "package": "com.wheatandcat.peperomia",
       "googleServicesFile": "./android/google-services.json",
       "versionCode": 16,

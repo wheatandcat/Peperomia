@@ -12,7 +12,6 @@ import theme, { darkMode } from 'config/theme';
 import { deleteItem } from 'lib/item';
 import { RootStackParamList } from 'lib/navigation';
 import { useItems, ContextProps as ItemContextProps } from 'containers/Items';
-import { useTheme, ContextProps as ThemeContextProps } from 'containers/Theme';
 import { useAuth } from 'containers/Auth';
 import { SelectItem } from 'domain/item';
 import { useDidMount } from 'hooks/index';
@@ -26,11 +25,10 @@ const deviceWidth = Dimensions.get('window').width;
 export type PlanProps = Pick<
   ItemContextProps,
   'items' | 'about' | 'refreshData'
-> &
-  Pick<ThemeContextProps, 'rerendering' | 'onFinishRerendering'> & {
-    loading: boolean;
-    refresh: string;
-  };
+> & {
+  loading: boolean;
+  refresh: string;
+};
 
 type PlanState = {
   refresh: string;
@@ -60,7 +58,6 @@ type Props = {
 
 const HomeScreen = ({ navigation, route }: Props) => {
   const { items, about, refreshData, itemsLoading } = useItems();
-  const { rerendering, onFinishRerendering } = useTheme();
   const [state, setState] = useState<HomeScreeState>({ mask: false });
 
   const refresh = route?.params?.refresh || '';
@@ -87,12 +84,10 @@ const HomeScreen = ({ navigation, route }: Props) => {
     <View>
       <HomeScreenPlan
         loading={Boolean(itemsLoading)}
-        rerendering={rerendering}
         items={items}
         about={about}
         refresh={String(refresh)}
         refreshData={refreshData}
-        onFinishRerendering={onFinishRerendering}
       />
       {state.mask && <View style={styles.mask} />}
     </View>
@@ -113,13 +108,6 @@ const HomeScreenPlan = memo((props: PlanProps) => {
   const { navigate } = useNavigation();
   const { uid } = useAuth();
   const [state, setState] = useState<PlanState>({ refresh: '' });
-
-  useDidMount(() => {
-    if (props.rerendering) {
-      navigate('ScreenSetting');
-      if (props.onFinishRerendering) props.onFinishRerendering();
-    }
-  });
 
   useEffect(() => {
     if (state.refresh === props.refresh) {

@@ -17800,14 +17800,7 @@ use-sidecar@^1.0.1:
     detect-node "^2.0.4"
     tslib "^1.9.3"
 
-use-subscription@^1.0.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/use-subscription/-/use-subscription-1.4.0.tgz#c4e808cfed6fe6e1ac875df1369c63f3ddae9522"
-  integrity sha512-R7P7JWpeHp+dtEYsgDzIIgOmVqRfJjRjLOO0YIYk6twctUkUYe6Tz0pcabyTDGcMMRt9uMbFMfwBfxKHg9gCSw==
-  dependencies:
-    object-assign "^4.1.1"
-
-use-subscription@^1.4.0:
+use-subscription@^1.0.0, use-subscription@^1.4.0:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/use-subscription/-/use-subscription-1.4.1.tgz#edcbcc220f1adb2dd4fa0b2f61b6cc308e620069"
   integrity sha512-7+IIwDG/4JICrWHL/Q/ZPK5yozEnvRm6vHImu0LKwQlmWGKeiF7mbAenLlK/cTNXrTtXHU/SFASQHzB6+oSJMQ==

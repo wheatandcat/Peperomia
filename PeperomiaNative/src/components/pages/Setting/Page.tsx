@@ -33,13 +33,6 @@ const SettingPage: FC<Props> = (props) => (
         bottomDivider
         onPress={props.onFeedback}
       />
-      <ListItem
-        title="画面表示"
-        rightIcon={{ name: 'chevron-right', color: theme().mode.text }}
-        containerStyle={styles.menu}
-        titleStyle={styles.menuText}
-        onPress={props.onScreenSetting}
-      />
       <View style={styles.menuSpace} />
       <ListItem
         title="利用規約"
@@ -137,6 +130,13 @@ const SettingPage: FC<Props> = (props) => (
           <Text style={styles.debug}>デバッグ機能</Text>
           <Divider />
           <ListItem title={`UID: ${props.uid || ''}`} />
+          <ListItem
+            title="画面表示"
+            rightIcon={{ name: 'chevron-right', color: theme().mode.text }}
+            containerStyle={styles.menu}
+            titleStyle={styles.menuText}
+            onPress={props.onScreenSetting}
+          />
           <Divider />
           <ListItem title="初期データ投入" onPress={props.onResetSQL} />
           <Divider />
@@ -203,6 +203,7 @@ const styles = EStyleSheet.create({
   },
   menuSpace: {
     height: 20,
+    backgroundColor: '$settingRoot',
   },
   loginMenu: {
     height: 60,

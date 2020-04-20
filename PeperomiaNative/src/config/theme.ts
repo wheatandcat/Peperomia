@@ -1,4 +1,6 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { DefaultTheme, DarkTheme } from '@react-navigation/native';
+import { Appearance, ColorSchemeName } from 'react-native-appearance';
 
 type ThemeColor = {
   color: {
@@ -24,6 +26,7 @@ type ThemeColor = {
     sky: string;
     yellow: string;
     black: string;
+    pitchBlack: string;
   };
   mode: {
     background: string;
@@ -50,6 +53,7 @@ type ThemeColor = {
 type Theme = {
   light: ThemeColor;
   dark: ThemeColor;
+  'no-preference': ThemeColor;
 };
 
 const baseColor = {
@@ -75,6 +79,7 @@ const baseColor = {
   sky: '#00C2ED',
   yellow: '#f8e58c',
   black: '#333631',
+  pitchBlack: '#000',
 };
 
 const darkColor = {
@@ -100,6 +105,7 @@ const darkColor = {
   sky: '#00C2ED',
   yellow: '#f8e58c',
   black: '#333631',
+  pitchBlack: '#000',
 };
 
 const theme: Theme = {
@@ -129,18 +135,18 @@ const theme: Theme = {
   dark: {
     color: darkColor,
     mode: {
-      background: baseColor.black,
+      background: baseColor.pitchBlack,
       secondaryBackground: baseColor.darkGray,
       icon: baseColor.lightGray,
       text: baseColor.lightGray,
       secondaryText: baseColor.gray,
       tabBar: {
-        background: baseColor.darkGray,
-        activeTint: baseColor.lightGreen,
-        inactiveTint: baseColor.lightGray,
+        background: baseColor.pitchBlack,
+        activeTint: baseColor.highLightGray,
+        inactiveTint: baseColor.gray,
       },
       header: {
-        backgroundColor: baseColor.black,
+        backgroundColor: baseColor.pitchBlack,
         text: baseColor.highLightGray,
       },
       loading: {
@@ -149,11 +155,34 @@ const theme: Theme = {
       },
     },
   },
+  'no-preference': {
+    color: baseColor,
+    mode: {
+      background: baseColor.highLightGray,
+      secondaryBackground: baseColor.lightGray,
+      icon: baseColor.black,
+      text: baseColor.black,
+      secondaryText: baseColor.darkGray,
+      tabBar: {
+        background: baseColor.highLightGray,
+        activeTint: baseColor.main,
+        inactiveTint: baseColor.darkGray,
+      },
+      header: {
+        backgroundColor: baseColor.main,
+        text: baseColor.lightGreen,
+      },
+      loading: {
+        primaryColor: '#ccc',
+        secondaryColor: '#bbb',
+      },
+    },
+  },
 };
 
-let mode: 'light' | 'dark' = 'light';
+let mode: ColorSchemeName = Appearance.getColorScheme() || 'light';
 
-export const setMode = (modeType: 'light' | 'dark') => {
+export const setMode = (modeType: ColorSchemeName) => {
   mode = modeType;
 
   const themeMode = theme[mode].mode;
@@ -169,13 +198,15 @@ export const setMode = (modeType: 'light' | 'dark') => {
     $searchInputContainer: darkMode()
       ? baseColor.darkGray
       : baseColor.highLightGray,
-    $settingRoot: darkMode() ? baseColor.black : baseColor.highLightGray,
-    $settingMenu: darkMode() ? baseColor.darkGray : baseColor.white,
+    $settingRoot: darkMode() ? baseColor.pitchBlack : baseColor.highLightGray,
+    $settingMenu: darkMode() ? baseColor.black : baseColor.white,
     $chip: darkMode() ? baseColor.black : baseColor.highLightGray,
     $chipText: darkMode() ? baseColor.lightGray : baseColor.gray,
     $button: darkMode() ? baseColor.black : baseColor.main,
     $secondaryButton: darkMode() ? baseColor.white : baseColor.main,
     $buttonBorder: darkMode() ? baseColor.white : baseColor.main,
+    $tabTitleActiveColor: darkMode() ? baseColor.white : baseColor.main,
+    $tabTitleColor: darkMode() ? baseColor.lightGray : baseColor.darkGray,
   });
 };
 
@@ -188,3 +219,27 @@ const getTheme = () => {
 };
 
 export default getTheme;
+
+export const NavigationDefaultTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: baseColor.main,
+    text: baseColor.lightGreen,
+    background: baseColor.white,
+    card: baseColor.white,
+    border: baseColor.gray,
+  },
+};
+
+export const NavigationDarkTheme = {
+  ...DarkTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: baseColor.lightGray,
+    text: baseColor.white,
+    background: baseColor.pitchBlack,
+    card: baseColor.pitchBlack,
+    border: baseColor.highLightGray,
+  },
+};
