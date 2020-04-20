@@ -180,7 +180,7 @@ const theme: Theme = {
   },
 };
 
-let mode: ColorSchemeName = Appearance.getColorScheme();
+let mode: ColorSchemeName = Appearance.getColorScheme() || 'light';
 
 export const setMode = (modeType: ColorSchemeName) => {
   mode = modeType;
