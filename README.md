@@ -14,6 +14,11 @@
 
 ペペロミアは予定作成アプリです
 
+## パッケージ
+ - Expo SDK 37
+ - TypeScript v3.8
+ - react-navigation v5
+
 ## expo
 
 https://expo.io/@wheatandcat/peperomia

@@ -2,6 +2,17 @@
 ## [Peperomia]
 
 
+<a name="v2.0.4"></a>
+## [v2.0.4] - 2020-04-23
+### Add
+- Sign in with Apple実装 ([#561](https://github.com/wheatandcat/Peperomia/issues/561))
+- codecov実装 ([#548](https://github.com/wheatandcat/Peperomia/issues/548))
+- Expo sdk v37にバージョンアップ ([#535](https://github.com/wheatandcat/Peperomia/issues/535))
+- prettier 2.0にバージョンアップ ([#560](https://github.com/wheatandcat/Peperomia/issues/560))
+- react-navigation v5にアップデート ([#545](https://github.com/wheatandcat/Peperomia/issues/545))
+- Dangerを導入する ([#478](https://github.com/wheatandcat/Peperomia/issues/478))
+- GitHub Actionsに移行する ([#349](https://github.com/wheatandcat/Peperomia/issues/349))
+
 <a name="v2.0.3"></a>
 ## [v2.0.3] - 2020-02-17
 ### Add
@@ -78,7 +89,9 @@
 - iPhoneSEのサイズに対応
 - ボトムタブのアクティブカラー変更
 
-[Unreleased]: https://github.com/wheatandcat/Peperomia/compare/v2.0.3...HEAD
+
+[Unreleased]: https://github.com/wheatandcat/Peperomia/compare/v2.0.4...HEAD
+[v2.0.4]: https://github.com/wheatandcat/Peperomia/compare/v2.0.3...v2.0.4
 [v2.0.3]: https://github.com/wheatandcat/Peperomia/compare/v2.0.2...v2.0.3
 [v2.0.2]: https://github.com/wheatandcat/Peperomia/compare/v2.0.1...v2.0.2
 [v2.0.1]: https://github.com/wheatandcat/Peperomia/compare/v2.0.0...v2.0.1
