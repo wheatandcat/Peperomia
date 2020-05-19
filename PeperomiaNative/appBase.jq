@@ -2,6 +2,7 @@
   "expo": {
     "name": "ペペロミア",
     "slug": "peperomia",
+    "scheme": "peperomia",
     "privacy": "public",
     "sdkVersion": "37.0.0",
     "packagerOpts": {

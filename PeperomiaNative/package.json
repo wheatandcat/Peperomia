@@ -61,6 +61,7 @@
     "expo-google-sign-in": "~8.1.0",
     "expo-image-manipulator": "~8.1.0",
     "expo-image-picker": "~8.1.0",
+    "expo-linking": "^1.0.1",
     "expo-permissions": "~8.1.0",
     "expo-screen-orientation": "~1.0.0",
     "expo-sqlite": "~8.1.0",
