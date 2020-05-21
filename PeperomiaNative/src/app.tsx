@@ -310,7 +310,11 @@ const Main = () => {
   const ref = useRef();
 
   const { getInitialState } = useLinking(ref, {
-    prefixes: [prefix],
+    prefixes: [
+      prefix,
+      'https://link.peperomia.info',
+      'exps://link.peperomia.info',
+    ],
     config: {
       Schedule: {
         path: 'schedule/:itemId',
