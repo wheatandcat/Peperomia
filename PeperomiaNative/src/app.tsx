@@ -1,12 +1,13 @@
+import * as Linking from 'expo-linking';
 import Constants from 'expo-constants';
 import * as SQLite from 'expo-sqlite';
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { AppearanceProvider, useColorScheme } from 'react-native-appearance';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { StatusBar, AsyncStorage, Text } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useLinking } from '@react-navigation/native';
 import {
   createBottomTabNavigator,
   BottomTabNavigationOptions,
@@ -303,11 +304,53 @@ const App = () => {
 };
 
 const Main = () => {
+  const prefix = Linking.makeUrl('/');
+
   const scheme = useColorScheme();
+  const ref = useRef();
+
+  const { getInitialState } = useLinking(ref, {
+    prefixes: [
+      prefix,
+      'https://link.peperomia.info',
+      'exps://link.peperomia.info',
+    ],
+    config: {
+      Schedule: {
+        path: 'schedule/:itemId',
+        parse: {
+          itemId: String,
+        },
+      },
+    },
+  });
+
+  const [isReady, setIsReady] = useState(false);
+  const [initialState, setInitialState] = useState<any>();
+
+  useEffect(() => {
+    getInitialState()
+      .catch(() => {})
+      .then((state) => {
+        console.log(state);
+
+        if (state !== undefined) {
+          setInitialState(state);
+        }
+
+        setIsReady(true);
+      });
+  }, [getInitialState]);
+
+  if (!isReady) {
+    return null;
+  }
 
   return (
     <NavigationContainer
+      initialState={initialState}
       theme={scheme === 'dark' ? NavigationDarkTheme : NavigationDefaultTheme}
+      ref={ref}
     >
       <ActionSheetProvider>
         <Version>

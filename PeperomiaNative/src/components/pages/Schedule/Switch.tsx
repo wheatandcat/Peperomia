@@ -309,6 +309,7 @@ export const Connected = memo((props: Props) => {
       }));
 
       props.navigation.setParams({
+        title: item.title,
         onEditPlan: () => onEditPlan(item),
       });
     };
