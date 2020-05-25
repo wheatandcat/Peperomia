@@ -14,6 +14,7 @@ import {
   BottomTabBar,
   BottomTabBarProps,
 } from '@react-navigation/bottom-tabs';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Sentry from 'sentry-expo';
 import uuidv1 from 'uuid/v1';
@@ -352,19 +353,21 @@ const Main = () => {
       theme={scheme === 'dark' ? NavigationDarkTheme : NavigationDefaultTheme}
       ref={ref}
     >
-      <ActionSheetProvider>
-        <Version>
-          <AuthProvider>
-            <FetchProvider>
-              <ItemsProvider>
-                <ThemeProvider>
-                  <RootStackScreen />
-                </ThemeProvider>
-              </ItemsProvider>
-            </FetchProvider>
-          </AuthProvider>
-        </Version>
-      </ActionSheetProvider>
+      <SafeAreaProvider>
+        <ActionSheetProvider>
+          <Version>
+            <AuthProvider>
+              <FetchProvider>
+                <ItemsProvider>
+                  <ThemeProvider>
+                    <RootStackScreen />
+                  </ThemeProvider>
+                </ItemsProvider>
+              </FetchProvider>
+            </AuthProvider>
+          </Version>
+        </ActionSheetProvider>
+      </SafeAreaProvider>
     </NavigationContainer>
   );
 };
