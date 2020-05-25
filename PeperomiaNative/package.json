@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "app:copy": "cp -r App.app.tsx App.tsx && cp -r src/lib/system/firebase/_product.ts src/lib/system/firebase/index.ts",
-    "storybook:copy": "cp -r App.storybook.tsx App.tsx && cp -r src/lib/system/firebase/_product.ts src/lib/system/firebase/index.t",
+    "storybook:copy": "cp -r App.storybook.tsx App.tsx && cp -r src/lib/system/firebase/_product.ts src/lib/system/firebase/index.ts",
     "test:copy": "cp -r src/lib/system/firebase/_mock.ts src/lib/system/firebase/index.ts",
     "start": "npm run app:copy && npm run development:config && expo start --no-minify -c",
     "android": "npm run app:copy && expo start --android",
