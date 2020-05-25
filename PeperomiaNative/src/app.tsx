@@ -14,6 +14,7 @@ import {
   BottomTabBar,
   BottomTabBarProps,
 } from '@react-navigation/bottom-tabs';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Sentry from 'sentry-expo';
 import uuidv1 from 'uuid/v1';
@@ -307,7 +308,7 @@ const Main = () => {
   const prefix = Linking.makeUrl('/');
 
   const scheme = useColorScheme();
-  const ref = useRef();
+  const ref = useRef<any>();
 
   const { getInitialState } = useLinking(ref, {
     prefixes: [
@@ -329,17 +330,15 @@ const Main = () => {
   const [initialState, setInitialState] = useState<any>();
 
   useEffect(() => {
-    getInitialState()
-      .catch(() => {})
-      .then((state) => {
-        console.log(state);
+    getInitialState().then((state: any) => {
+      console.log(state);
 
-        if (state !== undefined) {
-          setInitialState(state);
-        }
+      if (state !== undefined) {
+        setInitialState(state);
+      }
 
-        setIsReady(true);
-      });
+      setIsReady(true);
+    });
   }, [getInitialState]);
 
   if (!isReady) {
@@ -352,19 +351,21 @@ const Main = () => {
       theme={scheme === 'dark' ? NavigationDarkTheme : NavigationDefaultTheme}
       ref={ref}
     >
-      <ActionSheetProvider>
-        <Version>
-          <AuthProvider>
-            <FetchProvider>
-              <ItemsProvider>
-                <ThemeProvider>
-                  <RootStackScreen />
-                </ThemeProvider>
-              </ItemsProvider>
-            </FetchProvider>
-          </AuthProvider>
-        </Version>
-      </ActionSheetProvider>
+      <SafeAreaProvider>
+        <ActionSheetProvider>
+          <Version>
+            <AuthProvider>
+              <FetchProvider>
+                <ItemsProvider>
+                  <ThemeProvider>
+                    <RootStackScreen />
+                  </ThemeProvider>
+                </ItemsProvider>
+              </FetchProvider>
+            </AuthProvider>
+          </Version>
+        </ActionSheetProvider>
+      </SafeAreaProvider>
     </NavigationContainer>
   );
 };
