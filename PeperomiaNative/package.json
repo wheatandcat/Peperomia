@@ -128,7 +128,7 @@
     "codecov": "^3.6.5",
     "danger": "^9.2.10",
     "danger-plugin-istanbul-coverage": "^1.6.2",
-    "detox": "^15.0.0",
+    "detox": "^16.6.0",
     "detox-expo-helpers": "^0.6.0",
     "emotion-theming": "^10.0.27",
     "enzyme": "^3.11.0",

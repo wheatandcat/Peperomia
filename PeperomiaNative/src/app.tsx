@@ -308,7 +308,7 @@ const Main = () => {
   const prefix = Linking.makeUrl('/');
 
   const scheme = useColorScheme();
-  const ref = useRef();
+  const ref = useRef<any>();
 
   const { getInitialState } = useLinking(ref, {
     prefixes: [
@@ -330,17 +330,15 @@ const Main = () => {
   const [initialState, setInitialState] = useState<any>();
 
   useEffect(() => {
-    getInitialState()
-      .catch(() => {})
-      .then((state) => {
-        console.log(state);
+    getInitialState().then((state: any) => {
+      console.log(state);
 
-        if (state !== undefined) {
-          setInitialState(state);
-        }
+      if (state !== undefined) {
+        setInitialState(state);
+      }
 
-        setIsReady(true);
-      });
+      setIsReady(true);
+    });
   }, [getInitialState]);
 
   if (!isReady) {

@@ -34,13 +34,7 @@ export default class extends Component<Props, State> {
 
     return (
       <>
-        <Overlay
-          isVisible={this.props.isOpen}
-          height={280}
-          overlayBackgroundColor={
-            darkMode() ? theme().color.black : theme().color.white
-          }
-        >
+        <Overlay isVisible={this.props.isOpen}>
           <View style={styles.dialogContainer}>
             <View style={styles.imageContainer}>
               <Image
@@ -150,7 +144,7 @@ const styles = EStyleSheet.create({
   },
   dialogContainer: {
     backgroundColor: '$background',
-    height: '100%',
+    height: 280,
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { View, TextInput, Text, Platform } from 'react-native';
 import { Button, Overlay } from 'react-native-elements';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import theme, { darkMode } from '../../../config/theme';
+import theme from '../../../config/theme';
 
 type Props = {
   open: boolean;
@@ -12,15 +12,7 @@ type Props = {
 };
 
 const TimeDialog: FC<Props> = (props) => (
-  <Overlay
-    isVisible={props.open}
-    height={Platform.OS === 'ios' ? 220 : 245}
-    width="90%"
-    overlayStyle={styles.overlay}
-    overlayBackgroundColor={
-      darkMode() ? theme().color.black : theme().color.white
-    }
-  >
+  <Overlay isVisible={props.open} overlayStyle={styles.overlay}>
     <View style={styles.root}>
       <View>
         <Text style={styles.title}>時間を入力して下さい</Text>
@@ -43,7 +35,7 @@ const TimeDialog: FC<Props> = (props) => (
           </View>
         </View>
       </View>
-      <View style={styles.fotter}>
+      <View style={styles.footer}>
         <Button
           title="キャンセル"
           type="clear"
@@ -68,7 +60,7 @@ const TimeDialog: FC<Props> = (props) => (
 
 const styles = EStyleSheet.create({
   root: {
-    height: '100%',
+    height: Platform.OS === 'ios' ? 180 : 205,
     width: '100%',
     backgroundColor: '$background',
   },
@@ -93,7 +85,7 @@ const styles = EStyleSheet.create({
     fontSize: 18,
     color: '$text',
   },
-  fotter: {
+  footer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -112,6 +104,7 @@ const styles = EStyleSheet.create({
     fontWeight: '600',
   },
   overlay: {
+    backgroundColor: '$background',
     paddingHorizontal: 0,
     paddingTop: 30,
   },
@@ -126,14 +119,13 @@ const styles = EStyleSheet.create({
     paddingTop: 5,
   },
   cancelContainer: {
-    paddingLeft: 30,
+    paddingHorizontal: 15,
   },
   line: {
     fontSize: 22,
     color: theme().color.lightGray,
   },
   settingButton: {
-    paddingRight: 50,
     width: 120,
   },
 });
