@@ -130,6 +130,7 @@ const SettingPage: FC<Props> = (props) => (
           <Text style={styles.debug}>デバッグ機能</Text>
           <Divider />
           <ListItem title={`UID: ${props.uid || ''}`} />
+
           <ListItem
             title="画面表示"
             rightIcon={{ name: 'chevron-right', color: theme().mode.text }}
@@ -176,7 +177,6 @@ const SettingPage: FC<Props> = (props) => (
             }}
             bottomDivider
           />
-
           <ListItem
             title="アプリを再起動する"
             onPress={() => {

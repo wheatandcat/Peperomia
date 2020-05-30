@@ -13,6 +13,7 @@ type Props = {
   email: string;
   onBackup: () => void;
   onRestore: () => void;
+  onNotificationSetting: () => Promise<void>;
 };
 
 const url = 'https://amazing-hawking-a280c3.netlify.com/general/account/';
@@ -46,9 +47,17 @@ const MyPage: FC<Props> = (props) => (
             titleStyle={styles.menuText}
             containerStyle={styles.menuContainer}
             onPress={props.onRestore}
+            bottomDivider
           />
         </>
       )}
+      <ListItem
+        title="Push通知を設定する"
+        titleStyle={styles.menuText}
+        containerStyle={styles.menuContainer}
+        onPress={props.onNotificationSetting}
+      />
+
       <Button
         title="会員登録するとできること"
         type="clear"

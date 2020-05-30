@@ -30,6 +30,7 @@ import SignIn from '../SignIn/Connected';
 import MyPage from '../MyPage/Connected';
 import ScreenSetting from '../ScreenSetting/Connected';
 import LoginWithAmazon from '../LoginWithAmazon/Connected';
+import NotificationSetting from 'components/pages/NotificationSetting/Page';
 import Page from './Page';
 
 const Container = () => {
@@ -61,6 +62,7 @@ export type ConnectedType = State &
     onLogout: () => void;
     onFeedback: () => void;
     onMyPage: () => void;
+    onNotificationSetting: () => void;
     onMigrationV100: () => void;
     onScreenSetting: () => void;
     onLoginWithAmazon: () => void;
@@ -168,6 +170,10 @@ const Connected = memo((props: ConnectedProps) => {
     navigate('MyPage');
   }, [navigate]);
 
+  const onNotificationSetting = useCallback(() => {
+    navigate('NotificationSetting');
+  }, [navigate]);
+
   const onScreenSetting = useCallback(() => {
     navigate('ScreenSetting');
   }, [navigate]);
@@ -271,6 +277,7 @@ const Connected = memo((props: ConnectedProps) => {
       onSignIn={onSignIn}
       onLogout={onLogout}
       onMyPage={onMyPage}
+      onNotificationSetting={onNotificationSetting}
       onMigrationV100={onMigrationV100}
       onScreenSetting={onScreenSetting}
       onLoginWithAmazon={onLoginWithAmazon}
@@ -325,6 +332,11 @@ const RootStack = () => {
         name="LoginWithAmazon"
         component={LoginWithAmazon}
         options={navigationOption('Amazonアカウント連携')}
+      />
+      <Stack.Screen
+        name="NotificationSetting"
+        component={NotificationSetting}
+        options={navigationOption('通知テスト')}
       />
     </Stack.Navigator>
   );
