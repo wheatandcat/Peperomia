@@ -65,7 +65,7 @@
     "expo-permissions": "~8.1.0",
     "expo-screen-orientation": "~1.0.0",
     "expo-sqlite": "~8.1.0",
-    "firebase": "7.9.0",
+    "firebase": "7.15.0",
     "primitive": "../primitive",
     "query-string": "^6.8.3",
     "react": "16.9.0",
