@@ -1,40 +1,80 @@
 import React from 'react';
 import { shallow, ShallowWrapper } from 'enzyme';
 import * as Items from 'containers/Items';
-import Connected from '../Connected';
+import * as Auth from 'containers/Auth';
+import EditPlan, { Connected } from '../Connected';
 
 describe('components/pages/EditPlan/Connected.tsx', () => {
-  let wrapper: ShallowWrapper;
+  describe('EditPlan', () => {
+    let wrapper: ShallowWrapper;
 
-  const propsData: any = () => ({
-    title: 'test',
-    kind: 'park',
-    navigation: {
-      setParams: jest.fn(),
-      navigate: jest.fn(),
-    },
-    route: {
-      params: {
-        itemId: '1',
-        refresh: '',
+    const propsData: any = () => ({
+      title: 'test',
+      kind: 'park',
+      navigation: {
+        setParams: jest.fn(),
+        navigate: jest.fn(),
       },
-    },
+      route: {
+        params: {
+          itemId: '1',
+          refresh: '',
+        },
+      },
+    });
+
+    beforeEach(() => {
+      jest.spyOn(Items, 'useItems').mockImplementation(
+        () =>
+          ({
+            refreshData: jest.fn(),
+            items: [],
+            calendars: [],
+          } as any)
+      );
+
+      wrapper = shallow(<EditPlan {...propsData()} />);
+    });
+
+    it('正常に表示されている', () => {
+      expect(wrapper).toMatchSnapshot();
+    });
   });
 
-  beforeEach(() => {
-    jest.spyOn(Items, 'useItems').mockImplementation(
-      () =>
-        ({
-          refreshData: jest.fn(),
-          items: [],
-          calendars: [],
-        } as any)
-    );
+  describe('Connected', () => {
+    let wrapper: ShallowWrapper;
 
-    wrapper = shallow(<Connected {...propsData()} />);
-  });
+    const propsData: any = () => ({
+      title: 'test',
+      kind: 'park',
+      navigation: {
+        setParams: jest.fn(),
+        navigate: jest.fn(),
+      },
+      route: {
+        params: {
+          itemId: '1',
+          refresh: '',
+        },
+      },
+      items: [],
+      refreshData: jest.fn(),
+      calendars: [],
+    });
 
-  it('正常に表示されている', () => {
-    expect(wrapper).toMatchSnapshot();
+    beforeEach(() => {
+      jest.spyOn(Auth, 'useAuth').mockImplementation(
+        () =>
+          ({
+            uid: 'test',
+          } as any)
+      );
+      jest.spyOn(React, 'useEffect').mockImplementation((f) => f());
+      wrapper = shallow(<Connected {...propsData()} />);
+    });
+
+    it('正常に表示されている', () => {
+      expect(wrapper).toMatchSnapshot();
+    });
   });
 });

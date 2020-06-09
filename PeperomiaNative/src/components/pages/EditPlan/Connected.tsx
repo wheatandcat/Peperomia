@@ -66,7 +66,7 @@ const EditPlan: React.FC<Props> = (props) => {
 
 export default EditPlan;
 
-const Connected: React.FC<ConnectedProps> = memo((props) => {
+export const Connected: React.FC<ConnectedProps> = memo((props) => {
   const { uid } = useAuth();
   const id = props.route?.params?.id || 0;
   const kind = props.route?.params?.kind || '';
