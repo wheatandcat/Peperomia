@@ -14,8 +14,8 @@ exports[`components/pages/CreatePlan/Connected.tsx 正常に表示されてい�
   route={
     Object {
       "params": Object {
-        "itemId": "1",
-        "refresh": "",
+        "date": "1",
+        "kind": "park",
       },
     }
   }

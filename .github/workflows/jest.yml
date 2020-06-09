@@ -28,7 +28,7 @@ jobs:
       run: yarn test
       working-directory: ./PeperomiaNative
     - name: codecov
-      env:
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       run: yarn codecov
       working-directory: ./PeperomiaNative
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
