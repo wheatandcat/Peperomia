@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/pages/AppInfo/Page.tsx 正常に表示されている 1`] = `
+<AppIntroSlider
+  activeDotStyle={
+    Object {
+      "backgroundColor": "rgba(255, 255, 255, .9)",
+    }
+  }
+  buttonStyle={null}
+  buttonTextStyle={null}
+  doneLabel="Done"
+  dotStyle={
+    Object {
+      "backgroundColor": "rgba(0, 0, 0, .2)",
+    }
+  }
+  nextLabel="Next"
+  onDone={[Function]}
+  paginationStyle={null}
+  prevLabel="Back"
+  renderDoneButton={[Function]}
+  renderItem={[Function]}
+  renderNextButton={[Function]}
+  showDoneButton={true}
+  showNextButton={true}
+  skipLabel="Skip"
+  slides={
+    Array [
+      Object {
+        "backgroundColor": "#ADCF01",
+        "image": null,
+        "imageWidth": 250,
+        "key": "step1",
+        "text": "ペペロミアは予定管理アプリです
+簡単な操作で予定を作成",
+        "textColor": "#006835",
+        "title": "予定を管理",
+        "titleColor": "#006835",
+      },
+      Object {
+        "backgroundColor": "#006835",
+        "image": null,
+        "imageWidth": 250,
+        "key": "step2",
+        "text": "タイトルをつけると自動でアイコンを設定
+見やすい予定表を作成しよう！",
+        "textColor": "#ADCF01",
+        "title": "予定を整理",
+        "titleColor": "#ADCF01",
+      },
+      Object {
+        "backgroundColor": "#ADCF01",
+        "image": null,
+        "imageWidth": 300,
+        "key": "step3",
+        "text": "作成した予定は
+ブラウザから誰にでも共有可能",
+        "textColor": "#006835",
+        "title": "予定を共有",
+        "titleColor": "#006835",
+      },
+      Object {
+        "backgroundColor": "#006835",
+        "image": null,
+        "imageWidth": 200,
+        "key": "step4",
+        "text": "ペペロミアを使って予定を作っていこう！",
+        "textColor": "#F2F2F2",
+        "title": "ようこそ！！",
+        "titleColor": "#fff",
+      },
+    ]
+  }
+/>
+`;

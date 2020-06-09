@@ -6,7 +6,9 @@ import {
 } from '@react-navigation/stack';
 import { RootStackParamList } from 'lib/navigation';
 import { useItems } from 'containers/Items';
-import Schedule, { ScheduleNavigationOptions } from '../Schedule/Switch';
+import Schedule, {
+  ScheduleNavigationOptions,
+} from 'components/pages/Schedule/Switch';
 import Page from './Page';
 
 type CalendarsScreenNavigationProp = StackNavigationProp<

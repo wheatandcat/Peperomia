@@ -15,8 +15,10 @@ import { useItems, ContextProps as ItemContextProps } from 'containers/Items';
 import { useAuth } from 'containers/Auth';
 import { SelectItem } from 'domain/item';
 import { useDidMount } from 'hooks/index';
-import Hint from '../../atoms/Hint/Hint';
-import Schedule, { ScheduleNavigationOptions } from '../Schedule/Switch';
+import Hint from 'components/atoms/Hint/Hint';
+import Schedule, {
+  ScheduleNavigationOptions,
+} from 'components/pages/Schedule/Switch';
 import Page from './Page';
 
 const deviceHeight = Dimensions.get('window').height;
@@ -56,7 +58,7 @@ type Props = {
   route: ScreenRouteProp;
 };
 
-const HomeScreen = ({ navigation, route }: Props) => {
+const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
   const { items, about, refreshData, itemsLoading } = useItems();
   const [state, setState] = useState<HomeScreeState>({ mask: false });
 

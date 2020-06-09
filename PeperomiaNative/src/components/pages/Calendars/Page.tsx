@@ -16,12 +16,12 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import 'dayjs/locale/ja';
-import { SelectCalendar } from '../../../domain/calendar';
-import theme from '../../../config/theme';
+import { SelectCalendar } from 'domain/calendar';
+import theme from 'config/theme';
+import ImageDay from 'components/organisms/Calendars/Image';
+import DayText from 'components/organisms/Calendars/DayText';
+import CalendarImage from 'components/molecules/Calendar/Image';
 import GlobalStyles from '../../../GlobalStyles';
-import ImageDay from '../../organisms/Calendars/Image';
-import DayText from '../../organisms/Calendars/DayText';
-import CalendarImage from '../../molecules/Calendar/Image';
 import { ConnectedType } from './Connected';
 
 dayjs.extend(advancedFormat);
