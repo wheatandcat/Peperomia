@@ -10,7 +10,7 @@ import getKind from 'lib/getKind';
 import { useDidMount } from 'hooks/index';
 import { createItem } from 'lib/item';
 import { createCalendar } from 'lib/calendar';
-import Page from '../../templates/CreatePlan/Page';
+import Page from 'components/templates/CreatePlan/Page';
 
 type ScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -32,7 +32,7 @@ type State = {
   suggestList: SuggestItem[];
 };
 
-export default (props: Props) => {
+const CreatePlan: React.FC<Props> = (props) => {
   const { items, refreshData, calendars } = useItems();
 
   return (
@@ -45,10 +45,12 @@ export default (props: Props) => {
   );
 };
 
+export default CreatePlan;
+
 type ConnectProps = Props &
   Pick<ItemContextProps, 'items' | 'refreshData' | 'calendars'>;
 
-const Connect = memo((props: ConnectProps) => {
+const Connect: React.FC<ConnectProps> = memo((props) => {
   const { uid } = useAuth();
   const [state, setState] = useState<State>({
     input: { title: '', date: '' },

@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/pages/AddScheduleDetail/Connected.tsx 正常に表示されている 1`] = `
+<Memo()
+  itemDetails={
+    Array [
+      Object {
+        "kind": "park1",
+        "memo": "memo1",
+        "moveMinutes": 30,
+        "place": "place1",
+        "priority": 1,
+        "title": "test1",
+        "url": "url1",
+      },
+      Object {
+        "kind": "park2",
+        "memo": "memo2",
+        "moveMinutes": 45,
+        "place": "place2",
+        "priority": 2,
+        "title": "test2",
+        "url": "url2",
+      },
+    ]
+  }
+  kind="park"
+  memo="memo"
+  moveMinutes={30}
+  navigation={
+    Object {
+      "navigate": [MockFunction],
+      "setParams": [MockFunction],
+    }
+  }
+  place="place"
+  priority={1}
+  refreshData={[MockFunction]}
+  route={
+    Object {
+      "params": Object {
+        "itemId": "1",
+        "refresh": "",
+      },
+    }
+  }
+  title="test"
+  url="url"
+/>
+`;

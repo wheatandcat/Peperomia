@@ -22,7 +22,7 @@ type Props = {
   route: ScreenRouteProp;
 };
 
-const SignInScreen = (props: Props) => {
+const SignInScreen: React.FC<Props> = (props) => {
   const { onGoogleLogin, onAppleLogin, logout, uid } = useAuth();
   const { post } = useFetch();
   const { refreshData } = useItems();

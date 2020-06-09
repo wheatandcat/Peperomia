@@ -17,7 +17,7 @@ type Props = {
   route: ScreenRouteProp;
 };
 
-const Connected = (props: Props) => {
+const Connected: React.FC<Props> = (props) => {
   const onDismiss = props.route?.params?.onDismiss;
   const onSelectIcon = props.route?.params?.onSelectIcon;
   const kind = props.route?.params?.kind || '';

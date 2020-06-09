@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/pages/CreatePlan/Connected.tsx 正常に表示されている 1`] = `
+<Memo()
+  calendars={Array []}
+  items={Array []}
+  navigation={
+    Object {
+      "navigate": [MockFunction],
+      "setParams": [MockFunction],
+    }
+  }
+  refreshData={[MockFunction]}
+  route={
+    Object {
+      "params": Object {
+        "itemId": "1",
+        "refresh": "",
+      },
+    }
+  }
+/>
+`;
