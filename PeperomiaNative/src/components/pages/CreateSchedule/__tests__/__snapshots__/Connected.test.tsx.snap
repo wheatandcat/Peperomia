@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/pages/CreateSchedule/Connected.tsx 正常に表示されている 1`] = `
+<_default
+  data={Array []}
+  kind=""
+  onCreateScheduleDetail={[Function]}
+  onFinish={[Function]}
+  onGoBack={[Function]}
+  onScheduleDetail={[Function]}
+  title=""
+/>
+`;

@@ -11,7 +11,7 @@ import { useAuth } from 'containers/Auth';
 import { ItemDetail } from 'domain/itemDetail';
 import { createItemDetail, countItemDetail } from 'lib/itemDetail';
 import { useDidMount } from 'hooks/index';
-import Page from '../../templates/CreateScheduleDetail/Page';
+import Page from 'components/templates/CreateScheduleDetail/Page';
 
 type ScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -32,13 +32,15 @@ type Props = ItemDetail & {
 
 type PlanProps = Props & Pick<ItemContextProps, 'itemDetails' | 'refreshData'>;
 
-export default (props: Props) => {
+const Root: React.FC<Props> = (props) => {
   const { refreshData, itemDetails } = useItems();
 
   return (
     <Plan {...props} refreshData={refreshData} itemDetails={itemDetails} />
   );
 };
+
+export default Root;
 
 export type PlanType = {
   onSave: (
@@ -53,7 +55,7 @@ export type PlanType = {
   onDismiss: () => void;
 };
 
-const Plan = memo((props: PlanProps) => {
+const Plan: React.FC<PlanProps> = memo((props) => {
   const { uid } = useAuth();
   const [state, setState] = useState<State>({
     title: props.title || '',

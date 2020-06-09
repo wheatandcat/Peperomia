@@ -18,8 +18,8 @@ import {
 } from 'containers/Items';
 import { Context as AuthContext } from 'containers/Auth';
 import { useDidMount } from 'hooks/index';
-import Page from '../../templates/CreateScheduleDetail/Page';
-import { ScreenRouteProp } from '../../pages/ScheduleDetail/Switch';
+import Page from 'components/templates/CreateScheduleDetail/Page';
+import { ScreenRouteProp } from 'components/pages/ScheduleDetail/Switch';
 
 type State = ItemDetail & {
   iconSelected: boolean;
@@ -33,14 +33,16 @@ type Props = ItemDetail & {
 
 type PlanProps = Props & Pick<ItemContextProps, 'itemDetails' | 'refreshData'>;
 
-export default (props: Props) => {
+const EditScheduleDetail: React.FC<Props> = (props) => {
   const { refreshData, itemDetails } = useContext(ItemsContext);
   return (
     <Plan {...props} refreshData={refreshData} itemDetails={itemDetails} />
   );
 };
 
-const Plan = memo((props: PlanProps) => {
+export default EditScheduleDetail;
+
+const Plan: React.FC<PlanProps> = memo((props) => {
   const { uid } = useContext(AuthContext);
   const [state, setState] = useState<State>({
     title: props.title || '',

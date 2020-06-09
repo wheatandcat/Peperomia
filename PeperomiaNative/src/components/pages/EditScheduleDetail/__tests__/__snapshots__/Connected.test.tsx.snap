@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/pages/EditScheduleDetail/Connected.tsx 正常に表示されている 1`] = `
+<Memo()
+  id="test"
+  kind="park"
+  memo="memo"
+  moveMinutes={30}
+  onShow={[MockFunction]}
+  place="place"
+  priority={1}
+  title="test"
+  url="url"
+/>
+`;

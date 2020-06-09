@@ -32,6 +32,9 @@
       "config/*": [
         "src/config/*"
       ],
+      "__mockData__/*":[
+        "src/__mockData__/*"
+      ]
     },
     "lib": [
       "es2015"

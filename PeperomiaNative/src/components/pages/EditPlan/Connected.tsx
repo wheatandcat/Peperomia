@@ -11,7 +11,7 @@ import { SuggestItem } from 'lib/suggest';
 import { useDidMount } from 'hooks/index';
 import { updateItem } from 'lib/item';
 import { createCalendar, updateCalendar } from 'lib/calendar';
-import Page from '../../templates/CreatePlan/Page';
+import Page from 'components/templates/CreatePlan/Page';
 
 type ScreenNavigationProp = StackNavigationProp<RootStackParamList, 'EditPlan'>;
 type ScreenRouteProp = RouteProp<RootStackParamList, 'EditPlan'>;
@@ -51,7 +51,7 @@ type State = {
   calendar: UpdateCalendar;
 };
 
-export default (props: Props) => {
+const EditPlan: React.FC<Props> = (props) => {
   const { refreshData, items, calendars } = useItems();
 
   return (
@@ -64,7 +64,9 @@ export default (props: Props) => {
   );
 };
 
-const Connected = memo((props: ConnectedProps) => {
+export default EditPlan;
+
+const Connected: React.FC<ConnectedProps> = memo((props) => {
   const { uid } = useAuth();
   const id = props.route?.params?.id || 0;
   const kind = props.route?.params?.kind || '';
