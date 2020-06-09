@@ -355,17 +355,17 @@ const Main = () => {
       <SafeAreaProvider>
         <ActionSheetProvider>
           <Version>
-            <NotificationProvider>
-              <AuthProvider>
-                <FetchProvider>
+            <AuthProvider>
+              <FetchProvider>
+                <NotificationProvider>
                   <ItemsProvider>
                     <ThemeProvider>
                       <RootStackScreen />
                     </ThemeProvider>
                   </ItemsProvider>
-                </FetchProvider>
-              </AuthProvider>
-            </NotificationProvider>
+                </NotificationProvider>
+              </FetchProvider>
+            </AuthProvider>
           </Version>
         </ActionSheetProvider>
       </SafeAreaProvider>

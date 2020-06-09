@@ -25,6 +25,7 @@ const SettingPage: FC<Props> = (props) => (
       textStyle={{ color: theme().color.white }}
     />
     <ScrollView>
+      <Divider />
       <ListItem
         title="お問い合わせ"
         rightIcon={{ name: 'chevron-right', color: theme().mode.text }}
@@ -34,6 +35,7 @@ const SettingPage: FC<Props> = (props) => (
         onPress={props.onFeedback}
       />
       <View style={styles.menuSpace} />
+      <Divider />
       <ListItem
         title="利用規約"
         rightIcon={{ name: 'chevron-right', color: theme().mode.text }}
@@ -48,6 +50,7 @@ const SettingPage: FC<Props> = (props) => (
         containerStyle={styles.menu}
         titleStyle={styles.menuText}
         onPress={props.onPolicy}
+        bottomDivider
       />
 
       <View style={styles.menuSpace} />
@@ -64,6 +67,7 @@ const SettingPage: FC<Props> = (props) => (
         if (props.login) {
           return (
             <>
+              <Divider />
               <ListItem
                 title="マイページ"
                 onPress={props.onMyPage}
@@ -87,17 +91,20 @@ const SettingPage: FC<Props> = (props) => (
         }
 
         return (
-          <ListItem
-            title="ユーザー登録 / ログイン"
-            rightIcon={{
-              name: 'chevron-right',
-              color: theme().mode.text,
-            }}
-            containerStyle={styles.menu}
-            titleStyle={styles.menuText}
-            onPress={props.onSignIn}
-            bottomDivider
-          />
+          <>
+            <Divider />
+            <ListItem
+              title="ユーザー登録 / ログイン"
+              rightIcon={{
+                name: 'chevron-right',
+                color: theme().mode.text,
+              }}
+              containerStyle={styles.menu}
+              titleStyle={styles.menuText}
+              onPress={props.onSignIn}
+              bottomDivider
+            />
+          </>
         );
       })()}
 
@@ -111,10 +118,12 @@ const SettingPage: FC<Props> = (props) => (
           containerStyle={styles.menu}
           titleStyle={styles.menuText}
           onPress={props.onLoginWithAmazon}
+          bottomDivider
         />
       )}
 
       <View style={styles.menuSpace} />
+      <Divider />
       <ListItem
         title="バージョン情報"
         rightTitle={
@@ -122,6 +131,7 @@ const SettingPage: FC<Props> = (props) => (
         }
         containerStyle={styles.menu}
         titleStyle={styles.menuText}
+        bottomDivider
       />
       {!Constants.isDevice && (
         <>
@@ -130,7 +140,7 @@ const SettingPage: FC<Props> = (props) => (
           <Text style={styles.debug}>デバッグ機能</Text>
           <Divider />
           <ListItem title={`UID: ${props.uid || ''}`} />
-
+          <Divider />
           <ListItem
             title="画面表示"
             rightIcon={{ name: 'chevron-right', color: theme().mode.text }}

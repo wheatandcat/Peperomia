@@ -3,6 +3,7 @@ import { Platform, Alert } from 'react-native';
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
+import { useFetch } from 'containers/Fetch';
 
 export const Context = createContext<ContextProps>({});
 const { Provider } = Context;
@@ -14,7 +15,13 @@ export type ContextProps = Partial<{
 type Props = {};
 
 const Notification: FC<Props> = memo((props) => {
+  const { post } = useFetch();
+
   const onPermissionRequest = useCallback(async () => {
+    if (!post) {
+      return false;
+    }
+
     if (!Constants.isDevice) {
       Alert.alert('端末から実行してくだださい');
       return false;
@@ -46,10 +53,26 @@ const Notification: FC<Props> = memo((props) => {
       });
     }
 
-    console.log(token);
+    const request = {
+      pushToken: {
+        token,
+        deviceId: Constants.deviceId,
+      },
+    };
+
+    Alert.alert(token);
+    console.log(request);
+
+    const response = await post('CreatePushToken', request);
+    console.log(response);
+
+    if (response.error) {
+      Alert.alert('更新に失敗しました');
+      return false;
+    }
 
     return true;
-  }, []);
+  }, [post]);
 
   return <Provider value={{ onPermissionRequest }}>{props.children}</Provider>;
 });
