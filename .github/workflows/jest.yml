@@ -24,8 +24,8 @@ jobs:
       if: steps.cache.outputs.cache-hit != 'true'
       run: yarn install
       working-directory: ./PeperomiaNative
-    - name: test
-      run: yarn test
+    - name: test coverage
+      run: yarn test:coverage
       working-directory: ./PeperomiaNative
     - name: codecov
       run: yarn codecov
