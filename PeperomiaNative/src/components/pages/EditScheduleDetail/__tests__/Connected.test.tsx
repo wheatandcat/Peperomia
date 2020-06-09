@@ -10,7 +10,7 @@ import Connected from '../Connected';
 describe('components/pages/EditScheduleDetail/Connected.tsx', () => {
   let wrapper: ShallowWrapper;
 
-  const propsData = () => ({
+  const propsData: any = () => ({
     ...itemDetailMockData,
     id: 'test',
     onShow: jest.fn(),

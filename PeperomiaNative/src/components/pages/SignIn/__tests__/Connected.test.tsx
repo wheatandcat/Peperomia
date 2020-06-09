@@ -8,7 +8,7 @@ import Connected from '../Connected';
 describe('components/pages/SignIn/Connected.tsx', () => {
   let wrapper: ShallowWrapper;
 
-  const propsData = () => ({
+  const propsData: any = () => ({
     navigation: {
       setParams: jest.fn(),
       navigate: jest.fn(),

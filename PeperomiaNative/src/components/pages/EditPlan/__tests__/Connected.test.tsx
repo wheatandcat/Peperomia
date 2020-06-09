@@ -6,7 +6,7 @@ import Connected from '../Connected';
 describe('components/pages/EditPlan/Connected.tsx', () => {
   let wrapper: ShallowWrapper;
 
-  const propsData = () => ({
+  const propsData: any = () => ({
     title: 'test',
     kind: 'park',
     navigation: {

@@ -6,15 +6,15 @@ import Connected from '../Connected';
 describe('components/pages/CreatePlan/Connected.tsx', () => {
   let wrapper: ShallowWrapper;
 
-  const propsData = () => ({
+  const propsData: any = () => ({
     navigation: {
       setParams: jest.fn(),
       navigate: jest.fn(),
     },
     route: {
       params: {
-        itemId: '1',
-        refresh: '',
+        date: '1',
+        kind: 'park',
       },
     },
   });
