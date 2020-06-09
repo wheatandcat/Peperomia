@@ -23,6 +23,7 @@ function loadStories() {
 	require('../src/components/pages/Icons/stories');
 	require('../src/components/pages/LoginWithAmazon/stories');
 	require('../src/components/pages/MyPage/stories');
+	require('../src/components/pages/NotificationSetting/stories');
 	require('../src/components/pages/Schedule/stories');
 	require('../src/components/pages/ScheduleDetail/stories');
 	require('../src/components/pages/ScreenSetting/stories');
@@ -54,6 +55,7 @@ const stories = [
 	'../src/components/pages/Icons/stories',
 	'../src/components/pages/LoginWithAmazon/stories',
 	'../src/components/pages/MyPage/stories',
+	'../src/components/pages/NotificationSetting/stories',
 	'../src/components/pages/Schedule/stories',
 	'../src/components/pages/ScheduleDetail/stories',
 	'../src/components/pages/ScreenSetting/stories',

@@ -224,7 +224,7 @@ export const NavigationDefaultTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: baseColor.main,
+    primary: baseColor.lightGreen,
     text: baseColor.lightGreen,
     background: baseColor.white,
     card: baseColor.white,

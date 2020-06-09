@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { View, ScrollView, Text, Linking } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { ListItem, Button } from 'react-native-elements';
+import { ListItem, Button, Divider } from 'react-native-elements';
 import { MaterialIcons } from '@expo/vector-icons';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Constants from 'expo-constants';
@@ -13,6 +13,7 @@ type Props = {
   email: string;
   onBackup: () => void;
   onRestore: () => void;
+  onNotificationSetting: () => Promise<void>;
 };
 
 const url = 'https://amazing-hawking-a280c3.netlify.com/general/account/';
@@ -34,6 +35,7 @@ const MyPage: FC<Props> = (props) => (
 
       {!Constants.isDevice && (
         <>
+          <Divider />
           <ListItem
             title="バックアップを作成する"
             titleStyle={styles.menuText}
@@ -46,9 +48,21 @@ const MyPage: FC<Props> = (props) => (
             titleStyle={styles.menuText}
             containerStyle={styles.menuContainer}
             onPress={props.onRestore}
+            bottomDivider
           />
         </>
       )}
+
+      <Divider />
+      <ListItem
+        title="Push通知を設定する"
+        titleStyle={styles.menuText}
+        rightIcon={{ name: 'chevron-right', color: theme().mode.text }}
+        containerStyle={styles.menuContainer}
+        onPress={props.onNotificationSetting}
+        bottomDivider
+      />
+
       <Button
         title="会員登録するとできること"
         type="clear"

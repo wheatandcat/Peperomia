@@ -72,4 +72,5 @@ export type RootStackParamList = {
   };
   MyPage: undefined;
   LoginWithAmazon: undefined;
+  NotificationSetting: undefined;
 };

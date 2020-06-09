@@ -8128,6 +8128,11 @@ expo-image-picker@~8.1.0:
   dependencies:
     expo-permissions "~8.1.0"
 
+expo-intent-launcher@~8.1.0:
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/expo-intent-launcher/-/expo-intent-launcher-8.1.0.tgz#cbd3ee4c497d4856827037922c494a68634a0373"
+  integrity sha512-rSS50BEWA3p4Ws9unaKD8QHj8r7xOH1bmPjYZ2gtt1XvsFeDrJQtlrRhVRD+kQnYebBTwV8ncf4NG5yD5vkYRA==
+
 expo-keep-awake@~8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/expo-keep-awake/-/expo-keep-awake-8.0.0.tgz#f9200a876a5db86e3f0aec8843428a918cdc08d6"

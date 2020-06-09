@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Alert, Dimensions } from 'react-native';
+import { Alert, Dimensions, Linking, Platform } from 'react-native';
 import Toast from 'react-native-root-toast';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import 'dayjs/locale/ja';
+import * as IntentLauncher from 'expo-intent-launcher';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from 'lib/navigation';
@@ -11,6 +12,10 @@ import { backup, restore } from 'lib/backup';
 import { useFetch, ContextProps as FetchContextProps } from 'containers/Fetch';
 import { useAuth, ContextProps as AuthContextProps } from 'containers/Auth';
 import { useItems, ContextProps as ItemsContextProps } from 'containers/Items';
+import {
+  useNotification,
+  ContextProps as NotificationContextProps,
+} from 'containers/Notification';
 import Page from './Page';
 
 dayjs.extend(advancedFormat);
@@ -27,6 +32,7 @@ const MyPageScreen = (props: Props) => {
   const { email, uid } = useAuth();
   const { post } = useFetch();
   const { refreshData } = useItems();
+  const { onPermissionRequest } = useNotification();
 
   return (
     <Connected
@@ -35,6 +41,7 @@ const MyPageScreen = (props: Props) => {
       email={email}
       uid={uid}
       refreshData={refreshData}
+      onPermissionRequest={onPermissionRequest}
     />
   );
 };
@@ -44,7 +51,8 @@ export default MyPageScreen;
 type ConnectedProps = Props &
   Pick<ItemsContextProps, 'refreshData'> &
   Pick<AuthContextProps, 'uid' | 'email'> &
-  Pick<FetchContextProps, 'post'>;
+  Pick<FetchContextProps, 'post'> &
+  Pick<NotificationContextProps, 'onPermissionRequest'>;
 
 type State = {
   loading: boolean;
@@ -108,8 +116,6 @@ class Connected extends Component<ConnectedProps, State> {
         })),
       };
       const response = await this.props.post('SyncItems', request);
-
-      console.log(response);
 
       if (response.error) {
         Alert.alert('バックアップに失敗しました');
@@ -215,6 +221,26 @@ class Connected extends Component<ConnectedProps, State> {
     }
   };
 
+  onNotificationSetting = async () => {
+    if (!this.props.onPermissionRequest) {
+      return;
+    }
+
+    const ok = await this.props.onPermissionRequest();
+
+    if (!ok) {
+      return;
+    }
+
+    if (Platform.OS === 'ios') {
+      Linking.openURL('app-settings:');
+    } else {
+      IntentLauncher.startActivityAsync(
+        IntentLauncher.ACTION_NOTIFICATION_SETTINGS
+      );
+    }
+  };
+
   render() {
     return (
       <Page
@@ -223,6 +249,7 @@ class Connected extends Component<ConnectedProps, State> {
         email={this.props.email || ''}
         onBackup={this.onBackup}
         onRestore={this.onRestore}
+        onNotificationSetting={this.onNotificationSetting}
       />
     );
   }
