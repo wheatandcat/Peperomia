@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import Cards from '../../organisms/Home/Cards';
+import Cards from 'components/organisms/Home/Cards';
 import { HomeScreenPlanType, ItemProps } from './Connected';
 
 type Props = HomeScreenPlanType & {

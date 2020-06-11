@@ -13,9 +13,9 @@ import React, {
 } from 'react';
 import Constants from 'expo-constants';
 import * as Sentry from 'sentry-expo';
-import firebase from '../lib/system/firebase';
-import { useDidMount } from '../hooks/index';
-import { UID } from '../domain/user';
+import firebase from 'lib/system/firebase';
+import { useDidMount } from 'hooks/index';
+import { UID } from 'domain/user';
 
 export const Context = createContext<ContextProps>({});
 const { Provider } = Context;

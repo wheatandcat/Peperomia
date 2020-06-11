@@ -1,0 +1,116 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/pages/Setting/Connected.tsx 正常に表示されている 1`] = `
+<StackNavigator
+  initialRouteName="Setting"
+>
+  <Screen
+    component={[Function]}
+    name="Setting"
+    options={
+      Object {
+        "headerStyle": Object {
+          "backgroundColor": "#006835",
+        },
+        "title": "設定",
+      }
+    }
+  />
+  <Screen
+    component={[Function]}
+    name="Tos"
+    options={
+      Object {
+        "headerStyle": Object {
+          "backgroundColor": "#006835",
+        },
+        "title": "利用規約",
+      }
+    }
+  />
+  <Screen
+    component={[Function]}
+    name="Policy"
+    options={
+      Object {
+        "headerStyle": Object {
+          "backgroundColor": "#006835",
+        },
+        "title": "プライバシーポリシー",
+      }
+    }
+  />
+  <Screen
+    component={[Function]}
+    name="Feedback"
+    options={
+      Object {
+        "headerStyle": Object {
+          "backgroundColor": "#006835",
+        },
+        "title": "フィードバック",
+      }
+    }
+  />
+  <Screen
+    component={[Function]}
+    name="SignIn"
+    options={
+      Object {
+        "headerStyle": Object {
+          "backgroundColor": "#006835",
+        },
+        "title": "ユーザー登録 / ログイン",
+      }
+    }
+  />
+  <Screen
+    component={[Function]}
+    name="MyPage"
+    options={
+      Object {
+        "headerStyle": Object {
+          "backgroundColor": "#006835",
+        },
+        "title": "マイページ",
+      }
+    }
+  />
+  <Screen
+    component={[Function]}
+    name="ScreenSetting"
+    options={
+      Object {
+        "headerStyle": Object {
+          "backgroundColor": "#006835",
+        },
+        "title": "画面設定",
+      }
+    }
+  />
+  <Screen
+    component={[Function]}
+    name="LoginWithAmazon"
+    options={
+      Object {
+        "headerStyle": Object {
+          "backgroundColor": "#006835",
+        },
+        "title": "Amazonアカウント連携",
+      }
+    }
+  />
+  <Screen
+    component={[Function]}
+    name="NotificationSetting"
+    options={
+      Object {
+        "headerStyle": Object {
+          "backgroundColor": "#006835",
+        },
+        "title": "通知テスト",
+      }
+    }
+  />
+</StackNavigator>
+`;

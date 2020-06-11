@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/pages/MyPage/Connected.tsx 正常に表示されている 1`] = `
+<Connected
+  email="test"
+  navigation={
+    Object {
+      "navigate": [MockFunction],
+      "setParams": [MockFunction],
+    }
+  }
+  onPermissionRequest={[MockFunction]}
+  post={[MockFunction]}
+  refreshData={[MockFunction]}
+  route={
+    Object {
+      "params": Object {
+        "itemId": "1",
+        "refresh": "",
+      },
+    }
+  }
+  uid="test"
+/>
+`;

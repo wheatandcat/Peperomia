@@ -9,7 +9,7 @@ import {
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-import theme from '../../../config/theme';
+import theme from 'config/theme';
 
 const top =
   Platform.OS === 'android' ? StatusBar.currentHeight : getStatusBarHeight();

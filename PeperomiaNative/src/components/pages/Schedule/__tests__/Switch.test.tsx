@@ -1,11 +1,11 @@
 import React from 'react';
 import { Share, AsyncStorage } from 'react-native';
 import { shallow, ShallowWrapper } from 'enzyme';
-import * as itemDetail from '../../../../lib/itemDetail';
-import * as item from '../../../../lib/item';
-import * as plan from '../../../../lib/firestore/plan';
-import * as Items from '../../../../containers/Items';
-import * as Auth from '../../../../containers/Auth';
+import * as itemDetail from 'lib/itemDetail';
+import * as item from 'lib/item';
+import * as plan from 'lib/firestore/plan';
+import * as Items from 'containers/Items';
+import * as Auth from 'containers/Auth';
 import Switch, { Connected, SwitchType } from '../Switch';
 
 jest.mock('react-native-vector-icons', () => 'Icon');

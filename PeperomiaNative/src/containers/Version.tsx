@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { AsyncStorage } from 'react-native';
 import compareVersions from 'compare-versions';
-import { useDidMount } from '../hooks/index';
-import { migrationV104, migrationV201 } from '../lib/migration';
+import { useDidMount } from 'hooks/index';
+import { migrationV104, migrationV201 } from 'lib/migration';
 
 type Props = {};
 

@@ -11,9 +11,9 @@ import styled from 'styled-components/native';
 import Toast from 'react-native-root-toast';
 import { Ionicons } from '@expo/vector-icons';
 import { Divider } from 'react-native-elements';
-import Header from '../ScheduleHeader/Header';
-import { SelectItemDetail } from '../../../domain/itemDetail';
-import theme from '../../../config/theme';
+import Header from 'components/molecules/ScheduleHeader/Header';
+import { SelectItemDetail } from 'domain/itemDetail';
+import theme from 'config/theme';
 import Label from './Label';
 
 type Props = SelectItemDetail & {

@@ -37,7 +37,7 @@ FIRE_BASE_MESSAGING_SENDER_ID=""
 ```
 ③.「yarn start」で起動させる
 
-# start
+# ローカル実行
 
 ```
 $ yarn start
@@ -53,6 +53,19 @@ $ emulator -avd Nexus
 ```
 $ avdmanager create avd -n Pixel -k "system-images;android-28;google_apis;x86" -b x86 -c 100M -d 7 -f --device 'Pixel XL'
 $ emulator -avd Pixel
+```
+
+# テスト
+
+```
+$ yarn test
+```
+
+## カバレッジ
+
+```
+$ yarn test:coverage
+$ open ./coverage/lcov-report/index.html
 ```
 
 
@@ -89,6 +102,8 @@ https://expo.io/tools#client
 $ yarn start
 $ yarn e2e
 ```
+
+
 
 ## storybook 
 

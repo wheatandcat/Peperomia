@@ -23,7 +23,7 @@ export type ConnectedType = {
   onScheduleDetail: (id: string) => void;
 };
 
-export default memo((props: Props) => {
+const Connected: React.FC<Props> = (props) => {
   const [state, setState] = useState<State>({
     itemDetails: [],
     refresh: '',
@@ -34,15 +34,15 @@ export default memo((props: Props) => {
   const { uid } = useAuth();
   const { navigate } = useNavigation();
 
-  const setitemDetails = useCallback(
+  const setItemDetails = useCallback(
     (data: SelectItemDetail[]) => {
-      const prioritys = data.map((item) => item.priority);
-      const uniquePrioritys = prioritys.filter(
+      const priorities = data.map((item) => item.priority);
+      const uniquePriorities = priorities.filter(
         (x: number, i: number, self: number[]) => self.indexOf(x) === i
       );
 
       // priorityが重複していない
-      if (prioritys.length === uniquePrioritys.length) {
+      if (priorities.length === uniquePriorities.length) {
         props.navigation.setParams({
           itemDetails: data,
         });
@@ -93,14 +93,14 @@ export default memo((props: Props) => {
     async (tmpItemId: string) => {
       const itemDetails = await getItemDetails(uid, String(tmpItemId));
 
-      setitemDetails(itemDetails);
+      setItemDetails(itemDetails);
     },
-    [setitemDetails, uid]
+    [setItemDetails, uid]
   );
 
   useDidMount(() => {
     if (props.itemDetails.length > 0) {
-      setitemDetails(props.itemDetails);
+      setItemDetails(props.itemDetails);
     } else {
       getData(String(itemId));
     }
@@ -139,4 +139,6 @@ export default memo((props: Props) => {
       onDelete={props.onDelete}
     />
   );
-});
+};
+
+export default memo(Connected);

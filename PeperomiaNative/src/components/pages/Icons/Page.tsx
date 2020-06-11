@@ -8,9 +8,9 @@ import {
 } from '@expo/react-native-action-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { IconImage } from 'primitive';
-import { KINDS } from '../../../lib/getKind';
-import { whenIPhoneSE } from '../../../lib/responsive';
-import theme, { darkMode } from '../../../config/theme';
+import { KINDS } from 'lib/getKind';
+import { whenIPhoneSE } from 'lib/responsive';
+import theme, { darkMode } from 'config/theme';
 
 type PropsBase = {
   kind: string;

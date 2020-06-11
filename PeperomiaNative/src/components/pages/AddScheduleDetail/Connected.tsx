@@ -11,7 +11,7 @@ import { createItemDetail } from 'lib/itemDetail';
 import { useDidMount } from 'hooks/index';
 import { useItems, ContextProps as ItemContextProps } from 'containers/Items';
 import { useAuth } from 'containers/Auth';
-import Page from '../../templates/CreateScheduleDetail/Page';
+import Page from 'components/templates/CreateScheduleDetail/Page';
 
 type ScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -31,7 +31,7 @@ type Props = ItemDetail & {
 
 type PlanProps = Props & Pick<ItemContextProps, 'itemDetails' | 'refreshData'>;
 
-export default (props: Props) => {
+const AddScheduleDetail: React.FC<Props> = (props) => {
   const { refreshData, itemDetails } = useItems();
 
   return (
@@ -39,7 +39,9 @@ export default (props: Props) => {
   );
 };
 
-const Plan = memo((props: PlanProps) => {
+export default AddScheduleDetail;
+
+const Plan: React.FC<PlanProps> = memo((props) => {
   const [state, setState] = useState<State>({
     title: props.title || '',
     place: props.place || '',

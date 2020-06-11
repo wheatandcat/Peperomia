@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/pages/CreateScheduleDetail/Connected.tsx 正常に表示されている 1`] = `
+<ConnectedActionSheet
+  iconSelected={false}
+  kind=""
+  memo=""
+  moveMinutes={0}
+  onDismiss={[Function]}
+  onIcons={[Function]}
+  onSave={[Function]}
+  place=""
+  suggestList={Array []}
+  title=""
+  url=""
+/>
+`;

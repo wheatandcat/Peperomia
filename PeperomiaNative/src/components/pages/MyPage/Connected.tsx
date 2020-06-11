@@ -28,7 +28,7 @@ type Props = {
   route: ScreenRouteProp;
 };
 
-const MyPageScreen = (props: Props) => {
+const MyPageScreen: React.FC<Props> = (props) => {
   const { email, uid } = useAuth();
   const { post } = useFetch();
   const { refreshData } = useItems();

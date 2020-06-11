@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/pages/Calendars/Connected.tsx 正常に表示されている 1`] = `
+<StackNavigator
+  initialRouteName="Calendars"
+  mode="modal"
+>
+  <Screen
+    component={
+      Object {
+        "$$typeof": Symbol(react.memo),
+        "compare": null,
+        "type": [Function],
+      }
+    }
+    name="Calendars"
+    options={
+      Object {
+        "header": [Function],
+      }
+    }
+  />
+  <Screen
+    component={[Function]}
+    name="Schedule"
+    options={[Function]}
+  />
+</StackNavigator>
+`;

@@ -3,8 +3,8 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import theme from '../../../config/theme';
-import { LeftText } from '../../atoms/Header';
+import theme from 'config/theme';
+import { LeftText } from 'components/atoms/Header';
 
 type Props = {
   mode?: string;

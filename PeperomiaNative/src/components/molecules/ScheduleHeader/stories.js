@@ -1,8 +1,8 @@
 import React from "react";
 import { storiesOf } from "@storybook/react-native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { KIND_PARK } from "../../../lib/getKind";
-import theme from "../../../config/theme";
+import { KIND_PARK } from "lib/getKind";
+import theme from "config/theme";
 import Header from "./Header";
 
 storiesOf('molecules/ScheduleHeader', module)

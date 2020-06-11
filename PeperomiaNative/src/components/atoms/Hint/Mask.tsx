@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { View, Dimensions, TouchableOpacity, StyleSheet } from 'react-native';
-import theme from '../../../config/theme';
+import theme from 'config/theme';
 
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;

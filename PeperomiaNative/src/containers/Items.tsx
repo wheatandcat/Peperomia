@@ -6,14 +6,14 @@ import React, {
   useCallback,
   useContext,
 } from 'react';
-import { SelectItem } from '../domain/item';
-import { SelectCalendar } from '../domain/calendar';
-import { SelectItemDetail } from '../domain/itemDetail';
-import { getItems } from '../lib/item';
-import { getItemDetails } from '../lib/itemDetail';
-import { getCalendars } from '../lib/calendar';
-import { useDidMount } from '../hooks/index';
-import { UID } from '../domain/user';
+import { SelectItem } from 'domain/item';
+import { SelectCalendar } from 'domain/calendar';
+import { SelectItemDetail } from 'domain/itemDetail';
+import { getItems } from 'lib/item';
+import { getItemDetails } from 'lib/itemDetail';
+import { getCalendars } from 'lib/calendar';
+import { useDidMount } from 'hooks/index';
+import { UID } from 'domain/user';
 import { Context as AuthContext } from './Auth';
 
 export const Context = createContext<ContextProps>({});
@@ -56,7 +56,9 @@ const Connected: FC<Props> = memo((props) => {
 
   const setItemsDetail = useCallback(
     (data: SelectItemDetail[]) => {
-      const names = data.map((val: SelectItemDetail) => val.title).join(' → ');
+      const names = data
+        .map((val: SelectItemDetail) => val.title)
+        .join(' → ');
       const itemId = data[0].itemId;
 
       const about = [

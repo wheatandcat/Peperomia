@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import { whenIPhoneSE } from '../../../lib/responsive';
-import theme from '../../../config/theme';
+import { whenIPhoneSE } from 'lib/responsive';
+import theme from 'config/theme';
 
 export default () => (
   <View style={styles.root}>

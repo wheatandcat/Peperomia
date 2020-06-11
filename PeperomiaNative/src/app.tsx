@@ -45,12 +45,12 @@ import {
   insert as insertUser,
   User,
 } from './lib/db/user';
-import EditPlan from './components/pages/EditPlan/Connected';
-import CreatePlan from './components/pages/CreatePlan/Connected';
+import EditPlan from './components/pages/EditPlan';
+import CreatePlan from './components/pages/CreatePlan';
 import CreateSchedule from './components/pages/CreateSchedule/Connected';
 import ScheduleDetail from './components/pages/ScheduleDetail/Switch';
 import AddScheduleDetail from './components/pages/AddScheduleDetail/Connected';
-import CreateScheduleDetail from './components/pages/CreateScheduleDetail/Connected';
+import CreateScheduleDetail from './components/pages/CreateScheduleDetail';
 import Icons, {
   IconsNavigationOptions,
 } from './components/pages/Icons/Connected';
@@ -349,7 +349,9 @@ const Main = () => {
   return (
     <NavigationContainer
       initialState={initialState}
-      theme={scheme === 'dark' ? NavigationDarkTheme : NavigationDefaultTheme}
+      theme={
+        scheme === 'dark' ? NavigationDarkTheme() : NavigationDefaultTheme()
+      }
       ref={ref}
     >
       <SafeAreaProvider>

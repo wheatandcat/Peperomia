@@ -5,7 +5,7 @@ import { ListItem, Button, Divider } from 'react-native-elements';
 import { MaterialIcons } from '@expo/vector-icons';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Constants from 'expo-constants';
-import theme from '../../../config/theme';
+import theme from 'config/theme';
 
 type Props = {
   loading: boolean;

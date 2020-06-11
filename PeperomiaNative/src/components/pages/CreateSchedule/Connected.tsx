@@ -9,7 +9,7 @@ import { useDidMount } from 'hooks/index';
 import { getItemByID } from 'lib/item';
 import { getItemDetails, updateItemDetail } from 'lib/itemDetail';
 import { useAuth } from 'containers/Auth';
-import Page from '../../templates/CreateSchedule/Page';
+import Page from 'components/templates/CreateSchedule/Page';
 
 type ScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -28,7 +28,7 @@ type State = {
   refresh: string;
 };
 
-export default memo((props: Props) => {
+const Connected: React.FC<Props> = (props) => {
   const { uid } = useAuth();
   const itemId = String(props.route?.params?.itemId) || '1';
   const refresh = props.route?.params?.refresh || '';
@@ -41,13 +41,13 @@ export default memo((props: Props) => {
 
   const setItemDetails = useCallback(
     (data: SelectItemDetail[]) => {
-      const prioritys = data.map((item) => item.priority);
-      const uniquePrioritys = prioritys.filter(
+      const priorities = data.map((item) => item.priority);
+      const uniquePriorities = priorities.filter(
         (x: number, i: number, self: number[]) => self.indexOf(x) === i
       );
 
       // priorityが重複していない
-      if (prioritys.length === uniquePrioritys.length) {
+      if (priorities.length === uniquePriorities.length) {
         props.navigation.setParams({
           itemDetails: data,
         });
@@ -200,4 +200,6 @@ export default memo((props: Props) => {
       onGoBack={onGoBack}
     />
   );
-});
+};
+
+export default memo(Connected);

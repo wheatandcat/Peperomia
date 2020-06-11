@@ -7,14 +7,14 @@ import {
 } from '@expo/react-native-action-sheet';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Color from 'color';
+import { SelectItemDetail } from 'domain/itemDetail';
+import { KINDS } from 'lib/getKind';
+import s from 'config/style';
+import theme from 'config/theme';
+import Card from 'components/molecules/ScheduleDetail/Card';
+import Header from 'components/molecules/Header';
+import Loading from 'components/molecules/ScheduleDetail/Loading';
 import GlobalStyles from '../../../GlobalStyles';
-import { SelectItemDetail } from '../../../domain/itemDetail';
-import { KINDS } from '../../../lib/getKind';
-import s from '../../../config/style';
-import theme from '../../../config/theme';
-import Card from '../../molecules/ScheduleDetail/Card';
-import Header from '../../molecules/Header';
-import Loading from '../../molecules/ScheduleDetail/Loading';
 
 type ConnectedProps = SelectItemDetail & {
   loading: boolean;

@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/pages/Home/Connected.tsx 正常に表示されている 1`] = `
+<StackNavigator
+  initialRouteName="Home"
+>
+  <Screen
+    component={[Function]}
+    initialParams={
+      Object {
+        "refresh": false,
+      }
+    }
+    name="Home"
+    options={[Function]}
+  />
+  <Screen
+    component={[Function]}
+    name="Schedule"
+    options={[Function]}
+  />
+</StackNavigator>
+`;
