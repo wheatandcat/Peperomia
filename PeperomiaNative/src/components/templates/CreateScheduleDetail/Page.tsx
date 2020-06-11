@@ -20,20 +20,20 @@ import {
 import Color from 'color';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-import GlobalStyles from '../../../GlobalStyles';
-import getKind, { KINDS, KIND_DEFAULT } from '../../../lib/getKind';
-import s from '../../../config/style';
-import theme from '../../../config/theme';
-import { SelectItemDetail } from '../../../domain/itemDetail';
-import Header from '../../molecules/Header';
-import HeaderImage from '../../molecules/ScheduleHeader/Header';
-import TimeDialog from '../../organisms/CreateScheduleDetail/TimeDialog';
-import Body from '../../organisms/CreateScheduleDetail/Body';
-import Suggest from '../../organisms/Suggest/List';
+import getKind, { KINDS, KIND_DEFAULT } from 'lib/getKind';
+import s from 'config/style';
+import theme from 'config/theme';
+import { SelectItemDetail } from 'domain/itemDetail';
+import Header from 'components/molecules/Header';
+import HeaderImage from 'components/molecules/ScheduleHeader/Header';
+import TimeDialog from 'components/organisms/CreateScheduleDetail/TimeDialog';
+import Body from 'components/organisms/CreateScheduleDetail/Body';
+import Suggest from 'components/organisms/Suggest/List';
 import {
-  PlanType,
-  State as PlanState,
-} from '../../pages/CreateScheduleDetail/Connected';
+  ConnectedType,
+  State as ConnectedState,
+} from 'components/pages/CreateScheduleDetail/Connected';
+import GlobalStyles from '../../../GlobalStyles';
 
 const top =
   Platform.OS === 'android' ? StatusBar.currentHeight : getStatusBarHeight();
@@ -42,8 +42,8 @@ type PropsBase = Pick<
   SelectItemDetail,
   'title' | 'kind' | 'place' | 'url' | 'memo' | 'moveMinutes'
 > &
-  Pick<PlanType, 'onSave' | 'onIcons' | 'onDismiss'> &
-  Pick<PlanState, 'iconSelected' | 'suggestList'>;
+  Pick<ConnectedType, 'onSave' | 'onIcons' | 'onDismiss'> &
+  Pick<ConnectedState, 'iconSelected' | 'suggestList'>;
 
 type Props = PropsBase & ActionSheetProps;
 

@@ -21,16 +21,16 @@ import DatePicker from 'react-native-datepicker';
 import {
   Consumer as ThemeConsumer,
   ContextProps as ThemeContextProps,
-} from '../../../containers/Theme';
-import getKind, { KINDS } from '../../../lib/getKind';
-import { whenIPhoneSE } from '../../../lib/responsive';
-import { SuggestItem } from '../../../lib/suggest';
-import theme from '../../../config/theme';
-import s from '../../../config/style';
-import { Item as ItemParam } from '../../../domain/item';
-import Suggest from '../../organisms/Suggest/List';
-import IconImage from '../../organisms/CreatePlan/IconImage';
-import Header from '../../molecules/Header';
+} from 'containers/Theme';
+import getKind, { KINDS } from 'lib/getKind';
+import { whenIPhoneSE } from 'lib/responsive';
+import { SuggestItem } from 'lib/suggest';
+import theme from 'config/theme';
+import s from 'config/style';
+import { Item as ItemParam } from 'domain/item';
+import Suggest from 'components/organisms/Suggest/List';
+import IconImage from 'components/organisms/CreatePlan/IconImage';
+import Header from 'components/molecules/Header';
 
 dayjs.extend(advancedFormat);
 

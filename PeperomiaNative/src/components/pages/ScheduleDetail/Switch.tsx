@@ -5,7 +5,7 @@ import { RootStackParamList } from 'lib/navigation';
 import { ContextProps as ItemsContextProps, useItems } from 'containers/Items';
 import { ItemDetail as ItemDetailParam } from 'domain/itemDetail';
 import ScheduleDetail from './Connected';
-import EditScheduleDetail from 'components/pages/EditScheduleDetail/Connected';
+import EditScheduleDetail from 'components/pages/EditScheduleDetail';
 
 type ScreenNavigationProp = StackNavigationProp<
   RootStackParamList,

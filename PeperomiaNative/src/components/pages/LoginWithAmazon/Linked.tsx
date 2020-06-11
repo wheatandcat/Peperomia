@@ -3,7 +3,7 @@ import { View, Image, Text, Linking } from 'react-native';
 import { Button, Divider } from 'react-native-elements';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import theme from '../../../config/theme';
+import theme from 'config/theme';
 
 export default () => {
   return (

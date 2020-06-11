@@ -5,7 +5,7 @@ import {
   ActionSheetProps,
 } from '@expo/react-native-action-sheet';
 import { Icon } from 'react-native-elements';
-import theme from '../../../config/theme';
+import theme from 'config/theme';
 
 type Props = ActionSheetProps & {
   onAdd: () => void;

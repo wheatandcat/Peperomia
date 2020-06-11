@@ -3,10 +3,10 @@ import { StyleSheet, View, Text, TouchableHighlight } from 'react-native';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import Color from 'color';
 import { IconImage } from 'primitive';
-import s from '../../../config/style';
-import theme from '../../../config/theme';
-import { KINDS } from '../../../lib/getKind';
-import { ItemProps } from '../../pages/Home/Connected';
+import s from 'config/style';
+import theme from 'config/theme';
+import { KINDS } from 'lib/getKind';
+import { ItemProps } from 'components/pages/Home/Connected';
 
 type Props = ItemProps & {
   onPress: () => void;

@@ -220,7 +220,7 @@ const getTheme = () => {
 
 export default getTheme;
 
-export const NavigationDefaultTheme = {
+export const NavigationDefaultTheme = () => ({
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
@@ -230,9 +230,9 @@ export const NavigationDefaultTheme = {
     card: baseColor.white,
     border: baseColor.gray,
   },
-};
+});
 
-export const NavigationDarkTheme = {
+export const NavigationDarkTheme = () => ({
   ...DarkTheme,
   colors: {
     ...DefaultTheme.colors,
@@ -242,4 +242,4 @@ export const NavigationDarkTheme = {
     card: baseColor.pitchBlack,
     border: baseColor.highLightGray,
   },
-};
+});

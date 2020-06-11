@@ -1,46 +1,18 @@
 import React, { useState, memo, useEffect, useCallback } from 'react';
 import { Alert } from 'react-native';
-import { RouteProp } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from 'lib/navigation';
-import { useItems, ContextProps as ItemContextProps } from 'containers/Items';
-import { useAuth } from 'containers/Auth';
+import { ContextProps as ItemContextProps } from 'containers/Items';
+import { ContextProps as AuthContextProps } from 'containers/Auth';
 import { UpdateCalendar } from 'domain/calendar';
 import getKind from 'lib/getKind';
-import { SuggestItem } from 'lib/suggest';
 import { useDidMount } from 'hooks/index';
 import { updateItem } from 'lib/item';
 import { createCalendar, updateCalendar } from 'lib/calendar';
-import Page from 'components/templates/CreatePlan/Page';
+import { Props } from './';
+import Plain from './Plain';
 
-type ScreenNavigationProp = StackNavigationProp<RootStackParamList, 'EditPlan'>;
-type ScreenRouteProp = RouteProp<RootStackParamList, 'EditPlan'>;
-
-type Props = {
-  navigation: ScreenNavigationProp;
-  route: ScreenRouteProp;
-  title: string;
-  kind: string;
-};
-
-type ConnectedProps = Pick<
-  ItemContextProps,
-  'items' | 'refreshData' | 'calendars'
-> &
-  Props;
-
-type PlanProps = Props &
-  Pick<ItemContextProps, 'items' | 'refreshData'> & {
-    input: {
-      title: string;
-      date: string;
-    };
-    kind: string;
-    onInput: (name: string, value: any) => void;
-    onSave: () => void;
-    onIcons: () => void;
-    onHome: () => void;
-  };
+type ConnectedProps = Props &
+  Pick<ItemContextProps, 'items' | 'refreshData' | 'calendars'> &
+  Pick<AuthContextProps, 'uid'>;
 
 type State = {
   input: {
@@ -51,23 +23,7 @@ type State = {
   calendar: UpdateCalendar;
 };
 
-const EditPlan: React.FC<Props> = (props) => {
-  const { refreshData, items, calendars } = useItems();
-
-  return (
-    <Connected
-      {...props}
-      items={items}
-      refreshData={refreshData}
-      calendars={calendars}
-    />
-  );
-};
-
-export default EditPlan;
-
-export const Connected: React.FC<ConnectedProps> = memo((props) => {
-  const { uid } = useAuth();
+const Connected: React.FC<ConnectedProps> = memo((props) => {
   const id = props.route?.params?.id || 0;
   const kind = props.route?.params?.kind || '';
 
@@ -168,7 +124,7 @@ export const Connected: React.FC<ConnectedProps> = memo((props) => {
       kind: state.kind || getKind(state.input.title),
     };
 
-    const ok = await updateItem(uid, item);
+    const ok = await updateItem(props.uid, item);
     if (!ok) {
       Alert.alert('保存に失敗しました');
       return;
@@ -186,7 +142,7 @@ export const Connected: React.FC<ConnectedProps> = memo((props) => {
         id: state.calendar.id || '',
         date: state.input.date,
       };
-      const ok2 = await updateCalendar(uid, calendar);
+      const ok2 = await updateCalendar(props.uid, calendar);
       if (!ok2) {
         Alert.alert('保存に失敗しました');
         return;
@@ -196,7 +152,7 @@ export const Connected: React.FC<ConnectedProps> = memo((props) => {
         itemId: id,
         date: state.input.date,
       };
-      const insertID = await createCalendar(uid, calendar);
+      const insertID = await createCalendar(props.uid, calendar);
       if (!insertID) {
         Alert.alert('保存に失敗しました');
         return;
@@ -214,7 +170,6 @@ export const Connected: React.FC<ConnectedProps> = memo((props) => {
     state.input.date,
     state.input.title,
     state.kind,
-    uid,
   ]);
 
   const onIcons = useCallback(() => {
@@ -237,7 +192,7 @@ export const Connected: React.FC<ConnectedProps> = memo((props) => {
   }, [props.navigation]);
 
   return (
-    <Plan
+    <Plain
       {...props}
       input={state.input}
       kind={state.kind}
@@ -251,46 +206,4 @@ export const Connected: React.FC<ConnectedProps> = memo((props) => {
   );
 });
 
-type PlanState = {
-  suggestList: SuggestItem[];
-};
-
-const Plan = memo((props: PlanProps) => {
-  const [state, setState] = useState<PlanState>({
-    suggestList: [],
-  });
-
-  useDidMount(() => {
-    const suggestList = (props.items || []).map((item) => ({
-      title: item.title,
-      kind: item.kind,
-    }));
-
-    setState((s) => ({
-      ...s,
-      suggestList,
-    }));
-  });
-
-  const onSave = useCallback(async () => {
-    await props.onSave();
-
-    if (props.refreshData) {
-      props.refreshData();
-    }
-  }, [props]);
-
-  return (
-    <Page
-      mode="edit"
-      title={props.input.title}
-      date={props.input.date}
-      kind={props.kind}
-      suggestList={state.suggestList}
-      onInput={props.onInput}
-      onSave={onSave}
-      onIcons={props.onIcons}
-      onHome={props.onHome}
-    />
-  );
-});
+export default Connected;

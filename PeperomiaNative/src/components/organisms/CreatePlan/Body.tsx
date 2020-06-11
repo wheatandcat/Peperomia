@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button } from 'react-native-elements';
-import theme from '../../../config/theme';
+import theme from 'config/theme';
 
 type Props = {
   onOpenActionSheet: () => void;

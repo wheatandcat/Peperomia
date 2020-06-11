@@ -1,26 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/pages/EditPlan/Connected.tsx 正常に表示されている 1`] = `
+exports[`components/pages/EditPlan/index.tsx 正常に表示されている 1`] = `
 <Memo()
   calendars={Array []}
-  input={
-    Object {
-      "date": "",
-      "title": "",
-    }
-  }
   items={Array []}
-  kind=""
+  kind="park"
   navigation={
     Object {
       "navigate": [MockFunction],
       "setParams": [MockFunction],
     }
   }
-  onHome={[Function]}
-  onIcons={[Function]}
-  onInput={[Function]}
-  onSave={[Function]}
   refreshData={[MockFunction]}
   route={
     Object {

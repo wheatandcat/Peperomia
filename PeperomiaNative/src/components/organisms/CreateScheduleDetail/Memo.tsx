@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
-import theme, { darkMode } from '../../../config/theme';
+import theme, { darkMode } from 'config/theme';
 import { SelectItemDetail } from '../../../domain/itemDetail';
 import InputLabel from '../../molecules/ScheduleDetail/Label';
 

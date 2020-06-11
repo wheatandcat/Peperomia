@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { View, TextInput, Text, Platform } from 'react-native';
 import { Button, Overlay } from 'react-native-elements';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import theme from '../../../config/theme';
+import theme from 'config/theme';
 
 type Props = {
   open: boolean;

@@ -1,7 +1,8 @@
 import React from 'react';
 import { shallow, ShallowWrapper } from 'enzyme';
-import * as Items from 'containers/Items';
 import Connected from '../Connected';
+import { itemsMockData } from '__mockData__/item';
+import { calendarsMockData } from '__mockData__/calendar';
 
 describe('components/pages/CreatePlan/Connected.tsx', () => {
   let wrapper: ShallowWrapper;
@@ -17,18 +18,13 @@ describe('components/pages/CreatePlan/Connected.tsx', () => {
         kind: 'park',
       },
     },
+    uid: 'test',
+    items: itemsMockData,
+    calendars: calendarsMockData,
+    refreshData: jest.fn(),
   });
 
   beforeEach(() => {
-    jest.spyOn(Items, 'useItems').mockImplementation(
-      () =>
-        ({
-          refreshData: jest.fn(),
-          items: [],
-          calendars: [],
-        } as any)
-    );
-
     wrapper = shallow(<Connected {...propsData()} />);
   });
 

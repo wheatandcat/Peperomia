@@ -1,32 +1,27 @@
 import React from 'react';
 import { shallow, ShallowWrapper } from 'enzyme';
-import Connected from '../Connected';
+import Plain from '../Plain';
 
-describe('components/pages/EditPlan/Connected.tsx', () => {
+describe('components/pages/EditPlan/Plain.tsx', () => {
   let wrapper: ShallowWrapper;
 
   const propsData: any = () => ({
-    title: 'test',
+    input: {
+      title: 'test',
+      date: '',
+    },
     kind: 'park',
-    navigation: {
-      setParams: jest.fn(),
-      navigate: jest.fn(),
-    },
-    route: {
-      params: {
-        itemId: '1',
-        refresh: '',
-      },
-    },
-    uid: 'test',
     items: [],
     refreshData: jest.fn(),
-    calendars: [],
+    onInput: jest.fn(),
+    onSave: jest.fn(),
+    onIcons: jest.fn(),
+    onHome: jest.fn(),
   });
 
   beforeEach(() => {
     jest.spyOn(React, 'useEffect').mockImplementation((f) => f());
-    wrapper = shallow(<Connected {...propsData()} />);
+    wrapper = shallow(<Plain {...propsData()} />);
   });
 
   it('正常に表示されている', () => {

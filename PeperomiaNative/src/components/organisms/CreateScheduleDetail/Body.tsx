@@ -4,7 +4,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { Button, Divider } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import { SelectItemDetail } from '../../../domain/itemDetail';
-import theme from '../../../config/theme';
+import theme from 'config/theme';
 import Memo from './Memo';
 
 type Props = Pick<

@@ -1,14 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/pages/EditScheduleDetail/Connected.tsx 正常に表示されている 1`] = `
-<Memo()
-  id="test"
+<ConnectedActionSheet
+  iconSelected={false}
   kind="park"
   memo="memo"
   moveMinutes={30}
-  onShow={[MockFunction]}
+  onDismiss={[Function]}
+  onIcons={[Function]}
+  onSave={[Function]}
   place="place"
-  priority={1}
+  suggestList={Array []}
   title="test"
   url="url"
 />

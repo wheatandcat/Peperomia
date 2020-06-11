@@ -3,7 +3,7 @@ import { Platform } from 'react-native';
 import ActionButton from 'react-native-action-button';
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import theme from '../../../config/theme';
+import theme from 'config/theme';
 
 type Props = {
   onAdd: () => void;

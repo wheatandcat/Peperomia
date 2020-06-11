@@ -1,8 +1,8 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
-import theme from '../../../config/theme';
-import { RightText } from '../../atoms/Header';
+import theme from 'config/theme';
+import { RightText } from 'components/atoms/Header';
 
 type Props = {
   mode?: string;

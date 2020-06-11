@@ -1,27 +1,14 @@
 import React, { useState, memo, useEffect, useCallback } from 'react';
 import { Alert } from 'react-native';
-import { RouteProp } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from 'lib/navigation';
-import { useItems, ContextProps as ItemContextProps } from 'containers/Items';
-import { useAuth } from 'containers/Auth';
+import { ContextProps as ItemContextProps } from 'containers/Items';
+import { ContextProps as AuthContextProps } from 'containers/Auth';
 import { SuggestItem } from 'lib/suggest';
 import getKind from 'lib/getKind';
 import { useDidMount } from 'hooks/index';
 import { createItem } from 'lib/item';
 import { createCalendar } from 'lib/calendar';
 import Page from 'components/templates/CreatePlan/Page';
-
-type ScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'CreatePlan'
->;
-type ScreenRouteProp = RouteProp<RootStackParamList, 'CreatePlan'>;
-
-type Props = {
-  navigation: ScreenNavigationProp;
-  route: ScreenRouteProp;
-};
+import { Props } from './';
 
 type State = {
   input: {
@@ -32,26 +19,11 @@ type State = {
   suggestList: SuggestItem[];
 };
 
-const CreatePlan: React.FC<Props> = (props) => {
-  const { items, refreshData, calendars } = useItems();
+export type ConnectedProps = Props &
+  Pick<ItemContextProps, 'items' | 'refreshData' | 'calendars'> &
+  Pick<AuthContextProps, 'uid'>;
 
-  return (
-    <Connect
-      {...props}
-      items={items}
-      refreshData={refreshData}
-      calendars={calendars}
-    />
-  );
-};
-
-export default CreatePlan;
-
-type ConnectProps = Props &
-  Pick<ItemContextProps, 'items' | 'refreshData' | 'calendars'>;
-
-const Connect: React.FC<ConnectProps> = memo((props) => {
-  const { uid } = useAuth();
+const Connected: React.FC<ConnectedProps> = memo((props) => {
   const [state, setState] = useState<State>({
     input: { title: '', date: '' },
     kind: '',
@@ -134,7 +106,7 @@ const Connect: React.FC<ConnectProps> = memo((props) => {
           date: state.input.date,
         };
 
-        const insertID = await createCalendar(uid, calendar);
+        const insertID = await createCalendar(props.uid, calendar);
 
         if (!insertID) {
           Alert.alert('保存に失敗しました');
@@ -146,7 +118,7 @@ const Connect: React.FC<ConnectProps> = memo((props) => {
         pushCreateSchedule(insertId);
       }
     },
-    [pushCreateSchedule, state.input.date, uid]
+    [pushCreateSchedule, state.input.date, props.uid]
   );
 
   const onSave = useCallback(async () => {
@@ -166,7 +138,7 @@ const Connect: React.FC<ConnectProps> = memo((props) => {
       kind: state.kind || getKind(state.input.title),
     };
 
-    const insertID = await createItem(uid, item);
+    const insertID = await createItem(props.uid, item);
     if (!insertID) {
       Alert.alert('保存に失敗しました');
       return;
@@ -179,7 +151,7 @@ const Connect: React.FC<ConnectProps> = memo((props) => {
     state.input.date,
     state.input.title,
     state.kind,
-    uid,
+    props.uid,
   ]);
 
   const onHome = useCallback(() => {
@@ -200,3 +172,5 @@ const Connect: React.FC<ConnectProps> = memo((props) => {
     />
   );
 });
+
+export default Connected;

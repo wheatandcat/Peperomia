@@ -21,7 +21,7 @@ import { useItems, ContextProps as ItemsContextProps } from 'containers/Items';
 import { useAuth, ContextProps as AuthContextProps } from 'containers/Auth';
 import { useDidMount } from 'hooks/index';
 import theme from 'config/theme';
-import SortableSchedule from '../SortableSchedule/Connected';
+import SortableSchedule from 'components/pages/SortableSchedule/Connected';
 import Schedule from './Connected';
 import HeaderLeft from './HeaderLeft';
 import HeaderRight from './HeaderRight';

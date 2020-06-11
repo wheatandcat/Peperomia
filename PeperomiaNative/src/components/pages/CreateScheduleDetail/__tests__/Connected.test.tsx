@@ -1,17 +1,12 @@
 import React from 'react';
 import { shallow, ShallowWrapper } from 'enzyme';
-import * as Items from 'containers/Items';
-import {
-  itemDetailMockData,
-  itemDetailsMockData,
-} from '__mockData__/itemDetail.ts';
+import { itemDetailsMockData } from '__mockData__/itemDetail.ts';
 import Connected from '../Connected';
 
 describe('components/pages/CreateScheduleDetail/Connected.tsx', () => {
   let wrapper: ShallowWrapper;
 
   const propsData: any = () => ({
-    ...itemDetailMockData,
     navigation: {
       setParams: jest.fn(),
       navigate: jest.fn(),
@@ -22,17 +17,12 @@ describe('components/pages/CreateScheduleDetail/Connected.tsx', () => {
         refresh: '',
       },
     },
+    refreshData: jest.fn(),
+    itemDetails: itemDetailsMockData,
+    uid: 'test',
   });
 
   beforeEach(() => {
-    jest.spyOn(Items, 'useItems').mockImplementation(
-      () =>
-        ({
-          refreshData: jest.fn(),
-          itemDetails: itemDetailsMockData,
-        } as any)
-    );
-
     wrapper = shallow(<Connected {...propsData()} />);
   });
 

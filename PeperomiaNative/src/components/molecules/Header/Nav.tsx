@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { Col, Grid } from 'react-native-easy-grid';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import theme from '../../../config/theme';
+import theme from 'config/theme';
 
 type Props = {
   title: string;

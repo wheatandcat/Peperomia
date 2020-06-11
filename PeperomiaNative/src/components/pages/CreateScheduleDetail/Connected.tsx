@@ -1,23 +1,15 @@
 import React, { useState, memo, useEffect, useCallback } from 'react';
 import { Alert } from 'react-native';
-import { RouteProp } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import uuidv1 from 'uuid/v1';
-import { RootStackParamList } from 'lib/navigation';
 import { SuggestItem } from 'lib/suggest';
 import getKind from 'lib/getKind';
-import { useItems, ContextProps as ItemContextProps } from 'containers/Items';
-import { useAuth } from 'containers/Auth';
+import { ContextProps as ItemContextProps } from 'containers/Items';
+import { ContextProps as AuthContextProps } from 'containers/Auth';
 import { ItemDetail } from 'domain/itemDetail';
 import { createItemDetail, countItemDetail } from 'lib/itemDetail';
 import { useDidMount } from 'hooks/index';
 import Page from 'components/templates/CreateScheduleDetail/Page';
-
-type ScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'CreateScheduleDetail'
->;
-type ScreenRouteProp = RouteProp<RootStackParamList, 'CreateScheduleDetail'>;
+import { Props } from './';
 
 export type State = ItemDetail & {
   iconSelected: boolean;
@@ -25,24 +17,11 @@ export type State = ItemDetail & {
   suggestList: SuggestItem[];
 };
 
-type Props = ItemDetail & {
-  navigation: ScreenNavigationProp;
-  route: ScreenRouteProp;
-};
+type ConnectedProps = Props &
+  Pick<ItemContextProps, 'itemDetails' | 'refreshData'> &
+  Pick<AuthContextProps, 'uid'>;
 
-type PlanProps = Props & Pick<ItemContextProps, 'itemDetails' | 'refreshData'>;
-
-const Root: React.FC<Props> = (props) => {
-  const { refreshData, itemDetails } = useItems();
-
-  return (
-    <Plan {...props} refreshData={refreshData} itemDetails={itemDetails} />
-  );
-};
-
-export default Root;
-
-export type PlanType = {
+export type ConnectedType = {
   onSave: (
     title: string,
     kind: string,
@@ -55,8 +34,7 @@ export type PlanType = {
   onDismiss: () => void;
 };
 
-const Plan: React.FC<PlanProps> = memo((props) => {
-  const { uid } = useAuth();
+const Connected: React.FC<ConnectedProps> = memo((props) => {
   const [state, setState] = useState<State>({
     title: props.title || '',
     kind: props.kind || '',
@@ -83,7 +61,7 @@ const Plan: React.FC<PlanProps> = memo((props) => {
     }));
 
     const setCount = async () => {
-      const count = await countItemDetail(uid, itemId);
+      const count = await countItemDetail(props.uid, itemId);
 
       setState((s) => ({
         ...s,
@@ -132,7 +110,7 @@ const Plan: React.FC<PlanProps> = memo((props) => {
         priority: state.priority,
       };
 
-      const insertID = await createItemDetail(uid, itemDetail);
+      const insertID = await createItemDetail(props.uid, itemDetail);
       if (!insertID) {
         Alert.alert('保存に失敗しました');
         return;
@@ -147,7 +125,7 @@ const Plan: React.FC<PlanProps> = memo((props) => {
         props.refreshData();
       }
     },
-    [props, state.priority, uid, itemId]
+    [props, state.priority, itemId]
   );
 
   const onIcons = useCallback(
@@ -184,3 +162,5 @@ const Plan: React.FC<PlanProps> = memo((props) => {
     />
   );
 });
+
+export default Connected;

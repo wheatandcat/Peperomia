@@ -4,7 +4,7 @@ import { IconImage } from 'primitive';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { SuggestItem, uniqueSuggests } from '../../../lib/suggest';
 import { KINDS } from '../../../lib/getKind';
-import { darkMode } from '../../../config/theme';
+import { darkMode } from 'config/theme';
 
 type Props = {
   title: string;

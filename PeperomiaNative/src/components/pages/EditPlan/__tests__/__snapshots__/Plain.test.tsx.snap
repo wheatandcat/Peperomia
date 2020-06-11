@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/pages/EditPlan/Plain.tsx 正常に表示されている 1`] = `
+<ConnectedActionSheet
+  date=""
+  kind="park"
+  mode="edit"
+  onHome={[MockFunction]}
+  onIcons={[MockFunction]}
+  onInput={[MockFunction]}
+  onSave={[Function]}
+  suggestList={Array []}
+  title="test"
+/>
+`;

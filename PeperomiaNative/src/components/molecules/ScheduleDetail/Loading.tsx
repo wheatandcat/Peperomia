@@ -3,7 +3,7 @@ import { View, Dimensions } from 'react-native';
 import SvgAnimatedLinearGradient from 'react-native-svg-animated-linear-gradient';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Circle, Rect } from 'react-native-svg';
-import theme from '../../../config/theme';
+import theme from 'config/theme';
 
 const deviceWidth = Dimensions.get('window').width;
 

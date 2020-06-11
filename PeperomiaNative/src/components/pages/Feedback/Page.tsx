@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Button, Overlay } from 'react-native-elements';
-import theme, { darkMode } from '../../../config/theme';
+import theme, { darkMode } from 'config/theme';
 
 type Props = {
   isOpen: boolean;

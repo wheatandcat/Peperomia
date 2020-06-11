@@ -1,22 +1,12 @@
-import React, {
-  useContext,
-  useState,
-  memo,
-  useEffect,
-  useCallback,
-} from 'react';
-import { useRoute } from '@react-navigation/native';
-import { useNavigation } from '@react-navigation/native';
+import React, { useState, memo, useEffect, useCallback } from 'react';
+import { useRoute, useNavigation } from '@react-navigation/native';
 import { Alert } from 'react-native';
 import { updateItemDetail } from 'lib/itemDetail';
 import getKind from 'lib/getKind';
 import { SuggestItem } from 'lib/suggest';
 import { ItemDetail } from 'domain/itemDetail';
-import {
-  Context as ItemsContext,
-  ContextProps as ItemContextProps,
-} from 'containers/Items';
-import { Context as AuthContext } from 'containers/Auth';
+import { ContextProps as ItemContextProps } from 'containers/Items';
+import { ContextProps as AuthContextProps } from 'containers/Auth';
 import { useDidMount } from 'hooks/index';
 import Page from 'components/templates/CreateScheduleDetail/Page';
 import { ScreenRouteProp } from 'components/pages/ScheduleDetail/Switch';
@@ -31,19 +21,11 @@ type Props = ItemDetail & {
   onShow: (reload: boolean) => void;
 };
 
-type PlanProps = Props & Pick<ItemContextProps, 'itemDetails' | 'refreshData'>;
+type ConnectedProps = Props &
+  Pick<ItemContextProps, 'itemDetails' | 'refreshData'> &
+  Pick<AuthContextProps, 'uid'>;
 
-const EditScheduleDetail: React.FC<Props> = (props) => {
-  const { refreshData, itemDetails } = useContext(ItemsContext);
-  return (
-    <Plan {...props} refreshData={refreshData} itemDetails={itemDetails} />
-  );
-};
-
-export default EditScheduleDetail;
-
-const Plan: React.FC<PlanProps> = memo((props) => {
-  const { uid } = useContext(AuthContext);
+const Connected: React.FC<ConnectedProps> = memo((props) => {
   const [state, setState] = useState<State>({
     title: props.title || '',
     place: props.place || '',
@@ -125,7 +107,7 @@ const Plan: React.FC<PlanProps> = memo((props) => {
         itemId: 0,
       };
 
-      const ok = await updateItemDetail(uid, itemDetail);
+      const ok = await updateItemDetail(props.uid, itemDetail);
       if (!ok) {
         Alert.alert('保存に失敗しました');
         return;
@@ -133,7 +115,7 @@ const Plan: React.FC<PlanProps> = memo((props) => {
 
       save();
     },
-    [props.id, props.priority, save, uid]
+    [props.id, props.priority, save, props.uid]
   );
 
   const onIcons = useCallback(
@@ -171,3 +153,5 @@ const Plan: React.FC<PlanProps> = memo((props) => {
     />
   );
 });
+
+export default Connected;

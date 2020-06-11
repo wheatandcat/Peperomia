@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Platform } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import theme from '../../../config/theme';
+import theme from 'config/theme';
 
 type Props = {
   text: string;
