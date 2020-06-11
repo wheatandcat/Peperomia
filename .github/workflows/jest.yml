@@ -24,6 +24,9 @@ jobs:
       if: steps.cache.outputs.cache-hit != 'true'
       run: yarn install
       working-directory: ./PeperomiaNative
+    - name: copy app.json
+      run: cp -r app.test.json app.json
+      working-directory: ./PeperomiaNative
     - name: test coverage
       run: yarn test:coverage
       working-directory: ./PeperomiaNative
