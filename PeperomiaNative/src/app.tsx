@@ -332,8 +332,6 @@ const Main = () => {
 
   useEffect(() => {
     getInitialState().then((state: any) => {
-      console.log(state);
-
       if (state !== undefined) {
         setInitialState(state);
       }

@@ -20,7 +20,7 @@ const Hint: FC<Props> = memo((props) => {
 
   useDidMount(() => {
     const setup = async () => {
-      const visible = await AsyncStorage.getItem('FIRST_CRAEATE_ITEM');
+      const visible = await AsyncStorage.getItem('FIRST_CREATE_ITEM');
 
       setState({
         visible: !visible,
@@ -35,7 +35,7 @@ const Hint: FC<Props> = memo((props) => {
       visible: false,
     });
 
-    AsyncStorage.setItem('FIRST_CRAEATE_ITEM', 'true');
+    AsyncStorage.setItem('FIRST_CREATE_ITEM', 'true');
     props.onPress();
   }, [props]);
 

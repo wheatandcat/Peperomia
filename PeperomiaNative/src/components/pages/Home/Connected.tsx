@@ -6,10 +6,12 @@ import {
 } from '@react-navigation/stack';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Dimensions, Alert, View, Image, AsyncStorage } from 'react-native';
+import { Notifications } from 'expo';
 import { Feather } from '@expo/vector-icons';
 import uuidv1 from 'uuid/v1';
 import theme, { darkMode } from 'config/theme';
 import { deleteItem } from 'lib/item';
+import { urlParser } from 'lib/urlScheme';
 import { RootStackParamList } from 'lib/navigation';
 import { useItems, ContextProps as ItemContextProps } from 'containers/Items';
 import { useAuth } from 'containers/Auth';
@@ -64,22 +66,60 @@ const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
 
   const refresh = route?.params?.refresh || '';
 
+  const respond = useCallback(
+    (notification: any) => {
+      const us = urlParser(notification.data.urlScheme);
+      if (us) {
+        navigation.navigate(us.routeName as any, us.params);
+      }
+    },
+    [navigation]
+  );
+
+  const handleNotification = useCallback(
+    (notification: any) => {
+      if (!notification?.data.urlScheme) {
+        return;
+      }
+
+      if (notification.origin === 'selected') {
+        respond(notification);
+      } else if (notification.origin === 'received') {
+        Alert.alert('通知が届きました', '画面へ移動しますか？', [
+          {
+            text: 'キャンセル',
+            style: 'cancel',
+          },
+          {
+            text: '移動する',
+            onPress: () => {
+              respond(notification);
+            },
+          },
+        ]);
+      }
+    },
+    [respond]
+  );
+
   useDidMount(() => {
     const onPushCreatePlan = async () => {
       setState({ mask: false });
 
-      await AsyncStorage.setItem('FIRST_CRAEATE_ITEM', 'true');
+      await AsyncStorage.setItem('FIRST_CREATE_ITEM', 'true');
       navigation.navigate('CreatePlan');
     };
 
     navigation.setParams({ onPushCreatePlan });
 
     const checkMask = async () => {
-      const m = await AsyncStorage.getItem('FIRST_CRAEATE_ITEM');
+      const m = await AsyncStorage.getItem('FIRST_CREATE_ITEM');
       setState({ mask: !m });
     };
 
     checkMask();
+
+    Notifications.addListener(handleNotification);
   });
 
   return (

@@ -137,7 +137,7 @@ const Connected = memo((props: ConnectedProps) => {
       deleteUserSql(tx);
     });
 
-    AsyncStorage.removeItem('FIRST_CRAEATE_ITEM');
+    AsyncStorage.removeItem('FIRST_CREATE_ITEM');
   }, []);
 
   const onShowSQL = useCallback(() => {}, []);
