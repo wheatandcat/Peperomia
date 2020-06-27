@@ -175,7 +175,7 @@ const SettingPage: FC<Props> = (props) => (
           <ListItem
             title="最初のプラン作成キャッシュの削除"
             onPress={() => {
-              AsyncStorage.removeItem('FIRST_CRAEATE_ITEM');
+              AsyncStorage.removeItem('FIRST_CREATE_ITEM');
             }}
           />
           <Divider />

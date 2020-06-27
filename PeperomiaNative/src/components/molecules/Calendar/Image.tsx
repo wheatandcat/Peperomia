@@ -7,8 +7,6 @@ type Props = {
   source: ImageSourcePropType;
 };
 
-console.log(isTablet);
-
 const CalendarImage: FC<Props> = (props) => {
   return (
     <View style={styles.imageContainer}>

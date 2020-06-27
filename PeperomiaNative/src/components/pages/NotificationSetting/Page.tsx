@@ -42,7 +42,6 @@ export default class AppContainer extends React.Component<any, State> {
         return;
       }
       const token = await Notifications.getExpoPushTokenAsync();
-      console.log(token);
 
       Alert.alert(token);
 
@@ -76,7 +75,6 @@ export default class AppContainer extends React.Component<any, State> {
 
   _handleNotification = (notification: any) => {
     Vibration.vibrate(DURATION);
-    console.log(notification);
     this.setState({ notification: notification });
   };
 
@@ -100,25 +98,13 @@ export default class AppContainer extends React.Component<any, State> {
       body: JSON.stringify(message),
     });
 
-    console.log('Test', JSON.stringify(response));
     Alert.alert(JSON.stringify(response));
   };
 
   render() {
     return (
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'space-around',
-        }}
-      >
-        <View
-          style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
+      <View>
+        <View>
           <Text>Origin: {this.state.notification.origin}</Text>
           <Text>Data: {JSON.stringify(this.state.notification.data)}</Text>
         </View>

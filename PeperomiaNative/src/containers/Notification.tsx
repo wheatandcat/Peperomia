@@ -61,10 +61,8 @@ const Notification: FC<Props> = memo((props) => {
     };
 
     Alert.alert(token);
-    console.log(request);
 
     const response = await post('CreatePushToken', request);
-    console.log(response);
 
     if (response.error) {
       Alert.alert('更新に失敗しました');

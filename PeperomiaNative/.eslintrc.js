@@ -14,6 +14,6 @@ module.exports = {
     ],
   },
   parserOptions: {
-    warnOnUnsupportedTypeScriptVersion:false
+    warnOnUnsupportedTypeScriptVersion: false,
   },
 };
