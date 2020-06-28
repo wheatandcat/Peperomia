@@ -1,5 +1,6 @@
 import React, { FC, memo, useState, useCallback } from 'react';
-import { TouchableOpacity, AsyncStorage } from 'react-native';
+import { TouchableOpacity } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { useDidMount } from '../../../hooks/index';
 import BottomRight from './BottomRight';

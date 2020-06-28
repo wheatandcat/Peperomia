@@ -25,8 +25,7 @@ exports[`components/pages/ScheduleDetail/Page.tsx ScheduleDetailPage 正常に�
     color="none"
     onClose={[MockFunction]}
     right={
-      <TouchableOpacity
-        activeOpacity={0.2}
+      <ForwardRef
         onPress={[Function]}
         testID="ScheduleDetailMenu"
       >
@@ -36,7 +35,7 @@ exports[`components/pages/ScheduleDetail/Page.tsx ScheduleDetailPage 正常に�
           name="dots-horizontal"
           size={30}
         />
-      </TouchableOpacity>
+      </ForwardRef>
     }
     title=""
   />
@@ -46,7 +45,7 @@ exports[`components/pages/ScheduleDetail/Page.tsx ScheduleDetailPage 正常に�
     barStyle="dark-content"
     showHideTransition="fade"
   />
-  <SafeAreaView
+  <ForwardRef(SafeAreaView)
     style={
       Array [
         Object {
@@ -59,7 +58,7 @@ exports[`components/pages/ScheduleDetail/Page.tsx ScheduleDetailPage 正常に�
       ]
     }
   />
-  <SafeAreaView>
+  <ForwardRef(SafeAreaView)>
     <_default
       id="1"
       itemId="1"
@@ -100,6 +99,6 @@ exports[`components/pages/ScheduleDetail/Page.tsx ScheduleDetailPage 正常に�
       title="新宿駅"
       url=""
     />
-  </SafeAreaView>
+  </ForwardRef(SafeAreaView)>
 </Fragment>
 `;

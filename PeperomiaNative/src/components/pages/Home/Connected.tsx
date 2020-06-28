@@ -5,8 +5,9 @@ import {
   StackNavigationProp,
 } from '@react-navigation/stack';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Dimensions, Alert, View, Image, AsyncStorage } from 'react-native';
-import { Notifications } from 'expo';
+import { Dimensions, Alert, View, Image } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import * as Notifications from 'expo-notifications';
 import { Feather } from '@expo/vector-icons';
 import uuidv1 from 'uuid/v1';
 import theme, { darkMode } from 'config/theme';
@@ -119,7 +120,7 @@ const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
 
     checkMask();
 
-    Notifications.addListener(handleNotification);
+    Notifications.addNotificationReceivedListener(handleNotification);
   });
 
   return (

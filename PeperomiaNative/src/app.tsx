@@ -6,7 +6,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { AppearanceProvider, useColorScheme } from 'react-native-appearance';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
-import { StatusBar, AsyncStorage, Text } from 'react-native';
+import { StatusBar, Text } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationContainer, useLinking } from '@react-navigation/native';
 import {
   createBottomTabNavigator,
