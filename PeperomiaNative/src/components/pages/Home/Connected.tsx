@@ -108,7 +108,7 @@ const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
       setState({ mask: false });
 
       await AsyncStorage.setItem('FIRST_CREATE_ITEM', 'true');
-      navigation.navigate('CreatePlan');
+      navigation.navigate('CreatePlan', {});
     };
 
     navigation.setParams({ onPushCreatePlan });

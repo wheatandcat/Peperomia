@@ -319,10 +319,12 @@ const Main = () => {
       'exps://link.peperomia.info',
     ],
     config: {
-      Schedule: {
-        path: 'schedule/:itemId',
-        parse: {
-          itemId: String,
+      screens: {
+        Schedule: {
+          path: 'schedule/:itemId',
+          parse: {
+            itemId: String,
+          },
         },
       },
     },

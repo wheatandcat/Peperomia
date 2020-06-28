@@ -121,6 +121,7 @@ export default class extends Component<Props, State> {
 
     Animated.timing(this.state.backgroundColor, {
       toValue: currentMonth,
+      useNativeDriver: false,
     }).start();
   }
 
@@ -137,6 +138,7 @@ export default class extends Component<Props, State> {
     if (currentMonth === 0) {
       Animated.timing(this.state.backgroundColor, {
         toValue: 12,
+        useNativeDriver: false,
       }).start((props) => {
         if (props.finished) {
           this.setState({
@@ -147,6 +149,7 @@ export default class extends Component<Props, State> {
     } else {
       Animated.timing(this.state.backgroundColor, {
         toValue: currentMonth,
+        useNativeDriver: false,
       }).start();
     }
     this.calendar.addMonth(1);
@@ -165,6 +168,7 @@ export default class extends Component<Props, State> {
     if (currentMonth === 11) {
       Animated.timing(this.state.backgroundColor, {
         toValue: -1,
+        useNativeDriver: false,
       }).start((props) => {
         if (props.finished) {
           this.setState({
@@ -175,6 +179,7 @@ export default class extends Component<Props, State> {
     } else {
       Animated.timing(this.state.backgroundColor, {
         toValue: currentMonth,
+        useNativeDriver: false,
       }).start();
     }
     this.calendar.addMonth(-1);

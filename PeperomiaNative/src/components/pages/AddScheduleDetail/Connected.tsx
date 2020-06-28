@@ -141,7 +141,7 @@ const Plan: React.FC<PlanProps> = memo((props) => {
           });
         },
         onDismiss: () => {
-          props.navigation.navigate('AddScheduleDetail');
+          props.navigation.navigate('AddScheduleDetail', {});
         },
         photo: false,
       });

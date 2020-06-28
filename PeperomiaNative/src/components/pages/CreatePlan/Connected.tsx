@@ -67,7 +67,7 @@ const Connected: React.FC<ConnectedProps> = memo((props) => {
         });
       },
       onDismiss: () => {
-        props.navigation.navigate('CreatePlan');
+        props.navigation.navigate('CreatePlan', {});
       },
       photo: true,
     });
