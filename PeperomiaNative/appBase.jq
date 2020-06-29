@@ -4,7 +4,6 @@
     "slug": "peperomia",
     "scheme": "peperomia",
     "privacy": "public",
-    "sdkVersion": "37.0.0",
     "packagerOpts": {
       "sourceExts": ["js", "ts", "tsx"],
       "transformer": "node_modules/react-native-typescript-transformer/index.js"
@@ -48,7 +47,8 @@
       "adaptiveIcon": {
         "backgroundColor": "#006835",
         "foregroundImage": "./assets/icon-fg.png"
-      }
+      },
+      "useNextNotificationsApi": true
     },
     "description": "ペペロミアは予定管理アプリです。",
     "githubUrl": "https://github.com/wheatandcat/Peperomia"

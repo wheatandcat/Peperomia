@@ -1,6 +1,7 @@
 import * as GoogleSignIn from 'expo-google-sign-in';
 import * as Google from 'expo-google-app-auth';
-import { AsyncStorage, Platform } from 'react-native';
+import { Platform } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import dayjs from 'dayjs';
 import React, {

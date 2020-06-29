@@ -1,5 +1,6 @@
 import React from 'react';
-import { Share, AsyncStorage } from 'react-native';
+import { Share } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { shallow, ShallowWrapper } from 'enzyme';
 import * as itemDetail from 'lib/itemDetail';
 import * as item from 'lib/item';

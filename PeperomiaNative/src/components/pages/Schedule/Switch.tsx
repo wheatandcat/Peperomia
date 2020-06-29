@@ -1,7 +1,8 @@
 import React, { useState, memo, useCallback, useMemo } from 'react';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { Share, AsyncStorage, Alert, View } from 'react-native';
+import { Share, Alert, View } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {
   useActionSheet,

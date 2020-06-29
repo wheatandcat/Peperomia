@@ -6,7 +6,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { AppearanceProvider, useColorScheme } from 'react-native-appearance';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
-import { StatusBar, AsyncStorage, Text } from 'react-native';
+import { StatusBar, Text } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationContainer, useLinking } from '@react-navigation/native';
 import {
   createBottomTabNavigator,
@@ -34,7 +35,7 @@ import theme, {
   NavigationDefaultTheme,
   NavigationDarkTheme,
 } from './config/theme';
-import Home from './components/pages/Home/Connected';
+import Home from './components/pages/Home';
 import Setting from './components/pages/Setting/Connected';
 import Calendars from './components/pages/Calendars/Connected';
 import { setDebugMode } from './lib/auth';
@@ -318,10 +319,12 @@ const Main = () => {
       'exps://link.peperomia.info',
     ],
     config: {
-      Schedule: {
-        path: 'schedule/:itemId',
-        parse: {
-          itemId: String,
+      screens: {
+        Schedule: {
+          path: 'schedule/:itemId',
+          parse: {
+            itemId: String,
+          },
         },
       },
     },

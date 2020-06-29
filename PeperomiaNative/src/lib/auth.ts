@@ -1,5 +1,5 @@
+import AsyncStorage from '@react-native-community/async-storage';
 import firebase from '../lib/system/firebase';
-import { AsyncStorage } from 'react-native';
 import { UID } from '../domain/user';
 
 var isDebugMode: boolean = false;

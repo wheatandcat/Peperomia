@@ -57,6 +57,7 @@ export default class extends Component<RowProps> {
         duration: 300,
         easing: Easing.bounce,
         toValue: Number(this.props.active),
+        useNativeDriver: false,
       }).start();
     }
   }

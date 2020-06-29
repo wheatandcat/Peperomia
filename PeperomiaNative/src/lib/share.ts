@@ -1,4 +1,5 @@
-import { Dimensions, AsyncStorage, Clipboard, Alert } from 'react-native';
+import { Dimensions, Clipboard, Alert } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import Toast from 'react-native-root-toast';
 import { SelectItem } from '../domain/item';
 import { SelectItemDetail } from '../domain/itemDetail';

@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/pages/Setting/Page.tsx 正常に表示されている 1`] = `
+<View>
+  <Spinner
+    animation="none"
+    cancelable={false}
+    color="white"
+    overlayColor="rgba(0, 0, 0, 0.25)"
+    size="large"
+    textContent="ログアウト中"
+    textStyle={
+      Object {
+        "color": "#fff",
+      }
+    }
+    visible={false}
+  />
+  <ScrollViewMock>
+    <Themed.Divider />
+    <Themed.ListItem
+      bottomDivider={true}
+      onPress={[MockFunction]}
+      rightIcon={
+        Object {
+          "color": "#333631",
+          "name": "chevron-right",
+        }
+      }
+      title="お問い合わせ"
+    />
+    <View />
+    <Themed.Divider />
+    <Themed.ListItem
+      bottomDivider={true}
+      onPress={[MockFunction]}
+      rightIcon={
+        Object {
+          "color": "#333631",
+          "name": "chevron-right",
+        }
+      }
+      title="利用規約"
+    />
+    <Themed.ListItem
+      bottomDivider={true}
+      onPress={[MockFunction]}
+      rightIcon={
+        Object {
+          "color": "#333631",
+          "name": "chevron-right",
+        }
+      }
+      title="プライバシーポリシー"
+    />
+    <View />
+    <Themed.Divider />
+    <Themed.ListItem
+      bottomDivider={true}
+      onPress={[MockFunction]}
+      rightIcon={
+        Object {
+          "color": "#333631",
+          "name": "chevron-right",
+        }
+      }
+      title="ユーザー登録 / ログイン"
+    />
+    <View />
+    <Themed.Divider />
+    <Themed.ListItem
+      bottomDivider={true}
+      rightTitle={
+        <Text
+          style={
+            Object {
+              "color": "#333631",
+            }
+          }
+        >
+          2.0.4
+           
+        </Text>
+      }
+      title="バージョン情報"
+    />
+  </ScrollViewMock>
+</View>
+`;
