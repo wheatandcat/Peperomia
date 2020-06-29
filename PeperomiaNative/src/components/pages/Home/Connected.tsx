@@ -8,6 +8,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { Dimensions, Alert, View, Image } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as Notifications from 'expo-notifications';
+import { Notification, NotificationResponse } from 'expo-notifications';
 import { Feather } from '@expo/vector-icons';
 import uuidv1 from 'uuid/v1';
 import theme, { darkMode } from 'config/theme';
@@ -33,6 +34,10 @@ export type PlanProps = Pick<
 > & {
   loading: boolean;
   refresh: string;
+};
+
+type NotificationBodyType = {
+  urlScheme?: string;
 };
 
 type PlanState = {
@@ -68,8 +73,8 @@ const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
   const refresh = route?.params?.refresh || '';
 
   const respond = useCallback(
-    (notification: any) => {
-      const us = urlParser(notification.data.urlScheme);
+    (body: NotificationBodyType) => {
+      const us = urlParser(body?.urlScheme || '');
       if (us) {
         navigation.navigate(us.routeName as any, us.params);
       }
@@ -77,28 +82,42 @@ const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
     [navigation]
   );
 
-  const handleNotification = useCallback(
-    (notification: any) => {
-      if (!notification?.data.urlScheme) {
+  const handleNotificationReceived = useCallback(
+    (notification: Notification) => {
+      console.log(notification.request.content.data.body);
+      const body = notification.request.content.data
+        .body as NotificationBodyType;
+
+      if (!body?.urlScheme) {
         return;
       }
 
-      if (notification.origin === 'selected') {
-        respond(notification);
-      } else if (notification.origin === 'received') {
-        Alert.alert('通知が届きました', '画面へ移動しますか？', [
-          {
-            text: 'キャンセル',
-            style: 'cancel',
+      Alert.alert('通知が届きました', '画面へ移動しますか？', [
+        {
+          text: 'キャンセル',
+          style: 'cancel',
+        },
+        {
+          text: '移動する',
+          onPress: () => {
+            respond(body);
           },
-          {
-            text: '移動する',
-            onPress: () => {
-              respond(notification);
-            },
-          },
-        ]);
+        },
+      ]);
+    },
+    [respond]
+  );
+
+  const handleNotificationResponseReceived = useCallback(
+    (notification: NotificationResponse) => {
+      const body = notification.notification.request.content.data
+        .body as NotificationBodyType;
+
+      if (!body?.urlScheme) {
+        return;
       }
+
+      respond(body);
     },
     [respond]
   );
@@ -119,9 +138,21 @@ const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
     };
 
     checkMask();
-
-    Notifications.addNotificationReceivedListener(handleNotification);
   });
+
+  React.useEffect(() => {
+    const subscription1 = Notifications.addNotificationReceivedListener(
+      handleNotificationReceived
+    );
+    const subscription2 = Notifications.addNotificationResponseReceivedListener(
+      handleNotificationResponseReceived
+    );
+
+    return () => {
+      subscription1.remove();
+      subscription2.remove();
+    };
+  }, [handleNotificationReceived, handleNotificationResponseReceived]);
 
   return (
     <View>
