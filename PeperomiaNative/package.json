@@ -86,7 +86,7 @@
     "react-native-loading-spinner-overlay": "^1.0.1",
     "react-native-reanimated": "~1.9.0",
     "react-native-root-toast": "^3.0.2",
-    "react-native-safe-area-context": "3.0.2",
+    "react-native-safe-area-context": "3.0.7",
     "react-native-screens": "~2.9.0",
     "react-native-sortable-list": "^0.0.23",
     "react-native-status-bar-height": "^2.3.1",
