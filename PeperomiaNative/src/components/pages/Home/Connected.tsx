@@ -1,17 +1,12 @@
 import React, { memo, useState, useCallback, useEffect } from 'react';
 import { RouteProp, useNavigation } from '@react-navigation/native';
-import {
-  createStackNavigator,
-  StackNavigationProp,
-} from '@react-navigation/stack';
+import { StackNavigationProp } from '@react-navigation/stack';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Dimensions, Alert, View, Image } from 'react-native';
+import { Dimensions, Alert, View } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as Notifications from 'expo-notifications';
 import { Notification, NotificationResponse } from 'expo-notifications';
-import { Feather } from '@expo/vector-icons';
 import uuidv1 from 'uuid/v1';
-import theme, { darkMode } from 'config/theme';
 import { deleteItem } from 'lib/item';
 import { urlParser } from 'lib/urlScheme';
 import { RootStackParamList } from 'lib/navigation';
@@ -19,10 +14,6 @@ import { useItems, ContextProps as ItemContextProps } from 'containers/Items';
 import { useAuth } from 'containers/Auth';
 import { SelectItem } from 'domain/item';
 import { useDidMount } from 'hooks/index';
-import Hint from 'components/atoms/Hint/Hint';
-import Schedule, {
-  ScheduleNavigationOptions,
-} from 'components/pages/Schedule/Switch';
 import Page from './Page';
 
 const deviceHeight = Dimensions.get('window').height;
@@ -43,16 +34,6 @@ type NotificationBodyType = {
 type PlanState = {
   refresh: string;
 };
-
-const LogoTitle = () => (
-  <Image
-    source={
-      darkMode() ? require('img/header_dark.png') : require('img/header.png')
-    }
-    style={styles.logo}
-    resizeMode="contain"
-  />
-);
 
 type HomeScreeState = {
   mask: boolean;
@@ -84,7 +65,6 @@ const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
 
   const handleNotificationReceived = useCallback(
     (notification: Notification) => {
-      console.log(notification.request.content.data.body);
       const body = notification.request.content.data
         .body as NotificationBodyType;
 
@@ -234,68 +214,9 @@ const HomeScreenPlan = memo((props: PlanProps) => {
   );
 });
 
-const HomeNavigationOptions = ({ route }: Props) => {
-  return {
-    headerTitle: () => <LogoTitle />,
-    headerStyle: {
-      backgroundColor: theme().mode.header.backgroundColor,
-    },
-    headerRight: () => {
-      if (!route.params.onPushCreatePlan) {
-        return null;
-      }
-
-      return (
-        <View style={styles.headerRight}>
-          <Hint onPress={route.params.onPushCreatePlan} testID="ScheduleAdd">
-            <Feather
-              name="plus"
-              size={28}
-              color={
-                darkMode()
-                  ? theme().color.highLightGray
-                  : theme().color.lightGreen
-              }
-            />
-          </Hint>
-        </View>
-      );
-    },
-  };
-};
-
-const RootStack = createStackNavigator<RootStackParamList>();
-
-const RootStackScreen = () => {
-  return (
-    <RootStack.Navigator initialRouteName="Home">
-      <RootStack.Screen
-        name="Home"
-        component={HomeScreen}
-        options={HomeNavigationOptions}
-        initialParams={{
-          refresh: false,
-        }}
-      />
-      <RootStack.Screen
-        name="Schedule"
-        component={Schedule}
-        options={ScheduleNavigationOptions}
-      />
-    </RootStack.Navigator>
-  );
-};
-
-export default RootStackScreen;
+export default HomeScreen;
 
 const styles = EStyleSheet.create({
-  logo: {
-    height: 40,
-    zIndex: 10,
-  },
-  headerRight: {
-    right: 12,
-  },
   mask: {
     position: 'absolute',
     width: deviceWidth,

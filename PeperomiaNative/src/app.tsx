@@ -35,7 +35,7 @@ import theme, {
   NavigationDefaultTheme,
   NavigationDarkTheme,
 } from './config/theme';
-import Home from './components/pages/Home/Connected';
+import Home from './components/pages/Home';
 import Setting from './components/pages/Setting/Connected';
 import Calendars from './components/pages/Calendars/Connected';
 import { setDebugMode } from './lib/auth';
