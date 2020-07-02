@@ -23,7 +23,7 @@
     "assetBundlePatterns": ["src/**/*"],
     "userInterfaceStyle": "automatic",
     "ios": {
-        "googleServicesFile": "./ios/GoogleService-Info.plist",
+      "googleServicesFile": "./ios/GoogleService-Info.plist",
       "userInterfaceStyle": "automatic",
       "usesAppleSignIn": true,
       "supportsTablet": true,
