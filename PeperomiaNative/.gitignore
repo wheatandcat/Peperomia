@@ -28,3 +28,6 @@ src/lib/system/firebase/index.ts
 App.tsx
 web-build
 storybook/storyLoader.js
+GoogleService-Info.development.plist
+GoogleService-Info.product.plist
+GoogleService-Info.plist

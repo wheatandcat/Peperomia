@@ -4,7 +4,6 @@
     "slug": "peperomia",
     "scheme": "peperomia",
     "privacy": "public",
-    "sdkVersion": "37.0.0",
     "packagerOpts": {
       "sourceExts": ["js", "ts", "tsx"],
       "transformer": "node_modules/react-native-typescript-transformer/index.js"
@@ -24,6 +23,7 @@
     "assetBundlePatterns": ["src/**/*"],
     "userInterfaceStyle": "automatic",
     "ios": {
+        "googleServicesFile": "./ios/GoogleService-Info.plist",
       "userInterfaceStyle": "automatic",
       "usesAppleSignIn": true,
       "supportsTablet": true,
@@ -48,6 +48,15 @@
       "adaptiveIcon": {
         "backgroundColor": "#006835",
         "foregroundImage": "./assets/icon-fg.png"
+      },
+      "useNextNotificationsApi": true
+    },
+    "web": {
+      "config": {
+        "firebase": {
+          "apiKey": $firebaseApiKey,
+          "measurementId": $measurementId
+        }
       }
     },
     "description": "ペペロミアは予定管理アプリです。",

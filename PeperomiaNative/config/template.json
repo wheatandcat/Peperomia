@@ -1,4 +1,6 @@
 {
   "iosGoogleSignInClientId": "",
-  "sentryAuthToken": ""
+  "sentryAuthToken": "",
+  "firebaseApiKey": "",
+  "measurementId": ""
 }

@@ -1,6 +1,6 @@
 import React, { memo, createContext, FC, useCallback, useContext } from 'react';
 import { Platform, Alert } from 'react-native';
-import { Notifications } from 'expo';
+import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
 import Constants from 'expo-constants';
 import { useFetch } from 'containers/Fetch';
@@ -42,14 +42,14 @@ const Notification: FC<Props> = memo((props) => {
       return false;
     }
 
-    const token = await Notifications.getExpoPushTokenAsync();
+    const { data: token } = await Notifications.getExpoPushTokenAsync();
 
     if (Platform.OS === 'android') {
-      Notifications.createChannelAndroidAsync('default', {
+      Notifications.setNotificationChannelAsync('default', {
         name: 'default',
-        sound: true,
-        priority: 'max',
-        vibrate: [0, 250, 250, 250],
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: '#FF231F7C',
       });
     }
 
@@ -60,7 +60,8 @@ const Notification: FC<Props> = memo((props) => {
       },
     };
 
-    Alert.alert(token);
+    //Alert.alert(token);
+    //console.log(token);
 
     const response = await post('CreatePushToken', request);
 

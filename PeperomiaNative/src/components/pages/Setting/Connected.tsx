@@ -1,6 +1,7 @@
 import * as SQLite from 'expo-sqlite';
 import React, { useState, memo, useCallback } from 'react';
-import { AsyncStorage, Alert } from 'react-native';
+import { Alert } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { navigationOption } from 'lib/navigation';
@@ -30,7 +31,6 @@ import SignIn from '../SignIn/Connected';
 import MyPage from '../MyPage/Connected';
 import ScreenSetting from '../ScreenSetting/Connected';
 import LoginWithAmazon from '../LoginWithAmazon/Connected';
-import NotificationSetting from 'components/pages/NotificationSetting/Page';
 import Page from './Page';
 
 const Container = () => {
@@ -332,11 +332,6 @@ const RootStack = () => {
         name="LoginWithAmazon"
         component={LoginWithAmazon}
         options={navigationOption('Amazonアカウント連携')}
-      />
-      <Stack.Screen
-        name="NotificationSetting"
-        component={NotificationSetting}
-        options={navigationOption('通知テスト')}
       />
     </Stack.Navigator>
   );

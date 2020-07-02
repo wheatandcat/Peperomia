@@ -100,17 +100,5 @@ exports[`components/pages/Setting/Connected.tsx 正常に表示されている 1
       }
     }
   />
-  <Screen
-    component={[Function]}
-    name="NotificationSetting"
-    options={
-      Object {
-        "headerStyle": Object {
-          "backgroundColor": "#006835",
-        },
-        "title": "通知テスト",
-      }
-    }
-  />
 </StackNavigator>
 `;
