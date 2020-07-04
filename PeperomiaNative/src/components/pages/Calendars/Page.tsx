@@ -9,7 +9,7 @@ import {
   ScrollView,
   StatusBar,
 } from 'react-native';
-import { Calendar, LocaleConfig } from 'react-native-calendars';
+import { Calendar, LocaleConfig, CalendarTheme } from 'react-native-calendars';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -20,7 +20,6 @@ import { SelectCalendar } from 'domain/calendar';
 import theme from 'config/theme';
 import ImageDay from 'components/organisms/Calendars/Image';
 import DayText from 'components/organisms/Calendars/DayText';
-import CalendarImage from 'components/molecules/Calendar/Image';
 import GlobalStyles from '../../../GlobalStyles';
 import { ConnectedType } from './Connected';
 
@@ -61,21 +60,6 @@ LocaleConfig.locales.jp = {
   dayNamesShort: ['日', '月', '火', '水', '木', '金', '土'],
 };
 LocaleConfig.defaultLocale = 'jp';
-
-const images = [
-  require('../../../img/months/january.png'),
-  require('../../../img/months/february.png'),
-  require('../../../img/months/march.png'),
-  require('../../../img/months/april.png'),
-  require('../../../img/months/may.png'),
-  require('../../../img/months/jun.png'),
-  require('../../../img/months/october.png'),
-  require('../../../img/months/october.png'),
-  require('../../../img/months/october.png'),
-  require('../../../img/months/october.png'),
-  require('../../../img/months/november.png'),
-  require('../../../img/months/december.png'),
-];
 
 type Props = ConnectedType & {
   loading: boolean;
@@ -199,6 +183,10 @@ export default class extends Component<Props, State> {
       .add(this.state.count, 'month')
       .month();
 
+    const currentDate = dayjs(this.state.currentDate)
+      .add(this.state.count, 'month')
+      .format('YYYY-MM-DD');
+
     const animationStyle = {
       backgroundColor,
     };
@@ -251,8 +239,6 @@ export default class extends Component<Props, State> {
               </TouchableOpacity>
             </View>
 
-            <CalendarImage source={images[currentMonth]} />
-
             <View style={styles.weekNameContainer}>
               <Text style={[styles.weekText, { color: theme().color.red }]}>
                 日
@@ -277,28 +263,7 @@ export default class extends Component<Props, State> {
                 monthFormat={''}
                 hideDayNames
                 hideArrows
-                theme={{
-                  'stylesheet.calendar.main': {
-                    week: {
-                      marginTop: 0,
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    },
-                  },
-                  textMonthFontSize: 18,
-                  monthTextColor: '#000',
-                  textMonthFontWeight: '600',
-                  'stylesheet.calendar.header': {
-                    header: {
-                      height: 0,
-                    },
-                    dayHeader: {
-                      fontWeight: '600',
-                      paddingBottom: 10,
-                      color: '#000',
-                    },
-                  },
-                }}
+                theme={calendarTheme}
                 dayComponent={({ date }) => {
                   const schedule = this.props.calendars.find(
                     (item) => item.date === date.dateString
@@ -311,7 +276,11 @@ export default class extends Component<Props, State> {
                           this.props.onSchedule(schedule.itemId, schedule.title)
                         }
                       >
-                        <ImageDay kind={schedule.kind} day={String(date.day)} />
+                        <ImageDay
+                          currentDate={currentDate}
+                          kind={schedule.kind}
+                          day={String(date.day)}
+                        />
                       </TouchableOpacity>
                     );
                   }
@@ -321,6 +290,7 @@ export default class extends Component<Props, State> {
                       onPress={() => this.props.onCreate(date.dateString)}
                     >
                       <DayText
+                        currentDate={currentDate}
                         color={backgroundColors[currentMonth]}
                         day={date.day}
                       />
@@ -336,6 +306,29 @@ export default class extends Component<Props, State> {
     );
   }
 }
+
+const calendarTheme: CalendarTheme = {
+  'stylesheet.calendar.main': {
+    week: {
+      marginTop: 0,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+  },
+  textMonthFontSize: 18,
+  monthTextColor: '#000',
+  textMonthFontWeight: '600',
+  'stylesheet.calendar.header': {
+    header: {
+      height: 0,
+    },
+    dayHeader: {
+      fontWeight: '600',
+      paddingBottom: 10,
+      color: '#000',
+    },
+  },
+};
 
 const styles = EStyleSheet.create({
   root: {
