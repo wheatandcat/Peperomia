@@ -1,0 +1,160 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/pages/Calendars/Page.tsx 正常に表示されている 1`] = `
+<ScrollViewMock
+  style={
+    Array [
+      undefined,
+      Object {
+        "backgroundColor": "#a0d8ef",
+      },
+    ]
+  }
+>
+  <StatusBar
+    animated={false}
+    backgroundColor="#fff"
+    barStyle="dark-content"
+    showHideTransition="fade"
+  />
+  <ForwardRef(AnimatedComponentWrapper)
+    style={
+      Array [
+        Object {
+          "paddingTop": 0,
+        },
+        undefined,
+        Object {
+          "backgroundColor": "rgba(160, 216, 239, 1)",
+        },
+      ]
+    }
+  />
+  <GestureRecognizer
+    config={
+      Object {
+        "directionalOffsetThreshold": 80,
+        "velocityThreshold": 0.3,
+      }
+    }
+    onSwipeLeft={[Function]}
+    onSwipeRight={[Function]}
+  >
+    <ForwardRef(AnimatedComponentWrapper)
+      style={
+        Array [
+          undefined,
+          Object {
+            "backgroundColor": "rgba(160, 216, 239, 1)",
+          },
+        ]
+      }
+    >
+      <View>
+        <ForwardRef
+          onPress={[Function]}
+        >
+          <Icon
+            allowFontScaling={false}
+            color="#006835"
+            name="chevron-left"
+            size={30}
+          />
+        </ForwardRef>
+        <View>
+          <Text>
+            2020年07月
+          </Text>
+        </View>
+        <ForwardRef
+          onPress={[Function]}
+        >
+          <Icon
+            allowFontScaling={false}
+            color="#006835"
+            name="chevron-right"
+            size={30}
+          />
+        </ForwardRef>
+      </View>
+      <View>
+        <Text
+          style={
+            Array [
+              undefined,
+              Object {
+                "color": "#E15757",
+              },
+            ]
+          }
+        >
+          日
+        </Text>
+        <Text>
+          月
+        </Text>
+        <Text>
+          火
+        </Text>
+        <Text>
+          水
+        </Text>
+        <Text>
+          木
+        </Text>
+        <Text>
+          金
+        </Text>
+        <Text
+          style={
+            Array [
+              undefined,
+              Object {
+                "color": "#00C2ED",
+              },
+            ]
+          }
+        >
+          土
+        </Text>
+      </View>
+      <Calendar
+        dayComponent={[Function]}
+        hideArrows={true}
+        hideDayNames={true}
+        monthFormat=""
+        style={
+          Object {
+            "backgroundColor": "#a0d8ef",
+          }
+        }
+        theme={
+          Object {
+            "monthTextColor": "#000",
+            "stylesheet.calendar.header": Object {
+              "dayHeader": Object {
+                "color": "#000",
+                "fontWeight": "600",
+                "paddingBottom": 10,
+              },
+              "header": Object {
+                "height": 0,
+              },
+            },
+            "stylesheet.calendar.main": Object {
+              "week": Object {
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+                "marginTop": 0,
+              },
+            },
+            "textMonthFontSize": 18,
+            "textMonthFontWeight": "600",
+          }
+        }
+      />
+      <View />
+    </ForwardRef(AnimatedComponentWrapper)>
+  </GestureRecognizer>
+</ScrollViewMock>
+`;
