@@ -23,6 +23,7 @@
     "assetBundlePatterns": ["src/**/*"],
     "userInterfaceStyle": "automatic",
     "ios": {
+      "googleServicesFile": "./ios/GoogleService-Info.plist",
       "userInterfaceStyle": "automatic",
       "usesAppleSignIn": true,
       "supportsTablet": true,
@@ -49,6 +50,14 @@
         "foregroundImage": "./assets/icon-fg.png"
       },
       "useNextNotificationsApi": true
+    },
+    "web": {
+      "config": {
+        "firebase": {
+          "apiKey": $firebaseApiKey,
+          "measurementId": $measurementId
+        }
+      }
     },
     "description": "ペペロミアは予定管理アプリです。",
     "githubUrl": "https://github.com/wheatandcat/Peperomia"

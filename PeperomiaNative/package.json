@@ -57,6 +57,8 @@
     "expo-camera": "~8.3.1",
     "expo-constants": "~9.1.1",
     "expo-device": "~2.2.1",
+    "expo-firebase-analytics": "~2.4.1",
+    "expo-firebase-core": "~1.1.1",
     "expo-font": "~8.2.1",
     "expo-google-app-auth": "^8.0.0",
     "expo-google-sign-in": "~8.2.1",

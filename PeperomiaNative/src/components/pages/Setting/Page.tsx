@@ -11,6 +11,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { Updates } from 'expo';
 import { ListItem, Divider } from 'react-native-elements';
 import Constants from 'expo-constants';
+import * as Analytics from 'expo-firebase-analytics';
 import theme from 'config/theme';
 import { ConnectedType } from './Connected';
 import app from '../../../../app.json';
@@ -186,6 +187,23 @@ const SettingPage: FC<Props> = (props) => (
               onValueChange: props.onChangeDebugMode,
             }}
             bottomDivider
+          />
+          <ListItem
+            title="Firebase アナリティクス"
+            onPress={() => {
+              console.log('Analytics');
+
+              Analytics.setUserId('saitama');
+              Analytics.setUserProperties({
+                hero_class: 'B',
+              });
+
+              Analytics.logEvent('share', {
+                contentType: 'text',
+                itemId: 'Expo rocks!',
+                method: 'facebook',
+              });
+            }}
           />
           <ListItem
             title="アプリを再起動する"

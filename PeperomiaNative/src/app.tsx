@@ -9,6 +9,7 @@ import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { StatusBar, Text } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationContainer, useLinking } from '@react-navigation/native';
+import * as Analytics from 'expo-firebase-analytics';
 import {
   createBottomTabNavigator,
   BottomTabNavigationOptions,
@@ -308,11 +309,11 @@ const App = () => {
 
 const Main = () => {
   const prefix = Linking.makeUrl('/');
-
   const scheme = useColorScheme();
-  const ref = useRef<any>();
+  const routeNameRef = React.useRef<any>();
+  const navigationRef = React.useRef<any>();
 
-  const { getInitialState } = useLinking(ref, {
+  const { getInitialState } = useLinking(navigationRef, {
     prefixes: [
       prefix,
       'https://link.peperomia.info',
@@ -353,7 +354,21 @@ const Main = () => {
       theme={
         scheme === 'dark' ? NavigationDarkTheme() : NavigationDefaultTheme()
       }
-      ref={ref}
+      ref={navigationRef}
+      onReady={() =>
+        (routeNameRef.current = navigationRef?.current?.getCurrentRoute?.()?.name)
+      }
+      onStateChange={() => {
+        const previousRouteName = routeNameRef.current;
+        const currentRouteName = navigationRef?.current?.getCurrentRoute?.()
+          ?.name;
+
+        if (previousRouteName !== currentRouteName) {
+          Analytics.setCurrentScreen(currentRouteName);
+        }
+
+        routeNameRef.current = currentRouteName;
+      }}
     >
       <SafeAreaProvider>
         <ActionSheetProvider>
