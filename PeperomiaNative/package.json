@@ -71,7 +71,7 @@
     "expo-screen-orientation": "~1.1.1",
     "expo-splash-screen": "~0.3.1",
     "expo-sqlite": "~8.2.1",
-    "firebase": "7.9.0",
+    "firebase": "7.15.5",
     "primitive": "../primitive",
     "query-string": "^6.8.3",
     "react": "16.11.0",
