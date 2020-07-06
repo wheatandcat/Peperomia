@@ -109,7 +109,7 @@ const SettingPage: FC<Props> = (props) => (
         );
       })()}
 
-      {!Constants.isDevice && (
+      {Constants.isDevice && (
         <ListItem
           title="Alexa連携を設定する(β版)"
           rightIcon={{
@@ -134,7 +134,7 @@ const SettingPage: FC<Props> = (props) => (
         titleStyle={styles.menuText}
         bottomDivider
       />
-      {!Constants.isDevice && (
+      {Constants.isDevice && (
         <>
           <View style={styles.debugSpace} />
           <Divider />
