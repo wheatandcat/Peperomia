@@ -28,12 +28,28 @@ const MyPage: FC<Props> = (props) => (
     <ScrollView>
       <View style={styles.contents}>
         <View style={styles.emailContainer}>
-          <Text style={styles.emialTitle}>メールアドレス:</Text>
-          <Text style={styles.emial}>{props.email}</Text>
+          <Text style={styles.emailTitle}>メールアドレス:</Text>
+          <Text style={styles.email}>{props.email}</Text>
+        </View>
+        <View style={styles.guideContainer}>
+          <Button
+            title="ユーザー登録とは？"
+            type="clear"
+            titleStyle={styles.guide}
+            icon={
+              <MaterialIcons
+                name="chevron-right"
+                size={20}
+                color={theme().color.main}
+              />
+            }
+            iconRight
+            onPress={() => Linking.openURL(url)}
+          />
         </View>
       </View>
 
-      {!Constants.isDevice && (
+      {Constants.isDevice && (
         <>
           <Divider />
           <ListItem
@@ -54,29 +70,33 @@ const MyPage: FC<Props> = (props) => (
       )}
 
       <Divider />
+
       <ListItem
-        title="Push通知を設定する"
+        title="通知を設定する"
         titleStyle={styles.menuText}
         rightIcon={{ name: 'chevron-right', color: theme().mode.text }}
         containerStyle={styles.menuContainer}
         onPress={props.onNotificationSetting}
         bottomDivider
       />
-
-      <Button
-        title="会員登録するとできること"
-        type="clear"
-        titleStyle={styles.guide}
-        icon={
-          <MaterialIcons
-            name="chevron-right"
-            size={20}
-            color={theme().color.main}
+      <View style={styles.list}>
+        <View style={styles.guideContainer}>
+          <Button
+            title="通知設定とは？"
+            type="clear"
+            titleStyle={styles.guide}
+            icon={
+              <MaterialIcons
+                name="chevron-right"
+                size={20}
+                color={theme().color.main}
+              />
+            }
+            iconRight
+            onPress={() => Linking.openURL(url)}
           />
-        }
-        iconRight
-        onPress={() => Linking.openURL(url)}
-      />
+        </View>
+      </View>
     </ScrollView>
   </View>
 );
@@ -92,10 +112,10 @@ const styles = EStyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '$settingMenu',
   },
-  emialTitle: {
+  emailTitle: {
     color: '$text',
   },
-  emial: {
+  email: {
     fontSize: 20,
     fontWeight: '600',
     color: '$text',
@@ -107,9 +127,17 @@ const styles = EStyleSheet.create({
     color: '$text',
   },
   contents: {
-    height: 80,
     marginTop: 20,
     marginHorizontal: 10,
+    marginBottom: 25,
+  },
+  list: {
+    marginTop: 10,
+    marginHorizontal: 10,
+    marginBottom: 5,
+  },
+  guideContainer: {
+    alignItems: 'flex-end',
   },
   guide: {
     fontSize: 14,

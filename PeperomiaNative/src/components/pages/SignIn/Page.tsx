@@ -35,20 +35,22 @@ const SignInPage: FC<Props> = (props) => (
       />
     </View>
     <AppleAuthentication onAppleLogin={props.onAppleLogin} />
-    <Button
-      title="会員登録するとできること"
-      type="clear"
-      titleStyle={styles.guide}
-      icon={
-        <MaterialIcons
-          name="chevron-right"
-          size={20}
-          color={theme().color.main}
-        />
-      }
-      iconRight
-      onPress={() => Linking.openURL(url)}
-    />
+    <View style={styles.guideContainer}>
+      <Button
+        title="ユーザー登録とは"
+        type="clear"
+        titleStyle={styles.guide}
+        icon={
+          <MaterialIcons
+            name="chevron-right"
+            size={20}
+            color={theme().color.main}
+          />
+        }
+        iconRight
+        onPress={() => Linking.openURL(url)}
+      />
+    </View>
   </View>
 );
 
@@ -78,6 +80,11 @@ const styles = EStyleSheet.create({
   guide: {
     fontSize: 14,
     color: theme().color.main,
+  },
+  guideContainer: {
+    paddingTop: 25,
+    paddingRight: 5,
+    width: '100%',
   },
 });
 
