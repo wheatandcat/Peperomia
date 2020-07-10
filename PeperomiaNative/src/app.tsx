@@ -1,7 +1,7 @@
 import * as Linking from 'expo-linking';
 import Constants from 'expo-constants';
 import * as SQLite from 'expo-sqlite';
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { AppearanceProvider, useColorScheme } from 'react-native-appearance';
