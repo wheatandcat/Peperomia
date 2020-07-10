@@ -49,7 +49,7 @@ const MyPage: FC<Props> = (props) => (
         </View>
       </View>
 
-      {Constants.isDevice && (
+      {!Constants.isDevice && (
         <>
           <Divider />
           <ListItem

@@ -3,6 +3,7 @@ import { Alert } from 'react-native';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import 'dayjs/locale/ja';
+import uuidv4 from 'uuid/v4';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from 'lib/navigation';
@@ -64,10 +65,9 @@ const Connected = memo((props: ConnectedProps) => {
 
     if (response.error) {
       Alert.alert('ユーザーの保存に失敗しました。');
-      return false;
     }
 
-    return true;
+    return Number(response?.header?.status);
   }, [props]);
 
   const backupItem = useCallback(async () => {
@@ -77,20 +77,25 @@ const Connected = memo((props: ConnectedProps) => {
 
     const { items, itemDetails, calendars } = await backup();
 
+    const uuidList = items.map((item) => ({
+      from: item.id,
+      to: uuidv4(),
+    }));
+
     const request = {
       items: items.map((item) => ({
         ...item,
-        id: String(item.id),
+        id: uuidList.find((v) => v.from === item.id)?.to || '',
       })),
       itemDetails: itemDetails.map((itemDetail) => ({
         ...itemDetail,
-        id: String(itemDetail.id),
-        itemId: String(itemDetail.itemId),
+        id: uuidv4(),
+        itemId: uuidList.find((v) => v.from === itemDetail.itemId)?.to || '',
       })),
       calendars: calendars.map((calendar) => ({
         ...calendar,
-        id: String(calendar.id),
-        itemId: String(calendar.itemId),
+        id: uuidv4(),
+        itemId: uuidList.find((v) => v.from === calendar.itemId)?.to || '',
         date: dayjs(calendar.date).format(),
       })),
     };
@@ -110,14 +115,23 @@ const Connected = memo((props: ConnectedProps) => {
         return;
       }
 
-      const ok1 = await saveUser();
-      const ok2 = await backupItem();
-      if (ok1 && ok2) {
+      const httpStatus = await saveUser();
+      if (httpStatus === 201) {
+        // ユーザー作成した場合はデータをサーバーに送る
+        const ok2 = await backupItem();
+        if (ok2) {
+          await props.refreshData(uid);
+          if (onLogin) {
+            onLogin();
+          }
+        }
+
+        props.navigation.goBack();
+      } else if (httpStatus === 200) {
         await props.refreshData(uid);
         if (onLogin) {
           onLogin();
         }
-
         props.navigation.goBack();
       } else {
         // 保存に失敗した時はログアウトさせる
