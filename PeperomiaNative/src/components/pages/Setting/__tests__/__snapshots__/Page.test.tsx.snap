@@ -66,17 +66,6 @@ exports[`components/pages/Setting/Page.tsx 正常に表示されている 1`] = 
       }
       title="ユーザー登録 / ログイン"
     />
-    <Themed.ListItem
-      bottomDivider={true}
-      onPress={[MockFunction]}
-      rightIcon={
-        Object {
-          "color": "#333631",
-          "name": "chevron-right",
-        }
-      }
-      title="Alexa連携を設定する(β版)"
-    />
     <View />
     <Themed.Divider />
     <Themed.ListItem
@@ -95,86 +84,6 @@ exports[`components/pages/Setting/Page.tsx 正常に表示されている 1`] = 
       }
       title="バージョン情報"
     />
-    <View />
-    <Themed.Divider />
-    <Text>
-      デバッグ機能
-    </Text>
-    <Themed.Divider />
-    <Themed.ListItem
-      title="UID: test"
-    />
-    <Themed.Divider />
-    <Themed.ListItem
-      onPress={[MockFunction]}
-      rightIcon={
-        Object {
-          "color": "#333631",
-          "name": "chevron-right",
-        }
-      }
-      title="画面表示"
-    />
-    <Themed.Divider />
-    <Themed.ListItem
-      onPress={[MockFunction]}
-      title="初期データ投入"
-    />
-    <Themed.Divider />
-    <Themed.ListItem
-      onPress={[MockFunction]}
-      title="ユーザー初期化"
-    />
-    <Themed.Divider />
-    <Themed.ListItem
-      onPress={[MockFunction]}
-      title="v1.0.0の状態にする"
-    />
-    <Themed.Divider />
-    <Themed.ListItem
-      onPress={[MockFunction]}
-      title="アイテムを削除"
-    />
-    <Themed.Divider />
-    <Themed.ListItem
-      onPress={[MockFunction]}
-      title="DBのデータを表示"
-    />
-    <Themed.Divider />
-    <Themed.ListItem
-      onPress={[MockFunction]}
-      title="firestoreをデータリセット"
-    />
-    <Themed.Divider />
-    <Themed.ListItem
-      onPress={[MockFunction]}
-      title="firestoreをデータを確認"
-    />
-    <Themed.Divider />
-    <Themed.ListItem
-      onPress={[Function]}
-      title="最初のプラン作成キャッシュの削除"
-    />
-    <Themed.Divider />
-    <Themed.ListItem
-      bottomDivider={true}
-      switch={
-        Object {
-          "onValueChange": [MockFunction],
-          "value": false,
-        }
-      }
-      title="使用DBをSQLiteにする"
-    />
-    <Themed.ListItem
-      onPress={[Function]}
-      title="Firebase アナリティクス"
-    />
-    <Themed.ListItem
-      onPress={[Function]}
-      title="アプリを再起動する"
-    />
-    <Themed.Divider />
   </ScrollViewMock>
 </View>
 `;
