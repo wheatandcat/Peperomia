@@ -1,5 +1,5 @@
 import * as SQLite from 'expo-sqlite';
-import { Calendar as CalendarParam } from '../../domain/calendar';
+import { Calendar as CalendarParam } from 'domain/calendar';
 import { Item } from './item';
 import { success, error, list } from './';
 

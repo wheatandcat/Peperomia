@@ -7,7 +7,7 @@ import {
   delete1st,
   countByItemId,
 } from './db/itemDetail';
-import { UID } from '../domain/user';
+import { UID } from 'domain/user';
 import {
   CreateItemDetailRequest,
   CreateItemDetailResponse,
@@ -15,14 +15,14 @@ import {
   UpdateItemDetailResponse,
   DeleteItemDetailRequest,
   DeleteItemDetailResponse,
-} from '../domain/request';
+} from 'domain/request';
 import {
   ItemDetail,
   UpdateItemDetail,
   DeleteItemDetail,
   SelectItemDetail,
-} from '../domain/itemDetail';
-import { db } from '../lib/db/';
+} from 'domain/itemDetail';
+import { db } from 'lib/db/';
 import { findByItemID, findByID, countByItemID } from './firestore/itemDetail';
 import { getFireStore } from './firebase';
 import { getIdToken, isLogin } from './auth';

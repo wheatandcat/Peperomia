@@ -1,5 +1,5 @@
 import firebase from '../system/firebase';
-import { ItemDetail as ItemDetailParam } from '../../domain/itemDetail';
+import { ItemDetail as ItemDetailParam } from 'domain/itemDetail';
 
 export type ItemDetail = ItemDetailParam & {
   id?: string;

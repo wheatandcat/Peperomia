@@ -2,7 +2,7 @@ import React, { useState, memo, useEffect, useCallback } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { Alert } from 'react-native';
 import { updateItemDetail } from 'lib/itemDetail';
-import getKind from 'lib/getKind';
+import { getKind } from 'peperomia-util';
 import { SuggestItem } from 'lib/suggest';
 import { ItemDetail } from 'domain/itemDetail';
 import { ContextProps as ItemContextProps } from 'containers/Items';

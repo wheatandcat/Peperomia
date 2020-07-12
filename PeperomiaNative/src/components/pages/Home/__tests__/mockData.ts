@@ -1,8 +1,4 @@
-import {
-  KIND_PARK,
-  KIND_AQUARIUM,
-  KIND_ART_MUSEUM,
-} from '../../../../lib/getKind';
+import { KIND_PARK, KIND_AQUARIUM, KIND_ART_MUSEUM } from 'peperomia-util';
 
 export const mockData = [
   {

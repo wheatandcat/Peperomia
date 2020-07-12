@@ -2,7 +2,7 @@ import React, { useState, memo, useEffect, useCallback } from 'react';
 import { Alert } from 'react-native';
 import uuidv1 from 'uuid/v1';
 import { SuggestItem } from 'lib/suggest';
-import getKind from 'lib/getKind';
+import { getKind } from 'peperomia-util';
 import { ContextProps as ItemContextProps } from 'containers/Items';
 import { ContextProps as AuthContextProps } from 'containers/Auth';
 import { ItemDetail } from 'domain/itemDetail';

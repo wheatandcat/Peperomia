@@ -2,8 +2,8 @@ import * as SQLite from 'expo-sqlite';
 import { select, select1st, insert, update, delete1st } from './db/item';
 import { deleteByItemId as deleteItenDetailByItemId } from './db/itemDetail';
 import { deleteByItemId as deleteCalendarByItemId } from './db/calendar';
-import { Item, UpdateItem, DeleteItem, SelectItem } from '../domain/item';
-import { UID } from '../domain/user';
+import { Item, UpdateItem, DeleteItem, SelectItem } from 'domain/item';
+import { UID } from 'domain/user';
 import {
   CreateItemRequest,
   CreateItemResponse,
@@ -11,8 +11,8 @@ import {
   UpdateItemResponse,
   DeleteItemRequest,
   DeleteItemResponse,
-} from '../domain/request';
-import { db } from '../lib/db/';
+} from 'domain/request';
+import { db } from 'lib/db/';
 import { findByUID, findByID } from './firestore/item';
 import { getFireStore } from './firebase';
 import { getIdToken, isLogin } from './auth';

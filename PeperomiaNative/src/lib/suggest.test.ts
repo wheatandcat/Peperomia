@@ -1,5 +1,5 @@
 import { uniqueSuggests } from './suggest';
-import { KIND_PARK, KIND_TRAIN, KIND_SHIP } from './getKind';
+import { KIND_PARK, KIND_TRAIN, KIND_SHIP } from 'peperomia-util';
 
 jest.mock('react-native-extended-stylesheet', () => {
   return jest.fn().mockImplementation(() => {

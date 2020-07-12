@@ -8,7 +8,7 @@ import {
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Color from 'color';
 import { SelectItemDetail } from 'domain/itemDetail';
-import { KINDS } from 'lib/getKind';
+import { KINDS } from 'peperomia-util';
 import s from 'config/style';
 import theme from 'config/theme';
 import Card from 'components/molecules/ScheduleDetail/Card';

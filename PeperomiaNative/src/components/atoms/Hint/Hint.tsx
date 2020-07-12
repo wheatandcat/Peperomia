@@ -2,7 +2,7 @@ import React, { FC, memo, useState, useCallback } from 'react';
 import { TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { useDidMount } from '../../../hooks/index';
+import { useDidMount } from 'hooks/index';
 import BottomRight from './BottomRight';
 
 type Props = {

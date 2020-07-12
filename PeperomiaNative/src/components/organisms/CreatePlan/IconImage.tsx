@@ -2,7 +2,7 @@ import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Feather } from '@expo/vector-icons';
-import { IconImage } from 'primitive';
+import { IconImage } from 'components/atoms';
 import { whenIPhoneSE } from 'lib/responsive';
 
 type Props = {
