@@ -2,9 +2,9 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import Color from 'color';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { SelectItemDetail } from '../../../domain/itemDetail';
-import { KINDS } from '../../../lib/getKind';
-import s from '../../../config/style';
+import { SelectItemDetail } from 'domain/itemDetail';
+import { KINDS } from 'lib/getKind';
+import s from 'config/style';
 import { IconImage } from 'primitive';
 
 type Props = SelectItemDetail & {

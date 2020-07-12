@@ -3,7 +3,7 @@ import { View, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Feather } from '@expo/vector-icons';
 import { IconImage } from 'primitive';
-import { whenIPhoneSE } from '../../../lib/responsive';
+import { whenIPhoneSE } from 'lib/responsive';
 
 type Props = {
   imageSrc: string;

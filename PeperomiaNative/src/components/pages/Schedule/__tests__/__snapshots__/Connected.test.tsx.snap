@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/pages/Schedule/Connected.tsx 正常に表示されている 1`] = `
-<Memo()
+<Memo(SchedulePage)
   data={Array []}
   loading={true}
   onAdd={[Function]}
   onDelete={[MockFunction]}
   onScheduleDetail={[Function]}
-  onSort={[Function]}
+  onSort={[MockFunction]}
 />
 `;

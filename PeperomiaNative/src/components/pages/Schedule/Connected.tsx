@@ -135,7 +135,7 @@ const Connected: React.FC<Props> = (props) => {
       data={state.itemDetails}
       onScheduleDetail={onScheduleDetail}
       onAdd={() => props.onAdd(state.itemDetails)}
-      onSort={() => props.onSort()}
+      onSort={props.onSort}
       onDelete={props.onDelete}
     />
   );

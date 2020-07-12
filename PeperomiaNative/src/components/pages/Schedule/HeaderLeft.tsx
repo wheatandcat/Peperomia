@@ -11,7 +11,7 @@ type Props = {
   onShow?: () => void;
 };
 
-export default (props: Props) => {
+const HeaderLeft: React.FC<Props> = (props) => {
   const navigation = useNavigation();
   if (!props.onShow || !props.mode) {
     return null;
@@ -35,6 +35,8 @@ export default (props: Props) => {
     </TouchableOpacity>
   );
 };
+
+export default HeaderLeft;
 
 const styles = EStyleSheet.create({
   root: { flex: 1, flexDirection: 'row', marginTop: 10 },

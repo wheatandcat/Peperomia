@@ -9,7 +9,7 @@ type Props = HomeScreenPlanType & {
   loading: boolean;
 };
 
-export default ({ loading, data, onSchedule, onDelete }: Props) => (
+const HomePage: React.FC<Props> = ({ loading, data, onSchedule, onDelete }) => (
   <View style={styles.root}>
     <View style={styles.content}>
       {data.length > 0 ? (
@@ -27,6 +27,8 @@ export default ({ loading, data, onSchedule, onDelete }: Props) => (
     </View>
   </View>
 );
+
+export default HomePage;
 
 const styles = EStyleSheet.create({
   root: {

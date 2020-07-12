@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { SelectItemDetail } from '../../../domain/itemDetail';
+import { SelectItemDetail } from 'domain/itemDetail';
 import Card from './Card';
 
 type Props = SelectItemDetail & {

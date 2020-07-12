@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { SelectItemDetail } from '../../../domain/itemDetail';
-import Card from '../../molecules/Schedule/TouchableCard';
-import { ConnectedType } from '../../pages/Schedule/Connected';
+import { SelectItemDetail } from 'domain/itemDetail';
+import Card from 'components/molecules/Schedule/TouchableCard';
+import { ConnectedType } from 'components/pages/Schedule/Connected';
 import Loading from './Loading';
 
 type Props = Pick<ConnectedType, 'onScheduleDetail'> & {
