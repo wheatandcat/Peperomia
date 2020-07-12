@@ -183,7 +183,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn && lint-staged"
+      "pre-commit": "yarn tsc && lint-staged"
     }
   },
   "detox": {
