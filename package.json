@@ -181,6 +181,11 @@
       "git add"
     ]
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn && lint-staged"
+    }
+  },
   "detox": {
     "test-runner": "jest",
     "runner-config": "e2e/config.json",
