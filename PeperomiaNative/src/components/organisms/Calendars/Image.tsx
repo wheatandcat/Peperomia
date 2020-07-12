@@ -8,9 +8,9 @@ import {
   StatusBar,
 } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { IconImage } from 'primitive';
+import { IconImage } from 'components/atoms';
 import { isTablet } from 'lib/responsive';
-import { KINDS } from 'lib/getKind';
+import { KINDS } from 'peperomia-util';
 import theme from 'config/theme';
 import { getWeekCount } from 'lib/calendar';
 

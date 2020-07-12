@@ -2,7 +2,7 @@ import * as Font from 'expo-font';
 import React, { useState, FC } from 'react';
 import { Text, TextProps } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { useDidMount } from '../../hooks/index';
+import { useDidMount } from 'hooks/index';
 
 type State = {
   fontLoaded: boolean;

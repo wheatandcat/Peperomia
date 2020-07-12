@@ -2,8 +2,8 @@ import React, { FC } from 'react';
 import { View } from 'react-native';
 import Color from 'color';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { IconImage } from 'primitive';
-import { KINDS, KIND_DEFAULT } from 'lib/getKind';
+import { IconImage } from 'components/atoms';
+import { KINDS, KIND_DEFAULT } from 'peperomia-util';
 import s from 'config/style';
 
 type Props = {

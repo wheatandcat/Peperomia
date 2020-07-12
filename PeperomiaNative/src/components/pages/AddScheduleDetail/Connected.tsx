@@ -4,7 +4,7 @@ import uuidv1 from 'uuid/v1';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from 'lib/navigation';
-import getKind from 'lib/getKind';
+import { getKind } from 'peperomia-util';
 import { SuggestItem } from 'lib/suggest';
 import { ItemDetail, SelectItemDetail } from 'domain/itemDetail';
 import { createItemDetail } from 'lib/itemDetail';

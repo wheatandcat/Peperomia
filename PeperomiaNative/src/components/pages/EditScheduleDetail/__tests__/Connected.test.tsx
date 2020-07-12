@@ -4,9 +4,8 @@ import {
   itemDetailMockData,
   itemDetailsMockData,
 } from '__mockData__/itemDetail.ts';
-import * as getKind from 'lib/getKind';
 import Connected from '../Connected';
-jest.mock('lib/getKind');
+jest.mock('peperomia-util');
 jest.mock('components/templates/CreateScheduleDetail/Page');
 
 jest.mock('@react-navigation/native', () => {

@@ -1,34 +1,34 @@
-import React from "react";
-import { storiesOf } from "@storybook/react-native";
+import React from 'react';
+import { storiesOf } from '@storybook/react-native';
 import {
   KIND_PARK,
   KIND_LUNCH,
   KIND_HOME,
-  KIND_AQUARIUM
-} from "../../../lib/getKind";
-import Page from "./Page";
+  KIND_AQUARIUM,
+} from 'peperomia-util';
+import Page from './Page';
 
 const items = [
   {
-    title: "ランチ",
-    kind: KIND_LUNCH
+    title: 'ランチ',
+    kind: KIND_LUNCH,
   },
   {
-    title: "公園",
-    kind: KIND_PARK
+    title: '公園',
+    kind: KIND_PARK,
   },
   {
-    title: "家",
-    kind: KIND_HOME
+    title: '家',
+    kind: KIND_HOME,
   },
   {
-    title: "水族館",
-    kind: KIND_AQUARIUM
-  }
+    title: '水族館',
+    kind: KIND_AQUARIUM,
+  },
 ];
 
-storiesOf("templates/CreatePlan", module)
-  .add("Default", () => (
+storiesOf('templates/CreatePlan', module)
+  .add('Default', () => (
     <Page
       onInput={() => {}}
       onSave={() => {}}
@@ -39,7 +39,7 @@ storiesOf("templates/CreatePlan", module)
       suggestList={items}
     />
   ))
-  .add("Park", () => (
+  .add('Park', () => (
     <Page
       onInput={() => {}}
       onSave={() => {}}
@@ -50,7 +50,7 @@ storiesOf("templates/CreatePlan", module)
       suggestList={items}
     />
   ))
-  .add("Train", () => (
+  .add('Train', () => (
     <Page
       onInput={() => {}}
       onSave={() => {}}
@@ -61,7 +61,7 @@ storiesOf("templates/CreatePlan", module)
       suggestList={items}
     />
   ))
-  .add("Ship", () => (
+  .add('Ship', () => (
     <Page
       onInput={() => {}}
       onSave={() => {}}
@@ -72,7 +72,7 @@ storiesOf("templates/CreatePlan", module)
       suggestList={items}
     />
   ))
-  .add("Fishing", () => (
+  .add('Fishing', () => (
     <Page
       onInput={() => {}}
       onSave={() => {}}
@@ -83,7 +83,7 @@ storiesOf("templates/CreatePlan", module)
       suggestList={items}
     />
   ))
-  .add("日付", () => (
+  .add('日付', () => (
     <Page
       onInput={() => {}}
       onSave={() => {}}

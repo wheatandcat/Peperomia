@@ -20,7 +20,7 @@ import {
 import Color from 'color';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-import getKind, { KINDS, KIND_DEFAULT } from 'lib/getKind';
+import { getKind, KINDS, KIND_DEFAULT } from 'peperomia-util';
 import s from 'config/style';
 import theme from 'config/theme';
 import { SelectItemDetail } from 'domain/itemDetail';

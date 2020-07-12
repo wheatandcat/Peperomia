@@ -1,4 +1,4 @@
-import { SelectItemDetail } from '../domain/itemDetail';
+import { SelectItemDetail } from 'domain/itemDetail';
 import getShareText from './getShareText';
 
 describe('getShareText', () => {

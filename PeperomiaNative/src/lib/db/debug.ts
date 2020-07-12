@@ -25,7 +25,7 @@ import {
   KIND_MOVIE,
   KIND_CHERRY_BLOSSOM,
   KIND_SHIP,
-} from '../getKind';
+} from 'peperomia-util';
 import { success, error, list } from './';
 
 export const deleteSql = (tx: SQLite.SQLTransaction) => {

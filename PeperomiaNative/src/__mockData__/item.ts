@@ -1,4 +1,4 @@
-import { KIND_PARK, KIND_FISHING } from 'lib/getKind';
+import { KIND_PARK, KIND_FISHING } from 'peperomia-util';
 import { SelectItem } from 'domain/item';
 
 export const itemsMockData: SelectItem[] = [

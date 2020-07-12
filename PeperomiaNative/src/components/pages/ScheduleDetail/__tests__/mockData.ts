@@ -1,4 +1,4 @@
-import { KIND_PARK } from '../../../../lib/getKind';
+import { KIND_PARK } from 'peperomia-util';
 
 export const mockData = {
   id: '1',

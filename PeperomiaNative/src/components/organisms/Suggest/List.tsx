@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
-import { IconImage } from 'primitive';
+import { IconImage } from 'components/atoms';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { SuggestItem, uniqueSuggests } from 'lib/suggest';
-import { KINDS } from 'lib/getKind';
+import { KINDS } from 'peperomia-util';
 import { darkMode } from 'config/theme';
 
 type Props = {

@@ -1,5 +1,5 @@
 import firebase from '../system/firebase';
-import { KIND_PARK } from '../getKind';
+import { KIND_PARK } from 'peperomia-util';
 import { Item, insert as insertItem } from './item';
 
 export const resetQuery = async (

@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import { View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import Cards from '../../organisms/SortableSchedule/Cards';
-import { SwitchType } from '../../pages/Schedule/Switch';
-import { SortableItemDetail } from '../../pages/SortableSchedule/Connected';
+import Cards from 'components/organisms/SortableSchedule/Cards';
+import { SwitchType } from 'components/pages/Schedule/Switch';
+import { SortableItemDetail } from 'components/pages/SortableSchedule/Connected';
 
 type Props = Pick<SwitchType, 'onChangeItems'> & {
   data: SortableItemDetail[];

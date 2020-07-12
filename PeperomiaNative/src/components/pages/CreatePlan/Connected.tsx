@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 import { ContextProps as ItemContextProps } from 'containers/Items';
 import { ContextProps as AuthContextProps } from 'containers/Auth';
 import { SuggestItem } from 'lib/suggest';
-import getKind from 'lib/getKind';
+import { getKind } from 'peperomia-util';
 import { useDidMount } from 'hooks/index';
 import { createItem } from 'lib/item';
 import { createCalendar } from 'lib/calendar';

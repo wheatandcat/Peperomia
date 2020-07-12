@@ -1,5 +1,5 @@
 import * as SQLite from 'expo-sqlite';
-import { ItemDetail as ItemDetailParam } from '../../domain/itemDetail';
+import { ItemDetail as ItemDetailParam } from 'domain/itemDetail';
 import { success, error, list } from './';
 
 export type ItemDetail = ItemDetailParam & {

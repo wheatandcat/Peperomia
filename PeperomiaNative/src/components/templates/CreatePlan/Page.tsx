@@ -22,7 +22,7 @@ import {
   Consumer as ThemeConsumer,
   ContextProps as ThemeContextProps,
 } from 'containers/Theme';
-import getKind, { KINDS } from 'lib/getKind';
+import { getKind, KINDS } from 'peperomia-util';
 import { whenIPhoneSE } from 'lib/responsive';
 import { SuggestItem } from 'lib/suggest';
 import theme from 'config/theme';

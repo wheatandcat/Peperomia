@@ -1,8 +1,8 @@
 import React from 'react';
 import { Alert } from 'react-native';
 import { shallow, ShallowWrapper } from 'enzyme';
-import Loading from '../../../molecules/ScheduleDetail/Loading';
-import Card from '../../../molecules/ScheduleDetail/Card';
+import Loading from 'components/molecules/ScheduleDetail/Loading';
+import Card from 'components/molecules/ScheduleDetail/Card';
 import Connected, { ScheduleDetailPage, ScheduleDetailType } from '../Page';
 import { mockData } from './mockData';
 

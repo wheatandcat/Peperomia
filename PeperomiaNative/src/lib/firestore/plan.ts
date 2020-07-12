@@ -1,5 +1,5 @@
-import { SelectItem } from '../../domain/item';
-import { SelectItemDetail } from '../../domain/itemDetail';
+import { SelectItem } from 'domain/item';
+import { SelectItemDetail } from 'domain/itemDetail';
 import { getFireStore } from '../firebase';
 
 export const save = async (

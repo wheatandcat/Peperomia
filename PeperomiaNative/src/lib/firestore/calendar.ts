@@ -2,7 +2,7 @@ import firebase from '../system/firebase';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import 'dayjs/locale/ja';
-import { Calendar as CalendarParam } from '../../domain/calendar';
+import { Calendar as CalendarParam } from 'domain/calendar';
 
 export type Calendar = CalendarParam & {
   id?: string;

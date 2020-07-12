@@ -2,15 +2,15 @@ import * as SQLite from 'expo-sqlite';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import 'dayjs/locale/ja';
-import { db } from '../lib/db/';
+import { db } from 'lib/db/';
 import {
   CreateCalendarRequest,
   CreateCalendarResponse,
   UpdateCalendarlRequest,
   UpdateCalendarResponse,
-} from '../domain/request';
-import { Calendar, UpdateCalendar, SelectCalendar } from '../domain/calendar';
-import { UID } from '../domain/user';
+} from 'domain/request';
+import { Calendar, UpdateCalendar, SelectCalendar } from 'domain/calendar';
+import { UID } from 'domain/user';
 import { select, insert, update } from './db/calendar';
 import { findByUID, Calendar as CalendarFirestore } from './firestore/calendar';
 import { findInID as findItemInID } from './firestore/item';

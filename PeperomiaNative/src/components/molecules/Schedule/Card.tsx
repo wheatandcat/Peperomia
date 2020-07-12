@@ -3,9 +3,9 @@ import { View, Text } from 'react-native';
 import Color from 'color';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { SelectItemDetail } from 'domain/itemDetail';
-import { KINDS } from 'lib/getKind';
+import { KINDS } from 'peperomia-util';
 import s from 'config/style';
-import { IconImage } from 'primitive';
+import { IconImage } from 'components/atoms';
 
 type Props = SelectItemDetail & {
   kind: string;

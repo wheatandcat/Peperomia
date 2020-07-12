@@ -1,4 +1,4 @@
-import { SelectItemDetail } from '../domain/itemDetail';
+import { SelectItemDetail } from 'domain/itemDetail';
 
 export default (itemDetails: SelectItemDetail[]): string => {
   const results = itemDetails

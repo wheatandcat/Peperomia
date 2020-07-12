@@ -9,8 +9,8 @@ import {
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import theme from 'config/theme';
-import { HomeScreenPlanType, ItemProps } from '../../pages/Home/Connected';
-import Card from '../../molecules/Home/Card';
+import { HomeScreenPlanType, ItemProps } from 'components/pages/Home/Connected';
+import Card from 'components/molecules/Home/Card';
 
 type Props = HomeScreenPlanType & {
   data: ItemProps[];

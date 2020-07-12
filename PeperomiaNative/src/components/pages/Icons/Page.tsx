@@ -7,8 +7,8 @@ import {
   connectActionSheet,
 } from '@expo/react-native-action-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { IconImage } from 'primitive';
-import { KINDS } from 'lib/getKind';
+import { IconImage } from 'components/atoms';
+import { KINDS } from 'peperomia-util';
 import { whenIPhoneSE } from 'lib/responsive';
 import theme, { darkMode } from 'config/theme';
 
