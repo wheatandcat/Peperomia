@@ -6,21 +6,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Cache node_modules PeperomiaNative
+    - name: Cache node_modules Peperomia
       uses: actions/cache@preview
       with:
         path: ~/.cache/yarn
-        key: ${{ runner.os }}-PeperomiaNative-${{ hashFiles(format('{0}{1}', github.workspace, '/PeperomiaNative/yarn.lock')) }}
+        key: ${{ runner.os }}-Peperomia-${{ hashFiles(format('{0}{1}', github.workspace, '/yarn.lock')) }}
         restore-keys:
-          ${{ runner.os }}-PeperomiaNative-
-    - name: Install node_modules PeperomiaNative
+          ${{ runner.os }}-Peperomia-
+    - name: Install node_modules Peperomia
       if: steps.cache.outputs.cache-hit != 'true'
       run: yarn install
-      working-directory: ./PeperomiaNative
     - name: app copy
       run: yarn app:copy
-      working-directory: ./PeperomiaNative
-    - name: tsc PeperomiaNative
+    - name: tsc Peperomia
       run: yarn tsc
-      working-directory: ./PeperomiaNative
 
