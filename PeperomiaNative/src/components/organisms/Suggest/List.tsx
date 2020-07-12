@@ -2,8 +2,8 @@ import React from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { IconImage } from 'primitive';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { SuggestItem, uniqueSuggests } from '../../../lib/suggest';
-import { KINDS } from '../../../lib/getKind';
+import { SuggestItem, uniqueSuggests } from 'lib/suggest';
+import { KINDS } from 'lib/getKind';
 import { darkMode } from 'config/theme';
 
 type Props = {

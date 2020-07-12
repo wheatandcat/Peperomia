@@ -86,6 +86,7 @@
     "react-native-extended-stylesheet": "^0.12.0",
     "react-native-gesture-handler": "~1.6.0",
     "react-native-loading-spinner-overlay": "^1.0.1",
+    "react-native-modal": "^11.5.6",
     "react-native-reanimated": "~1.9.0",
     "react-native-root-toast": "^3.0.2",
     "react-native-safe-area-context": "3.0.2",

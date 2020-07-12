@@ -60,9 +60,6 @@ const Notification: FC<Props> = memo((props) => {
       },
     };
 
-    //Alert.alert(token);
-    //console.log(token);
-
     const response = await post('CreatePushToken', request);
 
     if (response.error) {

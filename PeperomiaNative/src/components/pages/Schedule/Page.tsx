@@ -14,7 +14,7 @@ type Props = Pick<ConnectedType, 'onScheduleDetail'> & {
   onDelete: () => void;
 };
 
-const SchedulePage: FC<Props> = memo((props) => {
+const SchedulePage: FC<Props> = (props) => {
   const onDelete = useCallback(() => {
     Alert.alert(
       '本当に削除しますか？',
@@ -51,9 +51,9 @@ const SchedulePage: FC<Props> = memo((props) => {
       </View>
     </View>
   );
-});
+};
 
-export default SchedulePage;
+export default memo(SchedulePage);
 
 const styles = EStyleSheet.create({
   root: {

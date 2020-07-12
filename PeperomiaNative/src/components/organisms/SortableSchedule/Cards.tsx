@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import SortableList from 'react-native-sortable-list';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { SelectItemDetail } from '../../../domain/itemDetail';
-import { SwitchType } from '../../pages/Schedule/Switch';
-import { SortableItemDetail } from '../../pages/SortableSchedule/Connected';
-import Card from '../../molecules/Schedule/Card';
+import { SelectItemDetail } from 'domain/itemDetail';
+import { SwitchType } from 'components/pages/Schedule/Switch';
+import { SortableItemDetail } from 'components/pages/SortableSchedule/Connected';
+import Card from 'components/molecules/Schedule/Card';
 import Row from './Row';
 
 type DataKey = string | number;

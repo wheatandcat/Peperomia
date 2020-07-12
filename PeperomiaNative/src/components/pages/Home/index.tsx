@@ -11,9 +11,7 @@ import theme, { darkMode } from 'config/theme';
 import { RootStackParamList } from 'lib/navigation';
 import { ContextProps as ItemContextProps } from 'containers/Items';
 import Hint from 'components/atoms/Hint/Hint';
-import Schedule, {
-  ScheduleNavigationOptions,
-} from 'components/pages/Schedule/Switch';
+import Schedule, { ScheduleNavigationOptions } from 'components/pages/Schedule';
 import HomeScreen from './Connected';
 
 export type PlanProps = Pick<

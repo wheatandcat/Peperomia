@@ -1,31 +1,21 @@
 import React, { useState, memo, useCallback, useMemo } from 'react';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { Share, Alert, View } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
-import EStyleSheet from 'react-native-extended-stylesheet';
-import {
-  useActionSheet,
-  ActionSheetOptions,
-} from '@expo/react-native-action-sheet';
+import { Alert } from 'react-native';
+import { ActionSheetOptions } from '@expo/react-native-action-sheet';
 import uuidv1 from 'uuid/v1';
-import { Button } from 'react-native-elements';
 import { Item, SelectItem } from 'domain/item';
 import { SelectItemDetail } from 'domain/itemDetail';
 import { updateItemDetail, getItemDetails } from 'lib/itemDetail';
 import { RootStackParamList } from 'lib/navigation';
 import { deleteItem, getItemByID } from 'lib/item';
-import { closeShareLink, crateShareLink } from 'lib/share';
-import { isShare } from 'lib/firestore/plan';
-import getShareText from 'lib/getShareText';
-import { useItems, ContextProps as ItemsContextProps } from 'containers/Items';
-import { useAuth, ContextProps as AuthContextProps } from 'containers/Auth';
+import { crateShareLink, closeShareLink, copyShareURL } from 'lib/share';
+import { ContextProps as ItemsContextProps } from 'containers/Items';
+import { ContextProps as AuthContextProps } from 'containers/Auth';
+import { ContextProps as FetchContextProps } from 'containers/Fetch';
 import { useDidMount } from 'hooks/index';
-import theme from 'config/theme';
 import SortableSchedule from 'components/pages/SortableSchedule/Connected';
 import Schedule from './Connected';
-import HeaderLeft from './HeaderLeft';
-import HeaderRight from './HeaderRight';
 
 type State = Pick<Item, 'title'> & {
   item: SelectItem;
@@ -44,6 +34,7 @@ export type SwitchProps = {
 
 type Props = SwitchProps &
   Pick<AuthContextProps, 'uid'> &
+  Pick<FetchContextProps, 'post'> &
   Pick<ItemsContextProps, 'refreshData'> & {
     showActionSheetWithOptions: (
       options: ActionSheetOptions,
@@ -58,11 +49,6 @@ export type SwitchType = {
   onSort: () => void;
   onDelete: () => void;
   onChangeItems: (data: SelectItemDetail[]) => void;
-  onOpenActionSheet: (
-    itemId: string,
-    title: string,
-    items: SelectItemDetail[]
-  ) => void;
 };
 
 const initState = {
@@ -81,22 +67,7 @@ const initState = {
 // TODO: 再描画せずにnavigationOptionsに並び替えの情報を渡せなかったのでグローバル変数で管理する
 var saveItems: SelectItemDetail[] = [];
 
-const Switch = (props: SwitchProps) => {
-  const { uid } = useAuth();
-  const { refreshData } = useItems();
-  const { showActionSheetWithOptions } = useActionSheet();
-
-  return (
-    <Connected
-      {...props}
-      uid={uid}
-      refreshData={refreshData}
-      showActionSheetWithOptions={showActionSheetWithOptions}
-    />
-  );
-};
-
-export const Connected = memo((props: Props) => {
+const Switch: React.FC<Props> = (props) => {
   const [state, setState] = useState<State>(initState);
   const itemId = props.route.params.itemId || '1';
 
@@ -110,23 +81,94 @@ export const Connected = memo((props: Props) => {
   );
 
   const onShare = useCallback(
-    async (title?: string, itemDetails?: SelectItemDetail[]) => {
-      if (!title || !itemDetails) {
-        return;
-      }
-
-      try {
-        const message = getShareText(itemDetails);
-
-        await Share.share({
-          title,
-          message,
-        });
-      } catch (error) {
-        Alert.alert(error.message);
+    (share: boolean) => {
+      if (props.uid) {
+        if (share) {
+          props.showActionSheetWithOptions(
+            {
+              options: [
+                'リンクを取得する',
+                'リンクを非公開にする',
+                'キャンセル',
+              ],
+              destructiveButtonIndex: 1,
+              cancelButtonIndex: 3,
+            },
+            async (buttonIndex) => {
+              if (buttonIndex === 0) {
+                copyShareURL(String(itemId));
+              } else if (buttonIndex === 1) {
+                if (props.post) {
+                  const ok = await closeShareLink(String(itemId), props.post);
+                  if (!ok) {
+                    Alert.alert('更新に失敗しました');
+                  }
+                }
+              }
+            }
+          );
+        } else {
+          props.showActionSheetWithOptions(
+            {
+              options: ['リンクを取得する', 'キャンセル'],
+              cancelButtonIndex: 1,
+            },
+            (buttonIndex) => {
+              if (buttonIndex === 0) {
+                Alert.alert(
+                  'この予定がWebで公開されます',
+                  'あとで非公開に変更することも可能です',
+                  [
+                    {
+                      text: 'キャンセル',
+                      style: 'cancel',
+                    },
+                    {
+                      text: '公開する',
+                      onPress: async () => {
+                        if (props.post) {
+                          const ok = await crateShareLink(
+                            String(itemId),
+                            props.post
+                          );
+                          if (!ok) {
+                            Alert.alert('更新に失敗しました');
+                          }
+                        }
+                      },
+                    },
+                  ],
+                  { cancelable: false }
+                );
+              }
+            }
+          );
+        }
+      } else {
+        Alert.alert(
+          '共有機能はユーザー登録が必要です',
+          'ユーザー登録しますか？',
+          [
+            {
+              text: 'キャンセル',
+              style: 'cancel',
+            },
+            {
+              text: 'ユーザー登録',
+              onPress: () => {
+                props.navigation.navigate('SignIn', {
+                  onLogin: () => {
+                    props.navigation.pop();
+                  },
+                });
+              },
+            },
+          ],
+          { cancelable: false }
+        );
       }
     },
-    []
+    [itemId, props]
   );
 
   const onSort = useCallback(async () => {
@@ -195,86 +237,6 @@ export const Connected = memo((props: Props) => {
     [props.navigation, itemId]
   );
 
-  const onCrateShareLink = useCallback(
-    async (itemDetails: SelectItemDetail[]) => {
-      if (!state.item.id) {
-        return;
-      }
-
-      await crateShareLink(state.item, itemDetails);
-    },
-    [state.item]
-  );
-
-  const onOpenActionSheet = useCallback(
-    async (title?: string, itemDetails?: SelectItemDetail[]) => {
-      if (!title || !itemDetails) {
-        return;
-      }
-
-      const userID = await AsyncStorage.getItem('userID');
-      if (userID) {
-        const uuid = userID + itemId;
-        const share = await isShare(uuid);
-        if (share) {
-          props.showActionSheetWithOptions(
-            {
-              options: [
-                'リンクを取得する',
-                'リンクを非公開にする',
-                'その他',
-                'キャンセル',
-              ],
-              destructiveButtonIndex: 1,
-              cancelButtonIndex: 3,
-            },
-            (buttonIndex) => {
-              if (buttonIndex === 0) {
-                onCrateShareLink(itemDetails);
-              } else if (buttonIndex === 1) {
-                closeShareLink(uuid);
-              } else if (buttonIndex === 2) {
-                onShare(title, itemDetails);
-              }
-            }
-          );
-          return;
-        }
-      }
-
-      props.showActionSheetWithOptions(
-        {
-          options: ['リンクを取得する', 'その他', 'キャンセル'],
-          cancelButtonIndex: 2,
-        },
-        (buttonIndex) => {
-          if (buttonIndex === 0) {
-            Alert.alert(
-              'この予定がWebで公開されます',
-              'あとで非公開に変更することも可能です',
-              [
-                {
-                  text: 'キャンセル',
-                  style: 'cancel',
-                },
-                {
-                  text: '公開する',
-                  onPress: () => {
-                    onCrateShareLink(itemDetails);
-                  },
-                },
-              ],
-              { cancelable: false }
-            );
-          } else if (buttonIndex === 1) {
-            onShare(title, itemDetails);
-          }
-        }
-      );
-    },
-    [onCrateShareLink, onShare, props, itemId]
-  );
-
   const onDelete = useCallback(async () => {
     const ok = await deleteItem(props.uid, { id: itemId });
     if (!ok) {
@@ -296,8 +258,7 @@ export const Connected = memo((props: Props) => {
     props.navigation.setParams({
       onShow: onShow,
       onSave: onSave,
-      onShare: onShare,
-      onOpenActionSheet: onOpenActionSheet,
+
       mode: 'show',
     });
 
@@ -312,6 +273,7 @@ export const Connected = memo((props: Props) => {
       props.navigation.setParams({
         title: item.title,
         onEditPlan: () => onEditPlan(item),
+        onShare: () => onShare(Boolean(item.public)),
       });
     };
 
@@ -342,65 +304,6 @@ export const Connected = memo((props: Props) => {
       onDelete={onDelete}
     />
   );
-});
-
-export default Switch;
-
-export const ScheduleNavigationOptions = ({ route }: SwitchProps) => {
-  return {
-    headerTitle: () => (
-      <Button
-        type="clear"
-        title={route.params.title}
-        onPress={route.params.onEditPlan}
-        testID="ScheduleTitleUpdate"
-        titleStyle={styles.headerTitle}
-      />
-    ),
-    headerStyle: {
-      backgroundColor: theme().mode.header.backgroundColor,
-    },
-    headerLeft: () => (
-      <View style={styles.headerLeft}>
-        <HeaderLeft mode={route.params.mode} onShow={route.params.onShow} />
-      </View>
-    ),
-    headerRight: () => (
-      <View style={styles.headerRight}>
-        <HeaderRight
-          mode={route.params.mode}
-          onSave={route.params.onSave}
-          onShare={() => {
-            if (route.params.onShare) {
-              route.params.onShare(
-                route.params.title,
-                route.params.itemDetails
-              );
-            }
-          }}
-          onOpenActionSheet={() => {
-            if (route.params.onOpenActionSheet) {
-              route.params.onOpenActionSheet(
-                route.params.title,
-                route.params.itemDetails
-              );
-            }
-          }}
-        />
-      </View>
-    ),
-  };
 };
 
-const styles = EStyleSheet.create({
-  headerTitle: {
-    color: '$headerText',
-    fontWeight: '600',
-  },
-  headerLeft: {
-    left: 5,
-  },
-  headerRight: {
-    right: 10,
-  },
-});
+export default memo(Switch);

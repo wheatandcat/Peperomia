@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/pages/Schedule/Switch.tsx Connected 正常に表示されている 1`] = `
+exports[`components/pages/Schedule/Switch.tsx Switch 正常に表示されている 1`] = `
 <Memo(Connected)
   itemDetails={Array []}
   navigation={
@@ -13,9 +13,7 @@ exports[`components/pages/Schedule/Switch.tsx Connected 正常に表示されて
           Array [
             Object {
               "mode": "show",
-              "onOpenActionSheet": [Function],
               "onSave": [Function],
-              "onShare": [Function],
               "onShow": [Function],
             },
           ],
@@ -40,29 +38,5 @@ exports[`components/pages/Schedule/Switch.tsx Connected 正常に表示されて
       },
     }
   }
-/>
-`;
-
-exports[`components/pages/Schedule/Switch.tsx Switch 正常に表示されている 1`] = `
-<Memo()
-  navigation={
-    Object {
-      "getParam": [MockFunction],
-      "goBack": [MockFunction],
-      "navigate": [MockFunction],
-      "setParams": [MockFunction],
-    }
-  }
-  refreshData={[MockFunction]}
-  route={
-    Object {
-      "params": Object {
-        "itemId": 1,
-        "title": "test",
-      },
-    }
-  }
-  showActionSheetWithOptions={[Function]}
-  uid="1"
 />
 `;

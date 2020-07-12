@@ -8,16 +8,10 @@ type Props = {
   mode?: string;
   onSave?: () => void;
   onShare?: () => void;
-  onOpenActionSheet?: () => void;
 };
 
-export default (props: Props) => {
-  if (
-    !props.onSave ||
-    !props.onShare ||
-    !props.onOpenActionSheet ||
-    !props.mode
-  ) {
+const HeaderRight: React.FC<Props> = (props) => {
+  if (!props.onSave || !props.onShare || !props.mode) {
     return null;
   }
 
@@ -30,7 +24,7 @@ export default (props: Props) => {
   }
 
   return (
-    <TouchableOpacity onPress={props.onOpenActionSheet}>
+    <TouchableOpacity onPress={props.onShare}>
       <Entypo
         name="share-alternative"
         size={25}
@@ -39,3 +33,5 @@ export default (props: Props) => {
     </TouchableOpacity>
   );
 };
+
+export default HeaderRight;

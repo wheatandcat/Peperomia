@@ -1,6 +1,7 @@
 export type Item = {
   title: string;
   kind: string;
+  public?: boolean;
 };
 
 export type SelectItem = Item & {

@@ -191,8 +191,6 @@ const SettingPage: FC<Props> = (props) => (
           <ListItem
             title="Firebase アナリティクス"
             onPress={() => {
-              console.log('Analytics');
-
               Analytics.setUserId('saitama');
               Analytics.setUserProperties({
                 hero_class: 'B',

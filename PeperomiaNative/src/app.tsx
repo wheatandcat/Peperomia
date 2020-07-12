@@ -19,7 +19,7 @@ import {
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Sentry from 'sentry-expo';
-import uuidv1 from 'uuid/v1';
+import uuidv4 from 'uuid/v4';
 import { useDidMount } from 'hooks/index';
 import app from '../app.json';
 import AppInfo from './components/pages/AppInfo/Page';
@@ -245,7 +245,7 @@ const App = () => {
       }
 
       if (!data) {
-        const uuid = Constants.installationId + uuidv1();
+        const uuid = Constants.installationId + uuidv4();
         const user: User = {
           uuid,
         };

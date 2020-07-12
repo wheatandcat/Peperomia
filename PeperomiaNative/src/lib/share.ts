@@ -1,51 +1,61 @@
-import { Dimensions, Clipboard, Alert } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import { Dimensions, Clipboard } from 'react-native';
 import Toast from 'react-native-root-toast';
-import { SelectItem } from '../domain/item';
-import { SelectItemDetail } from '../domain/itemDetail';
-import { save as saveFirestore, updateShare } from './firestore/plan';
+import { ContextProps as FetchContextProps } from 'containers/Fetch';
 
-export const closeShareLink = async (doc: string) => {
-  const result = await updateShare(doc, false);
+type PostType = NonNullable<FetchContextProps['post']>;
 
-  if (result) {
-    const { height } = Dimensions.get('window');
+export const closeShareLink = async (
+  itemId: string,
+  post: PostType
+): Promise<boolean> => {
+  const response = await post('UpdateItemPrivate', {
+    itemId,
+  });
 
-    let toast = Toast.show('リンクを非公開にしました', {
-      duration: Toast.durations.LONG,
-      position: height - 150,
-      shadow: true,
-      animation: true,
-      hideOnPress: true,
-      delay: 0,
-    });
-
-    // You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
-    setTimeout(function () {
-      Toast.hide(toast);
-    }, 3000);
+  if (response.error) {
+    return false;
   }
+
+  const { height } = Dimensions.get('window');
+
+  let toast = Toast.show('リンクを非公開にしました', {
+    duration: Toast.durations.LONG,
+    position: height - 150,
+    shadow: true,
+    animation: true,
+    hideOnPress: true,
+    delay: 0,
+  });
+
+  setTimeout(function () {
+    Toast.hide(toast);
+  }, 3000);
+
+  return true;
 };
 
 export const crateShareLink = async (
-  item: SelectItem,
-  itemDetails: SelectItemDetail[]
-) => {
-  const userID = await AsyncStorage.getItem('userID');
-  if (userID === null) {
-    return;
+  itemId: string,
+  post: PostType
+): Promise<boolean> => {
+  const response = await post('UpdateItemPublic', {
+    itemId,
+  });
+
+  if (response.error) {
+    return false;
   }
 
-  const linkID = await saveFirestore(userID, item, itemDetails);
-  if (!linkID) {
-    Alert.alert('保存に失敗しました');
-    return;
-  }
+  copyShareURL(itemId);
 
-  const shareHost = 'https://peperomia.info';
-  console.log(`${shareHost}/${linkID}`);
+  return true;
+};
 
-  Clipboard.setString(`${shareHost}/${linkID}`);
+export const copyShareURL = (itemId: string) => {
+  const shareHost = 'https://app.peperomia.info/share';
+  const url = `${shareHost}/${itemId}`;
+
+  Clipboard.setString(url);
 
   const { height } = Dimensions.get('window');
 
@@ -58,7 +68,6 @@ export const crateShareLink = async (
     delay: 0,
   });
 
-  // You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
   setTimeout(function () {
     Toast.hide(toast);
   }, 3000);

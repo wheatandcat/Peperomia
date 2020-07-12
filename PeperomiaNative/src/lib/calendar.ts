@@ -28,10 +28,11 @@ export async function getCalendars(uid: UID): Promise<SelectCalendar[]> {
       return [] as any;
     }
 
-    const ids = calendars.map((calendar) => String(calendar.id));
+    const ids = calendars.map((calendar) => String(calendar.itemId));
     const items = await findItemInID(firestore, uid, ids);
+
     const result = calendars.map((calendar) => {
-      const item = items.find((v) => v.id === calendar.id);
+      const item = items.find((v) => v.id === calendar.itemId);
 
       return {
         ...calendar,
