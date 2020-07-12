@@ -13,8 +13,6 @@ case $answer in
         cp -r config/template.json config/development.json
         cp -r config/template.json config/product.json
 
-        cd ../primitive && yarn && yarn tsc
-
         yarn
         echo "設定が完了しました。developモードで起動します...\n"
         yarn start
