@@ -1,7 +1,0 @@
-node_modules/
-.ask/*
-!.ask/.gitkeep
-lambda/custom/*
-!lambda/custom/.gitkeep
-.DS_Store
-yarn-error.log
