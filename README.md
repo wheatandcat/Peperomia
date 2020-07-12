@@ -5,17 +5,17 @@
 [![Actions Status](https://github.com/wheatandcat/Peperomia/workflows/tsc/badge.svg)](https://github.com/wheatandcat/Peperomia/actions)
 
 <div style="display:flex">
-    <img src="./image/thumbnail/iphoneX_1.png" width="200" style="padding:3px"/>
-    <img src="./image/thumbnail/iphoneX_2.png" width="200" style="padding:3px"/>
-    <img src="./image/thumbnail/iphoneX_3.png" width="200" style="padding:3px"/>
-    <img src="./image/thumbnail/iphoneX_4.png" width="200" style="padding:3px"/>
-    <img src="./image/thumbnail/iphoneX_5.png" width="200" style="padding:3px"/>
+    <img src="./doc/thumbnail/iphoneX_1.png" width="200" style="padding:3px"/>
+    <img src="./doc/thumbnail/iphoneX_2.png" width="200" style="padding:3px"/>
+    <img src="./doc/thumbnail/iphoneX_3.png" width="200" style="padding:3px"/>
+    <img src="./doc/thumbnail/iphoneX_4.png" width="200" style="padding:3px"/>
+    <img src="./doc/thumbnail/iphoneX_5.png" width="200" style="padding:3px"/>
 </div>
 
 ペペロミアは予定作成アプリです
 
 ## パッケージ
- - Expo SDK 37
+ - Expo SDK 38
  - TypeScript v3.8
  - react-navigation v5
 
