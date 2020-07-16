@@ -38,7 +38,6 @@ const Notification: FC<Props> = memo((props) => {
     }
 
     if (finalStatus !== 'granted') {
-      Alert.alert('Push通知のトークンの取得に失敗しました');
       return false;
     }
 

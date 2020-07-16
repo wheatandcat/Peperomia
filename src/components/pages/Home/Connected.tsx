@@ -14,6 +14,8 @@ import { useItems, ContextProps as ItemContextProps } from 'containers/Items';
 import { useAuth } from 'containers/Auth';
 import { SelectItem } from 'domain/item';
 import { useDidMount } from 'hooks/index';
+import theme, { darkMode } from 'config/theme';
+import FocusAwareStatusBar from 'components/organisms/FocusAwareStatusBar';
 import Page from './Page';
 
 const deviceHeight = Dimensions.get('window').height;
@@ -205,12 +207,18 @@ const HomeScreenPlan = memo((props: PlanProps) => {
   });
 
   return (
-    <Page
-      data={items}
-      loading={props.loading}
-      onSchedule={onSchedule}
-      onDelete={onDelete}
-    />
+    <>
+      <FocusAwareStatusBar
+        backgroundColor={darkMode() ? theme().color.black : theme().color.main}
+        barStyle={darkMode() ? 'light-content' : 'dark-content'}
+      />
+      <Page
+        data={items}
+        loading={props.loading}
+        onSchedule={onSchedule}
+        onDelete={onDelete}
+      />
+    </>
   );
 });
 

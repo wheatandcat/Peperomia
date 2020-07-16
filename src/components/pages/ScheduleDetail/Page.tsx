@@ -112,10 +112,7 @@ export const ScheduleDetailPage: FC<Props> = memo((props) => {
         onClose={props.onDismiss}
       />
 
-      <StatusBar
-        backgroundColor={theme().color.white}
-        barStyle="dark-content"
-      />
+      <StatusBar backgroundColor={bc} barStyle="dark-content" />
       <SafeAreaView
         style={[
           GlobalStyles.droidSafeArea,

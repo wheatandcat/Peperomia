@@ -31,6 +31,8 @@ import SignIn from '../SignIn/Connected';
 import MyPage from '../MyPage/Connected';
 import ScreenSetting from '../ScreenSetting/Connected';
 import LoginWithAmazon from '../LoginWithAmazon/Connected';
+import theme, { darkMode } from 'config/theme';
+import FocusAwareStatusBar from 'components/organisms/FocusAwareStatusBar';
 import Page from './Page';
 
 const Container = () => {
@@ -260,31 +262,37 @@ const Connected = memo((props: ConnectedProps) => {
   }, []);
 
   return (
-    <Page
-      loading={state.loading}
-      uid={props.uid}
-      restoreLoading={state.restoreLoading}
-      login={state.login}
-      debugMode={state.debugMode}
-      onResetSQL={onResetSQL}
-      onData={onData}
-      onDeleteSQL={onDeleteSQL}
-      onDeleteUser={onDeleteUser}
-      onShowSQL={onShowSQL}
-      onTos={onTos}
-      onPolicy={onPolicy}
-      onFeedback={onFeedback}
-      onSignIn={onSignIn}
-      onLogout={onLogout}
-      onMyPage={onMyPage}
-      onNotificationSetting={onNotificationSetting}
-      onMigrationV100={onMigrationV100}
-      onScreenSetting={onScreenSetting}
-      onLoginWithAmazon={onLoginWithAmazon}
-      onFirestoreResetQuery={onFirestoreResetQuery}
-      onFirestoreSelect={onFirestoreSelect}
-      onChangeDebugMode={onChangeDebugMode}
-    />
+    <>
+      <FocusAwareStatusBar
+        backgroundColor={darkMode() ? theme().color.black : theme().color.main}
+        barStyle={darkMode() ? 'light-content' : 'dark-content'}
+      />
+      <Page
+        loading={state.loading}
+        uid={props.uid}
+        restoreLoading={state.restoreLoading}
+        login={state.login}
+        debugMode={state.debugMode}
+        onResetSQL={onResetSQL}
+        onData={onData}
+        onDeleteSQL={onDeleteSQL}
+        onDeleteUser={onDeleteUser}
+        onShowSQL={onShowSQL}
+        onTos={onTos}
+        onPolicy={onPolicy}
+        onFeedback={onFeedback}
+        onSignIn={onSignIn}
+        onLogout={onLogout}
+        onMyPage={onMyPage}
+        onNotificationSetting={onNotificationSetting}
+        onMigrationV100={onMigrationV100}
+        onScreenSetting={onScreenSetting}
+        onLoginWithAmazon={onLoginWithAmazon}
+        onFirestoreResetQuery={onFirestoreResetQuery}
+        onFirestoreSelect={onFirestoreSelect}
+        onChangeDebugMode={onChangeDebugMode}
+      />
+    </>
   );
 });
 

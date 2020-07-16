@@ -3,6 +3,8 @@ import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from 'lib/navigation';
 import { Alert } from 'react-native';
+import theme, { darkMode } from 'config/theme';
+import FocusAwareStatusBar from 'components/organisms/FocusAwareStatusBar';
 import Page from './Page';
 
 type ScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Feedback'>;
@@ -53,12 +55,20 @@ export default class extends Component<Props, State> {
 
   render() {
     return (
-      <Page
-        isOpen={this.state.isOpen}
-        loading={this.state.loading}
-        onFeedback={this.onFeedback}
-        onClose={this.onClose}
-      />
+      <>
+        <FocusAwareStatusBar
+          backgroundColor={
+            darkMode() ? theme().color.black : theme().color.main
+          }
+          barStyle={darkMode() ? 'light-content' : 'dark-content'}
+        />
+        <Page
+          isOpen={this.state.isOpen}
+          loading={this.state.loading}
+          onFeedback={this.onFeedback}
+          onClose={this.onClose}
+        />
+      </>
     );
   }
 }

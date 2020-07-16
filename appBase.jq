@@ -9,7 +9,7 @@
       "transformer": "node_modules/react-native-typescript-transformer/index.js"
     },
     "platforms": ["ios", "android"],
-    "version": "2.0.4",
+    "version": "2.0.5",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -27,7 +27,7 @@
       "userInterfaceStyle": "automatic",
       "usesAppleSignIn": true,
       "supportsTablet": true,
-      "buildNumber": "17",
+      "buildNumber": "19",
       "bundleIdentifier": "com.wheatandcat.peperomia",
       "infoPlist": {
         "NSPhotoLibraryUsageDescription": "予定作成のために使用します。",
@@ -44,7 +44,7 @@
       "userInterfaceStyle": "automatic",
       "package": "com.wheatandcat.peperomia",
       "googleServicesFile": "./android/google-services.json",
-      "versionCode": 17,
+      "versionCode": 19,
       "adaptiveIcon": {
         "backgroundColor": "#006835",
         "foregroundImage": "./assets/icon-fg.png"

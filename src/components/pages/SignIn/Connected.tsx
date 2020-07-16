@@ -11,6 +11,7 @@ import { backup } from 'lib/backup';
 import { useAuth, ContextProps as AuthContextProps } from 'containers/Auth';
 import { useFetch, ContextProps as FetchContextProps } from 'containers/Fetch';
 import { useItems, ContextProps as ItemsContextProps } from 'containers/Items';
+import CommonStatusBar from 'components/organisms/CommonStatusBar';
 import Page from './Page';
 
 dayjs.extend(advancedFormat);
@@ -190,10 +191,13 @@ const Connected = memo((props: ConnectedProps) => {
   }, [props, backupData]);
 
   return (
-    <Page
-      loading={state.loading}
-      onGoogleLogin={onGoogleLogin}
-      onAppleLogin={onAppleLogin}
-    />
+    <>
+      <CommonStatusBar />
+      <Page
+        loading={state.loading}
+        onGoogleLogin={onGoogleLogin}
+        onAppleLogin={onAppleLogin}
+      />
+    </>
   );
 });

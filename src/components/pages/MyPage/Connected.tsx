@@ -6,6 +6,7 @@ import advancedFormat from 'dayjs/plugin/advancedFormat';
 import 'dayjs/locale/ja';
 import * as IntentLauncher from 'expo-intent-launcher';
 import uuidv4 from 'uuid/v4';
+import * as Sentry from 'sentry-expo';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from 'lib/navigation';
@@ -17,6 +18,8 @@ import {
   useNotification,
   ContextProps as NotificationContextProps,
 } from 'containers/Notification';
+import theme, { darkMode } from 'config/theme';
+import FocusAwareStatusBar from 'components/organisms/FocusAwareStatusBar';
 import Page from './Page';
 
 dayjs.extend(advancedFormat);
@@ -239,7 +242,15 @@ class Connected extends Component<ConnectedProps, State> {
     }
 
     if (Platform.OS === 'ios') {
-      Linking.openURL('app-settings:');
+      Linking.canOpenURL('app-settings:')
+        .then((supported) => {
+          if (supported) {
+            return Linking.openURL('app-settings:');
+          }
+          console.log('not supported');
+          return;
+        })
+        .catch((err) => Sentry.captureException(err));
     } else {
       IntentLauncher.startActivityAsync(
         IntentLauncher.ACTION_NOTIFICATION_SETTINGS
@@ -249,14 +260,22 @@ class Connected extends Component<ConnectedProps, State> {
 
   render() {
     return (
-      <Page
-        loading={this.state.loading}
-        LoadingText={this.state.LoadingText}
-        email={this.props.email || ''}
-        onBackup={this.onBackup}
-        onRestore={this.onRestore}
-        onNotificationSetting={this.onNotificationSetting}
-      />
+      <>
+        <FocusAwareStatusBar
+          backgroundColor={
+            darkMode() ? theme().color.black : theme().color.main
+          }
+          barStyle={darkMode() ? 'light-content' : 'dark-content'}
+        />
+        <Page
+          loading={this.state.loading}
+          LoadingText={this.state.LoadingText}
+          email={this.props.email || ''}
+          onBackup={this.onBackup}
+          onRestore={this.onRestore}
+          onNotificationSetting={this.onNotificationSetting}
+        />
+      </>
     );
   }
 }

@@ -3,7 +3,8 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { whenIPhoneSE, isTablet } from 'lib/responsive';
-import theme from 'config/theme';
+import theme, { darkMode } from 'config/theme';
+import FocusAwareStatusBar from 'components/organisms/FocusAwareStatusBar';
 
 type Props = {
   onDone: () => void;
@@ -90,6 +91,10 @@ const AppInfo: FC<Props> = (props) => {
           },
         ]}
       >
+        <FocusAwareStatusBar
+          backgroundColor={item.backgroundColor}
+          barStyle={darkMode() ? 'light-content' : 'dark-content'}
+        />
         <View style={styles.image}>
           <Image
             source={item.image}

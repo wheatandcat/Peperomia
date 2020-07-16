@@ -7,7 +7,6 @@ import {
   Animated,
   SafeAreaView,
   ScrollView,
-  StatusBar,
 } from 'react-native';
 import { Calendar, LocaleConfig, CalendarTheme } from 'react-native-calendars';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -20,6 +19,7 @@ import { SelectCalendar } from 'domain/calendar';
 import theme from 'config/theme';
 import ImageDay from 'components/organisms/Calendars/Image';
 import DayText from 'components/organisms/Calendars/DayText';
+import FocusAwareStatusBar from 'components/organisms/FocusAwareStatusBar';
 import GlobalStyles from '../../../GlobalStyles';
 import { ConnectedType } from './Connected';
 
@@ -200,8 +200,8 @@ export default class extends Component<Props, State> {
           },
         ]}
       >
-        <StatusBar
-          backgroundColor={theme().color.white}
+        <FocusAwareStatusBar
+          backgroundColor={backgroundColors[currentMonth]}
           barStyle={'dark-content'}
         />
         <AnimatedSafeAreaView
