@@ -11,6 +11,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from 'lib/navigation';
 import { useFetch, ContextProps as FetchContextProps } from 'containers/Fetch';
 import { useAuth, ContextProps as AuthContextProps } from 'containers/Auth';
+import CommonStatusBar from 'components/organisms/CommonStatusBar';
 import Page from './Page';
 
 dayjs.extend(advancedFormat);
@@ -118,11 +119,14 @@ class Connected extends Component<ConnectedProps, State> {
 
   render() {
     return (
-      <Page
-        loading={this.state.loading}
-        linked={this.state.linked}
-        onAmazonLogin={this.onAmazonLogin}
-      />
+      <>
+        <CommonStatusBar />
+        <Page
+          loading={this.state.loading}
+          linked={this.state.linked}
+          onAmazonLogin={this.onAmazonLogin}
+        />
+      </>
     );
   }
 }

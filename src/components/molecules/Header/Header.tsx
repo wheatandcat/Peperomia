@@ -38,10 +38,7 @@ export default (props: Props) => {
 
   return (
     <View style={style}>
-      <StatusBar
-        backgroundColor={theme().color.white}
-        barStyle="dark-content"
-      />
+      <StatusBar backgroundColor={props.color} barStyle="dark-content" />
       <View style={[styles.contents, { paddingTop: top }]}>
         <TouchableOpacity onPress={props.onClose}>
           <MaterialCommunityIcons

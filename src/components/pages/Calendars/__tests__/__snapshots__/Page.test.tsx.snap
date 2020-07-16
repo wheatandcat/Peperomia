@@ -11,11 +11,9 @@ exports[`components/pages/Calendars/Page.tsx 正常に表示されている 1`] 
     ]
   }
 >
-  <StatusBar
-    animated={false}
-    backgroundColor="#fff"
+  <FocusAwareStatusBar
+    backgroundColor="#a0d8ef"
     barStyle="dark-content"
-    showHideTransition="fade"
   />
   <ForwardRef(AnimatedComponentWrapper)
     style={

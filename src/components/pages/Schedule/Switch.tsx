@@ -9,12 +9,14 @@ import { SelectItemDetail } from 'domain/itemDetail';
 import { updateItemDetail, getItemDetails } from 'lib/itemDetail';
 import { RootStackParamList } from 'lib/navigation';
 import { deleteItem, getItemByID } from 'lib/item';
+import theme, { darkMode } from 'config/theme';
 import { crateShareLink, closeShareLink, copyShareURL } from 'lib/share';
 import { ContextProps as ItemsContextProps } from 'containers/Items';
 import { ContextProps as AuthContextProps } from 'containers/Auth';
 import { ContextProps as FetchContextProps } from 'containers/Fetch';
 import { useDidMount } from 'hooks/index';
 import SortableSchedule from 'components/pages/SortableSchedule/Connected';
+import FocusAwareStatusBar from 'components/organisms/FocusAwareStatusBar';
 import Schedule from './Connected';
 
 type State = Pick<Item, 'title'> & {
@@ -291,18 +293,34 @@ const Switch: React.FC<Props> = (props) => {
   );
 
   if (state.mode === 'sort') {
-    return <>{child1}</>;
+    return (
+      <>
+        <FocusAwareStatusBar
+          backgroundColor={
+            darkMode() ? theme().color.black : theme().color.main
+          }
+          barStyle={darkMode() ? 'light-content' : 'dark-content'}
+        />
+        {child1}
+      </>
+    );
   }
 
   return (
-    <Schedule
-      navigation={props.navigation}
-      route={props.route}
-      itemDetails={state.itemDetails}
-      onAdd={onAdd}
-      onSort={onSort}
-      onDelete={onDelete}
-    />
+    <>
+      <FocusAwareStatusBar
+        backgroundColor={darkMode() ? theme().color.black : theme().color.main}
+        barStyle={darkMode() ? 'light-content' : 'dark-content'}
+      />
+      <Schedule
+        navigation={props.navigation}
+        route={props.route}
+        itemDetails={state.itemDetails}
+        onAdd={onAdd}
+        onSort={onSort}
+        onDelete={onDelete}
+      />
+    </>
   );
 };
 

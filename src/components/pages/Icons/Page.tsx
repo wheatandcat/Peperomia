@@ -51,7 +51,7 @@ class Page extends Component<Props, State> {
       <View style={styles.root}>
         <StatusBar
           backgroundColor={
-            darkMode() ? theme().color.black : theme().color.white
+            darkMode() ? theme().color.black : theme().color.main
           }
           barStyle={darkMode() ? 'light-content' : 'dark-content'}
         />
