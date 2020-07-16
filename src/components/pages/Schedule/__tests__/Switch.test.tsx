@@ -55,13 +55,13 @@ describe('components/pages/Schedule/Switch.tsx', () => {
     });
 
     it('onAdd', () => {
-      wrapper.props().onAdd([]);
+      (wrapper.props() as any).children[1].props.onAdd([]);
     });
 
     it('onDelete', async () => {
       jest.spyOn(item, 'deleteItem').mockImplementation(() => true as any);
 
-      await wrapper.props().onDelete();
+      await (wrapper.props() as any).children[1].props.onDelete();
     });
 
     it('onShow', () => {
@@ -100,7 +100,7 @@ describe('components/pages/Schedule/Switch.tsx', () => {
         .spyOn(itemDetail, 'getItemDetails')
         .mockImplementation(() => [] as any);
 
-      await wrapper.props().onSort();
+      await (wrapper.props() as any).children[1].props.onSort();
       expect(setParams).toHaveBeenCalledWith({
         mode: 'sort',
       });
