@@ -1,5 +1,4 @@
 import React, { createContext, Component, useContext, FC } from 'react';
-import { Response } from '@specter/client';
 import { post } from 'lib/fetch';
 import {
   Context as AuthContext,
@@ -27,7 +26,11 @@ class Connected extends Component<ConnectedProps> {
   post = async <TRequest, TResponse>(
     url: string,
     body: TRequest
-  ): Promise<Response<{ status: string }, TResponse>> => {
+  ): Promise<{
+    status: number;
+    body: TResponse | null;
+    error: string | null;
+  }> => {
     const idToken = this.props.getIdToken ? await this.props.getIdToken() : '';
 
     const data = post<TRequest, TResponse>(url, body, idToken || '');

@@ -20,6 +20,10 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
+    "notification": {
+      "icon": "./assets/shell_notification_icon.png",
+      "color": "#00c2ad"
+    },
     "assetBundlePatterns": ["src/**/*"],
     "userInterfaceStyle": "automatic",
     "ios": {
@@ -27,7 +31,7 @@
       "userInterfaceStyle": "automatic",
       "usesAppleSignIn": true,
       "supportsTablet": true,
-      "buildNumber": "19",
+      "buildNumber": "30",
       "bundleIdentifier": "com.wheatandcat.peperomia",
       "infoPlist": {
         "NSPhotoLibraryUsageDescription": "予定作成のために使用します。",
@@ -44,7 +48,7 @@
       "userInterfaceStyle": "automatic",
       "package": "com.wheatandcat.peperomia",
       "googleServicesFile": "./android/google-services.json",
-      "versionCode": 19,
+      "versionCode": 30,
       "adaptiveIcon": {
         "backgroundColor": "#006835",
         "foregroundImage": "./assets/icon-fg.png"

@@ -77,7 +77,7 @@ export async function createItem(
       return null;
     }
 
-    return response.body.id;
+    return response.body?.id;
   } else {
     return new Promise(function (resolve, reject) {
       db.transaction((tx: SQLite.SQLTransaction) => {

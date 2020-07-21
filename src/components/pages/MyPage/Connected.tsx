@@ -235,10 +235,10 @@ class Connected extends Component<ConnectedProps, State> {
       return;
     }
 
-    const ok = await this.props.onPermissionRequest();
-
-    if (!ok) {
-      return;
+    try {
+      await this.props.onPermissionRequest();
+    } catch (err) {
+      Sentry.captureException(err);
     }
 
     if (Platform.OS === 'ios') {
@@ -247,7 +247,7 @@ class Connected extends Component<ConnectedProps, State> {
           if (supported) {
             return Linking.openURL('app-settings:');
           }
-          console.log('not supported');
+          Sentry.captureMessage('move to app-settings: not supported');
           return;
         })
         .catch((err) => Sentry.captureException(err));

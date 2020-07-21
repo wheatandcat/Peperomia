@@ -84,7 +84,10 @@ const Auth: FC<Props> = memo((props) => {
 
     const expiration = await AsyncStorage.getItem('expiration');
 
-    if (dayjs(new Date(Number(expiration) * 1000)).isAfter(dayjs())) {
+    if (
+      dayjs(new Date(Number(expiration) * 1000)).isAfter(dayjs()) &&
+      dayjs(new Date(Number(expiration) * 1000)).isBefore(dayjs().add(1, 'day'))
+    ) {
       return idToken;
     }
 
@@ -175,6 +178,8 @@ const Auth: FC<Props> = memo((props) => {
         androidClientId,
         scopes: ['profile', 'email'],
       });
+
+      console.log(result);
 
       if (result.type === 'success') {
         const { idToken, accessToken } = result;

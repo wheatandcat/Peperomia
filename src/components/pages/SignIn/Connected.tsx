@@ -68,7 +68,7 @@ const Connected = memo((props: ConnectedProps) => {
       Alert.alert('ユーザーの保存に失敗しました。');
     }
 
-    return Number(response?.header?.status);
+    return Number(response?.status);
   }, [props]);
 
   const backupItem = useCallback(async () => {
