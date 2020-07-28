@@ -42,7 +42,7 @@ https://play.google.com/store/apps/details?id=com.wheatandcat.peperomia
 
 ## 他リポジトリ
  - [バックエンド(PeperomiaBackend)](https://github.com/wheatandcat/PeperomiaBackend)
- - [Web版(PeperomiaBackend)](https://github.com/wheatandcat/PeperomiaWeb)
+ - [Web版(PeperomiaWeb)](https://github.com/wheatandcat/PeperomiaWeb)
  - [ヘルプサイト(PeperomiaHelp)](https://github.com/wheatandcat/PeperomiaHelp)
  - [ツール系(PeperomiaTool)](https://github.com/wheatandcat/PeperomiaTool)
  - [LPサイト(PeperomiaWebSite)](https://github.com/wheatandcat/PeperomiaWebSite)
