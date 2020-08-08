@@ -10,7 +10,7 @@ import ThemeProvider from '../src/containers/Theme.tsx';
 import { loadStories } from './storyLoader';
 import './rn-addons';
 
-export const provider = story => (
+export const provider = (story) => (
   <AppearanceProvider>
     <ActionSheetProvider>
       <ThemeProvider>{story()}</ThemeProvider>

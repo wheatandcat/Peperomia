@@ -5,6 +5,10 @@ import 'jest-enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme from 'enzyme';
 
+jest.mock('@bugsnag/expo', () => ({
+  notify: jest.fn(),
+}));
+
 jest.mock('@react-native-community/async-storage', () => ({
   setItem: jest.fn(),
   getItem: jest.fn(),

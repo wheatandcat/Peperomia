@@ -25,7 +25,7 @@ config/development.json
 config/product.json
 coverage
 src/lib/system/firebase/index.ts
-App.tsx
+./App.tsx
 web-build
 storybook/storyLoader.js
 GoogleService-Info.development.plist
