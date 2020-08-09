@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/pages/Home/Plain.tsx 正常に表示されている 1`] = `
+<Fragment>
+  <FocusAwareStatusBar
+    backgroundColor="#006835"
+    barStyle="dark-content"
+  />
+  <HomePage
+    data={Array []}
+    loading={false}
+    onDelete={[Function]}
+    onSchedule={[Function]}
+  />
+</Fragment>
+`;

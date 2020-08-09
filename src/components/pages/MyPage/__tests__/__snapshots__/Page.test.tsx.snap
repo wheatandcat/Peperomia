@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/pages/MyPage/Page.tsx 正常に表示されている 1`] = `
+<View>
+  <Spinner
+    animation="none"
+    cancelable={false}
+    color="white"
+    overlayColor="rgba(0, 0, 0, 0.25)"
+    size="large"
+    textContent=""
+    textStyle={
+      Object {
+        "color": "#fff",
+      }
+    }
+    visible={false}
+  />
+  <ScrollViewMock>
+    <View>
+      <View>
+        <Text>
+          メールアドレス:
+        </Text>
+        <Text>
+          test
+        </Text>
+      </View>
+      <View>
+        <ForwardRef(Themed.Button)
+          icon={
+            <Icon
+              allowFontScaling={false}
+              color="#006835"
+              name="chevron-right"
+              size={20}
+            />
+          }
+          iconRight={true}
+          onPress={[Function]}
+          title="ユーザー登録とは？"
+          type="clear"
+        />
+      </View>
+    </View>
+    <Themed.Divider />
+    <Themed.ListItem
+      bottomDivider={true}
+      onPress={[MockFunction]}
+      rightIcon={
+        Object {
+          "color": "#333631",
+          "name": "chevron-right",
+        }
+      }
+      title="通知を設定する"
+    />
+    <View>
+      <View>
+        <ForwardRef(Themed.Button)
+          icon={
+            <Icon
+              allowFontScaling={false}
+              color="#006835"
+              name="chevron-right"
+              size={20}
+            />
+          }
+          iconRight={true}
+          onPress={[Function]}
+          title="通知設定とは？"
+          type="clear"
+        />
+      </View>
+    </View>
+  </ScrollViewMock>
+</View>
+`;
