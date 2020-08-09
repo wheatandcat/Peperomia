@@ -1,9 +1,10 @@
 import React from 'react';
 import { shallow, ShallowWrapper } from 'enzyme';
+import * as Items from 'containers/Items';
 import { itemDetailsMockData } from '__mockData__/itemDetail.ts';
-import Connected from '../Connected';
+import Index from '../';
 
-describe('components/pages/AddScheduleDetail/Connected.tsx', () => {
+describe('components/pages/ScheduleDetail/index.tsx', () => {
   let wrapper: ShallowWrapper;
 
   const propsData: any = () => ({
@@ -14,16 +15,19 @@ describe('components/pages/AddScheduleDetail/Connected.tsx', () => {
     route: {
       params: {
         itemId: '1',
-        refresh: '',
       },
     },
-    itemDetails: itemDetailsMockData,
-    iconSelected: false,
-    refreshData: jest.fn(),
   });
 
   beforeEach(() => {
-    wrapper = shallow(<Connected {...propsData()} />);
+    jest.spyOn(Items, 'useItems').mockImplementation(
+      () =>
+        ({
+          refreshData: jest.fn(),
+          itemDetails: itemDetailsMockData,
+        } as any)
+    );
+    wrapper = shallow(<Index {...propsData()} />);
   });
 
   it('正常に表示されている', () => {

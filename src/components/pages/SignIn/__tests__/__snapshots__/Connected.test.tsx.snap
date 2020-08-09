@@ -1,26 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/pages/SignIn/Connected.tsx 正常に表示されている 1`] = `
-<Memo()
-  logout={[MockFunction]}
-  navigation={
-    Object {
-      "navigate": [MockFunction],
-      "setParams": [MockFunction],
-    }
-  }
-  onAppleLogin={[MockFunction]}
-  onGoogleLogin={[MockFunction]}
-  post={[MockFunction]}
-  refreshData={[MockFunction]}
-  route={
-    Object {
-      "params": Object {
-        "itemId": "1",
-        "refresh": "",
-      },
-    }
-  }
-  uid="test"
-/>
+<Fragment>
+  <CommonStatusBar />
+  <SignInPage
+    loading={false}
+    onAppleLogin={[Function]}
+    onGoogleLogin={[Function]}
+  />
+</Fragment>
 `;

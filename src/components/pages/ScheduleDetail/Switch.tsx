@@ -1,103 +1,88 @@
-import React, { Component } from 'react';
-import { RouteProp } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from 'lib/navigation';
-import { ContextProps as ItemsContextProps, useItems } from 'containers/Items';
+import React, { useState, useCallback, memo } from 'react';
+import { ContextProps as ItemsContextProps } from 'containers/Items';
 import { ItemDetail as ItemDetailParam } from 'domain/itemDetail';
+import { Props as IndexProps } from './';
 import ScheduleDetail from './Connected';
 import EditScheduleDetail from 'components/pages/EditScheduleDetail';
 
-type ScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'ScheduleDetail'
->;
-export type ScreenRouteProp = RouteProp<RootStackParamList, 'ScheduleDetail'>;
-
 type State = ItemDetailParam & {
-  scheduleDetailId: string | number;
+  itemDetailId: string | number;
   mode: string;
 };
 
-type SwitchProps = {
-  navigation: ScreenNavigationProp;
-  route: ScreenRouteProp;
-};
+export type Props = IndexProps & Pick<ItemsContextProps, 'refreshData'>;
 
-type Props = SwitchProps & Pick<ItemsContextProps, 'refreshData'>;
+const initialState = (): State => ({
+  title: '',
+  memo: '',
+  kind: '',
+  url: '',
+  place: '',
+  moveMinutes: 0,
+  priority: 0,
+  itemDetailId: 0,
+  mode: 'show',
+});
 
-const Switch = (props: SwitchProps) => {
-  const { refreshData } = useItems();
+const ScheduleDetailSwitch: React.FC<Props> = (props) => {
+  const [state, setState] = useState<State>(initialState());
 
-  return <Plan {...props} refreshData={refreshData} />;
-};
+  const itemDetailId = props.route.params.itemDetailId || '1';
 
-class Plan extends Component<Props, State> {
-  state = {
-    title: '',
-    memo: '',
-    kind: '',
-    url: '',
-    place: '',
-    moveMinutes: 0,
-    priority: 0,
-    scheduleDetailId: 0,
-    mode: 'show',
-  };
+  const onEdit = useCallback(
+    (
+      title: string,
+      kind: string,
+      place: string,
+      url: string,
+      memoText: string,
+      moveMinutes: number,
+      priority: number
+    ) => {
+      setState((s) => ({
+        ...s,
+        title,
+        kind,
+        memo: memoText,
+        place,
+        url,
+        moveMinutes,
+        priority,
+        itemDetailId,
+        mode: 'edit',
+      }));
+    },
+    [itemDetailId]
+  );
 
-  onEdit = (
-    title: string,
-    kind: string,
-    place: string,
-    url: string,
-    memo: string,
-    moveMinutes: number,
-    priority: number
-  ): void => {
-    const scheduleDetailId = this.props.route.params.scheduleDetailId || '1';
+  const onShow = useCallback(() => {
+    setState((s) => ({ ...s, mode: 'show' }));
+  }, []);
 
-    this.setState({
-      title,
-      kind,
-      memo,
-      place,
-      url,
-      moveMinutes,
-      priority,
-      scheduleDetailId,
-      mode: 'edit',
-    });
-  };
-
-  onShow = (): void => {
-    this.setState({ mode: 'show' });
-  };
-
-  render() {
-    if (this.state.mode === 'edit') {
-      return (
-        <EditScheduleDetail
-          id={this.state.scheduleDetailId}
-          title={this.state.title}
-          kind={this.state.kind}
-          url={this.state.url}
-          place={this.state.place}
-          memo={this.state.memo}
-          moveMinutes={this.state.moveMinutes}
-          priority={this.state.priority}
-          onShow={this.onShow}
-        />
-      );
-    }
-
+  if (state.mode === 'edit') {
     return (
-      <ScheduleDetail
-        navigation={this.props.navigation}
-        route={this.props.route}
-        refreshData={this.props.refreshData}
-        onEdit={this.onEdit}
+      <EditScheduleDetail
+        id={state.itemDetailId}
+        title={state.title}
+        kind={state.kind}
+        url={state.url}
+        place={state.place}
+        memo={state.memo}
+        moveMinutes={state.moveMinutes}
+        priority={state.priority}
+        onShow={onShow}
       />
     );
   }
-}
 
-export default Switch;
+  return (
+    <ScheduleDetail
+      navigation={props.navigation}
+      route={props.route}
+      refreshData={props.refreshData}
+      onEdit={onEdit}
+    />
+  );
+};
+
+export default memo(ScheduleDetailSwitch);

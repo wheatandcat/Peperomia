@@ -41,24 +41,22 @@ export type ContextProps = Partial<
   }
 >;
 
-const initState = {
+const initialState = () => ({
   loading: true,
   calendarsLoading: true,
   items: [],
   itemDetails: [],
   about: [],
   calendars: [],
-};
+});
 
 const Connected: FC<Props> = memo((props) => {
-  const [state, setState] = useState<State>(initState);
+  const [state, setState] = useState<State>(initialState());
   const { uid } = useContext(AuthContext);
 
   const setItemsDetail = useCallback(
     (data: SelectItemDetail[]) => {
-      const names = data
-        .map((val: SelectItemDetail) => val.title)
-        .join(' → ');
+      const names = data.map((val: SelectItemDetail) => val.title).join(' → ');
       const itemId = data[0].itemId;
 
       const about = [

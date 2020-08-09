@@ -1,7 +1,5 @@
 import React, { FC, useState, memo, useCallback } from 'react';
 import { Alert } from 'react-native';
-import { RouteProp } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import uuidv1 from 'uuid/v1';
 import { Item } from 'domain/item';
 import { SelectItemDetail } from 'domain/itemDetail';
@@ -12,24 +10,18 @@ import {
   getItemDetails,
   deleteItemDetail,
 } from 'lib/itemDetail';
-import { RootStackParamList } from 'lib/navigation';
 import { ContextProps as ItemContextProps } from 'containers/Items';
 import { useAuth } from 'containers/Auth';
 import { useDidMount } from 'hooks/index';
+import { ScreenNavigationProp, ScreenRouteProp } from './';
 import Page from './Page';
-
-type ScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'ScheduleDetail'
->;
-type ScreenRouteProp = RouteProp<RootStackParamList, 'ScheduleDetail'>;
 
 type State = {
   item: Item;
   itemDetail: SelectItemDetail;
 };
 
-type Props = Pick<ItemContextProps, 'refreshData'> & {
+export type Props = Pick<ItemContextProps, 'refreshData'> & {
   navigation: ScreenNavigationProp;
   route: ScreenRouteProp;
   onEdit: (
@@ -43,7 +35,7 @@ type Props = Pick<ItemContextProps, 'refreshData'> & {
   ) => void;
 };
 
-const initState = {
+const initialState = () => ({
   item: {
     id: 0,
     title: '',
@@ -61,16 +53,16 @@ const initState = {
     moveMinutes: 0,
     priority: 0,
   },
-};
+});
 
 const ScheduleDetailConnected: FC<Props> = memo((props) => {
   const { uid } = useAuth();
-  const [state, setState] = useState<State>(initState);
-  const scheduleDetailId = props.route.params.scheduleDetailId || '1';
+  const [state, setState] = useState<State>(initialState());
+  const itemDetailId = props.route.params.itemDetailId || '1';
 
   useDidMount(() => {
     const getData = async () => {
-      const itemDetail = await getItemDetailByID(uid, String(scheduleDetailId));
+      const itemDetail = await getItemDetailByID(uid, String(itemDetailId));
       const item = await getItemByID(uid, String(itemDetail?.itemId));
 
       setState((s) => ({

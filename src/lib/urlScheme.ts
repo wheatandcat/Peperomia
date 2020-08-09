@@ -33,7 +33,7 @@ const urlScheme = [
       return {
         routeName: 'ScheduleDetail',
         params: {
-          scheduleDetailId: id,
+          itemDetailId: id,
         },
       };
     },

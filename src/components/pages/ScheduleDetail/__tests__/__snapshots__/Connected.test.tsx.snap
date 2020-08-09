@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/pages/ScheduleDetail/Connected.tsx Connected 正常に表示されている 1`] = `
+<Connected
+  id={0}
+  itemId={0}
+  kind=""
+  loading={true}
+  memo=""
+  moveMinutes={0}
+  onCreateScheduleDetail={[Function]}
+  onDelete={[Function]}
+  onDismiss={[Function]}
+  place=""
+  priority={0}
+  title=""
+  url=""
+/>
+`;

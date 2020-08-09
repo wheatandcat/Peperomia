@@ -4,47 +4,17 @@ import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import 'dayjs/locale/ja';
 import uuidv4 from 'uuid/v4';
-import { RouteProp } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from 'lib/navigation';
 import { backup } from 'lib/backup';
-import { useAuth, ContextProps as AuthContextProps } from 'containers/Auth';
-import { useFetch, ContextProps as FetchContextProps } from 'containers/Fetch';
-import { useItems, ContextProps as ItemsContextProps } from 'containers/Items';
+import { ContextProps as AuthContextProps } from 'containers/Auth';
+import { ContextProps as FetchContextProps } from 'containers/Fetch';
+import { ContextProps as ItemsContextProps } from 'containers/Items';
 import CommonStatusBar from 'components/organisms/CommonStatusBar';
+import { Props as IndexProps } from './';
 import Page from './Page';
 
 dayjs.extend(advancedFormat);
 
-type ScreenNavigationProp = StackNavigationProp<RootStackParamList, 'SignIn'>;
-type ScreenRouteProp = RouteProp<RootStackParamList, 'SignIn'>;
-
-type Props = {
-  navigation: ScreenNavigationProp;
-  route: ScreenRouteProp;
-};
-
-const SignInScreen: React.FC<Props> = (props) => {
-  const { onGoogleLogin, onAppleLogin, logout, uid } = useAuth();
-  const { post } = useFetch();
-  const { refreshData } = useItems();
-
-  return (
-    <Connected
-      {...props}
-      uid={uid}
-      post={post}
-      logout={logout}
-      refreshData={refreshData}
-      onGoogleLogin={onGoogleLogin}
-      onAppleLogin={onAppleLogin}
-    />
-  );
-};
-
-export default SignInScreen;
-
-type ConnectedProps = Props &
+type Props = IndexProps &
   Pick<ItemsContextProps, 'refreshData'> &
   Pick<AuthContextProps, 'onGoogleLogin' | 'onAppleLogin' | 'logout' | 'uid'> &
   Pick<FetchContextProps, 'post'>;
@@ -53,7 +23,7 @@ type ConnectedState = {
   loading: boolean;
 };
 
-const Connected = memo((props: ConnectedProps) => {
+const SignInConnected = memo((props: Props) => {
   const [state, setState] = useState<ConnectedState>({ loading: false });
   const onLogin = props.route?.params?.onLogin;
 
@@ -201,3 +171,5 @@ const Connected = memo((props: ConnectedProps) => {
     </>
   );
 });
+
+export default SignInConnected;

@@ -2,9 +2,9 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Cards from 'components/organisms/Home/Cards';
-import { HomeScreenPlanType, ItemProps } from './Connected';
+import { ConnectType, ItemProps } from './Plain';
 
-type Props = HomeScreenPlanType & {
+type Props = ConnectType & {
   data: ItemProps[];
   loading: boolean;
 };

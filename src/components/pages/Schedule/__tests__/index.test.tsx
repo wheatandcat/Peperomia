@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow, ShallowWrapper } from 'enzyme';
 import * as Items from 'containers/Items';
 import * as Auth from 'containers/Auth';
-import Index from '../';
+import Index from '..';
 
 jest.mock('react-native-vector-icons', () => 'Icon');
 

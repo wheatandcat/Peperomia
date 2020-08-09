@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/pages/ScheduleDetail/index.tsx 正常に表示されている 1`] = `
+<Memo(ScheduleDetailSwitch)
+  navigation={
+    Object {
+      "navigate": [MockFunction],
+      "setParams": [MockFunction],
+    }
+  }
+  refreshData={[MockFunction]}
+  route={
+    Object {
+      "params": Object {
+        "itemId": "1",
+      },
+    }
+  }
+/>
+`;

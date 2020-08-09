@@ -1,22 +1,17 @@
-import React, { memo, useState, useCallback, useEffect } from 'react';
-import { RouteProp, useNavigation } from '@react-navigation/native';
+import React, { useState, useCallback, memo } from 'react';
+import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Dimensions, Alert, View } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as Notifications from 'expo-notifications';
 import { Notification, NotificationResponse } from 'expo-notifications';
-import uuidv1 from 'uuid/v1';
-import { deleteItem } from 'lib/item';
 import { urlParser } from 'lib/urlScheme';
 import { RootStackParamList } from 'lib/navigation';
 import { useItems, ContextProps as ItemContextProps } from 'containers/Items';
 import { useAuth } from 'containers/Auth';
-import { SelectItem } from 'domain/item';
 import { useDidMount } from 'hooks/index';
-import theme, { darkMode } from 'config/theme';
-import FocusAwareStatusBar from 'components/organisms/FocusAwareStatusBar';
-import Page from './Page';
+import Plain from './Plain';
 
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
@@ -33,10 +28,6 @@ type NotificationBodyType = {
   urlScheme?: string;
 };
 
-type PlanState = {
-  refresh: string;
-};
-
 type HomeScreeState = {
   mask: boolean;
 };
@@ -49,8 +40,9 @@ type Props = {
   route: ScreenRouteProp;
 };
 
-const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
+const HomeConnected: React.FC<Props> = ({ navigation, route }) => {
   const { items, about, refreshData, itemsLoading } = useItems();
+  const { uid } = useAuth();
   const [state, setState] = useState<HomeScreeState>({ mask: false });
 
   const refresh = route?.params?.refresh || '';
@@ -138,8 +130,9 @@ const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
 
   return (
     <View>
-      <HomeScreenPlan
+      <Plain
         loading={Boolean(itemsLoading)}
+        uid={uid}
         items={items}
         about={about}
         refresh={String(refresh)}
@@ -150,79 +143,7 @@ const HomeScreen: React.FC<Props> = ({ navigation, route }) => {
   );
 };
 
-export type HomeScreenPlanType = {
-  onSchedule: (itemId: string, title: string) => void;
-  onDelete: (itemId: string) => void;
-};
-
-export type ItemProps = SelectItem & {
-  id: string;
-  about: string;
-};
-
-const HomeScreenPlan = memo((props: PlanProps) => {
-  const { navigate } = useNavigation();
-  const { uid } = useAuth();
-  const [state, setState] = useState<PlanState>({ refresh: '' });
-
-  useEffect(() => {
-    if (state.refresh === props.refresh) {
-      return;
-    }
-    setState({ refresh: props.refresh });
-
-    if (props.refreshData) {
-      props.refreshData();
-    }
-  }, [props, props.refresh, state.refresh]);
-
-  const onDelete = useCallback(
-    async (itemId: string) => {
-      const ok = await deleteItem(uid, { id: itemId });
-      if (!ok) {
-        Alert.alert('削除に失敗しました');
-        return;
-      }
-
-      setState({ refresh: uuidv1() });
-    },
-    [uid]
-  );
-
-  const onSchedule = useCallback(
-    (id: string, title: string) => {
-      navigate('Schedule', { itemId: id, title });
-    },
-    [navigate]
-  );
-
-  const items = (props.items || []).map((item) => {
-    const about = (props.about || []).find((val) => val.itemId === item.id);
-
-    return {
-      ...item,
-      id: String(item.id),
-      about: about ? about.about : '',
-    };
-  });
-
-  return (
-    <>
-      <FocusAwareStatusBar
-        backgroundColor={darkMode() ? theme().color.black : theme().color.main}
-        barStyle={darkMode() ? 'light-content' : 'dark-content'}
-      />
-      <Page
-        data={items}
-        loading={props.loading}
-        onSchedule={onSchedule}
-        onDelete={onDelete}
-      />
-    </>
-  );
-});
-
-export default HomeScreen;
+export default memo(HomeConnected);
 
 const styles = EStyleSheet.create({
   mask: {

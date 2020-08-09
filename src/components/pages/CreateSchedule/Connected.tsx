@@ -134,7 +134,7 @@ const Connected: React.FC<Props> = (props) => {
   const onScheduleDetail = useCallback(
     (id: string) => {
       props.navigation.navigate('ScheduleDetail', {
-        scheduleDetailId: id,
+        itemDetailId: id,
         priority: state.itemDetails.length + 1,
       });
     },

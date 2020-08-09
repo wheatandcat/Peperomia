@@ -5,7 +5,7 @@ import { useAuth } from 'containers/Auth';
 import Connected from './Connected';
 
 export type Props = ItemDetail & {
-  id: number;
+  id: number | string;
   onShow: (reload: boolean) => void;
 };
 

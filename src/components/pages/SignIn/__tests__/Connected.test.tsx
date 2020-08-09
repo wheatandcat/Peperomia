@@ -1,8 +1,5 @@
 import React from 'react';
 import { shallow, ShallowWrapper } from 'enzyme';
-import * as Items from 'containers/Items';
-import * as Auth from 'containers/Auth';
-import * as Fetch from 'containers/Fetch';
 import Connected from '../Connected';
 
 describe('components/pages/SignIn/Connected.tsx', () => {
@@ -15,35 +12,18 @@ describe('components/pages/SignIn/Connected.tsx', () => {
     },
     route: {
       params: {
-        itemId: '1',
-        refresh: '',
+        onLogin: jest.fn(),
       },
     },
+    refreshData: jest.fn(),
+    onGoogleLogin: jest.fn(),
+    onAppleLogin: jest.fn(),
+    logout: jest.fn(),
+    post: jest.fn(),
+    uid: 'test',
   });
 
   beforeEach(() => {
-    jest.spyOn(Items, 'useItems').mockImplementation(
-      () =>
-        ({
-          refreshData: jest.fn(),
-        } as any)
-    );
-    jest.spyOn(Auth, 'useAuth').mockImplementation(
-      () =>
-        ({
-          onGoogleLogin: jest.fn(),
-          onAppleLogin: jest.fn(),
-          logout: jest.fn(),
-          uid: 'test',
-        } as any)
-    );
-    jest.spyOn(Fetch, 'useFetch').mockImplementation(
-      () =>
-        ({
-          post: jest.fn(),
-        } as any)
-    );
-
     wrapper = shallow(<Connected {...propsData()} />);
   });
 
