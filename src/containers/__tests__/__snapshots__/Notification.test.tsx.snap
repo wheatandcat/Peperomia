@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`containers/Theme.tsx 正常に表示されている 1`] = `
+<Fragment>
+  <StatusBar
+    animated={false}
+    backgroundColor="#fff"
+    barStyle="light-content"
+    showHideTransition="fade"
+  />
+</Fragment>
+`;

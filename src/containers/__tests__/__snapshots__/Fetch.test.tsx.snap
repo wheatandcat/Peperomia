@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`containers/Fetch.tsx 正常に表示されている 1`] = `
+<Connected>
+  <div>
+    hi
+  </div>
+</Connected>
+`;
