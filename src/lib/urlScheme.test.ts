@@ -19,7 +19,7 @@ describe('urlSchema', () => {
       expect(r).toEqual({
         routeName: 'ScheduleDetail',
         params: {
-          scheduleDetailId: 'test',
+          itemDetailId: 'test',
         },
       });
     });

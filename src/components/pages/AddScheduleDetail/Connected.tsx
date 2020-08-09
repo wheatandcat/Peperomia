@@ -1,47 +1,26 @@
 import React, { memo, useState, useCallback, useEffect } from 'react';
 import { Alert } from 'react-native';
 import uuidv1 from 'uuid/v1';
-import { RouteProp } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from 'lib/navigation';
 import { getKind } from 'peperomia-util';
 import { SuggestItem } from 'lib/suggest';
 import { ItemDetail, SelectItemDetail } from 'domain/itemDetail';
 import { createItemDetail } from 'lib/itemDetail';
 import { useDidMount } from 'hooks/index';
-import { useItems, ContextProps as ItemContextProps } from 'containers/Items';
-import { useAuth } from 'containers/Auth';
+import { ContextProps as ItemContextProps } from 'containers/Items';
+import { ContextProps as AuthContextProps } from 'containers/Auth';
 import Page from 'components/templates/CreateScheduleDetail/Page';
-
-type ScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'AddScheduleDetail'
->;
-type ScreenRouteProp = RouteProp<RootStackParamList, 'AddScheduleDetail'>;
+import { Props as IndexProps } from './';
 
 type State = ItemDetail & {
   iconSelected: boolean;
   suggestList: SuggestItem[];
 };
 
-type Props = ItemDetail & {
-  navigation: ScreenNavigationProp;
-  route: ScreenRouteProp;
-};
+type Props = IndexProps &
+  Pick<ItemContextProps, 'itemDetails' | 'refreshData'> &
+  Pick<AuthContextProps, 'uid'>;
 
-type PlanProps = Props & Pick<ItemContextProps, 'itemDetails' | 'refreshData'>;
-
-const AddScheduleDetail: React.FC<Props> = (props) => {
-  const { refreshData, itemDetails } = useItems();
-
-  return (
-    <Plan {...props} refreshData={refreshData} itemDetails={itemDetails} />
-  );
-};
-
-export default AddScheduleDetail;
-
-const Plan: React.FC<PlanProps> = memo((props) => {
+const AddScheduleDetailConnected: React.FC<Props> = (props) => {
   const [state, setState] = useState<State>({
     title: props.title || '',
     place: props.place || '',
@@ -56,8 +35,6 @@ const Plan: React.FC<PlanProps> = memo((props) => {
   const kind = props.route?.params?.kind || '';
   const itemId = props.route?.params?.itemId || '1';
   const priority = props.route?.params?.priority || 1;
-
-  const { uid } = useAuth();
 
   useDidMount(() => {
     const suggestList = (props.itemDetails || []).map((itemDetail) => ({
@@ -120,7 +97,7 @@ const Plan: React.FC<PlanProps> = memo((props) => {
         priority: Number(priority),
       };
 
-      const insertID = await createItemDetail(uid, itemDetail);
+      const insertID = await createItemDetail(props.uid, itemDetail);
       if (!insertID) {
         Alert.alert('保存に失敗しました');
         return;
@@ -128,7 +105,7 @@ const Plan: React.FC<PlanProps> = memo((props) => {
 
       save();
     },
-    [priority, itemId, save, uid]
+    [priority, itemId, save, props.uid]
   );
 
   const onIcons = useCallback(
@@ -164,4 +141,6 @@ const Plan: React.FC<PlanProps> = memo((props) => {
       onIcons={onIcons}
     />
   );
-});
+};
+
+export default memo(AddScheduleDetailConnected);

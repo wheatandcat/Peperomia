@@ -6,7 +6,7 @@ import { IconImage } from 'components/atoms';
 import s from 'config/style';
 import theme from 'config/theme';
 import { KINDS } from 'peperomia-util';
-import { ItemProps } from 'components/pages/Home/Connected';
+import { ItemProps } from 'components/pages/Home/Plain';
 
 type Props = ItemProps & {
   onPress: () => void;

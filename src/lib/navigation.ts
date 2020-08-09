@@ -44,7 +44,7 @@ export type RootStackParamList = {
   Calendars: undefined;
   EditPlan: { id?: string | number; title?: string; kind?: string };
   ScheduleDetail: {
-    scheduleDetailId: string | number;
+    itemDetailId: string | number;
     priority?: number;
     refreshData?: () => void;
     kind?: string;

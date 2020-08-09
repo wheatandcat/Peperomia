@@ -2,7 +2,7 @@
 
 exports[`components/pages/Home/Connected.tsx 正常に表示されている 1`] = `
 <View>
-  <Memo()
+  <Memo(HomePlain)
     about=""
     items={Array []}
     loading={false}

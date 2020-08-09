@@ -9,7 +9,7 @@ import { ContextProps as ItemContextProps } from 'containers/Items';
 import { ContextProps as AuthContextProps } from 'containers/Auth';
 import { useDidMount } from 'hooks/index';
 import Page from 'components/templates/CreateScheduleDetail/Page';
-import { ScreenRouteProp } from 'components/pages/ScheduleDetail/Switch';
+import { ScreenRouteProp } from 'components/pages/ScheduleDetail';
 
 type State = ItemDetail & {
   iconSelected: boolean;
@@ -17,7 +17,7 @@ type State = ItemDetail & {
 };
 
 type Props = ItemDetail & {
-  id: number;
+  id: number | string;
   onShow: (reload: boolean) => void;
 };
 

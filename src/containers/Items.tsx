@@ -56,9 +56,7 @@ const Connected: FC<Props> = memo((props) => {
 
   const setItemsDetail = useCallback(
     (data: SelectItemDetail[]) => {
-      const names = data
-        .map((val: SelectItemDetail) => val.title)
-        .join(' → ');
+      const names = data.map((val: SelectItemDetail) => val.title).join(' → ');
       const itemId = data[0].itemId;
 
       const about = [

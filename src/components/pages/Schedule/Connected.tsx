@@ -122,7 +122,7 @@ const Connected: React.FC<Props> = (props) => {
   const onScheduleDetail = useCallback(
     (id: string) => {
       navigate('ScheduleDetail', {
-        scheduleDetailId: id,
+        itemDetailId: id,
         refreshData: () => getData(String(itemId)),
       });
     },

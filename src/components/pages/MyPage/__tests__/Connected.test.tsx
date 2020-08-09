@@ -1,9 +1,5 @@
 import React from 'react';
 import { shallow, ShallowWrapper } from 'enzyme';
-import * as Items from 'containers/Items';
-import * as Auth from 'containers/Auth';
-import * as Fetch from 'containers/Fetch';
-import * as Notification from 'containers/Notification';
 import Connected from '../Connected';
 
 describe('components/pages/MyPage/Connected.tsx', () => {
@@ -20,35 +16,14 @@ describe('components/pages/MyPage/Connected.tsx', () => {
         refresh: '',
       },
     },
+    refreshData: jest.fn(),
+    uid: 'test',
+    email: 'test',
+    post: jest.fn(),
+    onPermissionRequest: jest.fn(),
   });
 
   beforeEach(() => {
-    jest.spyOn(Items, 'useItems').mockImplementation(
-      () =>
-        ({
-          refreshData: jest.fn(),
-        } as any)
-    );
-    jest.spyOn(Auth, 'useAuth').mockImplementation(
-      () =>
-        ({
-          email: 'test',
-          uid: 'test',
-        } as any)
-    );
-    jest.spyOn(Fetch, 'useFetch').mockImplementation(
-      () =>
-        ({
-          post: jest.fn(),
-        } as any)
-    );
-    jest.spyOn(Notification, 'useNotification').mockImplementation(
-      () =>
-        ({
-          onPermissionRequest: jest.fn(),
-        } as any)
-    );
-
     wrapper = shallow(<Connected {...propsData()} />);
   });
 

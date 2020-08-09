@@ -5,7 +5,13 @@ exports[`components/pages/Home/index.tsx 正常に表示されている 1`] = `
   initialRouteName="Home"
 >
   <Screen
-    component={[Function]}
+    component={
+      Object {
+        "$$typeof": Symbol(react.memo),
+        "compare": null,
+        "type": [Function],
+      }
+    }
     initialParams={
       Object {
         "refresh": false,
