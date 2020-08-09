@@ -1,13 +1,12 @@
 import React from 'react';
-import { storiesOf, StyleSheet } from '@storybook/react-native';
-import { View } from 'react-native';
-import { KIND_TRAIN } from 'peperomia-util';
+import { storiesOf } from '@storybook/react-native';
+import { View, StyleSheet } from 'react-native';
 import Card from './Card';
 import ActionButton from './ActionButton';
 
 const props = {
   id: '1',
-  kind: KIND_TRAIN,
+  kind: 'train',
   title: '新宿駅',
   moveMinutes: 30,
   end: false,

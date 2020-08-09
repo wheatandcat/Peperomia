@@ -64,18 +64,27 @@
       }
     },
     "description": "ペペロミアは予定管理アプリです。",
-    "githubUrl": "https://github.com/wheatandcat/Peperomia"
-  },
-  "hooks": {
-    "postPublish": [
-      {
-        "file": "sentry-expo/upload-sourcemaps",
-        "config": {
-          "organization": "freelance-km",
-          "project": "peperomia",
-          "authToken": $sentryAuthToken
+    "githubUrl": "https://github.com/wheatandcat/Peperomia",
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "freelance-km",
+            "project": "peperomia",
+            "authToken": $sentryAuthToken
+          }
+        },
+        {
+          "file": "@bugsnag/expo/hooks/post-publish.js",
+          "config": {}
         }
+      ]
+    },
+    "extra": {
+      "bugsnag": {
+        "apiKey": $bugsnagApiKey
       }
-    ]
+    }
   }
 }

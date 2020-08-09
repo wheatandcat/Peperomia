@@ -1,6 +1,8 @@
 import React from 'react';
+import Bugsnag from '@bugsnag/expo';
 import App from './src';
-import StoryBookUI from './storybook';
+
+Bugsnag.start();
 
 const AppContainer = () => <App />;
 

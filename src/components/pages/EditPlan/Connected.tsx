@@ -47,7 +47,7 @@ const Connected: React.FC<ConnectedProps> = memo((props) => {
     };
 
     const calendar = (props.calendars || []).find(
-      (item) => Number(id) === Number(item.itemId)
+      (item) => String(id) === String(item.itemId)
     );
 
     if (calendar && calendar.date) {
@@ -60,7 +60,7 @@ const Connected: React.FC<ConnectedProps> = memo((props) => {
     }
 
     const schedule = (props.items || []).find(
-      (item) => Number(id) === Number(item.id)
+      (item) => String(id) === String(item.id)
     );
 
     if (schedule && schedule.title) {
@@ -70,7 +70,6 @@ const Connected: React.FC<ConnectedProps> = memo((props) => {
     setState((s) => ({
       ...s,
       input,
-
       kind,
     }));
   });

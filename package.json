@@ -26,6 +26,7 @@
     "danger:ci": "danger ci"
   },
   "dependencies": {
+    "@bugsnag/expo": "^7.2.1",
     "@expo/react-native-action-sheet": "^3.5.0",
     "@react-native-community/async-storage": "~1.11.0",
     "@react-native-community/masked-view": "0.1.10",

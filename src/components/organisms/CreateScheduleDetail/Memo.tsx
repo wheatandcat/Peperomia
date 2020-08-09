@@ -55,11 +55,11 @@ export default class extends Component<Props, State> {
   };
 
   getInputLabels = () => {
-    let labes: Label[] = [];
+    let labels: Label[] = [];
 
     if (!this.state.placeInput) {
-      labes = [
-        ...labes,
+      labels = [
+        ...labels,
         {
           icon: 'map-marker-outline',
           value: 'placeInput',
@@ -69,8 +69,8 @@ export default class extends Component<Props, State> {
       ];
     }
     if (!this.state.urlInput) {
-      labes = [
-        ...labes,
+      labels = [
+        ...labels,
         {
           icon: 'link',
           value: 'urlInput',
@@ -80,8 +80,8 @@ export default class extends Component<Props, State> {
       ];
     }
     if (!this.state.memoInput) {
-      labes = [
-        ...labes,
+      labels = [
+        ...labels,
         {
           icon: 'file-document-box-outline',
           value: 'memoInput',
@@ -90,15 +90,15 @@ export default class extends Component<Props, State> {
         },
       ];
     }
-    return labes;
+    return labels;
   };
 
   getInputs = () => {
-    let labes: LabelInput[] = [];
+    let labels: LabelInput[] = [];
 
     if (this.state.placeInput) {
-      labes = [
-        ...labes,
+      labels = [
+        ...labels,
         {
           icon: 'map-marker-outline',
           value: 'place',
@@ -110,8 +110,8 @@ export default class extends Component<Props, State> {
       ];
     }
     if (this.state.urlInput) {
-      labes = [
-        ...labes,
+      labels = [
+        ...labels,
         {
           icon: 'link',
           value: 'url',
@@ -123,8 +123,8 @@ export default class extends Component<Props, State> {
       ];
     }
     if (this.state.memoInput) {
-      labes = [
-        ...labes,
+      labels = [
+        ...labels,
         {
           icon: 'file-document-box-outline',
           value: 'memo',
@@ -135,7 +135,7 @@ export default class extends Component<Props, State> {
         },
       ];
     }
-    return labes;
+    return labels;
   };
 
   onInputAdd = (name: string) => {
