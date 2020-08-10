@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useCallback, memo, useRef } from 'react';
 import {
   View,
   TextInput,
@@ -7,19 +7,11 @@ import {
   Alert,
   Keyboard,
   ScrollView,
-  StatusBar,
-  Platform,
-  NativeSyntheticEvent,
-  TextInputScrollEventData,
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import {
-  ActionSheetProps,
-  connectActionSheet,
-} from '@expo/react-native-action-sheet';
+import { ActionSheetOptions } from '@expo/react-native-action-sheet';
 import Color from 'color';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { getKind, KINDS, KIND_DEFAULT } from 'peperomia-util';
 import s from 'config/style';
 import theme from 'config/theme';
@@ -33,19 +25,22 @@ import {
   ConnectedType,
   State as ConnectedState,
 } from 'components/pages/CreateScheduleDetail/Connected';
+import useItemSuggest from 'hooks/useItemSuggest';
+import useKeyboard from 'hooks/useKeyboard';
+import useScroll from 'hooks/useScroll';
 import GlobalStyles from '../../../GlobalStyles';
 
-const top =
-  Platform.OS === 'android' ? StatusBar.currentHeight : getStatusBarHeight();
-
-type PropsBase = Pick<
+type Props = Pick<
   SelectItemDetail,
   'title' | 'kind' | 'place' | 'url' | 'memo' | 'moveMinutes'
 > &
   Pick<ConnectedType, 'onSave' | 'onIcons' | 'onDismiss'> &
-  Pick<ConnectedState, 'iconSelected' | 'suggestList'>;
-
-type Props = PropsBase & ActionSheetProps;
+  Pick<ConnectedState, 'iconSelected'> & {
+    showActionSheetWithOptions: (
+      options: ActionSheetOptions,
+      callback: (i: number) => void
+    ) => void;
+  };
 
 type State = Pick<
   SelectItemDetail,
@@ -55,7 +50,6 @@ type State = Pick<
   manualTime: boolean;
   manualTimeValue: number;
   keyboard: boolean;
-  suggest: boolean;
   imageHeader: boolean;
 };
 
@@ -94,107 +88,72 @@ const times: Item[] = [
 const cancelButtonIndex = times.length - 1;
 const manualButtonIndex = times.length - 2;
 
-class App extends Component<Props, State> {
-  state = {
-    title: this.props.title,
-    kind: this.props.kind,
-    memo: this.props.memo,
-    place: this.props.place,
-    url: this.props.url,
-    moveMinutes: this.props.moveMinutes,
-    titleFocusCount: 0,
-    manualTimeValue: 0,
-    manualTime: false,
-    keyboard: false,
-    imageHeader: true,
-    suggest: false,
-  };
+const initialState = (props: Props): State => ({
+  title: props.title,
+  kind: props.kind,
+  memo: props.memo,
+  place: props.place,
+  url: props.url,
+  moveMinutes: props.moveMinutes,
+  titleFocusCount: 0,
+  manualTimeValue: 0,
+  manualTime: false,
+  keyboard: false,
+  imageHeader: true,
+});
 
-  scrollView: any;
+const CreateScheduleDetail: React.FC<Props> = (props) => {
+  const [state, setState] = useState<State>(initialState(props));
+  const scrollViewRef = useRef<ScrollView>(null);
+  const { showKeyboard } = useKeyboard();
+  const { suggestList, setSuggestList } = useItemSuggest();
+  const { scrollBelowTarget, onScroll } = useScroll(84);
 
-  componentDidMount() {
-    this.keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
-      this._keyboardDidShow.bind(this)
-    );
-    this.keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      this._keyboardDidHide.bind(this)
-    );
-  }
-  componentWillUnmount() {
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
-  }
-
-  keyboardDidShowListener: any;
-  keyboardDidHideListener: any;
-
-  _keyboardDidShow() {
-    this.setState({
-      keyboard: true,
-    });
-  }
-
-  _keyboardDidHide() {
-    this.setState({
-      keyboard: false,
-    });
-  }
-
-  onOpenActionSheet = () => {
+  const onOpenActionSheet = () => {
     const options = times.map((val) => val.label);
 
     let destructiveButtonIndex = times.findIndex(
-      (val) => this.state.moveMinutes === val.value
+      (val) => state.moveMinutes === val.value
     );
     if (destructiveButtonIndex === null) {
       destructiveButtonIndex = manualButtonIndex;
     }
 
-    this.props.showActionSheetWithOptions(
+    props.showActionSheetWithOptions(
       {
         options,
         cancelButtonIndex,
         destructiveButtonIndex,
       },
       (buttonIndex) => {
-        // Do something here depending on the button index selected
         if (buttonIndex === cancelButtonIndex) {
           return;
         }
 
         if (buttonIndex === manualButtonIndex) {
-          this.setState({ manualTime: true });
+          setState((s) => ({
+            ...s,
+            manualTime: true,
+          }));
           return;
         }
 
         const value = times[buttonIndex].value || 0;
 
-        this.setState({ moveMinutes: value });
+        setState((s) => ({
+          ...s,
+          moveMinutes: value,
+        }));
       }
     );
   };
 
-  onChangeTitle = (title: string) => {
-    if (this.props.iconSelected) {
-      this.setState({ title });
-    } else {
-      this.setState({ title, kind: getKind(title) });
-    }
-  };
-
-  onDismiss = (
-    title: string,
-    kind: string,
-    memo: string,
-    moveMinutes: number
-  ) => {
+  const onDismiss = useCallback(() => {
     if (
-      this.props.title !== title ||
-      this.props.kind !== kind ||
-      this.props.memo !== memo ||
-      this.props.moveMinutes !== moveMinutes
+      props.title !== state.title ||
+      props.kind !== state.kind ||
+      props.memo !== state.memo ||
+      props.moveMinutes !== state.moveMinutes
     ) {
       Alert.alert(
         '保存されていない変更があります',
@@ -207,223 +166,185 @@ class App extends Component<Props, State> {
           {
             text: '戻る',
             onPress: () => {
-              this.props.onDismiss();
+              props.onDismiss();
             },
           },
         ],
         { cancelable: false }
       );
     } else {
-      this.props.onDismiss();
+      props.onDismiss();
     }
-  };
+  }, [props, state]);
 
-  onSave = () => {
-    if (this.state.title === '') {
+  const onSave = useCallback(() => {
+    if (state.title === '') {
       Alert.alert('タイトルが入力されていません');
     } else {
-      const kind = this.props.iconSelected ? this.props.kind : this.state.kind;
-      const { title, url, place, memo, moveMinutes } = this.state;
+      const kind = props.iconSelected ? props.kind : state.kind;
+      const { title, url, place, moveMinutes } = state;
 
-      this.props.onSave(title, kind, place, url, memo, moveMinutes);
+      props.onSave(title, kind, place, url, state.memo, moveMinutes);
     }
-  };
+  }, [props, state]);
 
-  onSetManualTime = () => {
-    this.setState({
-      moveMinutes: this.state.manualTimeValue,
+  const onSetManualTime = useCallback(() => {
+    setState((s) => ({
+      ...s,
+      moveMinutes: state.manualTimeValue,
       manualTime: false,
-    });
-  };
+    }));
+  }, [state.manualTimeValue]);
 
-  onCloseManualTime = () => {
-    this.setState({
+  const onCloseManualTime = useCallback(() => {
+    setState((s) => ({
+      ...s,
       manualTime: false,
-    });
-  };
+    }));
+  }, []);
 
-  onChangeMemoInput = (name: string, value: string) => {
-    if (name === 'memo') {
-      this.setState({
-        memo: value,
-      });
-    } else if (name === 'place') {
-      this.setState({
-        place: value,
-      });
-    } else if (name === 'url') {
-      this.setState({
-        url: value,
-      });
-    }
-  };
+  const onChangeMemoInput = useCallback((name: string, value: string) => {
+    setState((s) => ({
+      ...s,
+      [name]: value,
+    }));
+  }, []);
 
-  onScroll = (e: NativeSyntheticEvent<TextInputScrollEventData>) => {
-    const offsetY = 84 + (top || 0);
-
-    if (e.nativeEvent.contentOffset.y >= offsetY && this.state.imageHeader) {
-      this.setState({
-        imageHeader: false,
-      });
-    }
-    if (e.nativeEvent.contentOffset.y < offsetY && !this.state.imageHeader) {
-      this.setState({
-        imageHeader: true,
-      });
-    }
-  };
-
-  onSuggestTitle = () => {
-    const titleFocusCount = this.state.titleFocusCount + 1;
-    this.setState({
-      titleFocusCount,
-    });
-
-    if (titleFocusCount > 1) {
-      this.setState({
-        suggest: true,
-      });
-    }
-  };
-
-  onSuggest = (_: string, name: string) => {
-    this.setState({ title: name, kind: getKind(name), suggest: false });
-  };
-
-  onCloseKeyBoard = () => {
+  const onCloseKeyBoard = useCallback(() => {
     Keyboard.dismiss();
-    this.setState({
-      suggest: false,
-    });
-  };
+    setSuggestList('');
+  }, [setSuggestList]);
 
-  render() {
-    const kind = this.state.kind || KIND_DEFAULT;
-    const config = KINDS[kind];
-    const ss = s.schedule;
-    const bc = Color(config.backgroundColor)
-      .lighten(ss.backgroundColorAlpha)
-      .toString();
+  const onSuggest = useCallback(
+    (_: string, name: string) => {
+      Keyboard.dismiss();
+      setState((s) => ({
+        ...s,
+        title: name,
+        kind: getKind(name),
+      }));
+      setSuggestList('');
+    },
+    [setSuggestList]
+  );
 
-    return (
-      <View
-        style={[
-          styles.headerContainer,
-          {
-            backgroundColor: this.state.imageHeader ? bc : theme().color.white,
-          },
-        ]}
+  const kind = state.kind || KIND_DEFAULT;
+  const config = KINDS[kind];
+  const ss = s.schedule;
+  const bc = Color(config.backgroundColor)
+    .lighten(ss.backgroundColorAlpha)
+    .toString();
+
+  return (
+    <View
+      style={[
+        styles.headerContainer,
+        {
+          backgroundColor: state.imageHeader ? bc : theme().color.white,
+        },
+      ]}
+    >
+      <Header
+        title={scrollBelowTarget ? '' : state.title}
+        color={scrollBelowTarget ? 'none' : bc}
+        right={
+          showKeyboard ? (
+            <TouchableOpacity
+              onPress={onCloseKeyBoard}
+              testID="KeyBoardCloseInCreateScheduleDetail"
+            >
+              <MaterialCommunityIcons
+                name="keyboard-close"
+                color={theme().color.main}
+                size={25}
+                style={styles.keyboardClose}
+              />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={onSave} testID="ScheduleDetailCreated">
+              <MaterialIcons
+                name="check"
+                color={theme().color.main}
+                size={25}
+                style={styles.keyboardClose}
+              />
+            </TouchableOpacity>
+          )
+        }
+        onClose={() => onDismiss()}
+      />
+      <ScrollView
+        ref={scrollViewRef}
+        contentInsetAdjustmentBehavior="never"
+        onScroll={onScroll}
+        scrollEventThrottle={1000}
       >
-        <Header
-          title={this.state.imageHeader ? '' : this.state.title}
-          color={this.state.imageHeader ? 'none' : bc}
-          right={
-            this.state.keyboard ? (
-              <TouchableOpacity
-                onPress={this.onCloseKeyBoard}
-                testID="KeyBoardCloseInCreateScheduleDetail"
-              >
-                <MaterialCommunityIcons
-                  name="keyboard-close"
-                  color={theme().color.main}
-                  size={25}
-                  style={styles.keyboardClose}
-                />
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                onPress={this.onSave}
-                testID="ScheduleDetailCreated"
-              >
-                <MaterialIcons
-                  name="check"
-                  color={theme().color.main}
-                  size={25}
-                  style={styles.keyboardClose}
-                />
-              </TouchableOpacity>
-            )
-          }
-          onClose={() =>
-            this.onDismiss(
-              this.state.title,
-              this.state.kind,
-              this.state.memo,
-              this.state.moveMinutes
-            )
-          }
+        <SafeAreaView
+          style={[
+            GlobalStyles.droidSafeArea,
+            styles.headerContainer,
+            { backgroundColor: bc },
+          ]}
         />
-        <ScrollView
-          ref={(ref) => {
-            this.scrollView = ref;
-          }}
-          contentInsetAdjustmentBehavior="never"
-          onScroll={this.onScroll}
-          scrollEventThrottle={1000}
-        >
-          <SafeAreaView
-            style={[
-              GlobalStyles.droidSafeArea,
-              styles.headerContainer,
-              { backgroundColor: bc },
-            ]}
+        <SafeAreaView style={styles.body}>
+          <TimeDialog
+            open={state.manualTime}
+            onChange={(value) =>
+              setState((s) => ({
+                ...s,
+                manualTimeValue: value,
+              }))
+            }
+            onSetManualTime={onSetManualTime}
+            onCloseManualTime={onCloseManualTime}
           />
-          <SafeAreaView style={styles.body}>
-            <TimeDialog
-              open={this.state.manualTime}
-              onChange={(value) => this.setState({ manualTimeValue: value })}
-              onSetManualTime={this.onSetManualTime}
-              onCloseManualTime={this.onCloseManualTime}
-            />
-            <View style={styles.root}>
-              <HeaderImage
-                kind={
-                  this.props.iconSelected ? this.props.kind : this.state.kind
-                }
-              >
-                <TextInput
-                  placeholder="タイトルを入力"
-                  placeholderTextColor={theme().color.gray}
-                  style={styles.inputTitle}
-                  onChangeText={(title) =>
-                    this.setState({ title, kind: getKind(title) })
-                  }
-                  value={this.state.title}
-                  testID="ScheduleDetailTitleInput"
-                  returnKeyType="done"
-                  autoFocus
-                  onFocus={this.onSuggestTitle}
-                  selectionColor={theme().color.lightGreen}
-                />
-              </HeaderImage>
-
-              {this.state.suggest ? (
-                <Suggest
-                  title={this.state.title}
-                  items={this.props.suggestList}
-                  onPress={this.onSuggest}
-                />
-              ) : (
-                <Body
-                  title={this.state.title}
-                  place={this.state.place}
-                  url={this.state.url}
-                  memo={this.state.memo}
-                  moveMinutes={this.state.moveMinutes}
-                  scrollView={this.scrollView}
-                  onIcons={this.props.onIcons}
-                  onChangeMemoInput={this.onChangeMemoInput}
-                  onOpenActionSheet={this.onOpenActionSheet}
-                />
-              )}
-            </View>
-          </SafeAreaView>
-          <View style={styles.bottom} />
-        </ScrollView>
-      </View>
-    );
-  }
-}
+          <View style={styles.root}>
+            <HeaderImage kind={props.iconSelected ? props.kind : state.kind}>
+              <TextInput
+                placeholder="タイトルを入力"
+                placeholderTextColor={theme().color.gray}
+                style={styles.inputTitle}
+                onChangeText={(title) => {
+                  setSuggestList(title);
+                  setState((s) => ({
+                    ...s,
+                    title,
+                    kind: getKind(title),
+                  }));
+                }}
+                value={state.title}
+                testID="ScheduleDetailTitleInput"
+                returnKeyType="done"
+                autoFocus
+                selectionColor={theme().color.lightGreen}
+              />
+            </HeaderImage>
+            {suggestList.length > 0 ? (
+              <Suggest
+                title={state.title}
+                items={suggestList}
+                onPress={onSuggest}
+              />
+            ) : (
+              <Body
+                title={state.title}
+                place={state.place}
+                url={state.url}
+                memo={state.memo}
+                moveMinutes={state.moveMinutes}
+                scrollView={scrollViewRef}
+                onIcons={props.onIcons}
+                onChangeMemoInput={onChangeMemoInput}
+                onOpenActionSheet={onOpenActionSheet}
+              />
+            )}
+          </View>
+        </SafeAreaView>
+        <View style={styles.bottom} />
+      </ScrollView>
+    </View>
+  );
+};
 
 const styles = EStyleSheet.create({
   root: {
@@ -453,4 +374,4 @@ const styles = EStyleSheet.create({
   },
 });
 
-export default connectActionSheet<PropsBase>(App);
+export default memo(CreateScheduleDetail);

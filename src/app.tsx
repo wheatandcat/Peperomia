@@ -49,7 +49,7 @@ import {
 } from './lib/db/user';
 import EditPlan from './components/pages/EditPlan';
 import CreatePlan from './components/pages/CreatePlan';
-import CreateSchedule from './components/pages/CreateSchedule/Connected';
+import CreateSchedule from './components/pages/CreateSchedule';
 import ScheduleDetail from './components/pages/ScheduleDetail';
 import AddScheduleDetail from './components/pages/AddScheduleDetail';
 import CreateScheduleDetail from './components/pages/CreateScheduleDetail';

@@ -1,9 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/pages/CreatePlan/index.tsx 正常に表示されている 1`] = `
-<Memo()
+<Memo(Connected)
   calendars={Array []}
+  date="1"
   items={Array []}
+  kind="park"
   navigation={
     Object {
       "navigate": [MockFunction],
@@ -11,14 +13,7 @@ exports[`components/pages/CreatePlan/index.tsx 正常に表示されている 1`
     }
   }
   refreshData={[MockFunction]}
-  route={
-    Object {
-      "params": Object {
-        "date": "1",
-        "kind": "park",
-      },
-    }
-  }
+  showActionSheetWithOptions={[Function]}
   uid="test"
 />
 `;

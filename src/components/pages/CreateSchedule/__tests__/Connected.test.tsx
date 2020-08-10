@@ -1,6 +1,5 @@
 import React from 'react';
 import { shallow, ShallowWrapper } from 'enzyme';
-import * as Auth from 'containers/Auth';
 import Connected from '../Connected';
 
 describe('components/pages/CreateSchedule/Connected.tsx', () => {
@@ -11,22 +10,12 @@ describe('components/pages/CreateSchedule/Connected.tsx', () => {
       setParams: jest.fn(),
       navigate: jest.fn(),
     },
-    route: {
-      params: {
-        itemId: '1',
-        refresh: '',
-      },
-    },
+    refresh: '',
+    itemId: '1',
+    uid: 'test',
   });
 
   beforeEach(() => {
-    jest.spyOn(Auth, 'useAuth').mockImplementation(
-      () =>
-        ({
-          uid: '1',
-        } as any)
-    );
-
     wrapper = shallow(<Connected {...propsData()} />);
   });
 

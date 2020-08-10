@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View, TouchableOpacity, Text, ScrollView } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Button, Divider } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
@@ -11,13 +11,13 @@ type Props = Pick<
   SelectItemDetail,
   'title' | 'place' | 'url' | 'memo' | 'moveMinutes'
 > & {
-  scrollView: any;
+  scrollView: React.RefObject<ScrollView>;
   onIcons: (title: string) => void;
   onChangeMemoInput: (name: string, value: string) => void;
   onOpenActionSheet: () => void;
 };
 
-export default (props: Props) => (
+const Body: React.FC<Props> = (props) => (
   <>
     <View style={styles.root}>
       <TouchableOpacity onPress={props.onOpenActionSheet}>
@@ -38,7 +38,7 @@ export default (props: Props) => (
         place={props.place}
         url={props.url}
         memo={props.memo}
-        scrollViewRef={props.scrollView}
+        scrollView={props.scrollView}
         onChangeInputText={props.onChangeMemoInput}
       />
     </View>
@@ -53,6 +53,8 @@ export default (props: Props) => (
     </View>
   </>
 );
+
+export default Body;
 
 const styles = EStyleSheet.create({
   root: {

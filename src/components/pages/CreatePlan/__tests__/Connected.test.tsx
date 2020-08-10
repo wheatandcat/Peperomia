@@ -12,16 +12,12 @@ describe('components/pages/CreatePlan/Connected.tsx', () => {
       setParams: jest.fn(),
       navigate: jest.fn(),
     },
-    route: {
-      params: {
-        date: '1',
-        kind: 'park',
-      },
-    },
     uid: 'test',
     items: itemsMockData,
     calendars: calendarsMockData,
     refreshData: jest.fn(),
+    date: '',
+    kind: '',
   });
 
   beforeEach(() => {

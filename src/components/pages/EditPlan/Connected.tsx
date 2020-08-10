@@ -1,5 +1,6 @@
 import React, { useState, memo, useEffect, useCallback } from 'react';
 import { Alert } from 'react-native';
+import { ActionSheetOptions } from '@expo/react-native-action-sheet';
 import { ContextProps as ItemContextProps } from 'containers/Items';
 import { ContextProps as AuthContextProps } from 'containers/Auth';
 import { UpdateCalendar } from 'domain/calendar';
@@ -12,7 +13,12 @@ import Plain from './Plain';
 
 type ConnectedProps = Props &
   Pick<ItemContextProps, 'items' | 'refreshData' | 'calendars'> &
-  Pick<AuthContextProps, 'uid'>;
+  Pick<AuthContextProps, 'uid'> & {
+    showActionSheetWithOptions: (
+      options: ActionSheetOptions,
+      callback: (i: number) => void
+    ) => void;
+  };
 
 type State = {
   input: {
@@ -21,6 +27,22 @@ type State = {
   };
   kind: string;
   calendar: UpdateCalendar;
+};
+
+export type ConnectType = {
+  input: {
+    title: string;
+    date: string;
+  };
+  kind: string;
+  onInput: (name: string, value: any) => void;
+  onSave: () => void;
+  onIcons: () => void;
+  onHome: () => void;
+  showActionSheetWithOptions: (
+    options: ActionSheetOptions,
+    callback: (i: number) => void
+  ) => void;
 };
 
 const Connected: React.FC<ConnectedProps> = memo((props) => {
@@ -201,6 +223,7 @@ const Connected: React.FC<ConnectedProps> = memo((props) => {
       onSave={onSave}
       onIcons={onIcons}
       onHome={onHome}
+      showActionSheetWithOptions={props.showActionSheetWithOptions}
     />
   );
 });

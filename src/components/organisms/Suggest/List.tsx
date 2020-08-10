@@ -12,7 +12,7 @@ type Props = {
   onPress: (kind: string, name: string) => void;
 };
 
-export default (props: Props) => (
+const Suggest: React.FC<Props> = (props) => (
   <View style={styles.root}>
     {uniqueSuggests(props.items)
       .filter((item) => {
@@ -52,6 +52,8 @@ export default (props: Props) => (
       ))}
   </View>
 );
+
+export default Suggest;
 
 const getImageSrc = (kind: string, reversal?: boolean) => {
   const item = KINDS[kind];

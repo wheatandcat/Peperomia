@@ -20,6 +20,7 @@ exports[`components/pages/EditPlan/index.tsx 正常に表示されている 1`] 
       },
     }
   }
+  showActionSheetWithOptions={[Function]}
   title="test"
   uid="test"
 />
