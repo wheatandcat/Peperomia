@@ -13,7 +13,7 @@ import { ActionSheetOptions } from '@expo/react-native-action-sheet';
 import Color from 'color';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { getKind, KINDS, KIND_DEFAULT } from 'peperomia-util';
-import s from 'config/style';
+import style from 'config/style';
 import theme from 'config/theme';
 import { SelectItemDetail } from 'domain/itemDetail';
 import Header from 'components/molecules/Header';
@@ -230,7 +230,7 @@ const CreateScheduleDetail: React.FC<Props> = (props) => {
 
   const kind = state.kind || KIND_DEFAULT;
   const config = KINDS[kind];
-  const ss = s.schedule;
+  const ss = style.schedule;
   const bc = Color(config.backgroundColor)
     .lighten(ss.backgroundColorAlpha)
     .toString();

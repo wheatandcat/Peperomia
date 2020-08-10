@@ -6,7 +6,7 @@ describe('containers/Fetch.tsx', () => {
   let wrapper: ShallowWrapper;
 
   const propsData: any = () => ({
-    children: <div>hi</div>,
+    children: <div />,
   });
 
   beforeEach(() => {

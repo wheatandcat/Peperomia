@@ -93,7 +93,7 @@ export default class extends Component<Props, State> {
     return (
       <View
         style={[
-          styles.headrContainer,
+          styles.headerContainer,
           {
             backgroundColor: this.state.imageHeader
               ? bc
@@ -155,7 +155,7 @@ export default class extends Component<Props, State> {
               onScheduleDetail={this.props.onScheduleDetail}
             />
 
-            <View style={[styles.addButoon, { height }]}>
+            <View style={[styles.addButton, { height }]}>
               <TouchableOpacity
                 onPress={this.props.onCreateScheduleDetail}
                 testID="ScheduleDetailAdd"
@@ -168,7 +168,7 @@ export default class extends Component<Props, State> {
                   reverse
                 />
               </TouchableOpacity>
-              <Text style={styles.addButoonText}>スケジュールを追加する</Text>
+              <Text style={styles.addButtonText}>スケジュールを追加する</Text>
             </View>
             <View style={styles.bottom} />
           </View>
@@ -179,7 +179,7 @@ export default class extends Component<Props, State> {
 }
 
 const styles = EStyleSheet.create({
-  headrContainer: {
+  headerContainer: {
     flex: 0,
     height: '100%',
   },
@@ -205,18 +205,23 @@ const styles = EStyleSheet.create({
     fontWeight: '500',
     color: '$text',
   },
-  addButoon: {
+  addButton: {
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
   },
-  addButoonText: {
+  addButtonText: {
     color: '$text',
     fontSize: 16,
     fontWeight: '500',
     paddingTop: 25,
   },
   schedules: {
+    paddingTop: 60,
+    backgroundColor: '$background',
+    height: '100%',
+  },
+  schedules2: {
     paddingTop: 60,
     backgroundColor: '$background',
     height: '100%',
