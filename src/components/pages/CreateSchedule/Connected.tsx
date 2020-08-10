@@ -1,25 +1,18 @@
 import React, { useState, memo, useEffect, useCallback } from 'react';
 import { Alert } from 'react-native';
-import { RouteProp } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from 'lib/navigation';
 import { Item } from 'domain/item';
 import { SelectItemDetail } from 'domain/itemDetail';
 import { useDidMount } from 'hooks/index';
 import { getItemByID } from 'lib/item';
 import { getItemDetails, updateItemDetail } from 'lib/itemDetail';
-import { useAuth } from 'containers/Auth';
+import { ContextProps as AuthContextProps } from 'containers/Auth';
+import { Props as IndexProps } from './';
 import Page from 'components/templates/CreateSchedule/Page';
 
-type ScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'CreateSchedule'
->;
-type ScreenRouteProp = RouteProp<RootStackParamList, 'CreateSchedule'>;
-
-type Props = {
-  navigation: ScreenNavigationProp;
-  route: ScreenRouteProp;
+type Props = Pick<AuthContextProps, 'uid'> & {
+  refresh: string;
+  itemId: string;
+  navigation: IndexProps['navigation'];
 };
 
 type State = {
@@ -29,10 +22,6 @@ type State = {
 };
 
 const Connected: React.FC<Props> = (props) => {
-  const { uid } = useAuth();
-  const itemId = String(props.route?.params?.itemId) || '1';
-  const refresh = props.route?.params?.refresh || '';
-
   const [state, setState] = useState<State>({
     item: { title: '', kind: '' },
     itemDetails: [],
@@ -72,7 +61,7 @@ const Connected: React.FC<Props> = (props) => {
           priority: index + 1,
         };
 
-        const ok = await updateItemDetail(uid, v);
+        const ok = await updateItemDetail(props.uid, v);
         if (!ok) {
           Alert.alert('保存に失敗しました');
           return;
@@ -84,7 +73,7 @@ const Connected: React.FC<Props> = (props) => {
         itemDetails: itemDetails,
       }));
     },
-    [props.navigation, uid]
+    [props.navigation, props.uid]
   );
 
   const setItem = useCallback((data: Item) => {
@@ -99,12 +88,12 @@ const Connected: React.FC<Props> = (props) => {
 
   useDidMount(() => {
     const setItemByItemID = async () => {
-      const item = await getItemByID(uid, String(itemId));
+      const item = await getItemByID(props.uid, props.itemId);
       setItem(item);
     };
 
     const setItemDetailsByItemID = async () => {
-      const itemDetails = await getItemDetails(uid, String(itemId));
+      const itemDetails = await getItemDetails(props.uid, props.itemId);
       setItemDetails(itemDetails);
     };
 
@@ -114,22 +103,22 @@ const Connected: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const setItemDetailsByItemID = async () => {
-      const itemDetails = await getItemDetails(uid, itemId);
+      const itemDetails = await getItemDetails(props.uid, props.itemId);
       setItemDetails(itemDetails);
     };
 
-    if (refresh !== state.refresh) {
+    if (props.refresh !== state.refresh) {
       setItemDetailsByItemID().then(() => {
-        setState((s) => ({ ...s, refresh }));
+        setState((s) => ({ ...s, refresh: props.refresh }));
       });
     }
-  }, [setItemDetails, state.refresh, refresh, uid, itemId]);
+  }, [setItemDetails, state.refresh, props.refresh, props.uid, props.itemId]);
 
   const onCreateScheduleDetail = useCallback(() => {
     props.navigation.navigate('CreateScheduleDetail', {
-      itemId,
+      itemId: props.itemId,
     });
-  }, [props.navigation, itemId]);
+  }, [props.navigation, props.itemId]);
 
   const onScheduleDetail = useCallback(
     (id: string) => {

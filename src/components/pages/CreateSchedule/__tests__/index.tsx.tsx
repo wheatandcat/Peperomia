@@ -1,9 +1,9 @@
 import React from 'react';
 import { shallow, ShallowWrapper } from 'enzyme';
-import { itemDetailsMockData } from '__mockData__/itemDetail.ts';
-import Connected from '../Connected';
+import * as Auth from 'containers/Auth';
+import Index from '../';
 
-describe('components/pages/AddScheduleDetail/Connected.tsx', () => {
+describe('components/pages/CreateSchedule/index.tsx', () => {
   let wrapper: ShallowWrapper;
 
   const propsData: any = () => ({
@@ -17,17 +17,17 @@ describe('components/pages/AddScheduleDetail/Connected.tsx', () => {
         refresh: '',
       },
     },
-    itemDetails: itemDetailsMockData,
-    iconSelected: false,
-    refreshData: jest.fn(),
-    kind: '',
-    itemId: '',
-    priority: 1,
-    uid: 'test',
   });
 
   beforeEach(() => {
-    wrapper = shallow(<Connected {...propsData()} />);
+    jest.spyOn(Auth, 'useAuth').mockImplementation(
+      () =>
+        ({
+          uid: '1',
+        } as any)
+    );
+
+    wrapper = shallow(<Index {...propsData()} />);
   });
 
   it('正常に表示されている', () => {

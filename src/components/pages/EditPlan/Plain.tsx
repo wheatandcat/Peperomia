@@ -1,44 +1,14 @@
-import React, { useState, memo, useCallback } from 'react';
-import { SuggestItem } from 'lib/suggest';
-import { useDidMount } from 'hooks/index';
+import React, { memo, useCallback } from 'react';
 import { ContextProps as ItemContextProps } from 'containers/Items';
 import Page from 'components/templates/CreatePlan/Page';
-import { Props } from './';
+import { ConnectType } from './Connected';
+import { Props as IndexProps } from './';
 
-type PlainProps = Props &
-  Pick<ItemContextProps, 'items' | 'refreshData'> & {
-    input: {
-      title: string;
-      date: string;
-    };
-    kind: string;
-    onInput: (name: string, value: any) => void;
-    onSave: () => void;
-    onIcons: () => void;
-    onHome: () => void;
-  };
+type Props = IndexProps &
+  ConnectType &
+  Pick<ItemContextProps, 'items' | 'refreshData'>;
 
-type PlainState = {
-  suggestList: SuggestItem[];
-};
-
-const Plain = memo((props: PlainProps) => {
-  const [state, setState] = useState<PlainState>({
-    suggestList: [],
-  });
-
-  useDidMount(() => {
-    const suggestList = (props.items || []).map((item) => ({
-      title: item.title,
-      kind: item.kind,
-    }));
-
-    setState((s) => ({
-      ...s,
-      suggestList,
-    }));
-  });
-
+const Plain: React.FC<Props> = (props) => {
   const onSave = useCallback(async () => {
     await props.onSave();
 
@@ -53,13 +23,13 @@ const Plain = memo((props: PlainProps) => {
       title={props.input.title}
       date={props.input.date}
       kind={props.kind}
-      suggestList={state.suggestList}
       onInput={props.onInput}
       onSave={onSave}
       onIcons={props.onIcons}
       onHome={props.onHome}
+      showActionSheetWithOptions={props.showActionSheetWithOptions}
     />
   );
-});
+};
 
-export default Plain;
+export default memo(Plain);

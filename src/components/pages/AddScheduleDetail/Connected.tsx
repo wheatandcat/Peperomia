@@ -2,10 +2,9 @@ import React, { memo, useState, useCallback, useEffect } from 'react';
 import { Alert } from 'react-native';
 import uuidv1 from 'uuid/v1';
 import { getKind } from 'peperomia-util';
-import { SuggestItem } from 'lib/suggest';
+import { ActionSheetOptions } from '@expo/react-native-action-sheet';
 import { ItemDetail, SelectItemDetail } from 'domain/itemDetail';
 import { createItemDetail } from 'lib/itemDetail';
-import { useDidMount } from 'hooks/index';
 import { ContextProps as ItemContextProps } from 'containers/Items';
 import { ContextProps as AuthContextProps } from 'containers/Auth';
 import Page from 'components/templates/CreateScheduleDetail/Page';
@@ -13,12 +12,20 @@ import { Props as IndexProps } from './';
 
 type State = ItemDetail & {
   iconSelected: boolean;
-  suggestList: SuggestItem[];
 };
 
-type Props = IndexProps &
+type Props = ItemDetail &
   Pick<ItemContextProps, 'itemDetails' | 'refreshData'> &
-  Pick<AuthContextProps, 'uid'>;
+  Pick<AuthContextProps, 'uid'> & {
+    kind: string;
+    itemId: string;
+    priority: number;
+    navigation: IndexProps['navigation'];
+    showActionSheetWithOptions: (
+      options: ActionSheetOptions,
+      callback: (i: number) => void
+    ) => void;
+  };
 
 const AddScheduleDetailConnected: React.FC<Props> = (props) => {
   const [state, setState] = useState<State>({
@@ -30,23 +37,8 @@ const AddScheduleDetailConnected: React.FC<Props> = (props) => {
     kind: props.kind,
     priority: props.priority,
     iconSelected: false,
-    suggestList: [],
   });
-  const kind = props.route?.params?.kind || '';
-  const itemId = props.route?.params?.itemId || '1';
-  const priority = props.route?.params?.priority || 1;
-
-  useDidMount(() => {
-    const suggestList = (props.itemDetails || []).map((itemDetail) => ({
-      title: itemDetail.title,
-      kind: itemDetail.kind,
-    }));
-
-    setState((s) => ({
-      ...s,
-      suggestList,
-    }));
-  });
+  const { kind, itemId, priority } = props;
 
   useEffect(() => {
     if (!kind) {
@@ -134,11 +126,11 @@ const AddScheduleDetailConnected: React.FC<Props> = (props) => {
       url={state.url}
       memo={state.memo}
       moveMinutes={state.moveMinutes}
-      suggestList={state.suggestList}
-      iconSelected={state.iconSelected}
       onDismiss={onDismiss}
       onSave={onSave}
       onIcons={onIcons}
+      showActionSheetWithOptions={props.showActionSheetWithOptions}
+      iconSelected={state.iconSelected}
     />
   );
 };

@@ -3,29 +3,28 @@ import { useRoute, useNavigation } from '@react-navigation/native';
 import { Alert } from 'react-native';
 import { updateItemDetail } from 'lib/itemDetail';
 import { getKind } from 'peperomia-util';
-import { SuggestItem } from 'lib/suggest';
+import { ActionSheetOptions } from '@expo/react-native-action-sheet';
 import { ItemDetail } from 'domain/itemDetail';
 import { ContextProps as ItemContextProps } from 'containers/Items';
 import { ContextProps as AuthContextProps } from 'containers/Auth';
-import { useDidMount } from 'hooks/index';
 import Page from 'components/templates/CreateScheduleDetail/Page';
 import { ScreenRouteProp } from 'components/pages/ScheduleDetail';
 
 type State = ItemDetail & {
   iconSelected: boolean;
-  suggestList: SuggestItem[];
 };
 
 type Props = ItemDetail & {
   id: number | string;
   onShow: (reload: boolean) => void;
-};
-
-type ConnectedProps = Props &
-  Pick<ItemContextProps, 'itemDetails' | 'refreshData'> &
+  showActionSheetWithOptions: (
+    options: ActionSheetOptions,
+    callback: (i: number) => void
+  ) => void;
+} & Pick<ItemContextProps, 'itemDetails' | 'refreshData'> &
   Pick<AuthContextProps, 'uid'>;
 
-const Connected: React.FC<ConnectedProps> = memo((props) => {
+const Connected: React.FC<Props> = (props) => {
   const [state, setState] = useState<State>({
     title: props.title || '',
     place: props.place || '',
@@ -35,23 +34,10 @@ const Connected: React.FC<ConnectedProps> = memo((props) => {
     kind: props.kind,
     priority: props.priority,
     iconSelected: false,
-    suggestList: [],
   });
 
   const route = useRoute<ScreenRouteProp>();
   const { navigate } = useNavigation();
-
-  useDidMount(() => {
-    const suggestList = (props.itemDetails || []).map((itemDetail) => ({
-      title: itemDetail.title,
-      kind: itemDetail.kind,
-    }));
-
-    setState((s) => ({
-      ...s,
-      suggestList,
-    }));
-  });
 
   useEffect(() => {
     const kind = route.params.kind;
@@ -145,13 +131,13 @@ const Connected: React.FC<ConnectedProps> = memo((props) => {
       url={state.url}
       memo={state.memo}
       moveMinutes={state.moveMinutes}
-      suggestList={state.suggestList}
+      showActionSheetWithOptions={props.showActionSheetWithOptions}
       iconSelected={state.iconSelected}
       onDismiss={onDismiss}
       onSave={onSave}
       onIcons={onIcons}
     />
   );
-});
+};
 
-export default Connected;
+export default memo(Connected);

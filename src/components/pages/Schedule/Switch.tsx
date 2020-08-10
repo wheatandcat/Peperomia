@@ -21,7 +21,7 @@ import Schedule from './Connected';
 
 type State = Pick<Item, 'title'> & {
   item: SelectItem;
-  itemId: number;
+  itemId: string;
   itemDetails: SelectItemDetail[];
   mode: string;
 };
@@ -60,7 +60,7 @@ const initState = {
     kind: '',
     image: '',
   },
-  itemId: 0,
+  itemId: '0',
   title: '',
   itemDetails: [],
   mode: 'show',

@@ -16,7 +16,7 @@ import InputLabel from 'components/molecules/ScheduleDetail/Label';
 let y = [0, 0, 0];
 
 type Props = Pick<SelectItemDetail, 'place' | 'url' | 'memo'> & {
-  scrollViewRef: ScrollView;
+  scrollView: React.RefObject<ScrollView>;
   onChangeInputText: (name: string, value: string) => void;
 };
 
@@ -196,7 +196,7 @@ export default class extends Component<Props, State> {
                   autoFocus={this.state.focus === item.value}
                   onFocus={() => {
                     const height = Platform.OS === 'ios' ? 80 : 40;
-                    this.props.scrollViewRef.scrollTo({
+                    this.props.scrollView.current?.scrollTo({
                       x: 0,
                       y: y[index] - height,
                       animated: true,

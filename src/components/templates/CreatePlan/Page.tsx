@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useCallback, memo } from 'react';
 import {
   View,
   Alert,
@@ -7,326 +7,178 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Divider, Button } from 'react-native-elements';
-import dayjs from 'dayjs';
-import advancedFormat from 'dayjs/plugin/advancedFormat';
-import 'dayjs/locale/ja';
-import {
-  ActionSheetProps,
-  connectActionSheet,
-} from '@expo/react-native-action-sheet';
+import { Divider } from 'react-native-elements';
+import { ActionSheetOptions } from '@expo/react-native-action-sheet';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import Color from 'color';
-import DatePicker from 'react-native-datepicker';
-import {
-  Consumer as ThemeConsumer,
-  ContextProps as ThemeContextProps,
-} from 'containers/Theme';
 import { getKind, KINDS } from 'peperomia-util';
 import { whenIPhoneSE } from 'lib/responsive';
-import { SuggestItem } from 'lib/suggest';
 import theme from 'config/theme';
 import s from 'config/style';
 import { Item as ItemParam } from 'domain/item';
 import Suggest from 'components/organisms/Suggest/List';
 import IconImage from 'components/organisms/CreatePlan/IconImage';
 import Header from 'components/molecules/Header';
+import DatePickerButton from 'components/atoms/DatePicker';
+import useItemSuggest from 'hooks/useItemSuggest';
+import useKeyboard from 'hooks/useKeyboard';
 
-dayjs.extend(advancedFormat);
-
-type PropsBase = ItemParam & {
+type Props = ItemParam & {
   mode: string;
   date: string;
-  suggestList: SuggestItem[];
   onInput: (name: string, value: any) => void;
   onSave: () => void;
   onIcons: () => void;
   onHome: () => void;
+  showActionSheetWithOptions: (
+    options: ActionSheetOptions,
+    callback: (i: number) => void
+  ) => void;
 };
 
-type Props = PropsBase & ActionSheetProps;
+const Page: React.FC<Props> = (props) => {
+  const { showKeyboard } = useKeyboard();
+  const { suggestList, setSuggestList } = useItemSuggest();
+  const kind = props.kind || getKind(props.title);
+  const config = KINDS[kind];
+  const ss = s.schedule;
+  const bc = Color(config.backgroundColor)
+    .lighten(ss.backgroundColorAlpha)
+    .toString();
 
-type State = {
-  titleFocusCount: number;
-  suggest: boolean;
-  keyboard: boolean;
-};
+  const imageSize = whenIPhoneSE(120, 180);
 
-class Page extends Component<Props, State> {
-  state = {
-    titleFocusCount: 0,
-    suggest: false,
-    keyboard: false,
-  };
+  const onCloseKeyBoard = useCallback(() => {
+    Keyboard.dismiss();
+    setSuggestList('');
+  }, [setSuggestList]);
 
-  datePicker: any;
+  const onSave = useCallback(() => {
+    if (props.title === '') {
+      Alert.alert('タイトルが入力されていません');
+    } else {
+      props.onSave();
+    }
+  }, [props]);
 
-  componentDidMount() {
-    this.keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
-      this._keyboardDidShow.bind(this)
-    );
-    this.keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      this._keyboardDidHide.bind(this)
-    );
-  }
-  componentWillUnmount() {
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
-  }
+  const onSuggest = useCallback(
+    (_: string, name: string) => {
+      Keyboard.dismiss();
+      props.onInput('title', name);
+      setSuggestList('');
+    },
+    [setSuggestList, props]
+  );
 
-  keyboardDidShowListener: any;
-  keyboardDidHideListener: any;
-
-  _keyboardDidShow() {
-    this.setState({
-      keyboard: true,
-    });
-  }
-
-  _keyboardDidHide() {
-    this.setState({
-      keyboard: false,
-    });
-  }
-
-  onOpenActionSheet = () => {
+  const onOpenActionSheet = useCallback(() => {
     Keyboard.dismiss();
 
-    this.props.showActionSheetWithOptions(
+    props.showActionSheetWithOptions(
       {
         options: ['アイコンを変更する', 'キャンセル'],
         cancelButtonIndex: 1,
       },
       (buttonIndex) => {
         if (buttonIndex === 0) {
-          this.props.onIcons();
+          props.onIcons();
         }
       }
     );
-  };
+  }, [props]);
 
-  onSave = () => {
-    if (this.props.title === '') {
-      Alert.alert('タイトルが入力されていません');
-    } else {
-      this.props.onSave();
-    }
-  };
+  return (
+    <>
+      <Header
+        title=""
+        color={bc}
+        position="relative"
+        right={
+          showKeyboard ? (
+            <TouchableOpacity
+              onPress={onCloseKeyBoard}
+              testID="KeyBoardCloseInCreateSchedule"
+            >
+              <MaterialCommunityIcons
+                name="keyboard-close"
+                color={theme().color.main}
+                size={25}
+                style={styles.headerRightIcon}
+              />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={onSave} testID="ScheduleCreated">
+              <MaterialIcons
+                name="check"
+                color={theme().color.main}
+                size={25}
+                style={styles.headerRightIcon}
+              />
+            </TouchableOpacity>
+          )
+        }
+        onClose={props.onHome}
+      />
 
-  onSuggestTitle = () => {
-    const titleFocusCount = this.state.titleFocusCount + 1;
-    this.setState({
-      titleFocusCount,
-    });
-
-    if (titleFocusCount > 1) {
-      this.setState({
-        suggest: true,
-      });
-    }
-  };
-
-  onSuggest = (_: string, name: string) => {
-    this.props.onInput('title', name);
-
-    this.setState({
-      suggest: false,
-    });
-  };
-
-  onCloseKeyBoard = () => {
-    Keyboard.dismiss();
-    this.setState({
-      suggest: false,
-    });
-  };
-
-  onOpendDtePicker = () => {
-    this.datePicker.onPressDate();
-  };
-
-  render() {
-    const kind = this.props.kind || getKind(this.props.title);
-    const config = KINDS[kind];
-    const ss = s.schedule;
-    const bc = Color(config.backgroundColor)
-      .lighten(ss.backgroundColorAlpha)
-      .toString();
-
-    const imageSize = whenIPhoneSE(120, 180);
-
-    return (
-      <ThemeConsumer>
-        {({ mode }: ThemeContextProps) => (
-          <>
-            <DatePicker
-              style={styles.datePicker}
-              ref={(picker) => {
-                this.datePicker = picker;
-              }}
-              mode="date"
-              format="YYYY年MM月DD日"
-              iconComponent={<View />}
-              confirmBtnText="完了"
-              cancelBtnText="キャンセル"
-              customStyles={{
-                dateText: {
-                  color: theme().mode.text,
-                },
-                datePicker: {
-                  backgroundColor: mode === 'dark' ? '#222' : 'white',
-                },
-                datePickerCon: {
-                  backgroundColor: mode === 'dark' ? '#333' : 'white',
-                },
-              }}
-              locale="ja"
-              onDateChange={(_: string, date: Date) => {
-                const r = dayjs(date).format('YYYY-MM-DD');
-
-                return this.props.onInput('date', r);
-              }}
+      <View style={styles.body}>
+        <View
+          style={[
+            styles.textInputContainer,
+            {
+              backgroundColor: Color(config.backgroundColor)
+                .lighten(ss.backgroundColorAlpha)
+                .toString(),
+            },
+          ]}
+        >
+          <TextInput
+            placeholder={props.title === '' ? 'タイトル' : ''}
+            placeholderTextColor={theme().color.gray}
+            style={styles.titleInput}
+            onChangeText={(text) => {
+              setSuggestList(text);
+              props.onInput('title', text);
+            }}
+            testID="ScheduleTitleInput"
+            defaultValue={props.title}
+            returnKeyType="done"
+            autoFocus
+            selectionColor={theme().color.lightGreen}
+          />
+          <Divider style={styles.divider} />
+          {suggestList.length > 0 ? (
+            <Suggest
+              title={props.title}
+              items={suggestList}
+              onPress={onSuggest}
             />
-            <Header
-              title=""
-              color={bc}
-              position="relative"
-              right={
-                this.state.keyboard ? (
-                  <TouchableOpacity
-                    onPress={this.onCloseKeyBoard}
-                    testID="KeyBoardCloseInCreateSchedule"
-                  >
-                    <MaterialCommunityIcons
-                      name="keyboard-close"
-                      color={theme().color.main}
-                      size={25}
-                      style={styles.headerRightIcon}
-                    />
-                  </TouchableOpacity>
-                ) : (
-                  <TouchableOpacity
-                    onPress={this.onSave}
-                    testID="ScheduleCreated"
-                  >
-                    <MaterialIcons
-                      name="check"
-                      color={theme().color.main}
-                      size={25}
-                      style={styles.headerRightIcon}
-                    />
-                  </TouchableOpacity>
-                )
-              }
-              onClose={this.props.onHome}
+          ) : (
+            <IconImage
+              imageSrc={config.src}
+              imageSize={imageSize}
+              backgroundColor={theme().mode.background}
+              onSave={onSave}
+              onOpenActionSheet={onOpenActionSheet}
             />
+          )}
+        </View>
 
-            <View style={styles.body}>
-              <View
-                style={[
-                  styles.textInputContainer,
-                  {
-                    backgroundColor: Color(config.backgroundColor)
-                      .lighten(ss.backgroundColorAlpha)
-                      .toString(),
-                  },
-                ]}
-              >
-                <TextInput
-                  placeholder={this.props.title === '' ? 'タイトル' : ''}
-                  placeholderTextColor={theme().color.gray}
-                  style={styles.titleInput}
-                  onChangeText={(text) => this.props.onInput('title', text)}
-                  testID="ScheduleTitleInput"
-                  defaultValue={this.props.title}
-                  returnKeyType="done"
-                  autoFocus
-                  onFocus={this.onSuggestTitle}
-                  selectionColor={theme().color.lightGreen}
-                />
-                <Divider style={styles.divider} />
-                {this.state.suggest ? (
-                  <Suggest
-                    title={this.props.title}
-                    items={this.props.suggestList}
-                    onPress={this.onSuggest}
-                  />
-                ) : (
-                  <IconImage
-                    imageSrc={config.src}
-                    imageSize={imageSize}
-                    backgroundColor={theme().mode.background}
-                    onSave={this.onSave}
-                    onOpenActionSheet={this.onOpenActionSheet}
-                  />
-                )}
-              </View>
+        {(() => {
+          if (suggestList.length > 0) {
+            return null;
+          }
+          return (
+            <DatePickerButton
+              date={props.date}
+              onInput={(v) => props.onInput('date', v)}
+            />
+          );
+        })()}
+      </View>
+    </>
+  );
+};
 
-              {(() => {
-                if (this.state.suggest) {
-                  return null;
-                }
-
-                if (this.props.date) {
-                  return (
-                    <View style={styles.datePickerContainer}>
-                      <DatePicker
-                        mode="date"
-                        date={this.props.date}
-                        confirmBtnText="完了"
-                        cancelBtnText="キャンセル"
-                        locale="ja"
-                        format="YYYY年MM月DD日"
-                        style={styles.datePickerInput}
-                        customStyles={{
-                          dateText: {
-                            color: theme().mode.text,
-                          },
-                          datePicker: {
-                            backgroundColor: mode === 'dark' ? '#222' : 'white',
-                          },
-                          datePickerCon: {
-                            backgroundColor: mode === 'dark' ? '#333' : 'white',
-                          },
-                        }}
-                        placeholder="日付を設定する"
-                        onDateChange={(_: string, date: Date) => {
-                          const r = dayjs(date).format('YYYY-MM-DD');
-
-                          return this.props.onInput('date', r);
-                        }}
-                      />
-                    </View>
-                  );
-                } else {
-                  return (
-                    <View style={styles.dateButtonContainer}>
-                      <Button
-                        icon={{
-                          name: 'date-range',
-                          size: 20,
-                          color: 'white',
-                        }}
-                        buttonStyle={styles.dateButton}
-                        titleStyle={styles.dateButtonText}
-                        title="日付を設定する"
-                        onPress={this.onOpendDtePicker}
-                      />
-                    </View>
-                  );
-                }
-              })()}
-            </View>
-          </>
-        )}
-      </ThemeConsumer>
-    );
-  }
-}
-
-export default connectActionSheet<PropsBase>(Page);
+export default memo(Page);
 
 const styles = EStyleSheet.create({
   titleInput: {

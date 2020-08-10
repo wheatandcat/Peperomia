@@ -1,6 +1,7 @@
 import React from 'react';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useActionSheet } from '@expo/react-native-action-sheet';
 import { RootStackParamList } from 'lib/navigation';
 import { SuggestItem } from 'lib/suggest';
 import { useItems } from 'containers/Items';
@@ -28,6 +29,7 @@ export type Props = ItemDetail & {
 const CreateScheduleDetail: React.FC<Props> = (props) => {
   const { refreshData, itemDetails } = useItems();
   const { uid } = useAuth();
+  const { showActionSheetWithOptions } = useActionSheet();
 
   return (
     <Connected
@@ -35,6 +37,7 @@ const CreateScheduleDetail: React.FC<Props> = (props) => {
       uid={uid}
       refreshData={refreshData}
       itemDetails={itemDetails}
+      showActionSheetWithOptions={showActionSheetWithOptions}
     />
   );
 };

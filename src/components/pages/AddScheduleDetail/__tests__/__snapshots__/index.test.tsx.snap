@@ -24,7 +24,8 @@ exports[`components/pages/AddScheduleDetail/index.tsx 正常に表示されて�
       },
     ]
   }
-  kind="park"
+  itemId="1"
+  kind=""
   memo="memo"
   moveMinutes={30}
   navigation={
@@ -44,6 +45,7 @@ exports[`components/pages/AddScheduleDetail/index.tsx 正常に表示されて�
       },
     }
   }
+  showActionSheetWithOptions={[Function]}
   title="test"
   url="url"
 />

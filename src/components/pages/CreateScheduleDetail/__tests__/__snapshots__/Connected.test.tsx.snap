@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/pages/CreateScheduleDetail/Connected.tsx 正常に表示されている 1`] = `
-<ConnectedActionSheet
+<Memo(CreateScheduleDetail)
   iconSelected={false}
   kind=""
   memo=""
@@ -10,7 +10,6 @@ exports[`components/pages/CreateScheduleDetail/Connected.tsx 正常に表示さ�
   onIcons={[Function]}
   onSave={[Function]}
   place=""
-  suggestList={Array []}
   title=""
   url=""
 />

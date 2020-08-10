@@ -1,7 +1,7 @@
 import React, { useState, memo, useEffect, useCallback } from 'react';
 import { Alert } from 'react-native';
 import uuidv1 from 'uuid/v1';
-import { SuggestItem } from 'lib/suggest';
+import { ActionSheetOptions } from '@expo/react-native-action-sheet';
 import { getKind } from 'peperomia-util';
 import { ContextProps as ItemContextProps } from 'containers/Items';
 import { ContextProps as AuthContextProps } from 'containers/Auth';
@@ -9,17 +9,21 @@ import { ItemDetail } from 'domain/itemDetail';
 import { createItemDetail, countItemDetail } from 'lib/itemDetail';
 import { useDidMount } from 'hooks/index';
 import Page from 'components/templates/CreateScheduleDetail/Page';
-import { Props } from './';
+import { Props as IndexProps } from './';
 
 export type State = ItemDetail & {
   iconSelected: boolean;
   priority: number;
-  suggestList: SuggestItem[];
 };
 
-type ConnectedProps = Props &
+type Props = IndexProps &
   Pick<ItemContextProps, 'itemDetails' | 'refreshData'> &
-  Pick<AuthContextProps, 'uid'>;
+  Pick<AuthContextProps, 'uid'> & {
+    showActionSheetWithOptions: (
+      options: ActionSheetOptions,
+      callback: (i: number) => void
+    ) => void;
+  };
 
 export type ConnectedType = {
   onSave: (
@@ -34,7 +38,7 @@ export type ConnectedType = {
   onDismiss: () => void;
 };
 
-const Connected: React.FC<ConnectedProps> = memo((props) => {
+const Connected: React.FC<Props> = (props) => {
   const [state, setState] = useState<State>({
     title: props.title || '',
     kind: props.kind || '',
@@ -44,22 +48,11 @@ const Connected: React.FC<ConnectedProps> = memo((props) => {
     moveMinutes: props.moveMinutes || 0,
     iconSelected: false,
     priority: 1,
-    suggestList: [],
   });
   const kind = props.route?.params?.kind || '';
   const itemId = String(props.route?.params?.itemId) || '1';
 
   useDidMount(() => {
-    const suggestList = (props.itemDetails || []).map((itemDetail) => ({
-      title: itemDetail.title,
-      kind: itemDetail.kind,
-    }));
-
-    setState((s) => ({
-      ...s,
-      suggestList,
-    }));
-
     const setCount = async () => {
       const count = await countItemDetail(props.uid, itemId);
 
@@ -154,13 +147,13 @@ const Connected: React.FC<ConnectedProps> = memo((props) => {
       url={state.url}
       memo={state.memo}
       moveMinutes={state.moveMinutes}
-      suggestList={state.suggestList}
       iconSelected={state.iconSelected}
       onDismiss={onDismiss}
       onSave={onSave}
       onIcons={onIcons}
+      showActionSheetWithOptions={props.showActionSheetWithOptions}
     />
   );
-});
+};
 
-export default Connected;
+export default memo(Connected);

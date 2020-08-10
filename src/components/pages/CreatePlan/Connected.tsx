@@ -1,14 +1,14 @@
 import React, { useState, memo, useEffect, useCallback } from 'react';
 import { Alert } from 'react-native';
+import { ActionSheetOptions } from '@expo/react-native-action-sheet';
 import { ContextProps as ItemContextProps } from 'containers/Items';
 import { ContextProps as AuthContextProps } from 'containers/Auth';
-import { SuggestItem } from 'lib/suggest';
 import { getKind } from 'peperomia-util';
 import { useDidMount } from 'hooks/index';
 import { createItem } from 'lib/item';
 import { createCalendar } from 'lib/calendar';
 import Page from 'components/templates/CreatePlan/Page';
-import { Props } from './';
+import { Props as indexProps } from './';
 
 type State = {
   input: {
@@ -16,32 +16,32 @@ type State = {
     date: string;
   };
   kind: string;
-  suggestList: SuggestItem[];
 };
 
-export type ConnectedProps = Props &
-  Pick<ItemContextProps, 'items' | 'refreshData' | 'calendars'> &
-  Pick<AuthContextProps, 'uid'>;
+export type Props = Pick<
+  ItemContextProps,
+  'items' | 'refreshData' | 'calendars'
+> &
+  Pick<AuthContextProps, 'uid'> & {
+    date: string;
+    kind: string;
+    navigation: indexProps['navigation'];
+    showActionSheetWithOptions: (
+      options: ActionSheetOptions,
+      callback: (i: number) => void
+    ) => void;
+  };
 
-const Connected: React.FC<ConnectedProps> = memo((props) => {
+const Connected: React.FC<Props> = (props) => {
   const [state, setState] = useState<State>({
     input: { title: '', date: '' },
     kind: '',
-    suggestList: [],
   });
-
-  const date = props.route?.params?.date || '';
-  const kind = props.route?.params?.kind || '';
+  const { date, kind } = props;
 
   useDidMount(() => {
-    const suggestList = (props.items || []).map((item) => ({
-      title: item.title,
-      kind: item.kind,
-    }));
-
     setState((s) => ({
       ...s,
-      suggestList,
       input: {
         ...s.input,
         date,
@@ -164,13 +164,13 @@ const Connected: React.FC<ConnectedProps> = memo((props) => {
       title={state.input.title}
       date={state.input.date}
       kind={state.kind}
-      suggestList={state.suggestList}
       onInput={onInput}
       onSave={onSave}
       onIcons={onIcons}
       onHome={onHome}
+      showActionSheetWithOptions={props.showActionSheetWithOptions}
     />
   );
-});
+};
 
-export default Connected;
+export default memo(Connected);
