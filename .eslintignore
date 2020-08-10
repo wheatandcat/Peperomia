@@ -1,1 +1,5 @@
 storybook/storyLoader.js
+*.png
+*.json
+stories.js
+*.sh
