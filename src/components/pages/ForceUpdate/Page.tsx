@@ -1,15 +1,15 @@
 import React, { useCallback } from 'react';
-import { View, ScrollView, Text } from 'react-native';
+import { View, ScrollView, Text, SafeAreaView } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import AppLink from 'react-native-app-link';
 import { Button } from 'react-native-elements';
 
 type Props = {};
+const appStoreId = 1460583871;
+const playStoreId = 'com.wheatandcat.peperomia';
 
 const ForceUpdate: React.FC<Props> = () => {
   const onPress = useCallback(() => {
-    const appStoreId = 1460583871;
-    const playStoreId = 'com.wheatandcat.peperomia';
     AppLink.openInStore({
       appName: 'シェアフル',
       appStoreId,
@@ -19,20 +19,22 @@ const ForceUpdate: React.FC<Props> = () => {
   }, []);
 
   return (
-    <View style={styles.root}>
-      <ScrollView>
-        <View style={styles.inner}>
-          <View style={styles.textContainer}>
-            <Text style={styles.title}>
-              最新のバージョンのアプリを{'\n'}インストールしてください。
-            </Text>
+    <SafeAreaView>
+      <View style={styles.root}>
+        <ScrollView>
+          <View style={styles.inner}>
+            <View style={styles.textContainer}>
+              <Text style={styles.title}>
+                最新のバージョンのアプリを{'\n'}インストールしてください。
+              </Text>
+            </View>
+            <View style={styles.buttonContainer}>
+              <Button title="ストアへ移動する" onPress={onPress} />
+            </View>
           </View>
-          <View style={styles.buttonContainer}>
-            <Button title="ストアへ移動する" onPress={onPress} />
-          </View>
-        </View>
-      </ScrollView>
-    </View>
+        </ScrollView>
+      </View>
+    </SafeAreaView>
   );
 };
 

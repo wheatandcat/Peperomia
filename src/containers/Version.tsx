@@ -10,6 +10,7 @@ import compareVersions from 'compare-versions';
 import { migrationV104, migrationV201 } from 'lib/migration';
 import { getFireStore } from 'lib/firebase';
 import { getSupportVersion } from 'lib/firestore/supportVersion';
+import ForceUpdate from 'components/pages/ForceUpdate/Page';
 
 export const Context = createContext<ContextProps>({});
 const { Provider } = Context;
@@ -58,6 +59,7 @@ const Version: React.FC<Props> = (props) => {
     };
 
     checkVersion();
+    onCheckForceUpdate();
   });
 
   const onCheckForceUpdate = useCallback(async () => {
@@ -79,7 +81,7 @@ const Version: React.FC<Props> = (props) => {
   }, []);
 
   if (state.forceVersionUpdate) {
-    return null;
+    return <ForceUpdate />;
   }
 
   return <Provider value={{ onCheckForceUpdate }}>{props.children}</Provider>;
