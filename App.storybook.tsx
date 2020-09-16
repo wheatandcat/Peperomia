@@ -4,6 +4,8 @@ import App from './src';
 import { STORY_BOOK_ENABLED } from 'react-native-dotenv';
 import StoryBookUI from './storybook';
 
+console.log('sss');
+
 AppRegistry.registerComponent('Peperomia', () => StoryBookUI);
 
 export default StoryBookUI;

@@ -6,13 +6,13 @@ exports[`components/pages/Calendars/Page.tsx 正常に表示されている 1`] 
     Array [
       undefined,
       Object {
-        "backgroundColor": "#f2f2b0",
+        "backgroundColor": "#E4E4C8",
       },
     ]
   }
 >
   <FocusAwareStatusBar
-    backgroundColor="#f2f2b0"
+    backgroundColor="#E4E4C8"
     barStyle="dark-content"
   />
   <ForwardRef(AnimatedComponentWrapper)
@@ -23,7 +23,7 @@ exports[`components/pages/Calendars/Page.tsx 正常に表示されている 1`] 
         },
         undefined,
         Object {
-          "backgroundColor": "rgba(242, 242, 176, 1)",
+          "backgroundColor": "rgba(228, 228, 200, 1)",
         },
       ]
     }
@@ -43,7 +43,7 @@ exports[`components/pages/Calendars/Page.tsx 正常に表示されている 1`] 
         Array [
           undefined,
           Object {
-            "backgroundColor": "rgba(242, 242, 176, 1)",
+            "backgroundColor": "rgba(228, 228, 200, 1)",
           },
         ]
       }
@@ -61,7 +61,7 @@ exports[`components/pages/Calendars/Page.tsx 正常に表示されている 1`] 
         </ForwardRef>
         <View>
           <Text>
-            2020年08月
+            2020年09月
           </Text>
         </View>
         <ForwardRef
@@ -123,7 +123,7 @@ exports[`components/pages/Calendars/Page.tsx 正常に表示されている 1`] 
         monthFormat=""
         style={
           Object {
-            "backgroundColor": "#f2f2b0",
+            "backgroundColor": "#E4E4C8",
           }
         }
         theme={

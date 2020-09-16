@@ -51,9 +51,9 @@ export default class extends Component<Props, State> {
             </Text>
             <View style={styles.imageContainer}>
               <Button
-                titleStyle={styles.dialogButonText}
+                titleStyle={styles.dialogButtonText}
                 title="閉じる"
-                buttonStyle={styles.dialogButon}
+                buttonStyle={styles.dialogButton}
                 containerStyle={styles.button}
                 type={darkMode() ? 'outline' : 'solid'}
                 onPress={this.props.onClose}
@@ -155,13 +155,13 @@ const styles = EStyleSheet.create({
     paddingHorizontal: 5,
     color: '$text',
   },
-  dialogButon: {
+  dialogButton: {
     borderRadius: 25,
     paddingVertical: 8,
     backgroundColor: '$button',
     borderColor: '$buttonBorder',
   },
-  dialogButonText: {
+  dialogButtonText: {
     fontWeight: '500',
     color: theme().color.white,
   },

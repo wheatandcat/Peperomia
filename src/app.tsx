@@ -29,6 +29,7 @@ import AuthProvider from './containers/Auth';
 import FetchProvider from './containers/Fetch';
 import ItemsProvider from './containers/Items';
 import ThemeProvider from './containers/Theme';
+import AppStateStatus from './containers/AppStateStatus';
 import NotificationProvider from './containers/Notification';
 import './lib/firebase';
 import { RootStackParamList } from './lib/navigation';
@@ -376,11 +377,13 @@ const Main = () => {
             <AuthProvider>
               <FetchProvider>
                 <NotificationProvider>
-                  <ItemsProvider>
-                    <ThemeProvider>
-                      <RootStackScreen />
-                    </ThemeProvider>
-                  </ItemsProvider>
+                  <AppStateStatus>
+                    <ItemsProvider>
+                      <ThemeProvider>
+                        <RootStackScreen />
+                      </ThemeProvider>
+                    </ItemsProvider>
+                  </AppStateStatus>
                 </NotificationProvider>
               </FetchProvider>
             </AuthProvider>
