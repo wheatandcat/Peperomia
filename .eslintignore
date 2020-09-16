@@ -3,3 +3,4 @@ storybook/storyLoader.js
 *.json
 stories.js
 *.sh
+App.storybook.tsx

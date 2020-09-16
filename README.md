@@ -52,6 +52,7 @@ https://play.google.com/store/apps/details?id=com.wheatandcat.peperomia
 取り敢えず、ローカル環境を作りたい人は以下のコマンドで初期設定が済むようになっています。
 
 ```
+$ brew install jq
 $ sh localInit.sh
 yes
 ```
