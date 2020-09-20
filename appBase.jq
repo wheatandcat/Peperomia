@@ -9,7 +9,7 @@
       "transformer": "node_modules/react-native-typescript-transformer/index.js"
     },
     "platforms": ["ios", "android"],
-    "version": "2.0.5",
+    "version": "2.0.6",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -22,7 +22,8 @@
     },
     "notification": {
       "icon": "./assets/shell_notification_icon.png",
-      "color": "#00c2ad"
+      "color": "#00c2ad",
+      "iosDisplayInForeground": true
     },
     "assetBundlePatterns": ["src/**/*"],
     "userInterfaceStyle": "automatic",
@@ -31,7 +32,7 @@
       "userInterfaceStyle": "automatic",
       "usesAppleSignIn": true,
       "supportsTablet": true,
-      "buildNumber": "30",
+      "buildNumber": "31",
       "bundleIdentifier": "com.wheatandcat.peperomia",
       "infoPlist": {
         "NSPhotoLibraryUsageDescription": "予定作成のために使用します。",
@@ -48,7 +49,7 @@
       "userInterfaceStyle": "automatic",
       "package": "com.wheatandcat.peperomia",
       "googleServicesFile": "./android/google-services.json",
-      "versionCode": 30,
+      "versionCode": 31,
       "adaptiveIcon": {
         "backgroundColor": "#006835",
         "foregroundImage": "./assets/icon-fg.png"

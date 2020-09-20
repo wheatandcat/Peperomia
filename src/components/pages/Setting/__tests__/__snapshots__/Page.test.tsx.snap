@@ -78,7 +78,7 @@ exports[`components/pages/Setting/Page.tsx 正常に表示されている 1`] = 
             }
           }
         >
-          2.0.5
+          2.0.6
            
         </Text>
       }
