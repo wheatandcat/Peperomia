@@ -16,6 +16,7 @@ type State = ItemDetail & {
 
 type Props = ItemDetail & {
   id: number | string;
+  itemId: string;
   onShow: (reload: boolean) => void;
   showActionSheetWithOptions: (
     options: ActionSheetOptions,
@@ -90,7 +91,7 @@ const Connected: React.FC<Props> = (props) => {
         kind,
         moveMinutes,
         priority: props.priority,
-        itemId: 0,
+        itemId: props.itemId,
       };
 
       const ok = await updateItemDetail(props.uid, itemDetail);
@@ -101,7 +102,7 @@ const Connected: React.FC<Props> = (props) => {
 
       save();
     },
-    [props.id, props.priority, save, props.uid]
+    [save, props]
   );
 
   const onIcons = useCallback(

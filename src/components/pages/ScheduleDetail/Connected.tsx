@@ -31,7 +31,8 @@ export type Props = Pick<ItemContextProps, 'refreshData'> & {
     url: string,
     memo: string,
     moveMinutes: number,
-    priority: number
+    priority: number,
+    itemId: string
   ) => void;
 };
 
@@ -44,7 +45,7 @@ const initialState = () => ({
   },
   itemDetail: {
     id: 0,
-    itemId: 0,
+    itemId: '',
     kind: '',
     title: '',
     memo: '',
@@ -80,7 +81,15 @@ const ScheduleDetailConnected: FC<Props> = memo((props) => {
   }, [props.navigation]);
 
   const onCreateScheduleDetail = useCallback(() => {
-    const { title, kind, place, url, moveMinutes, priority } = state.itemDetail;
+    const {
+      title,
+      kind,
+      place,
+      url,
+      moveMinutes,
+      priority,
+      itemId,
+    } = state.itemDetail;
     props.onEdit(
       title,
       kind,
@@ -88,7 +97,8 @@ const ScheduleDetailConnected: FC<Props> = memo((props) => {
       url,
       state.itemDetail.memo,
       moveMinutes,
-      priority
+      priority,
+      String(itemId)
     );
   }, [props, state.itemDetail]);
 
