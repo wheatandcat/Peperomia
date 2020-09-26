@@ -21,7 +21,7 @@
       "fallbackToCacheTimeout": 0
     },
     "notification": {
-      "icon": "./assets/shell_notification_icon.png",
+      "icon": "./assets/notificationicon.png",
       "color": "#00c2ad",
       "iosDisplayInForeground": true
     },
