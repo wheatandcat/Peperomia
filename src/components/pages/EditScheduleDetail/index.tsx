@@ -7,6 +7,7 @@ import Connected from './Connected';
 
 export type Props = ItemDetail & {
   id: number | string;
+  itemId: string;
   onShow: (reload: boolean) => void;
 };
 

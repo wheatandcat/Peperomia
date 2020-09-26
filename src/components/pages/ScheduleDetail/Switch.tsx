@@ -7,6 +7,7 @@ import EditScheduleDetail from 'components/pages/EditScheduleDetail';
 
 type State = ItemDetailParam & {
   itemDetailId: string | number;
+  itemId: string;
   mode: string;
 };
 
@@ -21,6 +22,7 @@ const initialState = (): State => ({
   moveMinutes: 0,
   priority: 0,
   itemDetailId: 0,
+  itemId: '',
   mode: 'show',
 });
 
@@ -37,7 +39,8 @@ const ScheduleDetailSwitch: React.FC<Props> = (props) => {
       url: string,
       memoText: string,
       moveMinutes: number,
-      priority: number
+      priority: number,
+      itemId: string
     ) => {
       setState((s) => ({
         ...s,
@@ -49,6 +52,7 @@ const ScheduleDetailSwitch: React.FC<Props> = (props) => {
         moveMinutes,
         priority,
         itemDetailId,
+        itemId,
         mode: 'edit',
       }));
     },
@@ -70,6 +74,7 @@ const ScheduleDetailSwitch: React.FC<Props> = (props) => {
         memo={state.memo}
         moveMinutes={state.moveMinutes}
         priority={state.priority}
+        itemId={state.itemId}
         onShow={onShow}
       />
     );

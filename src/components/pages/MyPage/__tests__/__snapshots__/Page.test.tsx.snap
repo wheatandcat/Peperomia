@@ -16,7 +16,7 @@ exports[`components/pages/MyPage/Page.tsx 正常に表示されている 1`] = `
     }
     visible={false}
   />
-  <ScrollViewMock>
+  <ScrollView>
     <View>
       <View>
         <Text>
@@ -73,6 +73,6 @@ exports[`components/pages/MyPage/Page.tsx 正常に表示されている 1`] = `
         />
       </View>
     </View>
-  </ScrollViewMock>
+  </ScrollView>
 </View>
 `;

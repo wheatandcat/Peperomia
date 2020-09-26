@@ -16,7 +16,7 @@ exports[`components/pages/Setting/Page.tsx 正常に表示されている 1`] = 
     }
     visible={false}
   />
-  <ScrollViewMock>
+  <ScrollView>
     <Themed.Divider />
     <Themed.ListItem
       bottomDivider={true}
@@ -84,6 +84,6 @@ exports[`components/pages/Setting/Page.tsx 正常に表示されている 1`] = 
       }
       title="バージョン情報"
     />
-  </ScrollViewMock>
+  </ScrollView>
 </View>
 `;
