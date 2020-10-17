@@ -16,8 +16,8 @@
 ペペロミアは予定作成アプリです
 
 ## パッケージ
- - Expo SDK 38
- - TypeScript v3.8
+ - Expo SDK 39
+ - TypeScript v3.9
  - react-navigation v5
 
 ## expo

@@ -26,6 +26,9 @@ const SignInPage: FC<Props> = (props) => (
     <View style={styles.titleContainer}>
       <Text style={styles.title}>会員登録 / ログインする</Text>
     </View>
+
+    <AppleAuthentication onAppleLogin={props.onAppleLogin} />
+
     <View style={styles.buttonContainer}>
       <Button
         title="Googleアカウントでログイン"
@@ -34,7 +37,7 @@ const SignInPage: FC<Props> = (props) => (
         onPress={props.onGoogleLogin}
       />
     </View>
-    <AppleAuthentication onAppleLogin={props.onAppleLogin} />
+
     <View style={styles.guideContainer}>
       <Button
         title="ユーザー登録とは"
