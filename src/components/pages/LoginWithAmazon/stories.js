@@ -1,16 +1,22 @@
-import React from "react";
-import { storiesOf } from "@storybook/react-native";
-import { View } from "react-native";
-import Page from "./Page";
+import React from 'react';
+import { storiesOf } from '@storybook/react-native';
+import { View, StyleSheet } from 'react-native';
+import Page from './Page';
 
-storiesOf("pages/LoginWithAmazon", module)
-  .add("未ログイン", () => (
-    <View style={{ paddingTop: 30 }}>
+storiesOf('pages/LoginWithAmazon', module)
+  .add('未ログイン', () => (
+    <View style={styles.root}>
       <Page onAmazonLogin={() => null} />
     </View>
   ))
-  .add("ログイン済み", () => (
-    <View style={{ paddingTop: 30 }}>
+  .add('ログイン済み', () => (
+    <View style={styles.root}>
       <Page linked onAmazonLogin={() => null} />
     </View>
   ));
+
+const styles = StyleSheet.create({
+  root: {
+    paddingTop: 60,
+  },
+});

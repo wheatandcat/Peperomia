@@ -1,5 +1,5 @@
-import React from "react";
-import { storiesOf } from "@storybook/react-native";
-import Page from "./Page";
+import React from 'react';
+import { storiesOf } from '@storybook/react-native';
+import Page from './Page';
 
-storiesOf("pages/AppInfo", module).add("Page", () => <Page />);
+storiesOf('pages/AppInfo', module).add('Page', () => <Page />);
