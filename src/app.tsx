@@ -1,22 +1,17 @@
-import * as Linking from 'expo-linking';
 import Constants from 'expo-constants';
 import * as SQLite from 'expo-sqlite';
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { AppearanceProvider, useColorScheme } from 'react-native-appearance';
-import { ActionSheetProvider } from '@expo/react-native-action-sheet';
+import { AppearanceProvider } from 'react-native-appearance';
 import { StatusBar, Text } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { NavigationContainer, useLinking } from '@react-navigation/native';
-import * as Analytics from 'expo-firebase-analytics';
 import {
   createBottomTabNavigator,
   BottomTabNavigationOptions,
   BottomTabBar,
   BottomTabBarProps,
 } from '@react-navigation/bottom-tabs';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Sentry from 'sentry-expo';
 import uuidv4 from 'uuid/v4';
@@ -24,25 +19,13 @@ import { useDidMount } from 'hooks/index';
 import app from '../app.json';
 import AppInfo from './components/pages/AppInfo/Page';
 import { db, init } from './lib/db';
-import Version from './containers/Version';
-import AuthProvider from './containers/Auth';
-import FetchProvider from './containers/Fetch';
-import ItemsProvider from './containers/Items';
-import ThemeProvider from './containers/Theme';
-import AppStateStatus from './containers/AppStateStatus';
-import NotificationProvider from './containers/Notification';
-import './lib/firebase';
 import { RootStackParamList } from './lib/navigation';
-import theme, {
-  NavigationDefaultTheme,
-  NavigationDarkTheme,
-} from './config/theme';
+import theme from './config/theme';
 import Home from './components/pages/Home';
 import Setting from './components/pages/Setting/Connected';
 import Calendars from './components/pages/Calendars/Connected';
 import { setDebugMode } from './lib/auth';
 import { setDeviceType } from './lib/responsive';
-import './lib/firebase';
 import {
   select1st as selectUser1st,
   insert as insertUser,
@@ -57,6 +40,7 @@ import CreateScheduleDetail from './components/pages/CreateScheduleDetail';
 import Icons, {
   IconsNavigationOptions,
 } from './components/pages/Icons/Connected';
+import WithProvider from './WithProvider';
 
 Sentry.setRelease(String(Constants.manifest.revisionId));
 Sentry.init({
@@ -303,94 +287,10 @@ const App = () => {
 
   return (
     <AppearanceProvider>
-      <Main />
+      <WithProvider>
+        <RootStackScreen />
+      </WithProvider>
     </AppearanceProvider>
-  );
-};
-
-const Main = () => {
-  const prefix = Linking.makeUrl('/');
-  const scheme = useColorScheme();
-  const routeNameRef = React.useRef<any>();
-  const navigationRef = React.useRef<any>();
-
-  const { getInitialState } = useLinking(navigationRef, {
-    prefixes: [
-      prefix,
-      'https://link.peperomia.info',
-      'exps://link.peperomia.info',
-    ],
-    config: {
-      screens: {
-        Schedule: {
-          path: 'schedule/:itemId',
-          parse: {
-            itemId: String,
-          },
-        },
-      },
-    },
-  });
-
-  const [isReady, setIsReady] = useState(false);
-  const [initialState, setInitialState] = useState<any>();
-
-  useEffect(() => {
-    getInitialState().then((state: any) => {
-      if (state !== undefined) {
-        setInitialState(state);
-      }
-
-      setIsReady(true);
-    });
-  }, [getInitialState]);
-
-  if (!isReady) {
-    return null;
-  }
-
-  return (
-    <NavigationContainer
-      initialState={initialState}
-      theme={
-        scheme === 'dark' ? NavigationDarkTheme() : NavigationDefaultTheme()
-      }
-      ref={navigationRef}
-      onReady={() =>
-        (routeNameRef.current = navigationRef?.current?.getCurrentRoute?.()?.name)
-      }
-      onStateChange={() => {
-        const previousRouteName = routeNameRef.current;
-        const currentRouteName = navigationRef?.current?.getCurrentRoute?.()
-          ?.name;
-
-        if (previousRouteName !== currentRouteName) {
-          Analytics.setCurrentScreen(currentRouteName);
-        }
-
-        routeNameRef.current = currentRouteName;
-      }}
-    >
-      <SafeAreaProvider>
-        <ActionSheetProvider>
-          <Version>
-            <AuthProvider>
-              <FetchProvider>
-                <NotificationProvider>
-                  <AppStateStatus>
-                    <ItemsProvider>
-                      <ThemeProvider>
-                        <RootStackScreen />
-                      </ThemeProvider>
-                    </ItemsProvider>
-                  </AppStateStatus>
-                </NotificationProvider>
-              </FetchProvider>
-            </AuthProvider>
-          </Version>
-        </ActionSheetProvider>
-      </SafeAreaProvider>
-    </NavigationContainer>
   );
 };
 

@@ -25,8 +25,10 @@ import {
 import { db } from 'lib/db/';
 import { findByItemID, findByID, countByItemID } from './firestore/itemDetail';
 import { getFireStore } from './firebase';
-import { getIdToken, isLogin } from './auth';
+import libAuth, { isLogin } from './auth';
 import { post } from './fetch';
+
+const auth = new libAuth();
 
 export async function getItemDetails(
   uid: UID,
@@ -122,7 +124,7 @@ export async function createItemDetail(
   itemDetail: ItemDetail & { itemId: string | number }
 ): Promise<number | string | null | undefined> {
   if (uid && isLogin(uid)) {
-    const idToken = (await getIdToken()) || '';
+    const idToken = (await auth.getIdToken()) || '';
     const response = await post<
       CreateItemDetailRequest,
       CreateItemDetailResponse
@@ -165,7 +167,7 @@ export async function updateItemDetail(
   itemDetail: UpdateItemDetail
 ): Promise<boolean> {
   if (uid && isLogin(uid)) {
-    const idToken = (await getIdToken()) || '';
+    const idToken = (await auth.getIdToken()) || '';
     const response = await post<
       UpdateItemDetailRequest,
       UpdateItemDetailResponse
@@ -209,7 +211,7 @@ export async function deleteItemDetail(
   itemDetail: DeleteItemDetail
 ): Promise<boolean> {
   if (uid && isLogin(uid)) {
-    const idToken = (await getIdToken()) || '';
+    const idToken = (await auth.getIdToken()) || '';
     const response = await post<
       DeleteItemDetailRequest,
       DeleteItemDetailResponse

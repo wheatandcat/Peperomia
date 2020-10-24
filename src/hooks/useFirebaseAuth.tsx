@@ -3,27 +3,13 @@ import * as Google from 'expo-google-app-auth';
 import { Platform } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as AppleAuthentication from 'expo-apple-authentication';
-import React, {
-  memo,
-  createContext,
-  FC,
-  useState,
-  useCallback,
-  useContext,
-} from 'react';
+import dayjs from 'dayjs';
+import { useState, useCallback } from 'react';
 import Constants from 'expo-constants';
 import * as Sentry from 'sentry-expo';
 import firebase from 'lib/system/firebase';
 import { useDidMount } from 'hooks/index';
 import { UID } from 'domain/user';
-import libAuth from 'lib/auth';
-
-const auth = new libAuth();
-
-export const Context = createContext<ContextProps>({});
-const { Provider } = Context;
-
-type Props = {};
 
 type State = {
   uid: UID;
@@ -31,21 +17,31 @@ type State = {
   email: string;
 };
 
-export type ContextProps = Partial<
-  Pick<State, 'email' | 'uid'> & {
-    onGoogleLogin: () => Promise<string | null>;
-    onAppleLogin: () => Promise<string | null>;
-    getIdToken: () => Promise<string | null>;
-    loggedIn: () => Promise<boolean>;
-    logout: () => Promise<void>;
-  }
->;
+const logout = async () => {
+  await firebase.auth().signOut();
+
+  await AsyncStorage.removeItem('id_token');
+  await AsyncStorage.removeItem('expiration');
+  await AsyncStorage.removeItem('email');
+};
 
 const isStandaloneAndAndroid = () => {
   return Platform.OS === 'android' && Constants.appOwnership !== 'expo';
 };
+const nonceGen = (length: number) => {
+  let result = '';
+  let characters =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+};
 
-const Auth: FC<Props> = memo((props) => {
+export type ResultUseFirebaseAuth = ReturnType<typeof useFirebaseAuth>;
+
+const useFirebaseAuth = () => {
   const [state, setState] = useState<State>({
     email: '',
     uid: null,
@@ -53,27 +49,48 @@ const Auth: FC<Props> = memo((props) => {
   });
 
   const setSession = useCallback(async (refresh = false) => {
-    const idToken = await auth.setSession(refresh);
-
-    if (idToken) {
-      const user = firebase.auth().currentUser;
-      if (user) {
-        await AsyncStorage.setItem('email', user?.email || '');
-        await AsyncStorage.setItem('uid', user.uid);
-        setState((s) => ({
-          ...s,
-          email: user.email || '',
-          uid: user.uid || '',
-        }));
-      }
+    const user = firebase.auth().currentUser;
+    if (!user) {
+      return null;
     }
+
+    if (user.email) {
+      await AsyncStorage.setItem('email', user.email);
+      await AsyncStorage.setItem('uid', user.uid);
+      setState((s) => ({
+        ...s,
+        email: user.email || '',
+        uid: user.uid || '',
+      }));
+    }
+
+    const idToken = await user.getIdToken(refresh);
+    await AsyncStorage.setItem('id_token', idToken);
+    const expiration = dayjs().add(1, 'hour').unix();
+
+    await AsyncStorage.setItem('expiration', String(expiration));
 
     return idToken;
   }, []);
 
   const getIdToken = useCallback(async () => {
-    return await auth.getIdToken();
-  }, []);
+    const idToken = await AsyncStorage.getItem('id_token');
+
+    if (!idToken) {
+      return null;
+    }
+
+    const expiration = await AsyncStorage.getItem('expiration');
+
+    if (
+      dayjs(new Date(Number(expiration) * 1000)).isAfter(dayjs()) &&
+      dayjs(new Date(Number(expiration) * 1000)).isBefore(dayjs().add(1, 'day'))
+    ) {
+      return idToken;
+    }
+
+    return await setSession(true);
+  }, [setSession]);
 
   const loggedIn = useCallback(async () => {
     const idToken = await getIdToken();
@@ -230,47 +247,14 @@ const Auth: FC<Props> = memo((props) => {
     }));
   }, []);
 
-  if (!state.setup) {
-    return null;
-  }
-
-  return (
-    <Provider
-      value={{
-        onGoogleLogin: onGoogleLogin,
-        onAppleLogin: onAppleLogin,
-        getIdToken: getIdToken,
-        loggedIn: loggedIn,
-        logout: onLogout,
-        email: state.email,
-        uid: state.uid,
-      }}
-    >
-      {props.children}
-    </Provider>
-  );
-});
-
-const logout = async () => {
-  await firebase.auth().signOut();
-
-  await AsyncStorage.removeItem('id_token');
-  await AsyncStorage.removeItem('expiration');
-  await AsyncStorage.removeItem('email');
+  return {
+    ...state,
+    onGoogleLogin: onGoogleLogin,
+    onAppleLogin: onAppleLogin,
+    getIdToken: getIdToken,
+    loggedIn: loggedIn,
+    logout: onLogout,
+  };
 };
 
-export const Consumer = Context.Consumer;
-export const useAuth = () => useContext(Context);
-
-export default Auth;
-
-const nonceGen = (length: number) => {
-  let result = '';
-  let characters =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let charactersLength = characters.length;
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-};
+export default useFirebaseAuth;

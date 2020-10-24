@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import firebase from 'lib/system/firebase';
+import dayjs from 'dayjs';
 import { UID } from 'domain/user';
 
 var isDebugMode: boolean = false;
@@ -18,36 +19,6 @@ export const getDebugMode = () => {
   return isDebugMode;
 };
 
-const setSession = async (refresh = false) => {
-  const user = firebase.auth().currentUser;
-  if (!user) {
-    return null;
-  }
-
-  const idToken = await user.getIdToken(refresh);
-  await AsyncStorage.setItem('id_token', idToken);
-  await AsyncStorage.setItem(
-    'expiration',
-    String(new Date().getTime() + 60 * 60)
-  );
-
-  return idToken;
-};
-
-export const getIdToken = async () => {
-  const idToken = await AsyncStorage.getItem('id_token');
-  if (!idToken) {
-    return null;
-  }
-
-  const expiration = await AsyncStorage.getItem('expiration');
-  if (Number(expiration) > new Date().getTime()) {
-    return idToken;
-  }
-
-  return setSession(true);
-};
-
 export const isLogin = (uid: UID): boolean => {
   if (isDebugMode) {
     // デバッグモード:ONの場合は強制的にSQLiteの値を見る
@@ -60,3 +31,34 @@ export const isLogin = (uid: UID): boolean => {
 
   return false;
 };
+
+class Auth {
+  setSession = async (refresh = false) => {
+    const user = firebase.auth().currentUser;
+    if (!user) {
+      return null;
+    }
+
+    const result = await user.getIdTokenResult(refresh);
+
+    await AsyncStorage.setItem('id_token', result.token);
+    await AsyncStorage.setItem('expiration', String(result.claims.exp));
+
+    return result.token;
+  };
+  getIdToken = async () => {
+    const idToken = await AsyncStorage.getItem('id_token');
+    if (!idToken) {
+      return null;
+    }
+
+    const expiration = await AsyncStorage.getItem('expiration');
+    if (Number(expiration) > dayjs().unix()) {
+      return idToken;
+    }
+
+    return this.setSession(true);
+  };
+}
+
+export default Auth;

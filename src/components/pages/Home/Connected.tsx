@@ -1,4 +1,4 @@
-import React, { useState, useCallback, memo } from 'react';
+import React, { useState, useCallback, memo, useEffect } from 'react';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -10,7 +10,7 @@ import { urlParser } from 'lib/urlScheme';
 import { RootStackParamList } from 'lib/navigation';
 import { useItems, ContextProps as ItemContextProps } from 'containers/Items';
 import { useAuth } from 'containers/Auth';
-import { useDidMount } from 'hooks/index';
+import useIsFirstRender from 'hooks/useIsFirstRender';
 import Plain from './Plain';
 
 const deviceHeight = Dimensions.get('window').height;
@@ -41,6 +41,7 @@ type Props = {
 };
 
 const HomeConnected: React.FC<Props> = ({ navigation, route }) => {
+  const isFirstRender = useIsFirstRender();
   const { items, about, refreshData, itemsLoading } = useItems();
   const { uid } = useAuth();
   const [state, setState] = useState<HomeScreeState>({ mask: false });
@@ -96,7 +97,9 @@ const HomeConnected: React.FC<Props> = ({ navigation, route }) => {
     [respond]
   );
 
-  useDidMount(() => {
+  useEffect(() => {
+    if (isFirstRender) return;
+
     const onPushCreatePlan = async () => {
       setState({ mask: false });
 
@@ -112,9 +115,9 @@ const HomeConnected: React.FC<Props> = ({ navigation, route }) => {
     };
 
     checkMask();
-  });
+  }, [isFirstRender, navigation]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const subscription1 = Notifications.addNotificationReceivedListener(
       handleNotificationReceived
     );

@@ -34,3 +34,5 @@ GoogleService-Info.plist
 .DS_Store
 go.mod
 go.sum
+schema.graphqls
+src/queries/types/index.d.ts
