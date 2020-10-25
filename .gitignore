@@ -35,4 +35,4 @@ GoogleService-Info.plist
 go.mod
 go.sum
 schema.graphqls
-src/queries/types/index.d.ts
+src/queries/api/index.ts

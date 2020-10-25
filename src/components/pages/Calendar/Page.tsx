@@ -1,29 +1,36 @@
 import React, { memo, useCallback } from 'react';
 import { View, FlatList, ListRenderItemInfo, StyleSheet } from 'react-native';
+import dayjs from 'dayjs';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
+import 'dayjs/locale/ja';
 import Header from 'components/organisms/Header/Header.tsx';
 import { getKindData } from 'lib/kind';
 import Card from 'components/organisms/Calendar/Card.tsx';
 import Add from 'components/organisms/Calendar/Add.tsx';
-import { SelectItem } from 'domain/item';
+import theme from 'config/theme';
+import ItemWrap from 'components/organisms/ItemWrap/ItemWrap';
+import { ConnectedType, CalendarType, ItemDetailType } from './Connected';
 
-type Props = {
-  date: string;
-  title: string;
-  kind: string;
-  data: SelectItem[];
+dayjs.extend(advancedFormat);
+
+type Props = ConnectedType & {
+  calendar: CalendarType;
 };
 
-type SelectItem2 = SelectItem & {
+type ItemDetailType2 = ItemDetailType & {
   add?: boolean;
 };
 
 type Item = {
-  item1: SelectItem2;
-  item2: SelectItem2;
+  item1: ItemDetailType2;
+  item2: ItemDetailType2;
 };
 
 const CalendarPage: React.FC<Props> = (props) => {
-  const config = getKindData(props.kind);
+  const calendar = props.calendar;
+  const itemDetails = calendar.item.itemDetails || [];
+
+  const config = getKindData(calendar.item.kind || '');
 
   const renderItem = useCallback(({ item }: ListRenderItemInfo<Item>) => {
     return (
@@ -56,7 +63,7 @@ const CalendarPage: React.FC<Props> = (props) => {
             );
           }
 
-          if (item.item1) {
+          if (item.item2) {
             return (
               <View style={styles.card2}>
                 <Card {...item.item2} />
@@ -71,7 +78,7 @@ const CalendarPage: React.FC<Props> = (props) => {
   }, []);
 
   const listItem = [
-    ...props.data,
+    ...itemDetails,
     {
       add: true,
       id: 'add-item',
@@ -90,13 +97,11 @@ const CalendarPage: React.FC<Props> = (props) => {
   const data = list1.map((_, index) => ({
     item1: list1[index] || null,
     item2: list2[index] || null,
-  }));
-
-  console.log(data);
+  })) as Item[];
 
   return (
-    <View>
-      <FlatList
+    <ItemWrap kind={calendar.item.kind || ''}>
+      <FlatList<Item>
         keyExtractor={(_, index) => `card_${index}`}
         data={data}
         renderItem={renderItem}
@@ -104,17 +109,18 @@ const CalendarPage: React.FC<Props> = (props) => {
           <View style={styles.header}>
             <Header
               color={config.backgroundColor}
-              date={props.date}
-              title={props.title}
-              kind={props.kind}
-              onClose={() => {}}
+              date={dayjs(calendar.date).format('YYYY年MM月DD日')}
+              title={calendar.item.title || ''}
+              kind={calendar.item.kind || ''}
+              onClose={props.onDismiss}
             />
           </View>
         }
+        ListFooterComponent={<View style={styles.footer} />}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       />
-    </View>
+    </ItemWrap>
   );
 };
 
@@ -122,20 +128,26 @@ export default memo(CalendarPage);
 
 const styles = StyleSheet.create({
   header: {
-    paddingBottom: 10,
+    paddingBottom: theme().space(2),
+  },
+  footer: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: theme().color.white,
   },
   cards: {
     width: '100%',
     flexDirection: 'row',
+    backgroundColor: theme().color.white,
   },
   card1: {
     width: '50%',
-    padding: 15,
-    paddingRight: 10,
+    padding: theme().space(2),
+    paddingRight: theme().space(2),
   },
   card2: {
     width: '50%',
-    padding: 15,
-    paddingLeft: 10,
+    padding: theme().space(2),
+    paddingRight: theme().space(2),
   },
 });

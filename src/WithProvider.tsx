@@ -12,9 +12,7 @@ import ItemsProvider from './containers/Items';
 import ThemeProvider from './containers/Theme';
 import AppStateStatus from './containers/AppStateStatus';
 import NotificationProvider from './containers/Notification';
-import ApolloClient from 'apollo-client';
-import { ApolloProvider } from 'react-apollo';
-import { ApolloProvider as ApolloHooksProvider } from '@apollo/react-hooks';
+import { ApolloClient, ApolloProvider } from '@apollo/client';
 import { NavigationDefaultTheme, NavigationDarkTheme } from './config/theme';
 import makeApolloClient from './lib/apollo';
 import useIsFirstRender from 'hooks/useIsFirstRender';
@@ -82,49 +80,47 @@ const WithProvider: React.FC<Props> = (props) => {
   }
 
   return (
-    <NavigationContainer
-      initialState={initialState}
-      theme={
-        scheme === 'dark' ? NavigationDarkTheme() : NavigationDefaultTheme()
-      }
-      ref={navigationRef}
-      onReady={() =>
-        (routeNameRef.current = navigationRef?.current?.getCurrentRoute?.()?.name)
-      }
-      onStateChange={() => {
-        const previousRouteName = routeNameRef.current;
-        const currentRouteName = navigationRef?.current?.getCurrentRoute?.()
-          ?.name;
-
-        if (previousRouteName !== currentRouteName) {
-          Analytics.setCurrentScreen(currentRouteName);
+    <ApolloProvider client={client}>
+      <NavigationContainer
+        initialState={initialState}
+        theme={
+          scheme === 'dark' ? NavigationDarkTheme() : NavigationDefaultTheme()
         }
+        ref={navigationRef}
+        onReady={() =>
+          (routeNameRef.current = navigationRef?.current?.getCurrentRoute?.()?.name)
+        }
+        onStateChange={() => {
+          const previousRouteName = routeNameRef.current;
+          const currentRouteName = navigationRef?.current?.getCurrentRoute?.()
+            ?.name;
 
-        routeNameRef.current = currentRouteName;
-      }}
-    >
-      <SafeAreaProvider>
-        <ActionSheetProvider>
-          <ApolloProvider client={client}>
-            <ApolloHooksProvider client={client}>
-              <Version>
-                <AuthProvider>
-                  <FetchProvider>
-                    <NotificationProvider>
-                      <AppStateStatus>
-                        <ItemsProvider>
-                          <ThemeProvider>{props.children}</ThemeProvider>
-                        </ItemsProvider>
-                      </AppStateStatus>
-                    </NotificationProvider>
-                  </FetchProvider>
-                </AuthProvider>
-              </Version>
-            </ApolloHooksProvider>
-          </ApolloProvider>
-        </ActionSheetProvider>
-      </SafeAreaProvider>
-    </NavigationContainer>
+          if (previousRouteName !== currentRouteName) {
+            Analytics.setCurrentScreen(currentRouteName);
+          }
+
+          routeNameRef.current = currentRouteName;
+        }}
+      >
+        <SafeAreaProvider>
+          <ActionSheetProvider>
+            <Version>
+              <AuthProvider>
+                <FetchProvider>
+                  <NotificationProvider>
+                    <AppStateStatus>
+                      <ItemsProvider>
+                        <ThemeProvider>{props.children}</ThemeProvider>
+                      </ItemsProvider>
+                    </AppStateStatus>
+                  </NotificationProvider>
+                </FetchProvider>
+              </AuthProvider>
+            </Version>
+          </ActionSheetProvider>
+        </SafeAreaProvider>
+      </NavigationContainer>
+    </ApolloProvider>
   );
 };
 

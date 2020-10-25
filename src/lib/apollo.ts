@@ -1,25 +1,32 @@
-import { HttpLink } from 'apollo-link-http';
-import { ApolloClient } from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
+import { setContext } from '@apollo/client/link/context';
+import { onError } from '@apollo/client/link/error';
+import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 import libAuth from 'lib/auth';
 
+const auth = new libAuth();
+
 const makeApolloClient = async () => {
-  const auth = new libAuth();
-  const idToken = await auth.getIdToken();
+  const uri = `${process.env.API_HOST}/app/graphql`;
+  const authLink = setContext(async (_, { headers }) => {
+    const token = await auth.getIdToken();
+    console.log(`Bearer ${token}`);
 
-  const link = new HttpLink({
-    uri: `${process.env.API_HOST}/app/graphql`,
-    headers: {
-      Authorization: `Bearer ${idToken}`,
-    },
+    return {
+      headers: {
+        ...headers,
+        Authorization: `Bearer ${token}`,
+      },
+    };
   });
 
-  const cache = new InMemoryCache();
-  const client = new ApolloClient({
-    link,
-    cache,
+  const errorLink = onError((error) => {
+    console.log(error);
   });
-  return client;
+
+  return new ApolloClient({
+    link: errorLink.concat(authLink.concat(createHttpLink({ uri }))),
+    cache: new InMemoryCache(),
+  });
 };
 
 export default makeApolloClient;

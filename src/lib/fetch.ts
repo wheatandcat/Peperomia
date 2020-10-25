@@ -43,6 +43,8 @@ export const post = async <TRequest, TResponse>(
     error: string | null;
   };
 
+  console.log(`Bearer ${idToken}`);
+
   const request = {
     method: 'POST',
     headers: {

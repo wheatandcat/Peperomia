@@ -1,33 +1,25 @@
 import React, { memo, useCallback } from 'react';
-import { RouteProp } from '@react-navigation/native';
-import {
-  createStackNavigator,
-  StackNavigationProp,
-} from '@react-navigation/stack';
-import { RootStackParamList } from 'lib/navigation';
-import { useItems } from 'containers/Items';
-import Schedule, { ScheduleNavigationOptions } from 'components/pages/Schedule';
+import { SelectCalendar } from 'domain/calendar';
+import dayjs from 'dayjs';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
+import 'dayjs/locale/ja';
+import { Props as IndexProps } from './';
 import Page from './Page';
 
-type CalendarsScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'Calendars'
->;
-type ScreenRouteProp = RouteProp<RootStackParamList, 'Calendars'>;
+dayjs.extend(advancedFormat);
 
-type Props = {
-  navigation: CalendarsScreenNavigationProp;
-  route: ScreenRouteProp;
+type Props = IndexProps & {
+  loading: boolean;
+  calendars: SelectCalendar[];
 };
 
 export type ConnectedType = {
   onCreate: (date: string) => void;
+  onCalendar: (date: string) => void;
   onSchedule: (id: string | number, title: string) => void;
 };
 
-export const Container = memo((props: Props) => {
-  const { calendars, itemsLoading } = useItems();
-
+const Connected: React.FC<Props> = memo((props) => {
   const onCreate = useCallback(
     (date: string) => {
       props.navigation.navigate('CreatePlan', {
@@ -44,33 +36,26 @@ export const Container = memo((props: Props) => {
     [props.navigation]
   );
 
+  const onCalendar = useCallback(
+    (date: string) => {
+      console.log(dayjs(date).format('YYYY-MM-DDT00:00:00'));
+
+      props.navigation.navigate('Calendar', {
+        date: dayjs(date).format('YYYY-MM-DDT00:00:00'),
+      });
+    },
+    [props.navigation]
+  );
+
   return (
     <Page
-      calendars={calendars || []}
-      loading={itemsLoading || false}
+      calendars={props.calendars}
+      loading={props.loading}
       onCreate={onCreate}
       onSchedule={onSchedule}
+      onCalendar={onCalendar}
     />
   );
 });
 
-const Stack = createStackNavigator<RootStackParamList>();
-
-const RootStack = () => {
-  return (
-    <Stack.Navigator initialRouteName="Calendars" mode="modal">
-      <Stack.Screen
-        name="Calendars"
-        component={Container}
-        options={{ header: () => null }}
-      />
-      <Stack.Screen
-        name="Schedule"
-        component={Schedule}
-        options={ScheduleNavigationOptions}
-      />
-    </Stack.Navigator>
-  );
-};
-
-export default RootStack;
+export default Connected;

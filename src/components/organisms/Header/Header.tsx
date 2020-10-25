@@ -69,7 +69,7 @@ export default Header;
 
 const styles = StyleSheet.create({
   header: {
-    paddingHorizontal: 15,
+    paddingHorizontal: theme().space(3),
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'space-between',
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   },
   date: {
     fontSize: 12,
-    paddingTop: 2,
+    paddingTop: theme().space(1),
     fontWeight: '600',
     color: theme().color.darkGray,
   },
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
     width: '100%',
-    paddingVertical: 10,
+    paddingVertical: theme().space(2),
   },
   imageContainer: {
     width: '50%',

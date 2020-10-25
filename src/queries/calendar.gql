@@ -1,5 +1,5 @@
-query calendar($date: String!) {
-  Calendar(date: $date) {
+query Calendar($date: String!) {
+  calendar(date: $date) {
     id
     date
     item {

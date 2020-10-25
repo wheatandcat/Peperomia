@@ -272,9 +272,7 @@ export default class extends Component<Props, State> {
                   if (schedule) {
                     return (
                       <TouchableOpacity
-                        onPress={() =>
-                          this.props.onSchedule(schedule.itemId, schedule.title)
-                        }
+                        onPress={() => this.props.onCalendar(schedule.date)}
                       >
                         <ImageDay
                           currentDate={currentDate}
@@ -324,7 +322,7 @@ const calendarTheme: CalendarTheme = {
     },
     dayHeader: {
       fontWeight: '600',
-      paddingBottom: 10,
+      paddingBottom: theme().space(2),
       color: '#000',
     },
   },
@@ -342,7 +340,7 @@ const styles = EStyleSheet.create({
     flexDirection: 'row',
   },
   yearContainer: {
-    paddingVertical: 20,
+    paddingVertical: theme().space(3),
     justifyContent: 'center',
   },
   year: {
@@ -352,13 +350,13 @@ const styles = EStyleSheet.create({
     fontWeight: '600',
   },
   weekNameContainer: {
-    marginTop: 7,
+    marginTop: theme().space(2),
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginHorizontal: 4,
+    marginHorizontal: theme().space(2),
   },
   weekText: {
-    paddingVertical: 12,
+    paddingVertical: theme().space(3),
     textAlign: 'center',
     alignItems: 'center',
     fontSize: 18,
@@ -366,7 +364,7 @@ const styles = EStyleSheet.create({
   },
   calendarBottom: {
     borderColor: 'gray',
-    marginHorizontal: 4,
+    marginHorizontal: theme().space(2),
     borderBottomWidth: 1,
   },
   scroll: {

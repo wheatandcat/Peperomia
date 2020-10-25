@@ -42,6 +42,7 @@ export type RootStackParamList = {
     onEditPlan?: () => void;
   };
   Calendars: undefined;
+  Calendar: { date: string };
   EditPlan: { id?: string | number; title?: string; kind?: string };
   ScheduleDetail: {
     itemDetailId: string | number;
