@@ -8,17 +8,17 @@ type ScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
   'CreateCalendar'
 >;
-type ScreenRouteProp = RouteProp<RootStackParamList, 'Calendar'>;
+type ScreenRouteProp = RouteProp<RootStackParamList, 'CreateCalendar'>;
 
 export type Props = {
   navigation: ScreenNavigationProp;
   route: ScreenRouteProp;
 };
 
-const Calendar: React.FC<Props> = memo((props) => {
+const CreateCalendar: React.FC<Props> = memo((props) => {
   const date = props.route.params.date;
 
   return <Connected {...props} date={date} />;
 });
 
-export default Calendar;
+export default CreateCalendar;

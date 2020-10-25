@@ -1,0 +1,11 @@
+mutation CreateCalendar($calendar: NewCalendar!) {
+  createCalendar(calendar: $calendar) {
+    id
+    date
+    item {
+      id
+      kind
+      title
+    }
+  }
+}
