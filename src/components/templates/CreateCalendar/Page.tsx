@@ -1,87 +1,53 @@
 import React, { useState, useCallback, memo } from 'react';
 import { View, TextInput, StyleSheet, Alert, Keyboard } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { ActionSheetOptions } from '@expo/react-native-action-sheet';
 import { getKind, KIND_DEFAULT } from 'peperomia-util';
 import theme from 'config/theme';
-import { SelectItemDetail } from 'domain/itemDetail';
 import HeaderImage from 'components/molecules/ScheduleHeader/Header';
 import Body from 'components/organisms/CreateScheduleDetail/Body';
 import Suggest from 'components/organisms/Suggest/List';
-import {
-  ConnectedType,
-  State as ConnectedState,
-} from 'components/pages/CreateScheduleDetail/Connected';
 import useItemSuggest from 'hooks/useItemSuggest';
 import ItemDetailWrap from 'components/organisms/ItemWrap/ItemDetailWrap';
+import { NewItem } from 'queries/api/index';
 
-type Props = Pick<
-  SelectItemDetail,
-  'title' | 'kind' | 'place' | 'url' | 'memo' | 'moveMinutes'
-> &
-  Pick<ConnectedType, 'onSave' | 'onIcons' | 'onDismiss'> &
-  Pick<ConnectedState, 'iconSelected'> & {
-    showActionSheetWithOptions: (
-      options: ActionSheetOptions,
-      callback: (i: number) => void
-    ) => void;
-  };
+type Props = {
+  loading: boolean;
+  date: string;
+  calendar: null;
+  onSave: (item: NewItem) => void;
+  onDismiss: () => void;
+  onIcons: () => void;
+};
 
-type State = Pick<
-  SelectItemDetail,
-  'title' | 'kind' | 'memo' | 'place' | 'url' | 'moveMinutes'
->;
+type State = {
+  title: string;
+  kind: string;
+  memo: string;
+  place: string;
+  url: string;
+};
 
-const initialState = (props: Props): State => ({
-  title: props.title,
-  kind: props.kind,
-  memo: props.memo,
-  place: props.place,
-  url: props.url,
-  moveMinutes: props.moveMinutes,
+const initialState = (): State => ({
+  title: '',
+  kind: '',
+  memo: '',
+  place: '',
+  url: '',
 });
 
-const CreateScheduleDetail: React.FC<Props> = (props) => {
-  const [state, setState] = useState<State>(initialState(props));
+const CreateCalendar: React.FC<Props> = (props) => {
+  const [state, setState] = useState<State>(initialState());
   const { suggestList, setSuggestList } = useItemSuggest();
 
   const onDismiss = useCallback(() => {
-    if (
-      props.title !== state.title ||
-      props.kind !== state.kind ||
-      props.memo !== state.memo ||
-      props.moveMinutes !== state.moveMinutes
-    ) {
-      Alert.alert(
-        '保存されていない変更があります',
-        '戻りますか？',
-        [
-          {
-            text: 'キャンセル',
-            style: 'cancel',
-          },
-          {
-            text: '戻る',
-            onPress: () => {
-              props.onDismiss();
-            },
-          },
-        ],
-        { cancelable: false }
-      );
-    } else {
-      props.onDismiss();
-    }
-  }, [props, state]);
+    props.onDismiss();
+  }, [props]);
 
   const onSave = useCallback(() => {
     if (state.title === '') {
       Alert.alert('タイトルが入力されていません');
     } else {
-      const kind = props.iconSelected ? props.kind : state.kind;
-      const { title, url, place, moveMinutes } = state;
-
-      props.onSave(title, kind, place, url, state.memo, moveMinutes);
+      props.onSave(state);
     }
   }, [props, state]);
 
@@ -118,10 +84,11 @@ const CreateScheduleDetail: React.FC<Props> = (props) => {
       onCloseKeyBoard={onCloseKeyBoard}
       onCheck={onSave}
       onDismiss={onDismiss}
+      loading={props.loading}
     >
       <View style={styles.body}>
         <View style={estyles.root}>
-          <HeaderImage kind={props.iconSelected ? props.kind : state.kind}>
+          <HeaderImage kind={state.kind}>
             <TextInput
               placeholder="タイトルを入力"
               placeholderTextColor={theme().color.gray}
@@ -191,4 +158,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo(CreateScheduleDetail);
+export default memo(CreateCalendar);

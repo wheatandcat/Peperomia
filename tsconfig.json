@@ -37,6 +37,9 @@
       ],
       "queries/*":[
        "src/queries/*"
+      ],
+      "storyBookUtils/*":[
+        "src/storyBookUtils/*"
       ]
     },
     "lib": [

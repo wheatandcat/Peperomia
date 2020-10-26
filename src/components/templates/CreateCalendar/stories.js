@@ -4,7 +4,7 @@ import { KIND_PARK } from 'peperomia-util';
 import { mockFn } from 'storyBookUtils';
 import Page from './Page';
 
-storiesOf('templates/CreateScheduleDetail', module)
+storiesOf('templates/CreateCalendar', module)
   .add('入力なし', () => (
     <Page
       kind=""
@@ -31,16 +31,17 @@ storiesOf('templates/CreateScheduleDetail', module)
       onSave={mockFn()}
     />
   ))
-  .add('候補リスト', () => (
+  .add('ローディング中', () => (
     <Page
       title="葛西臨海公園"
       kind={KIND_PARK}
-      memo=""
-      place=""
-      url=""
+      memo="テスト1"
+      place="テスト1"
+      url="テスト1"
       moveMinutes={60}
       onDismiss={mockFn()}
       onIcons={mockFn()}
       onSave={mockFn()}
+      loading
     />
   ));

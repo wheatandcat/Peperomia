@@ -3,6 +3,7 @@
   "main": "node_modules/expo/AppEntry.js",
   "private": true,
   "scripts": {
+    "app": "cp -r App.app.tsx App.tsx && cp -r src/lib/system/firebase/_product.ts src/lib/system/firebase/index.ts",
     "app:copy": "cp -r App.app.tsx App.tsx && cp -r src/lib/system/firebase/_product.ts src/lib/system/firebase/index.ts",
     "storybook:copy": "cp -r App.storybook.tsx App.tsx && cp -r src/lib/system/firebase/_product.ts src/lib/system/firebase/index.ts",
     "test:copy": "cp -r src/lib/system/firebase/_mock.ts src/lib/system/firebase/index.ts",

@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Keyboard,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { getKindData } from 'lib/kind';
@@ -16,6 +17,7 @@ import useScroll from 'hooks/useScroll';
 import theme from 'config/theme';
 
 type Props = {
+  loading?: boolean;
   title: string;
   kind: string;
   onCloseKeyBoard: () => void;
@@ -27,7 +29,7 @@ const ItemDetailWrap: React.FC<Props> = (props) => {
   const config = getKindData(props.kind);
   const { showKeyboard } = useKeyboard();
   const scrollViewRef = useRef<ScrollView>(null);
-  const { scrollBelowTarget, onScroll } = useScroll(84);
+  const { scrollBelowTarget, onScroll } = useScroll(60);
 
   const onCloseKeyBoard = useCallback(() => {
     Keyboard.dismiss();
@@ -57,17 +59,25 @@ const ItemDetailWrap: React.FC<Props> = (props) => {
               />
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity
-              onPress={props.onCheck}
-              testID="ScheduleDetailCreated"
-            >
-              <MaterialIcons
-                name="check"
-                color={theme().color.main}
-                size={25}
-                style={styles.keyboardClose}
-              />
-            </TouchableOpacity>
+            <>
+              {props.loading ? (
+                <View>
+                  <ActivityIndicator />
+                </View>
+              ) : (
+                <TouchableOpacity
+                  onPress={props.onCheck}
+                  testID="ScheduleDetailCreated"
+                >
+                  <MaterialIcons
+                    name="check"
+                    color={theme().color.main}
+                    size={25}
+                    style={styles.keyboardClose}
+                  />
+                </TouchableOpacity>
+              )}
+            </>
           )
         }
         onClose={props.onDismiss}
