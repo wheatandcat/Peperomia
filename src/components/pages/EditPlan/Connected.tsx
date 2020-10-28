@@ -201,10 +201,6 @@ const Connected: React.FC<ConnectedProps> = memo((props) => {
           kind: selectedKind,
         });
       },
-      onDismiss: () => {
-        props.navigation.navigate('EditPlan', {});
-      },
-      photo: true,
     });
   }, [props.navigation, state.input.title]);
 

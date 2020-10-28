@@ -6,6 +6,15 @@ mutation CreateCalendar($calendar: NewCalendar!) {
       id
       kind
       title
+      itemDetails {
+        id
+        kind
+        title
+        place
+        url
+        memo
+        priority
+      }
     }
   }
 }

@@ -12,6 +12,7 @@ import { RootStackParamList } from 'lib/navigation';
 import { ContextProps as ItemContextProps } from 'containers/Items';
 import Hint from 'components/atoms/Hint/Hint';
 import Schedule, { ScheduleNavigationOptions } from 'components/pages/Schedule';
+import CreateCalendar from 'components/pages/CreateCalendar';
 import HomeScreen from './Connected';
 
 export type PlanProps = Pick<
@@ -74,7 +75,7 @@ const RootStack = createStackNavigator<RootStackParamList>();
 
 const RootStackScreen = () => {
   return (
-    <RootStack.Navigator initialRouteName="Home">
+    <RootStack.Navigator initialRouteName="CreateCalendar">
       <RootStack.Screen
         name="Home"
         component={HomeScreen}
@@ -87,6 +88,11 @@ const RootStackScreen = () => {
         name="Schedule"
         component={Schedule}
         options={ScheduleNavigationOptions}
+      />
+      <RootStack.Screen
+        name="CreateCalendar"
+        component={CreateCalendar}
+        options={{ header: () => null }}
       />
     </RootStack.Navigator>
   );

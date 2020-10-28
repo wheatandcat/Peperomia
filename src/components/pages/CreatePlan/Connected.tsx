@@ -66,10 +66,6 @@ const Connected: React.FC<Props> = (props) => {
           kind: selectedKind,
         });
       },
-      onDismiss: () => {
-        props.navigation.navigate('CreatePlan', {});
-      },
-      photo: true,
     });
   }, [props.navigation, state.input.title]);
 

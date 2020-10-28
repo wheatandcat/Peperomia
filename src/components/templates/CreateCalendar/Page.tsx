@@ -16,16 +16,10 @@ type Props = {
   calendar: null;
   onSave: (item: NewItem) => void;
   onDismiss: () => void;
-  onIcons: () => void;
+  onIcons: (kind: string) => void;
 };
 
-type State = {
-  title: string;
-  kind: string;
-  memo: string;
-  place: string;
-  url: string;
-};
+type State = NewItem;
 
 const initialState = (): State => ({
   title: '',
@@ -120,7 +114,7 @@ const CreateCalendar: React.FC<Props> = (props) => {
               place={state.place}
               url={state.url}
               memo={state.memo}
-              onIcons={props.onIcons}
+              onIcons={() => props.onIcons(state.kind)}
               onChangeMemoInput={onChangeMemoInput}
             />
           )}

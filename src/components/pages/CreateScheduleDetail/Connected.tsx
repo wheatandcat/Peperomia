@@ -130,10 +130,6 @@ const Connected: React.FC<Props> = (props) => {
             kind: selectedKind,
           });
         },
-        onDismiss: () => {
-          props.navigation.navigate('CreateScheduleDetail', {});
-        },
-        photo: false,
       });
     },
     [props.navigation]

@@ -4,7 +4,7 @@ import React, { useState, useCallback } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { AppearanceProvider } from 'react-native-appearance';
-import { StatusBar, Text } from 'react-native';
+import { StatusBar, Text, View } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {
   createBottomTabNavigator,
@@ -21,7 +21,7 @@ import AppInfo from './components/pages/AppInfo/Page';
 import { db, init } from './lib/db';
 import { RootStackParamList } from './lib/navigation';
 import theme from './config/theme';
-import Home from './components/pages/Home';
+import CreateCalendar from 'components/pages/CreateCalendar';
 import Setting from './components/pages/Setting/Connected';
 import Calendars from './components/pages/Calendars/index';
 import { setDebugMode } from './lib/auth';
@@ -37,9 +37,7 @@ import CreateSchedule from './components/pages/CreateSchedule';
 import ScheduleDetail from './components/pages/ScheduleDetail';
 import AddScheduleDetail from './components/pages/AddScheduleDetail';
 import CreateScheduleDetail from './components/pages/CreateScheduleDetail';
-import Icons, {
-  IconsNavigationOptions,
-} from './components/pages/Icons/Connected';
+import Icons, { IconsNavigationOptions } from 'components/pages/Icons';
 import WithProvider from './WithProvider';
 
 Sentry.setRelease(String(Constants.manifest.revisionId));
@@ -61,12 +59,12 @@ type State = {
 
 const tabNames = [
   {
-    name: 'Home',
-    screenName: 'マイプラン',
-  },
-  {
     name: 'Calendars',
     screenName: 'カレンダー',
+  },
+  {
+    name: 'Create',
+    screenName: '今日の予定',
   },
   {
     name: 'Setting',
@@ -84,14 +82,18 @@ const tabOption = ({
 }: NavigationOptions): BottomTabNavigationOptions => ({
   tabBarLabel: ({ focused }) => {
     const routeName = route.name;
+    console.log('routeName', routeName);
 
     const item = tabNames.find((v) => v.name === routeName);
+    console.log(item?.screenName);
+
     return (
       <Text style={focused ? styles.tabTitleFold : styles.tabTitle}>
         {item?.screenName || 'home'}
       </Text>
     );
   },
+  tabBarVisible: route.name !== 'Create',
 });
 
 const tabNavigationOptions = ({
@@ -100,10 +102,10 @@ const tabNavigationOptions = ({
   tabBarIcon: ({ focused }) => {
     const routeName = route.name;
 
-    if (routeName === 'Home') {
+    if (routeName === 'Create') {
       return (
         <MaterialIcons
-          name="create"
+          name="add-circle-outline"
           size={30}
           color={
             focused
@@ -187,6 +189,11 @@ const RootStackScreen = () => {
         component={CreateSchedule}
         options={{ headerShown: false }}
       />
+      <RootStack.Screen
+        name="CreateCalendar"
+        component={CreateCalendar}
+        options={{ animationEnabled: true, headerShown: false }}
+      />
     </RootStack.Navigator>
   );
 };
@@ -195,10 +202,22 @@ const MyTabBar = (props: BottomTabBarProps) => {
   return <BottomTabBar {...props} labelPosition="below-icon" />;
 };
 
+const CreatePlaceholder = () => <View style={styles.new} />;
+
 const MainStackScreen = () => (
   <Tab.Navigator screenOptions={tabNavigationOptions} tabBar={MyTabBar}>
-    <Tab.Screen name="Home" component={Home} options={tabOption} />
     <Tab.Screen name="Calendars" component={Calendars} options={tabOption} />
+    <Tab.Screen
+      name="Create"
+      component={CreatePlaceholder}
+      options={tabOption}
+      listeners={({ navigation }) => ({
+        tabPress: (e) => {
+          e.preventDefault();
+          navigation.navigate('CreateCalendar');
+        },
+      })}
+    />
     <Tab.Screen name="Setting" component={Setting} options={tabOption} />
   </Tab.Navigator>
 );
@@ -313,4 +332,5 @@ const styles = EStyleSheet.create({
     height: 120,
     backgroundColor: '$background',
   },
+  new: { flex: 1, backgroundColor: 'blue' },
 });

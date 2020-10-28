@@ -43,7 +43,7 @@ export type RootStackParamList = {
   };
   Calendars: undefined;
   Calendar: { date: string };
-  CreateCalendar: { date: string };
+  CreateCalendar: { date?: string };
   EditPlan: { id?: string | number; title?: string; kind?: string };
   ScheduleDetail: {
     itemDetailId: string | number;
@@ -54,9 +54,6 @@ export type RootStackParamList = {
   Icons: {
     kind?: string;
     onSelectIcon?: (kind: string) => void;
-    onDismiss?: () => void;
-    photo?: boolean;
-    defaultIcon?: boolean;
   };
   CreateSchedule: {
     itemId: number | string;

@@ -38,8 +38,6 @@ const Connected: React.FC<Props> = memo((props) => {
 
   const onCalendar = useCallback(
     (date: string) => {
-      console.log(dayjs(date).format('YYYY-MM-DDT00:00:00'));
-
       props.navigation.navigate('Calendar', {
         date: dayjs(date).format('YYYY-MM-DDT00:00:00'),
       });

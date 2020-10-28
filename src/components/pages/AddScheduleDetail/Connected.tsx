@@ -109,10 +109,6 @@ const AddScheduleDetailConnected: React.FC<Props> = (props) => {
             kind: selectedKind,
           });
         },
-        onDismiss: () => {
-          props.navigation.navigate('AddScheduleDetail', {});
-        },
-        photo: false,
       });
     },
     [props.navigation]

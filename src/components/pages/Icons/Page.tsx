@@ -1,134 +1,104 @@
-import React, { Component } from 'react';
-import { View, ScrollView, Platform, StatusBar } from 'react-native';
+import React, { useState } from 'react';
+import { View, ScrollView, Platform, StyleSheet } from 'react-native';
 import { Input, ListItem, Divider } from 'react-native-elements';
 import { MaterialIcons } from '@expo/vector-icons';
-import {
-  ActionSheetProps,
-  connectActionSheet,
-} from '@expo/react-native-action-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { IconImage } from 'components/atoms';
 import { KINDS } from 'peperomia-util';
 import { whenIPhoneSE } from 'lib/responsive';
 import theme, { darkMode } from 'config/theme';
 
-type PropsBase = {
+type Props = {
   kind: string;
-  defaultIcon: boolean;
-  photo: boolean;
-  onSelectIcon: (kind: string) => void;
+  onSelectIcon?: (kind: string) => void;
 };
 
-type Props = PropsBase & ActionSheetProps;
+const IconsPage: React.FC<Props> = (props) => {
+  const [searchText, setSearchText] = useState('');
+  const items = Object.entries(KINDS)
+    .map(([key, value]) => ({
+      kind: key,
+      ...value,
+    }))
+    .filter((item: any) => {
+      if (searchText === '') {
+        return true;
+      }
 
-type State = {
-  search: string;
-};
+      return item.name.includes(searchText) || item.kind.includes(searchText);
+    });
 
-class Page extends Component<Props, State> {
-  state = {
-    search: '',
-  };
-
-  render() {
-    const items = Object.entries(KINDS)
-      .map(([key, value]) => ({
-        kind: key,
-        ...value,
-      }))
-      .filter((item: any) => {
-        if (this.state.search === '') {
-          return true;
-        }
-
-        return (
-          item.name.includes(this.state.search) ||
-          item.kind.includes(this.state.search)
-        );
-      });
-
-    return (
-      <View style={styles.root}>
-        <StatusBar
-          backgroundColor={
-            darkMode() ? theme().color.black : theme().color.main
-          }
-          barStyle={darkMode() ? 'light-content' : 'dark-content'}
+  return (
+    <View style={estyles.root}>
+      <Divider />
+      <View style={estyles.searchContainer}>
+        <Input
+          placeholder="検索"
+          placeholderTextColor={theme().mode.secondaryText}
+          leftIcon={{
+            type: 'MaterialIcons',
+            name: 'search',
+            color: theme().mode.icon,
+          }}
+          inputContainerStyle={estyles.searchInputContainer}
+          leftIconContainerStyle={styles.inputLeftIconContainer}
+          containerStyle={styles.inputContainer}
+          onChangeText={(text) => setSearchText(text)}
         />
-        <Divider />
-        <View style={styles.searchContainer}>
-          <Input
-            placeholder="検索"
-            placeholderTextColor={theme().mode.secondaryText}
-            leftIcon={{
-              type: 'MaterialIcons',
-              name: 'search',
-              color: theme().mode.icon,
-            }}
-            inputContainerStyle={styles.searchInputContainer}
-            leftIconContainerStyle={styles.inputLeftIconContainer}
-            containerStyle={styles.inputContainer}
-            onChangeText={(text) => this.setState({ search: text })}
-          />
-        </View>
-
-        <ScrollView style={styles.scroll}>
-          <View style={styles.contents}>
-            {items.map((item: any, i: number) => (
-              <ListItem
-                containerStyle={styles.iconListItem}
-                key={i}
-                title={
-                  !this.props.defaultIcon && item.name === '地球'
-                    ? 'アイコンなし'
-                    : item.name
-                }
-                titleStyle={styles.iconListItemTitle}
-                onPress={() => this.props.onSelectIcon(item.kind)}
-                leftIcon={
-                  <IconImage
-                    src={darkMode() ? item.reversal.src : item.src}
-                    name={item.name}
-                    size={20}
-                    opacity={1.0}
-                    defaultIcon={this.props.defaultIcon}
-                  />
-                }
-                rightIcon={
-                  <View>
-                    {this.props.kind === item.kind ? (
-                      <MaterialIcons
-                        name="check"
-                        color={
-                          darkMode()
-                            ? theme().color.highLightGray
-                            : theme().color.main
-                        }
-                        size={20}
-                        style={styles.check}
-                      />
-                    ) : null}
-                  </View>
-                }
-                bottomDivider
-              />
-            ))}
-          </View>
-        </ScrollView>
       </View>
-    );
-  }
-}
 
-export default connectActionSheet<PropsBase>(Page);
+      <ScrollView style={styles.scroll}>
+        <View style={styles.contents}>
+          {items.map((item: any, i: number) => (
+            <ListItem
+              containerStyle={estyles.iconListItem}
+              key={i}
+              title={'アイコンなし'}
+              titleStyle={estyles.iconListItemTitle}
+              onPress={() => props.onSelectIcon?.(item.kind)}
+              leftIcon={
+                <IconImage
+                  src={darkMode() ? item.reversal.src : item.src}
+                  name={item.name}
+                  size={20}
+                  opacity={1.0}
+                  defaultIcon={false}
+                />
+              }
+              rightIcon={
+                <View>
+                  {props.kind === item.kind ? (
+                    <MaterialIcons
+                      name="check"
+                      color={
+                        darkMode()
+                          ? theme().color.highLightGray
+                          : theme().color.main
+                      }
+                      size={20}
+                      style={styles.check}
+                    />
+                  ) : null}
+                </View>
+              }
+              bottomDivider
+            />
+          ))}
+        </View>
+      </ScrollView>
+    </View>
+  );
+};
 
-const styles = EStyleSheet.create({
+export default IconsPage;
+
+const estyles = EStyleSheet.create({
   root: {
     backgroundColor: '$background',
   },
   searchContainer: {
-    paddingTop: 5,
-    paddingHorizontal: 10,
+    paddingTop: theme().space(2),
+    paddingHorizontal: theme().space(2),
     height: Platform.OS === 'ios' ? whenIPhoneSE(40, 55) : 40,
     backgroundColor: '$background',
     alignItems: 'center',
@@ -145,21 +115,24 @@ const styles = EStyleSheet.create({
   iconListItemTitle: {
     color: '$text',
   },
+});
+
+const styles = StyleSheet.create({
   inputLeftIconContainer: {
-    marginRight: 20,
+    marginRight: theme().space(3),
   },
   inputContainer: {
-    paddingTop: Platform.OS === 'ios' ? 0 : 5,
+    paddingTop: Platform.OS === 'ios' ? 0 : theme().space(2),
   },
   scroll: {
     width: '100%',
     height: '100%',
-    paddingLeft: 15,
+    paddingLeft: theme().space(4),
   },
   contents: {
-    paddingBottom: 150,
+    paddingBottom: theme().space(6),
   },
   check: {
-    paddingRight: 5,
+    paddingRight: theme().space(2),
   },
 });
