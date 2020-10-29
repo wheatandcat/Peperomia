@@ -2,11 +2,17 @@ import React from 'react';
 import { storiesOf } from '@storybook/react-native';
 import { KIND_PARK } from 'peperomia-util';
 import { mockFn } from 'storyBookUtils';
+import dayjs from 'dayjs';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
+import 'dayjs/locale/ja';
 import Page from './Page';
+
+dayjs.extend(advancedFormat);
 
 storiesOf('templates/CreateCalendar', module)
   .add('入力なし', () => (
     <Page
+      date={dayjs().format('YYYY-MM-DDT00:00:00')}
       kind=""
       title=""
       place=""
@@ -20,6 +26,7 @@ storiesOf('templates/CreateCalendar', module)
   ))
   .add('入力有り', () => (
     <Page
+      date={dayjs().format('YYYY-MM-DDT00:00:00')}
       title="葛西臨海公園"
       kind={KIND_PARK}
       memo="テスト1"
@@ -33,6 +40,7 @@ storiesOf('templates/CreateCalendar', module)
   ))
   .add('ローディング中', () => (
     <Page
+      date={dayjs().format('YYYY-MM-DDT00:00:00')}
       title="葛西臨海公園"
       kind={KIND_PARK}
       memo="テスト1"

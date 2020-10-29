@@ -1,29 +1,35 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import {
   TouchableOpacity,
   View,
   Text,
   Platform,
   StatusBar,
+  StyleSheet,
 } from 'react-native';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
+import dayjs from 'dayjs';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
+import 'dayjs/locale/ja';
 import theme from 'config/theme';
+
+dayjs.extend(advancedFormat);
 
 const top =
   Platform.OS === 'android' ? StatusBar.currentHeight : getStatusBarHeight();
 
 type Props = {
+  date?: string;
   title: string;
-  right: any;
+  right: ReactElement;
   color: string;
   position?: string;
   onClose: () => void;
 };
 
-export default (props: Props) => {
-  let style: any = {
+const Header: React.FC<Props> = (props) => {
+  let style: Object = {
     position: props.position || 'absolute',
     height: 60 + Number(top) / 2,
     width: '100%',
@@ -47,26 +53,63 @@ export default (props: Props) => {
             color={theme().color.main}
           />
         </TouchableOpacity>
-        <Text style={styles.title}>{props.title}</Text>
+        {(() => {
+          if (props.title) {
+            return (
+              <Text style={styles.title}>
+                {props.title}
+                <Text style={styles.date}>
+                  ({dayjs(props.date).format('YYYY年MM月DD日')})
+                </Text>
+              </Text>
+            );
+          }
+
+          if (props.date) {
+            return (
+              <View style={styles.dateContainer}>
+                <Text style={styles.date}>
+                  {dayjs(props.date).format('YYYY年MM月DD日')}
+                </Text>
+              </View>
+            );
+          }
+
+          return null;
+        })()}
         <View style={styles.right}>{props.right}</View>
       </View>
     </View>
   );
 };
 
-const styles = EStyleSheet.create({
+export default Header;
+
+const styles = StyleSheet.create({
   contents: {
-    paddingLeft: 15,
+    paddingLeft: theme().space(3),
     flexDirection: 'row',
+    justifyContent: 'space-between',
   },
-  title: {
-    fontSize: 20,
-    paddingTop: 5,
+  dateContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 320,
+  },
+  date: {
+    fontSize: 12,
     fontWeight: '600',
     color: theme().color.darkGray,
   },
+  title: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: theme().color.darkGray,
+    textAlign: 'center',
+  },
+
   right: {
-    marginRight: 15,
+    marginRight: theme().space(3),
     marginLeft: 'auto',
   },
 });

@@ -73,6 +73,7 @@ const CreateCalendar: React.FC<Props> = (props) => {
 
   return (
     <ItemDetailWrap
+      date={props.date}
       title={state.title}
       kind={kind}
       onCloseKeyBoard={onCloseKeyBoard}
@@ -148,7 +149,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '600',
     color: theme().color.gray,
-    paddingLeft: 1,
+    paddingLeft: theme().space(1),
   },
 });
 

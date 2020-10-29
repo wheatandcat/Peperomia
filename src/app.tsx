@@ -82,10 +82,8 @@ const tabOption = ({
 }: NavigationOptions): BottomTabNavigationOptions => ({
   tabBarLabel: ({ focused }) => {
     const routeName = route.name;
-    console.log('routeName', routeName);
 
     const item = tabNames.find((v) => v.name === routeName);
-    console.log(item?.screenName);
 
     return (
       <Text style={focused ? styles.tabTitleFold : styles.tabTitle}>

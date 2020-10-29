@@ -17,6 +17,7 @@ import useScroll from 'hooks/useScroll';
 import theme from 'config/theme';
 
 type Props = {
+  date?: string;
   loading?: boolean;
   title: string;
   kind: string;
@@ -43,6 +44,7 @@ const ItemDetailWrap: React.FC<Props> = (props) => {
         barStyle="dark-content"
       />
       <Header
+        date={props.date}
         title={scrollBelowTarget ? '' : props.title}
         color={scrollBelowTarget ? 'none' : config.backgroundColor}
         right={
