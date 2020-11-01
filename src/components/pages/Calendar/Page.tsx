@@ -119,6 +119,7 @@ const CalendarPage: React.FC<Props> = (props) => {
         ListFooterComponent={<View style={styles.footer} />}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.contentContainerStyle}
       />
     </ItemWrap>
   );
@@ -149,5 +150,8 @@ const styles = StyleSheet.create({
     width: '50%',
     padding: theme().space(2),
     paddingRight: theme().space(2),
+  },
+  contentContainerStyle: {
+    flex: 1,
   },
 });

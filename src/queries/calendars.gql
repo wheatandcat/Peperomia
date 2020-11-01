@@ -1,0 +1,10 @@
+query Calendars($startDate: String!, $endDate: String!) {
+  calendars(startDate: $startDate, endDate: $endDate) {
+    id
+    date
+    item {
+      id
+      kind
+    }
+  }
+}

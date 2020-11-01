@@ -9,6 +9,7 @@ import Version from './containers/Version';
 import AuthProvider from './containers/Auth';
 import FetchProvider from './containers/Fetch';
 import ItemsProvider from './containers/Items';
+import CalendarsProvider from './containers/Calendars';
 import ThemeProvider from './containers/Theme';
 import AppStateStatus from './containers/AppStateStatus';
 import NotificationProvider from './containers/Notification';
@@ -109,9 +110,11 @@ const WithProvider: React.FC<Props> = (props) => {
                 <FetchProvider>
                   <NotificationProvider>
                     <AppStateStatus>
-                      <ItemsProvider>
-                        <ThemeProvider>{props.children}</ThemeProvider>
-                      </ItemsProvider>
+                      <CalendarsProvider>
+                        <ItemsProvider>
+                          <ThemeProvider>{props.children}</ThemeProvider>
+                        </ItemsProvider>
+                      </CalendarsProvider>
                     </AppStateStatus>
                   </NotificationProvider>
                 </FetchProvider>

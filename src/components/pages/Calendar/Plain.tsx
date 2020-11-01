@@ -19,8 +19,6 @@ const Plain: React.FC<Props> = (props) => {
 
   const calendar = props.data?.calendar!;
 
-  console.log(calendar);
-
   return <Page calendar={calendar} onDismiss={props.onDismiss} />;
 };
 

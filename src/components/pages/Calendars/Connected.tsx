@@ -1,17 +1,17 @@
 import React, { memo, useCallback } from 'react';
-import { SelectCalendar } from 'domain/calendar';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import 'dayjs/locale/ja';
+import { ContextProps as CalendarsContextProps } from 'containers/Calendars';
 import { Props as IndexProps } from './';
 import Page from './Page';
 
 dayjs.extend(advancedFormat);
 
-type Props = IndexProps & {
-  loading: boolean;
-  calendars: SelectCalendar[];
-};
+type Props = IndexProps &
+  Pick<CalendarsContextProps, 'calendars' | 'setDate'> & {
+    loading: boolean;
+  };
 
 export type ConnectedType = {
   onCreate: (date: string) => void;
@@ -48,6 +48,7 @@ const Connected: React.FC<Props> = memo((props) => {
   return (
     <Page
       calendars={props.calendars}
+      setDate={props.setDate}
       loading={props.loading}
       onCreate={onCreate}
       onSchedule={onSchedule}

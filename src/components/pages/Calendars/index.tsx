@@ -5,7 +5,7 @@ import {
   StackNavigationProp,
 } from '@react-navigation/stack';
 import { RootStackParamList } from 'lib/navigation';
-import { useItems } from 'containers/Items';
+import { useCalendars } from 'containers/Calendars';
 import Schedule, { ScheduleNavigationOptions } from 'components/pages/Schedule';
 import Calendar from 'components/pages/Calendar/index';
 import Connected from './Connected';
@@ -22,13 +22,14 @@ export type Props = {
 };
 
 const Calendars: React.FC<Props> = memo((props) => {
-  const { calendars, itemsLoading } = useItems();
+  const { calendars, loadingCalendars, setDate } = useCalendars();
 
   return (
     <Connected
       {...props}
-      calendars={calendars || []}
-      loading={itemsLoading || false}
+      calendars={calendars}
+      loading={loadingCalendars || false}
+      setDate={setDate}
     />
   );
 });

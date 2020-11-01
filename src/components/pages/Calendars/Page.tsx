@@ -1,25 +1,24 @@
 import React, { Component } from 'react';
 import {
-  Text,
   View,
   TouchableOpacity,
   ActivityIndicator,
   Animated,
   SafeAreaView,
-  ScrollView,
+  StyleSheet,
 } from 'react-native';
 import { Calendar, LocaleConfig, CalendarTheme } from 'react-native-calendars';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import GestureRecognizer from 'react-native-swipe-gestures';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import 'dayjs/locale/ja';
-import { SelectCalendar } from 'domain/calendar';
 import theme from 'config/theme';
 import ImageDay from 'components/organisms/Calendars/Image';
 import DayText from 'components/organisms/Calendars/DayText';
-import FocusAwareStatusBar from 'components/organisms/FocusAwareStatusBar';
+import { ContextProps as CalendarsContextProps } from 'containers/Calendars';
+import CalendarWrap from 'components/organisms/ItemWrap/CalendarWrap';
+import Header from 'components/organisms/Calendars/Header';
+import DayOfWeek from 'components/organisms/Calendars/DayOfWeek';
 import GlobalStyles from '../../../GlobalStyles';
 import { ConnectedType } from './Connected';
 
@@ -61,10 +60,10 @@ LocaleConfig.locales.jp = {
 };
 LocaleConfig.defaultLocale = 'jp';
 
-type Props = ConnectedType & {
-  loading: boolean;
-  calendars: SelectCalendar[];
-};
+type Props = ConnectedType &
+  Pick<CalendarsContextProps, 'calendars' | 'setDate'> & {
+    loading: boolean;
+  };
 
 type State = {
   currentDate: string;
@@ -192,18 +191,7 @@ export default class extends Component<Props, State> {
     };
 
     return (
-      <ScrollView
-        style={[
-          styles.scroll,
-          {
-            backgroundColor: backgroundColors[currentMonth],
-          },
-        ]}
-      >
-        <FocusAwareStatusBar
-          backgroundColor={backgroundColors[currentMonth]}
-          barStyle={'dark-content'}
-        />
+      <CalendarWrap backgroundColor={backgroundColors[currentMonth]}>
         <AnimatedSafeAreaView
           style={[GlobalStyles.droidSafeArea, styles.safeArea, animationStyle]}
         />
@@ -213,45 +201,15 @@ export default class extends Component<Props, State> {
           config={config}
         >
           <AnimatedSafeAreaView style={[styles.root, animationStyle]}>
-            <View style={styles.headerContainer}>
-              <TouchableOpacity onPress={this.onPrevMonth}>
-                <MaterialCommunityIcons
-                  name="chevron-left"
-                  size={30}
-                  color={theme().color.main}
-                />
-              </TouchableOpacity>
+            <Header
+              onPrevMonth={this.onPrevMonth}
+              onNextMonth={this.onNextMonth}
+              date={dayjs(this.state.currentDate)
+                .add(this.state.count, 'month')
+                .format('YYYY年MM月')}
+            />
 
-              <View style={styles.yearContainer}>
-                <Text style={styles.year}>
-                  {dayjs(this.state.currentDate)
-                    .add(this.state.count, 'month')
-                    .format('YYYY年MM月')}
-                </Text>
-              </View>
-
-              <TouchableOpacity onPress={this.onNextMonth}>
-                <MaterialCommunityIcons
-                  name="chevron-right"
-                  size={30}
-                  color={theme().color.main}
-                />
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.weekNameContainer}>
-              <Text style={[styles.weekText, { color: theme().color.red }]}>
-                日
-              </Text>
-              <Text style={styles.weekText}>月</Text>
-              <Text style={styles.weekText}>火</Text>
-              <Text style={styles.weekText}>水</Text>
-              <Text style={styles.weekText}>木</Text>
-              <Text style={styles.weekText}>金</Text>
-              <Text style={[styles.weekText, { color: theme().color.sky }]}>
-                土
-              </Text>
-            </View>
+            <DayOfWeek />
             {this.props.loading ? (
               <ActivityIndicator size="large" color={theme().mode.text} />
             ) : (
@@ -266,7 +224,8 @@ export default class extends Component<Props, State> {
                 theme={calendarTheme}
                 dayComponent={({ date }) => {
                   const schedule = this.props.calendars.find(
-                    (item) => item.date === date.dateString
+                    (item) =>
+                      dayjs(item?.date).format('YYYY-MM-DD') === date.dateString
                   );
 
                   if (schedule) {
@@ -276,7 +235,7 @@ export default class extends Component<Props, State> {
                       >
                         <ImageDay
                           currentDate={currentDate}
-                          kind={schedule.kind}
+                          kind={schedule?.item.kind || ''}
                           day={String(date.day)}
                         />
                       </TouchableOpacity>
@@ -300,7 +259,7 @@ export default class extends Component<Props, State> {
             <View style={styles.calendarBottom} />
           </AnimatedSafeAreaView>
         </GestureRecognizer>
-      </ScrollView>
+      </CalendarWrap>
     );
   }
 }
@@ -328,48 +287,16 @@ const calendarTheme: CalendarTheme = {
   },
 };
 
-const styles = EStyleSheet.create({
+const styles = StyleSheet.create({
   root: {
     flex: 1,
     height: '100%',
     width: '100%',
   },
-  headerContainer: {
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  yearContainer: {
-    paddingVertical: theme().space(3),
-    justifyContent: 'center',
-  },
-  year: {
-    textAlign: 'center',
-    color: theme().color.darkGray,
-    fontSize: 25,
-    fontWeight: '600',
-  },
-  weekNameContainer: {
-    marginTop: theme().space(2),
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginHorizontal: theme().space(2),
-  },
-  weekText: {
-    paddingVertical: theme().space(3),
-    textAlign: 'center',
-    alignItems: 'center',
-    fontSize: 18,
-    fontWeight: '600',
-  },
   calendarBottom: {
     borderColor: 'gray',
     marginHorizontal: theme().space(2),
     borderBottomWidth: 1,
-  },
-  scroll: {
-    height: '100%',
-    width: '100%',
   },
   safeArea: {
     flex: 0,
