@@ -50,6 +50,7 @@ const Calendar: React.FC<Props> = (props) => {
       startDate: state.startDate,
       endDate: state.endDate,
     },
+    nextFetchPolicy: 'network-only',
   });
 
   const setDate = useCallback((startDate: string, endDate: string) => {

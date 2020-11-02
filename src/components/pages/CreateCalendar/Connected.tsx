@@ -1,11 +1,18 @@
 import React, { memo, useCallback, useState } from 'react';
+import { Alert } from 'react-native';
+import dayjs from 'dayjs';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
+import 'dayjs/locale/ja';
 import { useCreateCalendarMutation, NewItem } from 'queries/api/index';
+import { ContextProps as CalendarsContextProps } from 'containers/Calendars';
 import Plain from './Plain';
 import { Props as IndexProps } from './';
 
+dayjs.extend(advancedFormat);
+
 type Props = IndexProps & {
   date: string;
-};
+} & Pick<CalendarsContextProps, 'refetchCalendars'>;
 
 export type ConnectedType = {
   date: string;
@@ -23,7 +30,18 @@ const Connected: React.FC<Props> = memo((props) => {
   const [
     createCalendarMutation,
     createCalendarMutationData,
-  ] = useCreateCalendarMutation();
+  ] = useCreateCalendarMutation({
+    async onCompleted({ createCalendar }) {
+      await props.refetchCalendars?.();
+
+      props.navigation.navigate('Calendar', {
+        date: dayjs(createCalendar.date).format('YYYY-MM-DDT00:00:00'),
+      });
+    },
+    onError(err) {
+      Alert.alert('保存に失敗しました', err.message);
+    },
+  });
 
   const onSave = useCallback(
     (item: NewItem) => {

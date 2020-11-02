@@ -8,7 +8,13 @@ type Props = ConnectedType & {
 };
 
 const CreateCalendarPage: React.FC<Props> = (props) => {
-  return <CreateCalendar loading={false} {...props} calendar={null} />;
+  return (
+    <CreateCalendar
+      loading={props.mutationData.loading}
+      {...props}
+      calendar={null}
+    />
+  );
 };
 
 export default memo(CreateCalendarPage);

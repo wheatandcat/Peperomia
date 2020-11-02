@@ -8,6 +8,7 @@ import { RootStackParamList } from 'lib/navigation';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import 'dayjs/locale/ja';
+import { useCalendars } from 'containers/Calendars';
 import Connected from './Connected';
 
 dayjs.extend(advancedFormat);
@@ -23,11 +24,15 @@ export type Props = {
   route: ScreenRouteProp;
 };
 
-const CreateCalendar: React.FC<Props> = memo((props) => {
+export const CreateCalendar: React.FC<Props> = memo((props) => {
+  const { refetchCalendars } = useCalendars();
+
   const date =
     props.route.params?.date || dayjs().format('YYYY-MM-DDT00:00:00');
 
-  return <Connected {...props} date={date} />;
+  return (
+    <Connected {...props} date={date} refetchCalendars={refetchCalendars} />
+  );
 });
 
 const RootStack = createStackNavigator<RootStackParamList>();

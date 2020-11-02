@@ -8,6 +8,7 @@ import { RootStackParamList } from 'lib/navigation';
 import { useCalendars } from 'containers/Calendars';
 import Schedule, { ScheduleNavigationOptions } from 'components/pages/Schedule';
 import Calendar from 'components/pages/Calendar/index';
+import { CreateCalendar } from 'components/pages/CreateCalendar/index';
 import Connected from './Connected';
 
 type CalendarsScreenNavigationProp = StackNavigationProp<
@@ -28,7 +29,7 @@ const Calendars: React.FC<Props> = memo((props) => {
     <Connected
       {...props}
       calendars={calendars}
-      loading={loadingCalendars || false}
+      loading={loadingCalendars}
       setDate={setDate}
     />
   );
@@ -53,6 +54,11 @@ const RootStack = () => {
         name="Calendar"
         component={Calendar}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="CreateCalendar"
+        component={CreateCalendar}
+        options={{ header: () => null }}
       />
     </Stack.Navigator>
   );

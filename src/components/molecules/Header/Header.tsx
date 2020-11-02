@@ -42,6 +42,8 @@ const Header: React.FC<Props> = (props) => {
     };
   }
 
+  console.log(props.date);
+
   return (
     <View style={style}>
       <StatusBar backgroundColor={props.color} barStyle="dark-content" />
@@ -102,6 +104,7 @@ const styles = StyleSheet.create({
     color: theme().color.darkGray,
   },
   title: {
+    paddingTop: theme().space(1),
     fontSize: 20,
     fontWeight: '600',
     color: theme().color.darkGray,

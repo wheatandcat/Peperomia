@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   View,
   TouchableOpacity,
-  ActivityIndicator,
   Animated,
   SafeAreaView,
   StyleSheet,
@@ -110,9 +109,13 @@ export default class extends Component<Props, State> {
 
   onNextMonth = () => {
     const count = this.state.count + 1;
-    const currentMonth = dayjs(this.state.currentDate)
-      .add(count, 'month')
-      .month();
+    const day = dayjs(this.state.currentDate).add(count, 'month');
+    const currentMonth = day.month();
+
+    const startDate = dayjs(day).startOf('month').format('YYYY-MM-DDT00:00:00');
+    const endDate = dayjs(day).endOf('month').format('YYYY-MM-DDT23:59:59');
+
+    this.props.setDate(startDate, endDate);
 
     this.setState({
       count,
@@ -140,9 +143,13 @@ export default class extends Component<Props, State> {
 
   onPrevMonth = () => {
     const count = this.state.count - 1;
-    const currentMonth = dayjs(this.state.currentDate)
-      .add(count, 'month')
-      .month();
+    const day = dayjs(this.state.currentDate).add(count, 'month');
+    const currentMonth = day.month();
+
+    const startDate = dayjs(day).startOf('month').format('YYYY-MM-DDT00:00:00');
+    const endDate = dayjs(day).endOf('month').format('YYYY-MM-DDT23:59:59');
+
+    this.props.setDate(startDate, endDate);
 
     this.setState({
       count,
@@ -190,6 +197,8 @@ export default class extends Component<Props, State> {
       backgroundColor,
     };
 
+    console.log(currentDate);
+
     return (
       <CalendarWrap backgroundColor={backgroundColors[currentMonth]}>
         <AnimatedSafeAreaView
@@ -211,41 +220,18 @@ export default class extends Component<Props, State> {
 
             <DayOfWeek />
             {this.props.loading ? (
-              <ActivityIndicator size="large" color={theme().mode.text} />
-            ) : (
               <Calendar
-                ref={(ref) => (this.calendar = ref)}
                 style={{
                   backgroundColor: backgroundColors[currentMonth],
                 }}
                 monthFormat={''}
                 hideDayNames
                 hideArrows
+                current={currentDate}
                 theme={calendarTheme}
                 dayComponent={({ date }) => {
-                  const schedule = this.props.calendars.find(
-                    (item) =>
-                      dayjs(item?.date).format('YYYY-MM-DD') === date.dateString
-                  );
-
-                  if (schedule) {
-                    return (
-                      <TouchableOpacity
-                        onPress={() => this.props.onCalendar(schedule.date)}
-                      >
-                        <ImageDay
-                          currentDate={currentDate}
-                          kind={schedule?.item.kind || ''}
-                          day={String(date.day)}
-                        />
-                      </TouchableOpacity>
-                    );
-                  }
-
                   return (
-                    <TouchableOpacity
-                      onPress={() => this.props.onCreate(date.dateString)}
-                    >
+                    <TouchableOpacity>
                       <DayText
                         currentDate={currentDate}
                         color={backgroundColors[currentMonth]}
@@ -255,8 +241,55 @@ export default class extends Component<Props, State> {
                   );
                 }}
               />
+            ) : (
+              <>
+                <Calendar
+                  ref={(ref) => (this.calendar = ref)}
+                  style={{
+                    backgroundColor: backgroundColors[currentMonth],
+                  }}
+                  current={currentDate}
+                  monthFormat={''}
+                  hideDayNames
+                  hideArrows
+                  theme={calendarTheme}
+                  dayComponent={({ date }) => {
+                    const schedule = this.props.calendars.find(
+                      (item) =>
+                        dayjs(item?.date).format('YYYY-MM-DD') ===
+                        date.dateString
+                    );
+
+                    if (schedule) {
+                      return (
+                        <TouchableOpacity
+                          onPress={() => this.props.onCalendar(schedule.date)}
+                        >
+                          <ImageDay
+                            currentDate={currentDate}
+                            kind={schedule?.item.kind || ''}
+                            day={String(date.day)}
+                          />
+                        </TouchableOpacity>
+                      );
+                    }
+
+                    return (
+                      <TouchableOpacity
+                        onPress={() => this.props.onCreate(date.dateString)}
+                      >
+                        <DayText
+                          currentDate={currentDate}
+                          color={backgroundColors[currentMonth]}
+                          day={date.day}
+                        />
+                      </TouchableOpacity>
+                    );
+                  }}
+                />
+                <View style={styles.calendarBottom} />
+              </>
             )}
-            <View style={styles.calendarBottom} />
           </AnimatedSafeAreaView>
         </GestureRecognizer>
       </CalendarWrap>
@@ -289,7 +322,6 @@ const calendarTheme: CalendarTheme = {
 
 const styles = StyleSheet.create({
   root: {
-    flex: 1,
     height: '100%',
     width: '100%',
   },
