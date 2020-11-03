@@ -19,7 +19,9 @@ const Plain: React.FC<Props> = (props) => {
 
   const calendar = props.data?.calendar!;
 
-  return <Page calendar={calendar} onDismiss={props.onDismiss} />;
+  return (
+    <Page calendar={calendar} onDismiss={props.onDismiss} create={false} />
+  );
 };
 
 export default Plain;

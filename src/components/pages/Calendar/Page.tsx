@@ -3,6 +3,7 @@ import { View, FlatList, ListRenderItemInfo, StyleSheet } from 'react-native';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import 'dayjs/locale/ja';
+import CreateHeader from 'components/organisms/Header/CreateHeader.tsx';
 import Header from 'components/organisms/Header/Header.tsx';
 import { getKindData } from 'lib/kind';
 import Card from 'components/organisms/Calendar/Card.tsx';
@@ -107,13 +108,23 @@ const CalendarPage: React.FC<Props> = (props) => {
         renderItem={renderItem}
         ListHeaderComponent={
           <View style={styles.header}>
-            <Header
-              color={config.backgroundColor}
-              date={dayjs(calendar.date).format('YYYY年MM月DD日')}
-              title={calendar.item.title || ''}
-              kind={calendar.item.kind || ''}
-              onClose={props.onDismiss}
-            />
+            {props.create ? (
+              <CreateHeader
+                color={config.backgroundColor}
+                date={dayjs(calendar.date).format('YYYY年MM月DD日')}
+                title={calendar.item.title || ''}
+                kind={calendar.item.kind || ''}
+                onClose={props.onDismiss}
+              />
+            ) : (
+              <Header
+                color={config.backgroundColor}
+                date={dayjs(calendar.date).format('YYYY年MM月DD日')}
+                title={calendar.item.title || ''}
+                kind={calendar.item.kind || ''}
+                onClose={props.onDismiss}
+              />
+            )}
           </View>
         }
         ListFooterComponent={<View style={styles.footer} />}

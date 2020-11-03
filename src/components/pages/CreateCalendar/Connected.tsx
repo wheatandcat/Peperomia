@@ -36,6 +36,7 @@ const Connected: React.FC<Props> = memo((props) => {
 
       props.navigation.navigate('Calendar', {
         date: dayjs(createCalendar.date).format('YYYY-MM-DDT00:00:00'),
+        create: true,
       });
     },
     onError(err) {

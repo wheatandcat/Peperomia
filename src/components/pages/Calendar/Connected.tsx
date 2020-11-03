@@ -12,6 +12,7 @@ type Props = IndexProps & {
 
 export type ConnectedType = {
   onDismiss: () => void;
+  create: boolean;
 };
 
 const Connected: React.FC<Props> = memo((props) => {
@@ -26,7 +27,13 @@ const Connected: React.FC<Props> = memo((props) => {
   }, [props.navigation]);
 
   return (
-    <Plain data={data} loading={loading} error={error} onDismiss={onDismiss} />
+    <Plain
+      data={data}
+      loading={loading}
+      error={error}
+      onDismiss={onDismiss}
+      create={props.route.params.create || false}
+    />
   );
 });
 

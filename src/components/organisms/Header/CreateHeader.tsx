@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from 'react';
+import React from 'react';
 import {
   TouchableOpacity,
   View,
@@ -7,7 +7,6 @@ import {
   StyleSheet,
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useActionSheet } from '@expo/react-native-action-sheet';
 import theme from 'config/theme';
 import { IconImage } from 'components/atoms';
 import { getKindData } from 'lib/kind';
@@ -20,32 +19,8 @@ type Props = {
   onClose: () => void;
 };
 
-const Header: React.FC<Props> = (props) => {
+const CreateHeader: React.FC<Props> = (props) => {
   const config = getKindData(props.kind);
-  const { showActionSheetWithOptions } = useActionSheet();
-
-  const onOpenActionSheet = useCallback(() => {
-    showActionSheetWithOptions(
-      {
-        options: [
-          '予定を追加する',
-          '予定の順番を変える',
-          '予定を削除する',
-          'キャンセル',
-        ],
-        destructiveButtonIndex: 3,
-        cancelButtonIndex: 3,
-      },
-      (buttonIndex) => {
-        if (buttonIndex === 0) {
-        }
-        if (buttonIndex === 1) {
-        }
-        if (buttonIndex === 2) {
-        }
-      }
-    );
-  }, [showActionSheetWithOptions]);
 
   return (
     <View
@@ -65,9 +40,9 @@ const Header: React.FC<Props> = (props) => {
         <View>
           <Text style={styles.date}>{props.date}</Text>
         </View>
-        <TouchableOpacity onPress={onOpenActionSheet}>
+        <TouchableOpacity onPress={props.onClose}>
           <MaterialCommunityIcons
-            name="dots-horizontal"
+            name="check"
             size={30}
             color={theme().color.main}
           />
@@ -90,7 +65,7 @@ const Header: React.FC<Props> = (props) => {
   );
 };
 
-export default memo(Header);
+export default CreateHeader;
 
 const styles = StyleSheet.create({
   header: {
