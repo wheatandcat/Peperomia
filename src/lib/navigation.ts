@@ -12,6 +12,13 @@ export const navigationOption = (title: string) => ({
 export type RootStackParamList = {
   Main: undefined;
   Home: { refresh: boolean; onPushCreatePlan?: () => Promise<void> };
+  AddItemDetail: {
+    date: string;
+    itemId: string;
+    priority: number;
+    onCallback: () => Promise<void>;
+  };
+  ItemDetail: { itemDetailId: string };
   CreatePlan: {
     date?: string;
     kind?: string;

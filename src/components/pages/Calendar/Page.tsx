@@ -1,5 +1,11 @@
 import React, { memo, useCallback } from 'react';
-import { View, FlatList, ListRenderItemInfo, StyleSheet } from 'react-native';
+import {
+  View,
+  FlatList,
+  ListRenderItemInfo,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import 'dayjs/locale/ja';
@@ -33,50 +39,63 @@ const CalendarPage: React.FC<Props> = (props) => {
 
   const config = getKindData(calendar.item.kind || '');
 
-  const renderItem = useCallback(({ item }: ListRenderItemInfo<Item>) => {
-    return (
-      <View style={styles.cards}>
-        {(() => {
-          if (item?.item1?.add) {
-            return (
-              <View style={styles.card1}>
-                <Add onPress={() => null} />
-              </View>
-            );
-          }
+  const renderItem = useCallback(
+    ({ item }: ListRenderItemInfo<Item>) => {
+      return (
+        <View style={styles.cards}>
+          {(() => {
+            if (item?.item1?.add) {
+              return (
+                <TouchableOpacity
+                  onPress={props.onAddItemDetail}
+                  style={styles.card1}
+                >
+                  <View>
+                    <Add />
+                  </View>
+                </TouchableOpacity>
+              );
+            }
 
-          if (item.item1) {
-            return (
-              <View style={styles.card1}>
-                <Card {...item.item1} />
-              </View>
-            );
-          }
+            if (item.item1) {
+              return (
+                <View style={styles.card1}>
+                  <Card {...item.item1} />
+                </View>
+              );
+            }
 
-          return null;
-        })()}
-        {(() => {
-          if (item?.item2?.add) {
-            return (
-              <View style={styles.card2}>
-                <Add onPress={() => null} />
-              </View>
-            );
-          }
+            return null;
+          })()}
+          {(() => {
+            if (item?.item2?.add) {
+              return (
+                <TouchableOpacity
+                  onPress={props.onAddItemDetail}
+                  style={styles.card2}
+                >
+                  <View>
+                    <Add />
+                  </View>
+                </TouchableOpacity>
+              );
+            }
 
-          if (item.item2) {
-            return (
-              <View style={styles.card2}>
-                <Card {...item.item2} />
-              </View>
-            );
-          }
+            if (item.item2) {
+              return (
+                <View style={styles.card2}>
+                  <Card {...item.item2} />
+                </View>
+              );
+            }
 
-          return null;
-        })()}
-      </View>
-    );
-  }, []);
+            return null;
+          })()}
+        </View>
+      );
+    },
+    [props]
+  );
 
   const listItem = [
     ...itemDetails,
@@ -123,6 +142,7 @@ const CalendarPage: React.FC<Props> = (props) => {
                 title={calendar.item.title || ''}
                 kind={calendar.item.kind || ''}
                 onClose={props.onDismiss}
+                onDelete={props.onDelete}
               />
             )}
           </View>

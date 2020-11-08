@@ -4510,10 +4510,10 @@
   resolved "https://registry.yarnpkg.com/@types/react-native-app-link/-/react-native-app-link-1.0.0.tgz#810555052af56cd327b782f6cc23f3c53956440b"
   integrity sha512-6N7xALQXAz4MNym+fbpb3iza5G7aKlAi6Rzt0CvYNspzqBYjNIDHnyGHnFzg42JwFuOyvcXmlkU8kAhHnTxhTw==
 
-"@types/react-native-calendars@^1.20.7":
-  version "1.20.10"
-  resolved "https://registry.yarnpkg.com/@types/react-native-calendars/-/react-native-calendars-1.20.10.tgz#d2a59384b6b11c9f031e191c86c483c9105ff4e0"
-  integrity sha512-bmWlkFa/6SNF98aM9rjKMGUOSDb15VBsfxBW5oo/iJ5tm5THf+eAGlxH72hGZFqJpr93plBs+ctkRVHQA7fx1w==
+"@types/react-native-calendars@^1.20.11":
+  version "1.20.11"
+  resolved "https://registry.yarnpkg.com/@types/react-native-calendars/-/react-native-calendars-1.20.11.tgz#d482390ef2391b6d6d711a6e6c101caf9119adc8"
+  integrity sha512-LwYXbNy5+zY08tDRIbvFzE9uCLQwQNL+PUDDGhmyjwx7BOY+leVGUdJovH/Bm0W09PBuUE6D0bfm4JDiq1zkVQ==
   dependencies:
     "@types/react" "*"
     "@types/react-native" "*"
@@ -17207,7 +17207,7 @@ react-native-appearance@~0.3.3:
     invariant "^2.2.4"
     use-subscription "^1.0.0"
 
-react-native-calendars@^1.221.0:
+react-native-calendars@^1.403.0:
   version "1.403.0"
   resolved "https://registry.yarnpkg.com/react-native-calendars/-/react-native-calendars-1.403.0.tgz#eb489433fbe48df468a7f7d390d2046f4b7bf75a"
   integrity sha512-K3jY2TlE8rj3OziHd9/6965kriaOtydAbMrkfgyNFuYeQnbzP0yxnxvzkioskdIkE2G3E3lIPB8lm1B8AMwEjg==

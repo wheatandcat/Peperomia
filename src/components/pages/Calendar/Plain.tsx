@@ -20,7 +20,13 @@ const Plain: React.FC<Props> = (props) => {
   const calendar = props.data?.calendar!;
 
   return (
-    <Page calendar={calendar} onDismiss={props.onDismiss} create={false} />
+    <Page
+      calendar={calendar}
+      onDismiss={props.onDismiss}
+      onDelete={props.onDelete}
+      onAddItemDetail={props.onAddItemDetail}
+      create={props.create}
+    />
   );
 };
 

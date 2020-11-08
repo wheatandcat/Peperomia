@@ -11,6 +11,7 @@ import {
 } from 'domain/request';
 import { Calendar, UpdateCalendar, SelectCalendar } from 'domain/calendar';
 import { UID } from 'domain/user';
+import { ContextProps as CalendarsContextProps } from 'containers/Calendars';
 import { select, insert, update } from './db/calendar';
 import { findByUID, Calendar as CalendarFirestore } from './firestore/calendar';
 import { findInID as findItemInID } from './firestore/item';
@@ -158,4 +159,9 @@ export const getWeekCount = (date: string) => {
   const weeks = Math.ceil((firstDayOfWeek + days) / 7);
 
   return weeks;
+};
+
+export const calendarKey = (calendars: CalendarsContextProps['calendars']) => {
+  const key = calendars.map((v) => `${v?.date}-${v?.item.kind}`).join('_');
+  return key;
 };

@@ -18,6 +18,7 @@ type Props = {
   kind: string;
   color: string;
   onClose: () => void;
+  onDelete: () => void;
 };
 
 const Header: React.FC<Props> = (props) => {
@@ -27,25 +28,19 @@ const Header: React.FC<Props> = (props) => {
   const onOpenActionSheet = useCallback(() => {
     showActionSheetWithOptions(
       {
-        options: [
-          '予定を追加する',
-          '予定の順番を変える',
-          '予定を削除する',
-          'キャンセル',
-        ],
-        destructiveButtonIndex: 3,
-        cancelButtonIndex: 3,
+        options: ['予定の変更する', '予定を削除する', 'キャンセル'],
+        destructiveButtonIndex: 2,
+        cancelButtonIndex: 2,
       },
       (buttonIndex) => {
         if (buttonIndex === 0) {
         }
         if (buttonIndex === 1) {
-        }
-        if (buttonIndex === 2) {
+          props.onDelete();
         }
       }
     );
-  }, [showActionSheetWithOptions]);
+  }, [showActionSheetWithOptions, props]);
 
   return (
     <View

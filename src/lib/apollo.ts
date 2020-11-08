@@ -25,7 +25,17 @@ const makeApolloClient = async () => {
 
   return new ApolloClient({
     link: errorLink.concat(authLink.concat(createHttpLink({ uri }))),
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      typePolicies: {
+        Query: {
+          fields: {
+            project: {
+              merge: true,
+            },
+          },
+        },
+      },
+    }),
   });
 };
 
