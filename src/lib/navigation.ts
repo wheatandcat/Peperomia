@@ -18,7 +18,7 @@ export type RootStackParamList = {
     priority: number;
     onCallback: () => Promise<void>;
   };
-  ItemDetail: { itemDetailId: string };
+  ItemDetail: { date: string; itemId: string; itemDetailId: string };
   CreatePlan: {
     date?: string;
     kind?: string;

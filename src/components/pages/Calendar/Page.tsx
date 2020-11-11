@@ -59,9 +59,12 @@ const CalendarPage: React.FC<Props> = (props) => {
 
             if (item.item1) {
               return (
-                <View style={styles.card1}>
+                <TouchableOpacity
+                  onPress={() => props.onItemDetail(item.item1.id)}
+                  style={styles.card1}
+                >
                   <Card {...item.item1} />
-                </View>
+                </TouchableOpacity>
               );
             }
 
@@ -83,9 +86,12 @@ const CalendarPage: React.FC<Props> = (props) => {
 
             if (item.item2) {
               return (
-                <View style={styles.card2}>
+                <TouchableOpacity
+                  onPress={() => props.onItemDetail(item.item2.id)}
+                  style={styles.card2}
+                >
                   <Card {...item.item2} />
-                </View>
+                </TouchableOpacity>
               );
             }
 

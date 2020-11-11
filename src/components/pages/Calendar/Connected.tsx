@@ -1,7 +1,6 @@
 import React, { memo, useCallback } from 'react';
 import { Alert } from 'react-native';
-import { useCalendarQuery } from 'queries/api/index';
-import { useDeleteCalendarMutation } from 'queries/api/index';
+import { useCalendarQuery, useDeleteCalendarMutation } from 'queries/api/index';
 import { ContextProps as CalendarsContextProps } from 'containers/Calendars';
 import { Props as IndexProps } from './';
 import Plain, { QueryProps } from './Plain';
@@ -17,6 +16,7 @@ export type ConnectedType = {
   onDismiss: () => void;
   onDelete: () => void;
   onAddItemDetail: () => void;
+  onItemDetail: (itemDetailId: string) => void;
   create: boolean;
 };
 
@@ -65,6 +65,17 @@ const Connected: React.FC<Props> = memo((props) => {
     });
   }, [props, data]);
 
+  const onItemDetail = useCallback(
+    (itemDetailId: string) => {
+      props.navigation.navigate('ItemDetail', {
+        date: props.date,
+        itemId: data?.calendar?.item.id || '',
+        itemDetailId,
+      });
+    },
+    [props, data]
+  );
+
   return (
     <Plain
       data={data}
@@ -73,6 +84,7 @@ const Connected: React.FC<Props> = memo((props) => {
       onDismiss={onDismiss}
       onAddItemDetail={onAddItemDetail}
       onDelete={onDelete}
+      onItemDetail={onItemDetail}
       create={props.route.params.create || false}
     />
   );

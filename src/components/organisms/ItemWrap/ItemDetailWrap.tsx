@@ -23,7 +23,8 @@ type Props = {
   title: string;
   kind: string;
   onCloseKeyBoard: () => void;
-  onCheck: () => void;
+  rightIcon: string;
+  onRightPress: () => void;
   onDismiss: () => void;
 };
 
@@ -71,12 +72,9 @@ const ItemDetailWrap: React.FC<Props> = (props) => {
                   <ActivityIndicator />
                 </View>
               ) : (
-                <TouchableOpacity
-                  onPress={props.onCheck}
-                  testID="ScheduleDetailCreated"
-                >
+                <TouchableOpacity onPress={props.onRightPress}>
                   <MaterialIcons
-                    name="check"
+                    name={props.rightIcon}
                     color={theme().color.main}
                     size={25}
                     style={styles.keyboardClose}

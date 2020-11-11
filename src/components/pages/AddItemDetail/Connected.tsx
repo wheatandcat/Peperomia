@@ -41,6 +41,8 @@ const Connected: React.FC<Props> = memo((props) => {
       await props?.onCallback?.();
 
       props.navigation.navigate('ItemDetail', {
+        date: props.date,
+        itemId: props.itemId,
         itemDetailId: createItemDetail.id,
       });
     },

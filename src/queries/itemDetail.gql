@@ -1,0 +1,11 @@
+query ItemDetail($date: String!, $itemId: String!, $itemDetailId: String!) {
+  itemDetail(date: $date, itemId: $itemId, itemDetailId: $itemDetailId) {
+    id
+    title
+    kind
+    memo
+    place
+    url
+    priority
+  }
+}

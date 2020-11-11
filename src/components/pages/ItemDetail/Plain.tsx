@@ -1,13 +1,13 @@
 import alertDialog from 'lib/alertDialog';
 import ErrorPage from 'components/organisms/Error/Error';
-import React from 'react';
-import { CalendarQueryResult } from 'queries/api/index';
+import React, { memo } from 'react';
+import { ItemDetailQueryHookResult } from 'queries/api/index';
 import Loading from 'components/atoms/Loading';
 import { ConnectedType } from './Connected';
 import Page from './Page';
 
 export type QueryProps = Pick<
-  CalendarQueryResult,
+  ItemDetailQueryHookResult,
   'data' | 'loading' | 'error'
 >;
 
@@ -17,18 +17,15 @@ const Plain: React.FC<Props> = (props) => {
   if (alertDialog(props)) return <ErrorPage {...props} />;
   if (props.loading) return <Loading loading />;
 
-  const calendar = props.data?.calendar!;
+  const itemDetail = props.data?.itemDetail!;
 
   return (
     <Page
-      calendar={calendar}
+      itemDetail={itemDetail}
+      date={props.date}
       onDismiss={props.onDismiss}
-      onDelete={props.onDelete}
-      onAddItemDetail={props.onAddItemDetail}
-      onItemDetail={props.onItemDetail}
-      create={props.create}
     />
   );
 };
 
-export default Plain;
+export default memo(Plain);

@@ -116,7 +116,8 @@ const CreateScheduleDetail: React.FC<Props> = (props) => {
       title={state.title}
       kind={kind}
       onCloseKeyBoard={onCloseKeyBoard}
-      onCheck={onSave}
+      rightIcon="check"
+      onRightPress={onSave}
       onDismiss={onDismiss}
     >
       <View style={styles.body}>

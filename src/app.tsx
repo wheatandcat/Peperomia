@@ -37,6 +37,7 @@ import CreateSchedule from './components/pages/CreateSchedule';
 import ScheduleDetail from './components/pages/ScheduleDetail';
 import AddScheduleDetail from './components/pages/AddScheduleDetail';
 import CreateScheduleDetail from './components/pages/CreateScheduleDetail';
+import ItemDetail from './components/pages/ItemDetail';
 import Icons, { IconsNavigationOptions } from 'components/pages/Icons';
 import WithProvider from './WithProvider';
 
@@ -190,6 +191,11 @@ const RootStackScreen = () => {
       <RootStack.Screen
         name="CreateCalendar"
         component={CreateCalendar}
+        options={{ animationEnabled: true, headerShown: false }}
+      />
+      <RootStack.Screen
+        name="ItemDetail"
+        component={ItemDetail}
         options={{ animationEnabled: true, headerShown: false }}
       />
     </RootStack.Navigator>
