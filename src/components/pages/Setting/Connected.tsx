@@ -29,7 +29,6 @@ import Policy from '../Policy/Page';
 import Feedback from '../Feedback/Connected';
 import SignIn from '../SignIn';
 import MyPage from '../MyPage';
-import ScreenSetting from '../ScreenSetting/Connected';
 import LoginWithAmazon from '../LoginWithAmazon/Connected';
 import theme, { darkMode } from 'config/theme';
 import FocusAwareStatusBar from 'components/organisms/FocusAwareStatusBar';
@@ -66,7 +65,6 @@ export type ConnectedType = State &
     onMyPage: () => void;
     onNotificationSetting: () => void;
     onMigrationV100: () => void;
-    onScreenSetting: () => void;
     onLoginWithAmazon: () => void;
     onFirestoreResetQuery: () => void;
     onFirestoreSelect: () => void;
@@ -176,10 +174,6 @@ const Connected = memo((props: ConnectedProps) => {
     navigate('NotificationSetting');
   }, [navigate]);
 
-  const onScreenSetting = useCallback(() => {
-    navigate('ScreenSetting');
-  }, [navigate]);
-
   const onLogout = useCallback(() => {
     Alert.alert(
       'ログアウトしますか',
@@ -286,7 +280,6 @@ const Connected = memo((props: ConnectedProps) => {
         onMyPage={onMyPage}
         onNotificationSetting={onNotificationSetting}
         onMigrationV100={onMigrationV100}
-        onScreenSetting={onScreenSetting}
         onLoginWithAmazon={onLoginWithAmazon}
         onFirestoreResetQuery={onFirestoreResetQuery}
         onFirestoreSelect={onFirestoreSelect}
@@ -330,11 +323,6 @@ const RootStack = () => {
         name="MyPage"
         component={MyPage}
         options={navigationOption('マイページ')}
-      />
-      <Stack.Screen
-        name="ScreenSetting"
-        component={ScreenSetting}
-        options={navigationOption('画面設定')}
       />
       <Stack.Screen
         name="LoginWithAmazon"

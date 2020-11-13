@@ -6,7 +6,6 @@ import {
 } from '@react-navigation/stack';
 import { RootStackParamList } from 'lib/navigation';
 import { useCalendars } from 'containers/Calendars';
-import Schedule, { ScheduleNavigationOptions } from 'components/pages/Schedule';
 import Calendar from 'components/pages/Calendar/index';
 import AddItemDetail from 'components/pages/AddItemDetail/index';
 import { CreateCalendar } from 'components/pages/CreateCalendar/index';
@@ -45,11 +44,6 @@ const RootStack = () => {
         name="Calendars"
         component={Calendars}
         options={{ header: () => null }}
-      />
-      <Stack.Screen
-        name="Schedule"
-        component={Schedule}
-        options={ScheduleNavigationOptions}
       />
       <Stack.Screen
         name="Calendar"

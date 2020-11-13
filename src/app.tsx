@@ -31,12 +31,6 @@ import {
   insert as insertUser,
   User,
 } from './lib/db/user';
-import EditPlan from './components/pages/EditPlan';
-import CreatePlan from './components/pages/CreatePlan';
-import CreateSchedule from './components/pages/CreateSchedule';
-import ScheduleDetail from './components/pages/ScheduleDetail';
-import AddScheduleDetail from './components/pages/AddScheduleDetail';
-import CreateScheduleDetail from './components/pages/CreateScheduleDetail';
 import ItemDetail from './components/pages/ItemDetail';
 import Icons, { IconsNavigationOptions } from 'components/pages/Icons';
 import WithProvider from './WithProvider';
@@ -154,39 +148,9 @@ const RootStackScreen = () => {
         options={{ headerShown: false }}
       />
       <RootStack.Screen
-        name="EditPlan"
-        component={EditPlan}
-        options={{ headerShown: false }}
-      />
-      <RootStack.Screen
-        name="ScheduleDetail"
-        component={ScheduleDetail}
-        options={{ headerShown: false }}
-      />
-      <RootStack.Screen
-        name="CreatePlan"
-        component={CreatePlan}
-        options={{ headerShown: false }}
-      />
-      <RootStack.Screen
-        name="AddScheduleDetail"
-        component={AddScheduleDetail}
-        options={{ headerShown: false }}
-      />
-      <RootStack.Screen
-        name="CreateScheduleDetail"
-        component={CreateScheduleDetail}
-        options={{ headerShown: false }}
-      />
-      <RootStack.Screen
         name="Icons"
         component={Icons}
         options={IconsNavigationOptions}
-      />
-      <RootStack.Screen
-        name="CreateSchedule"
-        component={CreateSchedule}
-        options={{ headerShown: false }}
       />
       <RootStack.Screen
         name="CreateCalendar"
