@@ -7,7 +7,9 @@ import {
 import { RootStackParamList } from 'lib/navigation';
 import { useCalendars } from 'containers/Calendars';
 import Calendar from 'components/pages/Calendar/index';
+import ItemDetail from 'components/pages/ItemDetail';
 import AddItemDetail from 'components/pages/AddItemDetail/index';
+import EditItemDetail from 'components/pages/EditItemDetail/index';
 import { CreateCalendar } from 'components/pages/CreateCalendar/index';
 import Connected from './Connected';
 
@@ -56,8 +58,18 @@ const RootStack = () => {
         options={{ header: () => null }}
       />
       <Stack.Screen
+        name="ItemDetail"
+        component={ItemDetail}
+        options={{ header: () => null }}
+      />
+      <Stack.Screen
         name="AddItemDetail"
         component={AddItemDetail}
+        options={{ header: () => null }}
+      />
+      <Stack.Screen
+        name="EditItemDetail"
+        component={EditItemDetail}
         options={{ header: () => null }}
       />
     </Stack.Navigator>

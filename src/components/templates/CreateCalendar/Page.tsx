@@ -8,12 +8,14 @@ import Body from 'components/organisms/CreateScheduleDetail/Body';
 import Suggest from 'components/organisms/Suggest/List';
 import useItemSuggest from 'hooks/useItemSuggest';
 import ItemDetailWrap from 'components/organisms/ItemWrap/ItemDetailWrap';
-import { NewItem } from 'queries/api/index';
+import { NewItem, ItemDetailQuery } from 'queries/api/index';
+
+type ItemDetail = ItemDetailQuery['itemDetail'];
 
 type Props = {
   loading: boolean;
   date: string;
-  calendar: null;
+  itemDetail: ItemDetail | null;
   onSave: (item: NewItem) => void;
   onDismiss: () => void;
   onIcons: (kind: string) => void;
@@ -21,16 +23,28 @@ type Props = {
 
 type State = NewItem;
 
-const initialState = (): State => ({
-  title: '',
-  kind: '',
-  memo: '',
-  place: '',
-  url: '',
-});
+const initialState = (itemDetail: Props['itemDetail']): State => {
+  if (!itemDetail) {
+    return {
+      title: '',
+      kind: '',
+      memo: '',
+      place: '',
+      url: '',
+    };
+  }
+
+  return {
+    title: itemDetail.title,
+    kind: itemDetail.kind,
+    memo: itemDetail.memo,
+    place: itemDetail.place,
+    url: itemDetail.url,
+  };
+};
 
 const CreateCalendar: React.FC<Props> = (props) => {
-  const [state, setState] = useState<State>(initialState());
+  const [state, setState] = useState<State>(initialState(props.itemDetail));
   const { suggestList, setSuggestList } = useItemSuggest();
 
   const onDismiss = useCallback(() => {

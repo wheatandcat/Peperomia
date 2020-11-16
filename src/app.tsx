@@ -17,13 +17,13 @@ import * as Sentry from 'sentry-expo';
 import uuidv4 from 'uuid/v4';
 import { useDidMount } from 'hooks/index';
 import app from '../app.json';
-import AppInfo from './components/pages/AppInfo/Page';
+import AppInfo from 'components/pages/AppInfo/Page';
 import { db, init } from './lib/db';
 import { RootStackParamList } from './lib/navigation';
 import theme from './config/theme';
 import CreateCalendar from 'components/pages/CreateCalendar';
-import Setting from './components/pages/Setting/Connected';
-import Calendars from './components/pages/Calendars/index';
+import Setting from 'components/pages/Setting/Connected';
+import Calendars from 'components/pages/Calendars/index';
 import { setDebugMode } from './lib/auth';
 import { setDeviceType } from './lib/responsive';
 import {
@@ -31,7 +31,6 @@ import {
   insert as insertUser,
   User,
 } from './lib/db/user';
-import ItemDetail from './components/pages/ItemDetail';
 import Icons, { IconsNavigationOptions } from 'components/pages/Icons';
 import WithProvider from './WithProvider';
 
@@ -155,11 +154,6 @@ const RootStackScreen = () => {
       <RootStack.Screen
         name="CreateCalendar"
         component={CreateCalendar}
-        options={{ animationEnabled: true, headerShown: false }}
-      />
-      <RootStack.Screen
-        name="ItemDetail"
-        component={ItemDetail}
         options={{ animationEnabled: true, headerShown: false }}
       />
     </RootStack.Navigator>

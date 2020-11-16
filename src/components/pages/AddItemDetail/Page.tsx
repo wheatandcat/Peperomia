@@ -10,9 +10,9 @@ type Props = ConnectedType & {
 const AddItemDetailPage: React.FC<Props> = (props) => {
   return (
     <CreateCalendar
-      loading={props.mutationData.loading}
       {...props}
-      calendar={null}
+      loading={props.mutationData.loading}
+      itemDetail={null}
     />
   );
 };

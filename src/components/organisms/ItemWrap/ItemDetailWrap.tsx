@@ -1,6 +1,5 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback } from 'react';
 import {
-  SafeAreaView,
   StatusBar,
   View,
   StyleSheet,
@@ -31,7 +30,6 @@ type Props = {
 const ItemDetailWrap: React.FC<Props> = (props) => {
   const config = getKindData(props.kind);
   const { showKeyboard } = useKeyboard();
-  const scrollViewRef = useRef<ScrollView>(null);
   const { scrollBelowTarget, onScroll } = useScroll(70);
 
   const onCloseKeyBoard = useCallback(() => {
@@ -88,16 +86,15 @@ const ItemDetailWrap: React.FC<Props> = (props) => {
       />
 
       <ScrollView
-        ref={scrollViewRef}
         contentInsetAdjustmentBehavior="never"
         onScroll={onScroll}
         scrollEventThrottle={200}
       >
-        <SafeAreaView
+        <View
           style={[styles.contents, { backgroundColor: config.backgroundColor }]}
         >
           {props.children}
-        </SafeAreaView>
+        </View>
       </ScrollView>
     </AppScrollViewIOSBounceColorsWrapper>
   );
@@ -108,6 +105,7 @@ export default ItemDetailWrap;
 const styles = StyleSheet.create({
   contents: {
     flex: 0,
+    paddingTop: 20,
     height: '100%',
   },
   keyboardClose: {

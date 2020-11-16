@@ -1,4 +1,4 @@
-import React, { FC, memo } from 'react';
+import React, { FC, memo, useCallback } from 'react';
 import {
   View,
   Text,
@@ -9,6 +9,7 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import Toast from 'react-native-root-toast';
+import { useActionSheet } from '@expo/react-native-action-sheet';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { ItemDetailQuery } from 'queries/api/index';
 import Header from 'components/molecules/ScheduleHeader/Header';
@@ -20,6 +21,7 @@ type Props = {
   date: string;
   itemDetail: ItemDetailQuery['itemDetail'];
   onDismiss: () => void;
+  onUpdate: () => void;
 };
 
 export type ScheduleDetailType = {
@@ -52,6 +54,24 @@ const handleClick = (url: string) => {
 
 const Page: FC<Props> = (props) => {
   const windowHeight = useWindowDimensions().height;
+  const { showActionSheetWithOptions } = useActionSheet();
+
+  const onOpenActionSheet = useCallback(() => {
+    showActionSheetWithOptions(
+      {
+        options: ['予定の変更する', '予定を削除する', 'キャンセル'],
+        destructiveButtonIndex: 2,
+        cancelButtonIndex: 2,
+      },
+      (buttonIndex) => {
+        if (buttonIndex === 0) {
+          props.onUpdate();
+        }
+        if (buttonIndex === 1) {
+        }
+      }
+    );
+  }, [showActionSheetWithOptions, props]);
 
   return (
     <ItemDetailWrap
@@ -60,7 +80,7 @@ const Page: FC<Props> = (props) => {
       kind={props.itemDetail?.kind || ''}
       rightIcon="more-horiz"
       onCloseKeyBoard={() => null}
-      onRightPress={() => null}
+      onRightPress={onOpenActionSheet}
       onDismiss={props.onDismiss}
     >
       <View style={[estyles.root, { minHeight: windowHeight }]}>

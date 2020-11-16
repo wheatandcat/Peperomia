@@ -21,6 +21,12 @@ export type RootStackParamList = {
   Policy: undefined;
   Calendars: undefined;
   Calendar: { date: string; create?: boolean };
+  EditItemDetail: {
+    date: string;
+    itemId: string;
+    itemDetailId: string;
+    onCallback: () => Promise<void>;
+  };
   CreateCalendar: { date?: string };
   Icons: {
     kind?: string;
