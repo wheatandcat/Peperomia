@@ -14,6 +14,7 @@ type Props = IndexProps & {
 
 export type ConnectedType = {
   onDismiss: () => void;
+  onUpdate: () => void;
   onDelete: () => void;
   onAddItemDetail: () => void;
   onItemDetail: (itemDetailId: string) => void;
@@ -28,14 +29,15 @@ const Connected: React.FC<Props> = memo((props) => {
       props.navigation.popToTop();
     },
     onError(err) {
-      Alert.alert('保存に失敗しました', err.message);
+      Alert.alert('削除に失敗しました', err.message);
     },
   });
 
-  const { data, loading, error } = useCalendarQuery({
+  const { data, loading, error, refetch } = useCalendarQuery({
     variables: {
       date: props.date,
     },
+    nextFetchPolicy: 'network-only',
   });
 
   const onDismiss = useCallback(async () => {
@@ -43,6 +45,22 @@ const Connected: React.FC<Props> = memo((props) => {
 
     props.navigation.popToTop();
   }, [props]);
+
+  const onUpdate = useCallback(() => {
+    const itemDetail = (data?.calendar?.item?.itemDetails || []).find(
+      (v) => v?.priority === 1
+    );
+
+    props.navigation.navigate('EditItemDetail', {
+      date: props.date,
+      itemId: data?.calendar?.item.id || '',
+      itemDetailId: itemDetail?.id || '',
+      onCallback: async () => {
+        await props.refetchCalendars?.();
+        await refetch();
+      },
+    });
+  }, [props, refetch, data]);
 
   const onDelete = useCallback(() => {
     const variables = {
@@ -60,10 +78,10 @@ const Connected: React.FC<Props> = memo((props) => {
       itemId: data?.calendar?.item.id || '',
       priority: (data?.calendar?.item.itemDetails?.length || 0) + 1,
       onCallback: async () => {
-        await props.refetchCalendars?.();
+        await refetch();
       },
     });
-  }, [props, data]);
+  }, [props, data, refetch]);
 
   const onItemDetail = useCallback(
     (itemDetailId: string) => {
@@ -71,9 +89,12 @@ const Connected: React.FC<Props> = memo((props) => {
         date: props.date,
         itemId: data?.calendar?.item.id || '',
         itemDetailId,
+        onCallback: async () => {
+          await refetch();
+        },
       });
     },
-    [props, data]
+    [props, data, refetch]
   );
 
   return (
@@ -83,6 +104,7 @@ const Connected: React.FC<Props> = memo((props) => {
       error={error}
       onDismiss={onDismiss}
       onAddItemDetail={onAddItemDetail}
+      onUpdate={onUpdate}
       onDelete={onDelete}
       onItemDetail={onItemDetail}
       create={props.route.params.create || false}

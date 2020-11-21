@@ -104,7 +104,7 @@ const CalendarPage: React.FC<Props> = (props) => {
   );
 
   const listItem = [
-    ...itemDetails,
+    ...itemDetails.slice(1),
     {
       add: true,
       id: 'add-item',
@@ -148,6 +148,7 @@ const CalendarPage: React.FC<Props> = (props) => {
                 title={calendar.item.title || ''}
                 kind={calendar.item.kind || ''}
                 onClose={props.onDismiss}
+                onUpdate={props.onUpdate}
                 onDelete={props.onDelete}
               />
             )}

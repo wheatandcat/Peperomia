@@ -24,6 +24,7 @@ const Plain: React.FC<Props> = (props) => {
       calendar={calendar}
       onDismiss={props.onDismiss}
       onDelete={props.onDelete}
+      onUpdate={props.onUpdate}
       onAddItemDetail={props.onAddItemDetail}
       onItemDetail={props.onItemDetail}
       create={props.create}

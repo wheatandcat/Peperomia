@@ -18,6 +18,7 @@ type Props = {
   kind: string;
   color: string;
   onClose: () => void;
+  onUpdate: () => void;
   onDelete: () => void;
 };
 
@@ -34,6 +35,7 @@ const Header: React.FC<Props> = (props) => {
       },
       (buttonIndex) => {
         if (buttonIndex === 0) {
+          props.onUpdate();
         }
         if (buttonIndex === 1) {
           props.onDelete();

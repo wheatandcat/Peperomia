@@ -37,14 +37,10 @@ const Connected: React.FC<Props> = memo((props) => {
     createItemDetailMutation,
     createItemDetailMutationData,
   ] = useCreateItemDetailMutation({
-    async onCompleted({ createItemDetail }) {
+    async onCompleted() {
       await props?.onCallback?.();
 
-      props.navigation.navigate('ItemDetail', {
-        date: props.date,
-        itemId: props.itemId,
-        itemDetailId: createItemDetail.id,
-      });
+      props.navigation.goBack();
     },
     onError(err) {
       Alert.alert('保存に失敗しました', err.message);

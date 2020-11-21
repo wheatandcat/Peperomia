@@ -15,7 +15,12 @@ export type RootStackParamList = {
     priority: number;
     onCallback: () => Promise<void>;
   };
-  ItemDetail: { date: string; itemId: string; itemDetailId: string };
+  ItemDetail: {
+    date: string;
+    itemId: string;
+    itemDetailId: string;
+    onCallback: () => Promise<void>;
+  };
   Setting: undefined;
   Tos: undefined;
   Policy: undefined;

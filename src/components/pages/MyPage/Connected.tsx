@@ -38,11 +38,6 @@ const initialState = (): State => ({
   LoadingText: '',
 });
 
-type uuidType = {
-  from: any;
-  to: string;
-};
-
 const setUUID = (
   items: Item[],
   itemDetails: ItemDetail[],

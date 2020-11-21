@@ -16,13 +16,11 @@ import Header from 'components/molecules/ScheduleHeader/Header';
 import Label from 'components/molecules/ScheduleDetail/Label';
 import ItemDetailWrap from 'components/organisms/ItemWrap/ItemDetailWrap';
 import theme from 'config/theme';
+import { ConnectedType } from './Connected';
 
 type Props = {
-  date: string;
   itemDetail: ItemDetailQuery['itemDetail'];
-  onDismiss: () => void;
-  onUpdate: () => void;
-};
+} & ConnectedType;
 
 export type ScheduleDetailType = {
   onOpenActionSheet: () => void;
@@ -59,15 +57,26 @@ const Page: FC<Props> = (props) => {
   const onOpenActionSheet = useCallback(() => {
     showActionSheetWithOptions(
       {
-        options: ['予定の変更する', '予定を削除する', 'キャンセル'],
-        destructiveButtonIndex: 2,
-        cancelButtonIndex: 2,
+        options: [
+          '予定の変更する',
+          'この予定をメインに変更する',
+          '予定を削除する',
+          'キャンセル',
+        ],
+        destructiveButtonIndex: 3,
+        cancelButtonIndex: 3,
       },
       (buttonIndex) => {
         if (buttonIndex === 0) {
           props.onUpdate();
         }
+
         if (buttonIndex === 1) {
+          props.onUpdateMain();
+        }
+
+        if (buttonIndex === 2) {
+          props.onDelete();
         }
       }
     );

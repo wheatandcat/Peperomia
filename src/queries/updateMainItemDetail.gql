@@ -1,0 +1,11 @@
+mutation UpdateMainItemDetail($itemDetail: UpdateMainItemDetail!) {
+  updateMainItemDetail(itemDetail: $itemDetail) {
+    id
+    title
+    kind
+    memo
+    url
+    place
+    priority
+  }
+}

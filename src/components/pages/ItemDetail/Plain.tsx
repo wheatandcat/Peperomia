@@ -25,6 +25,8 @@ const Plain: React.FC<Props> = (props) => {
       date={props.date}
       onDismiss={props.onDismiss}
       onUpdate={props.onUpdate}
+      onUpdateMain={props.onUpdateMain}
+      onDelete={props.onDelete}
     />
   );
 };

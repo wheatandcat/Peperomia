@@ -19,6 +19,7 @@ const itemDetail: React.FC<Props> = (props) => {
   const date = props.route.params.date;
   const itemId = props.route.params.itemId;
   const itemDetailId = props.route.params.itemDetailId;
+  const onCallback = props.route.params.onCallback;
 
   return (
     <Connected
@@ -26,6 +27,7 @@ const itemDetail: React.FC<Props> = (props) => {
       date={date}
       itemId={itemId}
       itemDetailId={itemDetailId}
+      onCallback={onCallback}
     />
   );
 };
