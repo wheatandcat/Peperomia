@@ -11,7 +11,7 @@ exports[`components/pages/MyPage/index.tsx 正常に表示されている 1`] = 
   }
   onPermissionRequest={[MockFunction]}
   post={[MockFunction]}
-  refreshData={[MockFunction]}
+  refetchCalendars={[MockFunction]}
   route={
     Object {
       "params": Object {

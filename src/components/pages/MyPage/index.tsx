@@ -7,7 +7,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from 'lib/navigation';
 import { useFetch } from 'containers/Fetch';
 import { useAuth } from 'containers/Auth';
-import { useItems } from 'containers/Items';
+import { useCalendars } from 'containers/Calendars';
 import { useNotification } from 'containers/Notification';
 import Connected from './Connected';
 
@@ -24,7 +24,7 @@ export type Props = {
 const MyPage: React.FC<Props> = (props) => {
   const { email, uid } = useAuth();
   const { post } = useFetch();
-  const { refreshData } = useItems();
+  const { refetchCalendars } = useCalendars();
   const { onPermissionRequest } = useNotification();
 
   return (
@@ -33,7 +33,7 @@ const MyPage: React.FC<Props> = (props) => {
       post={post}
       email={email}
       uid={uid}
-      refreshData={refreshData}
+      refetchCalendars={refetchCalendars}
       onPermissionRequest={onPermissionRequest}
     />
   );

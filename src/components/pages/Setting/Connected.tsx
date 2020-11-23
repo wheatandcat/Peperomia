@@ -17,7 +17,10 @@ import { select as selectItems } from 'lib/db/item';
 import { select as selectItemDetailds } from 'lib/db/itemDetail';
 import { useAuth, ContextProps as AuthContextProps } from 'containers/Auth';
 import { useFetch, ContextProps as FetchContextProps } from 'containers/Fetch';
-import { useItems, ContextProps as ItemsContextProps } from 'containers/Items';
+import {
+  useCalendars,
+  ContextProps as CalendarsContextProps,
+} from 'containers/Calendars';
 import { useDidMount } from 'hooks/index';
 import { getFireStore } from 'lib/firebase';
 import { resetQuery } from 'lib/firestore/debug';
@@ -37,7 +40,7 @@ import Page from './Page';
 const Container = () => {
   const { loggedIn, logout, uid } = useAuth();
   const { post } = useFetch();
-  const { refreshData } = useItems();
+  const { refetchCalendars } = useCalendars();
 
   return (
     <Connected
@@ -45,7 +48,7 @@ const Container = () => {
       logout={logout}
       post={post}
       uid={uid}
-      refreshData={refreshData}
+      refetchCalendars={refetchCalendars}
     />
   );
 };
@@ -71,7 +74,7 @@ export type ConnectedType = State &
     onChangeDebugMode: (val: boolean) => void;
   };
 
-type ConnectedProps = Pick<ItemsContextProps, 'refreshData'> &
+type ConnectedProps = Pick<CalendarsContextProps, 'refetchCalendars'> &
   Pick<FetchContextProps, 'post'> &
   Pick<AuthContextProps, 'loggedIn' | 'logout' | 'uid'>;
 
@@ -187,14 +190,14 @@ const Connected = memo((props: ConnectedProps) => {
           text: 'ログアウト',
           onPress: async () => {
             try {
-              if (props.logout && props.refreshData) {
+              if (props.logout && props.refetchCalendars) {
                 setState((s) => ({
                   ...s,
                   restoreLoading: true,
                 }));
 
                 await props.logout();
-                await props.refreshData(null);
+                await props.refetchCalendars();
 
                 setState((s) => ({
                   ...s,

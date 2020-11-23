@@ -37,7 +37,7 @@ const Connected: React.FC<Props> = memo((props) => {
     variables: {
       date: props.date,
     },
-    nextFetchPolicy: 'network-only',
+    fetchPolicy: 'network-only',
   });
 
   const onDismiss = useCallback(async () => {
@@ -57,7 +57,7 @@ const Connected: React.FC<Props> = memo((props) => {
       itemDetailId: itemDetail?.id || '',
       onCallback: async () => {
         await props.refetchCalendars?.();
-        await refetch();
+        await refetch?.();
       },
     });
   }, [props, refetch, data]);
@@ -78,7 +78,7 @@ const Connected: React.FC<Props> = memo((props) => {
       itemId: data?.calendar?.item.id || '',
       priority: (data?.calendar?.item.itemDetails?.length || 0) + 1,
       onCallback: async () => {
-        await refetch();
+        await refetch?.();
       },
     });
   }, [props, data, refetch]);
@@ -90,7 +90,7 @@ const Connected: React.FC<Props> = memo((props) => {
         itemId: data?.calendar?.item.id || '',
         itemDetailId,
         onCallback: async () => {
-          await refetch();
+          await refetch?.();
         },
       });
     },

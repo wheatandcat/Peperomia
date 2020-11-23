@@ -78,18 +78,6 @@ exports[`components/pages/Setting/Connected.tsx 正常に表示されている 1
   />
   <Screen
     component={[Function]}
-    name="ScreenSetting"
-    options={
-      Object {
-        "headerStyle": Object {
-          "backgroundColor": "#006835",
-        },
-        "title": "画面設定",
-      }
-    }
-  />
-  <Screen
-    component={[Function]}
     name="LoginWithAmazon"
     options={
       Object {

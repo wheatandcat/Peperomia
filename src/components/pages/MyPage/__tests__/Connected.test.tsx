@@ -16,7 +16,7 @@ describe('components/pages/MyPage/Connected.tsx', () => {
         refresh: '',
       },
     },
-    refreshData: jest.fn(),
+    refetchCalendars: jest.fn(),
     uid: 'test',
     email: 'test',
     post: jest.fn(),

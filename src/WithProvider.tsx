@@ -8,7 +8,6 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Version from './containers/Version';
 import AuthProvider from './containers/Auth';
 import FetchProvider from './containers/Fetch';
-import ItemsProvider from './containers/Items';
 import CalendarsProvider from './containers/Calendars';
 import ThemeProvider from './containers/Theme';
 import AppStateStatus from './containers/AppStateStatus';
@@ -111,9 +110,7 @@ const WithProvider: React.FC<Props> = (props) => {
                   <NotificationProvider>
                     <AppStateStatus>
                       <CalendarsProvider>
-                        <ItemsProvider>
-                          <ThemeProvider>{props.children}</ThemeProvider>
-                        </ItemsProvider>
+                        <ThemeProvider>{props.children}</ThemeProvider>
                       </CalendarsProvider>
                     </AppStateStatus>
                   </NotificationProvider>

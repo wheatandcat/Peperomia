@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow, ShallowWrapper } from 'enzyme';
-import * as Items from 'containers/Items';
+import * as Calendars from 'containers/Calendars';
 import * as Auth from 'containers/Auth';
 import * as Fetch from 'containers/Fetch';
 import Index from '../';
@@ -22,10 +22,10 @@ describe('components/pages/SignIn/index.tsx', () => {
   });
 
   beforeEach(() => {
-    jest.spyOn(Items, 'useItems').mockImplementation(
+    jest.spyOn(Calendars, 'useCalendars').mockImplementation(
       () =>
         ({
-          refreshData: jest.fn(),
+          refetchCalendars: jest.fn(),
         } as any)
     );
     jest.spyOn(Auth, 'useAuth').mockImplementation(

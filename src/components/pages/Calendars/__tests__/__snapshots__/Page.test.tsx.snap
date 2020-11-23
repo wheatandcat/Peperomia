@@ -1,29 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/pages/Calendars/Page.tsx 正常に表示されている 1`] = `
-<ScrollView
-  style={
-    Array [
-      undefined,
-      Object {
-        "backgroundColor": "#E4E4C8",
-      },
-    ]
-  }
+<CalendarWrap
+  backgroundColor="#FFE7D0"
 >
-  <FocusAwareStatusBar
-    backgroundColor="#E4E4C8"
-    barStyle="dark-content"
-  />
   <ForwardRef(AnimatedComponentWrapper)
     style={
       Array [
         Object {
           "paddingTop": 0,
         },
-        undefined,
         Object {
-          "backgroundColor": "rgba(228, 228, 200, 1)",
+          "flex": 0,
+        },
+        Object {
+          "backgroundColor": "rgba(255, 231, 208, 1)",
         },
       ]
     }
@@ -41,89 +32,32 @@ exports[`components/pages/Calendars/Page.tsx 正常に表示されている 1`] 
     <ForwardRef(AnimatedComponentWrapper)
       style={
         Array [
-          undefined,
           Object {
-            "backgroundColor": "rgba(228, 228, 200, 1)",
+            "height": "100%",
+            "width": "100%",
+          },
+          Object {
+            "backgroundColor": "rgba(255, 231, 208, 1)",
           },
         ]
       }
     >
-      <View>
-        <ForwardRef
-          onPress={[Function]}
-        >
-          <Icon
-            allowFontScaling={false}
-            color="#006835"
-            name="chevron-left"
-            size={30}
-          />
-        </ForwardRef>
-        <View>
-          <Text>
-            2020年09月
-          </Text>
-        </View>
-        <ForwardRef
-          onPress={[Function]}
-        >
-          <Icon
-            allowFontScaling={false}
-            color="#006835"
-            name="chevron-right"
-            size={30}
-          />
-        </ForwardRef>
-      </View>
-      <View>
-        <Text
-          style={
-            Array [
-              undefined,
-              Object {
-                "color": "#E15757",
-              },
-            ]
-          }
-        >
-          日
-        </Text>
-        <Text>
-          月
-        </Text>
-        <Text>
-          火
-        </Text>
-        <Text>
-          水
-        </Text>
-        <Text>
-          木
-        </Text>
-        <Text>
-          金
-        </Text>
-        <Text
-          style={
-            Array [
-              undefined,
-              Object {
-                "color": "#00C2ED",
-              },
-            ]
-          }
-        >
-          土
-        </Text>
-      </View>
+      <Header
+        date="2020年11月"
+        onNextMonth={[Function]}
+        onPrevMonth={[Function]}
+      />
+      <DayOfWeek />
       <Calendar
+        current="2020-11-01"
         dayComponent={[Function]}
+        enableSwipeMonths={false}
         hideArrows={true}
         hideDayNames={true}
         monthFormat=""
         style={
           Object {
-            "backgroundColor": "#E4E4C8",
+            "backgroundColor": "#FFE7D0",
           }
         }
         theme={
@@ -133,7 +67,7 @@ exports[`components/pages/Calendars/Page.tsx 正常に表示されている 1`] 
               "dayHeader": Object {
                 "color": "#000",
                 "fontWeight": "600",
-                "paddingBottom": 10,
+                "paddingBottom": 8,
               },
               "header": Object {
                 "height": 0,
@@ -151,8 +85,16 @@ exports[`components/pages/Calendars/Page.tsx 正常に表示されている 1`] 
           }
         }
       />
-      <View />
+      <View
+        style={
+          Object {
+            "borderBottomWidth": 1,
+            "borderColor": "gray",
+            "marginHorizontal": 8,
+          }
+        }
+      />
     </ForwardRef(AnimatedComponentWrapper)>
   </GestureRecognizer>
-</ScrollView>
+</CalendarWrap>
 `;

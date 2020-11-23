@@ -4,7 +4,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from 'lib/navigation';
 import { useAuth } from 'containers/Auth';
 import { useFetch } from 'containers/Fetch';
-import { useItems } from 'containers/Items';
+import { useCalendars } from 'containers/Calendars';
 import Connected from './Connected';
 
 type ScreenNavigationProp = StackNavigationProp<RootStackParamList, 'SignIn'>;
@@ -18,7 +18,7 @@ export type Props = {
 const SignIn: React.FC<Props> = (props) => {
   const { onGoogleLogin, onAppleLogin, logout, uid } = useAuth();
   const { post } = useFetch();
-  const { refreshData } = useItems();
+  const { refetchCalendars } = useCalendars();
 
   return (
     <Connected
@@ -26,7 +26,7 @@ const SignIn: React.FC<Props> = (props) => {
       uid={uid}
       post={post}
       logout={logout}
-      refreshData={refreshData}
+      refetchCalendars={refetchCalendars}
       onGoogleLogin={onGoogleLogin}
       onAppleLogin={onAppleLogin}
     />
