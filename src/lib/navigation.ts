@@ -35,7 +35,7 @@ export type RootStackParamList = {
   CreateCalendar: { date?: string };
   Icons: {
     kind?: string;
-    onSelectIcon?: (kind: string) => void;
+    onCallback: (kind: string) => void;
   };
   Feedback: undefined;
   SignIn: {

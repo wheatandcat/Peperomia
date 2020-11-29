@@ -17,10 +17,10 @@ type Props = {
 };
 
 const Icons: React.FC<Props> = (props) => {
-  const onSelectIcon = props.route?.params?.onSelectIcon;
+  const onCallback = props.route?.params?.onCallback;
   const kind = props.route?.params?.kind || '';
 
-  return <Connected kind={kind} onSelectIcon={onSelectIcon} />;
+  return <Connected kind={kind} onSelectIcon={onCallback} />;
 };
 
 export default memo(Icons);

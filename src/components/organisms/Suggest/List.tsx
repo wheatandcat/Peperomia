@@ -2,37 +2,32 @@ import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { IconImage } from 'components/atoms';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { SuggestItem, uniqueSuggests } from 'lib/suggest';
 import { KINDS } from 'peperomia-util';
 import { darkMode } from 'config/theme';
 import theme from 'config/theme';
+import { getKind } from 'peperomia-util';
 
 type Props = {
   title: string;
-  items: SuggestItem[];
+  suggestList: string[];
   onPress: (kind: string, name: string) => void;
 };
 
 const Suggest: React.FC<Props> = (props) => (
   <View style={estyles.root}>
-    {uniqueSuggests(props.items)
-      .filter((item) => {
-        if (!props.title) {
-          return true;
-        }
-        return item.title.includes(props.title);
-      })
-      .slice(0, 8)
-      .map((item) => (
+    {props.suggestList.slice(0, 8).map((text) => {
+      const kind = getKind(text);
+
+      return (
         <TouchableOpacity
           style={styles.tap}
-          onPress={() => props.onPress(item.kind, item.title)}
-          key={item.title}
+          onPress={() => props.onPress(kind, text)}
+          key={text}
         >
           <View style={styles.container}>
             <View style={styles.iconImage}>
               <IconImage
-                src={getImageSrc(item.kind, darkMode())}
+                src={getImageSrc(kind, darkMode())}
                 name=""
                 size={25}
                 opacity={1.0}
@@ -42,15 +37,16 @@ const Suggest: React.FC<Props> = (props) => (
               style={[
                 styles.titleContainer,
                 {
-                  borderColor: getImageColor(item.kind),
+                  borderColor: getImageColor(kind),
                 },
               ]}
             >
-              <Text style={estyles.title}>{item.title}</Text>
+              <Text style={estyles.title}>{text}</Text>
             </View>
           </View>
         </TouchableOpacity>
-      ))}
+      );
+    })}
   </View>
 );
 

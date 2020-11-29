@@ -10,7 +10,7 @@ import theme, { darkMode } from 'config/theme';
 
 type Props = {
   kind: string;
-  onSelectIcon?: (kind: string) => void;
+  onSelectIcon: (kind: string) => void;
 };
 
 const IconsPage: React.FC<Props> = (props) => {
@@ -49,41 +49,47 @@ const IconsPage: React.FC<Props> = (props) => {
 
       <ScrollView style={styles.scroll}>
         <View style={styles.contents}>
-          {items.map((item: any, i: number) => (
-            <ListItem
-              containerStyle={estyles.iconListItem}
-              key={i}
-              title={'アイコンなし'}
-              titleStyle={estyles.iconListItemTitle}
-              onPress={() => props.onSelectIcon?.(item.kind)}
-              leftIcon={
-                <IconImage
-                  src={darkMode() ? item.reversal.src : item.src}
-                  name={item.name}
-                  size={20}
-                  opacity={1.0}
-                  defaultIcon={false}
-                />
-              }
-              rightIcon={
-                <View>
-                  {props.kind === item.kind ? (
-                    <MaterialIcons
-                      name="check"
-                      color={
-                        darkMode()
-                          ? theme().color.highLightGray
-                          : theme().color.main
-                      }
-                      size={20}
-                      style={styles.check}
-                    />
-                  ) : null}
-                </View>
-              }
-              bottomDivider
-            />
-          ))}
+          {items.map((item, i) => {
+            return (
+              <ListItem
+                containerStyle={estyles.iconListItem}
+                key={i}
+                title={item.name !== '地球' ? item.name : '無し'}
+                titleStyle={estyles.iconListItemTitle}
+                onPress={() => {
+                  console.log(props);
+
+                  props.onSelectIcon(item.kind);
+                }}
+                leftIcon={
+                  <IconImage
+                    src={darkMode() ? item.reversal.src : item.src}
+                    name={item.name}
+                    size={20}
+                    opacity={1.0}
+                    defaultIcon={false}
+                  />
+                }
+                rightIcon={
+                  <View>
+                    {props.kind === item.kind ? (
+                      <MaterialIcons
+                        name="check"
+                        color={
+                          darkMode()
+                            ? theme().color.highLightGray
+                            : theme().color.main
+                        }
+                        size={20}
+                        style={styles.check}
+                      />
+                    ) : null}
+                  </View>
+                }
+                bottomDivider
+              />
+            );
+          })}
         </View>
       </ScrollView>
     </View>

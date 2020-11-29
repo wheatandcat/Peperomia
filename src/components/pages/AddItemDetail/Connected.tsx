@@ -73,11 +73,12 @@ const Connected: React.FC<Props> = memo((props) => {
     (kind: string) => {
       props.navigation.navigate('Icons', {
         kind,
-        onSelectIcon: (selectedKind: string) => {
+        onCallback: (selectedKind: string) => {
           setState((s) => ({
             ...s,
             selectedKind,
           }));
+          props.navigation.goBack();
         },
       });
     },

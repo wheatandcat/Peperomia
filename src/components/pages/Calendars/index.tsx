@@ -11,6 +11,7 @@ import ItemDetail from 'components/pages/ItemDetail';
 import AddItemDetail from 'components/pages/AddItemDetail/index';
 import EditItemDetail from 'components/pages/EditItemDetail/index';
 import { CreateCalendar } from 'components/pages/CreateCalendar/index';
+import Icons, { IconsNavigationOptions } from 'components/pages/Icons';
 import Connected from './Connected';
 
 type CalendarsScreenNavigationProp = StackNavigationProp<
@@ -71,6 +72,11 @@ const RootStack = () => {
         name="EditItemDetail"
         component={EditItemDetail}
         options={{ header: () => null }}
+      />
+      <Stack.Screen
+        name="Icons"
+        component={Icons}
+        options={IconsNavigationOptions}
       />
     </Stack.Navigator>
   );

@@ -1,40 +1,31 @@
 import { useCallback, useState } from 'react';
-import { useItems } from 'containers/Items';
-import { SuggestItem, uniqueSuggests } from 'lib/suggest';
+import { useSuggestionTitleQuery } from 'queries/api/index';
 
-const useItemSuggest = () => {
-  const { items, itemDetails } = useItems();
-  const [suggestList, setSuggest] = useState<SuggestItem[]>([]);
+type UseItemSuggest = {
+  setSuggestList: (title: string) => void;
+  suggestList: string[];
+};
 
-  const getSuggestList = useCallback((): SuggestItem[] => {
-    const suggestList1 = (items || []).map((item) => ({
-      title: item.title,
-      kind: item.kind,
-    }));
-    const suggestList2 = (itemDetails || []).map((itemDetail) => ({
-      title: itemDetail.title,
-      kind: itemDetail.kind,
-    }));
+const useItemSuggest = (): UseItemSuggest => {
+  const [text, setText] = useState('');
 
-    const r = [...suggestList1, ...suggestList2];
-    return r;
-  }, [items, itemDetails]);
-
-  const setSuggestList = useCallback(
-    (title: string) => {
-      const r = uniqueSuggests(getSuggestList())
-        .filter((item) => {
-          if (!title) {
-            return false;
-          }
-          return item.title.includes(title);
-        })
-        .slice(0, 8);
-
-      setSuggest(r);
+  const { data, error } = useSuggestionTitleQuery({
+    variables: {
+      text,
     },
-    [getSuggestList]
-  );
+  });
+
+  const setSuggestList = useCallback((title: string) => {
+    console.log(title);
+
+    setText(title);
+  }, []);
+
+  const suggestList = data?.suggestionTitle || [];
+
+  if (error) {
+    console.log('err:', error);
+  }
 
   return {
     setSuggestList,

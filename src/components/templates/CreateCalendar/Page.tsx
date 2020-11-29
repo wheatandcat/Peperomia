@@ -1,4 +1,4 @@
-import React, { useState, useCallback, memo } from 'react';
+import React, { useState, useCallback, useEffect, memo } from 'react';
 import { View, TextInput, StyleSheet, Alert, Keyboard } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { getKind, KIND_DEFAULT } from 'peperomia-util';
@@ -16,6 +16,7 @@ type Props = {
   loading: boolean;
   date: string;
   itemDetail: ItemDetail | null;
+  selectedKind: string;
   onSave: (item: NewItem) => void;
   onDismiss: () => void;
   onIcons: (kind: string) => void;
@@ -47,6 +48,15 @@ const CreateCalendar: React.FC<Props> = (props) => {
   const [state, setState] = useState<State>(initialState(props.itemDetail));
   const { suggestList, setSuggestList } = useItemSuggest();
 
+  useEffect(() => {
+    if (props.selectedKind !== '') {
+      setState((s) => ({
+        ...s,
+        kind: props.selectedKind,
+      }));
+    }
+  }, [props.selectedKind]);
+
   const onDismiss = useCallback(() => {
     props.onDismiss();
   }, [props]);
@@ -76,11 +86,11 @@ const CreateCalendar: React.FC<Props> = (props) => {
       setState((s) => ({
         ...s,
         title: name,
-        kind: getKind(name),
+        kind: props.selectedKind !== '' ? props.selectedKind : getKind(name),
       }));
       setSuggestList('');
     },
-    [setSuggestList]
+    [setSuggestList, props]
   );
 
   const kind = state.kind || KIND_DEFAULT;
@@ -108,20 +118,23 @@ const CreateCalendar: React.FC<Props> = (props) => {
                 setState((s) => ({
                   ...s,
                   title,
-                  kind: getKind(title),
+                  kind:
+                    props.selectedKind !== ''
+                      ? props.selectedKind
+                      : getKind(title),
                 }));
               }}
               value={state.title}
               testID="ScheduleDetailTitleInput"
               returnKeyType="done"
               autoFocus
-              selectionColor={theme().color.lightGreen}
+              selectionColor={theme().color.black}
             />
           </HeaderImage>
           {suggestList.length > 0 ? (
             <Suggest
               title={state.title}
-              items={suggestList}
+              suggestList={suggestList}
               onPress={onSuggest}
             />
           ) : (
@@ -149,7 +162,7 @@ const estyles = EStyleSheet.create({
   },
   footer: {
     width: '100%',
-    height: '150%',
+    height: '250%',
     backgroundColor: '$background',
   },
 });

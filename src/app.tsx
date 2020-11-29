@@ -21,7 +21,6 @@ import AppInfo from 'components/pages/AppInfo/Page';
 import { db, init } from './lib/db';
 import { RootStackParamList } from './lib/navigation';
 import theme from './config/theme';
-import CreateCalendar from 'components/pages/CreateCalendar';
 import Setting from 'components/pages/Setting/Connected';
 import Calendars from 'components/pages/Calendars/index';
 import { setDebugMode } from './lib/auth';
@@ -31,7 +30,7 @@ import {
   insert as insertUser,
   User,
 } from './lib/db/user';
-import Icons, { IconsNavigationOptions } from 'components/pages/Icons';
+
 import WithProvider from './WithProvider';
 
 Sentry.setRelease(String(Constants.manifest.revisionId));
@@ -145,16 +144,6 @@ const RootStackScreen = () => {
         name="Main"
         component={MainStackScreen}
         options={{ headerShown: false }}
-      />
-      <RootStack.Screen
-        name="Icons"
-        component={Icons}
-        options={IconsNavigationOptions}
-      />
-      <RootStack.Screen
-        name="CreateCalendar"
-        component={CreateCalendar}
-        options={{ animationEnabled: true, headerShown: false }}
       />
     </RootStack.Navigator>
   );
