@@ -29,17 +29,10 @@ export type ConnectedType = {
 };
 
 const Connected: React.FC<Props> = memo((props) => {
-  const [
-    updateCalendarPublicMutation,
-    updateCalendarPublicMutationData,
-  ] = useUpdateCalendarPublicMutation({
+  const [updateCalendarPublicMutation] = useUpdateCalendarPublicMutation({
     async onCompleted(r) {
-      console.log(r.updateCalendarPublic.public);
-
-      const id = updateCalendarPublicMutationData.data?.updateCalendarPublic.id;
+      const id = r.updateCalendarPublic.id;
       const open = r.updateCalendarPublic.public;
-
-      console.log(open);
 
       if (open) {
         copyShareURL(String(id));
