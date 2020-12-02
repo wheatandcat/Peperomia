@@ -147,8 +147,10 @@ const CalendarPage: React.FC<Props> = (props) => {
                 date={dayjs(calendar.date).format('YYYY年MM月DD日')}
                 title={calendar.item.title || ''}
                 kind={calendar.item.kind || ''}
+                public={calendar.public}
                 onClose={props.onDismiss}
                 onUpdate={props.onUpdate}
+                onShare={props.onShare}
                 onDelete={props.onDelete}
               />
             )}

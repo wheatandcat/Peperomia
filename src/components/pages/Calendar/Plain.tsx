@@ -27,6 +27,7 @@ const Plain: React.FC<Props> = (props) => {
       onUpdate={props.onUpdate}
       onAddItemDetail={props.onAddItemDetail}
       onItemDetail={props.onItemDetail}
+      onShare={props.onShare}
       create={props.create}
     />
   );

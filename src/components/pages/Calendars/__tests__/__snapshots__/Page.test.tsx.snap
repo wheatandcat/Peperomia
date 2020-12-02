@@ -2,7 +2,7 @@
 
 exports[`components/pages/Calendars/Page.tsx 正常に表示されている 1`] = `
 <CalendarWrap
-  backgroundColor="#FFE7D0"
+  backgroundColor="#BFD3B7"
 >
   <ForwardRef(AnimatedComponentWrapper)
     style={
@@ -14,7 +14,7 @@ exports[`components/pages/Calendars/Page.tsx 正常に表示されている 1`] 
           "flex": 0,
         },
         Object {
-          "backgroundColor": "rgba(255, 231, 208, 1)",
+          "backgroundColor": "rgba(191, 211, 183, 1)",
         },
       ]
     }
@@ -37,19 +37,19 @@ exports[`components/pages/Calendars/Page.tsx 正常に表示されている 1`] 
             "width": "100%",
           },
           Object {
-            "backgroundColor": "rgba(255, 231, 208, 1)",
+            "backgroundColor": "rgba(191, 211, 183, 1)",
           },
         ]
       }
     >
       <Header
-        date="2020年11月"
+        date="2020年12月"
         onNextMonth={[Function]}
         onPrevMonth={[Function]}
       />
       <DayOfWeek />
       <Calendar
-        current="2020-11-01"
+        current="2020-12-01"
         dayComponent={[Function]}
         enableSwipeMonths={false}
         hideArrows={true}
@@ -57,7 +57,7 @@ exports[`components/pages/Calendars/Page.tsx 正常に表示されている 1`] 
         monthFormat=""
         style={
           Object {
-            "backgroundColor": "#FFE7D0",
+            "backgroundColor": "#BFD3B7",
           }
         }
         theme={

@@ -1,0 +1,7 @@
+mutation UpdateCalendarPublic($calendar: UpdateCalendarPublic!) {
+  updateCalendarPublic(calendar: $calendar) {
+    id
+    date
+    public
+  }
+}

@@ -1,7 +1,13 @@
 import React, { memo, useCallback } from 'react';
-import { Alert } from 'react-native';
+import { Alert, Dimensions } from 'react-native';
 import { useCalendarQuery, useDeleteCalendarMutation } from 'queries/api/index';
 import { ContextProps as CalendarsContextProps } from 'containers/Calendars';
+import { copyShareURL } from 'lib/share';
+import {
+  useUpdateCalendarPublicMutation,
+  UpdateCalendarPublicMutationVariables,
+} from 'queries/api/index';
+import Toast from 'react-native-root-toast';
 import { Props as IndexProps } from './';
 import Plain, { QueryProps } from './Plain';
 
@@ -16,12 +22,49 @@ export type ConnectedType = {
   onDismiss: () => void;
   onUpdate: () => void;
   onDelete: () => void;
+  onShare: (open: boolean) => void;
   onAddItemDetail: () => void;
   onItemDetail: (itemDetailId: string) => void;
   create: boolean;
 };
 
 const Connected: React.FC<Props> = memo((props) => {
+  const [
+    updateCalendarPublicMutation,
+    updateCalendarPublicMutationData,
+  ] = useUpdateCalendarPublicMutation({
+    async onCompleted(r) {
+      console.log(r.updateCalendarPublic.public);
+
+      const id = updateCalendarPublicMutationData.data?.updateCalendarPublic.id;
+      const open = r.updateCalendarPublic.public;
+
+      console.log(open);
+
+      if (open) {
+        copyShareURL(String(id));
+      } else {
+        const { height } = Dimensions.get('window');
+
+        let toast = Toast.show('リンクを非公開にしました', {
+          duration: Toast.durations.LONG,
+          position: height - 150,
+          shadow: true,
+          animation: true,
+          hideOnPress: true,
+          delay: 0,
+        });
+
+        setTimeout(function () {
+          Toast.hide(toast);
+        }, 3000);
+      }
+    },
+    onError(err) {
+      Alert.alert('公開に失敗しました', err.message);
+    },
+  });
+
   const [deleteCalendarMutation] = useDeleteCalendarMutation({
     async onCompleted() {
       await props.refetchCalendars?.();
@@ -97,6 +140,19 @@ const Connected: React.FC<Props> = memo((props) => {
     [props, data, refetch]
   );
 
+  const onShare = useCallback(
+    async (open: boolean) => {
+      const variables: UpdateCalendarPublicMutationVariables = {
+        calendar: {
+          date: props.date,
+          public: open,
+        },
+      };
+      updateCalendarPublicMutation({ variables });
+    },
+    [props, updateCalendarPublicMutation]
+  );
+
   return (
     <Plain
       data={data}
@@ -107,6 +163,7 @@ const Connected: React.FC<Props> = memo((props) => {
       onUpdate={onUpdate}
       onDelete={onDelete}
       onItemDetail={onItemDetail}
+      onShare={onShare}
       create={props.route.params.create || false}
     />
   );

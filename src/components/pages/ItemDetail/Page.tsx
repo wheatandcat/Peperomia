@@ -75,7 +75,7 @@ const Page: FC<Props> = (props) => {
           props.onUpdateMain();
         }
 
-        if (buttonIndex === 3) {
+        if (buttonIndex === 2) {
           props.onDelete();
         }
       }
