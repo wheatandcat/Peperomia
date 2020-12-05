@@ -18,6 +18,8 @@ jobs:
       run: yarn install
     - name: copy app.json
       run: cp -r app.test.json app.json
+    - name: codegen
+      run: yarn codegen
     - name: test
       run: yarn test:coverage
     - name: danger

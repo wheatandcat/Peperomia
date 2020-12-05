@@ -1,0 +1,10 @@
+mutation CreateItemDetail($itemDetail: NewItemDetail!) {
+  createItemDetail(itemDetail: $itemDetail) {
+    id
+    kind
+    url
+    memo
+    place
+    priority
+  }
+}

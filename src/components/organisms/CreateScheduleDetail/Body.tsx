@@ -1,44 +1,23 @@
 import React from 'react';
-import { View, TouchableOpacity, Text, ScrollView } from 'react-native';
+import { View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Button, Divider } from 'react-native-elements';
-import { Ionicons } from '@expo/vector-icons';
+import { Button } from 'react-native-elements';
 import { SelectItemDetail } from 'domain/itemDetail';
 import theme from 'config/theme';
 import Memo from './Memo';
 
-type Props = Pick<
-  SelectItemDetail,
-  'title' | 'place' | 'url' | 'memo' | 'moveMinutes'
-> & {
-  scrollView: React.RefObject<ScrollView>;
+type Props = Pick<SelectItemDetail, 'title' | 'place' | 'url' | 'memo'> & {
   onIcons: (title: string) => void;
   onChangeMemoInput: (name: string, value: string) => void;
-  onOpenActionSheet: () => void;
 };
 
 const Body: React.FC<Props> = (props) => (
   <>
-    <View style={styles.root}>
-      <TouchableOpacity onPress={props.onOpenActionSheet}>
-        <View style={styles.timeContainer}>
-          <Ionicons
-            name="md-time"
-            color={theme().color.lightGreen}
-            size={25}
-            style={styles.time}
-          />
-          <Text style={styles.timeText}>{props.moveMinutes}分</Text>
-        </View>
-      </TouchableOpacity>
-    </View>
-    <Divider />
     <View style={styles.memoContainer}>
       <Memo
         place={props.place}
         url={props.url}
         memo={props.memo}
-        scrollView={props.scrollView}
         onChangeInputText={props.onChangeMemoInput}
       />
     </View>

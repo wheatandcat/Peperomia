@@ -1,62 +1,37 @@
-import * as Linking from 'expo-linking';
 import Constants from 'expo-constants';
 import * as SQLite from 'expo-sqlite';
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { AppearanceProvider, useColorScheme } from 'react-native-appearance';
-import { ActionSheetProvider } from '@expo/react-native-action-sheet';
-import { StatusBar, Text } from 'react-native';
+import { AppearanceProvider } from 'react-native-appearance';
+import { StatusBar, Text, View } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { NavigationContainer, useLinking } from '@react-navigation/native';
-import * as Analytics from 'expo-firebase-analytics';
 import {
   createBottomTabNavigator,
   BottomTabNavigationOptions,
   BottomTabBar,
   BottomTabBarProps,
 } from '@react-navigation/bottom-tabs';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Sentry from 'sentry-expo';
 import uuidv4 from 'uuid/v4';
 import { useDidMount } from 'hooks/index';
 import app from '../app.json';
-import AppInfo from './components/pages/AppInfo/Page';
+import AppInfo from 'components/pages/AppInfo/Page';
 import { db, init } from './lib/db';
-import Version from './containers/Version';
-import AuthProvider from './containers/Auth';
-import FetchProvider from './containers/Fetch';
-import ItemsProvider from './containers/Items';
-import ThemeProvider from './containers/Theme';
-import AppStateStatus from './containers/AppStateStatus';
-import NotificationProvider from './containers/Notification';
-import './lib/firebase';
 import { RootStackParamList } from './lib/navigation';
-import theme, {
-  NavigationDefaultTheme,
-  NavigationDarkTheme,
-} from './config/theme';
-import Home from './components/pages/Home';
-import Setting from './components/pages/Setting/Connected';
-import Calendars from './components/pages/Calendars/Connected';
+import theme from './config/theme';
+import Setting from 'components/pages/Setting/Connected';
+import Calendars from 'components/pages/Calendars/index';
 import { setDebugMode } from './lib/auth';
 import { setDeviceType } from './lib/responsive';
-import './lib/firebase';
 import {
   select1st as selectUser1st,
   insert as insertUser,
   User,
 } from './lib/db/user';
-import EditPlan from './components/pages/EditPlan';
-import CreatePlan from './components/pages/CreatePlan';
-import CreateSchedule from './components/pages/CreateSchedule';
-import ScheduleDetail from './components/pages/ScheduleDetail';
-import AddScheduleDetail from './components/pages/AddScheduleDetail';
-import CreateScheduleDetail from './components/pages/CreateScheduleDetail';
-import Icons, {
-  IconsNavigationOptions,
-} from './components/pages/Icons/Connected';
+
+import WithProvider from './WithProvider';
 
 Sentry.setRelease(String(Constants.manifest.revisionId));
 Sentry.init({
@@ -77,12 +52,12 @@ type State = {
 
 const tabNames = [
   {
-    name: 'Home',
-    screenName: 'マイプラン',
-  },
-  {
     name: 'Calendars',
     screenName: 'カレンダー',
+  },
+  {
+    name: 'Create',
+    screenName: '今日の予定',
   },
   {
     name: 'Setting',
@@ -102,12 +77,14 @@ const tabOption = ({
     const routeName = route.name;
 
     const item = tabNames.find((v) => v.name === routeName);
+
     return (
       <Text style={focused ? styles.tabTitleFold : styles.tabTitle}>
         {item?.screenName || 'home'}
       </Text>
     );
   },
+  tabBarVisible: route.name !== 'Create',
 });
 
 const tabNavigationOptions = ({
@@ -116,10 +93,10 @@ const tabNavigationOptions = ({
   tabBarIcon: ({ focused }) => {
     const routeName = route.name;
 
-    if (routeName === 'Home') {
+    if (routeName === 'Create') {
       return (
         <MaterialIcons
-          name="create"
+          name="add-circle-outline"
           size={30}
           color={
             focused
@@ -168,41 +145,6 @@ const RootStackScreen = () => {
         component={MainStackScreen}
         options={{ headerShown: false }}
       />
-      <RootStack.Screen
-        name="EditPlan"
-        component={EditPlan}
-        options={{ headerShown: false }}
-      />
-      <RootStack.Screen
-        name="ScheduleDetail"
-        component={ScheduleDetail}
-        options={{ headerShown: false }}
-      />
-      <RootStack.Screen
-        name="CreatePlan"
-        component={CreatePlan}
-        options={{ headerShown: false }}
-      />
-      <RootStack.Screen
-        name="AddScheduleDetail"
-        component={AddScheduleDetail}
-        options={{ headerShown: false }}
-      />
-      <RootStack.Screen
-        name="CreateScheduleDetail"
-        component={CreateScheduleDetail}
-        options={{ headerShown: false }}
-      />
-      <RootStack.Screen
-        name="Icons"
-        component={Icons}
-        options={IconsNavigationOptions}
-      />
-      <RootStack.Screen
-        name="CreateSchedule"
-        component={CreateSchedule}
-        options={{ headerShown: false }}
-      />
     </RootStack.Navigator>
   );
 };
@@ -211,10 +153,22 @@ const MyTabBar = (props: BottomTabBarProps) => {
   return <BottomTabBar {...props} labelPosition="below-icon" />;
 };
 
+const CreatePlaceholder = () => <View style={styles.new} />;
+
 const MainStackScreen = () => (
   <Tab.Navigator screenOptions={tabNavigationOptions} tabBar={MyTabBar}>
-    <Tab.Screen name="Home" component={Home} options={tabOption} />
     <Tab.Screen name="Calendars" component={Calendars} options={tabOption} />
+    <Tab.Screen
+      name="Create"
+      component={CreatePlaceholder}
+      options={tabOption}
+      listeners={({ navigation }) => ({
+        tabPress: (e) => {
+          e.preventDefault();
+          navigation.navigate('CreateCalendar');
+        },
+      })}
+    />
     <Tab.Screen name="Setting" component={Setting} options={tabOption} />
   </Tab.Navigator>
 );
@@ -303,94 +257,10 @@ const App = () => {
 
   return (
     <AppearanceProvider>
-      <Main />
+      <WithProvider>
+        <RootStackScreen />
+      </WithProvider>
     </AppearanceProvider>
-  );
-};
-
-const Main = () => {
-  const prefix = Linking.makeUrl('/');
-  const scheme = useColorScheme();
-  const routeNameRef = React.useRef<any>();
-  const navigationRef = React.useRef<any>();
-
-  const { getInitialState } = useLinking(navigationRef, {
-    prefixes: [
-      prefix,
-      'https://link.peperomia.info',
-      'exps://link.peperomia.info',
-    ],
-    config: {
-      screens: {
-        Schedule: {
-          path: 'schedule/:itemId',
-          parse: {
-            itemId: String,
-          },
-        },
-      },
-    },
-  });
-
-  const [isReady, setIsReady] = useState(false);
-  const [initialState, setInitialState] = useState<any>();
-
-  useEffect(() => {
-    getInitialState().then((state: any) => {
-      if (state !== undefined) {
-        setInitialState(state);
-      }
-
-      setIsReady(true);
-    });
-  }, [getInitialState]);
-
-  if (!isReady) {
-    return null;
-  }
-
-  return (
-    <NavigationContainer
-      initialState={initialState}
-      theme={
-        scheme === 'dark' ? NavigationDarkTheme() : NavigationDefaultTheme()
-      }
-      ref={navigationRef}
-      onReady={() =>
-        (routeNameRef.current = navigationRef?.current?.getCurrentRoute?.()?.name)
-      }
-      onStateChange={() => {
-        const previousRouteName = routeNameRef.current;
-        const currentRouteName = navigationRef?.current?.getCurrentRoute?.()
-          ?.name;
-
-        if (previousRouteName !== currentRouteName) {
-          Analytics.setCurrentScreen(currentRouteName);
-        }
-
-        routeNameRef.current = currentRouteName;
-      }}
-    >
-      <SafeAreaProvider>
-        <ActionSheetProvider>
-          <Version>
-            <AuthProvider>
-              <FetchProvider>
-                <NotificationProvider>
-                  <AppStateStatus>
-                    <ItemsProvider>
-                      <ThemeProvider>
-                        <RootStackScreen />
-                      </ThemeProvider>
-                    </ItemsProvider>
-                  </AppStateStatus>
-                </NotificationProvider>
-              </FetchProvider>
-            </AuthProvider>
-          </Version>
-        </ActionSheetProvider>
-      </SafeAreaProvider>
-    </NavigationContainer>
   );
 };
 
@@ -413,4 +283,5 @@ const styles = EStyleSheet.create({
     height: 120,
     backgroundColor: '$background',
   },
+  new: { flex: 1, backgroundColor: 'blue' },
 });

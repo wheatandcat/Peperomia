@@ -2,7 +2,6 @@ import React from 'react';
 import { storiesOf } from '@storybook/react-native';
 import { View, StyleSheet } from 'react-native';
 import Card from './Card';
-import ActionButton from './ActionButton';
 
 const props = {
   id: '1',
@@ -12,17 +11,11 @@ const props = {
   end: false,
 };
 
-storiesOf('molecules/Schedule', module)
-  .add('Card', () => (
-    <View style={styles.root}>
-      <Card {...props} />
-    </View>
-  ))
-  .add('ActionButton', () => (
-    <View style={styles.root}>
-      <ActionButton />
-    </View>
-  ));
+storiesOf('molecules/Schedule', module).add('Card', () => (
+  <View style={styles.root}>
+    <Card {...props} />
+  </View>
+));
 
 const styles = StyleSheet.create({
   root: {

@@ -3,7 +3,6 @@ import * as Google from 'expo-google-app-auth';
 import { Platform } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as AppleAuthentication from 'expo-apple-authentication';
-import dayjs from 'dayjs';
 import React, {
   memo,
   createContext,
@@ -17,6 +16,9 @@ import * as Sentry from 'sentry-expo';
 import firebase from 'lib/system/firebase';
 import { useDidMount } from 'hooks/index';
 import { UID } from 'domain/user';
+import libAuth from 'lib/auth';
+
+const auth = new libAuth();
 
 export const Context = createContext<ContextProps>({});
 const { Provider } = Context;
@@ -51,48 +53,27 @@ const Auth: FC<Props> = memo((props) => {
   });
 
   const setSession = useCallback(async (refresh = false) => {
-    const user = firebase.auth().currentUser;
-    if (!user) {
-      return null;
+    const idToken = await auth.setSession(refresh);
+
+    if (idToken) {
+      const user = firebase.auth().currentUser;
+      if (user) {
+        await AsyncStorage.setItem('email', user?.email || '');
+        await AsyncStorage.setItem('uid', user.uid);
+        setState((s) => ({
+          ...s,
+          email: user.email || '',
+          uid: user.uid || '',
+        }));
+      }
     }
-
-    if (user.email) {
-      await AsyncStorage.setItem('email', user.email);
-      await AsyncStorage.setItem('uid', user.uid);
-      setState((s) => ({
-        ...s,
-        email: user.email || '',
-        uid: user.uid || '',
-      }));
-    }
-
-    const idToken = await user.getIdToken(refresh);
-    await AsyncStorage.setItem('id_token', idToken);
-    const expiration = dayjs().add(1, 'hour').unix();
-
-    await AsyncStorage.setItem('expiration', String(expiration));
 
     return idToken;
   }, []);
 
   const getIdToken = useCallback(async () => {
-    const idToken = await AsyncStorage.getItem('id_token');
-
-    if (!idToken) {
-      return null;
-    }
-
-    const expiration = await AsyncStorage.getItem('expiration');
-
-    if (
-      dayjs(new Date(Number(expiration) * 1000)).isAfter(dayjs()) &&
-      dayjs(new Date(Number(expiration) * 1000)).isBefore(dayjs().add(1, 'day'))
-    ) {
-      return idToken;
-    }
-
-    return await setSession(true);
-  }, [setSession]);
+    return await auth.getIdToken();
+  }, []);
 
   const loggedIn = useCallback(async () => {
     const idToken = await getIdToken();

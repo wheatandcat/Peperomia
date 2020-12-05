@@ -1,25 +1,26 @@
-import React, { Component } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import {
-  Text,
   View,
   TouchableOpacity,
-  ActivityIndicator,
   Animated,
   SafeAreaView,
-  ScrollView,
+  StyleSheet,
 } from 'react-native';
 import { Calendar, LocaleConfig, CalendarTheme } from 'react-native-calendars';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import GestureRecognizer from 'react-native-swipe-gestures';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import 'dayjs/locale/ja';
-import { SelectCalendar } from 'domain/calendar';
 import theme from 'config/theme';
 import ImageDay from 'components/organisms/Calendars/Image';
 import DayText from 'components/organisms/Calendars/DayText';
-import FocusAwareStatusBar from 'components/organisms/FocusAwareStatusBar';
+import { ContextProps as CalendarsContextProps } from 'containers/Calendars';
+import CalendarWrap from 'components/organisms/ItemWrap/CalendarWrap';
+import Header from 'components/organisms/Calendars/Header';
+import DayOfWeek from 'components/organisms/Calendars/DayOfWeek';
+import usePrevious from 'hooks/usePrevious';
+import useIsFirstRender from 'hooks/useIsFirstRender';
+import { calendarKey } from 'lib/calendar';
 import GlobalStyles from '../../../GlobalStyles';
 import { ConnectedType } from './Connected';
 
@@ -61,10 +62,10 @@ LocaleConfig.locales.jp = {
 };
 LocaleConfig.defaultLocale = 'jp';
 
-type Props = ConnectedType & {
-  loading: boolean;
-  calendars: SelectCalendar[];
-};
+type Props = ConnectedType &
+  Pick<CalendarsContextProps, 'calendars' | 'setDate'> & {
+    loading: boolean;
+  };
 
 type State = {
   currentDate: string;
@@ -92,193 +93,231 @@ const config = {
   directionalOffsetThreshold: 80,
 };
 
-export default class extends Component<Props, State> {
-  state = {
+const initialState = () => {
+  return {
     currentDate: dayjs().format('YYYY-MM-01'),
     count: 0,
     backgroundColor: new Animated.Value(dayjs().month()),
   };
+};
 
-  calendar: any;
-  componentDidMount() {
-    const currentMonth = dayjs(this.state.currentDate).month();
+type CalendarRef = {
+  addMonth: (month: number) => void;
+};
 
-    Animated.timing(this.state.backgroundColor, {
+const Page: React.FC<Props> = (props) => {
+  const [state, setState] = useState<State>(initialState());
+  const [loading, setLoading] = useState(false);
+  const calendarRef = useRef<CalendarRef>(null);
+  const isFirstRender = useIsFirstRender();
+  const prevProps = usePrevious(props);
+
+  useEffect(() => {
+    if (isFirstRender) return;
+
+    const currentMonth = dayjs(state.currentDate).month();
+
+    Animated.timing(state.backgroundColor, {
       toValue: currentMonth,
       useNativeDriver: false,
     }).start();
-  }
+  }, [isFirstRender, state.backgroundColor, state.currentDate]);
 
-  onNextMonth = () => {
-    const count = this.state.count + 1;
-    const currentMonth = dayjs(this.state.currentDate)
-      .add(count, 'month')
-      .month();
+  useEffect(() => {
+    const key1 = calendarKey(props?.calendars || []);
+    const key2 = calendarKey(prevProps?.calendars || []);
 
-    this.setState({
+    if (key1 !== key2) {
+      setLoading(true);
+
+      // NOTE: dayComponentが再描画しないと更新されないのでstateを更新する
+      setTimeout(() => {
+        setLoading(false);
+      }, 5);
+    }
+  }, [props, prevProps]);
+
+  const onNextMonth = useCallback(() => {
+    const count = state.count + 1;
+    const day = dayjs(state.currentDate).add(count, 'month');
+    const currentMonth = day.month();
+
+    const startDate = dayjs(day)
+      .startOf('month')
+      .add(-7, 'day')
+      .format('YYYY-MM-DDT00:00:00');
+    const endDate = dayjs(day)
+      .endOf('month')
+      .add(7, 'day')
+      .format('YYYY-MM-DDT23:59:59');
+
+    props.setDate(startDate, endDate);
+
+    setState((s) => ({
+      ...s,
       count,
-    });
+    }));
 
     if (currentMonth === 0) {
-      Animated.timing(this.state.backgroundColor, {
+      Animated.timing(state.backgroundColor, {
         toValue: 12,
         useNativeDriver: false,
-      }).start((props) => {
-        if (props.finished) {
-          this.setState({
+      }).start((callback) => {
+        if (callback.finished) {
+          setState((s) => ({
+            ...s,
             backgroundColor: new Animated.Value(0),
-          });
+          }));
         }
       });
     } else {
-      Animated.timing(this.state.backgroundColor, {
+      Animated.timing(state.backgroundColor, {
         toValue: currentMonth,
         useNativeDriver: false,
       }).start();
     }
-    this.calendar.addMonth(1);
-  };
+    if (calendarRef.current) {
+      calendarRef.current.addMonth(1);
 
-  onPrevMonth = () => {
-    const count = this.state.count - 1;
-    const currentMonth = dayjs(this.state.currentDate)
-      .add(count, 'month')
-      .month();
+      setLoading(true);
+    }
+  }, [calendarRef, state, props]);
 
-    this.setState({
+  const onPrevMonth = useCallback(() => {
+    const count = state.count - 1;
+    const day = dayjs(state.currentDate).add(count, 'month');
+    const currentMonth = day.month();
+
+    const startDate = dayjs(day)
+      .startOf('month')
+      .add(-7, 'day')
+      .format('YYYY-MM-DDT00:00:00');
+    const endDate = dayjs(day)
+      .endOf('month')
+      .add(7, 'day')
+      .format('YYYY-MM-DDT23:59:59');
+
+    props.setDate(startDate, endDate);
+
+    setState((s) => ({
+      ...s,
       count,
-    });
+    }));
 
     if (currentMonth === 11) {
-      Animated.timing(this.state.backgroundColor, {
+      Animated.timing(state.backgroundColor, {
         toValue: -1,
         useNativeDriver: false,
-      }).start((props) => {
-        if (props.finished) {
-          this.setState({
+      }).start((callback) => {
+        if (callback.finished) {
+          setState((s) => ({
+            ...s,
             backgroundColor: new Animated.Value(12),
-          });
+          }));
         }
       });
     } else {
-      Animated.timing(this.state.backgroundColor, {
+      Animated.timing(state.backgroundColor, {
         toValue: currentMonth,
         useNativeDriver: false,
       }).start();
     }
-    this.calendar.addMonth(-1);
+    if (calendarRef.current) {
+      calendarRef.current.addMonth(-1);
+
+      setLoading(true);
+    }
+  }, [calendarRef, state, props]);
+
+  const backgroundColor = state.backgroundColor.interpolate({
+    inputRange: [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    outputRange: [
+      backgroundColors[11],
+      ...backgroundColors,
+      backgroundColors[0],
+    ],
+  });
+
+  const currentMonth = dayjs(state.currentDate)
+    .add(state.count, 'month')
+    .month();
+
+  const currentDate = dayjs(state.currentDate)
+    .add(state.count, 'month')
+    .format('YYYY-MM-DD');
+
+  const animationStyle = {
+    backgroundColor,
   };
 
-  render() {
-    const backgroundColor = this.state.backgroundColor.interpolate({
-      inputRange: [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-      outputRange: [
-        backgroundColors[11],
-        ...backgroundColors,
-        backgroundColors[0],
-      ],
-    });
-
-    const currentMonth = dayjs(this.state.currentDate)
-      .add(this.state.count, 'month')
-      .month();
-
-    const currentDate = dayjs(this.state.currentDate)
-      .add(this.state.count, 'month')
-      .format('YYYY-MM-DD');
-
-    const animationStyle = {
-      backgroundColor,
-    };
-
-    return (
-      <ScrollView
-        style={[
-          styles.scroll,
-          {
-            backgroundColor: backgroundColors[currentMonth],
-          },
-        ]}
+  return (
+    <CalendarWrap backgroundColor={backgroundColors[currentMonth]}>
+      <AnimatedSafeAreaView
+        style={[GlobalStyles.droidSafeArea, styles.safeArea, animationStyle]}
+      />
+      <GestureRecognizer
+        onSwipeLeft={onNextMonth}
+        onSwipeRight={onPrevMonth}
+        config={config}
       >
-        <FocusAwareStatusBar
-          backgroundColor={backgroundColors[currentMonth]}
-          barStyle={'dark-content'}
-        />
-        <AnimatedSafeAreaView
-          style={[GlobalStyles.droidSafeArea, styles.safeArea, animationStyle]}
-        />
-        <GestureRecognizer
-          onSwipeLeft={this.onNextMonth}
-          onSwipeRight={this.onPrevMonth}
-          config={config}
-        >
-          <AnimatedSafeAreaView style={[styles.root, animationStyle]}>
-            <View style={styles.headerContainer}>
-              <TouchableOpacity onPress={this.onPrevMonth}>
-                <MaterialCommunityIcons
-                  name="chevron-left"
-                  size={30}
-                  color={theme().color.main}
-                />
-              </TouchableOpacity>
+        <AnimatedSafeAreaView style={[styles.root, animationStyle]}>
+          <Header
+            onPrevMonth={onPrevMonth}
+            onNextMonth={onNextMonth}
+            date={dayjs(state.currentDate)
+              .add(state.count, 'month')
+              .format('YYYY年MM月')}
+          />
 
-              <View style={styles.yearContainer}>
-                <Text style={styles.year}>
-                  {dayjs(this.state.currentDate)
-                    .add(this.state.count, 'month')
-                    .format('YYYY年MM月')}
-                </Text>
-              </View>
-
-              <TouchableOpacity onPress={this.onNextMonth}>
-                <MaterialCommunityIcons
-                  name="chevron-right"
-                  size={30}
-                  color={theme().color.main}
-                />
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.weekNameContainer}>
-              <Text style={[styles.weekText, { color: theme().color.red }]}>
-                日
-              </Text>
-              <Text style={styles.weekText}>月</Text>
-              <Text style={styles.weekText}>火</Text>
-              <Text style={styles.weekText}>水</Text>
-              <Text style={styles.weekText}>木</Text>
-              <Text style={styles.weekText}>金</Text>
-              <Text style={[styles.weekText, { color: theme().color.sky }]}>
-                土
-              </Text>
-            </View>
-            {this.props.loading ? (
-              <ActivityIndicator size="large" color={theme().mode.text} />
-            ) : (
+          <DayOfWeek />
+          {loading ? (
+            <Calendar
+              style={{
+                backgroundColor: backgroundColors[currentMonth],
+              }}
+              monthFormat={''}
+              hideDayNames
+              hideArrows
+              current={currentDate}
+              theme={calendarTheme}
+              dayComponent={({ date }) => {
+                return (
+                  <TouchableOpacity>
+                    <DayText
+                      currentDate={currentDate}
+                      color={backgroundColors[currentMonth]}
+                      day={date.day}
+                    />
+                  </TouchableOpacity>
+                );
+              }}
+            />
+          ) : (
+            <>
               <Calendar
-                ref={(ref) => (this.calendar = ref)}
+                ref={calendarRef as any}
                 style={{
                   backgroundColor: backgroundColors[currentMonth],
                 }}
+                current={currentDate}
                 monthFormat={''}
                 hideDayNames
                 hideArrows
                 theme={calendarTheme}
                 dayComponent={({ date }) => {
-                  const schedule = this.props.calendars.find(
-                    (item) => item.date === date.dateString
+                  const schedule = props.calendars.find(
+                    (item) =>
+                      dayjs(item?.date).format('YYYY-MM-DD') === date.dateString
                   );
 
                   if (schedule) {
                     return (
                       <TouchableOpacity
-                        onPress={() =>
-                          this.props.onSchedule(schedule.itemId, schedule.title)
-                        }
+                        onPress={() => props.onCalendar(schedule.date)}
                       >
                         <ImageDay
                           currentDate={currentDate}
-                          kind={schedule.kind}
+                          kind={schedule?.item.kind || ''}
                           day={String(date.day)}
                         />
                       </TouchableOpacity>
@@ -287,7 +326,7 @@ export default class extends Component<Props, State> {
 
                   return (
                     <TouchableOpacity
-                      onPress={() => this.props.onCreate(date.dateString)}
+                      onPress={() => props.onCreate(date.dateString)}
                     >
                       <DayText
                         currentDate={currentDate}
@@ -298,14 +337,16 @@ export default class extends Component<Props, State> {
                   );
                 }}
               />
-            )}
-            <View style={styles.calendarBottom} />
-          </AnimatedSafeAreaView>
-        </GestureRecognizer>
-      </ScrollView>
-    );
-  }
-}
+              <View style={styles.calendarBottom} />
+            </>
+          )}
+        </AnimatedSafeAreaView>
+      </GestureRecognizer>
+    </CalendarWrap>
+  );
+};
+
+export default Page;
 
 const calendarTheme: CalendarTheme = {
   'stylesheet.calendar.main': {
@@ -324,54 +365,21 @@ const calendarTheme: CalendarTheme = {
     },
     dayHeader: {
       fontWeight: '600',
-      paddingBottom: 10,
+      paddingBottom: theme().space(2),
       color: '#000',
     },
   },
 };
 
-const styles = EStyleSheet.create({
+const styles = StyleSheet.create({
   root: {
-    flex: 1,
     height: '100%',
     width: '100%',
-  },
-  headerContainer: {
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  yearContainer: {
-    paddingVertical: 20,
-    justifyContent: 'center',
-  },
-  year: {
-    textAlign: 'center',
-    color: theme().color.darkGray,
-    fontSize: 25,
-    fontWeight: '600',
-  },
-  weekNameContainer: {
-    marginTop: 7,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginHorizontal: 4,
-  },
-  weekText: {
-    paddingVertical: 12,
-    textAlign: 'center',
-    alignItems: 'center',
-    fontSize: 18,
-    fontWeight: '600',
   },
   calendarBottom: {
     borderColor: 'gray',
-    marginHorizontal: 4,
+    marginHorizontal: theme().space(2),
     borderBottomWidth: 1,
-  },
-  scroll: {
-    height: '100%',
-    width: '100%',
   },
   safeArea: {
     flex: 0,

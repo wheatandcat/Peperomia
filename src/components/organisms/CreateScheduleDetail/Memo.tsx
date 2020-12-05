@@ -1,12 +1,5 @@
 import React, { Component } from 'react';
-import {
-  View,
-  TextInput,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  Platform,
-} from 'react-native';
+import { View, TextInput, Text, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import theme, { darkMode } from 'config/theme';
@@ -16,7 +9,6 @@ import InputLabel from 'components/molecules/ScheduleDetail/Label';
 let y = [0, 0, 0];
 
 type Props = Pick<SelectItemDetail, 'place' | 'url' | 'memo'> & {
-  scrollView: React.RefObject<ScrollView>;
   onChangeInputText: (name: string, value: string) => void;
 };
 
@@ -194,14 +186,6 @@ export default class extends Component<Props, State> {
                   }}
                   testID={`inputTextScheduleDetail${item.label}`}
                   autoFocus={this.state.focus === item.value}
-                  onFocus={() => {
-                    const height = Platform.OS === 'ios' ? 80 : 40;
-                    this.props.scrollView.current?.scrollTo({
-                      x: 0,
-                      y: y[index] - height,
-                      animated: true,
-                    });
-                  }}
                 >
                   <Text style={styles.memoText}>{item.defaultValue}</Text>
                 </TextInput>

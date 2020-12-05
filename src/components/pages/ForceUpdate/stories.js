@@ -1,7 +1,7 @@
-import React from "react";
-import { storiesOf } from "@storybook/react-native";
+import React from 'react';
+import { storiesOf } from '@storybook/react-native';
 import { View, StyleSheet } from 'react-native';
-import Page from "./Page";
+import Page from './Page';
 
 storiesOf('pages', module).add('ForceUpdate', () => (
   <View style={styles.root}>

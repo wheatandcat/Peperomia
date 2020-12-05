@@ -16,5 +16,7 @@ jobs:
     - name: Install node_modules Peperomia
       if: steps.cache.outputs.cache-hit != 'true'
       run: yarn install
+    - name: codegen
+      run: yarn codegen
     - name: lint
       run: yarn eslint

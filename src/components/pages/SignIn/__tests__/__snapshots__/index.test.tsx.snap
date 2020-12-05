@@ -12,7 +12,7 @@ exports[`components/pages/SignIn/index.tsx 正常に表示されている 1`] = 
   onAppleLogin={[MockFunction]}
   onGoogleLogin={[MockFunction]}
   post={[MockFunction]}
-  refreshData={[MockFunction]}
+  refetchCalendars={[MockFunction]}
   route={
     Object {
       "params": Object {

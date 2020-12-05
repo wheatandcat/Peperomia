@@ -1,0 +1,21 @@
+query Calendar($date: String!) {
+  calendar(date: $date) {
+    id
+    date
+    public
+    item {
+      id
+      title
+      kind
+      itemDetails {
+        id
+        title
+        kind
+        memo
+        url
+        place
+        priority
+      }
+    }
+  }
+}

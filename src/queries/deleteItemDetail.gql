@@ -1,0 +1,5 @@
+mutation DeleteItemDetail($itemDetail: DeleteItemDetail!) {
+  deleteItemDetail(itemDetail: $itemDetail) {
+    id
+  }
+}

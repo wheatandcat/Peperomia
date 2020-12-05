@@ -10,7 +10,7 @@ import * as Sentry from 'sentry-expo';
 import { backup, restore } from 'lib/backup';
 import { ContextProps as FetchContextProps } from 'containers/Fetch';
 import { ContextProps as AuthContextProps } from 'containers/Auth';
-import { ContextProps as ItemsContextProps } from 'containers/Items';
+import { ContextProps as CalendarContextProps } from 'containers/Calendars';
 import { ContextProps as NotificationContextProps } from 'containers/Notification';
 import theme, { darkMode } from 'config/theme';
 import FocusAwareStatusBar from 'components/organisms/FocusAwareStatusBar';
@@ -23,7 +23,7 @@ import Page from './Page';
 dayjs.extend(advancedFormat);
 
 type Props = IndexProps &
-  Pick<ItemsContextProps, 'refreshData'> &
+  Pick<CalendarContextProps, 'refetchCalendars'> &
   Pick<AuthContextProps, 'uid' | 'email'> &
   Pick<FetchContextProps, 'post'> &
   Pick<NotificationContextProps, 'onPermissionRequest'>;
@@ -37,11 +37,6 @@ const initialState = (): State => ({
   loading: false,
   LoadingText: '',
 });
-
-type uuidType = {
-  from: any;
-  to: string;
-};
 
 const setUUID = (
   items: Item[],
@@ -181,8 +176,8 @@ const MyPageConnected: React.FC<Props> = (props) => {
         Toast.hide(toast);
       }, 3000);
 
-      if (props.refreshData) {
-        await props.refreshData();
+      if (props.refetchCalendars) {
+        await props.refetchCalendars();
       }
 
       setState((s) => ({

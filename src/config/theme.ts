@@ -2,6 +2,9 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { Appearance, ColorSchemeName } from 'react-native-appearance';
 
+// inspired by https://styled-system.com/getting-started#space-theming
+const SPACE = [2, 4, 8, 16, 32, 64, 128, 256, 512] as const;
+
 type ThemeColor = {
   color: {
     beige: string;
@@ -215,7 +218,10 @@ export const darkMode = () => {
 };
 
 const getTheme = () => {
-  return theme[mode];
+  return {
+    ...theme[mode],
+    space: (index: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8) => SPACE[index],
+  };
 };
 
 export default getTheme;

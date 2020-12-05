@@ -1,10 +1,10 @@
-import React from "react";
-import { storiesOf } from "@storybook/react-native";
-import TimeDialog from "./TimeDialog";
-import Memo from "./Memo";
+import React from 'react';
+import { storiesOf } from '@storybook/react-native';
+import TimeDialog from './TimeDialog';
+import Memo from './Memo';
 
-storiesOf("organisms/CreateScheduleDetail", module)
-  .add("TimeDialog", () => (
+storiesOf('organisms/CreateScheduleDetail', module)
+  .add('TimeDialog', () => (
     <TimeDialog
       open
       onChange={() => null}
@@ -12,4 +12,4 @@ storiesOf("organisms/CreateScheduleDetail", module)
       onCloseManualTime={() => null}
     />
   ))
-  .add("Memo", () => <Memo place="" url="" memo="" />);
+  .add('Memo', () => <Memo place="" url="" memo="" />);

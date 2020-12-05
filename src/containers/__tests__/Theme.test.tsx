@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow, ShallowWrapper } from 'enzyme';
-import Items from '../Items';
+import Theme from '../Theme';
 
 jest.mock('react-native-appearance', () => {
   const appearance = jest.requireActual('react-native-appearance');
@@ -10,7 +10,7 @@ jest.mock('react-native-appearance', () => {
   };
 });
 
-describe('containers/Items.tsx', () => {
+describe('containers/Theme.tsx', () => {
   let wrapper: ShallowWrapper;
 
   const propsData: any = () => ({
@@ -18,7 +18,7 @@ describe('containers/Items.tsx', () => {
   });
 
   beforeEach(() => {
-    wrapper = shallow(<Items {...propsData()} />);
+    wrapper = shallow(<Theme {...propsData()} />);
   });
 
   it('正常に表示されている', () => {

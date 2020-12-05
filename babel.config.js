@@ -14,6 +14,8 @@ module.exports = function (api) {
             hooks: './src/hooks',
             domain: './src/domain',
             config: './src/config',
+            queries: './src/queries',
+            storyBookUtils: './src/storyBookUtils',
             __mockData__: './src/__mockData__',
           },
         },

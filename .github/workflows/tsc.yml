@@ -18,6 +18,8 @@ jobs:
       run: yarn install
     - name: app copy
       run: yarn app:copy
+    - name: codegen
+      run: yarn codegen
     - name: tsc Peperomia
       run: yarn tsc
 

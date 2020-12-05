@@ -17,7 +17,10 @@ import { select as selectItems } from 'lib/db/item';
 import { select as selectItemDetailds } from 'lib/db/itemDetail';
 import { useAuth, ContextProps as AuthContextProps } from 'containers/Auth';
 import { useFetch, ContextProps as FetchContextProps } from 'containers/Fetch';
-import { useItems, ContextProps as ItemsContextProps } from 'containers/Items';
+import {
+  useCalendars,
+  ContextProps as CalendarsContextProps,
+} from 'containers/Calendars';
 import { useDidMount } from 'hooks/index';
 import { getFireStore } from 'lib/firebase';
 import { resetQuery } from 'lib/firestore/debug';
@@ -29,7 +32,6 @@ import Policy from '../Policy/Page';
 import Feedback from '../Feedback/Connected';
 import SignIn from '../SignIn';
 import MyPage from '../MyPage';
-import ScreenSetting from '../ScreenSetting/Connected';
 import LoginWithAmazon from '../LoginWithAmazon/Connected';
 import theme, { darkMode } from 'config/theme';
 import FocusAwareStatusBar from 'components/organisms/FocusAwareStatusBar';
@@ -38,7 +40,7 @@ import Page from './Page';
 const Container = () => {
   const { loggedIn, logout, uid } = useAuth();
   const { post } = useFetch();
-  const { refreshData } = useItems();
+  const { refetchCalendars } = useCalendars();
 
   return (
     <Connected
@@ -46,7 +48,7 @@ const Container = () => {
       logout={logout}
       post={post}
       uid={uid}
-      refreshData={refreshData}
+      refetchCalendars={refetchCalendars}
     />
   );
 };
@@ -66,14 +68,13 @@ export type ConnectedType = State &
     onMyPage: () => void;
     onNotificationSetting: () => void;
     onMigrationV100: () => void;
-    onScreenSetting: () => void;
     onLoginWithAmazon: () => void;
     onFirestoreResetQuery: () => void;
     onFirestoreSelect: () => void;
     onChangeDebugMode: (val: boolean) => void;
   };
 
-type ConnectedProps = Pick<ItemsContextProps, 'refreshData'> &
+type ConnectedProps = Pick<CalendarsContextProps, 'refetchCalendars'> &
   Pick<FetchContextProps, 'post'> &
   Pick<AuthContextProps, 'loggedIn' | 'logout' | 'uid'>;
 
@@ -176,10 +177,6 @@ const Connected = memo((props: ConnectedProps) => {
     navigate('NotificationSetting');
   }, [navigate]);
 
-  const onScreenSetting = useCallback(() => {
-    navigate('ScreenSetting');
-  }, [navigate]);
-
   const onLogout = useCallback(() => {
     Alert.alert(
       'ログアウトしますか',
@@ -193,14 +190,14 @@ const Connected = memo((props: ConnectedProps) => {
           text: 'ログアウト',
           onPress: async () => {
             try {
-              if (props.logout && props.refreshData) {
+              if (props.logout && props.refetchCalendars) {
                 setState((s) => ({
                   ...s,
                   restoreLoading: true,
                 }));
 
                 await props.logout();
-                await props.refreshData(null);
+                await props.refetchCalendars();
 
                 setState((s) => ({
                   ...s,
@@ -286,7 +283,6 @@ const Connected = memo((props: ConnectedProps) => {
         onMyPage={onMyPage}
         onNotificationSetting={onNotificationSetting}
         onMigrationV100={onMigrationV100}
-        onScreenSetting={onScreenSetting}
         onLoginWithAmazon={onLoginWithAmazon}
         onFirestoreResetQuery={onFirestoreResetQuery}
         onFirestoreSelect={onFirestoreSelect}
@@ -330,11 +326,6 @@ const RootStack = () => {
         name="MyPage"
         component={MyPage}
         options={navigationOption('マイページ')}
-      />
-      <Stack.Screen
-        name="ScreenSetting"
-        component={ScreenSetting}
-        options={navigationOption('画面設定')}
       />
       <Stack.Screen
         name="LoginWithAmazon"

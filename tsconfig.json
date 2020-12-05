@@ -34,6 +34,12 @@
       ],
       "__mockData__/*":[
         "src/__mockData__/*"
+      ],
+      "queries/*":[
+       "src/queries/*"
+      ],
+      "storyBookUtils/*":[
+        "src/storyBookUtils/*"
       ]
     },
     "lib": [

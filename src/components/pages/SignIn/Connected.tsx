@@ -7,7 +7,7 @@ import uuidv4 from 'uuid/v4';
 import { backup } from 'lib/backup';
 import { ContextProps as AuthContextProps } from 'containers/Auth';
 import { ContextProps as FetchContextProps } from 'containers/Fetch';
-import { ContextProps as ItemsContextProps } from 'containers/Items';
+import { ContextProps as CalendarsContextProps } from 'containers/Calendars';
 import CommonStatusBar from 'components/organisms/CommonStatusBar';
 import { Props as IndexProps } from './';
 import Page from './Page';
@@ -15,7 +15,7 @@ import Page from './Page';
 dayjs.extend(advancedFormat);
 
 type Props = IndexProps &
-  Pick<ItemsContextProps, 'refreshData'> &
+  Pick<CalendarsContextProps, 'refetchCalendars'> &
   Pick<AuthContextProps, 'onGoogleLogin' | 'onAppleLogin' | 'logout' | 'uid'> &
   Pick<FetchContextProps, 'post'>;
 
@@ -80,42 +80,39 @@ const SignInConnected = memo((props: Props) => {
     return true;
   }, [props]);
 
-  const backupData = useCallback(
-    async (uid: string) => {
-      if (!props.refreshData) {
-        return;
-      }
+  const backupData = useCallback(async () => {
+    if (!props.refetchCalendars) {
+      return;
+    }
 
-      const httpStatus = await saveUser();
-      if (httpStatus === 201) {
-        // ユーザー作成した場合はデータをサーバーに送る
-        const ok2 = await backupItem();
-        if (ok2) {
-          await props.refreshData(uid);
-          if (onLogin) {
-            onLogin();
-          }
-        }
-
-        props.navigation.goBack();
-      } else if (httpStatus === 200) {
-        await props.refreshData(uid);
+    const httpStatus = await saveUser();
+    if (httpStatus === 201) {
+      // ユーザー作成した場合はデータをサーバーに送る
+      const ok2 = await backupItem();
+      if (ok2) {
+        await props.refetchCalendars();
         if (onLogin) {
           onLogin();
         }
-        props.navigation.goBack();
-      } else {
-        // 保存に失敗した時はログアウトさせる
-        if (props.logout) {
-          props.logout();
-        }
       }
-    },
-    [backupItem, props, saveUser, onLogin]
-  );
+
+      props.navigation.goBack();
+    } else if (httpStatus === 200) {
+      await props.refetchCalendars();
+      if (onLogin) {
+        onLogin();
+      }
+      props.navigation.goBack();
+    } else {
+      // 保存に失敗した時はログアウトさせる
+      if (props.logout) {
+        props.logout();
+      }
+    }
+  }, [backupItem, props, saveUser, onLogin]);
 
   const onAppleLogin = useCallback(async () => {
-    if (!props.onAppleLogin || !props.refreshData) {
+    if (!props.onAppleLogin) {
       return;
     }
     try {
@@ -126,7 +123,7 @@ const SignInConnected = memo((props: Props) => {
           loading: true,
         });
 
-        await backupData(uid);
+        await backupData();
       }
     } catch (err) {
       console.log('err:', err);
@@ -138,7 +135,7 @@ const SignInConnected = memo((props: Props) => {
   }, [props, backupData]);
 
   const onGoogleLogin = useCallback(async () => {
-    if (!props.onGoogleLogin || !props.refreshData) {
+    if (!props.onGoogleLogin) {
       return;
     }
 
@@ -149,7 +146,7 @@ const SignInConnected = memo((props: Props) => {
           loading: true,
         });
 
-        await backupData(uid);
+        await backupData();
       }
     } catch (err) {
       console.log('err:', err);

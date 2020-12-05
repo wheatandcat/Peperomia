@@ -155,13 +155,6 @@ const SettingPage: FC<Props> = (props) => {
             <Divider />
             <ListItem title={`UID: ${props.uid || ''}`} />
             <Divider />
-            <ListItem
-              title="画面表示"
-              rightIcon={{ name: 'chevron-right', color: theme().mode.text }}
-              containerStyle={styles.menu}
-              titleStyle={styles.menuText}
-              onPress={props.onScreenSetting}
-            />
             <Divider />
             <ListItem title="初期データ投入" onPress={props.onResetSQL} />
             <Divider />
