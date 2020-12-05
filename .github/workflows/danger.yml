@@ -18,10 +18,10 @@ jobs:
       run: yarn install
     - name: copy app.json
       run: cp -r app.test.json app.json
-    - name: test
-      run: yarn test:coverage
     - name: codegen
       run: yarn codegen
+    - name: test
+      run: yarn test:coverage
     - name: danger
       run: yarn danger:ci
       env:
