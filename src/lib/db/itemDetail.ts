@@ -111,19 +111,6 @@ export const select1st = async (
   );
 };
 
-/*
-export const sortItemDetail = (
-  tx: SQLite.SQLTransaction,
-  itemDetails: ItemDetail[],
-  callback: (data: ItemDetail[], error: SQLite.SQLError | null) => void
-) => {
-  itemDetails.forEach((item: ItemDetail, index: number) => {
-    item.priority = index + 1;
-    update(tx, item, callback);
-  });
-};
-*/
-
 export const countByItemId = async (
   tx: SQLite.SQLTransaction,
   id: string,

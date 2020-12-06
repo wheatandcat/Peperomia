@@ -15,7 +15,7 @@ type UseCalendars = Pick<
 
 type Props = {
   variables: CalendarsQueryVariables;
-  fetchPolicy: WatchQueryFetchPolicy;
+  fetchPolicy?: WatchQueryFetchPolicy;
 };
 
 type UseHooks = (props: Props) => UseCalendars;

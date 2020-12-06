@@ -1,33 +1,33 @@
 import { useAuth } from 'containers/Auth';
 import {
-  CalendarQueryHookResult,
-  useCalendarQuery,
-  CalendarQueryVariables,
+  ItemDetailQueryHookResult,
+  useItemDetailQuery,
+  ItemDetailQueryVariables,
 } from 'queries/api/index';
 import { WatchQueryFetchPolicy } from '@apollo/client';
-import useCalendarDB from 'hooks/db/useCalendarDB';
+import useItemDetailDB from 'hooks/db/useItemDetailDB';
 import { isLogin } from 'lib/auth';
 
-type UseCalendar = Pick<
-  CalendarQueryHookResult,
+type UseItemDetail = Pick<
+  ItemDetailQueryHookResult,
   'data' | 'loading' | 'error' | 'refetch'
 >;
 
 type Props = {
-  variables: CalendarQueryVariables;
+  variables: ItemDetailQueryVariables;
   fetchPolicy?: WatchQueryFetchPolicy;
 };
 
-type UseHooks = (props: Props) => UseCalendar;
+type UseHooks = (props: Props) => UseItemDetail;
 
-const useCalendar = (props: Props): UseCalendar => {
+const useItemDetail = (props: Props): UseItemDetail => {
   const { uid } = useAuth();
   let useHooks: UseHooks;
 
   if (uid && isLogin(uid)) {
-    useHooks = useCalendarQuery;
+    useHooks = useItemDetailQuery;
   } else {
-    useHooks = useCalendarDB as any;
+    useHooks = useItemDetailDB as any;
   }
 
   const { data, loading, error, refetch } = useHooks(props);
@@ -35,4 +35,4 @@ const useCalendar = (props: Props): UseCalendar => {
   return { data, loading, error, refetch };
 };
 
-export default useCalendar;
+export default useItemDetail;

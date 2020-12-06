@@ -3,12 +3,11 @@ import { Alert } from 'react-native';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import 'dayjs/locale/ja';
-
 import {
-  useItemDetailQuery,
   useDeleteItemDetailMutation,
   useUpdateMainItemDetailMutation,
 } from 'queries/api/index';
+import useItemDetail from 'hooks/useItemDetail';
 import { Props as IndexProps } from './';
 import Plain from './Plain';
 
@@ -51,7 +50,7 @@ const Connected: React.FC<Props> = (props) => {
     },
   });
 
-  const { data, loading, error, refetch } = useItemDetailQuery({
+  const { data, loading, error, refetch } = useItemDetail({
     variables: {
       date: props.date,
       itemId: props.itemId,
