@@ -1,7 +1,7 @@
 import * as SQLite from 'expo-sqlite';
 import { useState, useEffect, useCallback } from 'react';
 import equal from 'fast-deep-equal';
-import { ApolloError } from '@apollo/client';
+import { ApolloError, WatchQueryFetchPolicy } from '@apollo/client';
 import useIsFirstRender from 'hooks/useIsFirstRender';
 import {
   CalendarsQuery,
@@ -33,6 +33,7 @@ const initialState = (): State => {
 
 type Props = {
   variables: CalendarsQueryVariables;
+  fetchPolicy: WatchQueryFetchPolicy;
 };
 
 const useCalendarsDB = ({ variables }: Props) => {

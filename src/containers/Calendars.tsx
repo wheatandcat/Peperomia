@@ -44,8 +44,11 @@ const Calendar: React.FC<Props> = (props) => {
   const [state, setState] = useState<State>(initialState());
 
   const { data, loading, error, refetch } = useCalendarsHooks({
-    startDate: state.startDate,
-    endDate: state.endDate,
+    variables: {
+      startDate: state.startDate,
+      endDate: state.endDate,
+    },
+    fetchPolicy: 'network-only',
   });
 
   const setDate = useCallback((startDate: string, endDate: string) => {

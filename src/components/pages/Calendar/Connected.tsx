@@ -1,6 +1,6 @@
 import React, { memo, useCallback } from 'react';
 import { Alert, Dimensions } from 'react-native';
-import { useCalendarQuery, useDeleteCalendarMutation } from 'queries/api/index';
+import { useDeleteCalendarMutation } from 'queries/api/index';
 import { ContextProps as CalendarsContextProps } from 'containers/Calendars';
 import { copyShareURL } from 'lib/share';
 import {
@@ -8,6 +8,7 @@ import {
   UpdateCalendarPublicMutationVariables,
 } from 'queries/api/index';
 import Toast from 'react-native-root-toast';
+import useCalendar from 'hooks/useCalendar';
 import { Props as IndexProps } from './';
 import Plain, { QueryProps } from './Plain';
 
@@ -69,7 +70,7 @@ const Connected: React.FC<Props> = memo((props) => {
     },
   });
 
-  const { data, loading, error, refetch } = useCalendarQuery({
+  const { data, loading, error, refetch } = useCalendar({
     variables: {
       date: props.date,
     },
