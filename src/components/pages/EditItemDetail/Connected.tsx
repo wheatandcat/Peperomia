@@ -3,12 +3,9 @@ import { Alert } from 'react-native';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import 'dayjs/locale/ja';
-import {
-  NewItem,
-  UpdateItemDetailMutationVariables,
-  useItemDetailQuery,
-  useUpdateItemDetailMutation,
-} from 'queries/api/index';
+import { NewItem, UpdateItemDetailMutationVariables } from 'queries/api/index';
+import useItemDetail from 'hooks/useItemDetail';
+import useUpdateItemDetail from 'hooks/useUpdateItemDetail';
 import Plain from './Plain';
 import { Props as IndexProps } from './';
 
@@ -37,7 +34,7 @@ const Connected: React.FC<Props> = memo((props) => {
   const [
     updateItemDetailMutation,
     updateItemDetailMutationData,
-  ] = useUpdateItemDetailMutation({
+  ] = useUpdateItemDetail({
     async onCompleted() {
       await props?.onCallback?.();
 
@@ -47,7 +44,8 @@ const Connected: React.FC<Props> = memo((props) => {
       Alert.alert('保存に失敗しました', err.message);
     },
   });
-  const { data, loading, error } = useItemDetailQuery({
+
+  const { data, loading, error } = useItemDetail({
     variables: {
       date: props.date,
       itemId: props.itemId,

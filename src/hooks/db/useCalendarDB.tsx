@@ -98,14 +98,9 @@ const useCalendarDB = ({ variables }: Props) => {
             title: result.title,
             kind: result.kind,
             itemDetails: [
-              {
-                id: result.itemId,
-                title: result.title,
-                kind: result.kind,
-              },
               ...itemDetails.map((v) => ({
                 ...v,
-                priority: v.priority + 1,
+                priority: v.priority,
               })),
             ],
           },
