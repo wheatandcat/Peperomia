@@ -3,7 +3,8 @@ import { Alert } from 'react-native';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import 'dayjs/locale/ja';
-import { useCreateCalendarMutation, NewItem } from 'queries/api/index';
+import { NewItem } from 'queries/api/index';
+import useCreateCalendar from 'hooks/useCreateCalendar';
 import { ContextProps as CalendarsContextProps } from 'containers/Calendars';
 import Plain from './Plain';
 import { Props as IndexProps } from './';
@@ -30,7 +31,7 @@ const Connected: React.FC<Props> = memo((props) => {
   const [
     createCalendarMutation,
     createCalendarMutationData,
-  ] = useCreateCalendarMutation({
+  ] = useCreateCalendar({
     async onCompleted({ createCalendar }) {
       await props.refetchCalendars?.();
 

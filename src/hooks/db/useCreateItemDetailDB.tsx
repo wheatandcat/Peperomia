@@ -60,7 +60,6 @@ const useCreateItemDetailDB = (props: Props) => {
         loading: true,
       }));
 
-      console.log(mutationProps);
       const itemDetail = mutationProps.variables.itemDetail as any;
       const insertId = await fetchItem(itemDetail);
 
