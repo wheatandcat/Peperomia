@@ -1,6 +1,7 @@
 import React, { memo, useCallback } from 'react';
 import { Alert, Dimensions } from 'react-native';
 import { ContextProps as CalendarsContextProps } from 'containers/Calendars';
+import { ContextProps as AuthContextProps } from 'containers/Auth';
 import { copyShareURL } from 'lib/share';
 import {
   useUpdateCalendarPublicMutation,
@@ -9,6 +10,7 @@ import {
 import Toast from 'react-native-root-toast';
 import useDeleteCalendar from 'hooks/useDeleteCalendar';
 import useCalendar from 'hooks/useCalendar';
+import { isLogin } from 'lib/auth';
 import { Props as IndexProps } from './';
 import Plain, { QueryProps } from './Plain';
 
@@ -17,7 +19,8 @@ export type ItemDetailType = ArrayType<CalendarType['item']['itemDetails']>;
 
 type Props = IndexProps & {
   date: string;
-} & Pick<CalendarsContextProps, 'refetchCalendars'>;
+} & Pick<CalendarsContextProps, 'refetchCalendars'> &
+  Pick<AuthContextProps, 'uid'>;
 
 export type ConnectedType = {
   onDismiss: () => void;
@@ -137,13 +140,20 @@ const Connected: React.FC<Props> = memo((props) => {
 
   const onShare = useCallback(
     async (open: boolean) => {
-      const variables: UpdateCalendarPublicMutationVariables = {
-        calendar: {
-          date: props.date,
-          public: open,
-        },
-      };
-      updateCalendarPublicMutation({ variables });
+      if (props.uid && isLogin(props.uid)) {
+        const variables: UpdateCalendarPublicMutationVariables = {
+          calendar: {
+            date: props.date,
+            public: open,
+          },
+        };
+        updateCalendarPublicMutation({ variables });
+      } else {
+        Alert.alert(
+          'その操作は行なえません',
+          '予定をシェアするの機能はユーザー登録しないと行えません'
+        );
+      }
     },
     [props, updateCalendarPublicMutation]
   );

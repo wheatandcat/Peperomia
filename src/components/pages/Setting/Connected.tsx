@@ -22,9 +22,6 @@ import {
   ContextProps as CalendarsContextProps,
 } from 'containers/Calendars';
 import { useDidMount } from 'hooks/index';
-import { getFireStore } from 'lib/firebase';
-import { resetQuery } from 'lib/firestore/debug';
-import { findByUID } from 'lib/firestore/item';
 import { setDebugMode, getDebugMode } from 'lib/auth';
 import { RootStackParamList } from 'lib/navigation';
 import Tos from '../Tos/Page';
@@ -69,8 +66,6 @@ export type ConnectedType = State &
     onNotificationSetting: () => void;
     onMigrationV100: () => void;
     onLoginWithAmazon: () => void;
-    onFirestoreResetQuery: () => void;
-    onFirestoreSelect: () => void;
     onChangeDebugMode: (val: boolean) => void;
   };
 
@@ -231,25 +226,6 @@ const Connected = memo((props: ConnectedProps) => {
     AsyncStorage.setItem('APP_VERSION', '1.0.0');
   }, []);
 
-  const onFirestoreResetQuery = useCallback(() => {
-    if (!props.uid) {
-      return;
-    }
-
-    const firestore = getFireStore();
-    resetQuery(firestore, props.uid);
-  }, [props.uid]);
-
-  const onFirestoreSelect = useCallback(async () => {
-    if (!props.uid) {
-      return;
-    }
-
-    const firestore = getFireStore();
-    const r = await findByUID(firestore, props.uid);
-    console.log(r);
-  }, [props.uid]);
-
   const onChangeDebugMode = useCallback(async (val: boolean) => {
     await setDebugMode(val);
     setState((s) => ({
@@ -284,8 +260,6 @@ const Connected = memo((props: ConnectedProps) => {
         onNotificationSetting={onNotificationSetting}
         onMigrationV100={onMigrationV100}
         onLoginWithAmazon={onLoginWithAmazon}
-        onFirestoreResetQuery={onFirestoreResetQuery}
-        onFirestoreSelect={onFirestoreSelect}
         onChangeDebugMode={onChangeDebugMode}
       />
     </>

@@ -11,7 +11,7 @@ const playStoreId = 'com.wheatandcat.peperomia';
 const ForceUpdate: React.FC<Props> = () => {
   const onPress = useCallback(() => {
     AppLink.openInStore({
-      appName: 'シェアフル',
+      appName: 'ペペロミア',
       appStoreId,
       appStoreLocale: 'jp',
       playStoreId,

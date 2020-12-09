@@ -170,16 +170,6 @@ const SettingPage: FC<Props> = (props) => {
             <ListItem title="DBのデータを表示" onPress={props.onData} />
             <Divider />
             <ListItem
-              title="firestoreをデータリセット"
-              onPress={props.onFirestoreResetQuery}
-            />
-            <Divider />
-            <ListItem
-              title="firestoreをデータを確認"
-              onPress={props.onFirestoreSelect}
-            />
-            <Divider />
-            <ListItem
               title="最初のプラン作成キャッシュの削除"
               onPress={() => {
                 AsyncStorage.removeItem('FIRST_CREATE_ITEM');
