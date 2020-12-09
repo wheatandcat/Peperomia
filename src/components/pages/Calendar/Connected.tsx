@@ -1,6 +1,5 @@
 import React, { memo, useCallback } from 'react';
 import { Alert, Dimensions } from 'react-native';
-import { useDeleteCalendarMutation } from 'queries/api/index';
 import { ContextProps as CalendarsContextProps } from 'containers/Calendars';
 import { copyShareURL } from 'lib/share';
 import {
@@ -8,6 +7,7 @@ import {
   UpdateCalendarPublicMutationVariables,
 } from 'queries/api/index';
 import Toast from 'react-native-root-toast';
+import useDeleteCalendar from 'hooks/useDeleteCalendar';
 import useCalendar from 'hooks/useCalendar';
 import { Props as IndexProps } from './';
 import Plain, { QueryProps } from './Plain';
@@ -59,7 +59,7 @@ const Connected: React.FC<Props> = memo((props) => {
     },
   });
 
-  const [deleteCalendarMutation] = useDeleteCalendarMutation({
+  const [deleteCalendarMutation] = useDeleteCalendar({
     async onCompleted() {
       await props.refetchCalendars?.();
 
@@ -103,11 +103,12 @@ const Connected: React.FC<Props> = memo((props) => {
     const variables = {
       calendar: {
         date: props.date,
+        itemId: data?.calendar?.item.id || 0,
       },
     };
 
     deleteCalendarMutation({ variables });
-  }, [deleteCalendarMutation, props.date]);
+  }, [deleteCalendarMutation, props.date, data]);
 
   const onAddItemDetail = useCallback(() => {
     props.navigation.navigate('AddItemDetail', {
