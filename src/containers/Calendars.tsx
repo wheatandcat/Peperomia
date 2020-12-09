@@ -2,11 +2,8 @@ import React, { createContext, useState, useCallback, useContext } from 'react';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import 'dayjs/locale/ja';
-import {
-  useCalendarsQuery,
-  CalendarsQueryResult,
-  CalendarsQuery,
-} from 'queries/api/index';
+import { CalendarsQueryResult, CalendarsQuery } from 'queries/api/index';
+import useCalendarsHooks from 'hooks/useCalendars';
 
 dayjs.extend(advancedFormat);
 
@@ -45,7 +42,8 @@ export type ContextProps = {
 
 const Calendar: React.FC<Props> = (props) => {
   const [state, setState] = useState<State>(initialState());
-  const { data, loading, error, refetch } = useCalendarsQuery({
+
+  const { data, loading, error, refetch } = useCalendarsHooks({
     variables: {
       startDate: state.startDate,
       endDate: state.endDate,

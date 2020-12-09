@@ -52,6 +52,34 @@ export const update = async (
   );
 };
 
+export const findBetweenDate = async (
+  tx: SQLite.SQLTransaction,
+  startDate: string,
+  endDate: string,
+  callback?: (data: SelectCalendar[], error: SQLite.SQLError | null) => void
+) => {
+  return tx.executeSql(
+    'select * from calendars inner join items on calendars.itemId = items.id where Datetime(calendars.date) >= Datetime(?) and Datetime(calendars.date) <= Datetime(?)',
+
+    [startDate, endDate],
+    (_, props) => success(list(props.rows), callback),
+    (_, err) => error(err, callback)
+  );
+};
+
+export const findDate = async (
+  tx: SQLite.SQLTransaction,
+  date: string,
+  callback?: (data: SelectCalendar[], error: SQLite.SQLError | null) => void
+) => {
+  return tx.executeSql(
+    'select * from calendars inner join items on calendars.itemId = items.id where Datetime(calendars.date) = Datetime(?)',
+    [date],
+    (_, props) => success(props.rows.item(0), callback),
+    (_, err) => error(err, callback)
+  );
+};
+
 export const select = async (
   tx: SQLite.SQLTransaction,
   callback?: (data: SelectCalendar[], error: SQLite.SQLError | null) => void

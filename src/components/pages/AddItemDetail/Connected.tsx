@@ -3,11 +3,8 @@ import { Alert } from 'react-native';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import 'dayjs/locale/ja';
-import {
-  useCreateItemDetailMutation,
-  NewItem,
-  NewItemDetail,
-} from 'queries/api/index';
+import { NewItem, NewItemDetail } from 'queries/api/index';
+import useCreateItemDetail from 'hooks/useCreateItemDetail';
 import Plain from './Plain';
 import { Props as IndexProps } from './';
 
@@ -36,7 +33,7 @@ const Connected: React.FC<Props> = memo((props) => {
   const [
     createItemDetailMutation,
     createItemDetailMutationData,
-  ] = useCreateItemDetailMutation({
+  ] = useCreateItemDetail({
     async onCompleted() {
       await props?.onCallback?.();
 

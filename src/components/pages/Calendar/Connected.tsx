@@ -1,13 +1,16 @@
 import React, { memo, useCallback } from 'react';
 import { Alert, Dimensions } from 'react-native';
-import { useCalendarQuery, useDeleteCalendarMutation } from 'queries/api/index';
 import { ContextProps as CalendarsContextProps } from 'containers/Calendars';
+import { ContextProps as AuthContextProps } from 'containers/Auth';
 import { copyShareURL } from 'lib/share';
 import {
   useUpdateCalendarPublicMutation,
   UpdateCalendarPublicMutationVariables,
 } from 'queries/api/index';
 import Toast from 'react-native-root-toast';
+import useDeleteCalendar from 'hooks/useDeleteCalendar';
+import useCalendar from 'hooks/useCalendar';
+import { isLogin } from 'lib/auth';
 import { Props as IndexProps } from './';
 import Plain, { QueryProps } from './Plain';
 
@@ -16,7 +19,8 @@ export type ItemDetailType = ArrayType<CalendarType['item']['itemDetails']>;
 
 type Props = IndexProps & {
   date: string;
-} & Pick<CalendarsContextProps, 'refetchCalendars'>;
+} & Pick<CalendarsContextProps, 'refetchCalendars'> &
+  Pick<AuthContextProps, 'uid'>;
 
 export type ConnectedType = {
   onDismiss: () => void;
@@ -58,7 +62,7 @@ const Connected: React.FC<Props> = memo((props) => {
     },
   });
 
-  const [deleteCalendarMutation] = useDeleteCalendarMutation({
+  const [deleteCalendarMutation] = useDeleteCalendar({
     async onCompleted() {
       await props.refetchCalendars?.();
 
@@ -69,7 +73,7 @@ const Connected: React.FC<Props> = memo((props) => {
     },
   });
 
-  const { data, loading, error, refetch } = useCalendarQuery({
+  const { data, loading, error, refetch } = useCalendar({
     variables: {
       date: props.date,
     },
@@ -102,11 +106,12 @@ const Connected: React.FC<Props> = memo((props) => {
     const variables = {
       calendar: {
         date: props.date,
+        itemId: data?.calendar?.item.id || 0,
       },
     };
 
     deleteCalendarMutation({ variables });
-  }, [deleteCalendarMutation, props.date]);
+  }, [deleteCalendarMutation, props.date, data]);
 
   const onAddItemDetail = useCallback(() => {
     props.navigation.navigate('AddItemDetail', {
@@ -135,13 +140,20 @@ const Connected: React.FC<Props> = memo((props) => {
 
   const onShare = useCallback(
     async (open: boolean) => {
-      const variables: UpdateCalendarPublicMutationVariables = {
-        calendar: {
-          date: props.date,
-          public: open,
-        },
-      };
-      updateCalendarPublicMutation({ variables });
+      if (props.uid && isLogin(props.uid)) {
+        const variables: UpdateCalendarPublicMutationVariables = {
+          calendar: {
+            date: props.date,
+            public: open,
+          },
+        };
+        updateCalendarPublicMutation({ variables });
+      } else {
+        Alert.alert(
+          'その操作は行なえません',
+          '予定をシェアするの機能はユーザー登録しないと行えません'
+        );
+      }
     },
     [props, updateCalendarPublicMutation]
   );
