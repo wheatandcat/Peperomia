@@ -9,6 +9,12 @@ import { ContextProps as AuthContextProps } from 'containers/Auth';
 import { ContextProps as FetchContextProps } from 'containers/Fetch';
 import { ContextProps as CalendarsContextProps } from 'containers/Calendars';
 import CommonStatusBar from 'components/organisms/CommonStatusBar';
+import {
+  useSyncCalendarsMutation,
+  SyncCalendarsMutationVariables,
+  SyncCalendar,
+  SyncItemDetail,
+} from 'queries/api/index';
 import { Props as IndexProps } from './';
 import Page from './Page';
 
@@ -26,6 +32,19 @@ type ConnectedState = {
 const SignInConnected = memo((props: Props) => {
   const [state, setState] = useState<ConnectedState>({ loading: false });
   const onLogin = props.route?.params?.onLogin;
+  const [syncCalendarsMutation] = useSyncCalendarsMutation({
+    async onCompleted() {
+      await props.refetchCalendars?.();
+      if (onLogin) {
+        onLogin();
+      }
+
+      props.navigation.goBack();
+    },
+    onError(err) {
+      Alert.alert('バックアップに失敗しました', err.message);
+    },
+  });
 
   const saveUser = useCallback(async () => {
     if (!props.post) {
@@ -41,45 +60,6 @@ const SignInConnected = memo((props: Props) => {
     return Number(response?.status);
   }, [props]);
 
-  const backupItem = useCallback(async () => {
-    if (!props.post) {
-      return false;
-    }
-
-    const { items, itemDetails, calendars } = await backup();
-
-    const uuidList = items.map((item) => ({
-      from: item.id,
-      to: uuidv4(),
-    }));
-
-    const request = {
-      items: items.map((item) => ({
-        ...item,
-        id: uuidList.find((v) => v.from === item.id)?.to || '',
-      })),
-      itemDetails: itemDetails.map((itemDetail) => ({
-        ...itemDetail,
-        id: uuidv4(),
-        itemId: uuidList.find((v) => v.from === itemDetail.itemId)?.to || '',
-      })),
-      calendars: calendars.map((calendar) => ({
-        ...calendar,
-        id: uuidv4(),
-        itemId: uuidList.find((v) => v.from === calendar.itemId)?.to || '',
-        date: dayjs(calendar.date).format(),
-      })),
-    };
-    const response = await props.post('SyncItems', request);
-
-    if (response.error) {
-      Alert.alert('バックアップに失敗しました');
-      return false;
-    }
-
-    return true;
-  }, [props]);
-
   const backupData = useCallback(async () => {
     if (!props.refetchCalendars) {
       return;
@@ -87,16 +67,48 @@ const SignInConnected = memo((props: Props) => {
 
     const httpStatus = await saveUser();
     if (httpStatus === 201) {
-      // ユーザー作成した場合はデータをサーバーに送る
-      const ok2 = await backupItem();
-      if (ok2) {
-        await props.refetchCalendars();
-        if (onLogin) {
-          onLogin();
-        }
-      }
+      // ユーザーを新規で作成した場合はデータをサーバーに送る
+      const { items, itemDetails, calendars } = await backup();
 
-      props.navigation.goBack();
+      const syncCalendars = calendars.map((v) => {
+        const i = items.find((v1) => v1.id === v.itemId);
+        let ids: SyncItemDetail[] = [];
+
+        if (i) {
+          ids = itemDetails
+            .filter((v2) => v2.itemId === v.itemId)
+            .map((id) => ({
+              id: uuidv4(),
+              title: id.title || '',
+              kind: id?.kind || '',
+              place: id?.place || '',
+              url: id?.url || '',
+              memo: id?.memo || '',
+              priority: id?.priority || 1,
+            }));
+        }
+
+        const r: SyncCalendar = {
+          id: uuidv4(),
+          date: dayjs(v.date).format('YYYY-MM-DDT00:00:00'),
+          item: {
+            id: uuidv4(),
+            title: i?.title || '',
+            kind: i?.kind || '',
+            itemDetails: ids,
+          },
+        };
+
+        return r;
+      });
+
+      const variables: SyncCalendarsMutationVariables = {
+        calendars: {
+          calendars: syncCalendars,
+        },
+      };
+
+      syncCalendarsMutation({ variables });
     } else if (httpStatus === 200) {
       await props.refetchCalendars();
       if (onLogin) {
@@ -109,7 +121,7 @@ const SignInConnected = memo((props: Props) => {
         props.logout();
       }
     }
-  }, [backupItem, props, saveUser, onLogin]);
+  }, [props, saveUser, onLogin, syncCalendarsMutation]);
 
   const onAppleLogin = useCallback(async () => {
     if (!props.onAppleLogin) {
