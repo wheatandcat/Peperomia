@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow, ShallowWrapper } from 'enzyme';
+import * as queries from 'queries/api/index';
 import Connected from '../Connected';
 
 describe('components/pages/MyPage/Connected.tsx', () => {
@@ -24,6 +25,10 @@ describe('components/pages/MyPage/Connected.tsx', () => {
   });
 
   beforeEach(() => {
+    jest
+      .spyOn(queries, 'useSyncCalendarsMutation')
+      .mockImplementation(() => [jest.fn()] as any);
+
     wrapper = shallow(<Connected {...propsData()} />);
   });
 

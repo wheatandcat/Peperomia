@@ -14,9 +14,12 @@ import { ContextProps as CalendarContextProps } from 'containers/Calendars';
 import { ContextProps as NotificationContextProps } from 'containers/Notification';
 import theme, { darkMode } from 'config/theme';
 import FocusAwareStatusBar from 'components/organisms/FocusAwareStatusBar';
-import { Item } from 'lib/db/item';
-import { ItemDetail } from 'lib/db/itemDetail';
-import { Calendar } from 'lib/db/calendar';
+import {
+  useSyncCalendarsMutation,
+  SyncCalendarsMutationVariables,
+  SyncCalendar,
+  SyncItemDetail,
+} from 'queries/api/index';
 import { Props as IndexProps } from './';
 import Page from './Page';
 
@@ -38,65 +41,11 @@ const initialState = (): State => ({
   LoadingText: '',
 });
 
-const setUUID = (
-  items: Item[],
-  itemDetails: ItemDetail[],
-  calendars: Calendar[]
-) => {
-  const uuidList = items.map((item) => ({
-    from: item.id,
-    to: uuidv4(),
-  }));
-
-  const request = {
-    items: items.map((item) => ({
-      ...item,
-      id: uuidList.find((v) => v.from === item.id)?.to || '',
-    })),
-    itemDetails: itemDetails.map((itemDetail) => ({
-      ...itemDetail,
-      id: uuidv4(),
-      itemId: uuidList.find((v) => v.from === itemDetail.itemId)?.to || '',
-    })),
-    calendars: calendars.map((calendar) => ({
-      ...calendar,
-      id: uuidv4(),
-      itemId: uuidList.find((v) => v.from === calendar.itemId)?.to || '',
-      date: dayjs(calendar.date).format(),
-    })),
-  };
-
-  return request;
-};
-
 const MyPageConnected: React.FC<Props> = (props) => {
   const [state, setState] = useState<State>(initialState());
-
-  const setBackup = useCallback(async () => {
-    if (!props.post) {
-      return;
-    }
-
-    setState((s) => ({
-      ...s,
-      loading: true,
-      LoadingText: 'バックアップ中です...',
-    }));
-
-    try {
-      const { items, itemDetails, calendars } = await backup();
-      const request = setUUID(items, itemDetails, calendars);
-
-      const response = await props.post('SyncItems', request);
-      if (response.error) {
-        Alert.alert('バックアップに失敗しました');
-        setState((s) => ({
-          ...s,
-          loading: false,
-        }));
-        return;
-      }
-
+  const [syncCalendarsMutation] = useSyncCalendarsMutation({
+    async onCompleted() {
+      await props.refetchCalendars?.();
       const { height } = Dimensions.get('window');
 
       let toast = Toast.show('バックアップを作成しました', {
@@ -116,17 +65,69 @@ const MyPageConnected: React.FC<Props> = (props) => {
         ...s,
         loading: false,
       }));
-    } catch (err) {
+    },
+    onError(err) {
+      Alert.alert('バックアップに失敗しました', err.message);
       setState((s) => ({
         ...s,
         loading: false,
       }));
+    },
+  });
 
-      setTimeout(() => {
-        Alert.alert('バックアップに失敗しました');
-      }, 100);
+  const setBackup = useCallback(async () => {
+    if (!props.post) {
+      return;
     }
-  }, [props]);
+
+    setState((s) => ({
+      ...s,
+      loading: true,
+      LoadingText: 'バックアップ中です...',
+    }));
+
+    const { items, itemDetails, calendars } = await backup();
+
+    const syncCalendars = calendars.map((v) => {
+      const i = items.find((v1) => v1.id === v.itemId);
+      let ids: SyncItemDetail[] = [];
+
+      if (i) {
+        ids = itemDetails
+          .filter((v2) => v2.itemId === v.itemId)
+          .map((id) => ({
+            id: uuidv4(),
+            title: id.title || '',
+            kind: id?.kind || '',
+            place: id?.place || '',
+            url: id?.url || '',
+            memo: id?.memo || '',
+            priority: id?.priority || 1,
+          }));
+      }
+
+      const r: SyncCalendar = {
+        id: uuidv4(),
+        date: dayjs(v.date).format('YYYY-MM-DDT00:00:00'),
+        item: {
+          id: uuidv4(),
+          title: i?.title || '',
+          kind: i?.kind || '',
+          itemDetails: ids,
+        },
+      };
+
+      return r;
+    });
+
+    const variables: SyncCalendarsMutationVariables = {
+      calendars: {
+        calendars: syncCalendars,
+      },
+    };
+
+    syncCalendarsMutation({ variables });
+  }, [props, syncCalendarsMutation]);
 
   const onBackup = useCallback(async () => {
     Alert.alert(
