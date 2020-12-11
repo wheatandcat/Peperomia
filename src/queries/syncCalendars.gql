@@ -1,0 +1,3 @@
+mutation SyncCalendars($calendars: SyncCalendars!) {
+  syncCalendars(calendars: $calendars)
+}
