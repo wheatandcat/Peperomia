@@ -12,7 +12,7 @@ import {
   BottomTabBar,
   BottomTabBarProps,
 } from '@react-navigation/bottom-tabs';
-import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import * as Sentry from 'sentry-expo';
 import uuidv4 from 'uuid/v4';
 import { useDidMount } from 'hooks/index';
@@ -119,7 +119,7 @@ const tabNavigationOptions = ({
       );
     } else if (routeName === 'Setting') {
       return (
-        <MaterialCommunityIcons
+        <Ionicons
           name="settings-outline"
           size={30}
           color={

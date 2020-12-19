@@ -32,7 +32,7 @@ export default () => {
       <Divider />
 
       <Text style={styles.guide}>
-        Alexaスキルのガイド{' '}
+        <Text>Alexaスキルのガイド </Text>
         <MaterialCommunityIcons
           name="chevron-right"
           size={12}

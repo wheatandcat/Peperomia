@@ -11,7 +11,7 @@ export default () => (
     <View style={styles.tipsContainer}>
       <Text style={styles.text}>
         <Text style={styles.plus}> + </Text>
-        ボタンをタッチして予定を作成しよう！
+        <Text> ボタンをタッチして予定を作成しよう！</Text>
       </Text>
     </View>
   </View>

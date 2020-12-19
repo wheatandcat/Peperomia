@@ -1,8 +1,6 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
 import { storiesOf } from '@storybook/react-native';
 import { KIND_PARK } from 'peperomia-util';
-import theme from 'config/theme';
 import Page from './Page';
 
 const data = {

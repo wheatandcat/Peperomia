@@ -164,10 +164,7 @@ const Page: React.FC<Props> = (props) => {
         useNativeDriver: false,
       }).start((callback) => {
         if (callback.finished) {
-          setState((s) => ({
-            ...s,
-            backgroundColor: new Animated.Value(0),
-          }));
+          state.backgroundColor.setValue(0);
         }
       });
     } else {
@@ -210,10 +207,7 @@ const Page: React.FC<Props> = (props) => {
         useNativeDriver: false,
       }).start((callback) => {
         if (callback.finished) {
-          setState((s) => ({
-            ...s,
-            backgroundColor: new Animated.Value(12),
-          }));
+          state.backgroundColor.setValue(11);
         }
       });
     } else {
