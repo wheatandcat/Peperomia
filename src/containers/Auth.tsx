@@ -10,11 +10,12 @@ import React, {
   useState,
   useCallback,
   useContext,
+  useEffect,
 } from 'react';
 import Constants from 'expo-constants';
 import * as Sentry from 'sentry-expo';
 import firebase from 'lib/system/firebase';
-import { useDidMount } from 'hooks/index';
+import useIsFirstRender from 'hooks/useIsFirstRender';
 import { UID } from 'domain/user';
 import libAuth from 'lib/auth';
 
@@ -51,6 +52,7 @@ const Auth: FC<Props> = memo((props) => {
     uid: null,
     setup: false,
   });
+  const isFirstRender = useIsFirstRender();
 
   const setSession = useCallback(async (refresh = false) => {
     const idToken = await auth.setSession(refresh);
@@ -137,7 +139,6 @@ const Auth: FC<Props> = memo((props) => {
     if (isStandaloneAndAndroid()) {
       // TODO: AndroidのstandaloneのみGoogleSignInを使わないとエラーになる
       // https://github.com/expo/expo/issues/4762
-
       await GoogleSignIn.askForPlayServicesAsync();
       const result = await GoogleSignIn.signInAsync();
 
@@ -173,7 +174,9 @@ const Auth: FC<Props> = memo((props) => {
     }
   }, [firebaseGoogleLogin]);
 
-  useDidMount(() => {
+  useEffect(() => {
+    if (!isFirstRender) return;
+
     if (isStandaloneAndAndroid()) {
       const androidClientId = process.env.GOOGLE_LOGIN_ANDROID_CLIENT_ID;
       try {
@@ -219,7 +222,7 @@ const Auth: FC<Props> = memo((props) => {
     firebase.auth().onAuthStateChanged(() => {
       checkLogin();
     });
-  });
+  }, [isFirstRender, state, loggedIn]);
 
   const onLogout = useCallback(async () => {
     await logout();

@@ -1,8 +1,8 @@
-import React, { FC, memo, useState, useCallback } from 'react';
+import React, { FC, memo, useState, useCallback, useEffect } from 'react';
 import { TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { useDidMount } from 'hooks/index';
+import useIsFirstRender from 'hooks/useIsFirstRender';
 import BottomRight from './BottomRight';
 
 type Props = {
@@ -18,8 +18,10 @@ const Hint: FC<Props> = memo((props) => {
   const [state, setState] = useState<State>({
     visible: false,
   });
+  const isFirstRender = useIsFirstRender();
 
-  useDidMount(() => {
+  useEffect(() => {
+    if (!isFirstRender) return;
     const setup = async () => {
       const visible = await AsyncStorage.getItem('FIRST_CREATE_ITEM');
 
@@ -29,7 +31,7 @@ const Hint: FC<Props> = memo((props) => {
     };
 
     setup();
-  });
+  }, [isFirstRender]);
 
   const onPushPress = useCallback(() => {
     setState({

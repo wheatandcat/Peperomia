@@ -2,10 +2,9 @@ import React from 'react';
 import {
   Text,
   View,
-  Dimensions,
   StyleSheet,
   Platform,
-  StatusBar,
+  useWindowDimensions,
 } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { IconImage } from 'components/atoms';
@@ -14,14 +13,9 @@ import { KINDS } from 'peperomia-util';
 import theme from 'config/theme';
 import { getWeekCount } from 'lib/calendar';
 
-const width = Dimensions.get('window').width;
-const top =
-  Platform.OS === 'android'
-    ? StatusBar.currentHeight || 0
-    : getStatusBarHeight() || 0;
+const top = Platform.OS === 'android' ? 0 : getStatusBarHeight() || 0;
 const footer = 120;
 const header = 100;
-const height = Dimensions.get('window').height - top - header - footer;
 
 type Props = {
   currentDate: string;
@@ -29,15 +23,22 @@ type Props = {
   day: string;
 };
 
-export default (props: Props) => {
+const ImageCard: React.FC<Props> = (props) => {
   const config = KINDS[props.kind];
   const rows = getWeekCount(props.currentDate);
+
+  const height = useWindowDimensions().height - top - header - footer;
+  const width = useWindowDimensions().width / 7;
 
   return (
     <View
       style={[
         styles.itemContainer,
-        { backgroundColor: config.backgroundColor, height: height / rows },
+        {
+          backgroundColor: config.backgroundColor,
+          height: height / rows,
+          width,
+        },
       ]}
     >
       <Text style={isTablet ? styles.dayTextForWide : styles.dayText}>
@@ -55,9 +56,10 @@ export default (props: Props) => {
   );
 };
 
+export default ImageCard;
+
 const styles = StyleSheet.create({
   itemContainer: {
-    width: width / 7,
     borderTopWidth: 0.5,
     borderRightWidth: 0.5,
     borderLeftWidth: 0.5,

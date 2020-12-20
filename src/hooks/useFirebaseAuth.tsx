@@ -4,11 +4,11 @@ import { Platform } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import dayjs from 'dayjs';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import Constants from 'expo-constants';
 import * as Sentry from 'sentry-expo';
 import firebase from 'lib/system/firebase';
-import { useDidMount } from 'hooks/index';
+import useIsFirstRender from 'hooks/useIsFirstRender';
 import { UID } from 'domain/user';
 
 type State = {
@@ -47,6 +47,7 @@ const useFirebaseAuth = () => {
     uid: null,
     setup: false,
   });
+  const isFirstRender = useIsFirstRender();
 
   const setSession = useCallback(async (refresh = false) => {
     const user = firebase.auth().currentUser;
@@ -190,7 +191,8 @@ const useFirebaseAuth = () => {
     }
   }, [firebaseGoogleLogin]);
 
-  useDidMount(() => {
+  useEffect(() => {
+    if (!isFirstRender) return;
     if (isStandaloneAndAndroid()) {
       const androidClientId = process.env.GOOGLE_LOGIN_ANDROID_CLIENT_ID;
       try {
@@ -236,7 +238,7 @@ const useFirebaseAuth = () => {
     firebase.auth().onAuthStateChanged(() => {
       checkLogin();
     });
-  });
+  }, [isFirstRender, state, loggedIn]);
 
   const onLogout = useCallback(async () => {
     await logout();

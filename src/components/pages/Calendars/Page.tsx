@@ -108,9 +108,9 @@ type CalendarRef = {
 const Page: React.FC<Props> = (props) => {
   const [state, setState] = useState<State>(initialState());
   const [loading, setLoading] = useState(false);
-  const calendarRef = useRef<CalendarRef>(null);
   const isFirstRender = useIsFirstRender();
   const prevProps = usePrevious(props);
+  const calendarRef = useRef<CalendarRef>(null);
 
   useEffect(() => {
     if (isFirstRender) return;
@@ -128,6 +128,13 @@ const Page: React.FC<Props> = (props) => {
     const key2 = calendarKey(prevProps?.calendars || []);
 
     if (key1 !== key2) {
+      setLoading(true);
+
+      // NOTE: dayComponentが再描画しないと更新されないのでstateを更新する
+      setTimeout(() => {
+        setLoading(false);
+      }, 5);
+    } else if (!key1 && !key2) {
       setLoading(true);
 
       // NOTE: dayComponentが再描画しないと更新されないのでstateを更新する
