@@ -46,7 +46,6 @@ const Header: React.FC<Props> = (props) => {
 
   return (
     <View style={style}>
-      <StatusBar backgroundColor={props.color} barStyle="dark-content" />
       <View style={[styles.contents, { paddingTop: top }]}>
         <TouchableOpacity onPress={props.onClose}>
           <MaterialCommunityIcons

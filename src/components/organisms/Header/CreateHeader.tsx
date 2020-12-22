@@ -1,15 +1,10 @@
 import React from 'react';
-import {
-  TouchableOpacity,
-  View,
-  Text,
-  StatusBar,
-  StyleSheet,
-} from 'react-native';
+import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import theme from 'config/theme';
 import { IconImage } from 'components/atoms';
 import { getKindData } from 'lib/kind';
+import FocusAwareStatusBar from 'components/organisms/FocusAwareStatusBar';
 
 type Props = {
   date: string;
@@ -28,7 +23,10 @@ const CreateHeader: React.FC<Props> = (props) => {
         backgroundColor: props.color,
       }}
     >
-      <StatusBar backgroundColor={props.color} barStyle="dark-content" />
+      <FocusAwareStatusBar
+        backgroundColor={props.color}
+        barStyle="dark-content"
+      />
       <View style={styles.header}>
         <TouchableOpacity onPress={props.onClose}>
           <MaterialCommunityIcons

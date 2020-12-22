@@ -1,6 +1,6 @@
 import Constants from 'expo-constants';
 import * as SQLite from 'expo-sqlite';
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { AppearanceProvider } from 'react-native-appearance';
@@ -12,10 +12,10 @@ import {
   BottomTabBar,
   BottomTabBarProps,
 } from '@react-navigation/bottom-tabs';
-import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import * as Sentry from 'sentry-expo';
 import uuidv4 from 'uuid/v4';
-import { useDidMount } from 'hooks/index';
+import useIsFirstRender from 'hooks/useIsFirstRender';
 import app from '../app.json';
 import AppInfo from 'components/pages/AppInfo/Page';
 import { db, init } from './lib/db';
@@ -119,7 +119,7 @@ const tabNavigationOptions = ({
       );
     } else if (routeName === 'Setting') {
       return (
-        <MaterialCommunityIcons
+        <Ionicons
           name="settings-outline"
           size={30}
           color={
@@ -180,6 +180,7 @@ const initState = {
 
 const App = () => {
   const [state, setState] = useState<State>(initState);
+  const isFirstRender = useIsFirstRender();
 
   const setUser = useCallback((_: number, error: SQLite.SQLError | null) => {
     if (error) {
@@ -229,7 +230,8 @@ const App = () => {
     }));
   }, []);
 
-  useDidMount(() => {
+  useEffect(() => {
+    if (!isFirstRender) return;
     const setup = async () => {
       await setDeviceType();
 
@@ -245,7 +247,7 @@ const App = () => {
     };
 
     setup();
-  });
+  }, [isFirstRender, checkUser]);
 
   if (state.loading) {
     return null;

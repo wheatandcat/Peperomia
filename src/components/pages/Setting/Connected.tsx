@@ -1,5 +1,5 @@
 import * as SQLite from 'expo-sqlite';
-import React, { useState, memo, useCallback } from 'react';
+import React, { useState, memo, useCallback, useEffect } from 'react';
 import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
@@ -21,7 +21,7 @@ import {
   useCalendars,
   ContextProps as CalendarsContextProps,
 } from 'containers/Calendars';
-import { useDidMount } from 'hooks/index';
+import useIsFirstRender from 'hooks/useIsFirstRender';
 import { setDebugMode, getDebugMode } from 'lib/auth';
 import { RootStackParamList } from 'lib/navigation';
 import Tos from '../Tos/Page';
@@ -88,8 +88,10 @@ const Connected = memo((props: ConnectedProps) => {
     restoreLoading: false,
     debugMode: false,
   });
+  const isFirstRender = useIsFirstRender();
 
-  useDidMount(() => {
+  useEffect(() => {
+    if (!isFirstRender) return;
     const check = async () => {
       if (props.loggedIn) {
         const loggedIn = await props.loggedIn();
@@ -108,7 +110,7 @@ const Connected = memo((props: ConnectedProps) => {
     };
 
     check();
-  });
+  }, [isFirstRender, props]);
 
   const onDeleteSQL = useCallback(() => {
     db.transaction((tx: SQLite.SQLTransaction) => {

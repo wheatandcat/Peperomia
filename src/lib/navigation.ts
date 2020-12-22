@@ -39,7 +39,7 @@ export type RootStackParamList = {
   };
   Feedback: undefined;
   SignIn: {
-    onLogin?: () => void;
+    onLogin: () => void;
   };
   MyPage: undefined;
   LoginWithAmazon: undefined;

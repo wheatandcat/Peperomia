@@ -25,9 +25,9 @@ const WithProvider: React.FC<Props> = (props) => {
   const isFirstRender = useIsFirstRender();
   const prefix = Linking.makeUrl('/');
   const scheme = useColorScheme();
+  const [client, setClient] = useState<ApolloClient<CacheShape> | null>(null);
   const routeNameRef = React.useRef<any>();
   const navigationRef = React.useRef<any>();
-  const [client, setClient] = useState<ApolloClient<CacheShape> | null>(null);
 
   const { getInitialState } = useLinking(navigationRef, {
     prefixes: [

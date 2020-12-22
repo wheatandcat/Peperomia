@@ -1,8 +1,8 @@
 import * as Font from 'expo-font';
-import React, { useState, FC } from 'react';
+import React, { useState, FC, useEffect } from 'react';
 import { Text, TextProps } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { useDidMount } from 'hooks/index';
+import useIsFirstRender from 'hooks/useIsFirstRender';
 
 type State = {
   fontLoaded: boolean;
@@ -12,8 +12,11 @@ const AtomText: FC<TextProps> = (props) => {
   const [state, setState] = useState<State>({
     fontLoaded: false,
   });
+  const isFirstRender = useIsFirstRender();
 
-  useDidMount(() => {
+  useEffect(() => {
+    if (!isFirstRender) return;
+
     const setup = async () => {
       await Font.loadAsync({
         Lato: require('../../../assets/fonts/Lato-Light.ttf'),
@@ -23,7 +26,7 @@ const AtomText: FC<TextProps> = (props) => {
     };
 
     setup();
-  });
+  }, [isFirstRender]);
 
   if (!state.fontLoaded) {
     return null;
