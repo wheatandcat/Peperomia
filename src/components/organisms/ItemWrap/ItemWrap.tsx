@@ -1,6 +1,7 @@
 import React from 'react';
-import { SafeAreaView, StatusBar, View, StyleSheet } from 'react-native';
+import { SafeAreaView, View, StyleSheet } from 'react-native';
 import { getKindData } from 'lib/kind';
+import FocusAwareStatusBar from 'components/organisms/FocusAwareStatusBar';
 
 type Props = {
   kind: string;
@@ -11,7 +12,7 @@ const ItemWrap: React.FC<Props> = (props) => {
 
   return (
     <View>
-      <StatusBar
+      <FocusAwareStatusBar
         backgroundColor={config.backgroundColor}
         barStyle="dark-content"
       />

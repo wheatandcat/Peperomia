@@ -4,10 +4,6 @@ import { useVersion } from './Version';
 
 type Props = {};
 
-type State = {
-  loading: boolean;
-};
-
 const AppStateContainer: React.FC<Props> = (props) => {
   const [appState, setAppState] = useState<AppStateStatus>(
     AppState.currentState

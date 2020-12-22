@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
 import {
-  StatusBar,
   View,
   StyleSheet,
   TouchableOpacity,
@@ -15,6 +14,7 @@ import useKeyboard from 'hooks/useKeyboard';
 import useScroll from 'hooks/useScroll';
 import theme from 'config/theme';
 import AppScrollViewIOSBounceColorsWrapper from 'components/organisms/ItemWrap/AppScrollViewIOSBounceColorsWrapper';
+import FocusAwareStatusBar from 'components/organisms/FocusAwareStatusBar';
 
 type Props = {
   date?: string;
@@ -42,7 +42,7 @@ const ItemDetailWrap: React.FC<Props> = (props) => {
       topBounceColor={config.backgroundColor}
       bottomBounceColor={theme().color.highLightGray}
     >
-      <StatusBar
+      <FocusAwareStatusBar
         backgroundColor={config.backgroundColor}
         barStyle="dark-content"
       />
