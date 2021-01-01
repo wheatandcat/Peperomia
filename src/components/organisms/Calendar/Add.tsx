@@ -11,7 +11,7 @@ const CalendarAdd: React.FC<Props> = () => {
       <View style={styles.imageContainer}>
         <MaterialCommunityIcons
           name="plus-circle-outline"
-          color={theme().color.darkGray}
+          color={theme().color.base.main}
           size={70}
         />
       </View>
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 120,
     borderWidth: 1,
-    borderColor: theme().color.darkGray,
+    borderColor: theme().color.base.main,
   },
   imageContainer: {
     justifyContent: 'center',
@@ -41,6 +41,6 @@ const styles = StyleSheet.create({
   title: {
     textAlign: 'center',
     fontSize: 14,
-    color: theme().color.darkGray,
+    color: theme().color.base.main,
   },
 });

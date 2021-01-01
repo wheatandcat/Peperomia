@@ -365,7 +365,7 @@ const Auth: FC<Props> = memo((props) => {
         <Spinner
           visible={true}
           textContent="読込中"
-          textStyle={{ color: theme().color.white }}
+          textStyle={{ color: theme().color.background.main }}
         />
       </View>
     );

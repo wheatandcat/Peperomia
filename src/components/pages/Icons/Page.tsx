@@ -77,8 +77,8 @@ const IconsPage: React.FC<Props> = (props) => {
                         name="check"
                         color={
                           darkMode()
-                            ? theme().color.highLightGray
-                            : theme().color.main
+                            ? theme().color.background.light
+                            : theme().color.primary.main
                         }
                         size={20}
                         style={styles.check}

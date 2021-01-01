@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { View, TextInput, Text, Platform } from 'react-native';
+import { View, TextInput, Text, Platform, StyleSheet } from 'react-native';
 import { Button, Overlay } from 'react-native-elements';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import theme from 'config/theme';
@@ -12,17 +12,17 @@ type Props = {
 };
 
 const TimeDialog: FC<Props> = (props) => (
-  <Overlay isVisible={props.open} overlayStyle={styles.overlay}>
-    <View style={styles.root}>
+  <Overlay isVisible={props.open} overlayStyle={estyles.overlay}>
+    <View style={estyles.root}>
       <View>
-        <Text style={styles.title}>時間を入力して下さい</Text>
+        <Text style={estyles.title}>時間を入力して下さい</Text>
       </View>
 
       <View style={styles.contents}>
         <View style={styles.textInputContainer}>
           <TextInput
             keyboardType="numeric"
-            style={styles.timeInput}
+            style={estyles.timeInput}
             defaultValue=""
             onChangeText={(value) => props.onChange(Number(value))}
             returnKeyType="done"
@@ -31,7 +31,7 @@ const TimeDialog: FC<Props> = (props) => (
           />
 
           <View style={styles.minutes}>
-            <Text style={styles.timeInputSuffix}>分</Text>
+            <Text style={estyles.timeInputSuffix}>分</Text>
           </View>
         </View>
       </View>
@@ -51,14 +51,14 @@ const TimeDialog: FC<Props> = (props) => (
           type="clear"
           onPress={props.onSetManualTime}
           containerStyle={styles.settingButton}
-          titleStyle={styles.buttonText}
+          titleStyle={estyles.buttonText}
         />
       </View>
     </View>
   </Overlay>
 );
 
-const styles = EStyleSheet.create({
+const estyles = EStyleSheet.create({
   root: {
     height: Platform.OS === 'ios' ? 180 : 205,
     width: '100%',
@@ -85,6 +85,18 @@ const styles = EStyleSheet.create({
     fontSize: 18,
     color: '$text',
   },
+  buttonText: {
+    color: '$secondaryButton',
+    fontWeight: '600',
+  },
+  overlay: {
+    backgroundColor: '$background',
+    paddingHorizontal: 0,
+    paddingTop: 30,
+  },
+});
+
+const styles = StyleSheet.create({
   footer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -93,20 +105,11 @@ const styles = EStyleSheet.create({
     marginTop: 50,
     paddingTop: 10,
     borderTopWidth: 0.5,
-    borderColor: theme().color.lightGray,
-  },
-  buttonText: {
-    color: '$secondaryButton',
-    fontWeight: '600',
+    borderColor: theme().color.base.pale,
   },
   cancel: {
-    color: theme().color.gray,
+    color: theme().color.base.light,
     fontWeight: '600',
-  },
-  overlay: {
-    backgroundColor: '$background',
-    paddingHorizontal: 0,
-    paddingTop: 30,
   },
   contents: {
     paddingTop: 30,
@@ -123,7 +126,7 @@ const styles = EStyleSheet.create({
   },
   line: {
     fontSize: 22,
-    color: theme().color.lightGray,
+    color: theme().color.base.pale,
   },
   settingButton: {
     width: 120,

@@ -5,6 +5,7 @@ import {
   Text,
   AsyncStorage,
   ActivityIndicator,
+  StyleSheet,
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -30,47 +31,47 @@ const SettingPage: FC<Props> = (props) => {
   }, []);
 
   return (
-    <View style={styles.root}>
+    <View style={estyles.root}>
       <Spinner
         visible={props.restoreLoading}
         textContent="ログアウト中"
-        textStyle={{ color: theme().color.white }}
+        textStyle={{ color: theme().color.background.main }}
       />
       <ScrollView>
         <Divider />
         <ListItem
           title="お問い合わせ"
           rightIcon={{ name: 'chevron-right', color: theme().mode.text }}
-          containerStyle={styles.menu}
-          titleStyle={styles.menuText}
+          containerStyle={estyles.menu}
+          titleStyle={estyles.menuText}
           bottomDivider
           onPress={props.onFeedback}
         />
-        <View style={styles.menuSpace} />
+        <View style={estyles.menuSpace} />
         <Divider />
         <ListItem
           title="利用規約"
           rightIcon={{ name: 'chevron-right', color: theme().mode.text }}
-          containerStyle={styles.menu}
-          titleStyle={styles.menuText}
+          containerStyle={estyles.menu}
+          titleStyle={estyles.menuText}
           bottomDivider
           onPress={props.onTos}
         />
         <ListItem
           title="プライバシーポリシー"
           rightIcon={{ name: 'chevron-right', color: theme().mode.text }}
-          containerStyle={styles.menu}
-          titleStyle={styles.menuText}
+          containerStyle={estyles.menu}
+          titleStyle={estyles.menuText}
           onPress={props.onPolicy}
           bottomDivider
         />
 
-        <View style={styles.menuSpace} />
+        <View style={estyles.menuSpace} />
 
         {(() => {
           if (props.loading) {
             return (
-              <View style={[styles.menu, styles.loginMenu]}>
+              <View style={[estyles.menu, styles.loginMenu]}>
                 <ActivityIndicator size="large" color={theme().mode.text} />
               </View>
             );
@@ -87,14 +88,14 @@ const SettingPage: FC<Props> = (props) => {
                     name: 'chevron-right',
                     color: theme().mode.text,
                   }}
-                  containerStyle={styles.menu}
-                  titleStyle={styles.menuText}
+                  containerStyle={estyles.menu}
+                  titleStyle={estyles.menuText}
                   bottomDivider
                 />
                 <ListItem
                   title="ログアウト"
-                  containerStyle={styles.menu}
-                  titleStyle={{ color: theme().color.red }}
+                  containerStyle={estyles.menu}
+                  titleStyle={{ color: theme().color.error.main }}
                   onPress={props.onLogout}
                   bottomDivider
                 />
@@ -111,8 +112,8 @@ const SettingPage: FC<Props> = (props) => {
                   name: 'chevron-right',
                   color: theme().mode.text,
                 }}
-                containerStyle={styles.menu}
-                titleStyle={styles.menuText}
+                containerStyle={estyles.menu}
+                titleStyle={estyles.menuText}
                 onPress={props.onSignIn}
                 bottomDivider
               />
@@ -127,14 +128,14 @@ const SettingPage: FC<Props> = (props) => {
               name: 'chevron-right',
               color: theme().mode.text,
             }}
-            containerStyle={styles.menu}
-            titleStyle={styles.menuText}
+            containerStyle={estyles.menu}
+            titleStyle={estyles.menuText}
             onPress={props.onLoginWithAmazon}
             bottomDivider
           />
         )}
 
-        <View style={styles.menuSpace} />
+        <View style={estyles.menuSpace} />
         <Divider />
         <ListItem
           title="バージョン情報"
@@ -143,8 +144,8 @@ const SettingPage: FC<Props> = (props) => {
               {app.expo.version}{' '}
             </Text>
           }
-          containerStyle={styles.menu}
-          titleStyle={styles.menuText}
+          containerStyle={estyles.menu}
+          titleStyle={estyles.menuText}
           bottomDivider
         />
         {!Constants.isDevice && (
@@ -215,7 +216,7 @@ const SettingPage: FC<Props> = (props) => {
     </View>
   );
 };
-const styles = EStyleSheet.create({
+const estyles = EStyleSheet.create({
   root: {
     backgroundColor: '$settingRoot',
     height: '100%',
@@ -230,6 +231,9 @@ const styles = EStyleSheet.create({
     height: 20,
     backgroundColor: '$settingRoot',
   },
+});
+
+const styles = StyleSheet.create({
   loginMenu: {
     height: 60,
     justifyContent: 'center',
@@ -241,7 +245,7 @@ const styles = EStyleSheet.create({
   },
 
   debug: {
-    backgroundColor: theme().color.highLightGray,
+    backgroundColor: theme().color.background.light,
     paddingVertical: 15,
     paddingLeft: 10,
     fontSize: 20,

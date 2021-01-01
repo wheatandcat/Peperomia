@@ -51,7 +51,7 @@ const Header: React.FC<Props> = (props) => {
           <MaterialCommunityIcons
             name="close"
             size={30}
-            color={theme().color.main}
+            color={theme().color.primary.main}
           />
         </TouchableOpacity>
         {(() => {
@@ -100,13 +100,13 @@ const styles = StyleSheet.create({
   date: {
     fontSize: 12,
     fontWeight: '600',
-    color: theme().color.darkGray,
+    color: theme().color.base.main,
   },
   title: {
     paddingTop: theme().space(1),
     fontSize: 20,
     fontWeight: '600',
-    color: theme().color.darkGray,
+    color: theme().color.base.main,
     textAlign: 'center',
   },
 

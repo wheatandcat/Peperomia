@@ -163,7 +163,7 @@ const styles = EStyleSheet.create({
   },
   dialogButtonText: {
     fontWeight: '500',
-    color: theme().color.white,
+    color: theme().color.background.main,
   },
   imageContainer: {
     padding: 15,

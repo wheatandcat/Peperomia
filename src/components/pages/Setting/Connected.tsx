@@ -239,7 +239,9 @@ const Connected = memo((props: ConnectedProps) => {
   return (
     <>
       <FocusAwareStatusBar
-        backgroundColor={darkMode() ? theme().color.black : theme().color.main}
+        backgroundColor={
+          darkMode() ? theme().color.base.dark : theme().color.primary.main
+        }
         barStyle={darkMode() ? 'light-content' : 'dark-content'}
       />
       <Page

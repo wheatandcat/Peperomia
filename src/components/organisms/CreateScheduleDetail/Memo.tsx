@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { View, TextInput, Text, TouchableOpacity } from 'react-native';
+import {
+  View,
+  TextInput,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import theme, { darkMode } from 'config/theme';
@@ -155,7 +161,7 @@ export default class extends Component<Props, State> {
         <View>
           <MaterialIcons
             name="mode-edit"
-            color={theme().color.lightGreen}
+            color={theme().color.secondary.main}
             size={23}
             style={styles.edit}
           />
@@ -177,7 +183,9 @@ export default class extends Component<Props, State> {
                 <TextInput
                   placeholder={item.label}
                   placeholderTextColor={
-                    darkMode() ? theme().color.lightGray : theme().color.gray
+                    darkMode()
+                      ? theme().color.base.pale
+                      : theme().color.base.light
                   }
                   multiline={item.multiline}
                   style={styles.memoInput}
@@ -187,7 +195,7 @@ export default class extends Component<Props, State> {
                   testID={`inputTextScheduleDetail${item.label}`}
                   autoFocus={this.state.focus === item.value}
                 >
-                  <Text style={styles.memoText}>{item.defaultValue}</Text>
+                  <Text style={estyles.memoText}>{item.defaultValue}</Text>
                 </TextInput>
               </View>
             </View>
@@ -197,7 +205,7 @@ export default class extends Component<Props, State> {
             <View style={styles.inputLabelContainer}>
               <MaterialCommunityIcons
                 name="plus"
-                color={theme().color.lightGreen}
+                color={theme().color.secondary.main}
                 size={28}
                 style={styles.plus}
               />
@@ -220,17 +228,20 @@ export default class extends Component<Props, State> {
   }
 }
 
-const styles = EStyleSheet.create({
-  memoInput: {
-    fontSize: 16,
-    lineHeight: 24,
-    fontWeight: '400',
-  },
+const estyles = EStyleSheet.create({
   memoText: {
     fontSize: 16,
     lineHeight: 24,
     fontWeight: '400',
     color: '$text',
+  },
+});
+
+const styles = StyleSheet.create({
+  memoInput: {
+    fontSize: 16,
+    lineHeight: 24,
+    fontWeight: '400',
   },
   edit: {
     paddingLeft: 3,

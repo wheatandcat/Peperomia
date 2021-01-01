@@ -11,13 +11,21 @@ exports[`components/pages/MyPage/Page.tsx 正常に表示されている 1`] = `
     textContent=""
     textStyle={
       Object {
-        "color": "#fff",
+        "color": "#ffffff",
       }
     }
     visible={false}
   />
   <ScrollView>
-    <View>
+    <View
+      style={
+        Object {
+          "marginBottom": 25,
+          "marginHorizontal": 10,
+          "marginTop": 20,
+        }
+      }
+    >
       <View>
         <Text>
           メールアドレス:
@@ -26,7 +34,13 @@ exports[`components/pages/MyPage/Page.tsx 正常に表示されている 1`] = `
           test
         </Text>
       </View>
-      <View>
+      <View
+        style={
+          Object {
+            "alignItems": "flex-end",
+          }
+        }
+      >
         <ForwardRef(Themed.Button)
           icon={
             <Icon
@@ -39,6 +53,12 @@ exports[`components/pages/MyPage/Page.tsx 正常に表示されている 1`] = `
           iconRight={true}
           onPress={[Function]}
           title="ユーザー登録とは？"
+          titleStyle={
+            Object {
+              "color": "#006835",
+              "fontSize": 14,
+            }
+          }
           type="clear"
         />
       </View>
@@ -49,14 +69,28 @@ exports[`components/pages/MyPage/Page.tsx 正常に表示されている 1`] = `
       onPress={[MockFunction]}
       rightIcon={
         Object {
-          "color": "#333631",
+          "color": "#110f0f",
           "name": "chevron-right",
         }
       }
       title="通知を設定する"
     />
-    <View>
-      <View>
+    <View
+      style={
+        Object {
+          "marginBottom": 5,
+          "marginHorizontal": 10,
+          "marginTop": 10,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "flex-end",
+          }
+        }
+      >
         <ForwardRef(Themed.Button)
           icon={
             <Icon
@@ -69,6 +103,12 @@ exports[`components/pages/MyPage/Page.tsx 正常に表示されている 1`] = `
           iconRight={true}
           onPress={[Function]}
           title="通知設定とは？"
+          titleStyle={
+            Object {
+              "color": "#006835",
+              "fontSize": 14,
+            }
+          }
           type="clear"
         />
       </View>

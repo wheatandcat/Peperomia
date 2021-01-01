@@ -40,7 +40,7 @@ const ItemDetailWrap: React.FC<Props> = (props) => {
   return (
     <AppScrollViewIOSBounceColorsWrapper
       topBounceColor={config.backgroundColor}
-      bottomBounceColor={theme().color.highLightGray}
+      bottomBounceColor={theme().color.background.light}
     >
       <FocusAwareStatusBar
         backgroundColor={config.backgroundColor}
@@ -58,7 +58,7 @@ const ItemDetailWrap: React.FC<Props> = (props) => {
             >
               <MaterialCommunityIcons
                 name="keyboard-close"
-                color={theme().color.main}
+                color={theme().color.primary.main}
                 size={25}
                 style={styles.keyboardClose}
               />
@@ -73,7 +73,7 @@ const ItemDetailWrap: React.FC<Props> = (props) => {
                 <TouchableOpacity onPress={props.onRightPress}>
                   <MaterialIcons
                     name={props.rightIcon}
-                    color={theme().color.main}
+                    color={theme().color.primary.main}
                     size={25}
                     style={styles.keyboardClose}
                   />

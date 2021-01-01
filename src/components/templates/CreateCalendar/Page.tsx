@@ -111,7 +111,7 @@ const CreateCalendar: React.FC<Props> = (props) => {
           <HeaderImage kind={state.kind}>
             <TextInput
               placeholder="タイトルを入力"
-              placeholderTextColor={theme().color.gray}
+              placeholderTextColor={theme().color.base.light}
               style={styles.inputTitle}
               onChangeText={(title) => {
                 setSuggestList(title);
@@ -128,7 +128,7 @@ const CreateCalendar: React.FC<Props> = (props) => {
               testID="ScheduleDetailTitleInput"
               returnKeyType="done"
               autoFocus
-              selectionColor={theme().color.black}
+              selectionColor={theme().color.base.dark}
             />
           </HeaderImage>
           {suggestList.length > 0 ? (
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
   inputTitle: {
     fontSize: 20,
     fontWeight: '600',
-    color: theme().color.gray,
+    color: theme().color.base.light,
     paddingLeft: theme().space(1),
   },
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, Text } from 'react-native';
+import { View, Image, Text, StyleSheet } from 'react-native';
 import { Button, Divider } from 'react-native-elements';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
@@ -8,9 +8,9 @@ type Props = {
   onAmazonLogin: () => void;
 };
 
-export default ({ loading, onAmazonLogin }: Props) => {
+const Loading: React.FC<Props> = ({ loading, onAmazonLogin }) => {
   return (
-    <View style={styles.root}>
+    <View style={estyles.root}>
       <View style={styles.alexaSkillContainer}>
         <View style={styles.log}>
           <Image
@@ -19,12 +19,12 @@ export default ({ loading, onAmazonLogin }: Props) => {
           />
         </View>
         <View>
-          <Text style={styles.title}>ペペロミア with Alexaスキル</Text>
+          <Text style={estyles.title}>ペペロミア with Alexaスキル</Text>
         </View>
       </View>
       <Divider />
       <View style={styles.description}>
-        <Text style={styles.title}>
+        <Text style={estyles.title}>
           ※こちらの機能はまだβ版です。{'\n'}
           {'\n'}
           ペペロミアの予定作成をAlexaスキルから行う事ができます。
@@ -43,12 +43,20 @@ export default ({ loading, onAmazonLogin }: Props) => {
   );
 };
 
-const styles = EStyleSheet.create({
+export default Loading;
+
+const estyles = EStyleSheet.create({
   root: {
     backgroundColor: '$background',
     height: '100%',
     width: '100%',
   },
+  text: {
+    color: '$text',
+  },
+});
+
+const styles = StyleSheet.create({
   alexaSkillContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -56,21 +64,13 @@ const styles = EStyleSheet.create({
   log: {
     padding: 15,
   },
-  title: {
-    color: '$text',
-    fontSize: 18,
-  },
   description: {
     padding: 15,
-  },
-  text: {
-    color: '$text',
   },
   buttonAction: {
     paddingHorizontal: 15,
     paddingVertical: 20,
   },
-
   icon: {
     height: 80,
     width: 80,

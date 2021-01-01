@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
-import { View, Image, ImageSourcePropType } from 'react-native';
-import EStyleSheet from 'react-native-extended-stylesheet';
+import { View, Image, ImageSourcePropType, StyleSheet } from 'react-native';
 import { isTablet } from 'lib/responsive';
 
 type Props = {
@@ -21,7 +20,7 @@ const CalendarImage: FC<Props> = (props) => {
 
 export default CalendarImage;
 
-const styles = EStyleSheet.create({
+const styles = StyleSheet.create({
   imageContainer: {
     paddingTop: 15,
     paddingBottom: 15,

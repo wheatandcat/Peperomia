@@ -1,7 +1,6 @@
 import React, { FC, memo, useState, useCallback, useEffect } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import useIsFirstRender from 'hooks/useIsFirstRender';
 import BottomRight from './BottomRight';
 
@@ -64,7 +63,7 @@ const Hint: FC<Props> = memo((props) => {
   );
 });
 
-const styles = EStyleSheet.create({
+const styles = StyleSheet.create({
   tap: { padding: 5 },
 });
 

@@ -82,7 +82,7 @@ const backgroundColors = [
   '#7BB07D',
   '#a0d8ef',
   '#f2f2b0',
-  theme().color.beige,
+  theme().color.accent2.light,
   '#E3E3FE',
   '#FFE7D0',
   '#BFD3B7',
@@ -378,7 +378,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   calendarBottom: {
-    borderColor: 'gray',
+    borderColor: theme().color.base.light,
     marginHorizontal: theme().space(2),
     borderBottomWidth: 1,
   },
