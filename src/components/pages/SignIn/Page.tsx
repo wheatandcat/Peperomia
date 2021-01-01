@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { View, Text, Linking } from 'react-native';
+import { View, Text, Linking, StyleSheet } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Button } from 'react-native-elements';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -16,7 +16,7 @@ type Props = {
 const url = 'https://amazing-hawking-a280c3.netlify.com/general/account/';
 
 const SignInPage: FC<Props> = (props) => (
-  <View style={styles.container}>
+  <View style={estyles.container}>
     <Spinner
       visible={props.loading}
       textContent="ログイン中"
@@ -24,7 +24,7 @@ const SignInPage: FC<Props> = (props) => (
     />
 
     <View style={styles.titleContainer}>
-      <Text style={styles.title}>会員登録 / ログインする</Text>
+      <Text style={estyles.title}>会員登録 / ログインする</Text>
     </View>
 
     <AppleAuthentication onAppleLogin={props.onAppleLogin} />
@@ -57,18 +57,21 @@ const SignInPage: FC<Props> = (props) => (
   </View>
 );
 
-const styles = EStyleSheet.create({
+const estyles = EStyleSheet.create({
   container: {
     alignItems: 'center',
     backgroundColor: '$background',
     height: '100%',
   },
+  title: {
+    color: '$text',
+  },
+});
+
+const styles = StyleSheet.create({
   titleContainer: {
     paddingTop: 30,
     paddingBottom: 10,
-  },
-  title: {
-    color: '$text',
   },
   buttonContainer: {
     marginVertical: 30,

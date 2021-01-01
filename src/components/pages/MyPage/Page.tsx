@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { View, ScrollView, Text, Linking } from 'react-native';
+import { View, ScrollView, Text, Linking, StyleSheet } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { ListItem, Button, Divider } from 'react-native-elements';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -19,7 +19,7 @@ type Props = {
 const url = 'https://amazing-hawking-a280c3.netlify.com/general/account/';
 
 const MyPage: FC<Props> = (props) => (
-  <View style={styles.root}>
+  <View style={estyles.root}>
     <Spinner
       visible={props.loading}
       textContent={props.LoadingText}
@@ -27,9 +27,9 @@ const MyPage: FC<Props> = (props) => (
     />
     <ScrollView>
       <View style={styles.contents}>
-        <View style={styles.emailContainer}>
-          <Text style={styles.emailTitle}>メールアドレス:</Text>
-          <Text style={styles.email}>{props.email}</Text>
+        <View style={estyles.emailContainer}>
+          <Text style={estyles.emailTitle}>メールアドレス:</Text>
+          <Text style={estyles.email}>{props.email}</Text>
         </View>
         <View style={styles.guideContainer}>
           <Button
@@ -54,15 +54,15 @@ const MyPage: FC<Props> = (props) => (
           <Divider />
           <ListItem
             title="バックアップを作成する"
-            titleStyle={styles.menuText}
-            containerStyle={styles.menuContainer}
+            titleStyle={estyles.menuText}
+            containerStyle={estyles.menuContainer}
             onPress={props.onBackup}
             bottomDivider
           />
           <ListItem
             title="バックアップから復元する"
-            titleStyle={styles.menuText}
-            containerStyle={styles.menuContainer}
+            titleStyle={estyles.menuText}
+            containerStyle={estyles.menuContainer}
             onPress={props.onRestore}
             bottomDivider
           />
@@ -73,9 +73,9 @@ const MyPage: FC<Props> = (props) => (
 
       <ListItem
         title="通知を設定する"
-        titleStyle={styles.menuText}
+        titleStyle={estyles.menuText}
         rightIcon={{ name: 'chevron-right', color: theme().mode.text }}
-        containerStyle={styles.menuContainer}
+        containerStyle={estyles.menuContainer}
         onPress={props.onNotificationSetting}
         bottomDivider
       />
@@ -101,7 +101,7 @@ const MyPage: FC<Props> = (props) => (
   </View>
 );
 
-const styles = EStyleSheet.create({
+const estyles = EStyleSheet.create({
   root: {
     backgroundColor: '$settingRoot',
     height: '100%',
@@ -126,6 +126,9 @@ const styles = EStyleSheet.create({
   menuText: {
     color: '$text',
   },
+});
+
+const styles = StyleSheet.create({
   contents: {
     marginTop: 20,
     marginHorizontal: 10,

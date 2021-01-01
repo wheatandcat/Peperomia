@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
-import EStyleSheet from 'react-native-extended-stylesheet';
+import { View, StyleSheet } from 'react-native';
 import { Button } from 'react-native-elements';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
@@ -65,7 +64,7 @@ const DatePickerForm: React.FC<Props> = (props) => {
 
 export default DatePickerForm;
 
-const styles = EStyleSheet.create({
+const styles = StyleSheet.create({
   dateButtonContainer: {
     padding: 30,
   },

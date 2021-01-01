@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import Color from 'color';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import { SelectItemDetail } from 'domain/itemDetail';
 import { KINDS } from 'peperomia-util';
 import s from 'config/style';
 import { IconImage } from 'components/atoms';
+import theme from 'config/theme';
 
 type Props = SelectItemDetail & {
   kind: string;
@@ -23,7 +23,7 @@ export default (props: Props) => {
   return (
     <View
       style={[
-        styles.contens,
+        styles.contents,
         {
           borderWidth: ss.borderWidth,
           borderColor: Color(config.backgroundColor)
@@ -54,7 +54,7 @@ export default (props: Props) => {
   );
 };
 
-const styles = EStyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'flex-end',
@@ -75,7 +75,7 @@ const styles = EStyleSheet.create({
     justifyContent: 'flex-end',
   },
   title: {
-    color: '#555',
+    color: theme().color.base.main,
     fontWeight: '600',
     fontSize: 20,
   },

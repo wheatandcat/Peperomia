@@ -1,7 +1,6 @@
 import * as Font from 'expo-font';
 import React, { useState, FC, useEffect } from 'react';
-import { Text, TextProps } from 'react-native';
-import EStyleSheet from 'react-native-extended-stylesheet';
+import { Text, TextProps, StyleSheet } from 'react-native';
 import useIsFirstRender from 'hooks/useIsFirstRender';
 
 type State = {
@@ -41,7 +40,7 @@ const AtomText: FC<TextProps> = (props) => {
   );
 };
 
-const styles = EStyleSheet.create({
+const styles = StyleSheet.create({
   text: {
     fontFamily: 'Lato',
   },

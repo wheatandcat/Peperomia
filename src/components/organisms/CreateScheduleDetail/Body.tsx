@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Button } from 'react-native-elements';
 import { SelectItemDetail } from 'domain/itemDetail';
@@ -25,7 +25,7 @@ const Body: React.FC<Props> = (props) => (
       <Button
         title="アイコンを変更する"
         type="clear"
-        titleStyle={styles.linkTitle}
+        titleStyle={estyles.linkTitle}
         buttonStyle={styles.linkButton}
         onPress={() => props.onIcons(props.title)}
       />
@@ -35,7 +35,16 @@ const Body: React.FC<Props> = (props) => (
 
 export default Body;
 
-const styles = EStyleSheet.create({
+const estyles = EStyleSheet.create({
+  linkTitle: {
+    color: '$text',
+    fontSize: 12,
+    fontWeight: '600',
+    padding: 0,
+  },
+});
+
+const styles = StyleSheet.create({
   root: {
     paddingHorizontal: 15,
     paddingTop: 15,
@@ -49,18 +58,6 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
     width: 80,
     height: 30,
-  },
-  timeText: {
-    fontSize: 18,
-    color: '$text',
-    paddingHorizontal: 15,
-  },
-
-  linkTitle: {
-    color: '$text',
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 0,
   },
   linkButton: {
     borderBottomWidth: 1,

@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { View, TextInput, Text, TouchableOpacity } from 'react-native';
+import {
+  View,
+  TextInput,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import theme, { darkMode } from 'config/theme';
@@ -189,7 +195,7 @@ export default class extends Component<Props, State> {
                   testID={`inputTextScheduleDetail${item.label}`}
                   autoFocus={this.state.focus === item.value}
                 >
-                  <Text style={styles.memoText}>{item.defaultValue}</Text>
+                  <Text style={estyles.memoText}>{item.defaultValue}</Text>
                 </TextInput>
               </View>
             </View>
@@ -222,17 +228,20 @@ export default class extends Component<Props, State> {
   }
 }
 
-const styles = EStyleSheet.create({
-  memoInput: {
-    fontSize: 16,
-    lineHeight: 24,
-    fontWeight: '400',
-  },
+const estyles = EStyleSheet.create({
   memoText: {
     fontSize: 16,
     lineHeight: 24,
     fontWeight: '400',
     color: '$text',
+  },
+});
+
+const styles = StyleSheet.create({
+  memoInput: {
+    fontSize: 16,
+    lineHeight: 24,
+    fontWeight: '400',
   },
   edit: {
     paddingLeft: 3,

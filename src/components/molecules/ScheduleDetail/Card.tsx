@@ -5,6 +5,7 @@ import {
   Linking,
   TouchableOpacity,
   Dimensions,
+  StyleSheet,
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styled from 'styled-components/native';
@@ -67,7 +68,7 @@ export default (props: Props) => {
                   size={24}
                   style={styles.icon}
                 />
-                <Text style={styles.timeText}>{`${props.moveMinutes}分`}</Text>
+                <Text style={estyles.timeText}>{`${props.moveMinutes}分`}</Text>
               </View>
               <Divider style={styles.divider} />
             </>
@@ -79,7 +80,7 @@ export default (props: Props) => {
             <Label text="集合場所" icon="map-marker-outline" width={95} />
 
             <View style={styles.memoContainer}>
-              <Text style={styles.memoText}>{props.place}</Text>
+              <Text style={estyles.memoText}>{props.place}</Text>
             </View>
           </View>
         )}
@@ -92,7 +93,7 @@ export default (props: Props) => {
               <TouchableOpacity onPress={() => handleClick(props.url)}>
                 <Text
                   style={[
-                    styles.memoText,
+                    estyles.memoText,
                     { color: theme().color.accent1.main },
                   ]}
                   numberOfLines={1}
@@ -109,7 +110,7 @@ export default (props: Props) => {
             <Label text="メモ" icon="file-document-box-outline" width={70} />
 
             <View style={styles.memoContainer}>
-              <Text style={styles.memoText}>{props.memo}</Text>
+              <Text style={estyles.memoText}>{props.memo}</Text>
             </View>
           </View>
         )}
@@ -124,17 +125,7 @@ const Title = styled.Text`
   font-size: 20;
 `;
 
-const styles = EStyleSheet.create({
-  root: {
-    height: '100%',
-  },
-  timeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: 60,
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-  },
+const estyles = EStyleSheet.create({
   timeText: {
     fontSize: 18,
     color: '$text',
@@ -144,6 +135,19 @@ const styles = EStyleSheet.create({
     fontSize: 16,
     lineHeight: 24,
     color: '$text',
+  },
+});
+
+const styles = StyleSheet.create({
+  root: {
+    height: '100%',
+  },
+  timeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 60,
+    paddingHorizontal: 20,
+    paddingVertical: 15,
   },
   memoContainer: {
     paddingTop: 5,

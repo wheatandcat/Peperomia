@@ -4,7 +4,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { AppearanceProvider } from 'react-native-appearance';
-import { StatusBar, Text, View } from 'react-native';
+import { StatusBar, Text, View, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {
   createBottomTabNavigator,
@@ -79,7 +79,7 @@ const tabOption = ({
     const item = tabNames.find((v) => v.name === routeName);
 
     return (
-      <Text style={focused ? styles.tabTitleFold : styles.tabTitle}>
+      <Text style={focused ? estyles.tabTitleFold : estyles.tabTitle}>
         {item?.screenName || 'home'}
       </Text>
     );
@@ -268,7 +268,7 @@ const App = () => {
 
 export default App;
 
-const styles = EStyleSheet.create({
+const estyles = EStyleSheet.create({
   tabTitle: {
     fontSize: 12,
     color: '$tabTitleColor',
@@ -285,5 +285,8 @@ const styles = EStyleSheet.create({
     height: 120,
     backgroundColor: '$background',
   },
+});
+
+const styles = StyleSheet.create({
   new: { flex: 1, backgroundColor: 'blue' },
 });

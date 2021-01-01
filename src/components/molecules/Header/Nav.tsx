@@ -1,8 +1,7 @@
 import React, { FC } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Col, Grid } from 'react-native-easy-grid';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import theme from 'config/theme';
 
 type Props = {
@@ -29,7 +28,7 @@ const Nav: FC<Props> = (props) => (
   </View>
 );
 
-const styles = EStyleSheet.create({
+const styles = StyleSheet.create({
   root: {
     height: 50,
     borderBottomWidth: 1,
