@@ -107,7 +107,7 @@ const estyles = EStyleSheet.create({
     height: '100%',
   },
   emailContainer: {
-    padding: 10,
+    padding: theme().space(2),
     width: '100%',
     justifyContent: 'center',
     backgroundColor: '$settingMenu',
@@ -130,14 +130,14 @@ const estyles = EStyleSheet.create({
 
 const styles = StyleSheet.create({
   contents: {
-    marginTop: 20,
-    marginHorizontal: 10,
-    marginBottom: 25,
+    marginTop: theme().space(3),
+    marginHorizontal: theme().space(2),
+    marginBottom: theme().space(4),
   },
   list: {
-    marginTop: 10,
-    marginHorizontal: 10,
-    marginBottom: 5,
+    marginTop: theme().space(2),
+    marginHorizontal: theme().space(2),
+    marginBottom: theme().space(1),
   },
   guideContainer: {
     alignItems: 'flex-end',

@@ -70,14 +70,14 @@ const estyles = EStyleSheet.create({
 
 const styles = StyleSheet.create({
   titleContainer: {
-    paddingTop: 30,
-    paddingBottom: 10,
+    paddingTop: theme().space(4),
+    paddingBottom: theme().space(2),
   },
   buttonContainer: {
-    marginVertical: 30,
+    marginVertical: theme().space(4),
   },
   buttonTitleStyle: {
-    padding: 15,
+    padding: theme().space(3),
   },
   buttonStyle: {
     backgroundColor: theme().color.error.main,
@@ -88,8 +88,8 @@ const styles = StyleSheet.create({
     color: theme().color.primary.main,
   },
   guideContainer: {
-    paddingTop: 25,
-    paddingRight: 5,
+    paddingTop: theme().space(4),
+    paddingRight: theme().space(1),
     width: '100%',
   },
 });

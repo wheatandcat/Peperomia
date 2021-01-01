@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
   inputTitle: {
     fontSize: 20,
     fontWeight: '600',
-    color: theme().color.base.light,
+    color: theme().color.base.main,
     paddingLeft: theme().space(1),
   },
 });

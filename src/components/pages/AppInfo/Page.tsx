@@ -165,24 +165,24 @@ const styles = StyleSheet.create({
   },
   root: {
     height: '100%',
-    paddingTop: whenIPhoneSE(30, 150),
+    paddingTop: whenIPhoneSE(theme().space(4), theme().space(5)),
   },
   image: {
-    paddingTop: 70,
+    paddingTop: theme().space(5),
     height: 300,
-    paddingLeft: 10,
+    paddingLeft: theme().space(2),
     alignItems: 'center',
     justifyContent: 'center',
   },
   textContainer: {
     justifyContent: 'center',
-    paddingLeft: 50,
-    paddingTop: 50,
+    paddingLeft: theme().space(4),
+    paddingTop: theme().space(4),
   },
   textContainerForWide: {
     justifyContent: 'center',
-    paddingLeft: 50,
-    paddingTop: 200,
+    paddingLeft: theme().space(4),
+    paddingTop: theme().space(6),
   },
   text: {
     fontSize: 25,
@@ -195,16 +195,16 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'flex-start',
-    paddingLeft: 50,
-    paddingTop: 20,
+    paddingLeft: theme().space(4),
+    paddingTop: theme().space(2),
   },
   subText: {
     fontSize: 16,
-    paddingBottom: 5,
+    paddingBottom: theme().space(1),
   },
   subTextForWide: {
     fontSize: 30,
-    paddingBottom: 5,
+    paddingBottom: theme().space(1),
   },
 });
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react-native';
 import { View, StyleSheet } from 'react-native';
+import theme from 'config/theme';
 import BottomRight from './BottomRight';
 import Mask from './Mask';
 
@@ -18,6 +19,6 @@ storiesOf('atoms/Hint', module)
 
 const styles = StyleSheet.create({
   root: {
-    paddingTop: 60,
+    paddingTop: theme().space(6),
   },
 });

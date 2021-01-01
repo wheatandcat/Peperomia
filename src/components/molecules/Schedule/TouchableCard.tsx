@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { SelectItemDetail } from 'domain/itemDetail';
+import theme from 'config/theme';
 import Card from './Card';
 
 type Props = SelectItemDetail & {
@@ -42,6 +43,6 @@ const styles = EStyleSheet.create({
     color: '$text',
   },
   container: {
-    padding: 15,
+    padding: theme().space(3),
   },
 });

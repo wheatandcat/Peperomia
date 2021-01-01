@@ -20,8 +20,8 @@ export default () => (
 const styles = StyleSheet.create({
   root: {
     position: 'absolute',
-    right: 10,
-    top: 50,
+    right: theme().space(2),
+    top: theme().space(4),
   },
   tips: {
     width: 0,
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     borderRightColor: theme().color.transparent,
     borderTopColor: theme().color.background.main,
     borderBottomColor: theme().color.background.main,
-    right: 10,
+    right: theme().space(2),
   },
   tipsContainer: {
     alignItems: 'center',
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     height: whenIPhoneSE(40, 55),
     backgroundColor: theme().color.background.main,
     borderWidth: 0,
-    paddingHorizontal: whenIPhoneSE(12, 15),
+    paddingHorizontal: whenIPhoneSE(theme().space(3), theme().space(4)),
   },
 
   text: {

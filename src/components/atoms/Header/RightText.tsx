@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import theme from 'config/theme';
 
 type Props = {
   label: string;
@@ -25,6 +26,6 @@ const styles = EStyleSheet.create({
     color: '$headerText',
   },
   tap: {
-    padding: 5,
+    padding: theme().space(1),
   },
 });

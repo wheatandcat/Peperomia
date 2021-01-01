@@ -36,8 +36,8 @@ const styles = EStyleSheet.create({
     borderWidth: 1,
     borderColor: theme().color.base.pale,
     backgroundColor: '$chip',
-    paddingHorizontal: 3,
-    paddingTop: Platform.OS === 'ios' ? 2 : 0,
+    paddingHorizontal: theme().space(1),
+    paddingTop: Platform.OS === 'ios' ? theme().space(0) : 0,
     paddingBottom: 0,
     borderRadius: 10,
   },
@@ -47,7 +47,7 @@ const styles = EStyleSheet.create({
     color: '$chipText',
   },
   icon: {
-    paddingRight: 2,
-    paddingLeft: 1,
+    paddingRight: theme().space(0),
+    paddingLeft: theme().space(0),
   },
 });

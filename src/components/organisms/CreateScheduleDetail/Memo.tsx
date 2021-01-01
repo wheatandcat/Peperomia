@@ -188,7 +188,7 @@ export default class extends Component<Props, State> {
                       : theme().color.base.light
                   }
                   multiline={item.multiline}
-                  style={styles.memoInput}
+                  style={estyles.memoInput}
                   onChangeText={(value) => {
                     this.props.onChangeInputText(item.value, value);
                   }}
@@ -235,33 +235,34 @@ const estyles = EStyleSheet.create({
     fontWeight: '400',
     color: '$text',
   },
-});
-
-const styles = StyleSheet.create({
   memoInput: {
     fontSize: 16,
     lineHeight: 24,
     fontWeight: '400',
+    color: '$text',
   },
+});
+
+const styles = StyleSheet.create({
   edit: {
-    paddingLeft: 3,
+    paddingLeft: theme().space(0),
   },
   inputLabel: {
-    paddingVertical: 7,
+    paddingVertical: theme().space(2),
   },
   textInputContainer: {
-    paddingVertical: 12,
-    paddingHorizontal: 5,
+    paddingVertical: theme().space(3),
+    paddingHorizontal: theme().space(1),
   },
   inputLabelContainer: {
-    paddingTop: 5,
+    paddingTop: theme().space(1),
     flexDirection: 'row',
     alignItems: 'center',
   },
   plus: {
-    paddingRight: 2,
+    paddingRight: theme().space(0),
   },
   container: {
-    padding: 7,
+    padding: theme().space(2),
   },
 });

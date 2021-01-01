@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     borderRightWidth: 0.5,
     borderLeftWidth: 0.5,
     borderColor: theme().color.base.light,
-    paddingTop: 15,
+    paddingTop: theme().space(3),
     alignItems: 'center',
   },
   dayText: {
@@ -72,14 +72,14 @@ const styles = StyleSheet.create({
     color: theme().color.base.dark,
     fontSize: 12,
     fontWeight: '600',
-    paddingBottom: 7,
+    paddingBottom: theme().space(2),
   },
   dayTextForWide: {
     textAlign: 'center',
     color: theme().color.base.dark,
     fontSize: 20,
     fontWeight: '600',
-    paddingBottom: 7,
+    paddingBottom: theme().space(2),
   },
   imageContainer: {
     alignItems: 'center',

@@ -129,7 +129,7 @@ const estyles = EStyleSheet.create({
   timeText: {
     fontSize: 18,
     color: '$text',
-    paddingHorizontal: 15,
+    paddingHorizontal: theme().space(4),
   },
   memoText: {
     fontSize: 16,
@@ -146,22 +146,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     height: 60,
-    paddingHorizontal: 20,
-    paddingVertical: 15,
+    paddingHorizontal: theme().space(4),
+    paddingVertical: theme().space(3),
   },
   memoContainer: {
-    paddingTop: 5,
-    paddingBottom: 10,
-    paddingHorizontal: 2,
+    paddingTop: theme().space(1),
+    paddingBottom: theme().space(2),
+    paddingHorizontal: theme().space(0),
   },
   icon: {
-    paddingTop: 3,
+    paddingTop: theme().space(1),
   },
   divider: {
-    marginBottom: 8,
+    marginBottom: theme().space(2),
   },
   container: {
-    paddingHorizontal: 18,
-    paddingTop: 8,
+    paddingHorizontal: theme().space(3),
+    paddingTop: theme().space(2),
   },
 });
