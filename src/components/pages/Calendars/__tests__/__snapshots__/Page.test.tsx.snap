@@ -89,7 +89,7 @@ exports[`components/pages/Calendars/Page.tsx 正常に表示されている 1`] 
         style={
           Object {
             "borderBottomWidth": 1,
-            "borderColor": "gray",
+            "borderColor": "#9D9D9D",
             "marginHorizontal": 8,
           }
         }
