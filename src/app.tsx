@@ -288,5 +288,5 @@ const estyles = EStyleSheet.create({
 });
 
 const styles = StyleSheet.create({
-  new: { flex: 1, backgroundColor: 'blue' },
+  new: { flex: 1, backgroundColor: theme().color.accent1.main },
 });

@@ -378,7 +378,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   calendarBottom: {
-    borderColor: 'gray',
+    borderColor: theme().color.base.light,
     marginHorizontal: theme().space(2),
     borderBottomWidth: 1,
   },

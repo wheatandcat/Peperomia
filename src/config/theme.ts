@@ -27,6 +27,7 @@ type ThemeColor = {
     accent2: ColorPalette1;
     error: ColorPalette1;
     background: ColorPalette2;
+    transparent: string;
   };
   mode: {
     background: string;
@@ -98,6 +99,7 @@ const baseColor = {
     main: '#ffffff',
     dark: '#000000',
   },
+  transparent: 'transparent',
 };
 
 const darkColor = {

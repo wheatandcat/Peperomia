@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     backgroundColor: theme().color.error.main,
-    borderColor: 'transparent',
+    borderColor: theme().color.transparent,
   },
   guide: {
     fontSize: 14,
