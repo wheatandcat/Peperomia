@@ -34,7 +34,7 @@ const handleClick = (url: string) => {
         shadow: true,
         animation: true,
         hideOnPress: true,
-        textColor: theme().color.red,
+        textColor: theme().color.error.main,
         delay: 0,
       });
 
@@ -91,7 +91,10 @@ export default (props: Props) => {
             <View style={styles.memoContainer}>
               <TouchableOpacity onPress={() => handleClick(props.url)}>
                 <Text
-                  style={[styles.memoText, { color: theme().color.sky }]}
+                  style={[
+                    styles.memoText,
+                    { color: theme().color.accent1.main },
+                  ]}
                   numberOfLines={1}
                 >
                   {props.url}
@@ -116,7 +119,7 @@ export default (props: Props) => {
 };
 
 const Title = styled.Text`
-  color: ${theme().color.darkGray};
+  color: ${theme().color.base.main};
   font-weight: 600;
   font-size: 20;
 `;

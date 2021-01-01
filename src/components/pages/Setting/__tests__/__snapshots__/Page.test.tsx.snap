@@ -11,7 +11,7 @@ exports[`components/pages/Setting/Page.tsx 正常に表示されている 1`] = 
     textContent="ログアウト中"
     textStyle={
       Object {
-        "color": "#fff",
+        "color": "#ffffff",
       }
     }
     visible={false}
@@ -23,7 +23,7 @@ exports[`components/pages/Setting/Page.tsx 正常に表示されている 1`] = 
       onPress={[MockFunction]}
       rightIcon={
         Object {
-          "color": "#333631",
+          "color": "#110f0f",
           "name": "chevron-right",
         }
       }
@@ -36,7 +36,7 @@ exports[`components/pages/Setting/Page.tsx 正常に表示されている 1`] = 
       onPress={[MockFunction]}
       rightIcon={
         Object {
-          "color": "#333631",
+          "color": "#110f0f",
           "name": "chevron-right",
         }
       }
@@ -47,7 +47,7 @@ exports[`components/pages/Setting/Page.tsx 正常に表示されている 1`] = 
       onPress={[MockFunction]}
       rightIcon={
         Object {
-          "color": "#333631",
+          "color": "#110f0f",
           "name": "chevron-right",
         }
       }
@@ -60,7 +60,7 @@ exports[`components/pages/Setting/Page.tsx 正常に表示されている 1`] = 
       onPress={[MockFunction]}
       rightIcon={
         Object {
-          "color": "#333631",
+          "color": "#110f0f",
           "name": "chevron-right",
         }
       }
@@ -74,11 +74,11 @@ exports[`components/pages/Setting/Page.tsx 正常に表示されている 1`] = 
         <Text
           style={
             Object {
-              "color": "#333631",
+              "color": "#110f0f",
             }
           }
         >
-          2.0.6
+          2.0.5
            
         </Text>
       }

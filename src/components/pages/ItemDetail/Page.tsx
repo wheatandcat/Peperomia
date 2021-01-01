@@ -39,7 +39,7 @@ const handleClick = (url: string) => {
         shadow: true,
         animation: true,
         hideOnPress: true,
-        textColor: theme().color.red,
+        textColor: theme().color.error.main,
         delay: 0,
       });
 
@@ -119,7 +119,10 @@ const Page: FC<Props> = (props) => {
                   onPress={() => handleClick(props.itemDetail?.url || '')}
                 >
                   <Text
-                    style={[estyles.memoText, { color: theme().color.sky }]}
+                    style={[
+                      estyles.memoText,
+                      { color: theme().color.accent1.main },
+                    ]}
                     numberOfLines={1}
                   >
                     {props.itemDetail?.url}
@@ -175,7 +178,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: theme().color.darkGray,
+    color: theme().color.base.main,
   },
   memoContainer: {
     paddingTop: theme().space(2),

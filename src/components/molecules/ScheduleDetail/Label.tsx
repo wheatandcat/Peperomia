@@ -21,7 +21,7 @@ export default (props: Props) => (
   >
     <MaterialCommunityIcons
       name={props.icon}
-      color={theme().color.lightGreen}
+      color={theme().color.secondary.main}
       size={24}
       style={styles.icon}
     />
@@ -34,7 +34,7 @@ const styles = EStyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: theme().color.lightGray,
+    borderColor: theme().color.base.pale,
     backgroundColor: '$chip',
     paddingHorizontal: 3,
     paddingTop: Platform.OS === 'ios' ? 2 : 0,

@@ -33,7 +33,7 @@ const styles = EStyleSheet.create({
   root: {
     height: 50,
     borderBottomWidth: 1,
-    borderColor: theme().color.lightGray,
+    borderColor: theme().color.base.pale,
   },
   close: {
     left: 20,

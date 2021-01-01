@@ -5,8 +5,14 @@ import { Appearance, ColorSchemeName } from 'react-native-appearance';
 // inspired by https://styled-system.com/getting-started#space-theming
 const SPACE = [2, 4, 8, 16, 32, 64, 128, 256, 512] as const;
 
-type ColorPalette = {
+type ColorPalette1 = {
   pale: string;
+  light: string;
+  main: string;
+  dark: string;
+};
+
+type ColorPalette2 = {
   light: string;
   main: string;
   dark: string;
@@ -14,37 +20,13 @@ type ColorPalette = {
 
 type ThemeColor = {
   color: {
-    primary: ColorPalette;
-    secondary: ColorPalette;
-    base: ColorPalette;
-    accent1: ColorPalette;
-    accent2: ColorPalette;
-    error: ColorPalette;
-    background: ColorPalette;
-
-    beige: string;
-    blue: string;
-    darkGray: string;
-    dodgerBlue: string;
-    gray: string;
-    lightBlue: string;
-    lightEmerald: string;
-    lightGray: string;
-    highLightGray: string;
-    lightGreen: string;
-    lightNavy: string;
-    lightOrange: string;
-    lightPink: string;
-    lightRed: string;
-    lightYellow: string;
-    white: string;
-    pink: string;
-    main: string;
-    red: string;
-    sky: string;
-    yellow: string;
-    black: string;
-    pitchBlack: string;
+    primary: ColorPalette1;
+    secondary: ColorPalette1;
+    base: ColorPalette1;
+    accent1: ColorPalette1;
+    accent2: ColorPalette1;
+    error: ColorPalette1;
+    background: ColorPalette2;
   };
   mode: {
     background: string;
@@ -116,75 +98,29 @@ const baseColor = {
     main: '#ffffff',
     dark: '#000000',
   },
-
-  beige: '#E4E4C8',
-  blue: '#007bbb',
-  darkGray: '#4F4F4F',
-  dodgerBlue: '#A1CBF3',
-  gray: '#828282',
-  lightBlue: '#A7EFFF',
-  lightEmerald: '#98D181',
-  lightGray: '#D3D3D3',
-  highLightGray: '#F2F2F2',
-  lightGreen: '#ADCF01',
-  lightNavy: '#CECEE6',
-  lightOrange: '#FFE3AC',
-  lightPink: '#F1DBF9',
-  lightRed: '#FF8C8C',
-  lightYellow: '#FBFDB0',
-  white: '#fff',
-  pink: '#FCCBCB',
-  main: '#006835',
-  red: '#E15757',
-  sky: '#00C2ED',
-  yellow: '#f8e58c',
-  black: '#333631',
-  pitchBlack: '#000',
 };
 
 const darkColor = {
-  beige: '#E4E4C8',
-  blue: '#007bbb',
-  darkGray: '#4F4F4F',
-  dodgerBlue: '#A1CBF3',
-  gray: '#828282',
-  lightBlue: '#A7EFFF',
-  lightEmerald: '#98D181',
-  lightGray: '#D3D3D3',
-  highLightGray: '#F2F2F2',
-  lightGreen: '#ADCF01',
-  lightNavy: '#CECEE6',
-  lightOrange: '#FFE3AC',
-  lightPink: '#F1DBF9',
-  lightRed: '#FF8C8C',
-  lightYellow: '#FBFDB0',
-  white: '#fff',
-  pink: '#FCCBCB',
-  main: '#006835',
-  red: '#E15757',
-  sky: '#00C2ED',
-  yellow: '#f8e58c',
-  black: '#333631',
-  pitchBlack: '#000',
+  ...baseColor,
 };
 
 const theme: Theme = {
   light: {
     color: baseColor,
     mode: {
-      background: baseColor.highLightGray,
-      secondaryBackground: baseColor.lightGray,
-      icon: baseColor.black,
-      text: baseColor.black,
-      secondaryText: baseColor.darkGray,
+      background: baseColor.background.light,
+      secondaryBackground: baseColor.base.pale,
+      icon: baseColor.base.dark,
+      text: baseColor.base.dark,
+      secondaryText: baseColor.base.main,
       tabBar: {
-        background: baseColor.highLightGray,
-        activeTint: baseColor.main,
-        inactiveTint: baseColor.darkGray,
+        background: baseColor.background.light,
+        activeTint: baseColor.primary.main,
+        inactiveTint: baseColor.base.main,
       },
       header: {
-        backgroundColor: baseColor.main,
-        text: baseColor.lightGreen,
+        backgroundColor: baseColor.primary.main,
+        text: baseColor.secondary.main,
       },
       loading: {
         primaryColor: '#ccc',
@@ -195,19 +131,19 @@ const theme: Theme = {
   dark: {
     color: darkColor,
     mode: {
-      background: baseColor.pitchBlack,
-      secondaryBackground: baseColor.darkGray,
-      icon: baseColor.lightGray,
-      text: baseColor.lightGray,
-      secondaryText: baseColor.gray,
+      background: baseColor.background.dark,
+      secondaryBackground: baseColor.base.main,
+      icon: baseColor.base.pale,
+      text: baseColor.base.pale,
+      secondaryText: baseColor.base.light,
       tabBar: {
-        background: baseColor.pitchBlack,
-        activeTint: baseColor.highLightGray,
-        inactiveTint: baseColor.gray,
+        background: baseColor.background.dark,
+        activeTint: baseColor.background.light,
+        inactiveTint: baseColor.base.light,
       },
       header: {
-        backgroundColor: baseColor.pitchBlack,
-        text: baseColor.highLightGray,
+        backgroundColor: baseColor.background.dark,
+        text: baseColor.background.light,
       },
       loading: {
         primaryColor: '#555',
@@ -218,19 +154,19 @@ const theme: Theme = {
   'no-preference': {
     color: baseColor,
     mode: {
-      background: baseColor.highLightGray,
-      secondaryBackground: baseColor.lightGray,
-      icon: baseColor.black,
-      text: baseColor.black,
-      secondaryText: baseColor.darkGray,
+      background: baseColor.background.light,
+      secondaryBackground: baseColor.base.pale,
+      icon: baseColor.base.dark,
+      text: baseColor.base.dark,
+      secondaryText: baseColor.base.main,
       tabBar: {
-        background: baseColor.highLightGray,
-        activeTint: baseColor.main,
-        inactiveTint: baseColor.darkGray,
+        background: baseColor.background.light,
+        activeTint: baseColor.primary.main,
+        inactiveTint: baseColor.base.main,
       },
       header: {
-        backgroundColor: baseColor.main,
-        text: baseColor.lightGreen,
+        backgroundColor: baseColor.primary.main,
+        text: baseColor.secondary.main,
       },
       loading: {
         primaryColor: '#ccc',
@@ -256,17 +192,25 @@ export const setMode = (modeType: ColorSchemeName) => {
     $icon: themeMode.icon,
     $headerText: themeMode.header.text,
     $searchInputContainer: darkMode()
-      ? baseColor.darkGray
-      : baseColor.highLightGray,
-    $settingRoot: darkMode() ? baseColor.pitchBlack : baseColor.highLightGray,
-    $settingMenu: darkMode() ? baseColor.black : baseColor.white,
-    $chip: darkMode() ? baseColor.black : baseColor.highLightGray,
-    $chipText: darkMode() ? baseColor.lightGray : baseColor.gray,
-    $button: darkMode() ? baseColor.black : baseColor.main,
-    $secondaryButton: darkMode() ? baseColor.white : baseColor.main,
-    $buttonBorder: darkMode() ? baseColor.white : baseColor.main,
-    $tabTitleActiveColor: darkMode() ? baseColor.white : baseColor.main,
-    $tabTitleColor: darkMode() ? baseColor.lightGray : baseColor.darkGray,
+      ? baseColor.base.main
+      : baseColor.background.light,
+    $settingRoot: darkMode()
+      ? baseColor.background.dark
+      : baseColor.background.light,
+    $settingMenu: darkMode() ? baseColor.base.dark : baseColor.background.main,
+    $chip: darkMode() ? baseColor.base.dark : baseColor.background.light,
+    $chipText: darkMode() ? baseColor.base.pale : baseColor.base.light,
+    $button: darkMode() ? baseColor.base.dark : baseColor.primary.main,
+    $secondaryButton: darkMode()
+      ? baseColor.background.main
+      : baseColor.primary.main,
+    $buttonBorder: darkMode()
+      ? baseColor.background.main
+      : baseColor.primary.main,
+    $tabTitleActiveColor: darkMode()
+      ? baseColor.background.main
+      : baseColor.primary.main,
+    $tabTitleColor: darkMode() ? baseColor.base.pale : baseColor.base.main,
   });
 };
 
@@ -287,11 +231,11 @@ export const NavigationDefaultTheme = () => ({
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: baseColor.lightGreen,
-    text: baseColor.lightGreen,
-    background: baseColor.white,
-    card: baseColor.white,
-    border: baseColor.gray,
+    primary: baseColor.secondary.main,
+    text: baseColor.secondary.main,
+    background: baseColor.background.main,
+    card: baseColor.background.main,
+    border: baseColor.base.light,
   },
 });
 
@@ -299,10 +243,10 @@ export const NavigationDarkTheme = () => ({
   ...DarkTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: baseColor.lightGray,
-    text: baseColor.white,
-    background: baseColor.pitchBlack,
-    card: baseColor.pitchBlack,
-    border: baseColor.highLightGray,
+    primary: baseColor.base.pale,
+    text: baseColor.background.main,
+    background: baseColor.background.dark,
+    card: baseColor.background.dark,
+    border: baseColor.background.light,
   },
 });

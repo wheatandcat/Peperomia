@@ -64,7 +64,7 @@ const styles = EStyleSheet.create({
   },
   linkButton: {
     borderBottomWidth: 1,
-    borderBottomColor: theme().color.gray,
+    borderBottomColor: theme().color.base.light,
     padding: 0,
   },
 

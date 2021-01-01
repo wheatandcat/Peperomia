@@ -12,7 +12,7 @@ storiesOf('molecules/ScheduleHeader', module).add('Header', () => (
       <MaterialCommunityIcons
         name="dots-horizontal"
         size={30}
-        color={theme().color.white}
+        color={theme().color.background.main}
       />
     }
   />

@@ -34,7 +34,7 @@ const SettingPage: FC<Props> = (props) => {
       <Spinner
         visible={props.restoreLoading}
         textContent="ログアウト中"
-        textStyle={{ color: theme().color.white }}
+        textStyle={{ color: theme().color.background.main }}
       />
       <ScrollView>
         <Divider />
@@ -94,7 +94,7 @@ const SettingPage: FC<Props> = (props) => {
                 <ListItem
                   title="ログアウト"
                   containerStyle={styles.menu}
-                  titleStyle={{ color: theme().color.red }}
+                  titleStyle={{ color: theme().color.error.main }}
                   onPress={props.onLogout}
                   bottomDivider
                 />
@@ -241,7 +241,7 @@ const styles = EStyleSheet.create({
   },
 
   debug: {
-    backgroundColor: theme().color.highLightGray,
+    backgroundColor: theme().color.background.light,
     paddingVertical: 15,
     paddingLeft: 10,
     fontSize: 20,

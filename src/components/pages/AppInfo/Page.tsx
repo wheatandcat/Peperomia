@@ -19,7 +19,7 @@ const AppInfo: FC<Props> = (props) => {
       imageWidth: isTablet ? 400 : 250,
       titleColor: theme().color.primary.main,
       textColor: theme().color.primary.main,
-      backgroundColor: theme().color.lightGreen,
+      backgroundColor: theme().color.secondary.main,
     },
     {
       key: 'step2',
@@ -28,8 +28,8 @@ const AppInfo: FC<Props> = (props) => {
         'タイトルをつけると自動でアイコンを設定\n見やすい予定表を作成しよう！',
       image: require('img/intro_plan2.png'),
       imageWidth: isTablet ? 400 : 250,
-      titleColor: theme().color.lightGreen,
-      textColor: theme().color.lightGreen,
+      titleColor: theme().color.secondary.main,
+      textColor: theme().color.secondary.main,
       backgroundColor: theme().color.primary.main,
     },
     {
@@ -40,7 +40,7 @@ const AppInfo: FC<Props> = (props) => {
       imageWidth: isTablet ? 500 : 300,
       titleColor: theme().color.primary.main,
       textColor: theme().color.primary.main,
-      backgroundColor: theme().color.lightGreen,
+      backgroundColor: theme().color.secondary.main,
     },
     {
       key: 'step4',
@@ -48,8 +48,8 @@ const AppInfo: FC<Props> = (props) => {
       text: 'ペペロミアを使って予定を作っていこう！',
       image: require('img/icon.png'),
       imageWidth: isTablet ? 300 : 200,
-      titleColor: theme().color.white,
-      textColor: theme().color.highLightGray,
+      titleColor: theme().color.background.main,
+      textColor: theme().color.background.light,
       backgroundColor: theme().color.primary.main,
     },
   ];

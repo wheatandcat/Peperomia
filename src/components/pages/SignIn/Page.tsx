@@ -20,7 +20,7 @@ const SignInPage: FC<Props> = (props) => (
     <Spinner
       visible={props.loading}
       textContent="ログイン中"
-      textStyle={{ color: theme().color.white }}
+      textStyle={{ color: theme().color.background.main }}
     />
 
     <View style={styles.titleContainer}>
@@ -77,7 +77,7 @@ const styles = EStyleSheet.create({
     padding: 15,
   },
   buttonStyle: {
-    backgroundColor: theme().color.red,
+    backgroundColor: theme().color.error.main,
     borderColor: 'transparent',
   },
   guide: {

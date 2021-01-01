@@ -23,7 +23,7 @@ const MyPage: FC<Props> = (props) => (
     <Spinner
       visible={props.loading}
       textContent={props.LoadingText}
-      textStyle={{ color: theme().color.white }}
+      textStyle={{ color: theme().color.background.main }}
     />
     <ScrollView>
       <View style={styles.contents}>

@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
   year: {
     textAlign: 'center',
-    color: theme().color.darkGray,
+    color: theme().color.base.main,
     fontSize: 25,
     fontWeight: '600',
   },

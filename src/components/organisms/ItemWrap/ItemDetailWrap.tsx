@@ -40,7 +40,7 @@ const ItemDetailWrap: React.FC<Props> = (props) => {
   return (
     <AppScrollViewIOSBounceColorsWrapper
       topBounceColor={config.backgroundColor}
-      bottomBounceColor={theme().color.highLightGray}
+      bottomBounceColor={theme().color.background.light}
     >
       <FocusAwareStatusBar
         backgroundColor={config.backgroundColor}

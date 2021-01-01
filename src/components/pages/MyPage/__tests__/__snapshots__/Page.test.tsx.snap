@@ -11,7 +11,7 @@ exports[`components/pages/MyPage/Page.tsx 正常に表示されている 1`] = `
     textContent=""
     textStyle={
       Object {
-        "color": "#fff",
+        "color": "#ffffff",
       }
     }
     visible={false}
@@ -49,7 +49,7 @@ exports[`components/pages/MyPage/Page.tsx 正常に表示されている 1`] = `
       onPress={[MockFunction]}
       rightIcon={
         Object {
-          "color": "#333631",
+          "color": "#110f0f",
           "name": "chevron-right",
         }
       }

@@ -155,7 +155,7 @@ export default class extends Component<Props, State> {
         <View>
           <MaterialIcons
             name="mode-edit"
-            color={theme().color.lightGreen}
+            color={theme().color.secondary.main}
             size={23}
             style={styles.edit}
           />
@@ -177,7 +177,9 @@ export default class extends Component<Props, State> {
                 <TextInput
                   placeholder={item.label}
                   placeholderTextColor={
-                    darkMode() ? theme().color.lightGray : theme().color.gray
+                    darkMode()
+                      ? theme().color.base.pale
+                      : theme().color.base.light
                   }
                   multiline={item.multiline}
                   style={styles.memoInput}
@@ -197,7 +199,7 @@ export default class extends Component<Props, State> {
             <View style={styles.inputLabelContainer}>
               <MaterialCommunityIcons
                 name="plus"
-                color={theme().color.lightGreen}
+                color={theme().color.secondary.main}
                 size={28}
                 style={styles.plus}
               />

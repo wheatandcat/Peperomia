@@ -6,7 +6,7 @@ const CommonStatusBar = () => {
   return (
     <FocusAwareStatusBar
       backgroundColor={
-        darkMode() ? theme().color.black : theme().color.primary.main
+        darkMode() ? theme().color.base.dark : theme().color.primary.main
       }
       barStyle={darkMode() ? 'light-content' : 'dark-content'}
     />

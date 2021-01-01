@@ -70,7 +70,7 @@ const styles = EStyleSheet.create({
     padding: 30,
   },
   dateButton: {
-    backgroundColor: theme().color.lightGreen,
+    backgroundColor: theme().color.secondary.main,
     borderRadius: 15,
     padding: 15,
   },

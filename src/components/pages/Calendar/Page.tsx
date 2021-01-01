@@ -174,12 +174,12 @@ const styles = StyleSheet.create({
   footer: {
     width: '100%',
     height: '100%',
-    backgroundColor: theme().color.white,
+    backgroundColor: theme().color.background.main,
   },
   cards: {
     width: '100%',
     flexDirection: 'row',
-    backgroundColor: theme().color.white,
+    backgroundColor: theme().color.background.main,
   },
   card1: {
     width: '50%',

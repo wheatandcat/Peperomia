@@ -51,6 +51,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 14,
-    color: theme().color.black,
+    color: theme().color.base.dark,
   },
 });

@@ -66,9 +66,9 @@ exports[`components/pages/AppInfo/Page.tsx 正常に表示されている 1`] = 
         "imageWidth": 200,
         "key": "step4",
         "text": "ペペロミアを使って予定を作っていこう！",
-        "textColor": "#F2F2F2",
+        "textColor": "#FAFAFA",
         "title": "ようこそ！！",
-        "titleColor": "#fff",
+        "titleColor": "#ffffff",
       },
     ]
   }

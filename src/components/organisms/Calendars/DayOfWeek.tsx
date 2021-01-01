@@ -7,13 +7,17 @@ type Props = {};
 const DayOfWeek: React.FC<Props> = () => {
   return (
     <View style={styles.weekNameContainer}>
-      <Text style={[styles.weekText, { color: theme().color.red }]}>日</Text>
+      <Text style={[styles.weekText, { color: theme().color.error.main }]}>
+        日
+      </Text>
       <Text style={styles.weekText}>月</Text>
       <Text style={styles.weekText}>火</Text>
       <Text style={styles.weekText}>水</Text>
       <Text style={styles.weekText}>木</Text>
       <Text style={styles.weekText}>金</Text>
-      <Text style={[styles.weekText, { color: theme().color.sky }]}>土</Text>
+      <Text style={[styles.weekText, { color: theme().color.accent1.main }]}>
+        土
+      </Text>
     </View>
   );
 };

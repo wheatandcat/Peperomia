@@ -93,14 +93,14 @@ const styles = EStyleSheet.create({
     marginTop: 50,
     paddingTop: 10,
     borderTopWidth: 0.5,
-    borderColor: theme().color.lightGray,
+    borderColor: theme().color.base.pale,
   },
   buttonText: {
     color: '$secondaryButton',
     fontWeight: '600',
   },
   cancel: {
-    color: theme().color.gray,
+    color: theme().color.base.light,
     fontWeight: '600',
   },
   overlay: {
@@ -123,7 +123,7 @@ const styles = EStyleSheet.create({
   },
   line: {
     fontSize: 22,
-    color: theme().color.lightGray,
+    color: theme().color.base.pale,
   },
   settingButton: {
     width: 120,
