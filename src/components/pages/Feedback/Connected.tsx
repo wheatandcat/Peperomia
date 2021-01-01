@@ -58,7 +58,7 @@ export default class extends Component<Props, State> {
       <>
         <FocusAwareStatusBar
           backgroundColor={
-            darkMode() ? theme().color.black : theme().color.main
+            darkMode() ? theme().color.black : theme().color.primary.main
           }
           barStyle={darkMode() ? 'light-content' : 'dark-content'}
         />

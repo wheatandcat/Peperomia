@@ -41,7 +41,7 @@ Sentry.init({
 });
 
 StatusBar.setBarStyle('light-content', true);
-StatusBar.setBackgroundColor(theme().color.main, true);
+StatusBar.setBackgroundColor(theme().color.primary.main, true);
 
 const Tab = createBottomTabNavigator();
 

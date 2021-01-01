@@ -194,17 +194,6 @@
       "outputFile": "./storybook/storyLoader.js"
     }
   },
-  "lint-staged": {
-    "*.{js,ts,tsx}": [
-      "eslint --fix",
-      "git add"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn tsc && lint-staged"
-    }
-  },
   "detox": {
     "test-runner": "jest",
     "runner-config": "e2e/config.json",

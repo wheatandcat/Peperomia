@@ -40,7 +40,7 @@ const MyPage: FC<Props> = (props) => (
               <MaterialIcons
                 name="chevron-right"
                 size={20}
-                color={theme().color.main}
+                color={theme().color.primary.main}
               />
             }
             iconRight
@@ -89,7 +89,7 @@ const MyPage: FC<Props> = (props) => (
               <MaterialIcons
                 name="chevron-right"
                 size={20}
-                color={theme().color.main}
+                color={theme().color.primary.main}
               />
             }
             iconRight
@@ -141,7 +141,7 @@ const styles = EStyleSheet.create({
   },
   guide: {
     fontSize: 14,
-    color: theme().color.main,
+    color: theme().color.primary.main,
   },
 });
 

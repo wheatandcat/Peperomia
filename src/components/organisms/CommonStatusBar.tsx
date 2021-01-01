@@ -5,7 +5,9 @@ import FocusAwareStatusBar from './FocusAwareStatusBar';
 const CommonStatusBar = () => {
   return (
     <FocusAwareStatusBar
-      backgroundColor={darkMode() ? theme().color.black : theme().color.main}
+      backgroundColor={
+        darkMode() ? theme().color.black : theme().color.primary.main
+      }
       barStyle={darkMode() ? 'light-content' : 'dark-content'}
     />
   );

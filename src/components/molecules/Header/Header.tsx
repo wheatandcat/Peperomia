@@ -51,7 +51,7 @@ const Header: React.FC<Props> = (props) => {
           <MaterialCommunityIcons
             name="close"
             size={30}
-            color={theme().color.main}
+            color={theme().color.primary.main}
           />
         </TouchableOpacity>
         {(() => {

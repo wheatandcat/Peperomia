@@ -17,8 +17,8 @@ const AppInfo: FC<Props> = (props) => {
       text: 'ペペロミアは予定管理アプリです\n簡単な操作で予定を作成',
       image: require('img/intro_home.png'),
       imageWidth: isTablet ? 400 : 250,
-      titleColor: theme().color.main,
-      textColor: theme().color.main,
+      titleColor: theme().color.primary.main,
+      textColor: theme().color.primary.main,
       backgroundColor: theme().color.lightGreen,
     },
     {
@@ -30,7 +30,7 @@ const AppInfo: FC<Props> = (props) => {
       imageWidth: isTablet ? 400 : 250,
       titleColor: theme().color.lightGreen,
       textColor: theme().color.lightGreen,
-      backgroundColor: theme().color.main,
+      backgroundColor: theme().color.primary.main,
     },
     {
       key: 'step3',
@@ -38,8 +38,8 @@ const AppInfo: FC<Props> = (props) => {
       text: '作成した予定は\nブラウザから誰にでも共有可能',
       image: require('img/intro_share.png'),
       imageWidth: isTablet ? 500 : 300,
-      titleColor: theme().color.main,
-      textColor: theme().color.main,
+      titleColor: theme().color.primary.main,
+      textColor: theme().color.primary.main,
       backgroundColor: theme().color.lightGreen,
     },
     {
@@ -50,7 +50,7 @@ const AppInfo: FC<Props> = (props) => {
       imageWidth: isTablet ? 300 : 200,
       titleColor: theme().color.white,
       textColor: theme().color.highLightGray,
-      backgroundColor: theme().color.main,
+      backgroundColor: theme().color.primary.main,
     },
   ];
 

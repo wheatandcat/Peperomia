@@ -42,7 +42,7 @@ const CreateHeader: React.FC<Props> = (props) => {
           <MaterialCommunityIcons
             name="check"
             size={30}
-            color={theme().color.main}
+            color={theme().color.primary.main}
           />
         </TouchableOpacity>
       </View>

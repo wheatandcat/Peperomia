@@ -74,7 +74,7 @@ const Header: React.FC<Props> = (props) => {
           <MaterialCommunityIcons
             name="dots-horizontal"
             size={30}
-            color={theme().color.main}
+            color={theme().color.primary.main}
           />
         </TouchableOpacity>
       </View>

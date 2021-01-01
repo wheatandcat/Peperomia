@@ -16,7 +16,7 @@ const Header: React.FC<Props> = (props) => {
         <MaterialCommunityIcons
           name="chevron-left"
           size={30}
-          color={theme().color.main}
+          color={theme().color.primary.main}
         />
       </TouchableOpacity>
 
@@ -28,7 +28,7 @@ const Header: React.FC<Props> = (props) => {
         <MaterialCommunityIcons
           name="chevron-right"
           size={30}
-          color={theme().color.main}
+          color={theme().color.primary.main}
         />
       </TouchableOpacity>
     </View>

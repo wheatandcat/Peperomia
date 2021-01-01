@@ -5,8 +5,23 @@ import { Appearance, ColorSchemeName } from 'react-native-appearance';
 // inspired by https://styled-system.com/getting-started#space-theming
 const SPACE = [2, 4, 8, 16, 32, 64, 128, 256, 512] as const;
 
+type ColorPalette = {
+  pale: string;
+  light: string;
+  main: string;
+  dark: string;
+};
+
 type ThemeColor = {
   color: {
+    primary: ColorPalette;
+    secondary: ColorPalette;
+    base: ColorPalette;
+    accent1: ColorPalette;
+    accent2: ColorPalette;
+    error: ColorPalette;
+    background: ColorPalette;
+
     beige: string;
     blue: string;
     darkGray: string;
@@ -60,6 +75,48 @@ type Theme = {
 };
 
 const baseColor = {
+  primary: {
+    pale: '#D5EEE2',
+    light: '#5DC894',
+    main: '#006835',
+    dark: '#003119',
+  },
+  secondary: {
+    pale: '#F4FFBE',
+    light: '#E6F599',
+    main: '#ADCF01',
+    dark: '#7F9705',
+  },
+  base: {
+    pale: '#DBDBDB',
+    light: '#9D9D9D',
+    main: '#4F4F4F',
+    dark: '#110f0f',
+  },
+  accent1: {
+    pale: '#E5F0FF',
+    light: '#A8C9F5',
+    main: '#2F80ED',
+    dark: '#034092',
+  },
+  accent2: {
+    pale: '#FFFAEA',
+    light: '#FFEDB5',
+    main: '#F2C94C',
+    dark: '#BE9109',
+  },
+  error: {
+    pale: '#FFEBEB',
+    light: '#FFABAB',
+    main: '#E15757',
+    dark: '#A81A1A',
+  },
+  background: {
+    light: '#FAFAFA',
+    main: '#ffffff',
+    dark: '#000000',
+  },
+
   beige: '#E4E4C8',
   blue: '#007bbb',
   darkGray: '#4F4F4F',
