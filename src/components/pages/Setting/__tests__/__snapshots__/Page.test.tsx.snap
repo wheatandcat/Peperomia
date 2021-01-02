@@ -21,69 +21,65 @@ exports[`components/pages/Setting/Page.tsx 正常に表示されている 1`] = 
     <Themed.ListItem
       bottomDivider={true}
       onPress={[MockFunction]}
-      rightIcon={
-        Object {
-          "color": "#110f0f",
-          "name": "chevron-right",
-        }
-      }
-      title="お問い合わせ"
-    />
+    >
+      <Themed.ListItemContent>
+        <Themed.ListItemTitle>
+          お問い合わせ
+        </Themed.ListItemTitle>
+      </Themed.ListItemContent>
+      <Themed.ListItemChevron />
+    </Themed.ListItem>
     <View />
     <Themed.Divider />
     <Themed.ListItem
       bottomDivider={true}
       onPress={[MockFunction]}
-      rightIcon={
-        Object {
-          "color": "#110f0f",
-          "name": "chevron-right",
-        }
-      }
-      title="利用規約"
-    />
+    >
+      <Themed.ListItemContent>
+        <Themed.ListItemTitle>
+          利用規約
+        </Themed.ListItemTitle>
+      </Themed.ListItemContent>
+      <Themed.ListItemChevron />
+    </Themed.ListItem>
     <Themed.ListItem
       bottomDivider={true}
       onPress={[MockFunction]}
-      rightIcon={
-        Object {
-          "color": "#110f0f",
-          "name": "chevron-right",
-        }
-      }
-      title="プライバシーポリシー"
-    />
+    >
+      <Themed.ListItemContent>
+        <Themed.ListItemTitle>
+          プライバシーポリシー
+        </Themed.ListItemTitle>
+      </Themed.ListItemContent>
+      <Themed.ListItemChevron />
+    </Themed.ListItem>
     <View />
     <Themed.Divider />
     <Themed.ListItem
       bottomDivider={true}
       onPress={[MockFunction]}
-      rightIcon={
-        Object {
-          "color": "#110f0f",
-          "name": "chevron-right",
-        }
-      }
-      title="ユーザー登録 / ログイン"
-    />
+    >
+      <Themed.ListItemContent>
+        <Themed.ListItemTitle>
+          ユーザー登録 / ログイン
+        </Themed.ListItemTitle>
+      </Themed.ListItemContent>
+      <Themed.ListItemChevron />
+    </Themed.ListItem>
     <View />
     <Themed.Divider />
     <Themed.ListItem
       bottomDivider={true}
-      rightTitle={
-        <Text
-          style={
-            Object {
-              "color": "#110f0f",
-            }
-          }
-        >
-          2.0.6
-           
-        </Text>
-      }
-      title="バージョン情報"
-    />
+    >
+      <Themed.ListItemContent>
+        <Themed.ListItemTitle>
+          バージョン情報
+        </Themed.ListItemTitle>
+      </Themed.ListItemContent>
+      <Text>
+        2.0.6
+      </Text>
+    </Themed.ListItem>
   </ScrollView>
 </View>
 `;

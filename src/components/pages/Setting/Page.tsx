@@ -3,10 +3,11 @@ import {
   View,
   ScrollView,
   Text,
-  AsyncStorage,
   ActivityIndicator,
   StyleSheet,
+  Switch,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Updates } from 'expo';
@@ -14,7 +15,6 @@ import { ListItem, Divider } from 'react-native-elements';
 import Constants from 'expo-constants';
 import * as Analytics from 'expo-firebase-analytics';
 import * as Sentry from 'sentry-expo';
-import Bugsnag from '@bugsnag/expo';
 import theme from 'config/theme';
 import { ConnectedType } from './Connected';
 import app from '../../../../app.json';
@@ -22,10 +22,6 @@ import app from '../../../../app.json';
 type Props = ConnectedType;
 
 const SettingPage: FC<Props> = (props) => {
-  const onBugsnag = useCallback(() => {
-    Bugsnag.notify(new Error('test: bugsnag'));
-  }, []);
-
   const onSentry = useCallback(() => {
     Sentry.captureException(new Error('test: sentry'));
   }, []);
@@ -39,32 +35,29 @@ const SettingPage: FC<Props> = (props) => {
       />
       <ScrollView>
         <Divider />
-        <ListItem
-          title="お問い合わせ"
-          rightIcon={{ name: 'chevron-right', color: theme().mode.text }}
-          containerStyle={estyles.menu}
-          titleStyle={estyles.menuText}
-          bottomDivider
-          onPress={props.onFeedback}
-        />
+
+        <ListItem onPress={props.onFeedback} bottomDivider>
+          <ListItem.Content>
+            <ListItem.Title>お問い合わせ</ListItem.Title>
+          </ListItem.Content>
+          <ListItem.Chevron />
+        </ListItem>
         <View style={estyles.menuSpace} />
         <Divider />
-        <ListItem
-          title="利用規約"
-          rightIcon={{ name: 'chevron-right', color: theme().mode.text }}
-          containerStyle={estyles.menu}
-          titleStyle={estyles.menuText}
-          bottomDivider
-          onPress={props.onTos}
-        />
-        <ListItem
-          title="プライバシーポリシー"
-          rightIcon={{ name: 'chevron-right', color: theme().mode.text }}
-          containerStyle={estyles.menu}
-          titleStyle={estyles.menuText}
-          onPress={props.onPolicy}
-          bottomDivider
-        />
+
+        <ListItem onPress={props.onTos} bottomDivider>
+          <ListItem.Content>
+            <ListItem.Title>利用規約</ListItem.Title>
+          </ListItem.Content>
+          <ListItem.Chevron />
+        </ListItem>
+
+        <ListItem onPress={props.onPolicy} bottomDivider>
+          <ListItem.Content>
+            <ListItem.Title>プライバシーポリシー</ListItem.Title>
+          </ListItem.Content>
+          <ListItem.Chevron />
+        </ListItem>
 
         <View style={estyles.menuSpace} />
 
@@ -81,24 +74,20 @@ const SettingPage: FC<Props> = (props) => {
             return (
               <>
                 <Divider />
-                <ListItem
-                  title="マイページ"
-                  onPress={props.onMyPage}
-                  rightIcon={{
-                    name: 'chevron-right',
-                    color: theme().mode.text,
-                  }}
-                  containerStyle={estyles.menu}
-                  titleStyle={estyles.menuText}
-                  bottomDivider
-                />
-                <ListItem
-                  title="ログアウト"
-                  containerStyle={estyles.menu}
-                  titleStyle={{ color: theme().color.error.main }}
-                  onPress={props.onLogout}
-                  bottomDivider
-                />
+                <ListItem onPress={props.onMyPage} bottomDivider>
+                  <ListItem.Content>
+                    <ListItem.Title>マイページ</ListItem.Title>
+                  </ListItem.Content>
+                  <ListItem.Chevron />
+                </ListItem>
+
+                <ListItem onPress={props.onLogout} bottomDivider>
+                  <ListItem.Content>
+                    <ListItem.Title style={styles.logout}>
+                      ログアウト
+                    </ListItem.Title>
+                  </ListItem.Content>
+                </ListItem>
               </>
             );
           }
@@ -106,87 +95,97 @@ const SettingPage: FC<Props> = (props) => {
           return (
             <>
               <Divider />
-              <ListItem
-                title="ユーザー登録 / ログイン"
-                rightIcon={{
-                  name: 'chevron-right',
-                  color: theme().mode.text,
-                }}
-                containerStyle={estyles.menu}
-                titleStyle={estyles.menuText}
-                onPress={props.onSignIn}
-                bottomDivider
-              />
+              <ListItem onPress={props.onSignIn} bottomDivider>
+                <ListItem.Content>
+                  <ListItem.Title>ユーザー登録 / ログイン</ListItem.Title>
+                </ListItem.Content>
+                <ListItem.Chevron />
+              </ListItem>
             </>
           );
         })()}
 
         {!Constants.isDevice && (
-          <ListItem
-            title="Alexa連携を設定する(β版)"
-            rightIcon={{
-              name: 'chevron-right',
-              color: theme().mode.text,
-            }}
-            containerStyle={estyles.menu}
-            titleStyle={estyles.menuText}
-            onPress={props.onLoginWithAmazon}
-            bottomDivider
-          />
+          <ListItem onPress={props.onLoginWithAmazon} bottomDivider>
+            <ListItem.Content>
+              <ListItem.Title>Alexa連携を設定する</ListItem.Title>
+            </ListItem.Content>
+            <ListItem.Chevron />
+          </ListItem>
         )}
 
         <View style={estyles.menuSpace} />
         <Divider />
-        <ListItem
-          title="バージョン情報"
-          rightTitle={
-            <Text style={{ color: theme().mode.text }}>
-              {app.expo.version}{' '}
-            </Text>
-          }
-          containerStyle={estyles.menu}
-          titleStyle={estyles.menuText}
-          bottomDivider
-        />
+        <ListItem bottomDivider>
+          <ListItem.Content>
+            <ListItem.Title>バージョン情報</ListItem.Title>
+          </ListItem.Content>
+          <Text style={estyles.menuText}>{app.expo.version}</Text>
+        </ListItem>
+
         {!Constants.isDevice && (
           <>
             <View style={styles.debugSpace} />
             <Divider />
             <Text style={styles.debug}>デバッグ機能</Text>
             <Divider />
-            <ListItem title={`UID: ${props.uid || ''}`} />
-            <Divider />
-            <Divider />
-            <ListItem title="初期データ投入" onPress={props.onResetSQL} />
-            <Divider />
-            <ListItem title="ユーザー初期化" onPress={props.onDeleteUser} />
-            <Divider />
+
+            <ListItem bottomDivider>
+              <ListItem.Content>
+                <ListItem.Title>{`UID: ${props.uid || ''}`}</ListItem.Title>
+              </ListItem.Content>
+            </ListItem>
+            <ListItem bottomDivider onPress={props.onResetSQL}>
+              <ListItem.Content>
+                <ListItem.Title>初期データ投入</ListItem.Title>
+              </ListItem.Content>
+            </ListItem>
+            <ListItem bottomDivider onPress={props.onDeleteUser}>
+              <ListItem.Content>
+                <ListItem.Title>ユーザー初期化</ListItem.Title>
+              </ListItem.Content>
+            </ListItem>
+            <ListItem bottomDivider onPress={props.onMigrationV100}>
+              <ListItem.Content>
+                <ListItem.Title>v1.0.0の状態にする</ListItem.Title>
+              </ListItem.Content>
+            </ListItem>
+            <ListItem bottomDivider onPress={props.onDeleteSQL}>
+              <ListItem.Content>
+                <ListItem.Title>v1.0.アイテムを削除</ListItem.Title>
+              </ListItem.Content>
+            </ListItem>
+            <ListItem bottomDivider onPress={props.onDeleteSQL}>
+              <ListItem.Content>
+                <ListItem.Title>v1.0.アイテムを削除</ListItem.Title>
+              </ListItem.Content>
+            </ListItem>
+            <ListItem bottomDivider onPress={props.onData}>
+              <ListItem.Content>
+                <ListItem.Title>DBのデータを表示</ListItem.Title>
+              </ListItem.Content>
+            </ListItem>
             <ListItem
-              title="v1.0.0の状態にする"
-              onPress={props.onMigrationV100}
-            />
-            <Divider />
-            <ListItem title="アイテムを削除" onPress={props.onDeleteSQL} />
-            <Divider />
-            <ListItem title="DBのデータを表示" onPress={props.onData} />
-            <Divider />
-            <ListItem
-              title="最初のプラン作成キャッシュの削除"
-              onPress={() => {
-                AsyncStorage.removeItem('FIRST_CREATE_ITEM');
-              }}
-            />
-            <Divider />
-            <ListItem
-              title="使用DBをSQLiteにする"
-              switch={{
-                value: props.debugMode,
-                onValueChange: props.onChangeDebugMode,
-              }}
               bottomDivider
-            />
+              onPress={() => AsyncStorage.removeItem('FIRST_CREATE_ITEM')}
+            >
+              <ListItem.Content>
+                <ListItem.Title>
+                  最初のプラン作成キャッシュの削除
+                </ListItem.Title>
+              </ListItem.Content>
+            </ListItem>
+            <ListItem bottomDivider>
+              <ListItem.Content>
+                <ListItem.Title>使用DBをSQLiteにする</ListItem.Title>
+              </ListItem.Content>
+              <Switch
+                onValueChange={props.onChangeDebugMode}
+                value={props.debugMode}
+              />
+            </ListItem>
             <ListItem
-              title="Firebase アナリティクス"
+              bottomDivider
               onPress={() => {
                 Analytics.setUserId('saitama');
                 Analytics.setUserProperties({
@@ -199,16 +198,21 @@ const SettingPage: FC<Props> = (props) => {
                   method: 'facebook',
                 });
               }}
-              bottomDivider
-            />
-            <ListItem title="Sentryテスト" onPress={onSentry} bottomDivider />
-            <ListItem title="Bugsnagテスト" onPress={onBugsnag} bottomDivider />
-            <ListItem
-              title="アプリを再起動する"
-              onPress={() => {
-                Updates.reload();
-              }}
-            />
+            >
+              <ListItem.Content>
+                <ListItem.Title>Firebase アナリティクス</ListItem.Title>
+              </ListItem.Content>
+            </ListItem>
+            <ListItem bottomDivider onPress={onSentry}>
+              <ListItem.Content>
+                <ListItem.Title>Sentryテスト</ListItem.Title>
+              </ListItem.Content>
+            </ListItem>
+            <ListItem bottomDivider onPress={() => Updates.reload()}>
+              <ListItem.Content>
+                <ListItem.Title> title="アプリを再起動する"</ListItem.Title>
+              </ListItem.Content>
+            </ListItem>
             <Divider style={styles.debugSpace} />
           </>
         )}
@@ -238,6 +242,9 @@ const styles = StyleSheet.create({
     height: 60,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  logout: {
+    color: theme().color.error.main,
   },
 
   debugSpace: {
