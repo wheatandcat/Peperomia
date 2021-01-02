@@ -20,9 +20,9 @@ exports[`components/pages/MyPage/Page.tsx 正常に表示されている 1`] = `
     <View
       style={
         Object {
-          "marginBottom": 25,
-          "marginHorizontal": 10,
-          "marginTop": 20,
+          "marginBottom": 32,
+          "marginHorizontal": 8,
+          "marginTop": 16,
         }
       }
     >
@@ -78,9 +78,9 @@ exports[`components/pages/MyPage/Page.tsx 正常に表示されている 1`] = `
     <View
       style={
         Object {
-          "marginBottom": 5,
-          "marginHorizontal": 10,
-          "marginTop": 10,
+          "marginBottom": 4,
+          "marginHorizontal": 8,
+          "marginTop": 8,
         }
       }
     >

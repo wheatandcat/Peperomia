@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { storiesOf } from '@storybook/react-native';
 import { KIND_PARK } from 'peperomia-util';
+import theme from 'config/theme';
 import Image from './Image';
 
 storiesOf('organisms/Calendars', module).add('Image', () => (
@@ -12,6 +13,6 @@ storiesOf('organisms/Calendars', module).add('Image', () => (
 
 const styles = StyleSheet.create({
   root: {
-    paddingTop: 60,
+    paddingTop: theme().space(5),
   },
 });

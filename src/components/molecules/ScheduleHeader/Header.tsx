@@ -4,6 +4,7 @@ import Color from 'color';
 import { IconImage } from 'components/atoms';
 import { KINDS, KIND_DEFAULT } from 'peperomia-util';
 import s from 'config/style';
+import theme from 'config/theme';
 
 type Props = {
   kind: string;
@@ -48,7 +49,7 @@ const Header: FC<Props> = (props) => {
 
 const styles = StyleSheet.create({
   root: {
-    paddingTop: 100,
+    paddingTop: theme().space(6),
   },
   contents: {
     flexDirection: 'row',
@@ -60,12 +61,12 @@ const styles = StyleSheet.create({
   },
   children: {
     flex: 1,
-    paddingLeft: 15,
-    paddingBottom: 25,
+    paddingLeft: theme().space(3),
+    paddingBottom: theme().space(4),
   },
   icon: {
     position: 'absolute',
-    right: 30,
+    right: theme().space(4),
   },
 });
 

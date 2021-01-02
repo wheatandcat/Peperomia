@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 0.5,
     borderTopColor: theme().color.base.light,
     borderBottomColor: theme().color.base.light,
-    paddingTop: 15,
+    paddingTop: theme().space(3),
     alignItems: 'center',
   },
   dayText: {

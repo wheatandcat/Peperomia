@@ -124,15 +124,15 @@ const styles = EStyleSheet.create({
     backgroundColor: '$secondaryBackground',
   },
   descriptionText: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingHorizontal: theme().space(3),
+    paddingVertical: theme().space(2),
     fontSize: 16,
     lineHeight: 20,
     color: '$text',
   },
   textInputContainer: {
-    paddingTop: 5,
-    paddingHorizontal: 20,
+    paddingTop: theme().space(1),
+    paddingHorizontal: theme().space(3),
     height: 250,
     backgroundColor: '$background',
   },
@@ -151,13 +151,13 @@ const styles = EStyleSheet.create({
   dialogText: {
     fontSize: 15,
     fontWeight: '600',
-    paddingVertical: 10,
-    paddingHorizontal: 5,
+    paddingVertical: theme().space(2),
+    paddingHorizontal: theme().space(1),
     color: '$text',
   },
   dialogButton: {
     borderRadius: 25,
-    paddingVertical: 8,
+    paddingVertical: theme().space(2),
     backgroundColor: '$button',
     borderColor: '$buttonBorder',
   },
@@ -166,7 +166,7 @@ const styles = EStyleSheet.create({
     color: theme().color.background.main,
   },
   imageContainer: {
-    padding: 15,
+    padding: theme().space(3),
   },
   image: {
     height: 125,
@@ -185,7 +185,7 @@ const styles = EStyleSheet.create({
   },
   sendButton: {
     borderRadius: 0,
-    paddingVertical: 15,
+    paddingVertical: theme().space(3),
   },
   keyboardButtonContainer: {
     alignItems: 'flex-end',

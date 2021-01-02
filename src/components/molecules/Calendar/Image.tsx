@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { View, Image, ImageSourcePropType, StyleSheet } from 'react-native';
 import { isTablet } from 'lib/responsive';
+import theme from 'config/theme';
 
 type Props = {
   source: ImageSourcePropType;
@@ -22,8 +23,7 @@ export default CalendarImage;
 
 const styles = StyleSheet.create({
   imageContainer: {
-    paddingTop: 15,
-    paddingBottom: 15,
+    paddingVertical: theme().space(2),
     alignItems: 'center',
     justifyContent: 'center',
   },

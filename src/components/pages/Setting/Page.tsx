@@ -241,13 +241,13 @@ const styles = StyleSheet.create({
   },
 
   debugSpace: {
-    marginBottom: 50,
+    marginBottom: theme().space(4),
   },
 
   debug: {
     backgroundColor: theme().color.background.light,
-    paddingVertical: 15,
-    paddingLeft: 10,
+    paddingVertical: theme().space(3),
+    paddingLeft: theme().space(2),
     fontSize: 20,
   },
 });

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, TouchableOpacity, StyleSheet } from 'react-native';
+import theme from 'config/theme';
 
 type Props = {
   label: string;
@@ -33,7 +34,7 @@ export default (props: Props) => {
 
 const styles = StyleSheet.create({
   tap: {
-    left: 5,
+    left: theme().space(1),
   },
   text: {
     fontSize: 16,

@@ -66,12 +66,12 @@ export default DatePickerForm;
 
 const styles = StyleSheet.create({
   dateButtonContainer: {
-    padding: 30,
+    padding: theme().space(4),
   },
   dateButton: {
     backgroundColor: theme().color.secondary.main,
     borderRadius: 15,
-    padding: 15,
+    padding: theme().space(3),
   },
   dateButtonText: {
     fontSize: 20,

@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { storiesOf } from '@storybook/react-native';
 import { KIND_PARK, KIND_AQUARIUM } from 'peperomia-util';
+import theme from 'config/theme';
 import Page from './Page';
 
 const data = {
@@ -56,6 +57,6 @@ storiesOf('pages', module).add('Calendar', () => (
 
 const styles = StyleSheet.create({
   root: {
-    paddingTop: 30,
+    paddingTop: theme().space(2),
   },
 });

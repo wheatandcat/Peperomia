@@ -2,6 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react-native';
 import { View, StyleSheet } from 'react-native';
 import { KINDS, KIND_PARK } from 'peperomia-util';
+import theme from 'config/theme';
 import DatePickerButton from './DatePicker';
 import { Text, IconImage } from './';
 
@@ -29,7 +30,7 @@ storiesOf('atoms', module)
 
 const styles = StyleSheet.create({
   root: {
-    paddingTop: 60,
+    paddingTop: theme().space(6),
   },
   icon: {
     height: '100%',

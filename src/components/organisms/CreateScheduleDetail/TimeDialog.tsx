@@ -72,7 +72,7 @@ const estyles = EStyleSheet.create({
   },
   timeInput: {
     width: 90,
-    paddingRight: 10,
+    paddingRight: theme().space(2),
     textAlign: 'right',
     fontSize: 24,
     borderBottomWidth: 1,
@@ -80,8 +80,8 @@ const estyles = EStyleSheet.create({
     borderColor: '$text',
   },
   timeInputSuffix: {
-    paddingTop: 9,
-    paddingLeft: 5,
+    paddingTop: theme().space(2),
+    paddingLeft: theme().space(1),
     fontSize: 18,
     color: '$text',
   },
@@ -92,7 +92,7 @@ const estyles = EStyleSheet.create({
   overlay: {
     backgroundColor: '$background',
     paddingHorizontal: 0,
-    paddingTop: 30,
+    paddingTop: theme().space(4),
   },
 });
 
@@ -102,8 +102,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     width: 'auto',
-    marginTop: 50,
-    paddingTop: 10,
+    marginTop: theme().space(4),
+    paddingTop: theme().space(2),
     borderTopWidth: 0.5,
     borderColor: theme().color.base.pale,
   },
@@ -112,17 +112,17 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   contents: {
-    paddingTop: 30,
+    paddingTop: theme().space(4),
   },
   textInputContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
   },
   minutes: {
-    paddingTop: 5,
+    paddingTop: theme().space(1),
   },
   cancelContainer: {
-    paddingHorizontal: 15,
+    paddingHorizontal: theme().space(3),
   },
   line: {
     fontSize: 22,

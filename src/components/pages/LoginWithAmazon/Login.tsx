@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Image, Text, StyleSheet } from 'react-native';
 import { Button, Divider } from 'react-native-elements';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import theme from 'config/theme';
 
 type Props = {
   loading: boolean;
@@ -62,14 +63,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   log: {
-    padding: 15,
+    padding: theme().space(3),
   },
   description: {
-    padding: 15,
+    padding: theme().space(3),
   },
   buttonAction: {
-    paddingHorizontal: 15,
-    paddingVertical: 20,
+    paddingHorizontal: theme().space(3),
+    paddingVertical: theme().space(4),
   },
   icon: {
     height: 80,

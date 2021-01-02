@@ -35,9 +35,9 @@ const styles = StyleSheet.create({
     borderColor: theme().color.base.pale,
   },
   close: {
-    left: 20,
+    left: theme().space(3),
     justifyContent: 'center',
-    paddingTop: 5,
+    paddingTop: theme().space(1),
   },
   titleContainer: {
     justifyContent: 'center',
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
   rightContainer: {
     justifyContent: 'center',
-    right: 20,
+    right: theme().space(3),
   },
   rightTitle: {
     fontWeight: '600',

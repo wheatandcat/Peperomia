@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { storiesOf } from '@storybook/react-native';
 import { KIND_PARK, KIND_AQUARIUM } from 'peperomia-util';
+import theme from 'config/theme';
 import Card from './Card';
 import Add from './Add';
 
@@ -30,15 +31,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   card1: {
-    paddingTop: 30,
+    paddingTop: theme().space(4),
     width: '50%',
-    padding: 15,
-    paddingRight: 10,
+    padding: theme().space(3),
+    paddingRight: theme().space(2),
   },
   card2: {
-    paddingTop: 30,
+    paddingTop: theme().space(4),
     width: '50%',
-    padding: 15,
-    paddingLeft: 10,
+    padding: theme().space(3),
+    paddingLeft: theme().space(2),
   },
 });

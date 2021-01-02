@@ -1,6 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react-native';
 import { View, StyleSheet } from 'react-native';
+import theme from 'config/theme';
 import Nav from './Nav';
 
 storiesOf('molecules/Header', module).add('Nav', () => (
@@ -11,6 +12,6 @@ storiesOf('molecules/Header', module).add('Nav', () => (
 
 const styles = StyleSheet.create({
   root: {
-    paddingTop: 60,
+    paddingTop: theme().space(5),
   },
 });

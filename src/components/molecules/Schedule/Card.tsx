@@ -61,12 +61,12 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     position: 'absolute',
-    right: 30,
+    right: theme().space(4),
   },
   titleContainer: {
     flex: 1,
-    padding: 20,
-    paddingBottom: 25,
+    padding: theme().space(3),
+    paddingBottom: theme().space(4),
   },
   contents: {
     padding: 0,

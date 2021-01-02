@@ -52,14 +52,14 @@ const styles = EStyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     textAlign: 'center',
-    paddingVertical: 8,
+    paddingVertical: theme().space(2),
   },
   alexaSkillContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   log: {
-    padding: 15,
+    padding: theme().space(3),
   },
   linkText: {
     fontSize: 13,
@@ -68,7 +68,7 @@ const styles = EStyleSheet.create({
     color: '$text',
     fontSize: 12,
     textAlign: 'center',
-    paddingVertical: 25,
+    paddingVertical: theme().space(4),
   },
   icon: {
     height: 80,

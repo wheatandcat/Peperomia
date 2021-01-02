@@ -3,6 +3,7 @@ import { TouchableOpacity, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import useIsFirstRender from 'hooks/useIsFirstRender';
 import BottomRight from './BottomRight';
+import theme from 'config/theme';
 
 type Props = {
   onPress: () => void;
@@ -64,7 +65,7 @@ const Hint: FC<Props> = memo((props) => {
 });
 
 const styles = StyleSheet.create({
-  tap: { padding: 5 },
+  tap: { padding: theme().space(2) },
 });
 
 export default Hint;

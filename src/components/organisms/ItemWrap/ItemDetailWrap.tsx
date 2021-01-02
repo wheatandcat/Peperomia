@@ -105,10 +105,10 @@ export default ItemDetailWrap;
 const styles = StyleSheet.create({
   contents: {
     flex: 0,
-    paddingTop: 20,
+    paddingTop: theme().space(3),
     height: '100%',
   },
   keyboardClose: {
-    paddingRight: 5,
+    paddingRight: theme().space(1),
   },
 });
