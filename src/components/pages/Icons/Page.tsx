@@ -52,42 +52,40 @@ const IconsPage: React.FC<Props> = (props) => {
           {items.map((item, i) => {
             return (
               <ListItem
-                containerStyle={estyles.iconListItem}
                 key={i}
-                title={item.name !== '地球' ? item.name : '無し'}
-                titleStyle={estyles.iconListItemTitle}
+                bottomDivider
                 onPress={() => {
-                  console.log(props);
-
                   props.onSelectIcon(item.kind);
                 }}
-                leftIcon={
-                  <IconImage
-                    src={darkMode() ? item.reversal.src : item.src}
-                    name={item.name}
-                    size={20}
-                    opacity={1.0}
-                    defaultIcon={false}
-                  />
-                }
-                rightIcon={
-                  <View>
-                    {props.kind === item.kind ? (
-                      <MaterialIcons
-                        name="check"
-                        color={
-                          darkMode()
-                            ? theme().color.background.light
-                            : theme().color.primary.main
-                        }
-                        size={20}
-                        style={styles.check}
-                      />
-                    ) : null}
-                  </View>
-                }
-                bottomDivider
-              />
+                containerStyle={estyles.iconListItem}
+              >
+                <IconImage
+                  src={darkMode() ? item.reversal.src : item.src}
+                  name={item.name}
+                  size={20}
+                  opacity={1.0}
+                  defaultIcon={false}
+                />
+                <ListItem.Content>
+                  <ListItem.Title style={estyles.iconListItemTitle}>
+                    {item.name}
+                  </ListItem.Title>
+                </ListItem.Content>
+                <View>
+                  {props.kind === item.kind ? (
+                    <MaterialIcons
+                      name="check"
+                      color={
+                        darkMode()
+                          ? theme().color.background.light
+                          : theme().color.primary.main
+                      }
+                      size={20}
+                      style={styles.check}
+                    />
+                  ) : null}
+                </View>
+              </ListItem>
             );
           })}
         </View>
@@ -104,7 +102,7 @@ const estyles = EStyleSheet.create({
   },
   searchContainer: {
     paddingTop: theme().space(2),
-    paddingHorizontal: theme().space(2),
+    paddingLeft: theme().space(2),
     height: Platform.OS === 'ios' ? whenIPhoneSE(40, 55) : 40,
     backgroundColor: '$background',
     alignItems: 'center',
@@ -125,6 +123,7 @@ const estyles = EStyleSheet.create({
 
 const styles = StyleSheet.create({
   inputLeftIconContainer: {
+    paddingLeft: theme().space(3),
     marginRight: theme().space(3),
   },
   inputContainer: {
@@ -133,7 +132,7 @@ const styles = StyleSheet.create({
   scroll: {
     width: '100%',
     height: '100%',
-    paddingLeft: theme().space(4),
+    paddingLeft: theme().space(2),
   },
   contents: {
     paddingBottom: theme().space(6),

@@ -63,18 +63,17 @@ exports[`components/pages/MyPage/Page.tsx 正常に表示されている 1`] = `
         />
       </View>
     </View>
-    <Themed.Divider />
     <Themed.ListItem
       bottomDivider={true}
       onPress={[MockFunction]}
-      rightIcon={
-        Object {
-          "color": "#110f0f",
-          "name": "chevron-right",
-        }
-      }
-      title="通知を設定する"
-    />
+    >
+      <Themed.ListItemContent>
+        <Themed.ListItemTitle>
+          通知を設定する
+        </Themed.ListItemTitle>
+      </Themed.ListItemContent>
+      <Themed.ListItemChevron />
+    </Themed.ListItem>
     <View
       style={
         Object {

@@ -8,6 +8,7 @@ import {
   Platform,
   InputAccessoryView,
   Keyboard,
+  StyleSheet,
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Button, Overlay } from 'react-native-elements';
@@ -35,7 +36,7 @@ export default class extends Component<Props, State> {
     return (
       <>
         <Overlay isVisible={this.props.isOpen}>
-          <View style={styles.dialogContainer}>
+          <View style={estyles.dialogContainer}>
             <View style={styles.imageContainer}>
               <Image
                 source={
@@ -46,30 +47,27 @@ export default class extends Component<Props, State> {
                 style={styles.image}
               />
             </View>
-            <Text style={styles.dialogText}>
+            <Text style={estyles.dialogText}>
               フィードバックありがとうございます！
             </Text>
             <View style={styles.imageContainer}>
               <Button
-                titleStyle={styles.dialogButtonText}
                 title="閉じる"
-                buttonStyle={styles.dialogButton}
                 containerStyle={styles.button}
-                type={darkMode() ? 'outline' : 'solid'}
                 onPress={this.props.onClose}
               />
             </View>
           </View>
         </Overlay>
-        <View style={styles.root}>
+        <View style={estyles.root}>
           <KeyboardAvoidingView behavior="padding">
             <View>
-              <View style={styles.description}>
-                <Text style={styles.descriptionText}>
+              <View style={estyles.description}>
+                <Text style={estyles.descriptionText}>
                   気になる点や不具合等があれば、こちらからフィードバックお願いします。
                 </Text>
               </View>
-              <View style={styles.textInputContainer}>
+              <View style={estyles.textInputContainer}>
                 <TextInput
                   placeholder="フィードバックを書く"
                   placeholderTextColor={theme().mode.secondaryText}
@@ -84,7 +82,7 @@ export default class extends Component<Props, State> {
                   inputAccessoryViewID={inputAccessoryViewID}
                   autoFocus
                 >
-                  <Text style={styles.inputText}>{this.state.message}</Text>
+                  <Text style={estyles.inputText}>{this.state.message}</Text>
                 </TextInput>
               </View>
               <Button
@@ -115,7 +113,7 @@ export default class extends Component<Props, State> {
   }
 }
 
-const styles = EStyleSheet.create({
+const estyles = EStyleSheet.create({
   root: {
     backgroundColor: '$background',
     height: '100%',
@@ -155,16 +153,9 @@ const styles = EStyleSheet.create({
     paddingHorizontal: theme().space(1),
     color: '$text',
   },
-  dialogButton: {
-    borderRadius: 25,
-    paddingVertical: theme().space(2),
-    backgroundColor: '$button',
-    borderColor: '$buttonBorder',
-  },
-  dialogButtonText: {
-    fontWeight: '500',
-    color: theme().color.background.main,
-  },
+});
+
+const styles = StyleSheet.create({
   imageContainer: {
     padding: theme().space(3),
   },

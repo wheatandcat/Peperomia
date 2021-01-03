@@ -52,33 +52,29 @@ const MyPage: FC<Props> = (props) => (
       {!Constants.isDevice && (
         <>
           <Divider />
-          <ListItem
-            title="バックアップを作成する"
-            titleStyle={estyles.menuText}
-            containerStyle={estyles.menuContainer}
-            onPress={props.onBackup}
-            bottomDivider
-          />
-          <ListItem
-            title="バックアップから復元する"
-            titleStyle={estyles.menuText}
-            containerStyle={estyles.menuContainer}
-            onPress={props.onRestore}
-            bottomDivider
-          />
+          <ListItem onPress={props.onBackup} bottomDivider>
+            <ListItem.Content>
+              <ListItem.Title>バックアップを作成する</ListItem.Title>
+            </ListItem.Content>
+            <ListItem.Chevron />
+          </ListItem>
+
+          <ListItem onPress={props.onRestore} bottomDivider>
+            <ListItem.Content>
+              <ListItem.Title>バックアップから復元する</ListItem.Title>
+            </ListItem.Content>
+            <ListItem.Chevron />
+          </ListItem>
         </>
       )}
 
-      <Divider />
+      <ListItem onPress={props.onNotificationSetting} bottomDivider>
+        <ListItem.Content>
+          <ListItem.Title>通知を設定する</ListItem.Title>
+        </ListItem.Content>
+        <ListItem.Chevron />
+      </ListItem>
 
-      <ListItem
-        title="通知を設定する"
-        titleStyle={estyles.menuText}
-        rightIcon={{ name: 'chevron-right', color: theme().mode.text }}
-        containerStyle={estyles.menuContainer}
-        onPress={props.onNotificationSetting}
-        bottomDivider
-      />
       <View style={styles.list}>
         <View style={styles.guideContainer}>
           <Button

@@ -202,11 +202,7 @@ export const setMode = (modeType: ColorSchemeName) => {
     $settingMenu: darkMode() ? baseColor.base.dark : baseColor.background.main,
     $chip: darkMode() ? baseColor.base.dark : baseColor.background.light,
     $chipText: darkMode() ? baseColor.base.pale : baseColor.base.light,
-    $button: darkMode() ? baseColor.base.dark : baseColor.primary.main,
     $secondaryButton: darkMode()
-      ? baseColor.background.main
-      : baseColor.primary.main,
-    $buttonBorder: darkMode()
       ? baseColor.background.main
       : baseColor.primary.main,
     $tabTitleActiveColor: darkMode()

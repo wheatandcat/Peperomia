@@ -6,13 +6,59 @@ import React, {
   useContext,
   useEffect,
 } from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar, StyleSheet } from 'react-native';
 import {
   useColorScheme,
   ColorSchemeName,
   Appearance,
 } from 'react-native-appearance';
+import { ThemeProvider } from 'react-native-elements';
 import { setMode } from 'config/theme';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import theme from 'config/theme';
+
+const styles = StyleSheet.create({
+  buttonStyle: {
+    borderRadius: 25,
+    borderColor: theme().color.secondary.main,
+  },
+  buttonTitleStyle: {
+    color: theme().color.base.pale,
+    fontWeight: '600',
+  },
+  dividerStyle: {
+    backgroundColor: theme().color.base.light,
+  },
+});
+
+const estyles = EStyleSheet.create({
+  text: {
+    color: '$text',
+  },
+  listItem: {
+    backgroundColor: '$settingMenu',
+  },
+});
+
+const RNETheme = {
+  Button: {
+    raised: true,
+    buttonStyle: styles.buttonStyle,
+    titleStyle: styles.buttonTitleStyle,
+  },
+  ListItem: {
+    containerStyle: estyles.listItem,
+  },
+  ListItemTitle: {
+    style: estyles.text,
+  },
+  Divider: {
+    style: styles.dividerStyle,
+  },
+  colors: {
+    primary: theme().color.primary.main,
+  },
+};
 
 export const Context = createContext<ContextProps>({});
 const { Provider } = Context;
@@ -20,30 +66,30 @@ const { Provider } = Context;
 type Props = {};
 
 type State = {
-  rerendering: boolean;
+  rendering: boolean;
   render: boolean;
 };
 
 export type ContextProps = Partial<
-  Pick<State, 'rerendering'> & {
+  Pick<State, 'rendering'> & {
     mode: string;
     colorScheme: string;
     onModeChange: (mode: 'light' | 'dark') => void;
-    onFinishRerendering: () => void;
+    onFinishRendering: () => void;
   }
 >;
 
 const Theme: FC<Props> = (props) => {
   const scheme = useColorScheme();
   const [state, setState] = useState<State>({
-    rerendering: false,
+    rendering: false,
     render: false,
   });
 
   const setUnRender = useCallback(() => {
     setState((s) => ({
       ...s,
-      rerendering: true,
+      rendering: true,
       render: false,
     }));
   }, []);
@@ -51,7 +97,7 @@ const Theme: FC<Props> = (props) => {
   const setRender = useCallback(() => {
     setState((s) => ({
       ...s,
-      rerendering: true,
+      rendering: true,
       render: true,
     }));
   }, []);
@@ -60,7 +106,7 @@ const Theme: FC<Props> = (props) => {
     async (mode: ColorSchemeName) => {
       setState((s) => ({
         ...s,
-        rerendering: true,
+        rendering: true,
       }));
 
       if (mode === 'light' || mode === 'dark') {
@@ -72,10 +118,10 @@ const Theme: FC<Props> = (props) => {
     [setRender, setUnRender]
   );
 
-  const onFinishRerendering = useCallback(() => {
+  const onFinishRendering = useCallback(() => {
     setState((s) => ({
       ...s,
-      rerendering: false,
+      rendering: false,
     }));
   }, []);
 
@@ -83,7 +129,7 @@ const Theme: FC<Props> = (props) => {
     const checkMode = async () => {
       setState((s) => ({
         ...s,
-        rerendering: s.rerendering,
+        rendering: s.rendering,
         render: true,
       }));
 
@@ -104,17 +150,19 @@ const Theme: FC<Props> = (props) => {
       <StatusBar backgroundColor="#fff" barStyle="light-content" />
 
       {state.render && (
-        <Provider
-          value={{
-            colorScheme: scheme,
-            rerendering: state.rerendering,
-            mode: scheme,
-            onModeChange: onModeChange,
-            onFinishRerendering: onFinishRerendering,
-          }}
-        >
-          {props.children}
-        </Provider>
+        <ThemeProvider theme={RNETheme} useDark={scheme === 'dark'}>
+          <Provider
+            value={{
+              colorScheme: scheme,
+              rendering: state.rendering,
+              mode: scheme,
+              onModeChange: onModeChange,
+              onFinishRendering: onFinishRendering,
+            }}
+          >
+            {props.children}
+          </Provider>
+        </ThemeProvider>
       )}
     </>
   );
