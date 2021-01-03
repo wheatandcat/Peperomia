@@ -68,7 +68,6 @@ const MyPage: FC<Props> = (props) => (
         </>
       )}
 
-      <Divider />
       <ListItem onPress={props.onNotificationSetting} bottomDivider>
         <ListItem.Content>
           <ListItem.Title>通知を設定する</ListItem.Title>

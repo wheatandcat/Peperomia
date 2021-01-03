@@ -10,8 +10,6 @@ import {
 import EStyleSheet from 'react-native-extended-stylesheet';
 import styled from 'styled-components/native';
 import Toast from 'react-native-root-toast';
-import { Ionicons } from '@expo/vector-icons';
-import { Divider } from 'react-native-elements';
 import Header from 'components/molecules/ScheduleHeader/Header';
 import { SelectItemDetail } from 'domain/itemDetail';
 import theme from 'config/theme';
@@ -54,27 +52,6 @@ export default (props: Props) => {
       </Header>
 
       <View>
-        {(() => {
-          if (props.moveMinutes === 0) {
-            return null;
-          }
-
-          return (
-            <>
-              <View style={styles.timeContainer}>
-                <Ionicons
-                  name="md-time"
-                  color={theme().mode.text}
-                  size={24}
-                  style={styles.icon}
-                />
-                <Text style={estyles.timeText}>{`${props.moveMinutes}分`}</Text>
-              </View>
-              <Divider style={styles.divider} />
-            </>
-          );
-        })()}
-
         {Boolean(props.place) && (
           <View style={styles.container}>
             <Label text="集合場所" icon="map-marker-outline" width={95} />
@@ -142,23 +119,10 @@ const styles = StyleSheet.create({
   root: {
     height: '100%',
   },
-  timeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: 60,
-    paddingHorizontal: theme().space(4),
-    paddingVertical: theme().space(3),
-  },
   memoContainer: {
     paddingTop: theme().space(1),
     paddingBottom: theme().space(2),
     paddingHorizontal: theme().space(0),
-  },
-  icon: {
-    paddingTop: theme().space(1),
-  },
-  divider: {
-    marginBottom: theme().space(2),
   },
   container: {
     paddingHorizontal: theme().space(3),

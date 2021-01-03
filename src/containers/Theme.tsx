@@ -26,6 +26,9 @@ const styles = StyleSheet.create({
     color: theme().color.base.pale,
     fontWeight: '600',
   },
+  dividerStyle: {
+    backgroundColor: theme().color.base.light,
+  },
 });
 
 const estyles = EStyleSheet.create({
@@ -48,6 +51,9 @@ const RNETheme = {
   },
   ListItemTitle: {
     style: estyles.text,
+  },
+  Divider: {
+    style: styles.dividerStyle,
   },
   colors: {
     primary: theme().color.primary.main,

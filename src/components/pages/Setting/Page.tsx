@@ -127,8 +127,11 @@ const SettingPage: FC<Props> = (props) => {
           <>
             <View style={styles.debugSpace} />
             <Divider />
-            <Text style={styles.debug}>デバッグ機能</Text>
-            <Divider />
+            <ListItem bottomDivider>
+              <ListItem.Content>
+                <ListItem.Title>▼ デバッグ機能</ListItem.Title>
+              </ListItem.Content>
+            </ListItem>
 
             <ListItem bottomDivider>
               <ListItem.Content>
@@ -249,13 +252,6 @@ const styles = StyleSheet.create({
 
   debugSpace: {
     marginBottom: theme().space(4),
-  },
-
-  debug: {
-    backgroundColor: theme().color.background.light,
-    paddingVertical: theme().space(3),
-    paddingLeft: theme().space(2),
-    fontSize: 20,
   },
 });
 
