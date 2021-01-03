@@ -4,7 +4,6 @@ export type ItemDetail = {
   memo: string;
   place: string;
   url: string;
-  moveMinutes: number;
   priority: number;
 };
 

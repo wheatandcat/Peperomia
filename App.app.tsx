@@ -1,8 +1,5 @@
 import React from 'react';
-import Bugsnag from '@bugsnag/expo';
 import App from './src';
-
-Bugsnag.start();
 
 const AppContainer = () => <App />;
 

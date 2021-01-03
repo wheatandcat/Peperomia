@@ -75,7 +75,6 @@ export const resetSql = (tx: SQLite.SQLTransaction) => {
       url: 'https://www.tokyo-park.or.jp/park/format/index026.html',
       place: '駐車場に集合',
       memo: '■行く場所\n・砂浜\n・水族園',
-      moveMinutes: 15,
       priority: 1,
     },
     {
@@ -85,7 +84,6 @@ export const resetSql = (tx: SQLite.SQLTransaction) => {
       url: '',
       place: '西口に10:00',
       memo: '',
-      moveMinutes: 30,
       priority: 2,
     },
     {
@@ -95,7 +93,6 @@ export const resetSql = (tx: SQLite.SQLTransaction) => {
       url: '',
       place: '',
       memo: '',
-      moveMinutes: 120,
       priority: 3,
     },
     {
@@ -105,7 +102,6 @@ export const resetSql = (tx: SQLite.SQLTransaction) => {
       url: '',
       place: '',
       memo: '',
-      moveMinutes: 0,
       priority: 4,
     },
     {
@@ -115,7 +111,6 @@ export const resetSql = (tx: SQLite.SQLTransaction) => {
       place: '',
       kind: KIND_FISHING,
       memo: '',
-      moveMinutes: 120,
       priority: 1,
     },
     {
@@ -125,7 +120,6 @@ export const resetSql = (tx: SQLite.SQLTransaction) => {
       url: '',
       place: '',
       memo: '',
-      moveMinutes: 0,
       priority: 2,
     },
     {
@@ -135,7 +129,6 @@ export const resetSql = (tx: SQLite.SQLTransaction) => {
       url: '',
       place: '',
       memo: '',
-      moveMinutes: 0,
       priority: 1,
     },
     {
@@ -145,7 +138,6 @@ export const resetSql = (tx: SQLite.SQLTransaction) => {
       url: '',
       place: '',
       memo: '',
-      moveMinutes: 0,
       priority: 2,
     },
     {
@@ -155,7 +147,6 @@ export const resetSql = (tx: SQLite.SQLTransaction) => {
       url: '',
       place: '',
       memo: '',
-      moveMinutes: 0,
       priority: 3,
     },
     {
@@ -165,7 +156,6 @@ export const resetSql = (tx: SQLite.SQLTransaction) => {
       url: '',
       place: '',
       memo: '',
-      moveMinutes: 30,
       priority: 1,
     },
     {
@@ -175,7 +165,6 @@ export const resetSql = (tx: SQLite.SQLTransaction) => {
       url: '',
       place: '',
       memo: '',
-      moveMinutes: 0,
       priority: 2,
     },
     {
@@ -185,7 +174,6 @@ export const resetSql = (tx: SQLite.SQLTransaction) => {
       url: '',
       place: '',
       memo: '',
-      moveMinutes: 0,
       priority: 3,
     },
     {
@@ -195,7 +183,6 @@ export const resetSql = (tx: SQLite.SQLTransaction) => {
       url: '',
       place: '',
       memo: '',
-      moveMinutes: 0,
       priority: 4,
     },
     {
@@ -205,7 +192,6 @@ export const resetSql = (tx: SQLite.SQLTransaction) => {
       url: '',
       place: '',
       memo: '',
-      moveMinutes: 30,
       priority: 1,
     },
     {
@@ -215,7 +201,6 @@ export const resetSql = (tx: SQLite.SQLTransaction) => {
       url: '',
       place: '',
       memo: '',
-      moveMinutes: 10,
       priority: 2,
     },
     {
@@ -225,7 +210,6 @@ export const resetSql = (tx: SQLite.SQLTransaction) => {
       url: '',
       place: '',
       memo: '',
-      moveMinutes: 0,
       priority: 3,
     },
   ];
@@ -280,7 +264,6 @@ export const createItemDetailV100 = async (
       'title string,' +
       'kind string,' +
       'memo string,' +
-      'moveMinutes integer,' +
       'priority integer' +
       ');',
     [],

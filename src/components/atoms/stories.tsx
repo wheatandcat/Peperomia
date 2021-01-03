@@ -4,7 +4,7 @@ import { View, StyleSheet } from 'react-native';
 import { KINDS, KIND_PARK } from 'peperomia-util';
 import theme from 'config/theme';
 import DatePickerButton from './DatePicker';
-import { Text, IconImage } from './';
+import { Text, IconImage } from '.';
 
 storiesOf('atoms', module)
   .add('Text', () => (

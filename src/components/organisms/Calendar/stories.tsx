@@ -20,7 +20,7 @@ storiesOf('organisms/Calendar', module)
   .add('Add', () => (
     <View style={styles.root}>
       <View style={styles.card1}>
-        <Add onPress={() => null} />
+        <Add />
       </View>
     </View>
   ));

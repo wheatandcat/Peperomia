@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, memo, useCallback } from 'react';
 import {
   View,
   TextInput,
@@ -41,21 +41,23 @@ type LabelInput = {
   multiline: boolean;
 };
 
-export default class extends Component<Props, State> {
-  state = {
-    memo: this.props.memo,
-    memoInput: Boolean(this.props.memo),
-    place: this.props.place,
-    placeInput: Boolean(this.props.place),
-    url: this.props.url,
-    urlInput: Boolean(this.props.url),
-    focus: '',
-  };
+const initialState = (props: Props): State => ({
+  memo: props.memo,
+  memoInput: Boolean(props.memo),
+  place: props.place,
+  placeInput: Boolean(props.place),
+  url: props.url,
+  urlInput: Boolean(props.url),
+  focus: '',
+});
 
-  getInputLabels = () => {
+const MemoComponent: React.FC<Props> = (props) => {
+  const [state, setState] = useState<State>(initialState(props));
+
+  const getInputLabels = useCallback(() => {
     let labels: Label[] = [];
 
-    if (!this.state.placeInput) {
+    if (!state.placeInput) {
       labels = [
         ...labels,
         {
@@ -66,7 +68,7 @@ export default class extends Component<Props, State> {
         },
       ];
     }
-    if (!this.state.urlInput) {
+    if (!state.urlInput) {
       labels = [
         ...labels,
         {
@@ -77,7 +79,7 @@ export default class extends Component<Props, State> {
         },
       ];
     }
-    if (!this.state.memoInput) {
+    if (!state.memoInput) {
       labels = [
         ...labels,
         {
@@ -89,44 +91,44 @@ export default class extends Component<Props, State> {
       ];
     }
     return labels;
-  };
+  }, [state]);
 
-  getInputs = () => {
+  const getInputs = useCallback(() => {
     let labels: LabelInput[] = [];
 
-    if (this.state.placeInput) {
+    if (state.placeInput) {
       labels = [
         ...labels,
         {
           icon: 'map-marker-outline',
           value: 'place',
-          defaultValue: this.props.place,
+          defaultValue: props.place,
           label: '集合場所',
           width: 95,
           multiline: true,
         },
       ];
     }
-    if (this.state.urlInput) {
+    if (state.urlInput) {
       labels = [
         ...labels,
         {
           icon: 'link',
           value: 'url',
-          defaultValue: this.props.url,
+          defaultValue: props.url,
           label: 'URL',
           width: 70,
           multiline: false,
         },
       ];
     }
-    if (this.state.memoInput) {
+    if (state.memoInput) {
       labels = [
         ...labels,
         {
-          icon: 'file-document-box-outline',
+          icon: 'text-box-outline',
           value: 'memo',
-          defaultValue: this.props.memo,
+          defaultValue: props.memo,
           label: 'メモ',
           width: 70,
           multiline: true,
@@ -134,99 +136,98 @@ export default class extends Component<Props, State> {
       ];
     }
     return labels;
-  };
+  }, [props, state]);
 
-  onInputAdd = (name: string) => {
+  const onInputAdd = useCallback((name: string) => {
     if (name === 'memoInput') {
-      this.setState({
+      setState((s) => ({
+        ...s,
         memoInput: true,
         focus: 'memo',
-      });
+      }));
     } else if (name === 'placeInput') {
-      this.setState({
+      setState((s) => ({
+        ...s,
         placeInput: true,
         focus: 'place',
-      });
+      }));
     } else if (name === 'urlInput') {
-      this.setState({
+      setState((s) => ({
+        ...s,
         urlInput: true,
         focus: 'url',
-      });
+      }));
     }
-  };
+  }, []);
 
-  render() {
-    return (
-      <>
-        <View>
-          <MaterialIcons
-            name="mode-edit"
-            color={theme().color.secondary.main}
-            size={23}
-            style={styles.edit}
-          />
+  return (
+    <>
+      <View>
+        <MaterialIcons
+          name="mode-edit"
+          color={theme().color.secondary.main}
+          size={23}
+          style={styles.edit}
+        />
 
-          {this.getInputs().map((item, index) => (
-            <View
-              style={styles.inputLabel}
-              key={item.label}
-              onLayout={(event) => {
-                y[index] = event.nativeEvent.layout.y;
-              }}
-            >
-              <InputLabel
-                text={item.label}
-                icon={item.icon}
-                width={item.width}
-              />
-              <View style={styles.textInputContainer}>
-                <TextInput
-                  placeholder={item.label}
-                  placeholderTextColor={
-                    darkMode()
-                      ? theme().color.base.pale
-                      : theme().color.base.light
-                  }
-                  multiline={item.multiline}
-                  style={estyles.memoInput}
-                  onChangeText={(value) => {
-                    this.props.onChangeInputText(item.value, value);
-                  }}
-                  testID={`inputTextScheduleDetail${item.label}`}
-                  autoFocus={this.state.focus === item.value}
-                >
-                  <Text style={estyles.memoText}>{item.defaultValue}</Text>
-                </TextInput>
+        {getInputs().map((item, index) => (
+          <View
+            style={styles.inputLabel}
+            key={item.label}
+            onLayout={(event) => {
+              y[index] = event.nativeEvent.layout.y;
+            }}
+          >
+            <InputLabel text={item.label} icon={item.icon} width={item.width} />
+            <View style={styles.textInputContainer}>
+              <TextInput
+                placeholder={item.label}
+                placeholderTextColor={
+                  darkMode()
+                    ? theme().color.base.pale
+                    : theme().color.base.light
+                }
+                multiline={item.multiline}
+                style={estyles.memoInput}
+                onChangeText={(value) => {
+                  props.onChangeInputText(item.value, value);
+                }}
+                testID={`inputTextScheduleDetail${item.label}`}
+                autoFocus={state.focus === item.value}
+              >
+                <Text style={estyles.memoText}>{item.defaultValue}</Text>
+              </TextInput>
+            </View>
+          </View>
+        ))}
+
+        {getInputLabels().length > 0 && (
+          <View style={styles.inputLabelContainer}>
+            <MaterialCommunityIcons
+              name="plus"
+              color={theme().color.secondary.main}
+              size={28}
+              style={styles.plus}
+            />
+            {getInputLabels().map((item) => (
+              <View style={styles.container} key={item.label}>
+                <TouchableOpacity onPress={() => onInputAdd(item.value)}>
+                  <InputLabel
+                    text={item.label}
+                    icon={item.icon}
+                    width={item.width}
+                  />
+                </TouchableOpacity>
               </View>
-            </View>
-          ))}
+            ))}
+          </View>
+        )}
+      </View>
+    </>
+  );
+};
 
-          {this.getInputLabels().length > 0 && (
-            <View style={styles.inputLabelContainer}>
-              <MaterialCommunityIcons
-                name="plus"
-                color={theme().color.secondary.main}
-                size={28}
-                style={styles.plus}
-              />
-              {this.getInputLabels().map((item) => (
-                <View style={styles.container} key={item.label}>
-                  <TouchableOpacity onPress={() => this.onInputAdd(item.value)}>
-                    <InputLabel
-                      text={item.label}
-                      icon={item.icon}
-                      width={item.width}
-                    />
-                  </TouchableOpacity>
-                </View>
-              ))}
-            </View>
-          )}
-        </View>
-      </>
-    );
-  }
-}
+export default memo(MemoComponent);
 
 const estyles = EStyleSheet.create({
   memoText: {

@@ -2,13 +2,14 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { storiesOf } from '@storybook/react-native';
 import { KIND_PARK, KIND_AQUARIUM } from 'peperomia-util';
-import theme from 'config/theme';
+import { mockFn, StackNavigator } from 'storyBookUtils';
 import Page from './Page';
 
 const data = {
   calendar: {
     id: '1',
     date: '2020-01-01 00:00:00',
+    public: true,
     item: {
       id: '1',
       title: '青山ランチ',
@@ -19,7 +20,6 @@ const data = {
           title: '新宿駅',
           kind: KIND_PARK,
           memo: '',
-          moveMinutes: 0,
           url: '',
           place: '',
           priority: 1,
@@ -29,7 +29,6 @@ const data = {
           title: '水族館',
           kind: KIND_AQUARIUM,
           memo: '',
-          moveMinutes: 0,
           url: '',
           place: '',
           priority: 1,
@@ -39,7 +38,6 @@ const data = {
           title: '水族館',
           kind: KIND_AQUARIUM,
           memo: '',
-          moveMinutes: 0,
           url: '',
           place: '',
           priority: 1,
@@ -49,14 +47,29 @@ const data = {
   },
 };
 
+const Screen = () => {
+  return (
+    <View style={styles.root}>
+      <Page
+        calendar={data.calendar}
+        onDismiss={mockFn('onDismiss')}
+        onUpdate={mockFn('onUpdate')}
+        onDelete={mockFn('onDelete')}
+        onShare={mockFn('onShare')}
+        onAddItemDetail={mockFn('onAddItemDetail')}
+        onItemDetail={mockFn('onItemDetail')}
+        create={false}
+      />
+    </View>
+  );
+};
+
 storiesOf('pages', module).add('Calendar', () => (
-  <View style={styles.root}>
-    <Page calendar={data.calendar} />
-  </View>
+  <StackNavigator screen={Screen} />
 ));
 
 const styles = StyleSheet.create({
   root: {
-    paddingTop: theme().space(2),
+    paddingTop: 0,
   },
 });

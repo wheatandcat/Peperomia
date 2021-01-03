@@ -1,6 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react-native';
 import { KIND_PARK } from 'peperomia-util';
+import { mockFn, StackNavigator } from 'storyBookUtils';
 import Page from './Page';
 
 const data = {
@@ -10,13 +11,25 @@ const data = {
     title: '新宿駅',
     kind: KIND_PARK,
     memo: 'メモ',
-    moveMinutes: 0,
     url: 'https://peperomia.app/',
     place: 'place',
     priority: 1,
   },
 };
 
+const Screen = () => {
+  return (
+    <Page
+      itemDetail={data.itemDetail}
+      date={data.date}
+      onDismiss={mockFn('onDismiss')}
+      onUpdate={mockFn('onUpdate')}
+      onDelete={mockFn('onDelete')}
+      onUpdateMain={mockFn('onUpdateMain')}
+    />
+  );
+};
+
 storiesOf('pages', module).add('itemDetail', () => (
-  <Page itemDetail={data.itemDetail} date={data.date} />
+  <StackNavigator screen={Screen} />
 ));
