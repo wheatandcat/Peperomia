@@ -4,14 +4,14 @@ import { View, StyleSheet } from 'react-native';
 import theme from 'config/theme';
 import Page from './Page';
 
-storiesOf('pages', module).add('Icons', () => (
+storiesOf('pages', module).add('ForceUpdate', () => (
   <View style={styles.root}>
-    <Page kind="train" />
+    <Page />
   </View>
 ));
 
 const styles = StyleSheet.create({
   root: {
-    paddingTop: theme().space(5),
+    paddingTop: theme().space(0),
   },
 });

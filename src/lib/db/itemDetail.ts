@@ -20,7 +20,6 @@ export const create = async (
       'memo string,' +
       'place string,' +
       'url string,' +
-      'moveMinutes integer,' +
       'priority integer' +
       ');',
     [],
@@ -35,7 +34,7 @@ export const insert = async (
   callback?: (insertId: number, error: SQLite.SQLError | null) => void
 ) => {
   return tx.executeSql(
-    'insert into item_details (itemId, title, kind, memo, place, url, moveMinutes, priority) values (?, ?, ?, ?, ?, ?, ?, ?)',
+    'insert into item_details (itemId, title, kind, memo, place, url, priority) values (?, ?, ?, ?, ?, ?, ?)',
     [
       String(itemDetail.itemId),
       itemDetail.title,
@@ -43,7 +42,6 @@ export const insert = async (
       itemDetail.memo,
       itemDetail.place,
       itemDetail.url,
-      String(itemDetail.moveMinutes),
       String(itemDetail.priority),
     ],
     (_, props) => success(props.insertId, callback),
@@ -57,14 +55,13 @@ export const update = async (
   callback?: (data: ItemDetail[], error: SQLite.SQLError | null) => void
 ) => {
   return tx.executeSql(
-    'update item_details set title = ?, kind = ?, memo = ?, place = ?, url = ?, moveMinutes = ?, priority = ? where id = ?',
+    'update item_details set title = ?, kind = ?, memo = ?, place = ?, url = ?, priority = ? where id = ?',
     [
       itemDetail.title,
       itemDetail.kind,
       itemDetail.memo,
       itemDetail.place,
       itemDetail.url,
-      String(itemDetail.moveMinutes),
       String(itemDetail.priority),
       String(itemDetail.id),
     ],
@@ -177,7 +174,6 @@ export const bulkInsert = async (
         itemDetail.memo,
         itemDetail.place,
         itemDetail.url,
-        String(itemDetail.moveMinutes),
         String(itemDetail.priority),
       ];
     })
@@ -188,11 +184,11 @@ export const bulkInsert = async (
 
   const q = itemDetails
     .map(() => {
-      return '(?, ?, ?, ?, ?, ?, ?, ?, ?)';
+      return '(?, ?, ?, ?, ?, ?, ?, ?)';
     })
     .join(',');
 
-  const query = `insert into item_details (id, itemId, title, kind, memo, place, url, moveMinutes, priority) values ${q};`;
+  const query = `insert into item_details (id, itemId, title, kind, memo, place, url, priority) values ${q};`;
 
   return tx.executeSql(
     query,

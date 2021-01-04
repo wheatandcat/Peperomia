@@ -1,6 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react-native';
 import { KIND_PARK } from 'peperomia-util';
+import { mockFn } from 'storyBookUtils';
 import Card from './Card';
 import Loading from './Loading';
 
@@ -11,7 +12,10 @@ const props = {
   place: '西口に9:06分に集合',
   url: '観覧にいく',
   memo: '持ってくるもの\n・弁当\n・水筒\n・ブルーシート',
-  moveMinutes: 5,
+  priority: 0,
+  itemId: 'aaa',
+  onDismiss: mockFn('onDismiss'),
+  onOpenActionSheet: mockFn('onOpenActionSheet'),
 };
 
 storiesOf('molecules/ScheduleDetail', module)

@@ -6,7 +6,6 @@ export const itemDetailMockData: ItemDetail = {
   memo: 'memo',
   place: 'place',
   url: 'url',
-  moveMinutes: 30,
   priority: 1,
 };
 
@@ -17,7 +16,6 @@ export const itemDetailsMockData: ItemDetail[] = [
     memo: 'memo1',
     place: 'place1',
     url: 'url1',
-    moveMinutes: 30,
     priority: 1,
   },
   {
@@ -26,7 +24,6 @@ export const itemDetailsMockData: ItemDetail[] = [
     memo: 'memo2',
     place: 'place2',
     url: 'url2',
-    moveMinutes: 45,
     priority: 2,
   },
 ];

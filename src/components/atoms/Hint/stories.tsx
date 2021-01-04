@@ -2,6 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react-native';
 import { View, StyleSheet } from 'react-native';
 import theme from 'config/theme';
+import { mockFn } from 'storyBookUtils';
 import BottomRight from './BottomRight';
 import Mask from './Mask';
 
@@ -12,7 +13,7 @@ storiesOf('atoms/Hint', module)
     </View>
   ))
   .add('BottomRight and Mask', () => (
-    <Mask>
+    <Mask onPress={mockFn('onPress')}>
       <BottomRight />
     </Mask>
   ));

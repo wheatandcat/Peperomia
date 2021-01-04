@@ -8,7 +8,6 @@ import {
   StyleSheet,
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import styled from 'styled-components/native';
 import Toast from 'react-native-root-toast';
 import Header from 'components/molecules/ScheduleHeader/Header';
 import { SelectItemDetail } from 'domain/itemDetail';
@@ -44,11 +43,13 @@ const handleClick = (url: string) => {
   });
 };
 
-export default (props: Props) => {
+const Card: React.FC<Props> = (props) => {
   return (
     <View style={styles.root}>
       <Header kind={props.kind}>
-        <Title numberOfLines={1}>{props.title}</Title>
+        <Text numberOfLines={1} style={styles.title}>
+          {props.title}
+        </Text>
       </Header>
 
       <View>
@@ -84,7 +85,7 @@ export default (props: Props) => {
 
         {Boolean(props.memo) && (
           <View style={styles.container}>
-            <Label text="メモ" icon="file-document-box-outline" width={70} />
+            <Label text="メモ" icon="text-box-outline" width={70} />
 
             <View style={styles.memoContainer}>
               <Text style={estyles.memoText}>{props.memo}</Text>
@@ -96,11 +97,7 @@ export default (props: Props) => {
   );
 };
 
-const Title = styled.Text`
-  color: ${theme().color.base.main};
-  font-weight: 600;
-  font-size: 20;
-`;
+export default Card;
 
 const estyles = EStyleSheet.create({
   timeText: {
@@ -118,6 +115,11 @@ const estyles = EStyleSheet.create({
 const styles = StyleSheet.create({
   root: {
     height: '100%',
+  },
+  title: {
+    color: theme().color.base.main,
+    fontWeight: '600',
+    fontSize: 20,
   },
   memoContainer: {
     paddingTop: theme().space(1),

@@ -195,7 +195,7 @@ export const setMode = (modeType: ColorSchemeName) => {
     $headerText: themeMode.header.text,
     $searchInputContainer: darkMode()
       ? baseColor.base.main
-      : baseColor.background.light,
+      : baseColor.base.pale,
     $settingRoot: darkMode()
       ? baseColor.background.dark
       : baseColor.background.light,
