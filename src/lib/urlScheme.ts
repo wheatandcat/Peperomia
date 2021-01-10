@@ -13,13 +13,10 @@ const urlScheme = [
   {
     regex: /Calendar\/[0-9]{4}-[0-3]{2}-[0-9]{2}\/?/iu,
     navigate: (url: string): ResultURLParser => {
-      console.log(url);
-
       const path = url.match(/Calendar\/[0-9]{4}-[0-3]{2}-[0-9]{2}\/?/u);
       if (!path) {
         return null;
       }
-      console.log(path);
 
       const date = path[0].split('/')[1];
 
@@ -68,8 +65,6 @@ const urlScheme = [
 ];
 
 export const urlParser = (url: string): ResultURLParser => {
-  console.log(url);
-
   const us = urlScheme.find((s) => s.regex.test(url));
 
   if (!us) {
