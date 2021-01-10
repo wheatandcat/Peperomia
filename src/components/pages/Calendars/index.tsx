@@ -50,8 +50,6 @@ const Calendars: React.FC<Props> = memo((props) => {
     (notification: Notification) => {
       const data = notification.request.content.data;
 
-      console.log(notification, 'handleNotificationReceived');
-
       if (!data?.urlScheme) {
         return;
       }
@@ -75,8 +73,6 @@ const Calendars: React.FC<Props> = memo((props) => {
   const handleNotificationResponseReceived = useCallback(
     (notification: NotificationResponse) => {
       const data = notification.notification.request.content.data;
-
-      console.log(notification, 'handleNotificationResponseReceived');
 
       if (!data?.urlScheme) {
         return;

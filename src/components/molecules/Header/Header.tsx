@@ -42,8 +42,6 @@ const Header: React.FC<Props> = (props) => {
     };
   }
 
-  console.log(props.date);
-
   return (
     <View style={style}>
       <View style={[styles.contents, { paddingTop: top }]}>
