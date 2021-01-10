@@ -37,10 +37,10 @@ const WithProvider: React.FC<Props> = (props) => {
     ],
     config: {
       screens: {
-        Schedule: {
-          path: 'schedule/:itemId',
+        Calendar: {
+          path: 'calendar/:date',
           parse: {
-            itemId: String,
+            date: String,
           },
         },
       },
