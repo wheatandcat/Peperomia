@@ -9,7 +9,7 @@
       "transformer": "node_modules/react-native-typescript-transformer/index.js"
     },
     "platforms": ["ios", "android"],
-    "version": "2.0.6",
+    "version": "3.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
