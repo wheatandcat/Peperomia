@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/pages/AddItemDetail/index.tsx 正常にrenderすること 1`] = `
+<Memo()
+  date="2020-01-01 00:00:00"
+  itemId="test"
+  navigation={
+    Object {
+      "navigate": [MockFunction],
+      "setParams": [MockFunction],
+    }
+  }
+  onCallback={[MockFunction]}
+  priority={1}
+  route={
+    Object {
+      "params": Object {
+        "date": "2020-01-01 00:00:00",
+        "itemId": "test",
+        "onCallback": [MockFunction],
+        "priority": 1,
+      },
+    }
+  }
+/>
+`;
