@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/pages/Calendar 正常にrenderすること 1`] = `
+<Memo()
+  date="2020-01-01 00:00:00"
+  navigation={
+    Object {
+      "navigate": [MockFunction],
+      "setParams": [MockFunction],
+    }
+  }
+  refetchCalendars={[MockFunction]}
+  route={
+    Object {
+      "params": Object {
+        "date": "2020-01-01 00:00:00",
+      },
+    }
+  }
+  uid="test"
+/>
+`;
