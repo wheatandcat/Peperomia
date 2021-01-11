@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/pages/EditItemDetail/Page.tsx 正常にrenderすること 1`] = `
+<Memo(CreateCalendar)
+  date="2020-01-01 00:00:00"
+  itemDetail={
+    Object {
+      "id": "1",
+      "kind": "park",
+      "memo": "memo1",
+      "place": "place1",
+      "priority": 1,
+      "title": "test1",
+      "url": "url1",
+    }
+  }
+  loading={false}
+  mutationData={
+    Object {
+      "loading": false,
+    }
+  }
+  onDismiss={[MockFunction]}
+  onIcons={[MockFunction]}
+  onSave={[MockFunction]}
+  selectedKind="park"
+/>
+`;
