@@ -77,7 +77,7 @@ exports[`components/pages/Setting/Page.tsx 正常に表示されている 1`] = 
         </Themed.ListItemTitle>
       </Themed.ListItemContent>
       <Text>
-        2.0.6
+        3.0.0
       </Text>
     </Themed.ListItem>
   </ScrollView>
