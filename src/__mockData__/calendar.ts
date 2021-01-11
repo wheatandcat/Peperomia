@@ -14,7 +14,7 @@ export const calendarsMockData = (): Calendar[] => [
         {
           id: '1',
           title: 'test1',
-          kind: 'park1',
+          kind: KIND_PARK,
           memo: 'memo1',
           place: 'place1',
           url: 'url1',
@@ -23,7 +23,7 @@ export const calendarsMockData = (): Calendar[] => [
         {
           id: '2',
           title: 'test2',
-          kind: 'park2',
+          kind: KIND_FISHING,
           memo: 'memo2',
           place: 'place2',
           url: 'url2',
@@ -44,7 +44,7 @@ export const calendarsMockData = (): Calendar[] => [
         {
           id: '1',
           title: 'test1',
-          kind: 'park1',
+          kind: KIND_PARK,
           memo: 'memo1',
           place: 'place1',
           url: 'url1',
@@ -53,7 +53,7 @@ export const calendarsMockData = (): Calendar[] => [
         {
           id: '2',
           title: 'test2',
-          kind: 'park2',
+          kind: KIND_FISHING,
           memo: 'memo2',
           place: 'place2',
           url: 'url2',
@@ -76,7 +76,7 @@ export const calendarMockData = (): Calendar => ({
       {
         id: '1',
         title: 'test1',
-        kind: 'park1',
+        kind: KIND_PARK,
         memo: 'memo1',
         place: 'place1',
         url: 'url1',
@@ -85,7 +85,7 @@ export const calendarMockData = (): Calendar => ({
       {
         id: '2',
         title: 'test2',
-        kind: 'park2',
+        kind: KIND_FISHING,
         memo: 'memo2',
         place: 'place2',
         url: 'url2',

@@ -35,7 +35,7 @@ describe('components/pages/Calendar/Connected.tsx', () => {
     jest.spyOn(useCalendar, 'default').mockImplementation(
       () =>
         ({
-          data: calendarMockData(),
+          data: { calendar: calendarMockData() },
           loading: false,
           error: null,
           refetch: jest.fn(),

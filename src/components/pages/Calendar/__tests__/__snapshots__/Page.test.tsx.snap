@@ -43,7 +43,7 @@ exports[`components/pages/Calendar/Page.tsx 正常に表示されている 1`] =
         Object {
           "item1": Object {
             "id": "2",
-            "kind": "park2",
+            "kind": "fishing",
             "memo": "memo2",
             "place": "place2",
             "priority": 2,
