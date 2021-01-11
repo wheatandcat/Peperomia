@@ -58,8 +58,8 @@ const AppInfo: FC<Props> = (props) => {
     return (
       <View style={styles.buttonCircle}>
         <Ionicons
-          name="md-arrow-round-forward"
-          color="rgba(255, 255, 255, .9)"
+          name="arrow-forward-sharp"
+          color={theme().color.background.main}
           size={24}
           style={styles.ionicons}
         />
@@ -71,8 +71,8 @@ const AppInfo: FC<Props> = (props) => {
     return (
       <View style={styles.buttonCircle}>
         <Ionicons
-          name="md-checkmark"
-          color="rgba(255, 255, 255, .9)"
+          name="md-checkmark-sharp"
+          color={theme().color.background.main}
           size={24}
           style={styles.ionicons}
         />
@@ -140,7 +140,7 @@ const AppInfo: FC<Props> = (props) => {
 
   return (
     <AppIntroSlider
-      slides={slides}
+      data={slides}
       onDone={onDone}
       renderItem={renderItem}
       renderDoneButton={renderDoneButton}

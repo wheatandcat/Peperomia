@@ -7,25 +7,8 @@ exports[`components/pages/AppInfo/Page.tsx 正常に表示されている 1`] = 
       "backgroundColor": "rgba(255, 255, 255, .9)",
     }
   }
-  buttonStyle={null}
-  buttonTextStyle={null}
-  doneLabel="Done"
-  dotStyle={
-    Object {
-      "backgroundColor": "rgba(0, 0, 0, .2)",
-    }
-  }
-  nextLabel="Next"
-  onDone={[Function]}
-  paginationStyle={null}
-  prevLabel="Back"
-  renderDoneButton={[Function]}
-  renderItem={[Function]}
-  renderNextButton={[Function]}
-  showDoneButton={true}
-  showNextButton={true}
-  skipLabel="Skip"
-  slides={
+  bottomButton={false}
+  data={
     Array [
       Object {
         "backgroundColor": "#ADCF01",
@@ -72,5 +55,23 @@ exports[`components/pages/AppInfo/Page.tsx 正常に表示されている 1`] = 
       },
     ]
   }
+  doneLabel="Done"
+  dotClickEnabled={true}
+  dotStyle={
+    Object {
+      "backgroundColor": "rgba(0, 0, 0, .2)",
+    }
+  }
+  nextLabel="Next"
+  onDone={[Function]}
+  prevLabel="Back"
+  renderDoneButton={[Function]}
+  renderItem={[Function]}
+  renderNextButton={[Function]}
+  showDoneButton={true}
+  showNextButton={true}
+  showPrevButton={false}
+  showSkipButton={false}
+  skipLabel="Skip"
 />
 `;
