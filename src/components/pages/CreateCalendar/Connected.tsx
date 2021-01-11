@@ -11,7 +11,7 @@ import { Props as IndexProps } from './';
 
 dayjs.extend(advancedFormat);
 
-type Props = IndexProps & {
+export type Props = IndexProps & {
   date: string;
 } & Pick<CalendarsContextProps, 'refetchCalendars'>;
 

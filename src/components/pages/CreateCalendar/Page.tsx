@@ -3,7 +3,7 @@ import CreateCalendar from 'components/templates/CreateCalendar/Page';
 import { QueryProps } from './Plain';
 import { ConnectedType } from './Connected';
 
-type Props = ConnectedType & {
+export type Props = ConnectedType & {
   mutationData: QueryProps['mutationData'];
 };
 
