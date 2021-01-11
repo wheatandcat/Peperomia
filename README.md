@@ -106,6 +106,12 @@ $ emulator -avd Pixel
 $ yarn test
 ```
 
+## テスト指定
+
+```
+$ yarn test yarn test --findRelatedTests src/components/pages/Calendar/__tests__/index.test.tsx
+```
+
 ## カバレッジ
 
 ```

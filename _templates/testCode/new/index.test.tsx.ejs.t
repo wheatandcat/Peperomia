@@ -6,15 +6,15 @@ import { shallow, ShallowWrapper } from 'enzyme';
 import <%= component_name %>, { Props } from '../';
 
 const propsData = ():Props => ({
-      navigation: {
-      setParams: jest.fn(),
-      navigate: jest.fn(),
+    navigation: {
+    setParams: jest.fn(),
+    navigate: jest.fn(),
+  },
+  route: {
+    params: {
     },
-    route: {
-      params: {
-      },
-    },
-});
+  },
+} as any);
 
 describe('components/pages/<%= component_name %>', () => {
   let wrapper: ShallowWrapper;
