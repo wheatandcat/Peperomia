@@ -92,8 +92,6 @@ const useDeleteCalendarDB = (props: Props) => {
         ...mutationProps.variables.calendar,
       };
 
-      console.log(calendar);
-
       Promise.all([
         deleteItem(String(calendar.itemId)),
         deleteItemDetail(String(calendar.itemId)),

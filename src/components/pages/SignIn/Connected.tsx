@@ -12,53 +12,52 @@ type Props = IndexProps &
   Pick<AuthContextProps, 'onGoogleLogin' | 'onAppleLogin' | 'logout' | 'uid'> &
   Pick<FetchContextProps, 'post'>;
 
-type ConnectedState = {
+type State = {
   loading: boolean;
 };
 
 const SignInConnected = memo((props: Props) => {
-  const [state, setState] = useState<ConnectedState>({ loading: false });
+  const [state, setState] = useState<State>({ loading: false });
 
   const onAppleLogin = useCallback(async () => {
     if (!props.onAppleLogin) {
       return;
     }
-    try {
-      const uid = await props.onAppleLogin();
+    setState((s) => ({
+      ...s,
+      loading: true,
+    }));
 
-      if (uid) {
-        setState({
-          loading: true,
-        });
-      }
+    try {
+      await props.onAppleLogin();
     } catch (err) {
       console.log('err:', err);
     }
-
-    setState({
+    setState((s) => ({
+      ...s,
       loading: false,
-    });
+    }));
   }, [props]);
 
   const onGoogleLogin = useCallback(async () => {
     if (!props.onGoogleLogin) {
       return;
     }
+    setState((s) => ({
+      ...s,
+      loading: true,
+    }));
 
     try {
-      const uid = await props.onGoogleLogin();
-      if (uid) {
-        setState({
-          loading: true,
-        });
-      }
+      await props.onGoogleLogin();
     } catch (err) {
       console.log('err:', err);
     }
 
-    setState({
+    setState((s) => ({
+      ...s,
       loading: false,
-    });
+    }));
   }, [props]);
 
   return (

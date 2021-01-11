@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 
 type Props = {
   topBounceColor: string;
@@ -17,7 +17,11 @@ const AppScrollViewIOSBounceColorsWrapper: React.FC<Props> = ({
     <View {...props} style={[styles.top, props.style]}>
       {children}
       <View style={styles.wrap}>
-        <View style={[styles.contents, { backgroundColor: topBounceColor }]} />
+        {Platform.OS === 'ios' && (
+          <View
+            style={[styles.contents, { backgroundColor: topBounceColor }]}
+          />
+        )}
         <View
           style={[styles.contents, { backgroundColor: bottomBounceColor }]}
         />

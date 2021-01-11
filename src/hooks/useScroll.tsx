@@ -3,12 +3,10 @@ import {
   NativeSyntheticEvent,
   TextInputScrollEventData,
   Platform,
-  StatusBar,
 } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 
-const top =
-  Platform.OS === 'android' ? StatusBar.currentHeight : getStatusBarHeight();
+const top = Platform.OS === 'android' ? 0 : getStatusBarHeight() || 0;
 
 const useScroll = (offsetY: number = 84) => {
   const [scrollBelowTarget, setScrollBelowTarget] = useState(true);
