@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 import Color from 'color';
 import { IconImage } from 'components/atoms';
 import { KINDS, KIND_DEFAULT } from 'peperomia-util';
@@ -49,14 +49,14 @@ const Header: FC<Props> = (props) => {
 
 const styles = StyleSheet.create({
   root: {
-    paddingTop: theme().space(6),
+    paddingTop: theme().space(Platform.OS === 'ios' ? 6 : 5),
   },
   contents: {
     flexDirection: 'row',
     alignItems: 'flex-end',
     padding: 0,
     borderRadius: 0,
-    height: 80,
+    height: Platform.OS === 'ios' ? 80 : 80,
     justifyContent: 'flex-end',
   },
   children: {

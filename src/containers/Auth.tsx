@@ -277,8 +277,6 @@ const Auth: FC<Props> = memo((props) => {
         scopes: ['profile', 'email'],
       });
 
-      console.log(result);
-
       if (result.type === 'success') {
         const { idToken, accessToken } = result;
         await firebaseGoogleLogin(idToken || '', accessToken || '');

@@ -102,7 +102,7 @@ const Page: FC<Props> = (props) => {
         <View>
           {Boolean(props.itemDetail?.place) && (
             <View style={styles.container}>
-              <Label text="集合場所" icon="map-marker-outline" width={95} />
+              <Label text="集合場所" icon="map-marker-outline" width={100} />
 
               <View style={styles.memoContainer}>
                 <Text style={estyles.memoText}>{props.itemDetail?.place}</Text>
@@ -134,7 +134,7 @@ const Page: FC<Props> = (props) => {
 
           {Boolean(props.itemDetail?.memo) && (
             <View style={styles.container}>
-              <Label text="メモ" icon="file-document-box-outline" width={70} />
+              <Label text="メモ" icon="text-box-outline" width={70} />
 
               <View style={styles.memoContainer}>
                 <Text style={estyles.memoText}>{props.itemDetail?.memo}</Text>

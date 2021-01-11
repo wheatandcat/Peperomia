@@ -55,7 +55,7 @@ const Card: React.FC<Props> = (props) => {
       <View>
         {Boolean(props.place) && (
           <View style={styles.container}>
-            <Label text="集合場所" icon="map-marker-outline" width={95} />
+            <Label text="集合場所" icon="map-marker-outline" width={100} />
 
             <View style={styles.memoContainer}>
               <Text style={estyles.memoText}>{props.place}</Text>

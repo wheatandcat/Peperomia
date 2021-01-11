@@ -54,9 +54,6 @@ export const post = async <TRequest, TResponse>(
     body: JSON.stringify(body),
   };
 
-  console.log(request);
-  console.log(process.env.API_HOST);
-
   try {
     const response = await fetch(`${process.env.API_HOST}/${url}`, request);
     const data: FetchResponse = {

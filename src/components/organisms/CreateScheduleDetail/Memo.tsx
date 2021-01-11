@@ -64,7 +64,7 @@ const MemoComponent: React.FC<Props> = (props) => {
           icon: 'map-marker-outline',
           value: 'placeInput',
           label: '集合場所',
-          width: 95,
+          width: 100,
         },
       ];
     }
@@ -83,7 +83,7 @@ const MemoComponent: React.FC<Props> = (props) => {
       labels = [
         ...labels,
         {
-          icon: 'file-document-box-outline',
+          icon: 'text-box-outline',
           value: 'memoInput',
           label: 'メモ',
           width: 70,
@@ -104,7 +104,7 @@ const MemoComponent: React.FC<Props> = (props) => {
           value: 'place',
           defaultValue: props.place,
           label: '集合場所',
-          width: 95,
+          width: 100,
           multiline: true,
         },
       ];

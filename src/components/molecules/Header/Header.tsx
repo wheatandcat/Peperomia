@@ -4,7 +4,6 @@ import {
   View,
   Text,
   Platform,
-  StatusBar,
   StyleSheet,
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -16,8 +15,7 @@ import theme from 'config/theme';
 
 dayjs.extend(advancedFormat);
 
-const top =
-  Platform.OS === 'android' ? StatusBar.currentHeight : getStatusBarHeight();
+const top = Platform.OS === 'android' ? 0 : getStatusBarHeight() || 0;
 
 type Props = {
   date?: string;
