@@ -1,0 +1,110 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/pages/Calendars/index.tsx 正常にrenderすること 1`] = `
+<StackNavigator
+  initialRouteName="Calendars"
+  mode="modal"
+>
+  <Screen
+    component={
+      Object {
+        "$$typeof": Symbol(react.memo),
+        "compare": null,
+        "type": [Function],
+      }
+    }
+    name="Calendars"
+    options={
+      Object {
+        "header": [Function],
+      }
+    }
+  />
+  <Screen
+    component={
+      Object {
+        "$$typeof": Symbol(react.memo),
+        "compare": null,
+        "type": [Function],
+      }
+    }
+    name="Calendar"
+    options={
+      Object {
+        "headerShown": false,
+      }
+    }
+  />
+  <Screen
+    component={
+      Object {
+        "$$typeof": Symbol(react.memo),
+        "compare": null,
+        "type": [Function],
+      }
+    }
+    name="CreateCalendar"
+    options={
+      Object {
+        "header": [Function],
+      }
+    }
+  />
+  <Screen
+    component={
+      Object {
+        "$$typeof": Symbol(react.memo),
+        "compare": null,
+        "type": [Function],
+      }
+    }
+    name="ItemDetail"
+    options={
+      Object {
+        "header": [Function],
+      }
+    }
+  />
+  <Screen
+    component={
+      Object {
+        "$$typeof": Symbol(react.memo),
+        "compare": null,
+        "type": [Function],
+      }
+    }
+    name="AddItemDetail"
+    options={
+      Object {
+        "header": [Function],
+      }
+    }
+  />
+  <Screen
+    component={
+      Object {
+        "$$typeof": Symbol(react.memo),
+        "compare": null,
+        "type": [Function],
+      }
+    }
+    name="EditItemDetail"
+    options={
+      Object {
+        "header": [Function],
+      }
+    }
+  />
+  <Screen
+    component={
+      Object {
+        "$$typeof": Symbol(react.memo),
+        "compare": null,
+        "type": [Function],
+      }
+    }
+    name="Icons"
+    options={[Function]}
+  />
+</StackNavigator>
+`;
