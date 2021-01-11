@@ -11,6 +11,7 @@ import {
   selectByItemId as selectItemDetailByItemId,
 } from 'lib/db/itemDetail';
 import { SelectItemDetail } from 'domain/itemDetail';
+import { update as updateItem } from 'lib/db/item';
 import { db } from 'lib/db';
 
 type Props = MutationHookOptions<
@@ -47,6 +48,22 @@ const useUpdateMainItemDetailDB = (props: Props) => {
           }
 
           resolve(data as any);
+          return;
+        });
+      });
+    });
+  }, []);
+
+  const fetchUpdateItem = useCallback(async (itemId, item) => {
+    return new Promise(function (resolve, reject) {
+      db.transaction((tx: SQLite.SQLTransaction) => {
+        updateItem(tx, { ...item, id: Number(itemId) }, (_, err) => {
+          if (err) {
+            reject(false);
+            return;
+          }
+
+          resolve(true);
           return;
         });
       });
@@ -95,8 +112,14 @@ const useUpdateMainItemDetailDB = (props: Props) => {
         itemDetail1?.priority
       );
       const ok2 = await fetchUpdateItemDetail(itemDetail2, 1);
+      const item = {
+        id: itemDetail.itemId,
+        title: itemDetail2?.title,
+        kind: itemDetail2?.kind,
+      };
+      const ok3 = await fetchUpdateItem(item, itemDetail.itemId);
 
-      if (ok1 && ok2) {
+      if (ok1 && ok2 && ok3) {
         props.onCompleted?.({
           ...itemDetail,
         } as any);
@@ -119,7 +142,7 @@ const useUpdateMainItemDetailDB = (props: Props) => {
         }));
       }
     },
-    [fetchUpdateItemDetail, fetchItemDetail, props]
+    [fetchUpdateItemDetail, fetchItemDetail, fetchUpdateItem, props]
   );
 
   return [mutation, state];
