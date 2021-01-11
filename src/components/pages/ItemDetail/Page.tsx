@@ -18,7 +18,7 @@ import ItemDetailWrap from 'components/organisms/ItemWrap/ItemDetailWrap';
 import theme from 'config/theme';
 import { ConnectedType } from './Connected';
 
-type Props = {
+export type Props = {
   itemDetail: ItemDetailQuery['itemDetail'];
 } & ConnectedType;
 

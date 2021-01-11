@@ -3,10 +3,8 @@ import { Alert } from 'react-native';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import 'dayjs/locale/ja';
-import {
-  useDeleteItemDetailMutation,
-  useUpdateMainItemDetailMutation,
-} from 'queries/api/index';
+import useDeleteItemDetail from 'hooks/useDeleteItemDetail';
+import useUpdateMainItemDetail from 'hooks/useUpdateMainItemDetail';
 import useItemDetail from 'hooks/useItemDetail';
 import { Props as IndexProps } from './';
 import Plain from './Plain';
@@ -29,7 +27,7 @@ export type ConnectedType = {
 };
 
 const Connected: React.FC<Props> = (props) => {
-  const [deleteItemDetailMutation] = useDeleteItemDetailMutation({
+  const [deleteItemDetailMutation] = useDeleteItemDetail({
     async onCompleted() {
       await props.onCallback();
 
@@ -39,7 +37,7 @@ const Connected: React.FC<Props> = (props) => {
       Alert.alert('削除に失敗しました', err.message);
     },
   });
-  const [updateMainItemDetailMutation] = useUpdateMainItemDetailMutation({
+  const [updateMainItemDetailMutation] = useUpdateMainItemDetail({
     async onCompleted() {
       await props.onCallback();
 

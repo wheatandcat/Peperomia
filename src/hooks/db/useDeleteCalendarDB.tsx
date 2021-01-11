@@ -7,7 +7,7 @@ import {
   DeleteCalendarMutationResult,
 } from 'queries/api/index';
 import { delete1st } from 'lib/db/item';
-import { deleteByItemId as deleteItenDetailByItemId } from 'lib/db/itemDetail';
+import { deleteByItemId as deleteItemDetailByItemId } from 'lib/db/itemDetail';
 import { deleteByItemId as deleteCalendarByItemId } from 'lib/db/calendar';
 import { db } from 'lib/db';
 
@@ -68,7 +68,7 @@ const useDeleteCalendarDB = (props: Props) => {
   const deleteItemDetail = useCallback(async (id: string) => {
     return new Promise(function (resolve, reject) {
       db.transaction((tx: SQLite.SQLTransaction) => {
-        deleteItenDetailByItemId(tx, id, (_, err) => {
+        deleteItemDetailByItemId(tx, id, (_, err) => {
           if (err) {
             reject(false);
             return;
