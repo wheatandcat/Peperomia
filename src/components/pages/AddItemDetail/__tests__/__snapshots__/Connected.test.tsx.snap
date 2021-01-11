@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/pages/AddItemDetail/Connected.tsx 正常にrenderすること 1`] = `
+<Plain
+  mutationData={[MockFunction]}
+  onDismiss={[Function]}
+  onIcons={[Function]}
+  onSave={[Function]}
+  selectedKind=""
+/>
+`;

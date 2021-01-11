@@ -1,0 +1,139 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/pages/ItemDetail/Page.tsx 正常にrenderすること 1`] = `
+<ItemDetailWrap
+  date="2020-01-01 00:00:00"
+  kind="park"
+  onCloseKeyBoard={[Function]}
+  onDismiss={[MockFunction]}
+  onRightPress={[Function]}
+  rightIcon="more-horiz"
+  title="test1"
+>
+  <View
+    style={
+      Array [
+        undefined,
+        Object {
+          "minHeight": 1334,
+        },
+      ]
+    }
+  >
+    <Header
+      kind="park"
+    >
+      <Text
+        numberOfLines={1}
+        style={
+          Object {
+            "color": "#4F4F4F",
+            "fontSize": 20,
+            "fontWeight": "bold",
+          }
+        }
+      >
+        test1
+      </Text>
+    </Header>
+    <View>
+      <View
+        style={
+          Object {
+            "paddingHorizontal": 16,
+            "paddingTop": 8,
+          }
+        }
+      >
+        <_default
+          icon="map-marker-outline"
+          text="集合場所"
+          width={100}
+        />
+        <View
+          style={
+            Object {
+              "paddingBottom": 16,
+              "paddingHorizontal": 4,
+              "paddingTop": 8,
+            }
+          }
+        >
+          <Text>
+            place1
+          </Text>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "paddingHorizontal": 16,
+            "paddingTop": 8,
+          }
+        }
+      >
+        <_default
+          icon="link"
+          text="URL"
+          width={70}
+        />
+        <View
+          style={
+            Object {
+              "paddingBottom": 16,
+              "paddingHorizontal": 4,
+              "paddingTop": 8,
+            }
+          }
+        >
+          <ForwardRef
+            onPress={[Function]}
+          >
+            <Text
+              numberOfLines={1}
+              style={
+                Array [
+                  undefined,
+                  Object {
+                    "color": "#2F80ED",
+                  },
+                ]
+              }
+            >
+              url1
+            </Text>
+          </ForwardRef>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "paddingHorizontal": 16,
+            "paddingTop": 8,
+          }
+        }
+      >
+        <_default
+          icon="text-box-outline"
+          text="メモ"
+          width={70}
+        />
+        <View
+          style={
+            Object {
+              "paddingBottom": 16,
+              "paddingHorizontal": 4,
+              "paddingTop": 8,
+            }
+          }
+        >
+          <Text>
+            memo1
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+  <View />
+</ItemDetailWrap>
+`;

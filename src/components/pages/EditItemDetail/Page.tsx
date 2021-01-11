@@ -4,7 +4,7 @@ import { ItemDetailQuery } from 'queries/api/index';
 import { QueryProps } from './Plain';
 import { ConnectedType } from './Connected';
 
-type Props = ConnectedType & {
+export type Props = ConnectedType & {
   itemDetail: ItemDetailQuery['itemDetail'];
   mutationData: QueryProps['mutationData'];
 };

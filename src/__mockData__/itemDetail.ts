@@ -1,29 +1,12 @@
-import { ItemDetail } from 'domain/itemDetail';
+import { KIND_PARK } from 'peperomia-util';
+import { ItemDetail } from 'queries/api/index';
 
-export const itemDetailMockData: ItemDetail = {
-  title: 'test',
-  kind: 'park',
-  memo: 'memo',
-  place: 'place',
-  url: 'url',
+export const itemDetailMockData = (): ItemDetail => ({
+  id: '1',
+  title: 'test1',
+  kind: KIND_PARK,
+  memo: 'memo1',
+  place: 'place1',
+  url: 'url1',
   priority: 1,
-};
-
-export const itemDetailsMockData: ItemDetail[] = [
-  {
-    title: 'test1',
-    kind: 'park1',
-    memo: 'memo1',
-    place: 'place1',
-    url: 'url1',
-    priority: 1,
-  },
-  {
-    title: 'test2',
-    kind: 'park2',
-    memo: 'memo2',
-    place: 'place2',
-    url: 'url2',
-    priority: 2,
-  },
-];
+});

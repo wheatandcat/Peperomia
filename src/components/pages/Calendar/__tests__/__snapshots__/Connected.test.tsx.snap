@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/pages/Calendar/Connected.tsx 正常に表示されている 1`] = `
+<Plain
+  create={false}
+  data={
+    Object {
+      "calendar": Object {
+        "date": "2020-01-01",
+        "id": "1",
+        "item": Object {
+          "id": "1",
+          "itemDetails": Array [
+            Object {
+              "id": "1",
+              "kind": "park",
+              "memo": "memo1",
+              "place": "place1",
+              "priority": 1,
+              "title": "test1",
+              "url": "url1",
+            },
+            Object {
+              "id": "2",
+              "kind": "fishing",
+              "memo": "memo2",
+              "place": "place2",
+              "priority": 2,
+              "title": "test2",
+              "url": "url2",
+            },
+          ],
+          "kind": "park",
+          "title": "公園",
+        },
+        "public": true,
+      },
+    }
+  }
+  error={null}
+  loading={false}
+  onAddItemDetail={[Function]}
+  onDelete={[Function]}
+  onDismiss={[Function]}
+  onItemDetail={[Function]}
+  onShare={[Function]}
+  onUpdate={[Function]}
+/>
+`;

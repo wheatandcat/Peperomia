@@ -6,8 +6,6 @@ import {
   UpdateItemDetailMutationVariables,
   UpdateItemDetailMutationResult,
 } from 'queries/api/index';
-import { SelectItemDetail } from 'domain/itemDetail';
-import { SelectItem } from 'domain/item';
 import { update as updateItemDetail } from 'lib/db/itemDetail';
 import { update as updateItem } from 'lib/db/item';
 import { db } from 'lib/db';
@@ -34,7 +32,7 @@ const initialState = (): State => {
 const useUpdateItemDetailDB = (props: Props) => {
   const [state, setState] = useState<State>(initialState());
 
-  const fetchItemDetail = useCallback(async (itemDetail: SelectItemDetail) => {
+  const fetchItemDetail = useCallback(async (itemDetail) => {
     return new Promise(function (resolve, reject) {
       db.transaction((tx: SQLite.SQLTransaction) => {
         const v: any = {
@@ -56,7 +54,7 @@ const useUpdateItemDetailDB = (props: Props) => {
     });
   }, []);
 
-  const fetchItem = useCallback(async (item: SelectItem) => {
+  const fetchItem = useCallback(async (item) => {
     return new Promise(function (resolve, reject) {
       db.transaction((tx: SQLite.SQLTransaction) => {
         updateItem(tx, { ...item, id: Number(item.id) }, (_, err) => {
@@ -84,7 +82,7 @@ const useUpdateItemDetailDB = (props: Props) => {
 
       if (ok1) {
         if (itemDetail.priority === 1) {
-          const item: SelectItem = {
+          const item = {
             id: mutationProps.variables.itemDetail.itemId,
             title: itemDetail.title,
             kind: itemDetail.kind,

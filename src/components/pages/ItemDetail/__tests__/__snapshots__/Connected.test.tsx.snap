@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/pages/ItemDetail/Connected.tsx 正常にrenderすること 1`] = `
+<Memo(Plain)
+  data={
+    Object {
+      "itemDetail": Object {
+        "id": "1",
+        "kind": "park",
+        "memo": "memo1",
+        "place": "place1",
+        "priority": 1,
+        "title": "test1",
+        "url": "url1",
+      },
+    }
+  }
+  error={null}
+  loading={false}
+  onDelete={[Function]}
+  onDismiss={[Function]}
+  onUpdate={[Function]}
+  onUpdateMain={[Function]}
+/>
+`;

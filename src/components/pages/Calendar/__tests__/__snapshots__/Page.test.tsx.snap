@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/pages/Calendar/Page.tsx 正常に表示されている 1`] = `
+<ItemWrap
+  kind="park"
+>
+  <FlatList
+    ListFooterComponent={
+      <View
+        style={
+          Object {
+            "backgroundColor": "#ffffff",
+            "height": "100%",
+            "width": "100%",
+          }
+        }
+      />
+    }
+    ListHeaderComponent={
+      <View
+        style={
+          Object {
+            "paddingBottom": 8,
+          }
+        }
+      >
+        <CreateHeader
+          color="hsl(102.80000000000001, 46.5%, 69.6%)"
+          date="2020年01月01日"
+          kind="park"
+          onClose={[MockFunction]}
+          title="公園"
+        />
+      </View>
+    }
+    contentContainerStyle={
+      Object {
+        "flex": 1,
+      }
+    }
+    data={
+      Array [
+        Object {
+          "item1": Object {
+            "id": "2",
+            "kind": "fishing",
+            "memo": "memo2",
+            "place": "place2",
+            "priority": 2,
+            "title": "test2",
+            "url": "url2",
+          },
+          "item2": Object {
+            "add": true,
+            "id": "add-item",
+            "kind": "",
+            "title": "",
+          },
+        },
+      ]
+    }
+    disableVirtualization={false}
+    horizontal={false}
+    initialNumToRender={10}
+    keyExtractor={[Function]}
+    maxToRenderPerBatch={10}
+    numColumns={1}
+    onEndReachedThreshold={2}
+    removeClippedSubviews={false}
+    renderItem={[Function]}
+    scrollEventThrottle={50}
+    showsHorizontalScrollIndicator={false}
+    showsVerticalScrollIndicator={false}
+    updateCellsBatchingPeriod={50}
+    windowSize={21}
+  />
+</ItemWrap>
+`;

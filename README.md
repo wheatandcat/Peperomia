@@ -88,22 +88,16 @@ FIRE_BASE_MESSAGING_SENDER_ID=""
 $ yarn start
 ```
 
-## android
-
-```
-$ avdmanager create avd -n Nexus -k "system-images;android-28;google_apis;x86" -b x86 -c 100M -d 7 -f --device 'Nexus 5X'
-$ emulator -avd Nexus
-```
-
-```
-$ avdmanager create avd -n Pixel -k "system-images;android-28;google_apis;x86" -b x86 -c 100M -d 7 -f --device 'Pixel XL'
-$ emulator -avd Pixel
-```
-
 # テスト
 
 ```
 $ yarn test
+```
+
+## テスト指定
+
+```
+$ yarn test yarn test --findRelatedTests src/components/pages/Calendar/__tests__/index.test.tsx
 ```
 
 ## カバレッジ
@@ -112,8 +106,6 @@ $ yarn test
 $ yarn test:coverage
 $ open ./coverage/lcov-report/index.html
 ```
-
-
 
 # build
 
@@ -130,10 +122,15 @@ $ yarn build:ios
 $ yarn build:android
 ```
 
+# テストコード生成
 
-## e2e
+```
+$ yarn hygen testCode new
+```
 
-### 初回
+# e2e
+
+## 初回
 https://expo.io/tools#client
 ↑iOSのアプリファイルをMacにダウンロード
 
@@ -141,7 +138,7 @@ https://expo.io/tools#client
 このプロジェクトの直下に「bin」フォルダを生成して「Exponent.app」を配置する
 
 
-### テスト実行
+## テスト実行
 
 ```
 $ yarn start
@@ -150,7 +147,7 @@ $ yarn e2e
 
 
 
-## storybook 
+# storybook 
 
 ```
 $ yarn storybook 
