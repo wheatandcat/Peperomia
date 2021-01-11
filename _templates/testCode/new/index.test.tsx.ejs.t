@@ -16,7 +16,7 @@ const propsData = ():Props => ({
   },
 } as any);
 
-describe('components/pages/<%= component_name %>', () => {
+describe('components/pages/<%= component_name %>/index.tsx', () => {
   let wrapper: ShallowWrapper;
 
 /**

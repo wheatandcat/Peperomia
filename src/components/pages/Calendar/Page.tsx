@@ -20,7 +20,7 @@ import { ConnectedType, CalendarType, ItemDetailType } from './Connected';
 
 dayjs.extend(advancedFormat);
 
-type Props = ConnectedType & {
+export type Props = ConnectedType & {
   calendar: CalendarType;
 };
 

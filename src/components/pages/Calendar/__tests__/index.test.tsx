@@ -17,7 +17,7 @@ const propsData = (): Props =>
     },
   } as any);
 
-describe('components/pages/Calendar', () => {
+describe('components/pages/Calendar/index.tsx', () => {
   let wrapper: ShallowWrapper;
 
   beforeEach(() => {

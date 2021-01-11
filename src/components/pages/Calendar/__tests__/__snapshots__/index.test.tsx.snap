@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/pages/Calendar 正常にrenderすること 1`] = `
+exports[`components/pages/Calendar/index.tsx 正常にrenderすること 1`] = `
 <Memo()
   date="2020-01-01 00:00:00"
   navigation={
