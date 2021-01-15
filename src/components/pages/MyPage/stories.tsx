@@ -12,7 +12,6 @@ storiesOf('pages', module).add('MyPage', () => (
       email="****@gamil.com"
       LoadingText=""
       onBackup={mockFn('onBackup')}
-      onRestore={mockFn('onRestore')}
       onNotificationSetting={mockFn('onRonNotificationSettingestore')}
     />
   </View>

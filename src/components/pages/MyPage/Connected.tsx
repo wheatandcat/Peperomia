@@ -7,7 +7,7 @@ import 'dayjs/locale/ja';
 import * as IntentLauncher from 'expo-intent-launcher';
 import uuidv4 from 'uuid/v4';
 import * as Sentry from 'sentry-expo';
-import { backup, restore } from 'lib/backup';
+import { backup } from 'lib/backup';
 import { ContextProps as FetchContextProps } from 'containers/Fetch';
 import { ContextProps as AuthContextProps } from 'containers/Auth';
 import { ContextProps as CalendarContextProps } from 'containers/Calendars';
@@ -149,74 +149,6 @@ const MyPageConnected: React.FC<Props> = (props) => {
     );
   }, [setBackup]);
 
-  const setRestore = useCallback(async () => {
-    if (!props.uid) {
-      return;
-    }
-    setState((s) => ({
-      ...s,
-      loading: true,
-      LoadingText: '復元中です...',
-    }));
-
-    try {
-      await restore(props.uid);
-
-      const { height } = Dimensions.get('window');
-
-      let toast = Toast.show('データを復元しました', {
-        duration: Toast.durations.LONG,
-        position: height - 150,
-        shadow: true,
-        animation: true,
-        hideOnPress: true,
-        delay: 0,
-      });
-
-      setTimeout(function () {
-        Toast.hide(toast);
-      }, 3000);
-
-      if (props.refetchCalendars) {
-        await props.refetchCalendars();
-      }
-
-      setState((s) => ({
-        ...s,
-        loading: false,
-      }));
-    } catch (err) {
-      setState((s) => ({
-        ...s,
-        loading: false,
-      }));
-
-      setTimeout(() => {
-        Alert.alert('復元に失敗しました', err.message);
-      }, 100);
-    }
-  }, [props]);
-
-  const onRestore = useCallback(async () => {
-    Alert.alert(
-      'バックアップから復元しますか？',
-      '現在のデータは削除されるのでご注意ください',
-      [
-        {
-          text: 'キャンセル',
-          style: 'cancel',
-        },
-        {
-          text: '復元する',
-          onPress: () => {
-            setRestore();
-          },
-        },
-      ],
-      { cancelable: false }
-    );
-  }, [setRestore]);
-
   const onNotificationSetting = useCallback(async () => {
     if (!props.onPermissionRequest) {
       return;
@@ -258,7 +190,6 @@ const MyPageConnected: React.FC<Props> = (props) => {
         LoadingText={state.LoadingText}
         email={props.email || ''}
         onBackup={onBackup}
-        onRestore={onRestore}
         onNotificationSetting={onNotificationSetting}
       />
     </>

@@ -12,7 +12,6 @@ type Props = {
   LoadingText: string;
   email: string;
   onBackup: () => void;
-  onRestore: () => void;
   onNotificationSetting: () => Promise<void>;
 };
 
@@ -55,13 +54,6 @@ const MyPage: FC<Props> = (props) => (
           <ListItem onPress={props.onBackup} bottomDivider>
             <ListItem.Content>
               <ListItem.Title>バックアップを作成する</ListItem.Title>
-            </ListItem.Content>
-            <ListItem.Chevron />
-          </ListItem>
-
-          <ListItem onPress={props.onRestore} bottomDivider>
-            <ListItem.Content>
-              <ListItem.Title>バックアップから復元する</ListItem.Title>
             </ListItem.Content>
             <ListItem.Chevron />
           </ListItem>

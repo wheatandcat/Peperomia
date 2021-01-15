@@ -32,7 +32,7 @@
       "userInterfaceStyle": "automatic",
       "usesAppleSignIn": true,
       "supportsTablet": true,
-      "buildNumber": "35",
+      "buildNumber": "36",
       "bundleIdentifier": "com.wheatandcat.peperomia",
       "infoPlist": {
         "NSPhotoLibraryUsageDescription": "予定作成のために使用します。",
@@ -49,7 +49,7 @@
       "userInterfaceStyle": "automatic",
       "package": "com.wheatandcat.peperomia",
       "googleServicesFile": "./android/google-services.json",
-      "versionCode": 35,
+      "versionCode": 36,
       "adaptiveIcon": {
         "backgroundColor": "#006835",
         "foregroundImage": "./assets/icon-fg.png"
@@ -75,17 +75,8 @@
             "project": "peperomia",
             "authToken": $sentryAuthToken
           }
-        },
-        {
-          "file": "@bugsnag/expo/hooks/post-publish.js",
-          "config": {}
         }
       ]
-    },
-    "extra": {
-      "bugsnag": {
-        "apiKey": $bugsnagApiKey
-      }
     }
   }
 }

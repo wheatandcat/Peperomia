@@ -125,6 +125,10 @@ const CalendarPage: React.FC<Props> = (props) => {
     item2: list2[index] || null,
   })) as Item[];
 
+  const mainItem = props.calendar.item.itemDetails?.find(
+    (v) => v?.priority === 1
+  );
+
   return (
     <ItemWrap kind={calendar.item.kind || ''}>
       <FlatList<Item>
@@ -152,6 +156,7 @@ const CalendarPage: React.FC<Props> = (props) => {
                 onUpdate={props.onUpdate}
                 onShare={props.onShare}
                 onDelete={props.onDelete}
+                onMainItemDetail={() => props.onItemDetail(mainItem?.id || '')}
               />
             )}
           </View>

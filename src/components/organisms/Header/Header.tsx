@@ -17,6 +17,7 @@ type Props = {
   onUpdate: () => void;
   onShare: (open: boolean) => void;
   onDelete: () => void;
+  onMainItemDetail: () => void;
 };
 
 const Header: React.FC<Props> = (props) => {
@@ -24,29 +25,59 @@ const Header: React.FC<Props> = (props) => {
   const { showActionSheetWithOptions } = useActionSheet();
 
   const onOpenActionSheet = useCallback(() => {
-    showActionSheetWithOptions(
-      {
-        options: [
-          '予定の変更する',
-          props.public ? '予定を非公開にする' : '予定をシェアする',
-          '予定を削除する',
-          'キャンセル',
-        ],
-        destructiveButtonIndex: 3,
-        cancelButtonIndex: 3,
-      },
-      (buttonIndex) => {
-        if (buttonIndex === 0) {
-          props.onUpdate();
+    if (!props.public) {
+      showActionSheetWithOptions(
+        {
+          options: [
+            '予定の変更する',
+            '予定をシェアする',
+            '予定を削除する',
+            'キャンセル',
+          ],
+          destructiveButtonIndex: 3,
+          cancelButtonIndex: 3,
+        },
+        (buttonIndex) => {
+          if (buttonIndex === 0) {
+            props.onUpdate();
+          }
+          if (buttonIndex === 1) {
+            props.onShare(true);
+          }
+          if (buttonIndex === 2) {
+            props.onDelete();
+          }
         }
-        if (buttonIndex === 1) {
-          props.onShare(!props.public);
+      );
+    } else {
+      showActionSheetWithOptions(
+        {
+          options: [
+            '予定の変更する',
+            '予定のURLを取得する',
+            '予定を非公開にする',
+            '予定を削除する',
+            'キャンセル',
+          ],
+          destructiveButtonIndex: 4,
+          cancelButtonIndex: 4,
+        },
+        (buttonIndex) => {
+          if (buttonIndex === 0) {
+            props.onUpdate();
+          }
+          if (buttonIndex === 1) {
+            props.onShare(true);
+          }
+          if (buttonIndex === 2) {
+            props.onShare(false);
+          }
+          if (buttonIndex === 3) {
+            props.onDelete();
+          }
         }
-        if (buttonIndex === 2) {
-          props.onDelete();
-        }
-      }
-    );
+      );
+    }
   }, [showActionSheetWithOptions, props]);
 
   return (
@@ -80,12 +111,14 @@ const Header: React.FC<Props> = (props) => {
       </View>
       <View style={styles.content}>
         <View style={styles.imageContainer}>
-          <IconImage
-            src={config.src}
-            name={config.name}
-            size={80}
-            opacity={0.8}
-          />
+          <TouchableOpacity onPress={props.onMainItemDetail}>
+            <IconImage
+              src={config.src}
+              name={config.name}
+              size={80}
+              opacity={0.8}
+            />
+          </TouchableOpacity>
         </View>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>{props.title}</Text>
