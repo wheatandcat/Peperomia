@@ -12,7 +12,6 @@ exports[`components/pages/MyPage/Connected.tsx 正常に表示されている 1`
     loading={false}
     onBackup={[Function]}
     onNotificationSetting={[Function]}
-    onRestore={[Function]}
   />
 </Fragment>
 `;

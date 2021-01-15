@@ -40,24 +40,17 @@ const estyles = EStyleSheet.create({
     color: '$text',
     fontSize: 12,
     fontWeight: '600',
-    padding: 0,
   },
 });
 
 const styles = StyleSheet.create({
   root: {
-    paddingHorizontal: 15,
-    paddingTop: 15,
-    paddingBottom: 5,
+    paddingHorizontal: theme().space(3),
+    paddingTop: theme().space(3),
+    paddingBottom: theme().space(1),
   },
   time: {
     paddingTop: 3,
-  },
-  timeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: 80,
-    height: 30,
   },
   linkButton: {
     borderBottomWidth: 1,
@@ -66,13 +59,13 @@ const styles = StyleSheet.create({
   },
 
   memoContainer: {
-    paddingTop: 10,
-    paddingLeft: 10,
+    paddingTop: theme().space(3),
+    paddingLeft: theme().space(3),
   },
 
   buttonContainer: {
-    paddingLeft: 12,
-    paddingTop: 40,
-    width: 120,
+    paddingLeft: theme().space(3),
+    paddingTop: theme().space(4),
+    width: 140,
   },
 });

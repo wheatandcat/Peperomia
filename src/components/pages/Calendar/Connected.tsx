@@ -35,11 +35,10 @@ export type ConnectedType = {
 const Connected: React.FC<Props> = memo((props) => {
   const [updateCalendarPublicMutation] = useUpdateCalendarPublicMutation({
     async onCompleted(r) {
-      const id = r.updateCalendarPublic.id;
       const open = r.updateCalendarPublic.public;
 
       if (open) {
-        copyShareURL(String(id));
+        copyShareURLByCalendar();
       } else {
         const { height } = Dimensions.get('window');
 
@@ -79,6 +78,10 @@ const Connected: React.FC<Props> = memo((props) => {
     },
     fetchPolicy: 'network-only',
   });
+
+  const copyShareURLByCalendar = useCallback(() => {
+    copyShareURL(String(data?.calendar?.id));
+  }, [data]);
 
   const onDismiss = useCallback(async () => {
     await props.refetchCalendars?.();
@@ -140,7 +143,17 @@ const Connected: React.FC<Props> = memo((props) => {
 
   const onShare = useCallback(
     async (open: boolean) => {
-      if (props.uid && isLogin(props.uid)) {
+      if (!(props.uid && isLogin(props.uid))) {
+        Alert.alert(
+          'その操作は行なえません',
+          '予定をシェアするの機能はユーザー登録しないと行えません'
+        );
+      }
+
+      if (open && data?.calendar?.public === open) {
+        // 既に公開済みの場合はURLのみ発行
+        copyShareURLByCalendar();
+      } else {
         const variables: UpdateCalendarPublicMutationVariables = {
           calendar: {
             date: props.date,
@@ -148,14 +161,9 @@ const Connected: React.FC<Props> = memo((props) => {
           },
         };
         updateCalendarPublicMutation({ variables });
-      } else {
-        Alert.alert(
-          'その操作は行なえません',
-          '予定をシェアするの機能はユーザー登録しないと行えません'
-        );
       }
     },
-    [props, updateCalendarPublicMutation]
+    [props, updateCalendarPublicMutation, data, copyShareURLByCalendar]
   );
 
   return (
