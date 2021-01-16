@@ -11,6 +11,7 @@ import { migrationV104, migrationV201 } from 'lib/migration';
 import { getFireStore } from 'lib/firebase';
 import { getSupportVersion } from 'lib/firestore/supportVersion';
 import ForceUpdate from 'components/pages/ForceUpdate/Page';
+import app from '../../app.json';
 
 export const Context = createContext<ContextProps>({});
 const { Provider } = Context;
@@ -63,14 +64,13 @@ const Version: React.FC<Props> = (props) => {
   });
 
   const onCheckForceUpdate = useCallback(async () => {
-    let appVersion = await AsyncStorage.getItem('APP_VERSION');
+    let appVersion = app.expo.version;
     if (!appVersion) {
       appVersion = '1.0.0';
     }
 
     const firestore = getFireStore();
     const supportVersion = await getSupportVersion(firestore);
-    console.log(supportVersion);
 
     if (compareVersions.compare(supportVersion, appVersion, '>')) {
       setState((s) => ({
