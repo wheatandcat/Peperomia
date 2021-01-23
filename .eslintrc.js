@@ -21,4 +21,24 @@ module.exports = {
   parserOptions: {
     warnOnUnsupportedTypeScriptVersion: false,
   },
+  overrides: [
+    {
+      files: ['*.gql'],
+      parser: '@graphql-eslint/eslint-plugin',
+      plugins: ['@graphql-eslint'],
+      parserOptions: {
+        operations: ['./src/**/*.gql'],
+        schema: './schema.json',
+      },
+      rules: {
+        'prettier/prettier': 0,
+        '@graphql-eslint/require-id-when-available': [
+          'error',
+          {
+            fieldName: 'id',
+          },
+        ],
+      },
+    },
+  ],
 };
