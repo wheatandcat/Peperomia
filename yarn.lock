@@ -1089,13 +1089,6 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.10.0":
-  version "7.12.5"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.12.5.tgz#410e7e487441e1b360c29be715d870d9b985882e"
-  integrity sha512-plcc+hbExy3McchJCEQG3knOsuh3HH+Prx1P6cLIkET/0dLuQDEnrT+s27Axgc9bqfsmNUNHfscgMUdBpC9xfg==
-  dependencies:
-    regenerator-runtime "^0.13.4"
-
 "@babel/template@^7.0.0", "@babel/template@^7.10.4", "@babel/template@^7.3.3", "@babel/template@^7.4.0", "@babel/template@^7.8.6":
   version "7.10.4"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.10.4.tgz#3251996c4200ebc71d1a8fc405fba940f36ba278"
@@ -9217,16 +9210,6 @@ eslint-plugin-flowtype@2.50.3:
   dependencies:
     lodash "^4.17.10"
 
-eslint-plugin-graphql@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-graphql/-/eslint-plugin-graphql-4.0.0.tgz#d238ff2baee4d632cfcbe787a7a70a1f50428358"
-  integrity sha512-d5tQm24YkVvCEk29ZR5ScsgXqAGCjKlMS8lx3mS7FS/EKsWbkvXQImpvic03EpMIvNTBW5e+2xnHzXB/VHNZJw==
-  dependencies:
-    "@babel/runtime" "^7.10.0"
-    graphql-config "^3.0.2"
-    lodash.flatten "^4.4.0"
-    lodash.without "^4.4.0"
-
 eslint-plugin-jest@22.4.1:
   version "22.4.1"
   resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-22.4.1.tgz#a5fd6f7a2a41388d16f527073b778013c5189a9c"
@@ -14365,11 +14348,6 @@ lodash.findindex@^4.6.0:
   resolved "https://registry.yarnpkg.com/lodash.findindex/-/lodash.findindex-4.6.0.tgz#a3245dee61fb9b6e0624b535125624bb69c11106"
   integrity sha1-oyRd7mH7m24GJLU1ElYku2nBEQY=
 
-lodash.flatten@^4.4.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/lodash.flatten/-/lodash.flatten-4.4.0.tgz#f31c22225a9632d2bbf8e4addbef240aa765a61f"
-  integrity sha1-8xwiIlqWMtK7+OSt2+8kCqdlph8=
-
 lodash.flattendeep@^4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/lodash.flattendeep/-/lodash.flattendeep-4.4.0.tgz#fb030917f86a3134e5bc9bec0d69e0013ddfedb2"
@@ -14601,11 +14579,6 @@ lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
-
-lodash.without@^4.4.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/lodash.without/-/lodash.without-4.4.0.tgz#3cd4574a00b67bae373a94b748772640507b7aac"
-  integrity sha1-PNRXSgC2e643OpS3SHcmQFB7eqw=
 
 lodash@4.x.x, lodash@^4.0.1, lodash@^4.14.1, lodash@^4.15.0, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.1, lodash@^4.3.0, lodash@^4.5.0, lodash@^4.6.0, lodash@~4.17.20:
   version "4.17.20"
