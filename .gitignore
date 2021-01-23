@@ -36,3 +36,4 @@ go.mod
 go.sum
 schema.graphqls
 src/queries/api/index.ts
+schema.json

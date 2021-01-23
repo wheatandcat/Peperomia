@@ -18,4 +18,8 @@ generates:
       withHOC: false
       withComponent: false
       apolloReactHooksImportFrom: '@apollo/client'
-
+  ./schema.json:
+    plugins:
+      - introspection
+    config:
+      minify: true
