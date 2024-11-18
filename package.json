@@ -77,7 +77,7 @@
     "expo-screen-orientation": "~2.1.0",
     "expo-splash-screen": "~0.8.1",
     "expo-sqlite": "~8.5.0",
-    "firebase": "7.9.0",
+    "firebase": "10.9.0",
     "graphql": "^15.3.0",
     "graphql-anywhere": "^4.2.7",
     "graphql-tag": "^2.11.0",
